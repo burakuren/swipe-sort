@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Playwright caches and reports (design/05-qa/screenshots stays tracked)
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+.cache/
+
+# Logs
+npm-debug.log*
+*.log
+
+# Secrets and local overrides
+.env
+.env.*
+.claude/settings.local.json
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.directory
+*~
+*.swp
+.idea/
+.vscode/

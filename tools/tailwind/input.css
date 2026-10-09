@@ -1,0 +1,4 @@
+/* Default Tailwind entry. Overridden by design/01-foundations/input.css when that file exists. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
