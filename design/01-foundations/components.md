@@ -105,7 +105,7 @@ list's card template.
 
 | Template | Layout |
 | --- | --- |
-| Person | Image area top (photo, cover-cropped, 48% of height) or initials block on `bg-muted` when no photo; title `text-card-title` (max 3 lines); subtitle `text-body-lg muted`; up to 4 field rows (label 64 wide `muted`, value; multi-value shows first + "+2"); tags as secondary chips pinned to the bottom |
+| Person | Image area top (photo, cover-cropped, 46% of height); without a photo, a 96 initials avatar on `bg-muted` above the title (no empty image block); title `text-card-title` (max 3 lines); subtitle `text-body-lg muted`; up to 4 field rows (label 64 wide `muted`, value; multi-value shows first + "+2"); tags as secondary chips pinned to the bottom |
 | Product | Image area top (50%), title, subtitle (store), price `text-title-1 tabular-nums`, rating with `star` icon and review count, tags |
 | Photo | Image fills the card; caption panel at the bottom on `bg-card` with date (title) and location (subtitle); no overlays on the photo |
 | Candidate / Task / Generic | No image (or avatar); title, subtitle, rows, tags; rows can go up to 6 |

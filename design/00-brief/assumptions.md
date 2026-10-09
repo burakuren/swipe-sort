@@ -95,3 +95,30 @@ are merged here by the lead designer after each phase. IDs (A-nn) are referenced
   List status: 32 Agreed, 53 Pending, 15 Conflict, of which 3 are on items Mert never decided.
 - **A-39** Products are priced in EUR; apartments in TRY. Names mix Turkish and international contacts to
   exercise Turkish characters and long names.
+
+## Phase 2: sorting screen direction
+
+- **A-40** Three directions were explored (`04-explorations/S25-direction-a|b|c.html`, screenshots
+  `05-qa/screenshots/Xa-*`, `Xb-*`, `Xc-*`):
+  - **A, Quiet deck** (chosen): ink indigo accent; a tall card with the image on top and fields below; large
+    round decision buttons with labels and running counts; progress under the app bar.
+  - **B, Immersive photo**: plum accent; photo fills the card with an info panel; floating unlabeled buttons;
+    counts as chips. Rejected: it hides fields (most lists are text, not photos), the unlabeled buttons break
+    the icon + label rule, and the card style only works for image-heavy templates (GOAL-02).
+  - **C, Index card**: monochrome primary; dense form-like card; stat tiles; wide labeled pill buttons.
+    Rejected: the card reads like a settings form (no bold moment, VIS-03), the stat tiles are the
+    big-number template tell, and the near-black primary looks like stock shadcn (VIS-04).
+  - A keeps boldness in the card (largest radius, deep shadow, tilt, tint and a rotated stamp) and stays
+    calm around it. It works for every template: image area collapses for text-only lists.
+- **A-41** Kept from the others: B's idea of a large image area (A uses 46% of the card for images);
+  C's explicit labels (A puts labels and counts under every decision button).
+- **A-42** Inter is kept (STK-09): its large x-height and tabular figures suit counts and dense fields;
+  Turkish coverage is complete; it ships for React Native via `@expo-google-fonts/inter` and on the web via
+  `@fontsource-variable/inter`. No alternative was clearly better for the calm direction.
+- **A-43** The next card peeks 12 dp below the top card and is 12 dp narrower on each side, so the stack
+  reads as a deck without stealing attention.
+- **A-44** Sorting is a full-screen modal with a close (`x`) button; progress saves continuously so closing
+  never asks. The overflow menu holds: Show others' decisions (shared lists), Card template, Show the
+  tutorial again, End round.
+- **A-45** After a member decides on a shared list with others' decisions hidden, a snackbar reveals a new
+  conflict ("Mert chose Maybe. This is now a conflict.") — transparency after the unbiased decision.

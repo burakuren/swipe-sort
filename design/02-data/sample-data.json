@@ -1819,7 +1819,7 @@
         }
       ],
       "email": "mia.andersson@example.com",
-      "photo": null,
+      "photo": "images/people/c077.svg",
       "side": "Bride's",
       "relationship": "Colleague",
       "city": "Stockholm",
@@ -1843,7 +1843,7 @@
     },
     {
       "id": "c079",
-      "name": "Babaanne",
+      "name": "Babaanne (Nermin Aydın)",
       "phones": [
         {
           "label": "Mobile",
@@ -1859,7 +1859,7 @@
     },
     {
       "id": "c080",
-      "name": "Babaanne (Nermin Aydın)",
+      "name": "Dr. Hülya Öztürk (dentist)",
       "phones": [
         {
           "label": "Mobile",
@@ -4255,7 +4255,7 @@
         "createdAt": "2026-09-29T09:20:00Z"
       },
       {
-        "itemId": "c034",
+        "itemId": "c033",
         "author": "u-deniz",
         "text": "Plus one? Check with Buse.",
         "private": false,
@@ -4269,14 +4269,14 @@
         "createdAt": "2026-09-29T10:05:00Z"
       },
       {
-        "itemId": "c080",
+        "itemId": "c079",
         "author": "u-mert",
         "text": "Obviously yes.",
         "private": false,
         "createdAt": "2026-09-29T10:12:00Z"
       },
       {
-        "itemId": "c081",
+        "itemId": "c080",
         "author": "u-deniz",
         "text": "Dentist, not sure why she is in my contacts list.",
         "private": true,
@@ -4293,7 +4293,7 @@
         "editedAt": "2026-09-28T20:12:00Z"
       },
       {
-        "itemId": "c080",
+        "itemId": "c079",
         "field": "name",
         "original": "Babaanne",
         "value": "Babaanne (Nermin Aydın)",
