@@ -4,11 +4,14 @@
   "private": true,
   "description": "SwipeSort — design phase (static HTML mockups in /design)",
   "scripts": {
-    "build:css": "node tools/build-css.mjs",
+    "build:tokens": "node tools/build-tokens.mjs",
+    "build:data": "node tools/build-data.mjs",
+    "build:css": "node tools/build-tokens.mjs && node tools/build-css.mjs",
     "shots": "node tools/shots.mjs",
     "a11y": "node tools/a11y.mjs",
     "flows": "node tools/flows.mjs",
-    "qa": "npm run build:css && npm run shots && npm run a11y && npm run flows"
+    "lint": "node tools/lint-design.mjs",
+    "qa": "npm run build:css && npm run shots && npm run a11y && npm run flows && npm run lint"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",

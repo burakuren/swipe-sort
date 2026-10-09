@@ -1,0 +1,17 @@
+/* Tailwind entry for the mockups (build:css inlines the @import). In the app, NativeWind's global.css
+   takes the same tokens.css variables plus the three @tailwind directives. */
+@import "./tokens.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { @apply border-border; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+  :focus-visible { @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background; }
+}

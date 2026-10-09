@@ -1,0 +1,97 @@
+/* Generated from tokens.json by `npm run build:tokens` — do not edit by hand. */
+/* Light is the default. Dark applies with data-theme="dark" (mockups) or the .dark class (NativeWind). */
+:root {
+  --background: 220 16% 97%;
+  --foreground: 224 24% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 224 24% 11%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 224 24% 11%;
+  --primary: 234 54% 45%;
+  --primary-foreground: 0 0% 100%;
+  --primary-soft: 232 70% 95%;
+  --primary-soft-foreground: 234 54% 38%;
+  --primary-inverse: 232 88% 80%;
+  --secondary: 220 14% 92%;
+  --secondary-foreground: 224 24% 14%;
+  --muted: 220 14% 93%;
+  --muted-foreground: 220 9% 38%;
+  --accent: 220 14% 92%;
+  --accent-foreground: 224 24% 14%;
+  --destructive: 0 70% 42%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 220 13% 87%;
+  --input: 220 12% 78%;
+  --ring: 234 54% 45%;
+  --accept: 153 62% 29%;
+  --accept-foreground: 0 0% 100%;
+  --accept-soft: 148 48% 92%;
+  --accept-soft-foreground: 154 64% 22%;
+  --reject: 354 46% 45%;
+  --reject-foreground: 0 0% 100%;
+  --reject-soft: 354 60% 95%;
+  --reject-soft-foreground: 354 48% 36%;
+  --maybe: 39 92% 52%;
+  --maybe-foreground: 28 70% 13%;
+  --maybe-soft: 43 92% 91%;
+  --maybe-soft-foreground: 29 82% 27%;
+  --conflict: 224 24% 14%;
+  --conflict-foreground: 0 0% 100%;
+  --scrim: 224 30% 8%;
+  --radius: 12px;
+  --shadow-raised: 0 1px 2px hsl(224 30% 20% / 0.06);
+  --shadow-overlay: 0 4px 16px -2px hsl(224 30% 20% / 0.12), 0 1px 3px hsl(224 30% 20% / 0.06);
+  --shadow-sheet: 0 -6px 28px -4px hsl(224 30% 20% / 0.14);
+  --shadow-hero: 0 1px 2px hsl(224 30% 20% / 0.05), 0 14px 36px -10px hsl(224 40% 20% / 0.20);
+  --shadow-hero-drag: 0 2px 4px hsl(224 30% 20% / 0.06), 0 28px 56px -14px hsl(224 40% 20% / 0.30);
+  --shadow-dialog: 0 18px 48px -12px hsl(224 40% 12% / 0.30);
+}
+
+[data-theme="dark"],
+.dark {
+  --background: 225 12% 7%;
+  --foreground: 220 16% 93%;
+  --card: 225 10% 12%;
+  --card-foreground: 220 16% 93%;
+  --popover: 225 10% 14%;
+  --popover-foreground: 220 16% 93%;
+  --primary: 232 88% 76%;
+  --primary-foreground: 234 52% 15%;
+  --primary-soft: 234 30% 20%;
+  --primary-soft-foreground: 232 90% 84%;
+  --primary-inverse: 234 54% 42%;
+  --secondary: 225 9% 17%;
+  --secondary-foreground: 220 16% 90%;
+  --muted: 225 9% 15%;
+  --muted-foreground: 220 9% 66%;
+  --accent: 225 9% 18%;
+  --accent-foreground: 220 16% 92%;
+  --destructive: 0 74% 64%;
+  --destructive-foreground: 0 0% 8%;
+  --border: 225 8% 20%;
+  --input: 225 8% 30%;
+  --ring: 232 88% 76%;
+  --accept: 150 48% 52%;
+  --accept-foreground: 152 60% 8%;
+  --accept-soft: 152 34% 15%;
+  --accept-soft-foreground: 148 56% 72%;
+  --reject: 354 66% 70%;
+  --reject-foreground: 354 50% 10%;
+  --reject-soft: 354 28% 17%;
+  --reject-soft-foreground: 354 78% 82%;
+  --maybe: 40 90% 60%;
+  --maybe-foreground: 28 70% 10%;
+  --maybe-soft: 38 38% 15%;
+  --maybe-soft-foreground: 42 92% 72%;
+  --conflict: 220 16% 92%;
+  --conflict-foreground: 225 12% 9%;
+  --scrim: 0 0% 0%;
+  --shadow-raised: 0 1px 2px hsl(0 0% 0% / 0.4);
+  --shadow-overlay: 0 6px 20px -2px hsl(0 0% 0% / 0.55);
+  --shadow-sheet: 0 -8px 32px -4px hsl(0 0% 0% / 0.6);
+  --shadow-hero: 0 16px 40px -10px hsl(0 0% 0% / 0.7);
+  --shadow-hero-drag: 0 30px 60px -14px hsl(0 0% 0% / 0.8);
+  --shadow-dialog: 0 20px 56px -10px hsl(0 0% 0% / 0.75);
+}
+
+[data-theme="dark"], .dark { color-scheme: dark; }

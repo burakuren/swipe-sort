@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SwipeSort components</title>
+<link rel="icon" href="brand/favicon.svg">
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body class="mock-page">
+<header class="mock-doc">
+  <h1>Components</h1>
+  <p>Every component in every variant and state. Copy the markup from this file; specs (anatomy, props, accessibility, React Native Reusables mapping) are in <a href="components.md">components.md</a>. Panels are 412 dp wide where the component is phone-width.</p>
+</header>
+<main class="mock-canvas">
+
+<!-- =====================================================================
+     BUTTONS
+====================================================================== -->
+<figure class="frame" data-frame="C-buttons" id="C-buttons">
+  <figcaption class="frame-label">C · Button · <span class="theme-name"></span></figcaption>
+  <div class="w-[1040px] rounded-group bg-background p-8 text-foreground">
+    <h2 class="text-title-3">Button</h2>
+    <p class="mt-1 max-w-prose text-body-sm text-muted-foreground">RNR <span class="text-foreground">Button</span>. Height 48 (default) or 56 (lg, bottom actions). One filled primary per view. Columns: default, pressed, focused, disabled, loading.</p>
+    <div class="mt-6 grid grid-cols-[120px_repeat(5,1fr)] items-center gap-x-4 gap-y-4">
+      <span></span>
+      <span class="text-caption text-muted-foreground">Default</span><span class="text-caption text-muted-foreground">Pressed</span><span class="text-caption text-muted-foreground">Focused</span><span class="text-caption text-muted-foreground">Disabled</span><span class="text-caption text-muted-foreground">Loading</span>
+
+      <span class="text-label">default</span>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control bg-primary px-5 text-label-lg text-primary-foreground">Continue</button>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control bg-primary/90 px-5 text-label-lg text-primary-foreground">Continue</button>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control bg-primary px-5 text-label-lg text-primary-foreground ring-2 ring-ring ring-offset-2 ring-offset-background">Continue</button>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control bg-primary px-5 text-label-lg text-primary-foreground opacity-50" disabled>Continue</button>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control bg-primary px-5 text-label-lg text-primary-foreground" aria-busy="true"><i class="i-lucide-loader-circle size-5 animate-spin" aria-hidden="true"></i>Exporting…</button>
+
+      <span class="text-label">secondary</span>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control bg-secondary px-5 text-label-lg text-secondary-foreground">Try a sample</button>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control bg-secondary/70 px-5 text-label-lg text-secondary-foreground">Try a sample</button>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control bg-secondary px-5 text-label-lg text-secondary-foreground ring-2 ring-ring ring-offset-2 ring-offset-background">Try a sample</button>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control bg-secondary px-5 text-label-lg text-secondary-foreground opacity-50" disabled>Try a sample</button>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control bg-secondary px-5 text-label-lg text-secondary-foreground" aria-busy="true"><i class="i-lucide-loader-circle size-5 animate-spin" aria-hidden="true"></i>Loading…</button>
+
+      <span class="text-label">outline</span>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control border border-input bg-card px-5 text-label-lg">Keep both</button>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control border border-input bg-accent px-5 text-label-lg text-accent-foreground">Keep both</button>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control border border-input bg-card px-5 text-label-lg ring-2 ring-ring ring-offset-2 ring-offset-background">Keep both</button>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control border border-input bg-card px-5 text-label-lg opacity-50" disabled>Keep both</button>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control border border-input bg-card px-5 text-label-lg" aria-busy="true"><i class="i-lucide-loader-circle size-5 animate-spin" aria-hidden="true"></i>Merging…</button>
+
+      <span class="text-label">ghost</span>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control px-5 text-label-lg">Skip</button>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control bg-accent px-5 text-label-lg text-accent-foreground">Skip</button>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control px-5 text-label-lg ring-2 ring-ring ring-offset-2 ring-offset-background">Skip</button>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control px-5 text-label-lg opacity-50" disabled>Skip</button>
+      <span></span>
+
+      <span class="text-label">destructive</span>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control bg-destructive px-5 text-label-lg text-destructive-foreground">Delete list</button>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control bg-destructive/90 px-5 text-label-lg text-destructive-foreground">Delete list</button>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control bg-destructive px-5 text-label-lg text-destructive-foreground ring-2 ring-ring ring-offset-2 ring-offset-background">Delete list</button>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control bg-destructive px-5 text-label-lg text-destructive-foreground opacity-50" disabled>Delete list</button>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control bg-destructive px-5 text-label-lg text-destructive-foreground" aria-busy="true"><i class="i-lucide-loader-circle size-5 animate-spin" aria-hidden="true"></i>Deleting…</button>
+
+      <span class="text-label">link</span>
+      <a href="#" class="inline-flex h-12 items-center text-label-lg text-primary underline-offset-4 hover:underline">Forgot password?</a>
+      <a href="#" class="inline-flex h-12 items-center text-label-lg text-primary underline underline-offset-4">Forgot password?</a>
+      <a href="#" class="inline-flex h-12 items-center rounded-xs text-label-lg text-primary ring-2 ring-ring ring-offset-2 ring-offset-background">Forgot password?</a>
+      <button class="inline-flex h-12 items-center text-label-lg text-primary opacity-50" disabled>Forgot password?</button>
+      <span></span>
+    </div>
+
+    <h3 class="mt-10 text-label-lg">Sizes, icons and full-width</h3>
+    <div class="mt-4 flex flex-wrap items-center gap-4">
+      <button class="inline-flex h-14 items-center justify-center gap-2 rounded-control bg-primary px-6 text-label-lg text-primary-foreground">Start sorting</button>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control bg-secondary px-5 text-label-lg text-secondary-foreground"><i class="i-lucide-plus size-5" aria-hidden="true"></i>New list</button>
+      <button class="inline-flex h-10 items-center justify-center gap-2 rounded-control border border-input bg-card px-4 text-label">Small</button>
+      <button class="flex size-12 items-center justify-center rounded-full hover:bg-accent" aria-label="More options"><i class="i-lucide-ellipsis-vertical size-6" aria-hidden="true"></i></button>
+      <button class="flex size-12 items-center justify-center rounded-full bg-secondary text-secondary-foreground" aria-label="Search"><i class="i-lucide-search size-5" aria-hidden="true"></i></button>
+      <button class="flex size-12 items-center justify-center rounded-full border border-input bg-card" aria-label="Add note"><i class="i-lucide-sticky-note size-5" aria-hidden="true"></i></button>
+      <button class="inline-flex h-14 items-center gap-3 rounded-tile bg-primary pl-5 pr-6 text-label-lg text-primary-foreground shadow-overlay"><i class="i-lucide-plus size-6" aria-hidden="true"></i>New list</button>
+      <span class="text-caption text-muted-foreground">lg 56 · default 48 · sm 40 (only inside a 48 hit area) · icon 48 · extended FAB</span>
+    </div>
+    <div class="mt-6 w-[412px] space-y-3 rounded-group bg-card p-5">
+      <button class="flex h-14 w-full items-center justify-center rounded-control bg-primary px-6 text-label-lg text-primary-foreground">Import 88 items</button>
+      <button class="flex h-12 w-full items-center justify-center rounded-control px-5 text-label-lg">Choose another source</button>
+      <p class="text-caption text-muted-foreground">Bottom action stack: primary lg + ghost secondary.</p>
+    </div>
+  </div>
+</figure>
+
+<!-- =====================================================================
+     DECISION CONTROLS
+====================================================================== -->
+<figure class="frame" data-frame="C-decisions" id="C-decisions">
+  <figcaption class="frame-label">C · Decision controls · <span class="theme-name"></span></figcaption>
+  <div class="w-[1040px] rounded-group bg-background p-8 text-foreground">
+    <h2 class="text-title-3">DecisionButton, UndoButton</h2>
+    <p class="mt-1 max-w-prose text-body-sm text-muted-foreground">Custom (Proposed in RNR style). Order is always Reject, Maybe, Accept, mirroring left, up, right. Each button shows icon, label and its running count. States: rest, pressed, armed (the gesture has crossed the threshold), disabled.</p>
+    <div class="mt-6 grid grid-cols-4 gap-6">
+      <!-- rest -->
+      <div class="rounded-group bg-card px-4 py-5">
+        <p class="text-caption text-muted-foreground">Rest</p>
+        <div class="mt-4 flex items-start justify-between">
+          <button class="flex min-w-touch flex-col items-center gap-1.5" aria-label="Undo"><span class="flex size-12 items-center justify-center rounded-full border border-input bg-card text-foreground"><i class="i-lucide-undo-2 size-5" aria-hidden="true"></i></span><span class="text-caption text-muted-foreground">Undo</span></button>
+          <button class="flex min-w-touch flex-col items-center gap-1.5" aria-label="Reject, 17 rejected"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject <span class="tabular-nums text-muted-foreground">17</span></span></button>
+          <button class="flex min-w-touch flex-col items-center gap-1.5" aria-label="Maybe, 11 maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe <span class="tabular-nums text-muted-foreground">11</span></span></button>
+        </div>
+      </div>
+      <!-- pressed -->
+      <div class="rounded-group bg-card px-4 py-5">
+        <p class="text-caption text-muted-foreground">Pressed (scale 0.94)</p>
+        <div class="mt-4 flex items-start justify-around">
+          <button class="flex min-w-touch flex-col items-center gap-1.5" aria-label="Accept, 48 accepted"><span class="flex size-16 scale-95 items-center justify-center rounded-full bg-accept text-accept-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept <span class="tabular-nums text-muted-foreground">48</span></span></button>
+          <button class="flex min-w-touch flex-col items-center gap-1.5" aria-label="Undo"><span class="flex size-12 scale-95 items-center justify-center rounded-full border border-input bg-accent text-foreground"><i class="i-lucide-undo-2 size-5" aria-hidden="true"></i></span><span class="text-caption text-muted-foreground">Undo</span></button>
+        </div>
+      </div>
+      <!-- armed -->
+      <div class="rounded-group bg-card px-4 py-5">
+        <p class="text-caption text-muted-foreground">Armed by a drag</p>
+        <div class="mt-4 flex items-start justify-around">
+          <button class="flex min-w-touch flex-col items-center gap-1.5" aria-label="Reject, 17 rejected"><span class="flex size-16 items-center justify-center rounded-full bg-reject text-reject-foreground ring-4 ring-reject/25"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject <span class="tabular-nums text-muted-foreground">17</span></span></button>
+          <button class="flex min-w-touch flex-col items-center gap-1.5" aria-label="Maybe, 11 maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe text-maybe-foreground ring-4 ring-maybe/30"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe <span class="tabular-nums text-muted-foreground">11</span></span></button>
+        </div>
+      </div>
+      <!-- disabled -->
+      <div class="rounded-group bg-card px-4 py-5">
+        <p class="text-caption text-muted-foreground">Disabled (nothing to undo)</p>
+        <div class="mt-4 flex items-start justify-around">
+          <button class="flex min-w-touch flex-col items-center gap-1.5 opacity-40" aria-label="Undo" disabled><span class="flex size-12 items-center justify-center rounded-full border border-input bg-card text-foreground"><i class="i-lucide-undo-2 size-5" aria-hidden="true"></i></span><span class="text-caption text-muted-foreground">Undo</span></button>
+          <button class="flex min-w-touch flex-col items-center gap-1.5 opacity-40" aria-label="Accept" disabled><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="mt-10 text-title-3">DecisionBadge, StatusBadge</h2>
+    <p class="mt-1 max-w-prose text-body-sm text-muted-foreground">RNR <span class="text-foreground">Badge</span> variants. Height 28, icon 16. Decision badges use the state word.</p>
+    <div class="mt-4 flex flex-wrap items-center gap-3">
+      <span class="inline-flex h-7 items-center gap-1.5 rounded-full bg-accept-soft px-2.5 text-caption text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted</span>
+      <span class="inline-flex h-7 items-center gap-1.5 rounded-full bg-reject-soft px-2.5 text-caption text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Rejected</span>
+      <span class="inline-flex h-7 items-center gap-1.5 rounded-full bg-maybe-soft px-2.5 text-caption text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe</span>
+      <span class="inline-flex h-7 items-center gap-1.5 rounded-full bg-muted px-2.5 text-caption text-muted-foreground"><i class="i-lucide-circle-dashed size-4" aria-hidden="true"></i>Not decided</span>
+      <span class="mx-2 h-6 w-px bg-border"></span>
+      <span class="inline-flex h-7 items-center gap-1.5 rounded-full border px-2.5 text-caption"><i class="i-lucide-check-check size-4" aria-hidden="true"></i>Agreed</span>
+      <span class="inline-flex h-7 items-center gap-1.5 rounded-full bg-muted px-2.5 text-caption text-muted-foreground"><i class="i-lucide-clock size-4" aria-hidden="true"></i>Pending</span>
+      <span class="inline-flex h-7 items-center gap-1.5 rounded-full bg-conflict px-2.5 text-caption text-conflict-foreground"><i class="i-lucide-git-compare-arrows size-4" aria-hidden="true"></i>Conflict</span>
+      <span class="inline-flex h-7 items-center gap-1.5 rounded-full border px-2.5 text-caption"><i class="i-lucide-gavel size-4" aria-hidden="true"></i>Resolved by Mert</span>
+    </div>
+    <div class="mt-3 flex flex-wrap items-center gap-3">
+      <span class="inline-flex h-7 items-center gap-1.5 rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground"><i class="i-lucide-users size-4" aria-hidden="true"></i>Shared</span>
+      <span class="inline-flex h-7 items-center gap-1.5 rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground"><i class="i-lucide-pencil-line size-4" aria-hidden="true"></i>Edited</span>
+      <span class="inline-flex h-7 items-center gap-1.5 rounded-full border border-dashed border-input px-2.5 text-caption text-muted-foreground"><i class="i-lucide-lock size-4" aria-hidden="true"></i>Only you</span>
+      <span class="inline-flex h-7 items-center gap-1.5 rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground"><i class="i-lucide-archive size-4" aria-hidden="true"></i>Archived</span>
+      <span class="inline-flex h-7 items-center gap-1.5 rounded-full px-1 text-caption text-muted-foreground"><i class="i-lucide-cloud-off size-4" aria-hidden="true"></i>Not backed up</span>
+      <span class="inline-flex h-7 items-center gap-1.5 rounded-full bg-primary-soft px-2.5 text-caption text-primary-soft-foreground"><i class="i-lucide-gavel size-4" aria-hidden="true"></i>Decision Maker</span>
+      <span class="inline-flex h-7 items-center gap-1.5 rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground"><i class="i-lucide-crown size-4" aria-hidden="true"></i>Owner</span>
+    </div>
+
+    <h2 class="mt-10 text-title-3">Who decided what</h2>
+    <p class="mt-1 max-w-prose text-body-sm text-muted-foreground">MemberDecisions (Proposed): avatars with a decision dot carrying the icon. Always paired with an accessible text alternative; the expanded variant spells it out.</p>
+    <div class="mt-4 grid grid-cols-2 gap-6">
+      <div class="flex items-center gap-4 rounded-group bg-card p-4">
+        <div class="flex -space-x-2" role="img" aria-label="Deniz: Accept. Mert: Reject. Selin: not decided.">
+          <span class="relative"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 rounded-full ring-2 ring-card"><span class="absolute -bottom-1 -right-1 flex size-5 items-center justify-center rounded-full bg-accept text-accept-foreground ring-2 ring-card"><i class="i-lucide-check size-3" aria-hidden="true"></i></span></span>
+          <span class="relative"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-10 rounded-full ring-2 ring-card"><span class="absolute -bottom-1 -right-1 flex size-5 items-center justify-center rounded-full bg-reject text-reject-foreground ring-2 ring-card"><i class="i-lucide-x size-3" aria-hidden="true"></i></span></span>
+          <span class="relative"><span class="flex size-10 items-center justify-center rounded-full bg-muted text-label text-muted-foreground ring-2 ring-card">SY</span><span class="absolute -bottom-1 -right-1 flex size-5 items-center justify-center rounded-full bg-card text-muted-foreground ring-2 ring-card"><i class="i-lucide-circle-dashed size-3" aria-hidden="true"></i></span></span>
+        </div>
+        <p class="text-body-sm text-muted-foreground">Compact: rows, cards (opt-in), results</p>
+      </div>
+      <ul class="divide-y rounded-group bg-card">
+        <li class="flex items-center gap-3 px-4 py-2.5"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-8 rounded-full"><span class="flex-1 text-body">Deniz <span class="text-muted-foreground">(you)</span></span><span class="inline-flex h-7 items-center gap-1.5 rounded-full bg-accept-soft px-2.5 text-caption text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted</span></li>
+        <li class="flex items-center gap-3 px-4 py-2.5"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-8 rounded-full"><span class="flex-1 text-body">Mert</span><span class="inline-flex h-7 items-center gap-1.5 rounded-full bg-reject-soft px-2.5 text-caption text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Rejected</span></li>
+        <li class="flex items-center gap-3 px-4 py-2.5"><span class="flex size-8 items-center justify-center rounded-full bg-muted text-caption text-muted-foreground">SY</span><span class="flex-1 text-body">Selin</span><span class="inline-flex h-7 items-center gap-1.5 rounded-full bg-muted px-2.5 text-caption text-muted-foreground"><i class="i-lucide-circle-dashed size-4" aria-hidden="true"></i>Not decided</span></li>
+      </ul>
+    </div>
+
+    <h2 class="mt-10 text-title-3">Progress</h2>
+    <p class="mt-1 max-w-prose text-body-sm text-muted-foreground">RNR <span class="text-foreground">Progress</span>. Sorting progress, the decision split, and list status on shared lists.</p>
+    <div class="mt-4 grid grid-cols-3 gap-6">
+      <div class="rounded-group bg-card p-4">
+        <div class="flex items-baseline justify-between"><span class="text-label tabular-nums">76 / 100 decided</span><span class="text-caption text-muted-foreground">Round 1</span></div>
+        <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="76" aria-valuemin="0" aria-valuemax="100" aria-label="76 of 100 decided"><div class="h-full w-[76%] rounded-full bg-primary"></div></div>
+      </div>
+      <div class="rounded-group bg-card p-4">
+        <p class="text-label">My decisions</p>
+        <div class="mt-2 flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted" role="img" aria-label="48 accepted, 11 maybe, 17 rejected, 24 not decided"><div class="w-[48%] bg-accept"></div><div class="w-[11%] bg-maybe"></div><div class="w-[17%] bg-reject"></div></div>
+        <div class="mt-2 flex gap-4 text-caption"><span class="inline-flex items-center gap-1 text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i><span class="tabular-nums">48</span></span><span class="inline-flex items-center gap-1 text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i><span class="tabular-nums">11</span></span><span class="inline-flex items-center gap-1 text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i><span class="tabular-nums">17</span></span></div>
+      </div>
+      <div class="rounded-group bg-card p-4">
+        <p class="text-label">List status</p>
+        <div class="mt-2 flex h-2 gap-0.5 overflow-hidden rounded-full" role="img" aria-label="32 agreed, 15 in conflict, 53 pending"><div class="w-[32%] bg-foreground"></div><div class="w-[15%] bg-foreground/50"></div><div class="flex-1 bg-muted"></div></div>
+        <div class="mt-2 flex gap-4 text-caption text-muted-foreground"><span class="inline-flex items-center gap-1 text-foreground"><i class="i-lucide-check-check size-4" aria-hidden="true"></i>32 agreed</span><span class="inline-flex items-center gap-1 text-foreground"><i class="i-lucide-git-compare-arrows size-4" aria-hidden="true"></i>15 conflicts</span><span class="inline-flex items-center gap-1"><i class="i-lucide-clock size-4" aria-hidden="true"></i>53 pending</span></div>
+      </div>
+    </div>
+  </div>
+</figure>
+
+<!-- =====================================================================
+     INPUTS AND SELECTION
+====================================================================== -->
+<figure class="frame" data-frame="C-inputs" id="C-inputs">
+  <figcaption class="frame-label">C · Inputs and selection · <span class="theme-name"></span></figcaption>
+  <div class="w-[1040px] rounded-group bg-background p-8 text-foreground">
+    <h2 class="text-title-3">Input, Label, Textarea</h2>
+    <p class="mt-1 max-w-prose text-body-sm text-muted-foreground">RNR <span class="text-foreground">Input</span>, <span class="text-foreground">Label</span>, <span class="text-foreground">Textarea</span>. Height 48, label above, helper or error below. Errors: icon + text, never color alone.</p>
+    <div class="mt-6 grid grid-cols-3 gap-x-6 gap-y-6">
+      <div><label class="text-label" for="i1">List name</label><input id="i1" class="mt-1.5 h-12 w-full rounded-control border border-input bg-card px-3.5 text-body placeholder:text-muted-foreground" placeholder="e.g. Desk setup"><p class="mt-1.5 text-caption text-muted-foreground">Default, empty</p></div>
+      <div><label class="text-label" for="i2">List name</label><input id="i2" class="mt-1.5 h-12 w-full rounded-control border border-primary bg-card px-3.5 text-body ring-2 ring-ring/30" value="Wedding guests"><p class="mt-1.5 text-caption text-muted-foreground">Focused</p></div>
+      <div><label class="text-label" for="i3">Email</label><input id="i3" class="mt-1.5 h-12 w-full rounded-control border-2 border-destructive bg-card px-3.5 text-body" value="deniz.yilmaz@example" aria-invalid="true" aria-describedby="i3e"><p id="i3e" class="mt-1.5 flex items-center gap-1.5 text-caption text-destructive"><i class="i-lucide-circle-alert size-4" aria-hidden="true"></i>Enter a full email address, like name@example.com.</p></div>
+      <div><label class="text-label text-muted-foreground" for="i4">Source</label><input id="i4" class="mt-1.5 h-12 w-full rounded-control border border-input bg-muted px-3.5 text-body text-muted-foreground" value="Contacts" disabled><p class="mt-1.5 text-caption text-muted-foreground">Disabled</p></div>
+      <div><label class="text-label" for="i5">Search</label>
+        <div class="relative mt-1.5"><i class="i-lucide-search pointer-events-none absolute left-3.5 top-3.5 size-5 text-muted-foreground" aria-hidden="true"></i><input id="i5" type="search" class="h-12 w-full rounded-full border-0 bg-secondary pl-11 pr-12 text-body placeholder:text-muted-foreground" value="Yılmaz"><button class="absolute right-0 top-0 flex size-12 items-center justify-center rounded-full" aria-label="Clear search"><i class="i-lucide-x size-5 text-muted-foreground" aria-hidden="true"></i></button></div>
+        <p class="mt-1.5 text-caption text-muted-foreground">SearchField (full radius, secondary fill)</p></div>
+      <div><label class="text-label" for="i6">Price</label><div class="mt-1.5 flex h-12 items-center rounded-control border border-input bg-card"><input id="i6" class="h-full min-w-0 flex-1 rounded-control bg-transparent px-3.5 text-body" value="389"><span class="pr-3.5 text-body text-muted-foreground">EUR</span></div><p class="mt-1.5 flex items-center gap-1.5 text-caption text-muted-foreground"><i class="i-lucide-pencil-line size-4" aria-hidden="true"></i>Edited. Original: 399</p></div>
+    </div>
+    <div class="mt-6 grid grid-cols-2 gap-6">
+      <div class="rounded-group bg-card p-4">
+        <label class="text-label" for="n1">Note</label>
+        <textarea id="n1" rows="3" class="mt-1.5 w-full resize-none rounded-control border border-input bg-card px-3.5 py-3 text-body">Flying in from Berlin. Ask about dates first.</textarea>
+        <div class="mt-2 flex items-center justify-between"><span class="text-caption text-muted-foreground">Visible to all members</span><span class="text-caption tabular-nums text-muted-foreground">45 / 1,000</span></div>
+      </div>
+      <div class="rounded-group bg-card p-4">
+        <p class="text-label">Notes on an item</p>
+        <div class="mt-2 space-y-2">
+          <div class="rounded-control bg-muted px-3.5 py-2.5"><p class="text-caption text-muted-foreground">Mert</p><p class="text-body-sm">University roommate, has to be there.</p></div>
+          <div class="rounded-control border border-dashed border-input px-3.5 py-2.5"><p class="flex items-center gap-1.5 text-caption text-muted-foreground"><i class="i-lucide-lock size-3.5" aria-hidden="true"></i>You, only you can see this</p><p class="text-body-sm">Only if we invite the whole team.</p></div>
+        </div>
+        <p class="mt-2 text-caption text-muted-foreground">Shared note (muted fill) and private note (dashed outline, lock, "only you")</p>
+      </div>
+    </div>
+
+    <h2 class="mt-10 text-title-3">Switch, Checkbox, RadioGroup, ToggleGroup, chips</h2>
+    <div class="mt-4 grid grid-cols-3 gap-6">
+      <div class="space-y-4 rounded-group bg-card p-4">
+        <div class="flex items-center justify-between"><span class="text-body">On</span><span role="switch" aria-checked="true" aria-label="On" class="flex h-8 w-13 items-center rounded-full bg-primary p-1"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></div>
+        <div class="flex items-center justify-between"><span class="text-body">Off</span><span role="switch" aria-checked="false" aria-label="Off" class="flex h-8 w-13 items-center rounded-full border-2 border-input bg-muted p-1"><span class="size-5 rounded-full bg-muted-foreground"></span></span></div>
+        <div class="flex items-center justify-between"><span class="text-body text-muted-foreground">Disabled</span><span role="switch" aria-checked="false" aria-disabled="true" aria-label="Disabled" class="flex h-8 w-13 items-center rounded-full border-2 border-input bg-muted p-1 opacity-50"><span class="size-5 rounded-full bg-muted-foreground"></span></span></div>
+        <p class="text-caption text-muted-foreground">Switch 52×32 (M3), inside a 48 row</p>
+      </div>
+      <div class="space-y-3 rounded-group bg-card p-4">
+        <div class="flex items-center gap-3"><span role="checkbox" aria-checked="true" aria-label="Selected" class="flex size-6 items-center justify-center rounded-sm bg-primary text-primary-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i></span><span class="text-body">Selected</span></div>
+        <div class="flex items-center gap-3"><span role="checkbox" aria-checked="false" aria-label="Not selected" class="size-6 rounded-sm border-2 border-input"></span><span class="text-body">Not selected</span></div>
+        <div class="flex items-center gap-3"><span role="checkbox" aria-checked="mixed" aria-label="Some selected" class="flex size-6 items-center justify-center rounded-sm bg-primary text-primary-foreground"><i class="i-lucide-minus size-4" aria-hidden="true"></i></span><span class="text-body">Some selected</span></div>
+        <div class="flex items-center gap-3"><span role="radio" aria-checked="true" aria-label="Selected option" class="flex size-6 items-center justify-center rounded-full border-2 border-primary"><span class="size-3 rounded-full bg-primary"></span></span><span class="text-body">Radio selected</span></div>
+        <div class="flex items-center gap-3"><span role="radio" aria-checked="false" aria-label="Option" class="size-6 rounded-full border-2 border-input"></span><span class="text-body">Radio</span></div>
+      </div>
+      <div class="space-y-4 rounded-group bg-card p-4">
+        <div class="flex rounded-full bg-secondary p-1" role="tablist" aria-label="Theme">
+          <button role="tab" aria-selected="false" class="h-10 flex-1 rounded-full text-label text-muted-foreground">System</button>
+          <button role="tab" aria-selected="true" class="h-10 flex-1 rounded-full bg-card text-label shadow-raised">Light</button>
+          <button role="tab" aria-selected="false" class="h-10 flex-1 rounded-full text-label text-muted-foreground">Dark</button>
+        </div>
+        <div class="flex rounded-full bg-secondary p-1" role="tablist" aria-label="Show decisions">
+          <button role="tab" aria-selected="true" class="h-10 flex-1 rounded-full bg-card text-label shadow-raised">Final decisions</button>
+          <button role="tab" aria-selected="false" class="h-10 flex-1 rounded-full text-label text-muted-foreground">My decisions</button>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button class="inline-flex h-9 items-center gap-1.5 rounded-full border border-primary bg-primary-soft px-3 text-label text-primary-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Family</button>
+          <button class="inline-flex h-9 items-center gap-1.5 rounded-full border border-input px-3 text-label">Friend</button>
+          <button class="inline-flex h-9 items-center gap-1.5 rounded-full border border-input px-3 text-label">Colleague</button>
+        </div>
+        <p class="text-caption text-muted-foreground">SegmentedControl (ToggleGroup) and FilterChip (Toggle). Chips are 36 high inside a 48 hit row.</p>
+      </div>
+    </div>
+    <div class="mt-6 grid grid-cols-2 gap-6">
+      <div class="rounded-group bg-card p-4">
+        <p class="text-label">Select (trigger)</p>
+        <button class="mt-1.5 flex h-12 w-full items-center justify-between rounded-control border border-input bg-card px-3.5 text-body" aria-haspopup="listbox"><span>Sort by: Name</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button>
+      </div>
+      <div class="rounded-group bg-card p-4">
+        <p class="text-label">Segments with counts (Results)</p>
+        <div class="mt-1.5 flex gap-1 overflow-hidden" role="tablist" aria-label="Decision">
+          <button role="tab" aria-selected="true" class="inline-flex h-10 items-center gap-1.5 rounded-full bg-foreground px-3 text-label text-background"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accept <span class="tabular-nums opacity-70">48</span></button>
+          <button role="tab" aria-selected="false" class="inline-flex h-10 items-center gap-1.5 rounded-full bg-secondary px-3 text-label text-secondary-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe <span class="tabular-nums text-muted-foreground">11</span></button>
+          <button role="tab" aria-selected="false" class="inline-flex h-10 items-center gap-1.5 rounded-full bg-secondary px-3 text-label text-secondary-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Reject <span class="tabular-nums text-muted-foreground">17</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</figure>
+
+<!-- =====================================================================
+     ROWS AND GROUPS
+====================================================================== -->
+<figure class="frame" data-frame="C-rows" id="C-rows">
+  <figcaption class="frame-label">C · Rows and groups · <span class="theme-name"></span></figcaption>
+  <div class="grid w-[1040px] grid-cols-2 gap-8 rounded-group bg-background p-8 text-foreground">
+    <div>
+      <h2 class="text-title-3">ListGroup and rows</h2>
+      <p class="mt-1 text-body-sm text-muted-foreground">Group: card surface, radius 16, no shadow. Rows: 56 min height, no radius, inset dividers. Pressed row: bg-accent.</p>
+      <p class="mt-5 px-1 pb-2 text-label text-muted-foreground">Section header</p>
+      <ul class="divide-y overflow-hidden rounded-group bg-card">
+        <li><a href="#" class="flex min-h-14 items-center gap-4 px-4 py-3"><i class="i-lucide-user size-5 text-muted-foreground" aria-hidden="true"></i><span class="flex-1 text-body">Navigation row</span><i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="#" class="flex min-h-14 items-center gap-4 bg-accent px-4 py-3"><i class="i-lucide-palette size-5 text-muted-foreground" aria-hidden="true"></i><span class="flex-1 text-body">Value row (pressed)</span><span class="text-body text-muted-foreground">System</span><i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li class="flex min-h-14 items-center gap-4 px-4 py-3"><i class="i-lucide-vibrate size-5 text-muted-foreground" aria-hidden="true"></i><span class="flex-1"><span class="block text-body">Switch row</span><span class="block text-body-sm text-muted-foreground">With a description that can wrap to two lines</span></span><span role="switch" aria-checked="true" aria-label="Switch row" class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></li>
+        <li class="flex min-h-14 items-center gap-4 px-4 py-3"><i class="i-lucide-vibrate size-5 text-muted-foreground" aria-hidden="true"></i><span class="flex-1"><span class="block text-body text-muted-foreground">Haptics</span><span class="block text-body-sm text-muted-foreground">Haptics need the Android or iOS app. <a href="#" class="text-primary underline underline-offset-4">Get the app</a></span></span><span role="switch" aria-checked="false" aria-disabled="true" aria-label="Haptics" class="flex h-8 w-13 shrink-0 items-center rounded-full border-2 border-input bg-muted p-1 opacity-50"><span class="size-5 rounded-full bg-muted-foreground"></span></span></li>
+        <li><button class="flex min-h-14 w-full items-center gap-4 px-4 py-3 text-left text-destructive"><i class="i-lucide-trash-2 size-5" aria-hidden="true"></i><span class="flex-1 text-body">Delete list</span></button></li>
+      </ul>
+
+      <p class="mt-6 px-1 pb-2 text-label text-muted-foreground">Member row</p>
+      <ul class="divide-y overflow-hidden rounded-group bg-card">
+        <li class="flex min-h-16 items-center gap-3 px-4 py-3"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-10 rounded-full"><div class="min-w-0 flex-1"><p class="text-body">Mert Aydın</p><p class="text-body-sm text-muted-foreground"><span class="tabular-nums">85 / 100</span> decided</p></div><span class="inline-flex h-7 items-center gap-1.5 rounded-full bg-primary-soft px-2.5 text-caption text-primary-soft-foreground"><i class="i-lucide-gavel size-4" aria-hidden="true"></i>Decision Maker</span><button class="flex size-12 items-center justify-center rounded-full" aria-label="Options for Mert Aydın"><i class="i-lucide-ellipsis-vertical size-5" aria-hidden="true"></i></button></li>
+        <li class="flex min-h-16 items-center gap-3 px-4 py-3"><span class="flex size-10 items-center justify-center rounded-full bg-muted text-label text-muted-foreground">SY</span><div class="min-w-0 flex-1"><p class="text-body">Selin Yılmaz</p><div class="mt-1.5 h-1 w-32 overflow-hidden rounded-full bg-muted"><div class="h-full w-[43%] bg-primary"></div></div></div><span class="text-caption text-muted-foreground">Collaborator</span><button class="flex size-12 items-center justify-center rounded-full" aria-label="Options for Selin Yılmaz"><i class="i-lucide-ellipsis-vertical size-5" aria-hidden="true"></i></button></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="text-title-3">Item rows and list rows</h2>
+      <p class="mt-1 text-body-sm text-muted-foreground">Full-bleed rows on the canvas (not cards) for long collections: results, contacts, home lists.</p>
+      <p class="mt-5 px-1 pb-2 text-label text-muted-foreground">ItemRow (results)</p>
+      <ul class="divide-y overflow-hidden rounded-group bg-card">
+        <li class="flex min-h-16 items-center gap-3 px-4 py-2.5"><img src="../02-data/images/people/c001.svg" alt="" class="size-10 rounded-full"><div class="min-w-0 flex-1"><p class="truncate text-body">Ayşe Demir</p><p class="truncate text-body-sm text-muted-foreground">Family, İstanbul</p></div><span class="inline-flex h-7 items-center gap-1.5 rounded-full bg-accept-soft px-2.5 text-caption text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted</span></li>
+        <li class="flex min-h-16 items-center gap-3 px-4 py-2.5"><span class="flex size-10 items-center justify-center rounded-full bg-muted text-label text-muted-foreground">MH</span><div class="min-w-0 flex-1"><p class="truncate text-body">Maximiliane Alexandra Charlotte von Hohenberg-Lichtenstein</p><p class="flex items-center gap-1 truncate text-body-sm text-muted-foreground"><i class="i-lucide-sticky-note size-3.5" aria-hidden="true"></i>Flying in from Berlin. Ask about dates first.</p></div><span class="inline-flex h-7 items-center gap-1.5 rounded-full bg-maybe-soft px-2.5 text-caption text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe</span></li>
+        <li class="flex min-h-16 items-center gap-3 px-4 py-2.5"><img src="../02-data/images/products/p01.svg" alt="" class="size-10 rounded-sm"><div class="min-w-0 flex-1"><p class="truncate text-body">Ergo Mesh task chair</p><p class="truncate text-body-sm text-muted-foreground">€389, Nordhaus</p></div><span class="inline-flex h-7 items-center gap-1.5 rounded-full bg-reject-soft px-2.5 text-caption text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Rejected</span></li>
+        <li class="flex min-h-16 items-center gap-3 px-4 py-2.5"><img src="../02-data/images/people/c002.svg" alt="" class="size-10 rounded-full"><div class="min-w-0 flex-1"><p class="truncate text-body">Mehmet Yılmaz</p><p class="truncate text-body-sm text-muted-foreground">Deniz accepted, Mert rejected</p></div><span class="inline-flex h-7 items-center gap-1.5 rounded-full bg-conflict px-2.5 text-caption text-conflict-foreground"><i class="i-lucide-git-compare-arrows size-4" aria-hidden="true"></i>Conflict</span></li>
+      </ul>
+
+      <p class="mt-6 px-1 pb-2 text-label text-muted-foreground">SelectableRow (import)</p>
+      <ul class="divide-y overflow-hidden rounded-group bg-card">
+        <li class="flex min-h-14 items-center gap-3 px-4 py-2"><span role="checkbox" aria-checked="true" aria-label="Select Zeynep Kaya" class="flex size-6 shrink-0 items-center justify-center rounded-sm bg-primary text-primary-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i></span><img src="../02-data/images/people/c003.svg" alt="" class="size-10 rounded-full"><div class="min-w-0 flex-1"><p class="truncate text-body">Zeynep Kaya</p><p class="truncate text-body-sm text-muted-foreground">+90 500 000 40 66</p></div></li>
+        <li class="flex min-h-14 items-center gap-3 px-4 py-2"><span role="checkbox" aria-checked="false" aria-label="Select Oğuz Kılıç" class="size-6 shrink-0 rounded-sm border-2 border-input"></span><span class="flex size-10 items-center justify-center rounded-full bg-muted text-label text-muted-foreground">OK</span><div class="min-w-0 flex-1"><p class="truncate text-body">Oğuz Kılıç</p><p class="truncate text-body-sm text-muted-foreground">3 phone numbers</p></div></li>
+      </ul>
+
+      <p class="mt-6 px-1 pb-2 text-label text-muted-foreground">ListRow (home)</p>
+      <ul class="divide-y overflow-hidden rounded-group bg-card">
+        <li><a href="#" class="flex items-center gap-4 px-4 py-4">
+          <div class="min-w-0 flex-1">
+            <p class="truncate text-title-3">Wedding guests</p>
+            <p class="mt-0.5 flex items-center gap-1.5 text-body-sm text-muted-foreground"><i class="i-lucide-users size-4" aria-hidden="true"></i>Shared with 2</p>
+            <div class="mt-3 flex items-center gap-3"><div class="h-1.5 flex-1 overflow-hidden rounded-full bg-muted"><div class="h-full w-[76%] rounded-full bg-primary"></div></div><span class="text-caption tabular-nums text-muted-foreground">76 / 100</span></div>
+          </div>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="#" class="flex items-center gap-4 px-4 py-4">
+          <div class="min-w-0 flex-1">
+            <p class="truncate text-title-3">March photos clean-up</p>
+            <p class="mt-0.5 flex items-center gap-1.5 text-body-sm text-muted-foreground"><i class="i-lucide-cloud-off size-4" aria-hidden="true"></i>On this phone only</p>
+            <div class="mt-3 flex items-center gap-3"><div class="h-1.5 flex-1 overflow-hidden rounded-full bg-muted"><div class="h-full w-[40%] rounded-full bg-primary"></div></div><span class="text-caption tabular-nums text-muted-foreground">12 / 30</span></div>
+          </div>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+      </ul>
+    </div>
+  </div>
+</figure>
+
+<!-- =====================================================================
+     NAVIGATION
+====================================================================== -->
+<figure class="frame" data-frame="C-navigation" id="C-navigation">
+  <figcaption class="frame-label">C · Navigation · <span class="theme-name"></span></figcaption>
+  <div class="grid w-[1040px] grid-cols-2 gap-8 rounded-group bg-background p-8 text-foreground">
+    <div class="space-y-6">
+      <h2 class="text-title-3">AppBar</h2>
+      <div class="w-[412px] overflow-hidden rounded-group border bg-background">
+        <header class="flex h-app-bar items-center gap-1 px-1">
+          <button class="flex size-12 items-center justify-center rounded-full" aria-label="Back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></button>
+          <h3 class="min-w-0 flex-1 truncate px-1 text-title-3">Members</h3>
+          <button class="flex size-12 items-center justify-center rounded-full" aria-label="Invite"><i class="i-lucide-user-plus size-6" aria-hidden="true"></i></button>
+          <button class="flex size-12 items-center justify-center rounded-full" aria-label="More options"><i class="i-lucide-ellipsis-vertical size-6" aria-hidden="true"></i></button>
+        </header>
+        <p class="px-4 pb-3 text-caption text-muted-foreground">Small (Android): back, title, up to 2 actions</p>
+      </div>
+      <div class="w-[412px] overflow-hidden rounded-group border bg-background">
+        <header class="flex h-app-bar items-center justify-end gap-1 px-1">
+          <button class="flex size-12 items-center justify-center rounded-full" aria-label="Search lists"><i class="i-lucide-search size-6" aria-hidden="true"></i></button>
+        </header>
+        <h3 class="px-gutter pb-2 text-title-1">Lists</h3>
+        <p class="px-gutter pb-3 text-caption text-muted-foreground">Large title (top-level tabs)</p>
+      </div>
+      <div class="w-[412px] overflow-hidden rounded-group border bg-background">
+        <header class="flex h-app-bar items-center gap-1 px-1">
+          <button class="flex size-12 items-center justify-center rounded-full" aria-label="Close"><i class="i-lucide-x size-6" aria-hidden="true"></i></button>
+          <h3 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h3>
+          <button class="inline-flex h-12 items-center rounded-control px-4 text-label-lg text-primary">Skip</button>
+        </header>
+        <p class="px-4 pb-3 text-caption text-muted-foreground">Modal: close, title, text action</p>
+      </div>
+      <div class="w-[393px] overflow-hidden rounded-group border bg-background">
+        <header class="grid h-11 grid-cols-[1fr_auto_1fr] items-center px-2">
+          <button class="inline-flex h-11 items-center gap-0.5 text-body text-primary"><i class="i-lucide-chevron-left size-6" aria-hidden="true"></i>Wedding guests</button>
+          <h3 class="text-body font-semibold">Members</h3>
+          <button class="ml-auto flex size-11 items-center justify-center text-primary" aria-label="Invite"><i class="i-lucide-user-plus size-6" aria-hidden="true"></i></button>
+        </header>
+        <p class="px-4 py-3 text-caption text-muted-foreground">iOS variant: chevron + previous title, centered title, 44 pt bar, edge-swipe back</p>
+      </div>
+    </div>
+    <div class="space-y-6">
+      <h2 class="text-title-3">BottomNav</h2>
+      <nav class="flex h-bottom-nav w-[412px] border-t bg-card" aria-label="Main">
+        <a href="#" class="flex flex-1 flex-col items-center justify-center gap-1 text-caption" aria-current="page"><span class="flex h-8 w-16 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-list-checks size-6" aria-hidden="true"></i></span><span class="font-semibold">Lists</span></a>
+        <a href="#" class="flex flex-1 flex-col items-center justify-center gap-1 text-caption text-muted-foreground"><span class="relative flex h-8 w-16 items-center justify-center"><i class="i-lucide-activity size-6" aria-hidden="true"></i><span class="absolute right-3 top-0 flex h-5 min-w-5 items-center justify-center rounded-full bg-destructive px-1 text-caption leading-none text-destructive-foreground">3</span></span>Activity</a>
+        <a href="#" class="flex flex-1 flex-col items-center justify-center gap-1 text-caption text-muted-foreground"><span class="flex h-8 w-16 items-center justify-center"><i class="i-lucide-settings size-6" aria-hidden="true"></i></span>Settings</a>
+      </nav>
+      <p class="text-caption text-muted-foreground">80 high. Active: primary-soft pill. Badge: unread count (accessible name "Activity, 3 unread"). iOS: tab bar 49 pt + home indicator, same icons, no pill (tint only).</p>
+
+      <h2 class="pt-4 text-title-3">ImportStepper</h2>
+      <div class="w-[412px] rounded-group bg-card px-gutter py-4">
+        <div class="flex items-baseline justify-between"><p class="text-label">Map fields</p><p class="text-caption tabular-nums text-muted-foreground">Step 3 of 5</p></div>
+        <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="3" aria-valuemin="1" aria-valuemax="5" aria-label="Step 3 of 5, Map fields"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+      </div>
+      <p class="text-caption text-muted-foreground">Steps: Choose source, Select items, Map fields, Review duplicates, Finish. Skipped steps are removed from the count.</p>
+
+      <h2 class="pt-4 text-title-3">Tabs (underline)</h2>
+      <div class="flex w-[412px] border-b" role="tablist" aria-label="Activity">
+        <button role="tab" aria-selected="true" class="relative h-12 flex-1 text-label">All<span class="absolute inset-x-6 bottom-0 h-0.5 rounded-full bg-primary"></span></button>
+        <button role="tab" aria-selected="false" class="h-12 flex-1 text-label text-muted-foreground">Conflicts</button>
+        <button role="tab" aria-selected="false" class="h-12 flex-1 text-label text-muted-foreground">Members</button>
+      </div>
+
+      <h2 class="pt-4 text-title-3">Keyboard hints (web only)</h2>
+      <div class="flex flex-wrap items-center gap-4 text-caption text-muted-foreground">
+        <span class="inline-flex items-center gap-1.5"><kbd class="inline-flex h-6 min-w-6 items-center justify-center rounded-sm border border-b-2 bg-card px-1.5 text-caption text-foreground">←</kbd>Reject</span>
+        <span class="inline-flex items-center gap-1.5"><kbd class="inline-flex h-6 min-w-6 items-center justify-center rounded-sm border border-b-2 bg-card px-1.5 text-caption text-foreground">↑</kbd>Maybe</span>
+        <span class="inline-flex items-center gap-1.5"><kbd class="inline-flex h-6 min-w-6 items-center justify-center rounded-sm border border-b-2 bg-card px-1.5 text-caption text-foreground">→</kbd>Accept</span>
+        <span class="inline-flex items-center gap-1.5"><kbd class="inline-flex h-6 min-w-6 items-center justify-center rounded-sm border border-b-2 bg-card px-1.5 text-caption text-foreground">Z</kbd>Undo</span>
+      </div>
+    </div>
+  </div>
+</figure>
+
+<!-- =====================================================================
+     OVERLAYS
+====================================================================== -->
+<figure class="frame" data-frame="C-overlays" id="C-overlays">
+  <figcaption class="frame-label">C · Overlays · <span class="theme-name"></span></figcaption>
+  <div class="grid w-[1040px] grid-cols-2 gap-8 rounded-group bg-background p-8 text-foreground">
+    <div>
+      <h2 class="text-title-3">BottomSheet</h2>
+      <p class="mt-1 text-body-sm text-muted-foreground">@gorhom/bottom-sheet styled as a shadcn surface: popover, 24 top radius, handle, title row, content, bottom actions. iOS: page sheet with grabber.</p>
+      <div class="relative mt-4 h-[420px] w-[412px] overflow-hidden rounded-group bg-muted">
+        <div class="absolute inset-0 bg-scrim/50"></div>
+        <div class="absolute inset-x-0 bottom-0 rounded-t-sheet bg-popover px-gutter pb-5 pt-2 shadow-sheet" role="dialog" aria-modal="true" aria-labelledby="sh1">
+          <div class="flex justify-center py-1.5"><span class="h-1 w-8 rounded-full bg-muted-foreground/40"></span></div>
+          <div class="flex items-center justify-between pt-2"><h3 id="sh1" class="text-title-3">Note on Ayşe Demir</h3><button class="-mr-3 flex size-12 items-center justify-center rounded-full" aria-label="Close"><i class="i-lucide-x size-5" aria-hidden="true"></i></button></div>
+          <textarea rows="3" aria-label="Note" class="mt-3 w-full resize-none rounded-control border border-input bg-card px-3.5 py-3 text-body">Mum insists. Seat near the family table.</textarea>
+          <div class="mt-3 flex min-h-12 items-center justify-between"><span class="flex items-center gap-2 text-body"><i class="i-lucide-lock size-5 text-muted-foreground" aria-hidden="true"></i>Only visible to me</span><span role="switch" aria-checked="false" aria-label="Only visible to me" class="flex h-8 w-13 items-center rounded-full border-2 border-input bg-muted p-1"><span class="size-5 rounded-full bg-muted-foreground"></span></span></div>
+          <button class="mt-3 flex h-12 w-full items-center justify-center rounded-control bg-primary text-label-lg text-primary-foreground">Save note</button>
+        </div>
+      </div>
+    </div>
+    <div class="space-y-8">
+      <div>
+        <h2 class="text-title-3">AlertDialog</h2>
+        <p class="mt-1 text-body-sm text-muted-foreground">RNR <span class="text-foreground">AlertDialog</span>. Title names the object; body states the consequence and what is safe; specific verbs.</p>
+        <div class="relative mt-4 flex h-[300px] w-[412px] items-center justify-center overflow-hidden rounded-group bg-muted px-6">
+          <div class="absolute inset-0 bg-scrim/50"></div>
+          <div class="relative w-full rounded-dialog bg-popover p-6 shadow-dialog" role="alertdialog" aria-modal="true" aria-labelledby="dl1" aria-describedby="dl1d">
+            <h3 id="dl1" class="text-title-3">Delete “Desk setup”?</h3>
+            <p id="dl1d" class="mt-2 text-body text-muted-foreground">20 items, 2 rounds and all notes will be deleted from this phone. Files you imported from aren't changed.</p>
+            <div class="mt-6 flex justify-end gap-2"><button class="inline-flex h-12 items-center rounded-control px-4 text-label-lg">Cancel</button><button class="inline-flex h-12 items-center rounded-control bg-destructive px-4 text-label-lg text-destructive-foreground">Delete list</button></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h2 class="text-title-3">Snackbar</h2>
+        <p class="mt-1 text-body-sm text-muted-foreground">Inverse surface, 12 radius, above bottom navigation and the decision bar. One action at most.</p>
+        <div class="mt-4 w-[412px] space-y-3 rounded-group bg-muted p-4">
+          <div class="flex min-h-12 items-center gap-3 rounded-control bg-foreground px-4 py-3 text-background shadow-overlay" role="status"><span class="flex-1 text-body-sm">Imported 88 items</span></div>
+          <div class="flex min-h-12 items-center gap-2 rounded-control bg-foreground py-1.5 pl-4 pr-1.5 text-background shadow-overlay" role="status"><span class="flex-1 text-body-sm">List archived</span><button class="inline-flex h-10 items-center rounded-sm px-3 text-label text-primary-inverse">Undo</button></div>
+          <div class="flex min-h-12 items-center gap-3 rounded-control bg-foreground px-4 py-3 text-background shadow-overlay" role="alert"><i class="i-lucide-circle-alert size-5 shrink-0" aria-hidden="true"></i><span class="flex-1 text-body-sm">Couldn't export. Check your connection and try again.</span></div>
+        </div>
+      </div>
+      <div>
+        <h2 class="text-title-3">DropdownMenu</h2>
+        <div class="mt-4 w-64 overflow-hidden rounded-control bg-popover py-1.5 shadow-overlay" role="menu">
+          <button role="menuitem" class="flex h-12 w-full items-center gap-3 px-4 text-body"><i class="i-lucide-pencil size-5 text-muted-foreground" aria-hidden="true"></i>Rename</button>
+          <button role="menuitem" class="flex h-12 w-full items-center gap-3 bg-accent px-4 text-body"><i class="i-lucide-copy size-5 text-muted-foreground" aria-hidden="true"></i>Duplicate</button>
+          <button role="menuitem" class="flex h-12 w-full items-center gap-3 px-4 text-body"><i class="i-lucide-archive size-5 text-muted-foreground" aria-hidden="true"></i>Archive</button>
+          <div class="my-1.5 h-px bg-border"></div>
+          <button role="menuitem" class="flex h-12 w-full items-center gap-3 px-4 text-body text-destructive"><i class="i-lucide-trash-2 size-5" aria-hidden="true"></i>Delete list</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</figure>
+
+<!-- =====================================================================
+     FEEDBACK
+====================================================================== -->
+<figure class="frame" data-frame="C-feedback" id="C-feedback">
+  <figcaption class="frame-label">C · Feedback and states · <span class="theme-name"></span></figcaption>
+  <div class="grid w-[1040px] grid-cols-2 gap-8 rounded-group bg-background p-8 text-foreground">
+    <div class="space-y-4">
+      <h2 class="text-title-3">Alert / Banner</h2>
+      <p class="text-body-sm text-muted-foreground">RNR <span class="text-foreground">Alert</span>. Inline, full width inside the gutter, radius 12. Offline banner is a slim strip under the app bar.</p>
+      <div class="flex items-center gap-2 bg-muted px-gutter py-2 text-body-sm" role="status"><i class="i-lucide-wifi-off size-4 shrink-0" aria-hidden="true"></i><span class="flex-1">You're offline. Decisions are saved on this phone.</span></div>
+      <div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground" role="note"><i class="i-lucide-info size-5 shrink-0" aria-hidden="true"></i><div><p class="text-label">Your original file stays as it is</p><p class="mt-0.5 text-body-sm">Edits and decisions live in SwipeSort until you export.</p></div></div>
+      <div class="flex gap-3 rounded-control border border-destructive/40 bg-card p-4" role="alert"><i class="i-lucide-circle-alert size-5 shrink-0 text-destructive" aria-hidden="true"></i><div class="flex-1"><p class="text-label">Imported 84 of 88 items</p><p class="mt-0.5 text-body-sm text-muted-foreground">4 rows had no value in the title field and were skipped.</p><button class="mt-2 inline-flex h-10 items-center text-label text-primary underline underline-offset-4">Show skipped rows</button></div></div>
+      <div class="flex gap-3 rounded-control border bg-card p-4" role="note"><i class="i-lucide-monitor-smartphone size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="flex-1"><p class="text-label">Contacts import needs the app</p><p class="mt-0.5 text-body-sm text-muted-foreground">Browsers can't read your phone's contacts. Get SwipeSort for Android or iOS, or import a CSV instead.</p><a href="#" class="mt-2 inline-flex h-10 items-center text-label text-primary underline underline-offset-4">Get the app</a></div></div>
+      <a href="#" class="flex items-center gap-2 rounded-control px-1 py-2 text-body-sm text-muted-foreground"><i class="i-lucide-cloud-off size-4" aria-hidden="true"></i><span class="flex-1">Lists are on this phone only</span><span class="text-label text-primary">Back up</span></a>
+      <div class="flex items-center gap-2 text-body-sm text-muted-foreground" role="status"><i class="i-lucide-refresh-cw size-4 animate-spin" aria-hidden="true"></i>Syncing 12 decisions…</div>
+      <div class="flex items-center gap-2 text-body-sm text-muted-foreground" role="status"><i class="i-lucide-cloud-check size-4" aria-hidden="true"></i>Synced</div>
+    </div>
+    <div class="space-y-6">
+      <h2 class="text-title-3">EmptyState, ErrorState, loading</h2>
+      <div class="flex flex-col items-center rounded-group bg-card px-6 py-10 text-center">
+        <i class="i-lucide-layers size-8 text-muted-foreground" aria-hidden="true"></i>
+        <p class="mt-4 max-w-xs text-title-3">No lists yet</p>
+        <p class="mt-1 max-w-xs text-body text-muted-foreground">Import a list or try a sample to see how sorting works.</p>
+        <button class="mt-6 flex h-12 w-full max-w-xs items-center justify-center rounded-control bg-primary text-label-lg text-primary-foreground">Import a list</button>
+        <button class="mt-2 flex h-12 w-full max-w-xs items-center justify-center rounded-control text-label-lg">Try a sample list</button>
+      </div>
+      <div class="flex flex-col items-center rounded-group bg-card px-6 py-8 text-center">
+        <i class="i-lucide-file-x size-8 text-muted-foreground" aria-hidden="true"></i>
+        <p class="mt-4 text-title-3">This file can't be read</p>
+        <p class="mt-1 max-w-xs text-body text-muted-foreground">Save it as .csv or .xlsx and try again.</p>
+        <button class="mt-6 flex h-12 w-full max-w-xs items-center justify-center rounded-control bg-secondary text-label-lg text-secondary-foreground">Choose another file</button>
+      </div>
+      <div class="space-y-3 rounded-group bg-card p-4" aria-busy="true" aria-label="Loading">
+        <div class="flex items-center gap-3"><span class="size-10 animate-pulse rounded-full bg-muted"></span><div class="flex-1 space-y-2"><span class="block h-3.5 w-2/3 animate-pulse rounded-full bg-muted"></span><span class="block h-3 w-1/3 animate-pulse rounded-full bg-muted"></span></div></div>
+        <div class="flex items-center gap-3"><span class="size-10 animate-pulse rounded-full bg-muted"></span><div class="flex-1 space-y-2"><span class="block h-3.5 w-1/2 animate-pulse rounded-full bg-muted"></span><span class="block h-3 w-1/4 animate-pulse rounded-full bg-muted"></span></div></div>
+        <p class="text-caption text-muted-foreground">Skeleton (pulse; static with reduced motion)</p>
+      </div>
+      <div class="flex items-center gap-3 text-body text-muted-foreground"><i class="i-lucide-loader-circle size-6 animate-spin text-primary" aria-hidden="true"></i>Reading candidates-q4.csv…</div>
+    </div>
+  </div>
+</figure>
+
+<!-- =====================================================================
+     TILES AND AVATARS
+====================================================================== -->
+<figure class="frame" data-frame="C-tiles" id="C-tiles">
+  <figcaption class="frame-label">C · Tiles, avatars, coach mark · <span class="theme-name"></span></figcaption>
+  <div class="grid w-[1040px] grid-cols-2 gap-8 rounded-group bg-background p-8 text-foreground">
+    <div>
+      <h2 class="text-title-3">SourceTile</h2>
+      <p class="mt-1 text-body-sm text-muted-foreground">One tile per source; a new source is one more tile. 2-column grid, min height 112, radius 16, 1px border, no shadow.</p>
+      <div class="mt-4 grid w-[372px] grid-cols-2 gap-3">
+        <a href="#" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4"><i class="i-lucide-contact size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Contacts</span><span class="block text-caption text-muted-foreground">From this phone</span></span></a>
+        <a href="#" class="flex min-h-28 flex-col justify-between rounded-tile border bg-accent p-4"><i class="i-lucide-file-spreadsheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">CSV or Excel</span><span class="block text-caption text-muted-foreground">.csv, .xlsx (pressed)</span></span></a>
+        <button class="flex min-h-28 flex-col justify-between rounded-tile border border-dashed border-input bg-transparent p-4 text-left" aria-label="Contacts, needs the Android or iOS app"><span class="flex w-full items-start justify-between"><i class="i-lucide-contact size-6 text-muted-foreground" aria-hidden="true"></i><i class="i-lucide-monitor-smartphone size-4 text-muted-foreground" aria-hidden="true"></i></span><span><span class="block text-label-lg text-muted-foreground">Contacts</span><span class="block text-caption text-muted-foreground">Needs the Android or iOS app</span></span></button>
+        <a href="#" class="flex min-h-28 flex-col justify-between rounded-tile border-2 border-primary bg-primary-soft p-4"><i class="i-lucide-sheet size-6 text-primary-soft-foreground" aria-hidden="true"></i><span><span class="block text-label-lg text-primary-soft-foreground">Google Sheets</span><span class="block text-caption text-primary-soft-foreground">Selected</span></span></a>
+      </div>
+
+      <h2 class="mt-8 text-title-3">TemplateTile</h2>
+      <div class="mt-4 grid w-[372px] grid-cols-2 gap-3">
+        <button class="rounded-tile border-2 border-primary bg-card p-3 text-left" aria-pressed="true">
+          <div class="rounded-sm bg-muted p-2.5"><div class="flex items-center gap-2"><span class="size-6 rounded-full bg-muted-foreground/30"></span><span class="h-2 flex-1 rounded-full bg-muted-foreground/40"></span></div><span class="mt-2 block h-1.5 w-2/3 rounded-full bg-muted-foreground/25"></span><span class="mt-1.5 block h-1.5 w-1/2 rounded-full bg-muted-foreground/25"></span></div>
+          <span class="mt-2 flex items-center justify-between"><span class="text-label">Person</span><i class="i-lucide-circle-check size-5 text-primary" aria-hidden="true"></i></span>
+        </button>
+        <button class="rounded-tile border bg-card p-3 text-left" aria-pressed="false">
+          <div class="rounded-sm bg-muted p-2.5"><span class="block h-8 rounded-xs bg-muted-foreground/25"></span><span class="mt-2 block h-2 w-3/4 rounded-full bg-muted-foreground/40"></span><span class="mt-1.5 block h-1.5 w-1/3 rounded-full bg-muted-foreground/25"></span></div>
+          <span class="mt-2 block text-label">Product</span>
+        </button>
+      </div>
+    </div>
+    <div>
+      <h2 class="text-title-3">Avatar</h2>
+      <p class="mt-1 text-body-sm text-muted-foreground">RNR <span class="text-foreground">Avatar</span>. Photo or initials on muted. Sizes 24, 32, 40, 56, 96.</p>
+      <div class="mt-4 flex items-end gap-4">
+        <img src="../02-data/images/people/c005.svg" alt="Elif Şahin" class="size-6 rounded-full">
+        <img src="../02-data/images/people/c005.svg" alt="Elif Şahin" class="size-8 rounded-full">
+        <img src="../02-data/images/people/c005.svg" alt="Elif Şahin" class="size-10 rounded-full">
+        <img src="../02-data/images/people/c005.svg" alt="Elif Şahin" class="size-14 rounded-full">
+        <img src="../02-data/images/people/c005.svg" alt="Elif Şahin" class="size-24 rounded-full">
+        <span class="flex size-14 items-center justify-center rounded-full bg-muted text-title-3 text-muted-foreground" role="img" aria-label="Oğuz Kılıç">OK</span>
+        <div class="flex -space-x-2"><img src="../02-data/images/people/u-deniz.svg" alt="Deniz" class="size-8 rounded-full ring-2 ring-background"><img src="../02-data/images/people/u-mert.svg" alt="Mert" class="size-8 rounded-full ring-2 ring-background"><span class="flex size-8 items-center justify-center rounded-full bg-muted text-caption text-muted-foreground ring-2 ring-background" role="img" aria-label="Selin">SY</span></div>
+      </div>
+
+      <h2 class="mt-8 text-title-3">CoachMark</h2>
+      <p class="mt-1 text-body-sm text-muted-foreground">Proposed. Scrim over the screen except the card; a tooltip bubble on popover with step dots, "Next" and "Skip". Shown on first sort only.</p>
+      <div class="relative mt-4 h-60 w-[372px] overflow-hidden rounded-group bg-muted">
+        <div class="absolute inset-0 bg-scrim/60"></div>
+        <div class="absolute bottom-4 left-4 right-4 rounded-dialog bg-popover p-5 shadow-dialog" role="dialog" aria-labelledby="cm1">
+          <div class="flex items-center gap-3"><span class="flex size-10 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-arrow-right size-5" aria-hidden="true"></i></span><p id="cm1" class="text-title-3">Swipe right to accept</p></div>
+          <p class="mt-2 text-body text-muted-foreground">Or tap the check button.</p>
+          <div class="mt-4 flex items-center justify-between"><span class="flex gap-1.5" role="img" aria-label="Step 1 of 4"><span class="size-2 rounded-full bg-primary"></span><span class="size-2 rounded-full bg-muted-foreground/30"></span><span class="size-2 rounded-full bg-muted-foreground/30"></span><span class="size-2 rounded-full bg-muted-foreground/30"></span></span><span class="flex gap-1"><button class="inline-flex h-12 items-center rounded-control px-4 text-label-lg">Skip</button><button class="inline-flex h-12 items-center rounded-control bg-primary px-5 text-label-lg text-primary-foreground">Next</button></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</figure>
+
+<!-- =====================================================================
+     SWIPE CARD (hero)
+====================================================================== -->
+<figure class="frame" data-frame="C-swipecard" id="C-swipecard">
+  <figcaption class="frame-label">C · SwipeCard · <span class="theme-name"></span></figcaption>
+  <div class="w-[1240px] rounded-group bg-background p-8 text-foreground">
+    <h2 class="text-title-3">SwipeCard</h2>
+    <p class="mt-1 max-w-prose text-body-sm text-muted-foreground">The hero. Radius 28, shadow-hero (shadow-hero-drag while dragging). Content follows the list's card template. The final visual direction is set by S25; see 03-screens/S25-sorting.html for the card in context, drag states and stamps.</p>
+    <div class="mt-6 flex items-start gap-8">
+      <!-- Person -->
+      <article class="flex h-[540px] w-[340px] flex-col overflow-hidden rounded-hero bg-card shadow-hero" aria-label="Ayşe Demir">
+        <img src="../02-data/images/people/c001.svg" alt="" class="h-[280px] w-full object-cover">
+        <div class="flex flex-1 flex-col px-6 pb-5 pt-5">
+          <h3 class="text-card-title">Ayşe Demir</h3>
+          <p class="mt-1 text-body-lg text-muted-foreground">Family</p>
+          <dl class="mt-4 space-y-2 text-body">
+            <div class="flex gap-3"><dt class="w-16 shrink-0 text-muted-foreground">Phone</dt><dd class="tabular-nums">+90 500 000 07 26</dd></div>
+            <div class="flex gap-3"><dt class="w-16 shrink-0 text-muted-foreground">City</dt><dd>İstanbul</dd></div>
+          </dl>
+          <div class="mt-auto flex gap-2"><span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">Bride's</span></div>
+        </div>
+      </article>
+      <!-- Generic/no image, long text -->
+      <article class="flex h-[540px] w-[340px] flex-col overflow-hidden rounded-hero bg-card shadow-hero" aria-label="Maximiliane Alexandra Charlotte von Hohenberg-Lichtenstein">
+        <div class="flex h-[200px] items-center justify-center bg-muted"><span class="text-display text-muted-foreground">MH</span></div>
+        <div class="flex flex-1 flex-col px-6 pb-5 pt-5">
+          <h3 class="line-clamp-3 text-card-title">Maximiliane Alexandra Charlotte von Hohenberg-Lichtenstein</h3>
+          <p class="mt-1 text-body-lg text-muted-foreground">Friend</p>
+          <dl class="mt-4 space-y-2 text-body">
+            <div class="flex gap-3"><dt class="w-16 shrink-0 text-muted-foreground">Email</dt><dd class="truncate">maximiliane.hohenberg-lichtenstein@example.com</dd></div>
+            <div class="flex gap-3"><dt class="w-16 shrink-0 text-muted-foreground">City</dt><dd>Berlin</dd></div>
+          </dl>
+          <div class="mt-auto flex items-center gap-2 text-body-sm text-muted-foreground"><i class="i-lucide-sticky-note size-4" aria-hidden="true"></i><span class="truncate">Flying in from Berlin. Ask about dates first.</span></div>
+        </div>
+      </article>
+      <!-- Product -->
+      <article class="flex h-[540px] w-[340px] flex-col overflow-hidden rounded-hero bg-card shadow-hero" aria-label="Walnut sit-stand desk">
+        <img src="../02-data/images/products/p02.svg" alt="" class="h-[260px] w-full object-cover">
+        <div class="flex flex-1 flex-col px-6 pb-5 pt-5">
+          <h3 class="text-card-title">Walnut sit-stand desk, 140 × 70 cm</h3>
+          <p class="mt-1 text-body-lg text-muted-foreground">Oakline</p>
+          <div class="mt-4 flex items-baseline justify-between"><span class="text-title-1 tabular-nums">€649</span><span class="inline-flex items-center gap-1 text-body"><i class="i-lucide-star size-4" aria-hidden="true"></i>4.7 <span class="text-muted-foreground">(532)</span></span></div>
+          <div class="mt-auto flex gap-2"><span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">Desk</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</figure>
+
+</main>
+</body>
+</html>

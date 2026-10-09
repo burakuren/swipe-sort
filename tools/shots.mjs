@@ -2,9 +2,10 @@
 // Screenshots every [data-frame] element in design/03-screens/*.html, in light and dark mode,
 // into design/05-qa/screenshots/<frame>.<theme>.png.
 // Filters (case-insensitive substrings) match the file name or the frame id, e.g. `npm run shots -- S03`.
+// --dir=01-foundations|04-explorations|04-prototype shoots another folder under /design (default 03-screens).
 import { chromium } from 'playwright';
 import { basename, join } from 'node:path';
-import { SCREENS, QA, THEMES, listHtml, parseArgs, setTheme, openFile, ensureDir, rel } from './lib.mjs';
+import { DESIGN, SCREENS, QA, THEMES, listHtml, parseArgs, setTheme, openFile, ensureDir, rel } from './lib.mjs';
 
 const { filters, flags } = parseArgs();
 const scale = Number(flags.scale ?? 2);
@@ -12,9 +13,10 @@ const themes = flags.theme ? [flags.theme] : THEMES;
 const outDir = join(QA, 'screenshots');
 const matches = (s) => filters.length === 0 || filters.some((f) => s.toLowerCase().includes(f));
 
-const files = listHtml(SCREENS, { recursive: false });
+const srcDir = flags.dir ? join(DESIGN, flags.dir) : SCREENS;
+const files = listHtml(srcDir, { recursive: false });
 if (files.length === 0) {
-  console.log(`shots: no HTML files in ${rel(SCREENS)} — nothing to do`);
+  console.log(`shots: no HTML files in ${rel(srcDir)} — nothing to do`);
   process.exit(0);
 }
 

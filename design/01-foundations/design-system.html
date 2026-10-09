@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SwipeSort design system</title>
+<link rel="icon" href="brand/favicon.svg">
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body class="mock-page">
+<header class="mock-doc">
+  <h1>Design system</h1>
+  <p>Colors, type, spacing, radii, elevation, icons, text expansion and brand. Values come from <a href="tokens.json">tokens.json</a>; rules in <a href="design-principles.md">design-principles.md</a>; components in <a href="components.html">components.html</a>; motion in <a href="motion.md">motion.md</a>. Switch the theme by setting <code>data-theme="dark"</code> on the root element.</p>
+</header>
+<main class="mock-canvas">
+
+<!-- ============ COLORS ============ -->
+<figure class="frame" data-frame="DS-colors" id="DS-colors">
+  <figcaption class="frame-label">DS · Colors · <span class="theme-name"></span></figcaption>
+  <div class="w-[1040px] rounded-group bg-background p-8 text-foreground">
+    <h2 class="text-title-2">Neutrals and accent</h2>
+    <p class="mt-1 max-w-prose text-body-sm text-muted-foreground">shadcn token names. <span class="font-medium text-foreground">primary</span> is the one accent (ink indigo). <span class="font-medium text-foreground">accent</span> keeps its shadcn meaning: the hover and pressed background of rows and ghost buttons.</p>
+    <div class="mt-6 grid grid-cols-4 gap-4">
+      <div><div class="h-20 rounded-tile border bg-background"></div><p class="mt-2 text-label">background</p><p class="text-caption text-muted-foreground">Canvas</p></div>
+      <div><div class="h-20 rounded-tile bg-foreground"></div><p class="mt-2 text-label">foreground</p><p class="text-caption text-muted-foreground">Text, icons</p></div>
+      <div><div class="h-20 rounded-tile border bg-card"></div><p class="mt-2 text-label">card</p><p class="text-caption text-muted-foreground">Groups, tiles, sort card</p></div>
+      <div><div class="h-20 rounded-tile border bg-popover"></div><p class="mt-2 text-label">popover</p><p class="text-caption text-muted-foreground">Sheets, dialogs, menus</p></div>
+      <div><div class="flex h-20 items-end rounded-tile bg-primary p-3 text-label text-primary-foreground">Aa</div><p class="mt-2 text-label">primary</p><p class="text-caption text-muted-foreground">Main action, selection, focus, links</p></div>
+      <div><div class="flex h-20 items-end rounded-tile bg-primary-soft p-3 text-label text-primary-soft-foreground">Aa</div><p class="mt-2 text-label">primary-soft</p><p class="text-caption text-muted-foreground">Selected rows, nav pill, info notices</p></div>
+      <div><div class="flex h-20 items-end rounded-tile bg-secondary p-3 text-label text-secondary-foreground">Aa</div><p class="mt-2 text-label">secondary</p><p class="text-caption text-muted-foreground">Secondary buttons, segmented track</p></div>
+      <div><div class="flex h-20 items-end rounded-tile bg-muted p-3 text-label text-muted-foreground">Aa</div><p class="mt-2 text-label">muted</p><p class="text-caption text-muted-foreground">Skeletons, placeholders, secondary text</p></div>
+      <div><div class="flex h-20 items-end rounded-tile bg-accent p-3 text-label text-accent-foreground">Aa</div><p class="mt-2 text-label">accent</p><p class="text-caption text-muted-foreground">Hover and pressed backgrounds</p></div>
+      <div><div class="flex h-20 items-end rounded-tile bg-destructive p-3 text-label text-destructive-foreground">Aa</div><p class="mt-2 text-label">destructive</p><p class="text-caption text-muted-foreground">Delete, remove, errors</p></div>
+      <div><div class="flex h-20 items-center gap-3 rounded-tile bg-card px-3"><span class="h-10 flex-1 rounded-control border-2 border-border"></span><span class="h-10 flex-1 rounded-control border-2 border-input"></span></div><p class="mt-2 text-label">border · input</p><p class="text-caption text-muted-foreground">Dividers · input outlines</p></div>
+      <div><div class="flex h-20 items-center justify-center rounded-tile bg-card"><span class="h-10 w-28 rounded-control bg-card ring-2 ring-ring ring-offset-2 ring-offset-card"></span></div><p class="mt-2 text-label">ring</p><p class="text-caption text-muted-foreground">Focus ring</p></div>
+    </div>
+
+    <h2 class="mt-10 text-title-2">Decisions</h2>
+    <p class="mt-1 max-w-prose text-body-sm text-muted-foreground">Used only for Accept, Reject and Maybe, always with icon and label. Reject is a calm rose, deliberately softer than <span class="font-medium text-foreground">destructive</span>.</p>
+    <div class="mt-6 grid grid-cols-3 gap-4">
+      <div class="overflow-hidden rounded-tile border">
+        <div class="flex h-20 items-center gap-2 bg-accept px-4 text-label-lg text-accept-foreground"><i class="i-lucide-check size-5" aria-hidden="true"></i>Accept</div>
+        <div class="flex h-14 items-center gap-2 bg-accept-soft px-4 text-label text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted</div>
+        <p class="bg-card px-4 py-2 text-caption text-muted-foreground">accept · accept-soft</p>
+      </div>
+      <div class="overflow-hidden rounded-tile border">
+        <div class="flex h-20 items-center gap-2 bg-reject px-4 text-label-lg text-reject-foreground"><i class="i-lucide-x size-5" aria-hidden="true"></i>Reject</div>
+        <div class="flex h-14 items-center gap-2 bg-reject-soft px-4 text-label text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Rejected</div>
+        <p class="bg-card px-4 py-2 text-caption text-muted-foreground">reject · reject-soft</p>
+      </div>
+      <div class="overflow-hidden rounded-tile border">
+        <div class="flex h-20 items-center gap-2 bg-maybe px-4 text-label-lg text-maybe-foreground"><i class="i-lucide-circle-help size-5" aria-hidden="true"></i>Maybe</div>
+        <div class="flex h-14 items-center gap-2 bg-maybe-soft px-4 text-label text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe</div>
+        <p class="bg-card px-4 py-2 text-caption text-muted-foreground">maybe · maybe-soft</p>
+      </div>
+    </div>
+    <div class="mt-4 flex flex-wrap items-center gap-3">
+      <span class="inline-flex h-7 items-center gap-1.5 rounded-full bg-conflict px-3 text-caption text-conflict-foreground"><i class="i-lucide-git-compare-arrows size-4" aria-hidden="true"></i>Conflict</span>
+      <span class="inline-flex h-7 items-center gap-1.5 rounded-full border px-3 text-caption"><i class="i-lucide-check-check size-4" aria-hidden="true"></i>Agreed</span>
+      <span class="inline-flex h-7 items-center gap-1.5 rounded-full bg-muted px-3 text-caption text-muted-foreground"><i class="i-lucide-clock size-4" aria-hidden="true"></i>Pending</span>
+      <span class="text-body-sm text-muted-foreground">List status on shared lists: conflict (inverted), agreed (outline), pending (muted).</span>
+    </div>
+    <p class="mt-6 text-body-sm text-muted-foreground">Contrast for every pair: <a class="text-primary underline underline-offset-4" href="contrast.md">contrast.md</a> (generated, checked against WCAG AA).</p>
+  </div>
+</figure>
+
+<!-- ============ TYPE ============ -->
+<figure class="frame" data-frame="DS-type" id="DS-type">
+  <figcaption class="frame-label">DS · Typography · <span class="theme-name"></span></figcaption>
+  <div class="w-[1040px] rounded-group bg-background p-8 text-foreground">
+    <h2 class="text-title-2">Inter, one family</h2>
+    <p class="mt-1 max-w-prose text-body-sm text-muted-foreground">Inter Variable with the single-storey a (cv11). Sentence case everywhere; no all-caps labels. Counts use tabular figures.</p>
+    <div class="mt-6 divide-y rounded-group bg-card">
+      <div class="flex items-baseline gap-6 px-6 py-4"><span class="w-40 shrink-0 text-caption text-muted-foreground">display 40/44 600</span><span class="text-display tabular-nums">62 accepted</span></div>
+      <div class="flex items-baseline gap-6 px-6 py-4"><span class="w-40 shrink-0 text-caption text-muted-foreground">card-title 30/36 650</span><span class="text-card-title">Ayşe Demir</span></div>
+      <div class="flex items-baseline gap-6 px-6 py-4"><span class="w-40 shrink-0 text-caption text-muted-foreground">title-1 28/34 600</span><span class="text-title-1">Wedding guests</span></div>
+      <div class="flex items-baseline gap-6 px-6 py-4"><span class="w-40 shrink-0 text-caption text-muted-foreground">title-2 22/28 600</span><span class="text-title-2">Map fields</span></div>
+      <div class="flex items-baseline gap-6 px-6 py-4"><span class="w-40 shrink-0 text-caption text-muted-foreground">title-3 18/24 600</span><span class="text-title-3">Members</span></div>
+      <div class="flex items-baseline gap-6 px-6 py-4"><span class="w-40 shrink-0 text-caption text-muted-foreground">body-lg 17/26</span><span class="text-body-lg">Swipe right to accept, left to reject, up for maybe.</span></div>
+      <div class="flex items-baseline gap-6 px-6 py-4"><span class="w-40 shrink-0 text-caption text-muted-foreground">body 16/24</span><span class="text-body">Your original file isn't changed. Decisions are added as new columns.</span></div>
+      <div class="flex items-baseline gap-6 px-6 py-4"><span class="w-40 shrink-0 text-caption text-muted-foreground">body-sm 14/20</span><span class="text-body-sm text-muted-foreground">Imported from Contacts on Sep 28</span></div>
+      <div class="flex items-baseline gap-6 px-6 py-4"><span class="w-40 shrink-0 text-caption text-muted-foreground">label 14/20 500</span><span class="text-label">Start sorting</span></div>
+      <div class="flex items-baseline gap-6 px-6 py-4"><span class="w-40 shrink-0 text-caption text-muted-foreground">label-lg 16/24 500</span><span class="text-label-lg">Continue</span></div>
+      <div class="flex items-baseline gap-6 px-6 py-4"><span class="w-40 shrink-0 text-caption text-muted-foreground">caption 12/16 500</span><span class="text-caption text-muted-foreground">Edited by Deniz</span></div>
+    </div>
+    <div class="mt-6 rounded-group bg-card px-6 py-5">
+      <p class="text-caption text-muted-foreground">Turkish coverage</p>
+      <p class="mt-1 text-title-2">Iğdır, Şile, Ilgın Kaplan, İrem Aksoy, Gökçeada, Çağrı Özbek</p>
+      <p class="mt-1 text-body">Sıralamaya başla. Karar verici. Çakışmaları gözden geçir.</p>
+    </div>
+  </div>
+</figure>
+
+<!-- ============ SPACING, RADII, ELEVATION ============ -->
+<figure class="frame" data-frame="DS-surfaces" id="DS-surfaces">
+  <figcaption class="frame-label">DS · Spacing, radii and elevation · <span class="theme-name"></span></figcaption>
+  <div class="w-[1040px] rounded-group bg-background p-8 text-foreground">
+    <h2 class="text-title-2">Spacing</h2>
+    <p class="mt-1 max-w-prose text-body-sm text-muted-foreground">4 dp grid, Tailwind scale. Gutter 20 (px-gutter). App bar 64. Bottom navigation 80. Touch target 48.</p>
+    <div class="mt-4 flex items-end gap-4">
+      <div class="text-center"><div class="size-1 bg-primary"></div><p class="mt-2 text-caption text-muted-foreground">1 · 4</p></div>
+      <div class="text-center"><div class="size-2 bg-primary"></div><p class="mt-2 text-caption text-muted-foreground">2 · 8</p></div>
+      <div class="text-center"><div class="size-3 bg-primary"></div><p class="mt-2 text-caption text-muted-foreground">3 · 12</p></div>
+      <div class="text-center"><div class="size-4 bg-primary"></div><p class="mt-2 text-caption text-muted-foreground">4 · 16</p></div>
+      <div class="text-center"><div class="size-5 bg-primary"></div><p class="mt-2 text-caption text-muted-foreground">5 · 20</p></div>
+      <div class="text-center"><div class="size-6 bg-primary"></div><p class="mt-2 text-caption text-muted-foreground">6 · 24</p></div>
+      <div class="text-center"><div class="size-8 bg-primary"></div><p class="mt-2 text-caption text-muted-foreground">8 · 32</p></div>
+      <div class="text-center"><div class="size-10 bg-primary"></div><p class="mt-2 text-caption text-muted-foreground">10 · 40</p></div>
+      <div class="text-center"><div class="size-12 bg-primary"></div><p class="mt-2 text-caption text-muted-foreground">12 · 48 touch</p></div>
+      <div class="text-center"><div class="size-16 bg-primary"></div><p class="mt-2 text-caption text-muted-foreground">16 · 64</p></div>
+    </div>
+
+    <h2 class="mt-10 text-title-2">Surface hierarchy</h2>
+    <p class="mt-1 max-w-prose text-body-sm text-muted-foreground">Radius and elevation grow with importance. Rows have no radius of their own; the sort card is the roundest and the only resting object with a deep shadow.</p>
+    <div class="mt-6 grid grid-cols-4 items-end gap-6 rounded-group bg-muted p-6">
+      <div><div class="divide-y overflow-hidden rounded-group bg-card"><div class="h-12 px-4 py-3 text-body-sm">Row</div><div class="h-12 px-4 py-3 text-body-sm">Row</div></div><p class="mt-2 text-caption text-muted-foreground">Group 16, flat, rows 0</p></div>
+      <div><div class="flex h-24 items-center justify-center rounded-tile border bg-card text-body-sm">Tile</div><p class="mt-2 text-caption text-muted-foreground">Tile 16, 1px border</p></div>
+      <div><div class="flex h-12 items-center justify-center rounded-control bg-primary text-label text-primary-foreground">Control</div><p class="mt-2 text-caption text-muted-foreground">Control 12</p></div>
+      <div><div class="flex h-12 items-center justify-center rounded-full border bg-card text-caption">Chip, icon button</div><p class="mt-2 text-caption text-muted-foreground">Full</p></div>
+      <div><div class="flex h-28 items-start justify-center rounded-t-sheet bg-popover pt-2 shadow-sheet"><span class="h-1 w-8 rounded-full bg-muted-foreground/40"></span></div><p class="mt-2 text-caption text-muted-foreground">Sheet 24 top, shadow-sheet</p></div>
+      <div><div class="flex h-28 items-center justify-center rounded-dialog bg-popover text-body-sm shadow-dialog">Dialog</div><p class="mt-2 text-caption text-muted-foreground">Dialog 24, shadow-dialog</p></div>
+      <div><div class="flex h-12 items-center rounded-control bg-foreground px-4 text-body-sm text-background shadow-overlay">Snackbar</div><p class="mt-2 text-caption text-muted-foreground">Snackbar 12, inverse, shadow-overlay</p></div>
+      <div><div class="flex h-40 items-end rounded-hero bg-card p-4 text-title-3 shadow-hero">Sort card</div><p class="mt-2 text-caption text-muted-foreground">Hero 28, shadow-hero</p></div>
+    </div>
+  </div>
+</figure>
+
+<!-- ============ ICONS ============ -->
+<figure class="frame" data-frame="DS-icons" id="DS-icons">
+  <figcaption class="frame-label">DS · Icons · <span class="theme-name"></span></figcaption>
+  <div class="w-[1040px] rounded-group bg-background p-8 text-foreground">
+    <h2 class="text-title-2">Lucide icons in use</h2>
+    <p class="mt-1 max-w-prose text-body-sm text-muted-foreground">Stroke icons only. 24 in app bars and navigation, 20 in rows and buttons, 16 in chips. Icon-only buttons always carry an accessible name.</p>
+    <div class="mt-6 grid grid-cols-8 gap-x-4 gap-y-6 text-center text-caption text-muted-foreground">
+      <div><i class="i-lucide-check size-6 text-accept-soft-foreground" aria-hidden="true"></i><p class="mt-1">check</p></div>
+      <div><i class="i-lucide-x size-6 text-reject-soft-foreground" aria-hidden="true"></i><p class="mt-1">x</p></div>
+      <div><i class="i-lucide-circle-help size-6 text-maybe-soft-foreground" aria-hidden="true"></i><p class="mt-1">circle-help</p></div>
+      <div><i class="i-lucide-undo-2 size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">undo-2</p></div>
+      <div><i class="i-lucide-circle-dashed size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">circle-dashed</p></div>
+      <div><i class="i-lucide-check-check size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">check-check</p></div>
+      <div><i class="i-lucide-clock size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">clock</p></div>
+      <div><i class="i-lucide-git-compare-arrows size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">git-compare-arrows</p></div>
+      <div><i class="i-lucide-contact size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">contact</p></div>
+      <div><i class="i-lucide-file-spreadsheet size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">file-spreadsheet</p></div>
+      <div><i class="i-lucide-file-text size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">file-text</p></div>
+      <div><i class="i-lucide-sheet size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">sheet</p></div>
+      <div><i class="i-lucide-type size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">type</p></div>
+      <div><i class="i-lucide-pencil-line size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">pencil-line</p></div>
+      <div><i class="i-lucide-images size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">images</p></div>
+      <div><i class="i-lucide-upload size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">upload</p></div>
+      <div><i class="i-lucide-sticky-note size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">sticky-note</p></div>
+      <div><i class="i-lucide-lock size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">lock</p></div>
+      <div><i class="i-lucide-users size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">users</p></div>
+      <div><i class="i-lucide-user-plus size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">user-plus</p></div>
+      <div><i class="i-lucide-gavel size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">gavel</p></div>
+      <div><i class="i-lucide-crown size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">crown</p></div>
+      <div><i class="i-lucide-share-2 size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">share-2</p></div>
+      <div><i class="i-lucide-link size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">link</p></div>
+      <div><i class="i-lucide-download size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">download</p></div>
+      <div><i class="i-lucide-layout-template size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">layout-template</p></div>
+      <div><i class="i-lucide-shuffle size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">shuffle</p></div>
+      <div><i class="i-lucide-history size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">history</p></div>
+      <div><i class="i-lucide-sliders-horizontal size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">sliders-horizontal</p></div>
+      <div><i class="i-lucide-search size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">search</p></div>
+      <div><i class="i-lucide-cloud-off size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">cloud-off</p></div>
+      <div><i class="i-lucide-wifi-off size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">wifi-off</p></div>
+      <div><i class="i-lucide-refresh-cw size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">refresh-cw</p></div>
+      <div><i class="i-lucide-monitor-smartphone size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">monitor-smartphone</p></div>
+      <div><i class="i-lucide-image-off size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">image-off</p></div>
+      <div><i class="i-lucide-bell size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">bell</p></div>
+      <div><i class="i-lucide-list-checks size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">list-checks</p></div>
+      <div><i class="i-lucide-settings size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">settings</p></div>
+      <div><i class="i-lucide-activity size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">activity</p></div>
+      <div><i class="i-lucide-ellipsis-vertical size-6 text-foreground" aria-hidden="true"></i><p class="mt-1">ellipsis-vertical</p></div>
+    </div>
+  </div>
+</figure>
+
+<!-- ============ TEXT EXPANSION ============ -->
+<figure class="frame" data-frame="DS-expansion" id="DS-expansion">
+  <figcaption class="frame-label">DS · Text expansion · <span class="theme-name"></span></figcaption>
+  <div class="w-[1040px] rounded-group bg-background p-8 text-foreground">
+    <h2 class="text-title-2">Text expansion, +40%</h2>
+    <p class="mt-1 max-w-prose text-body-sm text-muted-foreground">Every label must survive Turkish and longer languages. Buttons hug their content and wrap to two lines rather than truncate. Side-by-side labels stack when they would collide.</p>
+    <div class="mt-6 grid grid-cols-2 gap-8">
+      <div class="space-y-3">
+        <p class="text-caption text-muted-foreground">English</p>
+        <div class="flex h-12 w-full items-center justify-center rounded-control bg-primary px-5 text-label-lg text-primary-foreground">Start sorting</div>
+        <div class="flex gap-3"><span class="flex h-12 flex-1 items-center justify-center rounded-control border px-4 text-label">Keep both</span><span class="flex h-12 flex-1 items-center justify-center rounded-control bg-secondary px-4 text-label text-secondary-foreground">Merge</span></div>
+        <div class="flex items-center justify-between rounded-group bg-card px-4 py-3"><span class="text-body">Decision Maker</span><span class="h-7 w-12 rounded-full bg-primary"></span></div>
+      </div>
+      <div class="space-y-3">
+        <p class="text-caption text-muted-foreground">Turkish (+35–45%)</p>
+        <div class="flex h-12 w-full items-center justify-center rounded-control bg-primary px-5 text-label-lg text-primary-foreground">Sıralamaya başla</div>
+        <div class="flex gap-3"><span class="flex min-h-12 flex-1 items-center justify-center rounded-control border px-4 py-2 text-center text-label">İkisini de sakla</span><span class="flex min-h-12 flex-1 items-center justify-center rounded-control bg-secondary px-4 py-2 text-center text-label text-secondary-foreground">Birleştir</span></div>
+        <div class="flex items-center justify-between gap-4 rounded-group bg-card px-4 py-3"><span class="text-body">Son kararı veren kişi</span><span class="h-7 w-12 shrink-0 rounded-full bg-primary"></span></div>
+      </div>
+    </div>
+    <ul class="mt-6 max-w-prose list-disc space-y-1 pl-5 text-body-sm text-muted-foreground">
+      <li>No fixed-width buttons. Minimum height 48, height grows with wrapped text.</li>
+      <li>Truncate only secondary metadata (one line, ellipsis). Never truncate a button, a decision label or a list name in its own header.</li>
+      <li>Bottom navigation labels may wrap to two lines at large text sizes.</li>
+      <li>Test strings: Accept → Kabul et; Reject → Reddet; Maybe → Belki; Undo → Geri al.</li>
+    </ul>
+  </div>
+</figure>
+
+<!-- ============ BRAND ============ -->
+<figure class="frame" data-frame="DS-brand" id="DS-brand">
+  <figcaption class="frame-label">DS · Brand · <span class="theme-name"></span></figcaption>
+  <div class="w-[1040px] rounded-group bg-background p-8 text-foreground">
+    <h2 class="text-title-2">Logo, wordmark and app icon</h2>
+    <p class="mt-1 max-w-prose text-body-sm text-muted-foreground">Two cards: one set aside, one tilting right with a check. It reads as "sorting a deck" at 16 px. Brand files in <a class="text-primary underline underline-offset-4" href="brand/">brand/</a>.</p>
+    <div class="mt-6 grid grid-cols-3 gap-6">
+      <div class="flex flex-col items-center justify-center gap-4 rounded-group bg-card p-6">
+        <img src="brand/logo-mark.svg" alt="SwipeSort logo" class="size-24 dark:hidden">
+        <img src="brand/logo-mark-dark.svg" alt="SwipeSort logo" class="hidden size-24 dark:block">
+        <div class="flex items-end gap-4"><img src="brand/logo-mark.svg" alt="" class="size-8 dark:hidden"><img src="brand/logo-mark-dark.svg" alt="" class="hidden size-8 dark:block"><img src="brand/logo-mark.svg" alt="" class="size-6 dark:hidden"><img src="brand/logo-mark-dark.svg" alt="" class="hidden size-6 dark:block"><img src="brand/logo-mark.svg" alt="" class="size-4 dark:hidden"><img src="brand/logo-mark-dark.svg" alt="" class="hidden size-4 dark:block"></div>
+        <p class="text-caption text-muted-foreground">Mark at 96, 32, 24, 16</p>
+      </div>
+      <div class="flex flex-col items-center justify-center gap-4 rounded-group bg-card p-6">
+        <img src="brand/wordmark-light.svg" alt="SwipeSort" class="h-12 dark:hidden">
+        <img src="brand/wordmark-dark.svg" alt="SwipeSort" class="hidden h-12 dark:block">
+        <p class="text-caption text-muted-foreground">Wordmark (light and dark versions)</p>
+      </div>
+      <div class="flex flex-col items-center justify-center gap-4 rounded-group bg-card p-6">
+        <div class="flex items-end gap-4">
+          <img src="brand/app-icon.svg" alt="App icon" class="size-24 rounded-[22%]">
+          <img src="brand/app-icon.svg" alt="" class="size-12 rounded-full">
+          <img src="brand/app-icon.svg" alt="" class="size-8 rounded-[22%]">
+        </div>
+        <p class="text-caption text-muted-foreground">App icon: iOS squircle, Android circle mask, small</p>
+      </div>
+      <div class="col-span-3 flex items-center gap-8 rounded-group bg-card p-6">
+        <div class="relative size-28 overflow-hidden rounded-tile border"><img src="brand/adaptive-background.svg" alt="" class="absolute inset-0 size-full"><img src="brand/adaptive-foreground.svg" alt="" class="absolute inset-0 size-full"></div>
+        <div class="relative size-28 overflow-hidden rounded-full"><img src="brand/adaptive-background.svg" alt="" class="absolute inset-0 size-full"><img src="brand/adaptive-foreground.svg" alt="" class="absolute inset-0 size-full"></div>
+        <div class="relative size-28 overflow-hidden rounded-[32%]"><img src="brand/adaptive-background.svg" alt="" class="absolute inset-0 size-full"><img src="brand/adaptive-foreground.svg" alt="" class="absolute inset-0 size-full"></div>
+        <div class="flex size-28 items-center justify-center rounded-full bg-primary-soft"><img src="brand/adaptive-monochrome.svg" alt="" class="size-28 opacity-80 dark:invert"></div>
+        <p class="max-w-xs text-body-sm text-muted-foreground">Android adaptive icon: 108 dp background and foreground layers (artwork inside the 66 dp safe zone), plus a monochrome layer for themed icons.</p>
+      </div>
+    </div>
+  </div>
+</figure>
+
+</main>
+</body>
+</html>
