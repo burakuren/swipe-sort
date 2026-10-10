@@ -73,7 +73,7 @@ Import modal: **AppBar (modal)** "Import" + **ImportStepper** "Select items, Ste
 | `S15-web-desktop` | Desktop browser: Google OAuth popup open, SwipeSort waits |
 | `S15-web-popup-blocked` | The browser blocked the popup |
 | `S15-ios` | iOS page sheet with the spreadsheet list |
-| `S15-tabs-large-text` | 200% font scale: tab rows grow, names and column lists wrap, the list scrolls under the pinned Continue |
+| `S15-tabs-large-text` | 200% font scale: tab rows grow, names and column lists wrap; Continue stays pinned (longer tab lists scroll under it) |
 
 ## 5. Interactions
 

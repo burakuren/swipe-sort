@@ -208,7 +208,7 @@ def delete_body(choice='transfer', owner='Mert Aydın', offline=False, scrolled=
     </section>'''
     deleted = group([
         static_row('user-round', 'Your profile and sign-in methods'),
-        static_row('list-checks', '3 lists only you use', 'Desk setup, March photos clean-up, Frontend hiring, Q4'),
+        static_row('list-checks', '5 lists only you use', 'Desk setup, March photos clean-up, Frontend hiring, Q4, and 2 archived: Apartment viewings, Book club picks'),
         static_row('sticky-note', 'Your decisions and notes', 'Including those on lists other people share with you'),
     ], header='Deleted for good')
     kept = group([
@@ -244,8 +244,8 @@ P.frame('S07-reauth', "Re-authentication required (sheet)", phone(page_sub('Dele
 
 def confirm_body(value='delete', state='default', error=None):
     summary = f'''<ul class="space-y-3 rounded-group bg-card p-4 text-body dark:border">
-        <li class="flex gap-3">{icon("arrow-right-left", "size-5 mt-0.5 shrink-0 text-muted-foreground")}<span>Wedding guests moves to Mert Aydın</span></li>
-        <li class="flex gap-3">{icon("trash-2", "size-5 mt-0.5 shrink-0 text-muted-foreground")}<span>Desk setup, March photos clean-up and Frontend hiring, Q4 are deleted</span></li>
+        <li class="flex gap-3">{icon("arrow-right-left", "size-5 mt-0.5 shrink-0 text-muted-foreground")}<span>“Wedding guests” moves to Mert Aydın</span></li>
+        <li class="flex gap-3">{icon("trash-2", "size-5 mt-0.5 shrink-0 text-muted-foreground")}<span>Desk setup, March photos clean-up, Frontend hiring, Q4 and 2 archived lists (Apartment viewings, Book club picks) are deleted</span></li>
         <li class="flex gap-3">{icon("trash-2", "size-5 mt-0.5 shrink-0 text-muted-foreground")}<span>Your profile, decisions and notes are deleted</span></li>
       </ul>'''
     f = field('s07dc-type', 'To confirm, type delete', value=value, state=state, error=error, autocomplete='off', helper=None if error else 'Lowercase is fine.')
@@ -261,7 +261,7 @@ P.frame('S07-delete-confirm', 'Step 2: type delete to confirm', phone(page_sub('
 P.frame('S07-delete-confirm-empty', 'Step 2: nothing typed yet (button disabled)', phone(page_sub('Confirm deletion', confirm_body(value=''),
     btn('Delete account', 'destructive', disabled=True) + btn('Keep my account', 'ghost', size='md', href='#S07-default'), back='#S07-delete', label='Back')))
 P.frame('S07-delete-dialog', 'Final confirmation dialog', phone(page_sub('Confirm deletion', confirm_body(), confirm_footer, back='#S07-delete', label='Back',
-    overlay=dialog('s07fd', 'Delete your account?', "This can't be undone. Wedding guests moves to Mert Aydın. Your other 3 lists, your decisions and your notes are deleted.",
+    overlay=dialog('s07fd', 'Delete your account?', "This can't be undone. “Wedding guests” moves to Mert Aydın. Your other 5 lists (2 of them archived), your decisions and your notes are deleted.",
                    dlg_btn('Cancel', href='#S07-delete-confirm') + dlg_btn('Delete account', 'destructive', href='#S07-deleting', action='confirm-delete')))))
 
 deleting = f'''<div class="relative flex flex-1 flex-col items-center justify-center px-8 text-center" role="status" aria-live="polite">
@@ -296,7 +296,7 @@ ios_body = f'''{ios_nav('Profile', back_text='Settings', href=BACK, action='back
 P.frame('S07-ios', 'iOS: Apple, Google and password; grouped inset lists', phone(ios_body, kind='ios'))
 ios_alert = f'''{scrim('z-30', 'bg-scrim/40')}
   <div class="absolute inset-x-12 top-1/2 z-40 -translate-y-1/2 overflow-hidden rounded-dialog bg-popover text-center shadow-dialog" role="alertdialog" aria-modal="true" aria-labelledby="s07ia-t" aria-describedby="s07ia-d">
-    <div class="px-4 pb-4 pt-5"><h2 id="s07ia-t" class="text-body font-semibold">Delete your account?</h2><p id="s07ia-d" class="mt-1 text-body-sm text-muted-foreground">This can't be undone. Wedding guests moves to Mert Aydın. Your other 3 lists, your decisions and your notes are deleted.</p></div>
+    <div class="px-4 pb-4 pt-5"><h2 id="s07ia-t" class="text-body font-semibold">Delete your account?</h2><p id="s07ia-d" class="mt-1 text-body-sm text-muted-foreground">This can't be undone. “Wedding guests” moves to Mert Aydın. Your other 5 lists (2 of them archived), your decisions and your notes are deleted.</p></div>
     <a href="#S07-deleting" class="flex h-12 items-center justify-center border-t text-body text-destructive">Delete account</a>
     <a href="#S07-delete-confirm" class="flex h-12 items-center justify-center border-t text-body font-semibold text-primary">Cancel</a>
   </div>'''

@@ -61,9 +61,9 @@ VIS-13, SUC-05, DEL-24 (flow 3).
 | `S05-moved` | All lists moved; origin was Share. The host screen already shows the backed-up state (no not-backed-up indicator; "Backed up" on the list) |
 | `S05-moved-backup` | All lists moved; origin was Back up |
 | `S05-moved-merge` | The account already had lists; device lists were added next to them |
-| `S05-move-partial` | Some lists moved, at least one failed |
+| `S05-move-partial` | Some lists moved, at least one failed. The host shows the shared list as backed up |
 | `S05-move-failed` | Connection dropped before any list moved |
-| `S05-share-large-text` | Font scale ≥ 150% |
+| `S05-share-large-text` | Font scale ≥ 150%: full-height sheet, reasons kept, text scrolls, actions pinned |
 | `S05-ios`, `S05-ios-backup` | iOS |
 | `S05-web`, `S05-web-backup`, `S05-web-moving` | Web (lists live in this browser) |
 
@@ -128,8 +128,8 @@ VIS-13, SUC-05, DEL-24 (flow 3).
 - Moving progress is a `progressbar` with a text value; each status change of a row is announced politely
   ("Desk setup moved"). The final title is announced as a status.
 - Row statuses use icon + label (never color alone); failure rows use destructive icon and text.
-- Large text: reason list hidden (the body already says it), buttons wrap to 64+, sheet full height,
-  scrolls.
+- Large text: the sheet grows to full height when needed; title, body and both reasons scroll above a pinned action area
+  (buttons wrap to 64+, separated by a hairline).
 - Buttons ≥ 48 (56 for the stack).
 
 ## 8. iOS and web differences

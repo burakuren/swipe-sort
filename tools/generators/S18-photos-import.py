@@ -153,11 +153,11 @@ P.frame('S18-albums', 'Album picker sheet', phone(grid_screen(
 
 large_alert = f'<div class="px-gutter pb-1 pt-3">{alert("info", "1,248 photos make a long round", "You can import them all and sort in several sittings. Progress saves as you go.")}</div>'
 P.frame('S18-large', 'Large selection: 1,248 photos (warning)', phone(grid_screen(
-    PHOTOS[18:], count_text='1,248 selected', top=large_alert,
+    PHOTOS, count_text='1,248 selected', top=large_alert,
     bottom_html=bottom('Continue', NEXT, 'continue', note='Each photo becomes one item.'))))
 
 P.frame('S18-limit', 'Limit reached: 5,000 photos', phone(grid_screen(
-    PHOTOS[18:], states=['all', 'all', 'all', 'some', 'none', 'none'], count_text='5,000 selected',
+    PHOTOS, states=['all', 'some', 'none'], count_text='5,000 selected',
     overlay=snackbar('Up to 5,000 photos can be imported at once. Unselect some to add others.', bottom='bottom-32', icon_name='info'),
     bottom_html=bottom('Continue', NEXT, 'continue', note='Each photo becomes one item.'))))
 

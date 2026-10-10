@@ -54,13 +54,16 @@ def multi_chip(value, label, large=False):
 TITLE_BADGE = f'<span class="inline-flex h-6 shrink-0 items-center gap-1 rounded-full bg-primary-soft px-2 text-caption text-primary-soft-foreground">{icon("heading", "size-3.5")}Title</span>'
 
 
+TITLE_BADGE_LG = f'<span class="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full bg-primary-soft px-3 text-body-lg text-primary-soft-foreground">{icon("heading", "size-5")}Title</span>'
+
+
 def field_row(f, large=False, renaming=None, error=None, hide_switch=False):
     ic, tname = TYPES[f['type']]
     label = f['label']
     shown = f.get('shown', True)
     lab_cls = 'text-title-2' if large else 'text-body font-medium'
     smp_cls = 'text-title-3 font-normal' if large else 'text-body-sm'
-    title = TITLE_BADGE if f.get('title') else ''
+    title = (TITLE_BADGE_LG if large else TITLE_BADGE) if f.get('title') else ''
     if renaming is not None:
         head = f'''<div class="flex items-center gap-2">
           <label for="ren-{f['key']}" class="sr-only">Field name</label>

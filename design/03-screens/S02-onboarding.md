@@ -118,7 +118,7 @@ Demo deck (sample data): `p02` Walnut sit-stand desk, `ph09` Göreme photo, `p05
 | Recap body | "Right to accept, left to reject, up for maybe. Undo is always one tap away, and you can change any decision later." |
 | Recap rows | "Göreme, Cappadocia" / "Swiped left" / "Rejected"; "Ceramic desk lamp" / "Swiped up" / "Maybe"; "Walnut sit-stand desk" / "Swiped right" / "Accepted" |
 | Recap buttons | "Get started", "I have an account" |
-| Large-text demo | "Or use the buttons below."; "0 of 3 gestures tried"; card rows "Price", "Rating" ("4.7 (532 reviews)"), "Category" |
+| Large-text demo | "Or use the buttons below."; "0 of 3 gestures tried"; card rows "Price", "Rating" ("4.7 (532 reviews)"), tag "Desk" pinned at the bottom (A-125: content centered) |
 | Web note | "Using SwipeSort in your browser" / "Everything works here. Get the app to import phone contacts and photos from your gallery." / "Get the app" |
 | Desktop instruction | "Press → or drag right to accept" (steps 2–3: "Press ← or drag left to reject", "Press ↑ or drag up for maybe") |
 | Keyboard hints | "← Reject", "↑ Maybe", "→ Accept" |
@@ -135,7 +135,7 @@ Demo deck (sample data): `p02` Walnut sit-stand desk, `ph09` Göreme photo, `p05
 - Every gesture has a visible 64 dp button; the demo can be completed with buttons alone.
 - Decisions show icon + label + color on stamps, buttons, chips and recap badges.
 - Large text (`S02-*-large-text`): welcome hides the hero, scales the body to `text-title-2` and keeps the
-  reassurance line; the demo hides card images, shows more fields (price, rating, category) and uses the S25
+  reassurance line; the demo hides card images, shows more fields (price, rating; content centered, tag pinned, A-125) and uses the S25
   labeled button grid; buttons grow to two lines instead of truncating.
 - Reduced motion: drag without rotation or scale; commit cross-fades (150 ms); hint bubble static.
 - The hero is decorative (`aria-hidden`).

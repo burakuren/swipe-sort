@@ -175,7 +175,7 @@ def ios_text_btn(label, href='#', bold=False, action=None, disabled=False):
     return f'<a href="{href}" class="inline-flex h-12 items-center px-2 text-body text-primary{w}"{act}>{label}</a>'
 
 
-def bottom_nav(active='settings', badge=3):
+def bottom_nav(active='settings', badge=2):
     items = [('lists', 'Lists', 'list-checks', 'S08-home.html#S08-default'),
              ('activity', 'Activity', 'activity', 'S38-activity.html#S38-default'),
              ('settings', 'Settings', 'settings', 'S06-settings.html#S06-default')]
@@ -190,7 +190,7 @@ def bottom_nav(active='settings', badge=3):
     return f'<nav class="flex h-bottom-nav shrink-0 border-t bg-card" aria-label="Main">{"".join(out)}</nav>'
 
 
-def ios_tab_bar(active='settings', badge=3):
+def ios_tab_bar(active='settings', badge=2):
     items = [('lists', 'Lists', 'list-checks', 'S08-home.html#S08-default'),
              ('activity', 'Activity', 'activity', 'S38-activity.html#S38-default'),
              ('settings', 'Settings', 'settings', 'S06-settings.html#S06-default')]

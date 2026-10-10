@@ -573,10 +573,19 @@ F.add('S28-shared-mine', 'My decisions, Accept: my 48, each with its list status
     body=rows([mine_row(k) for k in MY_ACC[:8]]),
 )))
 
+ROLE_IC = {'Owner': 'crown', 'Decision Maker': 'gavel', 'Collaborator': None}
+
+
+def role_line(role, extra=''):
+    ic = ROLE_IC.get(role)
+    r = f'<span class="inline-flex items-center gap-1 whitespace-nowrap">{icon(ic, "size-4 shrink-0")}{role}</span>' if ic else f'<span class="whitespace-nowrap">{role}</span>'
+    return f'<span class="mt-0.5 flex min-w-0 flex-wrap items-center gap-x-3 text-body-sm text-muted-foreground">{r}{extra}</span>'
+
+
 k69 = 'c069'
 who69 = f'''<ul class="divide-y overflow-hidden rounded-group bg-card" aria-label="Decisions by member">
-        <li class="flex min-h-12 items-center gap-3 px-4 py-2">{avatar("mert", "size-8")}<span class="min-w-0 flex-1 text-body">Mert <span class="text-body-sm text-muted-foreground">Decision Maker</span></span>{badge("reject")}</li>
-        <li class="flex min-h-12 items-center gap-3 px-4 py-2">{avatar("selin", "size-8")}<span class="min-w-0 flex-1 text-body">Selin</span>{badge("accept")}</li>
+        <li class="flex min-h-12 items-center gap-3 px-4 py-2">{avatar("mert", "size-8")}<span class="min-w-0 flex-1"><span class="block text-body">Mert</span>{role_line("Decision Maker")}</span>{badge("reject")}</li>
+        <li class="flex min-h-12 items-center gap-3 px-4 py-2">{avatar("selin", "size-8")}<span class="min-w-0 flex-1"><span class="block text-body">Selin</span>{role_line("Collaborator")}</span>{badge("accept")}</li>
       </ul>'''
 F.add('S28-shared-change', 'Change my decision on a shared list: others stay visible, status recomputes', phone(screen(
     wed_bar(), view_toggle('Final decisions', VIEW_LINKS), seg_bar(FINAL_SEGS, 'conflict', CONF_SHIFT, FINAL_LINKS),
@@ -618,7 +627,7 @@ def round_rows(ids, round_dec, later):
         lt = later.get(pid)
         meta = pmeta(pid)
         if lt:
-            meta = f'{meta}<span class="mt-0.5 flex items-center gap-1">{lt}</span>'
+            meta = f'{meta}<span class="mt-0.5 flex items-start gap-1">{lt}</span>'
         out.append(row(thumb(pid), P[pid]['name'], meta, badge(round_dec[pid]), 'S26-item-detail.html#S26-product', '#S28-row-menu', i == len(ids) - 1, meta_cls='block'))
     return out
 
@@ -626,8 +635,8 @@ def round_rows(ids, round_dec, later):
 def later_text(pid):
     v = R2[pid]
     if v == 'maybe':
-        return f'{icon("circle-help", "size-4 shrink-0 text-maybe-soft-foreground")}Still Maybe in Round 2'
-    return f'{icon(DEC[v][0], f"size-4 shrink-0 text-{v}-soft-foreground")}Changed to {DEC[v][1]} in Round 2'
+        return f'{icon("circle-help", "mt-0.5 size-4 shrink-0 text-maybe-soft-foreground")}<span>Still Maybe in Round 2</span>'
+    return f'{icon(DEC[v][0], f"mt-0.5 size-4 shrink-0 text-{v}-soft-foreground")}<span>Changed to {DEC[v][1]} in Round 2</span>'
 
 
 r1_maybe = [k for k in R1 if R1[k] == 'maybe']
@@ -724,7 +733,7 @@ desk_menu = dropdown(ROW_MENU, 'top-96', 'Options for Low-profile mechanical key
 F.add('S28-web-desktop', 'Web, desktop: row menu as a popover, keyboard hints', desktop(screen(
     desk_bar(), seg_bar(DESK_SEGS, 'accept', links=DESK_SEG_LINKS), desk_tools,
     body=rows(desk_rows(DESK_ACC[:6], bg_for={'p04': 'bg-accent'})), overlay=desk_menu,
-), 'swipesort.app/l/desk-setup/results', hints([('/', 'Search'), ('F', 'Filter and sort'), ('↑ ↓', 'Move'), ('Enter', 'Open')])))
+), 'swipesort.app/l/desk-setup/results', hints([('/', 'Search'), ('F', 'Filter'), ('↑ ↓', 'Move'), ('Enter', 'Open')])))
 
 lt_rows = []
 for i, pid in enumerate(DESK_ACC[:4]):
@@ -1051,7 +1060,8 @@ def split(a, m, r, total=None, label=None):
 def legend(a, m, r, trailing='', large=False):
     t = 'text-title-3 font-normal' if large else 'text-caption'
     items = ''.join(f'<span class="inline-flex items-center gap-1 text-{k}-soft-foreground">{icon(DEC[k][0], "size-4")}<span class="tabular-nums">{n}</span> {DEC[k][3]}</span>' for k, n in (('reject', r), ('maybe', m), ('accept', a)))
-    return f'<span class="flex flex-wrap items-center gap-x-3 gap-y-1 {t}">{items}{trailing}</span>'
+    lay = 'flex flex-col items-start gap-1' if large else 'flex flex-wrap items-center gap-x-3 gap-y-1'
+    return f'<span class="{lay} {t}">{items}{trailing}</span>'
 
 
 def dur(text):
@@ -1186,7 +1196,7 @@ H.add('S30-in-progress', 'In progress, shared (Wedding guests Round 1): list sta
 mrows = ''
 for who, name, role, done, a, m, r in (('deniz', 'Deniz (you)', 'Owner', 76, 48, 11, 17), ('mert', 'Mert', 'Decision Maker', 85, 50, 14, 21), ('selin', 'Selin', 'Collaborator', 43, 25, 10, 8)):
     mrows += f'''<li class="flex items-start gap-3 px-4 py-3">{avatar(who, "size-10")}<div class="min-w-0 flex-1 space-y-2">
-        <p class="flex flex-wrap items-baseline justify-between gap-x-3"><span class="text-body">{name} <span class="text-body-sm text-muted-foreground">{role}</span></span><span class="text-body-sm tabular-nums text-muted-foreground">{done} / 100 decided</span></p>
+        <div><p class="text-body">{name}</p>{role_line(role, f'<span class="tabular-nums">{done} / 100 decided</span>')}</div>
         {split(a, m, r, 100)}
         {legend(a, m, r)}
       </div></li>'''
@@ -1242,12 +1252,17 @@ lt_hist = f'''<header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
     {icon_btn("arrow-left", "Back to Desk setup", "S09-list-overview.html#S09-solo-round-done", "back", "", "size-7")}
     <div class="min-w-0 flex-1 px-1"><h1 class="text-title-1">Round history</h1></div>
   </header>
-  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2"><ul class="overflow-hidden rounded-group bg-card" aria-label="Rounds">
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <ul class="overflow-hidden rounded-group bg-card"><li><a href="S28-results.html#S28-large-text" class="flex items-start gap-4 px-4 py-4" data-action="latest-results">
+      <span class="min-w-0 flex-1 space-y-2"><span class="block text-title-1">Latest results</span><span class="block text-title-3 font-normal text-muted-foreground">The latest decision on each of the 20 items</span>{split(8, 1, 11)}{legend(8, 1, 11, large=True)}</span>
+      {icon("chevron-right", "mt-2 size-6 shrink-0 text-muted-foreground")}</a></li></ul>
+    <h2 class="px-1 pb-2 pt-8 text-title-3 font-normal text-muted-foreground">Rounds, newest first</h2>
+    <ul class="overflow-hidden rounded-group bg-card" aria-label="Rounds">
     {round_row("Round 2", "Oct 6", "Maybe pile from Round 1, 6 items, shuffled", 3, 1, 2, "2 min", "S28-results.html#S28-round-2", "#S30-round-2-detail", "Round 2 details", large=True)}
     {round_row("Round 1", "Oct 4", "All 20 items, original order", 5, 6, 9, "6 min", "S28-results.html#S28-round-1", "#S30-round-detail", "Round 1 details", last=True, large=True)}
   </ul></div>
   <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3"><a href="S24-start-round.html#S24-large-text" class="inline-flex min-h-16 w-full items-center justify-center rounded-control bg-primary px-4 text-title-2 text-primary-foreground" data-action="new-round">Start a new round</a></div>'''
-H.add('S30-large-text', 'Large text (200%): one round per screen height, legend wraps', phone(lt_hist))
+H.add('S30-large-text', 'Large text (200%): Latest results kept, legend one item per line', phone(lt_hist))
 
 H.write(os.path.join(SCR, 'S30-round-history.html'), 'S30 Round history',
         'Each round of a list with its results: decision split, counts, what was included, card order, date and sorting time; round details; shared rounds in progress. Spec: <a href="S30-round-history.md">S30-round-history.md</a>. Opens <a href="S28-results.html#S28-round-1">S28</a> filtered to a round.')

@@ -54,7 +54,7 @@ Read-only view (non-Owner): "Current rule" section with a selected-style card (t
 Maker adds the primary Button "Review 15 conflicts"), an "Other rules" ListGroup with the two other rules
 explained, and the footer "Only Deniz, the Owner, can change the rule."
 
-Dialogs: AlertDialog with a `bg-muted` summary block (counts by decision with icon + label + count, in the
+Dialogs: AlertDialog with a `bg-muted` summary block. When the labels don't fit on one row ("Switch to Everyone must agree", "Switch to Decision Maker decides", "Make Mert Decision Maker") the buttons use the S40 stacked layout: full width, confirm on top, Cancel below (A-112) (counts by decision with icon + label + count, in the
 order Reject, Maybe, Accept). Components: AppBar, RadioGroup (Proposed **RuleCard**, see report), Avatar,
 MemberDecisions, Button, Switch, AlertDialog, Snackbar, Alert, OfflineBanner, Skeleton.
 
@@ -66,12 +66,12 @@ MemberDecisions, Button, Switch, AlertDialog, Snackbar, Alert, OfflineBanner, Sk
 | --- | --- |
 | `S35-default` | Owner (Deniz), rule Decision Maker decides (sample `l-wedding.conflictRule`), Mert is Decision Maker, 15 open conflicts |
 | `S35-confirm-majority` | Owner taps Majority decides. Recalculation: 8 of 15 become final (1 Reject, 1 Maybe, 6 Accept), 7 stay open waiting for the last member |
-| `S35-switched` | Confirmed: Majority selected, consequence line updated, snackbar with Undo (shown scrolled to the Majority card so the snackbar sits over empty space) |
+| `S35-switched` | Confirmed: Majority selected, consequence line updated, snackbar with Undo (full page scrolled to the end; the content keeps bottom padding so the snackbar covers no text) |
 | `S35-confirm-dm` | Rule is Majority decides and Mert is Decision Maker; the Owner taps Decision Maker decides: Mert takes the 7 open conflicts, the 8 already final stay final |
 | `S35-confirm-everyone` | Owner taps Everyone must agree: all 15 stay open; Mert can no longer resolve them |
 | `S35-majority-no-dm` | Rule Majority decides and nobody holds the Decision Maker role (after S34 "Turn off"): inline explanation of ties + "Assign a Decision Maker" |
-| `S35-dm-none` | From that state the Owner taps Decision Maker decides: the card shows "Choose the Decision Maker first" with one Switch per member; the rule is not applied yet (Majority stays "Current rule"). With nobody in the role the example reads "The Decision Maker chooses the final decision." |
-| `S35-dm-none-confirm` | A switch turned on (Mert): one dialog confirms role and rule together |
+| `S35-dm-none` | From that state the Owner taps Decision Maker decides: the full page stays (all three options), the Decision Maker card is marked as the pending choice ("Not applied yet. Choose who decides first.") and a bottom sheet "Choose the Decision Maker first" lists one Switch per member; the rule is not applied yet (Majority stays "Current rule"). With nobody in the role the example reads "The Decision Maker chooses the final decision." |
+| `S35-dm-none-confirm` | A switch turned on (Mert): the sheet closes and one dialog confirms role and rule together (stacked buttons) |
 | `S35-collaborator` | Selin (Collaborator): read-only, what it means for her |
 | `S35-decision-maker` | Mert (Decision Maker): read-only, "Review 15 conflicts" |
 | `S35-loading` | First load: skeleton |
@@ -102,10 +102,10 @@ c060 c064 c069 c071):
   own decisions never change.
 - **Switching to Decision Maker decides with a Decision Maker**: no recalculation dialog is needed beyond
   "Switch to Decision Maker decides?" (`S35-confirm-dm`; copy in §6).
-- **Switching to Decision Maker decides without one** (`S35-dm-none`): the card expands (200 ms) with the
-  member switches (same control as S34 Decision Maker group, at most one on). Turning one on opens
-  `S35-dm-none-confirm`; confirming sets both the role and the rule in one step. Cancel turns the switch off
-  and collapses the card.
+- **Switching to Decision Maker decides without one** (`S35-dm-none`): the card becomes the pending choice
+  and a bottom sheet opens with the member switches (same control as the S34 Decision Maker group, at most
+  one on). Turning one on closes the sheet and opens `S35-dm-none-confirm`; confirming sets both the role
+  and the rule in one step. Cancel (or closing the sheet) keeps Majority decides.
 - **"Change" / "Assign a Decision Maker"** push S34 (M3 shared axis X, 300 ms). Back returns here with the
   updated Decision Maker.
 - **Live updates**: if another device changes the rule, the screen updates and announces "Conflict rule
@@ -125,7 +125,7 @@ c060 c064 c069 c071):
 | Consequences | "Current rule. Mert has 15 conflicts to resolve."; "Current rule. 8 conflicts became final. 7 wait for the last member."; "Current rule. 15 conflicts wait for members to match."; "If you switch: all 15 conflicts stay open."; "If you switch: 8 of 15 conflicts become final now."; "If you switch: Mert resolves the 7 open conflicts." |
 | Decision Maker row | "Mert Aydın"; "Decision Maker"; "Change" (label "Change Decision Maker") |
 | Majority without Decision Maker | "No Decision Maker, so ties stay open" / "A tie is when no decision has the most votes. With 3 members, that's when all three choose differently. Ties stay conflicts until someone changes their decision." / "Assign a Decision Maker" |
-| Decision Maker rule without one | Collapsed: "Needs a Decision Maker. Choose one when you pick this rule."; expanded: "Choose the Decision Maker first" / "This rule needs one member to resolve conflicts. Turn on one switch, then confirm the rule."; switch labels "Decision Maker: Mert Aydın"; Majority card: "Current rule. Ties stay open because nobody is the Decision Maker." |
+| Decision Maker rule without one | Collapsed: "Needs a Decision Maker. Choose one when you pick this rule."; expanded: "Not applied yet. Choose who decides first."; sheet "Choose the Decision Maker first" / "Decision Maker decides needs one member to resolve conflicts. Turn on one switch, then confirm the rule."; switch labels "Decision Maker: Mert Aydın"; Majority card: "Current rule. Ties stay open because nobody is the Decision Maker." |
 | Footer | "Changing the rule never changes anyone's own decisions. Conflicts that are already resolved stay resolved." |
 | Majority dialog | "Switch to Majority decides?" / "8 of 15 conflicts get a final decision right away. Members are notified." / "8 become final now" + "Reject 1", "Maybe 1", "Accept 6" / "7 stay open" — "They wait for the last member to decide. Ties go to Mert." / "Cancel", "Switch to Majority" |
 | Everyone dialog | "Switch to Everyone must agree?" / "No conflict gets a final decision until members change their decisions to match. Members are notified." / "15 stay open" — "Mert can no longer resolve them. Each item is final only when Deniz, Mert and Selin choose the same." / "Cancel", "Switch to Everyone must agree" |

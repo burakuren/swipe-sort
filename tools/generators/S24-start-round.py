@@ -7,6 +7,12 @@ from group_e_common import *  # noqa
 OUT = sys.argv[1]
 F = Frames('S24')
 
+# Shared piles use FINAL decisions (QA-134): counted from sample-data.json shared.items (Agreed or resolved items).
+import json
+_D = json.load(open(os.path.join(os.path.dirname(__file__), '../../design/02-data/sample-data.json')))
+FINAL = {k: sum(1 for i in _D['shared']['items'] if i.get('finalDecision') == k) for k in ('accept', 'reject', 'maybe')}
+SM, SA = FINAL['maybe'], FINAL['accept']
+
 DEMO_DESK = '../04-prototype/swipe-demo.html?deck=desk-maybe&amp;next=S27-desk-round-2'
 
 # ------------------------------------------------------------------ building blocks
@@ -14,7 +20,11 @@ def opt(key, title, desc, count=None, kind=None, disabled=False, loading=False):
     return dict(key=key, title=title, desc=desc, count=count, kind=kind, disabled=disabled, loading=loading)
 
 
-def wedding_items(maybe=11, accepted=48, all_=100, shared=False, custom_count=None, loading=False):
+def wedding_items(maybe=None, accepted=None, all_=100, shared=False, custom_count=None, loading=False):
+    if maybe is None:
+        maybe = SM if shared else 11
+    if accepted is None:
+        accepted = SA if shared else 48
     md = 'Final decision is Maybe' if shared else 'Items marked Maybe in Round 1'
     ad = 'Final decision is Accept' if shared else 'Narrow down what you accepted'
     return [
@@ -270,7 +280,7 @@ shared_notice = f'''<div class="mb-4 flex items-start gap-3 rounded-control bg-p
 F.add('S24-shared-owner', 'Shared list, Owner: starts the round for everyone', phone(screen(
     'Wedding guests', wedding_items(shared=True), 'maybe', 'original', close_href='S09-list-overview.html#S09-shared', notice=shared_notice,
     items_trailing='<span class="text-caption text-muted-foreground">Based on final decisions</span>',
-    bottom=summary_bar(11, 2, 'Maybe pile, in original order, for 3 members', start_btn()),
+    bottom=summary_bar(SM, 2, 'Maybe pile, in original order, for 3 members', start_btn()),
 )))
 
 progress_note = f'''<div class="mb-4 rounded-control border bg-card p-4" role="note">
@@ -284,12 +294,12 @@ progress_note = f'''<div class="mb-4 rounded-control border bg-card p-4" role="n
 in_progress = screen(
     'Wedding guests', wedding_items(shared=True), 'maybe', 'original', close_href='S09-list-overview.html#S09-shared', notice=progress_note,
     items_trailing='<span class="text-caption text-muted-foreground">Based on final decisions</span>',
-    bottom=summary_bar(11, 2, 'Maybe pile, in original order, for 3 members', start_btn('#S24-end-round-dialog', 'start-round')),
+    bottom=summary_bar(SM, 2, 'Maybe pile, in original order, for 3 members', start_btn('#S24-end-round-dialog', 'start-round')),
 )
 F.add('S24-round-in-progress', 'A round is in progress: inline warning before ending it', phone(in_progress))
 
 end_dialog = dialog('erd', 'End Round 1 for everyone and start Round 2?',
-                    '<p>Mert and Selin are still sorting. Decisions made so far are kept, and items nobody decided stay undecided.</p><p>Round 2 starts for all 3 members with 11 items.</p>',
+                    f'<p>Mert and Selin are still sorting. Decisions made so far are kept, and items nobody decided stay undecided.</p><p>Round 2 starts for all 3 members with {SM} items.</p>',
                     btn('Cancel', 'ghost', '#S24-round-in-progress', 'cancel', full=False) + btn('End Round 1 and start', 'primary', 'S25-sorting.html#S25-shared', 'confirm-end-round', full=False))
 F.add('S24-end-round-dialog', 'Confirm: end the open round for everyone, then start (shared variant of S40-new-round)', phone(in_progress.replace('data-action="start-round"', '') + scrim('bg-scrim/50', 'z-20') + end_dialog))
 
@@ -300,7 +310,7 @@ collab_notice = f'''<div class="mb-4 flex items-start gap-3 rounded-control bord
 collab = screen(
     'Wedding guests', wedding_items(shared=True), 'maybe', 'original', close_href='S09-list-overview.html#S09-shared', notice=collab_notice, header=modal_bar('Suggest a round', 'Wedding guests', 'S09-list-overview.html#S09-shared', 'Close'),
     items_trailing='<span class="text-caption text-muted-foreground">Based on final decisions</span>',
-    bottom=summary_bar(11, 2, 'Maybe pile, in original order', btn('Ask Deniz', 'primary', '#S24-collaborator-asked', 'ask-owner', ic='send')).replace('will have', 'would have'),
+    bottom=summary_bar(SM, 2, 'Maybe pile, in original order', btn('Ask Deniz', 'primary', '#S24-collaborator-asked', 'ask-owner', ic='send')).replace('will have', 'would have'),
 )
 F.add('S24-collaborator', "Collaborator (Selin): can't start, asks the Owner instead", phone(collab))
 F.add('S24-collaborator-asked', 'After asking: request sent to the Owner', phone(collab.replace('data-action="ask-owner"', '') + snackbar('Asked Deniz to start Round 2', bottom='bottom-36')))
@@ -309,14 +319,14 @@ F.add('S24-offline', 'Shared list offline: starting for everyone needs a connect
     'Wedding guests', wedding_items(shared=True), 'maybe', 'original', close_href='S09-list-overview.html#S09-shared',
     banner=offline_banner("You're offline. Decisions are saved on this phone. Starting a round for everyone needs a connection."),
     items_trailing='<span class="text-caption text-muted-foreground">Based on final decisions</span>',
-    bottom=summary_bar(11, 2, 'Maybe pile, in original order, for 3 members', start_btn(disabled=True),
+    bottom=summary_bar(SM, 2, 'Maybe pile, in original order, for 3 members', start_btn(disabled=True),
                        '<p class="mt-2 text-center text-body-sm text-muted-foreground">Try again when you\'re online.</p>'),
 )))
 
 F.add('S24-start-failed', "Couldn't start: error snackbar with Try again", phone(screen(
     'Wedding guests', wedding_items(shared=True), 'maybe', 'original', close_href='S09-list-overview.html#S09-shared',
     items_trailing='<span class="text-caption text-muted-foreground">Based on final decisions</span>',
-    bottom=summary_bar(11, 2, 'Maybe pile, in original order, for 3 members', start_btn()),
+    bottom=summary_bar(SM, 2, 'Maybe pile, in original order, for 3 members', start_btn()),
     overlay=snackbar("Couldn't start Round 2. Check your connection and try again.", 'Try again', bottom='bottom-36', role='alert', ic='circle-alert'),
 )))
 
@@ -384,9 +394,10 @@ F.add('S24-ios-sort-menu', 'iOS: sort field as a pull-down menu', phone(ios_scre
 pop = '''<div class="absolute inset-x-4 bottom-full z-20 mb-1 overflow-hidden rounded-control bg-popover py-1.5 shadow-overlay" role="listbox" aria-label="Field">''' + ''.join(
     f'<div role="option" aria-selected="{"true" if f == "City" else "false"}" class="flex h-12 items-center gap-3 px-4 text-body {"bg-accent" if f == "Relationship" else ""}"><span class="flex size-5 shrink-0 items-center justify-center text-primary">{icon("check", "size-4") if f == "City" else ""}</span>{f}</div>'
     for f, *_ in field_rows) + '</div>'
-web_scr = screen('Wedding guests', wedding_items(), 'accepted', 'sorted', order_panel=sorted_panel('City', 'A to Z', open_=True, popover=pop), scroll='-mt-48',
-                 header=modal_bar('Start a round', 'Wedding guests', 'S09-list-overview.html#S09-default', 'Close'),
-                 bottom=summary_bar(48, 2, 'Accepted items, sorted by City from A to Z', start_btn()))
+web_scr = screen('Wedding guests', wedding_items(shared=True), 'accepted', 'sorted', order_panel=sorted_panel('City', 'A to Z', open_=True, popover=pop), scroll='-mt-48',
+                 header=modal_bar('Start a round', 'Wedding guests', 'S09-list-overview.html#S09-shared', 'Close'),
+                 items_trailing='<span class="text-caption text-muted-foreground">Based on final decisions</span>',
+                 bottom=summary_bar(SA, 2, 'Accepted items, sorted by City from A to Z, for 3 members', start_btn('#S24-round-in-progress')))
 F.add('S24-web-desktop', 'Web, desktop: Select opens as a popover', desktop(web_scr, 'swipesort.app/l/7Hq2xK/rounds/new', hints([('Esc', 'Close'), ('Enter', 'Start round')])))
 
 F.write(OUT, 'S24 Start a round', 'Choose which items go into the next round and the card order. Spec: <a href="S24-start-round.md">S24-start-round.md</a>. Next: <a href="S25-sorting.html">S25 Sorting</a>.')

@@ -31,7 +31,7 @@ PLT-14, PLT-16, PLT-21, PLT-23, GOAL-02, GOAL-03, GOAL-05, SUC-09, SCR-11.
 | `S16-plain-text.html#S16-default` | Plain text tile (`source-text`) |
 | `S17-manual-entry.html#S17-default` | Manual entry tile (`source-manual`) |
 | `S12-permissions.html#S12-photos` | Photos tile (`source-photos`) when gallery access was never asked; granted → `S18-photos-import.html#S18-default` |
-| `S18-photos-import.html#S18-default` | Web: "Upload photos" tile (file upload, no permission) |
+| `S18-photos-import.html#S18-web` | Web: "Upload photos" tile (file upload, no permission) |
 | `S11-web-unavailable` sheet | Web: Contacts tile |
 | Snackbar (`S11-offline-tapped`) | Offline: Google Sheets tile |
 | `S08-home.html#S08-default` | Close (`x`), new list context. Nothing has been imported yet, so closing never asks |
@@ -44,8 +44,8 @@ Full-screen modal (Android), page sheet (iOS), same column on web. Top to bottom
 1. **AppBar (modal)**: close IconButton (`x`, label "Close import"), title "Import" (`text-title-3`), the same
    on every import step (S11–S21). In the S21 context the title is "Add items" and the heading names the list.
 2. **ImportStepper**: "Choose source", "Step 1 of 5", 5 segments (first filled). The total is provisional
-   at this step: it is 5 for sources with field mapping and becomes 4 once a source without mapping
-   (photos, manual entry) is chosen.
+   at this step: it is 5 for sources with field mapping, 4 for manual entry (no mapping) and 3 for photos
+   (Choose source, Select items, Finish; A-62).
 3. **Heading**: "Where are your items?" (`text-title-2`) + one line (`text-body muted`).
 4. **SourceTile grid**: 2 columns, gap 12, equal row heights (`auto-rows-fr`), tiles `rounded-tile border
    bg-card p-4 min-h-28`, icon 24 `text-primary`, name `text-label-lg`, one-line description
@@ -69,7 +69,7 @@ remote source list is not planned; if one is added later, render the static tile
 | `needsConnection` (Google Sheets) | Offline: offline tile variant |
 | `needsPermission` (`contacts`, `photos`) | Routes through S12 when the permission is undecided or denied |
 | `selectStep` | Route opened on tap |
-| `hasFieldMapping` | Stepper total 5 (true) or 4 (false) |
+| `hasFieldMapping` | Stepper total 5 (true) or fewer (false: manual entry 4, photos 3) |
 | `webReplacement` (photos → "Upload photos") | Swaps name, icon (`image-up`), description and route on web |
 
 `S11-new-source` shows a hypothetical "Calendar" source added with nothing but a new definition.

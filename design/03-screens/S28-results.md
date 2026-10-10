@@ -24,7 +24,7 @@ TERM-01, TERM-02, SUC-06, SCR-28.
 | S27 round summary | "Review results" (`review-results`) | `S28-default` (Desk setup after Round 2), `S28-shared` from S27-shared |
 | S09 list overview | "Results" row | latest results, Accept segment (shared: Final decisions) |
 | S30 round history | "Latest results", or a round | `S28-default`, or round mode `S28-round-1` / `S28-round-2` |
-| S38 activity | "Mert resolved 12 conflicts" (S38 links `S28-shared`; the resolved state is `S28-shared-resolved`) | Final decisions |
+| S37 bulk resolve / S38 activity | After the Decision Maker resolves (S37 summary), or a "conflicts resolved" notification (domain-model `conflictsResolved`) | Final decisions; the post-resolve state is `S28-shared-resolved` (illustrative: sample data keeps the 15 conflicts open) |
 | S36 conflicts | "See results" | `S28-shared` |
 
 | To | How |
@@ -123,7 +123,7 @@ ErrorState, Skeleton, FastScroller (Proposed), RowSwipeActions (Proposed, iOS), 
 | `S28-shared-pending` | Pending 53: "Not final yet" explainer with per-member counts and Continue sorting; rows waiting for me first | Tap Pending |
 | `S28-shared-mine` | My decisions, Accept 48 / Maybe 11 / Reject 17 / Not decided 24; every row has its list status; conflict rows say who chose differently | Tap My decisions |
 | `S28-shared-change` | "Change my decision" for Isabella Rossi (c069): Accept selected, Mert Rejected, Selin Accepted, consequence "Choosing Reject keeps this item in Conflict: Selin chose Accept." | Row menu on a shared row |
-| `S28-shared-resolved` | After Mert's bulk resolve (S37): Final Accept 28, Reject 10, Conflicts 3; resolved rows show the badge "Resolved" (gavel; who resolved it is in the notice and in S26) and where my decision differs (`x` "You chose Reject") | Activity "Mert resolved 12 conflicts", or opening Results after S37 |
+| `S28-shared-resolved` | After Mert's bulk resolve (S37): Final Accept 28, Reject 10, Conflicts 3; resolved rows show the badge "Resolved" (gavel; who resolved it is in the notice and in S26) and where my decision differs (`x` "You chose Reject") | Opening Results after Mert's bulk resolve in S37 (illustrative future state; sample data has no resolve event) |
 | `S28-round-1` | Round mode: "Round 1 results", banner, Accept 5 / Maybe 6 / Reject 9; Maybe rows say what Round 2 did ("Changed to Accept in Round 2", "Still Maybe in Round 2") | S30 tap Round 1 |
 | `S28-round-2` | Round mode for Round 2: Accept 3 / Maybe 1 / Reject 2 | S30 tap Round 2 |
 | `S28-archived` | Apartment viewings (archived): notice, read-only rows (no menu), Export still available | S30-single-round, S09-archived |
@@ -212,7 +212,7 @@ ErrorState, Skeleton, FastScroller (Proposed), RowSwipeActions (Proposed, iOS), 
 | Loading | Screen reader "Loading results" |
 | Large text menu | "More options: Export, Round history" (button label); items "Export", "Round history" |
 | iOS swipe actions | "Maybe", "Reject", "Accept" (the two decisions the item doesn't have); leading "Note" |
-| Keyboard hints (desktop) | "/ Search", "F Filter and sort", "↑ ↓ Move", "Enter Open" |
+| Keyboard hints (desktop) | "/ Search", "F Filter", "↑ ↓ Move", "Enter Open" |
 | Screen reader, row | "Mehmet Yılmaz. You and Selin accepted, Mert rejected. Conflict. Opens details." |
 
 ## 7. Accessibility

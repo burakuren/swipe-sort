@@ -75,13 +75,13 @@ Pushed screen (inside the import modal stack in pick mode, in the Settings or li
   cover-cropped in the top 46%; without an image, a 96 initials circle on `bg-muted`. Image on top (cover) →
   image in the top 46%; without one, a `bg-muted` block with `image-off`. Full image → the image fills the card;
   title (`text-title-2`), subtitle and the field rows joined into one line sit below it.
-- **Title** `text-card-title`, up to 3 lines, then "…". **Subtitle** `text-body-lg muted`, 1 line.
+- **Title** `text-card-title`, up to 3 lines, then "…"; titles over 36 characters step down to `text-title-1`, up to 4 lines (as S25). **Subtitle** `text-body-lg muted`, 1 line.
 - **Field rows**: with an image, rows are inline (64-wide label column, `text-body`) when every label fits the
   column (Phone, Email, City); otherwise, and always without an image, rows are stacked (label `text-body-sm muted`
   above value `text-title-3`), as in `S25-candidate`. Values truncate to 1 line. Rows without a value are left out.
   Rows that don't fit the card's height are dropped from the bottom (the item detail shows everything).
 - **Tags**: secondary chips (`h-7`) pinned to the bottom; empty values left out.
-- **Sparse cards (image area None)**: the title, subtitle and rows form one block that is vertically centered
+- **Sparse cards (image area None, and Photo or initials when the item has no image; initials sit at the top of the block, 20 above the title)**: the title, subtitle and rows form one block that is vertically centered
   in the space above the tags (`my-auto`; when the block is taller than the space it starts at the top, 28 from
   the card edge). Templates with up to 3 field rows use larger values (`text-title-2`, rows 20 apart); 4–6 rows
   use `text-title-3`, 12 apart. A title-only card (no subtitle, no rows, e.g. plain text) uses `text-display` for
@@ -100,7 +100,7 @@ Pushed screen (inside the import modal stack in pick mode, in the Settings or li
 | `S23-save` | "Save template": name Dialog, typed "Candidate, compact" (default suggestion "{built-in} copy") |
 | `S23-save-error` | Save with an empty name (or a name already used: "You already have a template with this name. Choose another name.") |
 | `S23-preview-missing` | Next to item 4, Marco Bianchi (k04): no salary, no portfolio. The card leaves both out; the rows say "No value for Marco Bianchi"; helper "2 empty fields are left out of this card." (TPL-06) |
-| `S23-preview-long` | Item 9, Carolina Mendes Albuquerque de Souza (k09): title wraps (3 lines max, then "…"); helper explains truncation (TPL-07) |
+| `S23-preview-long` | Item 9, Carolina Mendes Albuquerque de Souza (k09, 36 characters): the title wraps to 2 lines; rows truncate to 1 line; helper explains the rule (TPL-07) |
 | `S23-preview-full` | Expand: the card at full sort size (372 × 620) with previous/next; close returns |
 | `S23-loading` | Items for the preview are loading (large lists, first open): skeleton card, Save disabled |
 | `S23-field-picker` | "Add field row" (the sheet hugs its content): available fields first with the preview item's values; fields already on the card show where they are (choosing one moves it); hidden fields disabled |
@@ -162,7 +162,7 @@ empty (a list always has at least a title field).
 | Used-by notice | "Used by Frontend hiring, Q4" / "Changes apply to that list too."; 2 lists: "Used by 2 lists" / "Changes apply to both."; 3+: "Used by 3 lists" / "Changes apply to all of them." |
 | Built-in notice | "Built-in templates can't be changed" / "Duplicate this one to choose your own fields." |
 | Preview | "Item 1 of 12"; "Previous item", "Next item", "See card at full size"; "Preview with {list}"; loading "Loading items…" |
-| Preview helpers | "2 empty fields are left out of this card." / "1 empty field is left out of this card." / "Long titles wrap to 3 lines. Longer values end with … and show in full in item details." / preview-only slot "No title" |
+| Preview helpers | "2 empty fields are left out of this card." / "1 empty field is left out of this card." / "Long titles wrap to 3 lines; very long ones get a smaller size and up to 4. Values end with … and show in full in item details." / preview-only slot "No title" |
 | Full-size preview | "Card preview"; "Close preview"; "Item 1 of 12" |
 | Section headers | "Layout", "Field rows" + "2 of 6", "Tags" + "1 of 3", "Not on the card" |
 | Layout rows | "Image area" — "None" / "Photo or initials" / "Image on top" / "Full image"; "Title" + "Required"; "Subtitle" — field or "None"; "Hidden in this list, so cards leave it out" |

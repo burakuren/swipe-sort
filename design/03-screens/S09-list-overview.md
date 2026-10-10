@@ -88,10 +88,10 @@ sections 24 apart).
      conflicts is their main job.
 4. **List status card** (shared only, DM-14): "List status" + "All 3 members"; status bar (agreed
    `bg-foreground`, conflict `bg-foreground/50`, pending `bg-muted`); **ListStatusLegend** (Proposed): three
-   rows, icon + status + one-line meaning + count: Agreed `check-check` "Everyone chose the same" 32;
+   rows, swatch (matching the bar segment: solid `foreground`, `foreground/50`, outlined `muted`) + icon + status + one-line meaning + count: Agreed `check-check` "Everyone chose the same" 32;
    Conflict `git-compare-arrows` "Members chose differently" 15; Pending `clock` "Not everyone has decided" 53.
    Outline button "Review conflicts" (Owner) or "View conflicts" (Collaborator). Compact variant (one line of
-   icon + count + word) on role views where another card leads.
+   swatch + icon + count + word) on role views where another card leads.
 5. **DecisionMakerCallout** (Proposed; Decision Maker only, above My progress): `gavel` in a primary-soft
    circle, "15 conflicts need your decision", "You're the Decision Maker, so your choice becomes the final
    decision.", primary "Resolve conflicts" (S36), ghost "Resolve all with my decisions" (S37) and the bulk
@@ -138,13 +138,13 @@ sections 24 apart).
 | `S09-sample` | The first-run sample list (copy of products `p01`–`p20`) |
 | `S09-guest-wedding` | Not signed in; Wedding guests is still solo (76 / 100: 17 / 11 / 48); start of flow 3 (Share → S05) |
 | `S09-shared` | Shared, Owner (Deniz), rule Decision Maker decides (Mert); list status 32 / 53 / 15 (`r-w1`) |
-| `S09-shared-scrolled` | Same, scrolled: Deciding together, Recent activity (`ev7`, `ev6`, `ev5`), actions, Sources |
+| `S09-shared-scrolled` | Same, scrolled: Deciding together, Recent activity (`ev6`, `ev5`, `ev1`), actions, Sources |
 | `S09-shared-added` | Back from S21 "Add to list": scrolled to Sources, mert-family.csv row "12 items, added just now" with a New badge, snackbar "Added 12 items" + Undo; Recent activity starts with "You added 12 items from mert-family.csv" |
 | `S09-source-details` | A source row tapped: details sheet for mert-family.csv |
 | `S09-shared-decision-maker` | Shared, Decision Maker (Mert, 85 / 100: 21 rejected, 14 maybe, 50 accepted): resolve call to action. Flow 3: Mert lands here after closing sorting on the web; "Resolve conflicts" carries `data-action="review-conflicts"` |
 | `S09-shared-collaborator` | Shared, Collaborator (Selin, 43 / 100: 8 / 10 / 25): no Start a new round, rule read-only |
 | `S09-shared-collaborator-scrolled` | Same, scrolled to the footer and Leave list |
-| `S09-shared-waiting` | I decided every item (100 / 100) while others are still sorting; member progress; "See results" |
+| `S09-shared-waiting` | I decided every item (100 / 100: 18 rejected, 15 maybe, 67 accepted, A-123) while others are still sorting; member progress; "See results" |
 | `S09-archived` | Archived list opened from Archived lists: read-only (Apartment viewings, `l-apartments`) |
 | `S09-loading` | List not on the device yet (opened from a link or notification on a new device) |
 | `S09-offline` | Offline on a shared list: banner, Invite disabled, list status timestamped "As of 9:24" |
@@ -198,7 +198,7 @@ The overflow menu and every list-management dialog are S10 frames.
 | Decision Maker | "15 conflicts need your decision" / "You're the Decision Maker, so your choice becomes the final decision." / "Resolve conflicts" / "Resolve all with my decisions" / "12 have your decision. 3 stay open until you decide them." |
 | Deciding together | header "Deciding together"; "Conflict rule" + "Decision Maker decides, Mert" (Owner); members: "Decision Maker decides. Mert resolves conflicts; Deniz sets the rule." / DM: "Decision Maker decides. You resolve conflicts."; "Members" + "3 members, you're the Owner" / "3 members" |
 | Other rules (value) | "Everyone must agree"; "Majority decides" (with Decision Maker: "Majority decides, ties to Mert") |
-| Activity | "Recent activity"; "See all"; "Mert resolved 3 conflicts" "Yesterday"; "15 new conflicts" "Oct 3"; "Selin joined the list" "Oct 2" |
+| Activity | "Recent activity"; "See all"; "15 new conflicts" "Oct 3"; "Selin joined the list" "Oct 2"; "You started Round 1 with 100 items" "Sep 28" |
 | Actions | "Results" + "12 decided so far" / "5 accepted, 9 rejected, 6 maybe" / "No decisions yet" / "Final decisions and my decisions" / archived "Read-only"; "Start a new round" + "Choose items and card order" / "Starts for all 3 members"; "Rounds" + count or "None yet"; "Card template" + name; "Add items" + "From any source" / "New items join Round 1 for everyone"; "Export" + "CSV, Excel, Google Sheets or a text summary" / "Includes each member's decision" |
 | Members footer | "Deniz, the Owner, starts new rounds for everyone." |
 | Sources | header "Sources"; "Contacts" / "88 items, imported Sep 28"; "mert-family.csv" / "12 items, added today" (just added: "12 items, added just now" + badge "New"); "Manual entry" / "20 items, typed in Oct 4"; "Photos" / "30 items, imported Oct 8"; "candidates-q4.csv" / "12 items, imported Oct 8"; "Flat hunt 2026" / "Google Sheets, Kadıköy and Beşiktaş tabs, 8 items, imported Jul 2"; "Sample items" / "20 items, added with the sample"; "Copied from March photos clean-up" / "30 items, today"; row accessible name "{label}, {description}" (+ ", new"); "Add items" + "From any source" / "New items join Round 1 for everyone" |

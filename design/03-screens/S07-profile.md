@@ -59,7 +59,7 @@ brand colors. The coding agent uses the official assets (see S03 spec §8).
 - **Shared list you own** (one block per owned shared list): list icon, name, "100 items, 3 members"; RadioGroup
   "Transfer ownership" (default, with a Select-style trigger showing the new Owner, default = the Decision Maker,
   else the member with the most decisions) / "Delete for everyone". Each option has a one-line consequence.
-- **ListGroup "Deleted for good"**: profile and sign-in methods; "3 lists only you use" + their names; decisions and
+- **ListGroup "Deleted for good"**: profile and sign-in methods; "5 lists only you use" (2 of them archived) + their names; decisions and
   notes (including on lists shared with you).
 - **ListGroup "Not changed"**: imported files and Google Sheets; exported files.
 - Export hint + link "Export a list".
@@ -159,14 +159,14 @@ S03) + sticky bottom "Save password".
 | Password changed | "Password changed. Other devices were signed out." |
 | Delete row | "Delete account"; "Delete your account, your lists and your notes"; offline: "Connect to the internet to delete your account." |
 | Delete step 1 | Title "Delete account"; "Deleting your account can't be undone. Here's what happens."; "Shared list you own"; "{List name}"; "100 items, 3 members"; "Transfer ownership"; "Mert and Selin keep the list. Your decisions and notes on it are removed."; new Owner trigger label "New Owner: Mert Aydın. Change"; "Delete for everyone"; "Mert and Selin lose access to the list." |
-| Deleted for good | Header "Deleted for good"; "Your profile and sign-in methods"; "3 lists only you use"; "Desk setup, March photos clean-up, Frontend hiring, Q4"; "Your decisions and notes"; "Including those on lists other people share with you" |
+| Deleted for good | Header "Deleted for good"; "Your profile and sign-in methods"; "5 lists only you use"; "Desk setup, March photos clean-up, Frontend hiring, Q4, and 2 archived: Apartment viewings, Book club picks"; "Your decisions and notes"; "Including those on lists other people share with you" |
 | Not changed | Header "Not changed"; "Files and Google Sheets you imported from"; "SwipeSort never changed them"; "Files you exported" |
 | Export hint | "Want a copy first? Export a list before you delete your account."; link "Export a list" |
 | Step 1 actions | "Continue"; "Keep my account" |
 | New Owner sheet | "New Owner of Wedding guests"; "The new Owner can start rounds, manage members and change the conflict rule."; "Mert Aydın", "Decision Maker, 85 / 100 decided"; "Selin Yılmaz", "Collaborator, 43 / 100 decided"; "Choose Mert Aydın" |
 | Re-authentication | "Confirm it's you"; "For your security, sign in again before you delete your account." (Change password / disconnect: "…before you change your password." / "…before you disconnect Google."); "Continue with Google"; "or"; "Password"; placeholder "Your SwipeSort password"; "Confirm"; error "That password isn't right. Try again or reset it." |
-| Confirm deletion | Title "Confirm deletion"; "This is the last step. After this, your account can't be restored."; "Wedding guests moves to Mert Aydın"; "Desk setup, March photos clean-up and Frontend hiring, Q4 are deleted"; "Your profile, decisions and notes are deleted"; field "To confirm, type delete"; helper "Lowercase is fine."; "Delete account"; "Keep my account" (with Delete for everyone: "Wedding guests is deleted for all 3 members") |
-| Final dialog | "Delete your account?"; "This can't be undone. Wedding guests moves to Mert Aydın. Your other 3 lists, your decisions and your notes are deleted."; "Cancel"; "Delete account" |
+| Confirm deletion | Title "Confirm deletion"; "This is the last step. After this, your account can't be restored."; "“Wedding guests” moves to Mert Aydın"; "Desk setup, March photos clean-up, Frontend hiring, Q4 and 2 archived lists (Apartment viewings, Book club picks) are deleted"; "Your profile, decisions and notes are deleted"; field "To confirm, type delete"; helper "Lowercase is fine."; "Delete account"; "Keep my account" (with Delete for everyone: "Wedding guests is deleted for all 3 members") |
+| Final dialog | "Delete your account?"; "This can't be undone. “Wedding guests” moves to Mert Aydın. Your other 5 lists (2 of them archived), your decisions and your notes are deleted."; "Cancel"; "Delete account" |
 | Deleting | "Deleting your account…"; "Keep SwipeSort open. This takes a few seconds." |
 | Deleted | "Your account is deleted"; "Mert Aydın now owns Wedding guests. You can keep using SwipeSort without an account."; "Done" (without a transfer: "Your lists and notes are gone from SwipeSort. You can keep using SwipeSort without an account.") |
 | Delete failed | "Couldn't delete your account"; "Nothing was deleted. Check your connection and try again."; "Try again"; "Keep my account" |

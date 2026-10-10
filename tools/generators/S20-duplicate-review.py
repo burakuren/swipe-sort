@@ -149,7 +149,7 @@ g4_merged = f'''{head("4 possible duplicates", INTRO, 4, 4, bulk='')}
 P.frame('S20-reviewed-all', 'All 4 reviewed: 3 merged, 1 kept both (85 of 88)', phone(screen(g4_merged, note='All 4 reviewed: 3 merged, 1 kept both. 85 of 88 contacts will be imported.')))
 
 # merge detail sheet
-merge_body = f'''<div class="mt-4 min-h-0 flex-1 space-y-5 overflow-hidden">
+merge_body = f'''<div class="mt-4 min-h-0 flex-1 space-y-5 overflow-hidden pb-2">
       <div class="flex items-center gap-3">{avatar("c005", size="size-14")}<div><p class="text-title-3">Elif Şahin</p><p class="text-body-sm text-muted-foreground">Photo from the first item</p></div></div>
       <fieldset>
         <legend class="text-label">Phone</legend>
@@ -170,7 +170,7 @@ merge_body = f'''<div class="mt-4 min-h-0 flex-1 space-y-5 overflow-hidden">
       <div class="flex items-start gap-3 rounded-control bg-muted px-4 py-3">{icon("equal", "mt-0.5 size-4 shrink-0")}<p class="text-body-sm">Name, Side, Relationship and City are the same in both.</p></div>
     </div>'''
 merge_actions = f'<button class="{PRIMARY}">Merge</button><button class="mt-1 flex h-12 w-full items-center justify-center rounded-control text-label-lg">Cancel</button>'
-P.frame('S20-merge', 'Merge detail: choose values, phones combined', phone(screen(scrolled, overlay=sheet('ms1', 'Merge 2 items', merge_body, merge_actions, top='top-10', subtitle='Choose which values to keep.'))))
+P.frame('S20-merge', 'Merge detail: choose values, phones combined', phone(screen(scrolled, overlay=sheet('ms1', 'Merge 2 items', merge_body, merge_actions, subtitle='Choose which values to keep.'))))
 
 summary_rows = [
     ('c001', 'Ayşe Demir', 'Merged', 'merge'),

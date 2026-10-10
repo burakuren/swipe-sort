@@ -90,13 +90,25 @@ export default {
     assert.deepEqual(s.counts, { accept: 1, reject: 0, maybe: 1 });
     await shot('03-reduced-motion');
 
-    // 9. Finishing a deck shows the end state and its link (no next= → stays).
-    await page.goto(`${base}?deck=desk&count=2`);
+    // 9. A shortened deck keeps the real totals (A-119+): wedding with count=3 starts at 76 / 100, 17/11/48,
+    //    and ends with "Done for now" instead of claiming the round is complete.
+    await page.goto(`${base}?deck=wedding&count=3`);
     await card().waitFor({ state: 'visible' });
-    await page.keyboard.press('ArrowRight'); await waitIndex(page, 1);
-    await page.keyboard.press('ArrowLeft'); await waitIndex(page, 2);
+    s = await demoState(page);
+    assert.equal(s.base, 76); assert.equal(s.total, 100);
+    assert.deepEqual(s.counts, { accept: 48, reject: 17, maybe: 11 });
+    assert.equal(await page.locator('#progress-label').innerText(), '76 / 100 decided');
+    for (const [key, n] of [['ArrowRight', 1], ['ArrowLeft', 2], ['ArrowUp', 3]]) { await page.keyboard.press(key); await waitIndex(page, n); }
+    assert.equal(await page.locator('#progress-label').innerText(), '79 / 100 decided');
     await page.locator('#done').waitFor({ state: 'visible' });
-    assert.match(await page.locator('#done-text').innerText(), /1 accepted, 0 maybe, 1 rejected/);
+    assert.match(await page.locator('#done').innerText(), /Done for now[\s\S]*79 of 100 decided/);
+    // 10. A full deck finishes with the decision split.
+    await page.goto(`${base}?deck=desk-maybe`);
+    await card().waitFor({ state: 'visible' });
+    const total = (await demoState(page)).total;
+    for (let i = 0; i < total; i++) { await page.keyboard.press('ArrowRight'); await waitIndex(page, i + 1); }
+    await page.locator('#done').waitFor({ state: 'visible' });
+    assert.match(await page.locator('#done-text').innerText(), new RegExp(`${total} accepted, 0 maybe, 0 rejected`));
     h.done();
   },
 };

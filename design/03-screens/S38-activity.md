@@ -1,7 +1,7 @@
 # S38 Activity and notifications
 
 Frames: `S38-activity.html`. Generator: `tools/generators/S35-S38-collaboration.py` (events from
-`02-data/sample-data.json › activity`, ev1–ev7). Related: S06 (notification preferences
+`02-data/sample-data.json › activity`, ev1–ev6). Related: S06 (notification preferences
 `S06-notifications`, `S06-notifications-denied`, `S06-notifications-web`), S12 (push pre-permission
 `S12-notifications`), S34, S36, S09, S28, S25.
 
@@ -69,10 +69,11 @@ Route: `(tabs)/activity`. Feed covers every shared list the user is a member of 
 
 | Frame | Trigger |
 | --- | --- |
-| `S38-default` | Deniz (Owner), 3 unread (ev4 Selin finished sorting today, ev7 Mert resolved 3 conflicts yesterday, ev6 15 new conflicts Oct 3), badge 3 |
+| `S38-default` | Today (Oct 10). Deniz (Owner), 2 unread (ev6 "15 conflicts in Wedding guests", Oct 3; ev5 "Selin joined Wedding guests", Oct 2), badge 2. No "finished sorting" or "conflicts resolved" event exists yet: Selin is at 43 / 100 and all 15 conflicts are open |
 | `S38-all-read` | "Mark all as read": unread styling and badge gone, snackbar |
 | `S38-filter` | Tab Conflicts |
 | `S38-filter-members` | Tab Members |
+| `S38-member-finished` | Later state, Oct 20 (the only frame with these two events): Selin finished sorting today (100 / 100), Mert resolved 12 conflicts yesterday (3 open, after S37); 2 unread |
 | `S38-decision-maker` | Mert's feed: "15 conflicts need your decision" with "Review"; "Deniz made you the Decision Maker" |
 | `S38-empty` | No shared lists yet (or nothing happened yet) |
 | `S38-loading` | First load: skeleton rows |
@@ -81,15 +82,13 @@ Route: `(tabs)/activity`. Feed covers every shared list the user is a member of 
 | `S38-permission-prompt` | Push permission not asked yet (Android 13+/iOS) and the user is on a shared list |
 | `S38-notifications-off` | Permission denied, or the master switch in S06 is off |
 | `S38-push-content` | Annotation: title and body of every push, per event (system UI not designed) |
-| `S38-in-app-banner` | An event arrives while SwipeSort is open on another screen |
+| `S38-in-app-banner` | Moment of Mert's Resolve all (S37): Selin is on another screen (her read-only S35) and gets the banner "Mert resolved 12 conflicts in Wedding guests" |
 | `S38-web` | Web, mobile: push unavailable, in-app only, Get the app |
-| `S38-web-desktop` | Web, desktop: toast for a new event while another screen is open (Deniz on Conflicts, empty). No toast for events already visible in an open Activity feed |
+| `S38-web-desktop` | Same moment, web desktop: Deniz reviews conflicts (S36 member view, now 12 / 15 resolved by Mert, card c012) and the toast appears in the browser viewport's top-right corner, outside the phone column, so it covers nothing. No toast while the Activity feed is on screen |
 | `S38-large-text` | 200% font scale |
 | `S38-ios` | iOS large title and tab bar |
 
-Sample events (ev1–ev7, text adapted to the viewer): ev4 is the illustrative future event noted in the
-sample data. ev2/ev5 render as "Mert joined Wedding guests" / "Selin joined Wedding guests"; joining through a Decision
-Maker invite link renders "Mert joined Wedding guests as Decision Maker" (G1, S33). Push bodies keep the short form because the push title is the list name.
+Sample events ev1–ev6 (text adapted to the viewer). ev4 (memberFinished) is an illustrative future event and appears only in the later-dated `S38-member-finished`; conflictsResolved appears only in frames set after S37 ("Mert resolved 12 conflicts"). ev2/ev5 render as "Mert joined Wedding guests" / "Selin joined Wedding guests"; joining through a Decision Maker invite link renders "Mert joined Wedding guests as Decision Maker" (G1, S33). Push bodies keep the short form because the push title is the list name; the push annotation describes "finishes sorting" and "conflicts resolved" generically ("{Name} finished sorting…").
 
 ## 5. Interactions, gestures and transitions
 
@@ -97,7 +96,7 @@ Maker invite link renders "Mert joined Wedding guests as Decision Maker" (G1, S3
   at the same scroll position.
 - **Unread**: an event is unread until its row (or its push / banner / toast) is opened, or "Mark all as
   read" is used. Opening the tab does **not** clear unread (decided: unread means "not looked at yet"; the
-  badge always equals the number of unread rows). Snackbar "Marked 3 as read" (no undo needed; harmless).
+  badge always equals the number of unread rows). Snackbar "Marked 2 as read" (no undo needed; harmless).
 - **Filter tabs**: switch instantly (cross-fade 150 ms); the chosen tab is remembered per device. Empty tab:
   "No conflict activity yet." / "No member activity yet."
 - **Pull to refresh** (Android/iOS); live updates otherwise: new events slide in at the top (250 ms) with
@@ -116,7 +115,7 @@ Maker invite link renders "Mert joined Wedding guests as Decision Maker" (G1, S3
   down below the app bar (250 ms), stays 4 s, swipe up to dismiss, tap opens the target. While sorting, only
   the badge updates.
 - **Web**: no push. New events appear in the feed live, raise the badge and show a toast for 6 s
-  (bottom-right of the phone column on desktop) while the tab is open, but only when the Activity feed is not on screen; the browser tab title gets the count
+  (top-right of the browser viewport on desktop, top of the column on mobile web) while the tab is open, but only when the Activity feed is not on screen; the browser tab title gets the count
   ("(3) SwipeSort").
 - Reduced motion: banners and toasts fade (150 ms); new rows appear without sliding; skeleton is static.
 
@@ -127,28 +126,29 @@ Maker invite link renders "Mert joined Wedding guests as Decision Maker" (G1, S3
 | App bar | "Activity"; "Mark all as read"; "Notification settings" |
 | Tabs | "All", "Conflicts", "Members"; group label "Filter activity" |
 | Day headers | "Today", "Yesterday", "Oct 3", "Oct 2", "Sep 28" |
-| Events (Owner) | "Selin finished sorting Wedding guests" / "100 / 100 decided"; "Mert resolved 3 conflicts in Wedding guests"; "15 conflicts in Wedding guests" / "Mert decides them."; "Selin joined Wedding guests"; "You started Round 1 in Wedding guests" / "100 items"; "You made Mert the Decision Maker" / "Wedding guests"; "Mert joined Wedding guests" |
-| Events (Decision Maker) | "15 conflicts in Wedding guests need your decision" / "You're the Decision Maker." + "Review"; "Deniz started Round 1 in Wedding guests" / "100 items"; "Deniz made you the Decision Maker" / "Wedding guests" |
+| Events (Owner, Oct 10) | "15 conflicts in Wedding guests" / "Mert decides them."; "Selin joined Wedding guests"; "You started Round 1 in Wedding guests" / "100 items"; "You made Mert the Decision Maker" / "Wedding guests"; "Mert joined Wedding guests" |
+| Events (Decision Maker, Oct 10, 2 unread) | "15 conflicts in Wedding guests need your decision" / "You're the Decision Maker." + "Review"; "Deniz started Round 1 in Wedding guests" / "100 items"; "Deniz made you the Decision Maker" / "Wedding guests"; "You joined Wedding guests" |
 | Other event texts | Main line = actor + verb + list name (domain-model ActivityEvent); role events name the list on the second line. "Mert joined Wedding guests as Decision Maker"; "Deniz made Selin the Decision Maker"; "Nobody is the Decision Maker now"; "Deniz changed the conflict rule to Majority decides"; "Mert resolved 12 conflicts in Wedding guests" / "3 are still open."; "Deniz started Round 2 with 11 items"; "Selin left the list"; new conflicts under Everyone must agree: "3 new conflicts" / "Wedding guests. Members need to match." |
 | Times | "now", "11 min ago", "9:14 PM", "11:45 AM" |
 | Unread (screen reader) | "Unread." prefix |
-| Snackbar | "Marked 3 as read" |
+| Snackbar | "Marked 2 as read" |
 | Permission prompt | "Get notified about shared lists" / "Know when someone finishes sorting or a conflict needs a decision, without opening SwipeSort." / "Not now", "Turn on notifications" |
 | Notifications off | "Notifications are off" / "SwipeSort can't send push notifications on this phone. New events still appear here." / "Turn on in Settings" |
 | Push (title = list name) | "Selin joined the list."; "Mert joined as Decision Maker."; "Selin finished sorting. 100 / 100 decided."; "3 new conflicts. Mert decides them."; "3 new conflicts need your decision."; "Mert resolved 12 conflicts. 3 are still open."; "Deniz started Round 2 with 11 items."; "Deniz made you the Decision Maker." |
-| In-app banner | "Selin finished sorting Wedding guests" / "100 / 100 decided" / "now" (any event uses the same pattern) |
+| In-app banner | "Mert resolved 12 conflicts in Wedding guests" / "3 are still open." / "now" (any event uses the same pattern) |
 | Web alert | "Push notifications need the app" / "In the browser, new events show up here and as a badge while SwipeSort is open. To get notified on your phone, get SwipeSort for Android or iOS." / "Get the app" |
-| Web toast | "Selin finished sorting Wedding guests" / "100 / 100 decided"; "Dismiss" |
+| Web toast | "Mert resolved 12 conflicts in Wedding guests" / "3 are still open."; "Dismiss" |
+| Later state (S38-member-finished) | "Selin finished sorting Wedding guests" / "100 / 100 decided"; "Mert resolved 12 conflicts in Wedding guests" / "3 are still open." |
 | Empty | "No activity yet" / "When you share a list, you'll see here when people join, finish sorting or disagree." / "Go to your lists"; filtered: "No conflict activity yet.", "No member activity yet." |
 | Loading | (skeleton) screen reader "Loading activity" |
 | Error (S40-error treatment) | "Activity couldn't be loaded" / "SwipeSort didn't respond. Check your connection and try again." / "Your lists and decisions are saved on this phone." / "Try again" |
 | Offline | "You're offline. Showing activity from your last sync, Oct 10 at 9:30 AM." |
-| Bottom nav | "Lists", "Activity", "Settings"; badge label "Activity, 3 unread" |
+| Bottom nav | "Lists", "Activity", "Settings"; badge label "Activity, 2 unread" |
 
 ## 7. Accessibility
 
 - Focus order: title, Mark all as read, Notification settings, tabs (`tablist`), top block, rows (each one
-  link: "Unread. Selin finished sorting Wedding guests. 100 / 100 decided. 11 min ago."), bottom
+  link: "Unread. 15 conflicts in Wedding guests. Mert decides them. Oct 3, 11:45 AM."), bottom
   navigation. Day headers are headings (`h2`) for quick navigation.
 - The event badge and avatar are decorative (the sentence names the actor and event).
 - New events while the screen is open are announced politely ("New: Mert resolved 12 conflicts"); the
@@ -165,7 +165,7 @@ Maker invite link renders "Mert joined Wedding guests as Decision Maker" (G1, S3
   banners are system UI with the same text; Notification Summary may group them (system).
 - **Web, mobile** (`S38-web`): push unavailable (PLT-10) — the alert explains and links "Get the app";
   preferences open `S06-notifications-web` (they control the badge only).
-- **Web, desktop** (`S38-web-desktop`): phone layout centered; toast inside the column; no permission prompt.
+- **Web, desktop** (`S38-web-desktop`): phone layout centered; toasts appear in the top-right corner of the browser viewport (outside the phone column; on mobile web at the top of the column); no permission prompt.
 - **Android**: channels per event type; Android 12 and lower have no permission step (notifications on).
 
 ## 9. Edge cases

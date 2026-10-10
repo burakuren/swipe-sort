@@ -65,7 +65,7 @@ The joined step (`S33-joined`) is S25 shared with a snackbar; it is shown here t
 | `S33-loading` | Invite details loading: skeleton, button disabled |
 | `S33-offline` | No connection: offline banner, button disabled with the reason above it |
 | `S33-error-link-reset` | The link was reset (or turned off) between opening and pressing Join: error Alert, "Back to my lists" |
-| `S33-no-round` | The list has no round in progress (Round 1 complete): "Join list" goes to the list overview |
+| `S33-no-round` | The list has no round in progress (the Owner ended Round 1; members keep their Round 1 progress): "Join list" goes to the list overview |
 | `S33-large-text` | 200% font scale |
 | `S33-ios` | iOS |
 
@@ -109,7 +109,7 @@ again." with "Try again"; the button returns to its rest state.
 | Offline | Banner "You're offline."; above the button: "Joining needs a connection. Connect and try again." |
 | Link reset error | "This invite link was reset" / "Deniz made a new link while you were here, so this one can't be used to join. Ask Deniz for the new link." / "Back to my lists" |
 | Join failed | "Couldn't join. Check your connection and try again." / "Try again" |
-| No round | "Round 1 is complete. You can see the results now. When Deniz starts the next round, you'll sort it with everyone." / "Join list" |
+| No round | "Deniz ended Round 1. You can see the results now. When Deniz starts the next round, you'll sort it with everyone." / "Join list" |
 | Loading (screen reader) | "Loading invite" |
 
 ## 7. Accessibility

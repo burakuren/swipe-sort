@@ -39,7 +39,7 @@ denied → stay on the recovery state.
 ## 3. Layout and components
 
 Import permissions sit inside the import modal: **AppBar (modal)** "Import" + **ImportStepper** ("Select
-items": contacts Step 2 of 5; photos Step 2 of 4 because photos skip field mapping). Notifications are a
+items": contacts Step 2 of 5; photos Step 2 of 3 because photos skip field mapping and duplicate review; A-62). Notifications are a
 standalone full-screen modal (close only, no stepper).
 
 **PermissionExplainer** (proposed, built from existing tokens):
@@ -94,7 +94,7 @@ permission). Web notifications: `S12-notifications-web`.
 
 | Element | String |
 | --- | --- |
-| Stepper | "Select items", "Step 2 of 5" (contacts); "Step 2 of 4" (photos) |
+| Stepper | "Select items", "Step 2 of 5" (contacts); "Step 2 of 3" (photos) |
 | Contacts title | "Allow access to your contacts" |
 | Contacts lead | "SwipeSort reads your contacts so you can pick the ones to sort. Here's how they're handled." (large text: "SwipeSort reads your contacts so you can pick the ones to sort.") |
 | Contacts points | "Only the contacts you pick" / "You choose on the next screen. Nothing else is imported."; "Kept on this phone" / "Imported contacts stay on this phone until you share or back up the list."; "Your address book isn't changed" / "SwipeSort never edits, adds or deletes contacts. Decisions only change SwipeSort's copy." |

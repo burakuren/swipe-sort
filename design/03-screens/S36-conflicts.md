@@ -50,7 +50,7 @@ Same skeleton as S25 so the gestures feel identical:
    (`list` "Show as list" / `layers` "Show as cards"), overflow (`ellipsis-vertical`).
 2. **Progress**: "3 / 15 resolved" (`text-label tabular-nums`) + Progress bar. Trailing: text Button
    "Resolve all" with `gavel` (Decision Maker only, 48 high). Under other rules or for members the label
-   changes: "0 / 15 resolved by Mert", "0 / 15 agreed", "0 / 7 final", "0 / 1 ties resolved".
+   changes: "0 / 15 resolved by Mert", "0 / 15 agreed", "0 / 7 final", "0 / 1 tie resolved".
 3. **CardStack** with the **ConflictCard** (Proposed: a SwipeCard variant; `rounded-hero shadow-hero`):
    - Item header: photo band (`h-[26%]`, cover) or a 64 initials avatar; title `text-title-1` (2 lines max);
      subtitle "Family, İstanbul"; StatusBadge (Conflict, or "Waiting for 1 member", "Tie", Agreed).
@@ -87,7 +87,7 @@ that item.
 | `S36-resolved` | Released on Accept: next card c012 on top with its "You haven't decided this item" notice, 1 / 15, snackbar "Resolved: Accept for Mehmet Yılmaz" + Undo |
 | `S36-dm-undecided` | c012 Gülşen Aydın: Mert has no decision (one of the 3 Resolve all skips); Selin's shared note "Haven't seen her in years, maybe skip?" |
 | `S36-progress` | 3 / 15 (c002 Accept, c012 Reject, c015 Reject resolved); c020 Merve Kurt, Selin not decided yet |
-| `S36-note`, `S36-note-saved` | Note sheet with "Only visible to me" on; the private note shows dashed with "Only you" |
+| `S36-note`, `S36-note-saved` | Same 3 / 15 Merve Kurt state as `S36-progress` (last resolution: Reject on Cem Tekin, "Selin hasn't decided yet" notice): note sheet with "Only visible to me" on; the private note shows dashed with "Only you" |
 | `S36-menu` | Overflow: Skip for now, Open item details, Show as list, Conflict rule |
 | `S36-list` | List view at 3 / 15 |
 | `S36-remaining` | After Resolve all: the 3 items Mert never decided (c012, c034, c056); "Resolve all" is hidden because it would skip all of them |
@@ -159,7 +159,7 @@ All gesture values are the S25 values (motion.md §2): thresholds `max(0.30 × W
 | Element | String |
 | --- | --- |
 | App bar | "Conflicts"; "Wedding guests, Round 1"; back label "Back to Wedding guests"; "Show as list" / "Show as cards"; "More options" |
-| Progress | "0 / 15 resolved"; members: "0 / 15 resolved by Mert"; Everyone: "0 / 15 agreed"; Majority: "0 / 7 final"; ties: "0 / 1 ties resolved"; offline: "2 not synced" |
+| Progress | "0 / 15 resolved"; members: "0 / 15 resolved by Mert"; Everyone: "0 / 15 agreed"; Majority: "0 / 7 final"; ties: "0 / 1 tie resolved"; offline: "2 not synced" |
 | Resolve all | "Resolve all" |
 | Card | "Decisions"; "Notes"; "(you)"; "Owner", "Decision Maker", "Collaborator"; badges "Accepted", "Rejected", "Maybe", "Not decided", "Not decided yet"; "Only you"; "No notes on this item." |
 | Status | "Conflict"; "Waiting for 1 member"; "Tie"; "Agreed"; "Resolved by Mert"; "Majority" |
@@ -177,7 +177,7 @@ All gesture values are the S25 values (motion.md §2): thresholds `max(0.30 × W
 | Empty | "No conflicts" / "When members decide an item differently, it shows up here. 15 items in Round 1 are still waiting for your decision." (Mert, 85 / 100; Deniz sees 24) / "Continue sorting", "Back to list" (when I have decided everything: "When members decide an item differently, it shows up here." / "Back to list") |
 | Loading | (skeleton) screen reader "Loading conflicts" |
 | Error (S40-error treatment, `cloud-alert`) | "Conflicts couldn't be loaded" / "SwipeSort didn't respond. Check your connection and try again." / "Your resolutions are saved on this phone." / "Try again", "Back to list" |
-| Offline | "You're offline. Resolutions are saved on this phone and sync when you're back online." |
+| Offline | "You're offline. Resolutions are saved on this phone." (S40 string) |
 | Sync sheet | "Synced 2 resolutions" / "While you were offline, the conflicts changed." / "Sophie Laurent" — "Selin changed to Accept, so everyone agrees. No longer a conflict." / "2 new conflicts" — "Selin kept sorting. They're added to the end." / "Continue resolving". Agreement beat a resolution: "{Item} was agreed before your resolution synced, so it wasn't needed." |
 | Large text | "1 note in item details" |
 | Keyboard hints (web desktop) | "← Reject", "↑ Maybe", "→ Accept", "Z Undo", "N Note" |
@@ -186,6 +186,7 @@ All gesture values are the S25 values (motion.md §2): thresholds `max(0.30 × W
 
 ## 7. Accessibility
 
+- The card's accessible label always reflects the decisions and status shown (e.g. tie: "Merve Kurt, Friend, İstanbul. Tie. You: Accept. Deniz: Reject. Selin: Maybe.").
 - Focus order: Back, title, view toggle, More options, progress, Resolve all, card, Undo, Reject, Maybe,
   Accept, Note.
 - The card is one focusable element: label "Mehmet Yılmaz, Family, İstanbul. Conflict. You: Reject. Deniz:

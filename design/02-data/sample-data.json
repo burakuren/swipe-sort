@@ -4368,15 +4368,6 @@
       "at": "2026-10-03T11:45:00Z",
       "count": 15,
       "text": "15 new conflicts"
-    },
-    {
-      "id": "ev7",
-      "listId": "l-wedding",
-      "type": "conflictsResolved",
-      "actor": "u-mert",
-      "at": "2026-10-09T21:14:00Z",
-      "count": 3,
-      "text": "Mert resolved 3 conflicts"
     }
   ],
   "notificationPreferences": {

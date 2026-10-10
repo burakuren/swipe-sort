@@ -561,7 +561,7 @@ F.add('S39-ios-share', 'iOS: CSV opens the share sheet directly (no file-ready s
 F.add('S39-ios-text', 'iOS: text summary', phone(text_screen(ios=True), ios=True))
 
 web_col = step1(DESK, 'accept', web=True, csv_href='#S39-web-desktop')
-toast = f'''<div class="absolute bottom-6 right-6 z-30 flex w-80 items-start gap-3 rounded-control bg-foreground px-4 py-3 text-background shadow-overlay" role="status">{icon("circle-check", "size-5 mt-0.5 shrink-0")}<span class="flex-1 text-body-sm">Exported 8 items to desk-setup-accepted.csv</span></div>'''
+toast = f'''<div class="absolute bottom-6 right-6 z-30 flex w-80 items-start gap-3 rounded-control bg-foreground px-4 py-3 text-background shadow-overlay" role="status">{icon("circle-check", "size-5 mt-0.5 shrink-0")}<span class="flex-1 text-body-sm">Exported 8 items to <span class="whitespace-nowrap">desk-setup-accepted.csv</span></span></div>'''
 F.add('S39-web-desktop', 'Web, desktop: CSV downloaded, toast bottom-right', f'''<div class="desktop">
   <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/l/l-desk/export</span></div>
   <div class="desktop-column">

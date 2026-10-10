@@ -15,6 +15,7 @@ def row(label, value, edited=False, wrap=False):
 PEOPLE = {
     'c077': dict(name='Mia Andersson', sub='Colleague', photo='people/c077.svg', rows=[('Phone', '+46 8 0000 4021'), ('Email', 'mia.andersson@example.com'), ('City', 'Stockholm')], tags=["Bride's"]),
     'c078': dict(name='Anna-Katharina Rosenthal-Brückner', sub='Colleague', photo='people/c078.svg', rows=[('Phone', '+43 1 0000 4117'), ('Email', 'anna-katharina.rosenthal-bruckner@example.com'), ('City', 'Vienna')], tags=["Bride's"]),
+    'c089': dict(name='Begüm Sağlam', sub='Friend', photo=None, initials='BS', rows=[('Email', 'begum.saglam@example.com'), ('City', 'İstanbul')], tags=["Bride's"]),
     'c081': dict(name='Fatma Güler', sub='Family', photo=None, initials='FG', rows=[('Phone', '+90 500 000 51 38'), ('Email', 'fatma.guler@example.com'), ('City', 'Ankara')], tags=["Groom's"]),
     'c080': dict(name='Dr. Hülya Öztürk (dentist)', sub='Friend', photo=None, initials='HÖ', rows=[('Phone', '+90 500 000 97 25', False, 2), ('City', 'İstanbul')], tags=["Bride's"], note=('Dentist, not sure why she is in my contacts list.', True)),
     'c014': dict(name='Maximiliane Alexandra Charlotte von Hohenberg-Lichtenstein', sub='Friend', photo='people/c014.svg', rows=[('Email', 'maximiliane.hohenberg-lichtenstein@example.net'), ('City', 'Berlin')], tags=["Bride's"], note=('Flying in from Berlin. Ask about dates first.', False)),
@@ -40,11 +41,21 @@ def person_body(p, note=None, compact=False):
         text, private = n
         note_html = f'<p class="flex items-center gap-2 text-body-sm text-muted-foreground">{icon("lock" if private else "sticky-note", "size-4 shrink-0")}<span class="truncate">{text}</span></p>'
     tags = ''.join(f'<span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">{t}</span>' for t in p['tags'])
+    # Very long titles step down one size instead of losing the end of the name.
+    title_cls = 'line-clamp-4 text-title-1' if len(p['name']) > 36 else 'line-clamp-3 text-card-title'
+    text = f'''<h2 class="{title_cls}">{p["name"]}</h2>
+        <p class="mt-1 text-body-lg text-muted-foreground">{p["sub"]}</p>
+        <dl class="mt-4 space-y-2 text-body">{rows}</dl>'''
+    if not p.get('photo'):
+        # Sparse-card rule (A-125): initials, title and rows form one block centered above the pinned tags.
+        return f'''<div class="flex min-h-0 flex-1 flex-col px-6 pb-5 pt-7">
+        <div class="my-auto">{img.replace('<div class="px-6 pt-7">', '<div class="mb-5">')}
+        {text}</div>
+        <div class="space-y-3 pt-3">{note_html}<div class="flex gap-2">{tags}</div></div>
+      </div>'''
     return f'''{img}
       <div class="flex min-h-0 flex-1 flex-col px-6 pb-5 pt-5">
-        <h2 class="line-clamp-4 text-card-title">{p["name"]}</h2>
-        <p class="mt-1 text-body-lg text-muted-foreground">{p["sub"]}</p>
-        <dl class="mt-4 space-y-2 text-body">{rows}</dl>
+        {text}
         <div class="mt-auto space-y-3 pt-3">{note_html}<div class="flex gap-2">{tags}</div></div>
       </div>'''
 
@@ -88,7 +99,7 @@ STAMP = {
 MOVE = {
     ('accept', 'half'): 'translate-x-12 rotate-3', ('accept', 'armed'): 'translate-x-28 rotate-6',
     ('reject', 'half'): '-translate-x-12 -rotate-3', ('reject', 'armed'): '-translate-x-28 -rotate-6',
-    ('maybe', 'half'): '-translate-y-5', ('maybe', 'armed'): '-translate-y-10',
+    ('maybe', 'half'): '-translate-y-1', ('maybe', 'armed'): '-translate-y-2',
 }
 
 def card(body, label, drag=None, level='armed', others=None, reduced=False):
@@ -111,11 +122,11 @@ def card(body, label, drag=None, level='armed', others=None, reduced=False):
     </article>'''
 
 NEXT_BODY = None
-def stack(top, nxt=True, promote=False, nxt_body=None, z=''):
+def stack(top, nxt=True, promote=False, nxt_body=None, z='', snack=False):
     nc = 'inset-x-gutter bottom-5 top-0 origin-top scale-95 translate-y-10' if not promote else 'inset-x-gutter bottom-5 top-0 origin-top scale-[.975] translate-y-5'
     body = nxt_body or NEXT_BODY or ''
     behind = f'<div class="absolute {nc} flex flex-col overflow-hidden rounded-hero border bg-card shadow-raised" aria-hidden="true">{body}</div>' if nxt else ''
-    return f'''<div class="relative mx-0 mt-2 min-h-0 flex-1 {z}">
+    return f'''<div class="relative mx-0 mt-2 min-h-0 flex-1 {z} {'mb-16' if snack else ''}">
     {behind}
     {top}
   </div>'''
@@ -209,7 +220,7 @@ def sorting(body=MIA, label=MIA_L, drag=None, level='armed', counts=(17, 11, 48)
     return f'''{hdr or header()}
   {extra_top}
   {prog or progress(done)}
-  {stack(card(body, label, drag, level, others, reduced), nxt, promote, nxt_body=nxt_body)}
+  {stack(card(body, label, drag, level, others, reduced), nxt, promote, nxt_body=nxt_body, snack='role="status"' in overlay and 'rounded-control bg-foreground' in overlay)}
   {barhtml or bar(counts, drag, level, undo, undo_label=undo_label)}
   {overlay}'''
 
@@ -249,7 +260,7 @@ def coach(step, title, body, ic, tone, drag, last=False):
         arrow = {'accept': 'arrow-right', 'reject': 'arrow-left', 'maybe': 'arrow-up'}[drag]
         hand = f'<div class="pointer-events-none absolute {pos} z-30 flex size-14 items-center justify-center rounded-full bg-popover text-foreground shadow-overlay" aria-hidden="true">{icon(arrow, "size-7")}</div>'
     tone_cls = f'bg-{tone}-soft text-{tone}-soft-foreground' if tone else 'bg-primary-soft text-primary-soft-foreground'
-    bubble = f'''<div class="absolute inset-x-4 bottom-6 z-30 rounded-dialog bg-popover p-5 shadow-dialog" role="dialog" aria-modal="true" aria-labelledby="cm{step}">
+    bubble = f'''<div class="absolute inset-x-4 bottom-36 z-30 rounded-dialog bg-popover p-5 shadow-dialog" role="dialog" aria-modal="true" aria-labelledby="cm{step}">
       <div class="flex items-center gap-3"><span class="flex size-10 shrink-0 items-center justify-center rounded-full {tone_cls}">{icon(ic)}</span><p id="cm{step}" class="text-title-3">{title}</p></div>
       <p class="mt-2 text-body text-muted-foreground">{body}</p>
       <div class="mt-4 flex items-center justify-between"><span class="flex gap-1.5" role="img" aria-label="Step {step} of 4">{dots}</span><span class="flex gap-1">{skip}{nxt_btn}</span></div>
@@ -349,7 +360,7 @@ resume = f'''{header()}
   <div class="flex flex-1 flex-col items-center justify-center px-8 text-center">
     <span class="flex size-14 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground">{icon("play", "size-6")}</span>
     <h2 class="mt-4 text-balance text-title-2">Pick up where you left off</h2>
-    <p class="mt-1 max-w-xs text-balance text-body text-muted-foreground">76 of 100 decided. 24 items left in Round 1.</p>
+    <p class="mt-1 max-w-xs text-balance text-body text-muted-foreground">76 of 100 decided. <span class="whitespace-nowrap">24 items left</span> in Round 1.</p>
     <a href="#S25-default" class="mt-6 flex h-12 w-full max-w-xs items-center justify-center rounded-control bg-primary text-label-lg text-primary-foreground" data-action="continue">Continue sorting</a>
   </div>'''
 F('S25-resume', 'Resume prompt (only after an app update or a sync from another device)', phone(resume))
@@ -368,8 +379,8 @@ frames.append(section('Accessibility', 'Large text, reduced motion and screen-re
 big_body = f'''<div class="flex min-h-0 flex-1 flex-col px-6 pb-5 pt-6">
         <h2 class="line-clamp-4 text-display">Mia Andersson</h2>
         <p class="mt-2 text-title-2 font-normal text-muted-foreground">Colleague</p>
-        <dl class="mt-5 space-y-3 text-title-3 font-normal"><div><dt class="text-body-lg text-muted-foreground">Phone</dt><dd class="tabular-nums">+46 8 0000 4021</dd></div><div><dt class="text-body-lg text-muted-foreground">Email</dt><dd class="break-all">mia.andersson@example.com</dd></div><div><dt class="text-body-lg text-muted-foreground">City</dt><dd>Stockholm</dd></div></dl>
-        <p class="mt-auto text-body-lg text-primary">1 more field in details</p>
+        <dl class="mt-5 space-y-3 text-title-3 font-normal"><div><dt class="text-body-lg text-muted-foreground">Phone</dt><dd class="tabular-nums">+46 8 0000 4021</dd></div><div><dt class="text-body-lg text-muted-foreground">Email</dt><dd class="break-all">mia.andersson@example.com</dd></div><div><dt class="text-body-lg text-muted-foreground">City</dt><dd>Stockholm</dd></div><div><dt class="text-body-lg text-muted-foreground">Side</dt><dd>Bride's</dd></div></dl>
+        <p class="mt-auto pt-4 text-body-lg text-primary">Tap for details and notes</p>
       </div>'''
 big_bar = f'''<div class="grid shrink-0 grid-cols-3 gap-2 px-4 pb-3 pt-2">
     <button class="flex min-h-16 flex-col items-center justify-center gap-1 rounded-control bg-reject-soft px-2 py-2 text-reject-soft-foreground" aria-label="Reject, 17 rejected" data-action="reject">{icon("x", "size-7")}<span class="text-title-3">Reject <span class="tabular-nums">17</span></span></button>
@@ -420,8 +431,8 @@ F('S25-web', 'Web, mobile browser', web_phone(sorting(hdr=shared_hdr, prog=progr
 kbd = lambda k, t: f'<span class="inline-flex items-center gap-1.5"><kbd class="inline-flex h-6 min-w-6 items-center justify-center rounded-sm border border-b-2 bg-card px-1.5 text-caption text-foreground">{k}</kbd>{t}</span>'
 hints = f'<div class="flex shrink-0 justify-center gap-4 pb-3 text-caption text-muted-foreground" aria-label="Keyboard shortcuts">{kbd("←", "Reject")}{kbd("↑", "Maybe")}{kbd("→", "Accept")}{kbd("Z", "Undo")}{kbd("N", "Note")}</div>'
 mert_hdr = header('Wedding guests', 'Round 1, shared').replace('S09-list-overview.html#S09-default', 'S09-list-overview.html#S09-shared-decision-maker').replace('data-action="close"', 'data-action="finish"')
-LIVE = '../04-prototype/swipe-demo.html?deck=mert&amp;next=..%2F03-screens%2FS09-list-overview.html%23S09-shared-decision-maker'
-desk_screen = sorting(hdr=mert_hdr, prog=progress(85, 100, members), counts=(21, 14, 50), undo=True, undo_label='Undo last decision (Accept on Mehmet Yılmaz)')
+LIVE = '../04-prototype/swipe-demo.html?deck=mert&amp;count=3&amp;next=..%2F03-screens%2FS09-list-overview.html%23S09-shared-decision-maker'
+desk_screen = sorting(body=person_body(PEOPLE['c089']), label='Begüm Sağlam, Friend. Email begum.saglam@example.com. City İstanbul.', nxt_body=None, hdr=mert_hdr, prog=progress(85, 100, members), counts=(21, 14, 50), undo=True, undo_label='Undo last decision (Accept on Mehmet Yılmaz)')
 # Prototype: on the desktop frame the decision buttons open the live demo with Mert's undecided items.
 _bar_at = desk_screen.index('<div class="flex shrink-0 items-start justify-between px-5 pb-4 pt-2">')
 desk_screen = desk_screen[:_bar_at] + desk_screen[_bar_at:].replace('<button class="flex min-w-touch', f'<a href="{LIVE}" class="flex min-w-touch').replace('</span></button>', '</span></a>')

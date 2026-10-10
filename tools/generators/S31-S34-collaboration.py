@@ -525,7 +525,7 @@ def build_s31():
     pg.section('Inviting (Owner)', 'First invite for Wedding guests: nobody has joined yet, Deniz is Owner and, by default, Decision Maker (A-26). Collaborator is preselected; the link always reflects the selected role.')
     F('S31-default', 'Default: first invite, Collaborator', phone(full_sheet('Invite to Wedding guests', s31_body(), sheet_footer('#S31-link-copied', 'copy-link'), intro=INTRO)))
     proto = '<!-- Prototype-only control (not part of the app UI): jumps to the partner side of flow 3 -->\n  <a href="S32-invite-link.html#S32-web-desktop" class="absolute inset-x-4 top-2 z-50 flex min-h-12 items-center justify-center gap-2 rounded-control border-2 border-dashed border-primary bg-card px-4 text-label text-primary" data-action="partner-opens-link">' + icon('monitor', 'size-5') + 'Prototype: Mert opens the link on a computer</a>'
-    F('S31-link-copied', 'Link copied (snackbar)', phone(full_sheet('Invite to Wedding guests', s31_body(), sheet_footer(snack=snack_static('Invite link copied', icon_name='copy-check')), top='top-16', intro=INTRO,
+    F('S31-link-copied', 'Link copied (snackbar)', phone(full_sheet('Invite to Wedding guests', s31_body(members=members_so_far(member_mini('deniz', ['owner', 'dm'], True), None, 1)), sheet_footer(snack=snack_static('Invite link copied', icon_name='copy-check')), top='top-16', intro=None,
         overlay=proto)))
     dm_body = s31_body('dm', token='Dm6xW3nB')
     F('S31-role-dm', 'Inviting a Decision Maker', phone(full_sheet('Invite to Wedding guests', dm_body, sheet_footer(), intro=INTRO)))
@@ -669,11 +669,11 @@ def build_s32():
         dbtn('Close', href='#S32-web-desktop'), extra_body=qr + '<p class="mt-3 text-center text-body-sm text-muted-foreground">swipesort.app/get</p>')
     F('S32-get-app', 'Web, desktop: Get the app', desktop(f'swipesort.app/join/{TOKEN}', s32_preview(cta_m, m1) + get_app))
     signed_in = f'''{web_brand(account_chip("mert"))}
-  <div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-16 text-center" role="status">
+  <div class="relative flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-16 text-center" role="status">
     {icon("loader-circle", "size-8 animate-spin text-primary")}
     <p class="mt-4 text-balance text-title-3">Opening {keep("Wedding guests")}…</p>
     <p class="mt-1 text-body-sm text-muted-foreground">Signed in as {keep("Mert Aydın")}</p>
-    <a href="S33-join-list.html#S33-web-desktop" class="sr-only focus:not-sr-only">Continue to the join screen (prototype)</a>
+    <a href="S33-join-list.html#S33-web-desktop" class="absolute inset-0" data-action="continue" aria-label="Continue to the join screen (prototype: click anywhere; the app moves on by itself)"></a>
   </div>'''
     F('S32-web-signed-in', 'Web, already signed in: skips sign-in, opens Join', desktop(f'swipesort.app/join/{TOKEN}', signed_in))
     loading = f'''{web_brand()}
@@ -693,11 +693,11 @@ def build_s32():
     F('S32-default', 'Default: app, not signed in (invite preview)', phone(s32_preview(cta_app, m1d, get_app=False, brand=False, hdr=appbar('Invite', 'close', 'S08-home.html#S08-default'),
         note='Lists on this phone move to your account when you sign in.')))
     pg.section('App installed', 'The link opens SwipeSort directly. A short loading state names the list, then the join screen (S33) replaces it. iOS behaves the same with a Universal Link (no separate frame).')
-    app_open = f'''<div class="flex flex-1 flex-col items-center justify-center px-8 pb-16 text-center" role="status">
+    app_open = f'''<div class="relative flex flex-1 flex-col items-center justify-center px-8 pb-16 text-center" role="status">
     {logo("size-16")}
     <div class="mt-8 flex items-center gap-3">{icon("loader-circle", "size-6 animate-spin text-primary")}<p class="text-balance text-title-3">Opening {keep("Wedding guests")}…</p></div>
     <p class="mt-2 text-body-sm text-muted-foreground">Invite from {keep("Deniz Yılmaz")}</p>
-    <a href="S33-join-list.html#S33-default" class="sr-only focus:not-sr-only" data-action="continue">Continue to the join screen (prototype)</a>
+    <a href="S33-join-list.html#S33-default" class="absolute inset-0" data-action="continue" aria-label="Continue to the join screen (prototype: click anywhere; the app moves on by itself)"></a>
   </div>'''
     F('S32-app', 'App: opening the invite', phone(app_open))
     member_page = f'''{appbar("Invite", "close", "S08-home.html#S08-default")}
@@ -739,7 +739,7 @@ def join_facts(role='collab', large=False, no_round=False):
     t_cls = 'text-title-3 font-normal' if large else 'text-body'
     d_cls = 'text-body-lg' if large else 'text-body-sm'
     def row(ic, title, desc):
-        return f'<li class="flex items-start gap-4 px-4 py-3">{icon(ic, "size-5 shrink-0 text-muted-foreground mt-0.5")}<span class="min-w-0 flex-1"><span class="block {t_cls}">{title}</span><span class="mt-0.5 block {d_cls} text-muted-foreground">{desc}</span></span></li>'
+        return f'<li class="flex items-start gap-4 px-4 py-3">{icon(ic, "size-5 shrink-0 text-muted-foreground mt-0.5")}<span class="min-w-0 flex-1"><span class="block {t_cls}">{title}</span><span class="mt-0.5 block text-balance {d_cls} text-muted-foreground">{desc}</span></span></li>'
     if role == 'dm':
         r1 = row('gavel', 'Decision Maker', 'You sort every item and resolve conflicts. Under the current rule (Decision Maker decides), your choice on a conflict is final.')
     else:
@@ -854,7 +854,7 @@ def build_s33():
     err = f'''<div class="flex gap-3 rounded-control border border-destructive/40 bg-card p-4" role="alert">{icon("circle-alert", "size-5 shrink-0 text-destructive")}<div class="flex-1"><p class="text-label">This invite link was reset</p><p class="mt-0.5 text-body-sm text-muted-foreground">Deniz made a new link while you were here, so this one can't be used to join. Ask Deniz for the new link.</p></div></div>'''
     err_footer = f'''<div class="shrink-0 space-y-2 border-t bg-background px-gutter pb-4 pt-3">{btn("Back to my lists", "secondary", href="S08-home.html#S08-default")}</div>'''
     F('S33-error-link-reset', 'Error: link reset while joining', phone(join_screen(extra=err, footer=err_footer)))
-    no_round = f'''<div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground" role="note">{icon("info", "size-5 shrink-0")}<p class="text-body-sm">Round 1 is complete. You can see the results now. When Deniz starts the next round, you'll sort it with everyone.</p></div>'''
+    no_round = f'''<div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground" role="note">{icon("info", "size-5 shrink-0")}<p class="text-body-sm">Deniz ended Round 1. You can see the results now. When Deniz starts the next round, you'll sort it with everyone.</p></div>'''
     nr_footer = f'''<div class="shrink-0 space-y-2 border-t bg-background px-gutter pb-4 pt-3">{btn("Join list", "primary", href="S09-list-overview.html#S09-shared")}<p class="text-center text-body-sm text-muted-foreground">Joining as Selin Yılmaz.</p></div>'''
     nr = join_screen(extra=no_round, footer=nr_footer, no_round=True).replace('100 items, Round 1 in progress', '100 items, no round in progress')
     F('S33-no-round', 'No round in progress', phone(nr))
@@ -990,7 +990,7 @@ def build_s34():
     self_dialog = dialog('Become the Decision Maker?', "Mert stops being the Decision Maker. You'll resolve the 15 open conflicts and any new ones.",
         dbtn('Cancel', href='#S34-default') + dbtn('Become Decision Maker', 'primary'))
     F('S34-dm-self-confirm', 'Owner takes the role themselves', phone(members_screen(overlay=self_dialog)))
-    off_dialog = dialog('Turn off the Decision Maker?', "Under the rule Decision Maker decides, conflicts need a Decision Maker. Without one, they stay open until members change their decisions to match. You can turn it on again at any time.",
+    off_dialog = dialog('Turn off the Decision Maker?', "With the rule “Decision Maker decides”, conflicts need a Decision Maker. Without one, they stay open until members change their decisions to match. You can turn it on again at any time.",
         dbtn('Cancel', href='#S34-default') + dbtn('Turn off', 'primary'))
     F('S34-dm-off-confirm', 'Turning the role off: confirmation', phone(members_screen(overlay=off_dialog)))
 
@@ -1002,7 +1002,7 @@ def build_s34():
         <button role="radio" aria-checked="true" class="flex w-full items-start gap-3 rounded-control py-2 text-left">{radio_dot(True)}<span><span class="block text-body">Keep Selin's decisions</span><span class="block text-body-sm text-muted-foreground">They still count toward Agreed, Pending and Conflict.</span></span></button>
         <button role="radio" aria-checked="false" class="flex w-full items-start gap-3 rounded-control py-2 text-left">{radio_dot(False)}<span><span class="block text-body">Discard Selin's decisions</span><span class="block text-body-sm text-muted-foreground">Item statuses are recalculated without them.</span></span></button>
       </div>'''
-    rem = dialog('Remove Selin from “Wedding guests”?', "Selin can't open the list anymore. Choose what happens to Selin's 43 decisions.",
+    rem = dialog('Remove Selin from “Wedding guests”?', "Selin can't open the list anymore, and Selin's invite link stops working. Choose what happens to Selin's 43 decisions.",
         dbtn('Cancel', href='#S34-default') + dbtn('Remove Selin', 'destructive', href='#S34-removed', action='confirm-remove'), extra_body=remove_extra)
     F('S34-remove-dialog', 'Remove member: keep or discard decisions (DM-17)', phone(members_screen(overlay=rem)))
     F('S34-removed', 'Member removed: snackbar with Undo', phone(members_screen(keys=('deniz', 'mert'), snack=snack_static('Removed Selin', 'Undo')).replace('2 active, Collaborator', '1 active, Collaborator')))

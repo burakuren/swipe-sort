@@ -120,7 +120,7 @@ removed, e.g. manual entry: Choose source, Add items, Add to list).
 | Success | Snackbar "Added 12 items" + "Undo"; undo result "Removed 12 items"; activity on S09 "You added 12 items from mert-family.csv" / "Just now"; source entry wherever sources are listed: "mert-family.csv" / "Added just now" / "12 items" |
 | Partial | "Added 10 of 12 items"; "2 rows in mert-family.csv couldn't be added. The other 10 are in Wedding guests and join Round 1."; "Not added"; "Row 9" / "Has 9 values but the file has 7 columns."; "Row 14" / "Has characters that can't be read. Save the file as UTF-8."; "Fix these rows in the file and add it again. Rows already in the list show up as duplicates, so nothing is added twice."; "Done"; "Add the file again" |
 | Offline | Banner under the app bar (as in S11-offline) "You're offline. Google Sheets needs a connection; other sources work. Items you add sync to Mert and Selin later."; tile "Google Sheets" / "Needs a connection" |
-| Web | Tile "Contacts" / "Needs the Android or iOS app"; "Photos" / "Upload from this device"; "Contacts import needs the Android or iOS app." + "Get the app" |
+| Web | Tile "Contacts" / "Needs the Android or iOS app"; "Upload photos" / "Image files from this device" (same tile as S11-web); "Contacts import needs the Android or iOS app." + "Get the app" |
 | Discard dialog (`S40-global-patterns.html#S40-discard-add-items`) | "Discard adding items?" / "Your choices for mert-family.csv will be lost. Nothing has been added to Wedding guests yet." / "Keep adding", "Discard" |
 | Activity (S38) | "Deniz added 12 items to Wedding guests" |
 | Solo list confirm | the shared notice is omitted; "New items join Round 1" reads "You'll sort them in Round 1." |

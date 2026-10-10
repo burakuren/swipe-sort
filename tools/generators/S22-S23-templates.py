@@ -7,6 +7,17 @@ import os
 import sys
 sys.path.insert(0, os.path.dirname(__file__))
 from groupc2_common import *  # noqa
+from groupc2_common import phone as _phone
+
+
+def phone(content, ios=False):
+    """Frames with a modal overlay: the scrim and sheets extend under the system bars (screen is static, bars on top)."""
+    html = _phone(content, ios)
+    if 'aria-modal="true"' in content and 'id="pf1"' not in content:
+        html = (html.replace('<div class="screen">', '<div class="screen static">', 1)
+                .replace('class="sysbar-top"', 'class="sysbar-top relative z-50"', 1)
+                .replace('class="sysbar-nav"', 'class="sysbar-nav relative z-50"', 1))
+    return html
 
 # ------------------------------------------------------------------ data
 CANDS = {c['id']: c for c in DATA['candidates']}
@@ -77,7 +88,8 @@ def card_body(layout, vals, labels, photo=None, hidden=(), kind=None, no_title=F
     big = sparse and len(layout['rows']) <= 3
     title_only = sparse and not sk and not layout['rows']
     if t:
-        title_h = f'<h2 class="line-clamp-3 {"text-display" if title_only else "text-card-title"}">{t}</h2>'
+        tcls = 'line-clamp-3 text-display' if title_only else ('line-clamp-4 text-title-1' if len(t) > 36 else 'line-clamp-3 text-card-title')
+        title_h = f'<h2 class="{tcls}">{t}</h2>'
     else:  # validation preview only: the slot is outlined, never shown on a real card
         title_h = f'<div class="flex h-12 items-center gap-2 rounded-control border-2 border-dashed border-destructive px-3 text-body-lg text-destructive">{icon("circle-alert", "size-5 shrink-0")}No title</div>'
     sub_h = f'<p class="mt-1 text-body-lg text-muted-foreground">{sub}</p>' if sub else ''
@@ -97,6 +109,14 @@ def card_body(layout, vals, labels, photo=None, hidden=(), kind=None, no_title=F
         else:
             body_rows = f'<dl class="mt-4 space-y-2 text-body">{"".join(inline_row(l, v) for l, v in rows)}</dl>'
     tags_h = f'<div class="mt-auto flex flex-wrap gap-2 pt-3">{"".join(TAG.format(x) for x in tags)}</div>' if tags else ''
+    if image == 'avatar' and not photo:
+        ini = f'<div class="mb-5"><span class="flex size-24 items-center justify-center rounded-full bg-muted text-title-1 text-muted-foreground" aria-hidden="true">{initials(t or "")}</span></div>'
+        tg = tags_h.replace('mt-auto ', '')
+        return f'''<div class="flex min-h-0 flex-1 flex-col px-6 pb-5 pt-7">
+        <div class="my-auto">{ini}{title_h}{sub_h}
+        {body_rows}</div>
+        {tg}
+      </div>'''
     if image in ('avatar', 'cover'):
         if photo:
             top = f'<img src="{IMG}{photo}" alt="" class="h-[46%] w-full object-cover">'
@@ -136,9 +156,9 @@ def card_label(layout, vals, labels, hidden=()):
     return '. '.join(parts) + '.'
 
 
-def stage(body, label, h='h-80', prevnext=False, expand_href=None, extra_cls=''):
+def stage(body, label, h='h-80', prevnext=False, expand_href=None, extra_cls='', scale='scale-50'):
     """The live preview: the real SwipeCard (S25 markup) on the 372 x 620 card box, shown at 50%."""
-    card = f'<div class="absolute inset-x-gutter top-0 flex aspect-card origin-top scale-50 flex-col overflow-hidden rounded-hero bg-card shadow-hero" role="img" aria-label="Card preview: {label}">{body}</div>'
+    card = f'<div class="absolute inset-x-gutter top-0 flex aspect-card origin-top {scale} flex-col overflow-hidden rounded-hero bg-card shadow-hero" role="img" aria-label="Card preview: {label}">{body}</div>'
     pn = ''
     if prevnext:
         pn = (f'<button class="absolute left-4 top-1/2 flex size-12 -translate-y-1/2 items-center justify-center rounded-full border border-input bg-card" aria-label="Previous item" data-action="preview-previous">{icon("chevron-left")}</button>'
@@ -423,7 +443,7 @@ LENA_COMPACT_L = card_label(COMPACT, LENA, CLABEL)
 
 def pick(fid, name, summary, body, label, tiles, step=(5, 5), title='Import', customize='S23-template-editor.html#S23-default',
          start='S25-sorting.html#S25-coach-1', start_label='Start sorting', name_kw=None, overlay='', bottom_html=None,
-         sum_icon='list-checks', ios=False, back=None, start_action='start-sorting', scroll=''):
+         sum_icon='list-checks', ios=False, back=None, start_action='start-sorting', scroll='', stage_h='h-72', stage_scale='scale-[.46]'):
     kw = dict(value=name)
     kw.update(name_kw or {})
     bar = modal_bar(title, close_label='Close import', ios=ios, back=back)
@@ -434,8 +454,8 @@ def pick(fid, name, summary, body, label, tiles, step=(5, 5), title='Import', cu
       {label_input(fid + "-name", "List name", **kw)}
       <p class="mt-3 flex items-start gap-2 text-body-sm text-muted-foreground">{icon(sum_icon, "size-4 mt-0.5 shrink-0")}<span>{summary}</span></p>
     </div>
-    <div class="mt-5 flex items-center justify-between gap-2 pl-gutter pr-2"><h2 class="text-title-3">Card template</h2><a href="{customize}" class="inline-flex h-12 items-center gap-2 rounded-control px-3 text-label-lg text-primary" data-action="customize-template">{icon("pencil")}Customize</a></div>
-    {stage(body, label)}
+    <div class="mt-4 flex items-center justify-between gap-2 pl-gutter pr-2"><h2 class="text-title-3">Card template</h2><a href="{customize}" class="inline-flex h-12 items-center gap-2 rounded-control px-3 text-label-lg text-primary" data-action="customize-template">{icon("pencil")}Customize</a></div>
+    {stage(body, label, h=stage_h, scale=stage_scale)}
     <div class="mt-3">{carousel(tiles)}</div>
   </div>
   {bottom_html if bottom_html is not None else bottom(start_label, start, start_action)}''', overlay) + overlay
@@ -453,7 +473,7 @@ P.frame('S22-import-pick-csv', 'Pick mode: CSV, Candidate recommended (Role is h
 P.frame('S22-import-pick-custom', 'Pick mode: back from Save, scrolled to the just-saved template (flow 4)', phone(pick(
     'ip4', 'Frontend hiring, Q4', '12 items from candidates-q4.csv. No duplicates found.', LENA_COMPACT, LENA_COMPACT_L,
     tiles_for('Candidate', selected='Candidate, compact', first_custom='Candidate, compact'), sum_icon='copy-check',
-    start='S25-sorting.html#S25-candidate', customize='S23-template-editor.html#S23-edit-saved', scroll='-mt-36',
+    start='S25-sorting.html#S25-candidate', customize='S23-template-editor.html#S23-edit-saved', scroll='-mt-20',
     overlay=snackbar('Template saved', bottom='bottom-28'))))
 
 BOOK = dict(book='The Remains of the Day')
@@ -487,7 +507,7 @@ partial = f'''<div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
   </div>'''
 P.frame('S22-import-pick-partial', 'Partial import: 28 of 30 photos copied', phone(pick(
     'ip10', 'March photos clean-up', '28 of 30 photos copied.', PH_BODY, 'Photo IMG_2041.JPG, taken Mar 1, 2026 in Moda, İstanbul.',
-    tiles_for('Photo'), step=(3, 3), sum_icon='images', bottom_html=partial)))
+    tiles_for('Photo'), step=(3, 3), sum_icon='images', bottom_html=partial, scroll='-mt-28')))
 
 # ------------------------------------------------------------------ change mode
 P03 = PROD['p03']
@@ -544,7 +564,7 @@ P.section('iOS, web and large text', 'iOS: back chevron with the previous title,
 ios_manage_bar = ios_bar('Card templates', 'Settings', 'S06-settings.html#S06-default')
 P.frame('S22-ios', 'iOS: manage mode', phone(manage(bar=ios_manage_bar), ios=True))
 ios_as = f'''{scrim(op='bg-scrim/40')}
-  <div class="absolute inset-x-2 bottom-2 z-20 space-y-2" role="dialog" aria-modal="true" aria-labelledby="ias">
+  <div class="absolute inset-x-2 bottom-9 z-20 space-y-2" role="dialog" aria-modal="true" aria-labelledby="ias">
     <div class="divide-y overflow-hidden rounded-tile bg-popover">
       <div class="px-4 py-3 text-center"><p id="ias" class="text-label text-muted-foreground">Candidate, compact</p><p class="text-caption text-muted-foreground">Used by Frontend hiring, Q4</p></div>
       <a href="S23-template-editor.html#S23-edit-saved" class="flex h-14 items-center justify-center text-title-3 font-normal text-primary">Edit</a>
@@ -557,9 +577,9 @@ ios_as = f'''{scrim(op='bg-scrim/40')}
 P.frame('S22-ios-actions', 'iOS: template actions as an action sheet', phone(manage(bar=ios_manage_bar, overlay=ios_as), ios=True))
 P.frame('S22-import-pick-ios', 'iOS: import finish step', phone(pick(
     'ip11', 'Wedding guests', SUM_CONTACTS, AYSE, AYSE_L, tiles_for('Person'),
-    ios=True, back=('Review duplicates', 'S20-duplicate-review.html#S20-default')), ios=True))
+    ios=True, back=('Review duplicates', 'S20-duplicate-review.html#S20-default'), stage_h='h-56', stage_scale='scale-[.36]'), ios=True))
 web_menu = menu([('pencil', 'Edit', 'S23-template-editor.html#S23-edit-saved', False), ('text-cursor-input', 'Rename', '#S22-rename', False),
-                 ('copy', 'Duplicate', '#S22-duplicated', False), '-', ('trash-2', 'Delete template', '#S22-delete', True)], top='top-1/2')
+                 ('copy', 'Duplicate', '#S22-duplicated', False), '-', ('trash-2', 'Delete template', '#S22-delete', True)], top='bottom-32')
 web_manage = manage(overlay=web_menu).replace('aria-label="More options for Candidate, compact" data-action="template-options"', 'aria-label="More options for Candidate, compact" aria-expanded="true" data-action="template-options"')
 P.frame('S22-web-desktop', 'Web, desktop browser: actions open as a menu', desktop(web_manage, 'swipesort.app/settings/templates'))
 
@@ -664,7 +684,7 @@ def not_on_card(keys, vals, readonly=False):
     return out
 
 
-def editor_body(layout, vals, hidden=HIDDEN_CSV, part='top', focus_up_row=None, title_error=False, readonly=False, sub_warn=False, extra_top=''):
+def editor_body(layout, vals, hidden=HIDDEN_CSV, part='top', focus_up_row=None, title_error=False, readonly=False, sub_warn=False, extra_top='', pt='pt-4'):
     allk = [k for k, _ in CLABEL.items()]
     used = {layout['title'], layout.get('subtitle')} | set(layout['rows']) | set(layout['tags'])
     rest = [k for k in allk if k not in used and k != 'role'] + (['role'] if 'role' not in used else [])  # hidden last
@@ -692,12 +712,12 @@ def editor_body(layout, vals, hidden=HIDDEN_CSV, part='top', focus_up_row=None, 
     else:
         parts = tgs + noc
     focus = ' tabindex="0" role="region" aria-label="Template layout"' if readonly else ''
-    return f'<div class="min-h-0 flex-1 space-y-6 overflow-y-auto px-gutter pb-6 pt-4"{focus}>{extra_top}{parts}</div>'
+    return f'<div class="min-h-0 flex-1 space-y-6 overflow-y-auto px-gutter pb-6 {pt}"{focus}>{extra_top}{parts}</div>'
 
 
 def editor(layout, vals, idx, title='New template', caption='Copy of Candidate, not saved', back='#S23-discard', back_label='Back to Finish',
            part='top', overlay='', bottom_html=None, helper='', trailing='', ios=False, readonly=False, notice='', title_error=False,
-           sub_warn=False, focus_up_row=None, preview_with='', bar=None, no_title=False, label_override=None):
+           sub_warn=False, focus_up_row=None, preview_with='', bar=None, no_title=False, label_override=None, pt='pt-4'):
     body = card_body(layout, vals, CLABEL, hidden=HIDDEN_CSV, no_title=no_title)
     label = label_override or card_label(layout, vals, CLABEL, HIDDEN_CSV)
     if bar is None:
@@ -711,7 +731,7 @@ def editor(layout, vals, idx, title='New template', caption='Copy of Candidate, 
     <p class="pb-2 pt-1 text-center text-caption tabular-nums text-muted-foreground" aria-live="polite">Item {idx} of 12</p>
     {hp}
   </div>'''
-    eb = editor_body(layout, vals, part=part, focus_up_row=focus_up_row, title_error=title_error, readonly=readonly, sub_warn=sub_warn)
+    eb = editor_body(layout, vals, part=part, focus_up_row=focus_up_row, title_error=title_error, readonly=readonly, sub_warn=sub_warn, pt=pt)
     bot = bottom_html if bottom_html is not None else bottom('Save template', '#S23-save', 'save-template')
     return bg(f'''{bar}
   {prev}
@@ -738,8 +758,8 @@ E.frame('S23-save-error', 'Save dialog: name required', phone(editor(COMPACT, L0
 E.section('Live preview', 'Previous and next cycle through the list\'s items (wrapping at the ends). The preview shows exactly what the sort card will show: empty values are left out, long text wraps and truncates (TPL-05, TPL-06, TPL-07).')
 E.frame('S23-preview-missing', 'Missing values: Marco Bianchi has no salary and no portfolio', phone(editor(
     COMPACT_PLUS, L04, 4, part='rows', helper='2 empty fields are left out of this card.')))
-E.frame('S23-preview-long', 'Very long name: wraps to 3 lines, then ends with …', phone(editor(
-    COMPACT, L09, 9, helper='Long titles wrap to 3 lines. Longer values end with … and show in full in item details.')))
+E.frame('S23-preview-long', 'Long name (k09, 36 characters): the title wraps to 2 lines; rows truncate to 1 line', phone(editor(
+    COMPACT, L09, 9, helper='Long titles wrap to 3 lines; very long ones get a smaller size and up to 4. Values end with … and show in full in item details.')))
 full_body = card_body(COMPACT, L01, CLABEL)
 full = f'''<div class="absolute inset-0 z-20 flex flex-col bg-background" role="dialog" aria-modal="true" aria-labelledby="pf1">
     <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
@@ -777,7 +797,7 @@ def picker_sheet():
     body = f'''<div class="mt-2">
       <ul class="divide-y">{opt("portfolio")}{opt("email")}</ul>
       <p class="pb-1 pt-4 text-label text-muted-foreground">On the card already: choosing one moves it here</p>
-      <ul class="divide-y">{opt("name", "Title")}{opt("location", "Subtitle")}{opt("yearsExperience", "Field row")}{opt("source", "Tag")}{opt("role", disabled=True)}</ul>
+      <ul class="divide-y">{opt("name", "Title")}{opt("location", "Subtitle")}{opt("yearsExperience", "Field row")}{opt("expectedSalary", "Field row")}{opt("source", "Tag")}{opt("role", disabled=True)}</ul>
     </div>'''
     return sheet('fp1', 'Add field row', body, subtitle='Values from Lena Hoffmann')
 
@@ -866,8 +886,8 @@ E.frame('S23-rename', 'Rename dialog', phone(editor(
     overlay=dlg('rd3', 'Rename template', rn, dbtn('Cancel', href='#S23-edit-saved') + btn('Rename', 'primary', href='#S23-edit-saved', action='confirm-rename'), role='dialog'))))
 E.frame('S23-duplicated', 'Duplicated: now editing the copy', phone(editor(
     COMPACT, L01, 1, title='Candidate, compact (copy)', caption='Custom template, not used by any list', back='S22-template-library.html#S22-duplicated',
-    back_label='Back to Card templates', trailing=saved_trailing, bottom_html=bottom('Save template', disabled=True), part='rows',
-    overlay=snackbar('Duplicated as “Candidate, compact (copy)”', bottom='bottom-28'))))
+    back_label='Back to Card templates', trailing=saved_trailing, bottom_html=bottom('Save template', disabled=True), part='rows', pt='pt-14',
+    overlay=snackbar('Duplicated as “Candidate, compact (copy)”', bottom='bottom-36'))))
 del_body2 = f'''<p class="mt-2 text-body text-muted-foreground">Frontend hiring, Q4 uses this template. Its cards switch to the template you choose.</p>
     <div class="mt-4"><p class="text-label">Card template for Frontend hiring, Q4</p><div class="mt-1.5">{select_trigger("Candidate", "Card template for Frontend hiring, Q4: Candidate")}</div><p class="mt-1.5 text-caption text-muted-foreground">Candidate is the template it was based on.</p></div>'''
 E.frame('S23-delete', 'Delete from the editor: choose a replacement', phone(editor(

@@ -386,7 +386,7 @@ const activity = [
   { id: 'ev4', listId: 'l-wedding', type: 'memberFinished', actor: 'u-selin', at: '2026-10-10T09:30:00Z', text: 'Selin finished sorting', future: true, $note: 'Illustrative future event for S38: shown in the activity feed state after Selin decides all 100 items' },
   { id: 'ev5', listId: 'l-wedding', type: 'memberJoined', actor: 'u-selin', at: '2026-10-02T17:40:00Z', text: 'Selin joined the list' },
   { id: 'ev6', listId: 'l-wedding', type: 'newConflicts', at: '2026-10-03T11:45:00Z', count: st('conflict'), text: `${st('conflict')} new conflicts` },
-  { id: 'ev7', listId: 'l-wedding', type: 'conflictsResolved', actor: 'u-mert', at: '2026-10-09T21:14:00Z', count: 3, text: 'Mert resolved 3 conflicts' },
+  // ev7 removed in QA round 2: "Mert resolved 3 conflicts" contradicted the 15 open conflicts.
 ];
 
 const data = {

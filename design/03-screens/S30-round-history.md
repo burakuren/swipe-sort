@@ -64,7 +64,7 @@ Pushed screen, no bottom navigation.
 counts; shared in-progress: List status card); **Details** ListGroup of label/value rows: Items, Card order,
 Started, Finished, Sorting time (solo) or Started by, Conflict rule (shared); **Changed in a later round**
 row (solo, when a later round re-decided items) → the later round's results; **Members** (shared): one row per
-member with avatar, name, role caption, "85 / 100 decided", own split bar and legend; **Items in card order**:
+member with avatar, name, a role line as in S34 (`crown` Owner, `gavel` Decision Maker, Collaborator as text), "85 / 100 decided", own split bar and legend; **Items in card order**:
 numbered rows (position, thumbnail/avatar, title wrapping to 2 lines, DecisionBadge from that round), first 5 + "See all 20
 items"; pinned primary "See Round 1 results".
 
@@ -84,7 +84,7 @@ DecisionBadge, Avatar, IconButton, Button, Alert (neutral, archived), EmptyState
 | `S30-never-sorted` | Frontend hiring, Q4: "No rounds yet" + Start sorting | List never sorted (`currentRound: null`) |
 | `S30-loading` | Skeleton rounds | Opening a list with many rounds (rare: history is local) |
 | `S30-ios` | iOS: back chevron "Desk setup", info buttons in the tint color (detail disclosure), Start a new round | iOS |
-| `S30-large-text` | 200%: title `text-title-1`, meta wraps, legend wraps one item per line | Font scale ≥ 150% |
+| `S30-large-text` | 200%: Latest results group kept; titles `text-title-1`, meta wraps, legend one item per line | Font scale ≥ 150% |
 
 No offline state: history is stored with the list on the device; on shared lists rounds started by the
 Owner arrive with sync like any other change. No error state beyond the S40 generic error.
@@ -129,7 +129,7 @@ Owner arrive with sync like any other change. No error state beyond the S40 gene
 - Member mini rows are one image with a text label ("You 76 of 100 decided, Mert 85 of 100, Selin 43 of
   100") inside the row; in round detail each member is a list item with text.
 - Items in card order are an ordered list (`ol`); positions are real sequence numbers.
-- Large text (`S30-large-text`): titles 28, meta 18 and wrapping, legend wraps per item, bottom button 64.
+- Large text (`S30-large-text`): titles 28, meta 18 and wrapping, legend one item per line (Latest results and every round), bottom button 64.
 - Touch targets: rows ≥ 120, info buttons 48, buttons 48.
 - Reduced motion: only push transitions, replaced by fades.
 

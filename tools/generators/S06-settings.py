@@ -111,7 +111,7 @@ def root(state='signed-in', top='', haptics_web=False, notif_value='On', scrolle
     return f'''{head}
   {top}
   <div class="min-h-0 flex-1 overflow-hidden px-4 pb-6 {"pt-5" if state == "offline" and not scrolled else "pt-2"}">{inner}</div>
-  {bottom_nav('settings') if nav else ''}
+  {bottom_nav('settings', badge=0 if state == 'guest' else 2) if nav else ''}
   {overlay}'''
 
 
@@ -259,7 +259,7 @@ def feedback(top='', alert='', btn_html=None, value='Could the Maybe pile show h
 P.frame('S06-feedback', 'Send feedback: form', phone(feedback()))
 P.frame('S06-feedback-sent', 'Feedback sent (back on Help)', phone(help_page(snackbar('Feedback sent. Thanks for helping improve SwipeSort.', bottom='bottom-6')).replace('Help and feedback</h1>', 'Help and feedback</h1>', 1)))
 P.frame('S06-feedback-error', "Feedback couldn't send: offline", phone(feedback(
-    top=offline_banner("You're offline."),
+    top=offline_banner("You're offline. Your message stays here; sending needs a connection."),
     alert=alert_error("Couldn't send your feedback", "You're offline. Your message stays here; send it when you're back online."),
     btn_html=btn('Try again', 'primary', action='retry'))))
 
@@ -306,7 +306,7 @@ big = f'''<header class="shrink-0"><div class="h-6"></div><h1 class="px-gutter p
   </div>
   <nav class="flex h-24 shrink-0 border-t bg-card" aria-label="Main">
     <a href="S08-home.html#S08-default" class="flex flex-1 flex-col items-center justify-center gap-1 text-label text-muted-foreground">{icon('list-checks', 'size-7')}Lists</a>
-    <a href="S38-activity.html#S38-default" class="flex flex-1 flex-col items-center justify-center gap-1 text-label text-muted-foreground" aria-label="Activity, 3 unread"><span class="relative">{icon('activity', 'size-7')}<span class="absolute -right-3 -top-1 flex h-6 min-w-6 items-center justify-center rounded-full bg-primary px-1 text-label leading-none text-primary-foreground">3</span></span>Activity</a>
+    <a href="S38-activity.html#S38-default" class="flex flex-1 flex-col items-center justify-center gap-1 text-label text-muted-foreground" aria-label="Activity, 2 unread"><span class="relative">{icon('activity', 'size-7')}<span class="absolute -right-3 -top-1 flex h-6 min-w-6 items-center justify-center rounded-full bg-primary px-1 text-label leading-none text-primary-foreground">2</span></span>Activity</a>
     <a href="#S06-large-text" class="flex flex-1 flex-col items-center justify-center gap-1 text-label font-semibold" aria-current="page"><span class="flex h-9 w-16 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground">{icon('settings', 'size-7')}</span>Settings</a>
   </nav>'''
 P.frame('S06-large-text', 'Large text (200%)', phone(big))

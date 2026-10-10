@@ -26,11 +26,11 @@ SOURCES = [
 
 
 def tile(ic, name, desc, href, action):
-    return f'<a href="{href}" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="{action}">{icon(ic, "size-6 text-primary")}<span><span class="block text-label-lg">{name}</span><span class="block text-caption text-muted-foreground">{desc}</span></span></a>'
+    return f'<a href="{href}" class="flex min-h-28 flex-col justify-start gap-3 rounded-tile border bg-card p-4" data-action="{action}">{icon(ic, "size-6 text-primary")}<span><span class="block text-label-lg">{name}</span><span class="block text-caption text-muted-foreground">{desc}</span></span></a>'
 
 
 def tile_off(ic, name, desc, badge_ic, aria):
-    return f'<button class="flex min-h-28 flex-col justify-between rounded-tile border border-dashed border-input bg-transparent p-4 text-left" aria-label="{aria}"><span class="flex w-full items-start justify-between">{icon(ic, "size-6 text-muted-foreground")}{icon(badge_ic, "size-4 text-muted-foreground")}</span><span><span class="block text-label-lg text-muted-foreground">{name}</span><span class="block text-caption text-muted-foreground">{desc}</span></span></button>'
+    return f'<button class="flex min-h-28 flex-col justify-start gap-3 rounded-tile border border-dashed border-input bg-transparent p-4 text-left" aria-label="{aria}"><span class="flex w-full items-start justify-between">{icon(ic, "size-6 text-muted-foreground")}{icon(badge_ic, "size-4 text-muted-foreground")}</span><span><span class="block text-label-lg text-muted-foreground">{name}</span><span class="block text-caption text-muted-foreground">{desc}</span></span></button>'
 
 
 def picker(overrides=None, banner='', note_extra=''):
@@ -216,7 +216,7 @@ def s09_screen(frame_id, suffix):
 
 added_event = f'<li class="flex items-center gap-3 px-4 py-3">{avatar(photo="images/people/u-deniz.svg", size="size-8")}<span class="min-w-0 flex-1"><span class="block text-body">You added 12 items from mert-family.csv</span><span class="block text-body-sm text-muted-foreground">Just now</span></span></li>'
 ACT_UL = '<ul class="mt-1 divide-y overflow-hidden rounded-group bg-card dark:border">'
-P.frame('S21-success', 'Back on S09: snackbar “Added 12 items” with Undo', phone(s09_screen('S09-shared', 's21a') + snackbar('Added 12 items', 'Undo', bottom='bottom-6')))
+P.frame('S21-success', 'Back on S09: snackbar “Added 12 items” with Undo', phone(s09_screen('S09-shared', 's21a') + snackbar('Added 12 items', 'Undo', bottom='bottom-2')))
 P.frame('S21-success-activity', 'S09 scrolled: the addition in Recent activity', phone(s09_screen('S09-shared-scrolled', 's21b').replace(ACT_UL, ACT_UL + added_event, 1)))
 
 # ------------------------------------------------------------------ errors and states
@@ -245,7 +245,7 @@ P.frame('S21-offline', 'Offline: local sources work, Google Sheets doesn\'t', ph
   {picker({"Google Sheets": off_tile})}'''))
 
 web_contacts = tile_off('contact', 'Contacts', 'Needs the Android or iOS app', 'monitor-smartphone', 'Contacts, needs the Android or iOS app')
-web_photos = tile('upload', 'Photos', 'Upload from this device', 'S18-photos-import.html#S18-web', 'source-photos')
+web_photos = tile('image-up', 'Upload photos', 'Image files from this device', 'S18-photos-import.html#S18-web', 'source-photos')
 web_note = ' Contacts import needs the Android or iOS app. <a href="https://swipesort.app/get" class="text-primary underline underline-offset-4">Get the app</a>'
 P.frame('S21-web', 'Web: contacts unavailable, photos upload', web_phone(f'''{bar()}
   {stepper("Choose source", 1, 5)}

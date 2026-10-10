@@ -32,7 +32,7 @@ FLOWS = [
       ('S05-moved', 'Lists moved'), ('S31-default', 'Invite: copy the link'), ('S31-link-copied', 'Link copied'),
       ('S32-web-desktop', 'Mert opens the link in a browser'), ('S03-web-desktop', 'Mert signs in on the web'),
       ('S33-web-desktop', 'Join the list'), ('S34-dm-changed', 'Deniz makes Mert the Decision Maker'), ('S25-web-desktop', 'Mert sorts on the web'),
-      ('demo:deck=mert&next=..%2F03-screens%2FS09-list-overview.html%23S09-shared-decision-maker', 'Mert sorts with the keyboard (live)'),
+      ('demo:deck=mert&count=3&next=..%2F03-screens%2FS09-list-overview.html%23S09-shared-decision-maker', 'Mert sorts with the keyboard (live; stops after 3 cards)'),
       ('S25-shared', 'Meanwhile, Deniz sorts on her phone'), ('S09-shared-decision-maker', 'Mert sees 15 conflicts to resolve'), ('S36-default', 'Conflicts one by one'),
       ('S37-confirm', 'Resolve all with my decisions'), ('S37-summary', 'Resolved 12, 3 still open'),
       ('S39-shared', 'Export the shared list'), ('S39-shared-google-destination', 'New spreadsheet'),

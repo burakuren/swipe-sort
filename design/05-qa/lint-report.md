@@ -1,8 +1,8 @@
 # Design lint report
 
-Generated 2026-10-10T03:05:48.610Z by `npm run lint`.
+Generated 2026-10-10T03:41:31.701Z by `npm run lint`.
 
-**0 error(s), 291 touch-target warning(s)** across 40 screen file(s) and 40 spec(s).
+**0 error(s), 289 touch-target warning(s)** across 40 screen file(s) and 40 spec(s).
 
 ## Errors
 
@@ -299,5 +299,3 @@ None.
 - S29-web-desktop: target 74×36 "Any"
 - S29-web-desktop: target 122×36 "4 and up 7"
 - S29-web-desktop: target 134×36 "4.5 and up 4"
-- S32-web-signed-in: target 1×1 "Continue to the join screen (prototype)"
-- S32-app: target 1×1 "Continue to the join screen (prototype)"

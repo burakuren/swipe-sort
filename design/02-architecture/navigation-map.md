@@ -201,7 +201,7 @@ shortens the 85-item round) → `S27-first-round`.
 [`continue`] → `S31-default` [`copy-link`] → `S31-link-copied` [`partner-opens-link`] →
 `S32-web-desktop` [`sign-in-to-join`] → `S03-web-desktop` [`continue-google`] → `S33-web-desktop`
 [`start-sorting`] → `S25-web-desktop` (keyboard sorting; any decision opens the live demo
-`swipe-demo.html?deck=mert` with Mert's undecided items) [`finish` = close] → `S09-shared-decision-maker` (Mert at 85 / 100;
+`swipe-demo.html?deck=mert&count=3` with Mert's undecided items c089–c100; the 3 open conflicts stay undecided) [`finish` = close] → `S09-shared-decision-maker` (Mert at 85 / 100;
 meanwhile Deniz sorts on Android, `S25-shared`; earlier Deniz made Mert the Decision Maker, `S34-dm-changed`)
 [`review-conflicts`] → `S36-default` [`resolve-all`] → `S37-confirm` [`confirm-resolve`] →
 `S37-summary` [`export`] → `S39-shared` [`format-google`] → `S39-shared-google-destination` [`continue`] →

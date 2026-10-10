@@ -151,7 +151,7 @@ button that leaves. No illustrations, no error codes.
 | Transfer ownership | `S40-transfer-ownership` | primary | Owner: “Make Owner” | S34 member sheet, S34 “Transfer ownership” (with “… and stay”) |
 | End round (solo) | `S40-end-round` | primary | “End round” before every item is decided (drawn on the solo March photos clean-up, 12 / 30) | S25 menu `S25-menu` (any solo list, e.g. `S25-photo`) → S27 `S27-ended-early` |
 | End round (shared) | `S40-end-round-shared` | primary | Owner: “End round” on a shared list | S25 menu `S25-shared-menu`; iOS `S40-ios-end-round` |
-| New round while one is open, solo (A-34) | `S40-new-round` | primary | “Start round” while the current round is open | S24, S27 “Start a new round”, S09 “Start a new round” |
+| New round while one is open, solo (A-34) | `S40-new-round` | primary | “Start round” while the current round is open (drawn on the solo March photos clean-up, 12 / 30) | S24, S27 “Start a new round”, S09 “Start a new round” |
 | New round while one is open, shared (A-34, DM-15) | `S40-new-round-shared` (= S24 `S24-end-round-dialog`) | primary | Owner: “Start round” while the current shared round is open | S24 (`S24-round-in-progress`), S27 / S09 “Start a new round” on a shared list |
 | Discard import | `S40-discard-import` | destructive | Close (`x`) with anything chosen, typed or read in an import | S12–S20, S22 pick mode (all import steps, A-61); iOS `S40-ios-discard-import` |
 | Discard adding items | `S40-discard-add-items` | destructive | Close in Add items after a file or source was chosen | S21 |
@@ -289,7 +289,7 @@ sample data.
 | Transfer ownership | "Make Mert the Owner?" | "Mert will manage members, rounds and the conflict rule, and can rename or delete the list." + "You'll stay on the list as a Collaborator. Only Mert can make you the Owner again." | "Cancel", "Make Mert Owner" |
 | End round (solo) | "End Round 1?" | "18 items aren't decided yet. Your 12 decisions are kept, and you can continue Round 1 from the summary until you start a new round." | "Cancel", "End Round 1" |
 | End round (shared) | "End Round 1 for everyone?" | "Mert and Selin are still sorting. Decisions made so far are kept, and items nobody decided stay undecided." + "Everyone sees the round summary." (all finished except me: "Mert and Selin have finished. …") | "Cancel", "End Round 1" |
-| New round (solo) | "End Round 1 and start Round 2?" | "24 items in Round 1 aren't decided yet. Your decisions so far are kept. Round 2 starts with 11 items." | "Cancel", "End Round 1 and start" |
+| New round (solo) | "End Round 1 and start Round 2?" | "18 items in Round 1 aren't decided yet. Your decisions so far are kept. Round 2 starts with 5 items." (March photos clean-up, Accepted items) | "Cancel", "End Round 1 and start" |
 | New round (shared) | "End Round 1 for everyone and start Round 2?" | "Mert and Selin are still sorting. Decisions made so far are kept, and items nobody decided stay undecided." + "Round 2 starts for all 3 members with 11 items." | "Cancel", "End Round 1 and start" |
 | Discard import | "Discard import?" | Pattern "{What was chosen} will be lost. Nothing has been added to SwipeSort yet." Contacts: "Your selection of 88 contacts will be lost." File: "Your choices for candidates-q4.csv will be lost." Google Sheets: "Your choices for Flat hunt 2026 will be lost." Text: "Your text will be lost." Manual entry: "The 3 items you added will be lost." Photos: "Your selection of 30 photos will be lost." Finish step: "Your choices so far will be lost." | "Keep importing", "Discard import" |
 | Discard adding items | "Discard adding items?" | "Your choices for mert-family.csv will be lost. Nothing has been added to Wedding guests yet." | "Keep adding", "Discard" |
@@ -308,7 +308,7 @@ sample data.
 | Disconnect blocked | "Add a password first" | "Google is your only way to sign in. Add a password so you can still sign in after disconnecting Google." | "Cancel", "Add a password" |
 | Sign out | "Sign out?" | "Your lists are backed up to deniz.yilmaz@example.com. They'll be removed from this phone until you sign in again." | "Cancel", "Sign out" |
 | Sign out, unsynced | "Sign out without backing up?" | "12 changes haven't been backed up because you're offline. Signing out now removes them from this phone, and they can't be recovered." | "Cancel", "Sign out anyway" |
-| Delete account | "Delete your account?" | "This can't be undone. Wedding guests moves to Mert Aydın. Your other 3 lists, your decisions and your notes are deleted." (delete for everyone: "Wedding guests is deleted for all 3 members.") | "Cancel", "Delete account" |
+| Delete account | "Delete your account?" | "This can't be undone. “Wedding guests” moves to Mert Aydın. Your other 5 lists (2 of them archived), your decisions and your notes are deleted." (archived lists are counted; without archived lists the parenthesis is left out) (delete for everyone: "Wedding guests is deleted for all 3 members.") | "Cancel", "Delete account" |
 | iOS remove member | "Remove Selin from “Wedding guests”?" | "Selin can't open the list anymore. Kept decisions still count toward Agreed, Pending and Conflict." | "Remove and keep Selin's decisions", "Remove and discard Selin's decisions", "Cancel" |
 | Progress verbs | — | "Deleting…", "Removing…", "Archiving…", "Leaving…", "Resetting…", "Ending Round 1…", "Signing out…" | — |
 | Request failed (inline in dialog) | — | "Couldn't delete the list. Check your connection and try again." (verb per action: archive, leave, remove Selin, reset the link, end Round 1, change the rule) | — |
@@ -379,7 +379,7 @@ Pattern: "You're offline." + what is saved + (optional) what needs a connection.
 
 | Element | String |
 | --- | --- |
-| Toast | "Selin finished sorting" / "Wedding guests, 100 / 100 decided"; "Dismiss" (label) |
+| Toast | "15 conflicts in Wedding guests" / "Mert decides them." (event `newConflicts`, conflict icon instead of an avatar; opens S36); "Dismiss" (label). Any S38 event uses the same layout with its own title and detail |
 | Tab title with unread events | "(3) SwipeSort" |
 | Keyboard hints (S25 only) | "← Reject", "↑ Maybe", "→ Accept", "Z Undo", "N Note" |
 
@@ -399,7 +399,7 @@ Pattern: "You're offline." + what is saved + (optional) what needs a connection.
 - Contrast: all text ≥ 4.5:1 in both themes (token pairs in contrast.md); the snackbar action uses
   `primary-inverse` on `foreground`. Focus ring `ring` ≥ 3:1 against `background` and `popover`.
 - Touch targets ≥ 48 for every action, including snackbar actions and the toast's Dismiss.
-- Large text: dialogs stack actions at ≥ 150% (`S40-dialog-large-text`); snackbars move the action under the
+- Large text: every text style scales, including buttons (label-lg 16 → about 32, buttons grow to 64 high) and snackbar actions; dialogs stack actions at ≥ 150% (`S40-dialog-large-text`, drawn at 200%); snackbars move the action under the
   text (`S40-snackbar-large-text`); the offline banner wraps to more lines.
 - Reduced motion: dialogs, snackbars, banners and toasts fade 150 ms; sync icon static.
 

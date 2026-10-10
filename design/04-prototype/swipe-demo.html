@@ -115,13 +115,14 @@
       <div class="flex gap-2 pt-3">${tag(k.source)}</div></div>`,
   });
   const DECKS = {
-    wedding: { name: 'Wedding guests', round: 'Round 1', items: () => S.contacts.slice(76).map(person), done: 76, total: 100, counts: { reject: 17, maybe: 11, accept: 48 } },
+    wedding: { name: 'Wedding guests', round: 'Round 1', close: '../03-screens/S09-list-overview.html#S09-guest-wedding', items: () => S.contacts.slice(76).map(person), done: 76, total: 100, counts: { reject: 17, maybe: 11, accept: 48 } },
     // Flow 1: the first round of the 85 contacts just imported (88 selected, 3 duplicate pairs merged).
-    first: { name: 'Wedding guests', round: 'Round 1', items: () => S.contacts.filter((c) => c.source === 'contacts').slice(0, 85).map(person), done: 0, total: 85, counts: { reject: 0, maybe: 0, accept: 0 } },
-    // Flow 3: Mert on the web, sorting the items he hasn't decided yet (85 / 100 decided).
-    mert: { name: 'Wedding guests', round: 'Round 1, shared', items: () => S.shared.items.filter((x) => !x.decisions['u-mert']).map((x) => person(S.contacts.find((c) => c.id === x.itemId))), done: 85, total: 100, counts: { reject: 21, maybe: 14, accept: 50 } },
+    first: { name: 'Wedding guests', round: 'Round 1', close: '../03-screens/S09-list-overview.html#S09-guest-wedding', items: () => S.contacts.filter((c) => c.source === 'contacts').slice(0, 85).map(person), done: 0, total: 85, counts: { reject: 0, maybe: 0, accept: 0 } },
+    // Flow 3: Mert on the web (85 / 100 decided) sorting c089–c100. The 3 open conflicts he hasn't decided
+    // (c012, c034, c056) are left out: S09 and S37 show them as still undecided by him.
+    mert: { name: 'Wedding guests', round: 'Round 1, shared', close: '../03-screens/S09-list-overview.html#S09-shared-decision-maker', items: () => S.shared.items.filter((x) => !x.decisions['u-mert'] && !['c012', 'c034', 'c056'].includes(x.itemId)).map((x) => person(S.contacts.find((c) => c.id === x.itemId))), done: 85, total: 100, counts: { reject: 21, maybe: 14, accept: 50 } },
     desk: { name: 'Desk setup', round: 'Round 1', items: () => S.products.map(product) },
-    'desk-maybe': { name: 'Desk setup', round: 'Round 2, Maybe pile', items: () => S.products.filter((p) => S.productDecisions.round1[p.id] === 'maybe').map(product) },
+    'desk-maybe': { name: 'Desk setup', round: 'Round 2, Maybe pile', close: '../03-screens/S09-list-overview.html#S09-solo-round-done', items: () => S.products.filter((p) => S.productDecisions.round1[p.id] === 'maybe').map(product) },
     photos: { name: 'March photos clean-up', round: 'Round 1', items: () => S.photos.map(photo) },
     candidates: { name: 'Frontend hiring, Q4', round: 'Round 1', items: () => S.candidates.map(candidate) },
   };
@@ -135,6 +136,7 @@
   const counts = { ...(deck.counts || { reject: 0, maybe: 0, accept: 0 }) };
   const partial = base + items.length < total;
   document.getElementById('list-name').textContent = deck.name;
+  if (deck.close) document.getElementById('close').href = deck.close;
   document.getElementById('round-name').textContent = deck.round;
   const next = q.get('next');
   const NEXT = { 'S27-default': '../03-screens/S27-round-summary.html#S27-default', 'S27-first-round': '../03-screens/S27-round-summary.html#S27-first-round', 'S27-desk-round-2': '../03-screens/S27-round-summary.html#S27-desk-round-2', 'S27-shared': '../03-screens/S27-round-summary.html#S27-shared' };
@@ -393,7 +395,7 @@
   function finish() {
     const d = document.getElementById('done');
     document.getElementById('done-text').textContent = partial
-      ? `${base + index} of ${total} decided. The prototype skips the rest of the round.`
+      ? `${base + index} of ${total} decided. The prototype skips the rest of the round, and the next screens show the list as it was before this session.`
       : `${counts.accept} accepted, ${counts.maybe} maybe, ${counts.reject} rejected.`;
     if (partial) document.querySelector('#done h2').textContent = 'Done for now';
     d.classList.remove('hidden'); d.classList.add('flex');

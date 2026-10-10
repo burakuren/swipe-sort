@@ -187,7 +187,12 @@ def section_label(text, extra=''):
 def group(rows, extra=''):
     return f'<ul class="divide-y overflow-hidden rounded-group bg-card dark:border {extra}">{rows}</ul>'.replace(' "', '"')
 
-def dialog(title, body, actions, extra_body='', z='z-50'):
+def sbtn(text, kind='ghost', href='#', action=None):
+    cls = {'ghost': '', 'destructive': 'bg-destructive text-destructive-foreground', 'primary': 'bg-primary text-primary-foreground'}[kind]
+    act = f' data-action="{action}"' if action else ''
+    return f'<a href="{href}" class="{" ".join(f"flex min-h-12 w-full items-center justify-center rounded-control px-4 py-2 text-center text-label-lg {cls}".split())}"{act}>{text}</a>'
+
+def dialog(title, body, actions, extra_body='', z='z-50', stacked=False):
     t, d = uid('dt'), uid('dd')
     return f'''<div class="absolute inset-0 {z} bg-scrim/50"></div>
   <div class="absolute inset-0 {z} flex items-center justify-center px-6">
@@ -195,7 +200,7 @@ def dialog(title, body, actions, extra_body='', z='z-50'):
       <h2 id="{t}" class="text-title-3">{title}</h2>
       <p id="{d}" class="mt-2 text-body text-muted-foreground">{body}</p>
       {extra_body}
-      <div class="mt-6 flex flex-wrap justify-end gap-2">{actions}</div>
+      <div class="mt-6 {"flex flex-col gap-2" if stacked else "flex flex-wrap justify-end gap-2"}">{actions}</div>
     </div>
   </div>'''
 
@@ -393,7 +398,7 @@ def s35_screen(current='dm', viewer='deniz', overlay='', offline=False, dm='mert
         intro = f'<p class="px-1 {b} text-muted-foreground">When members decide an item differently, it\'s a conflict. Choose how conflicts get a final decision.</p>'
         cards = []
         for key in ('everyone', 'majority', 'dm'):
-            sel = key == current
+            sel = key == current or (key == 'dm' and dm_none_open)
             note = ''
             href = {'everyone': '#S35-confirm-everyone', 'majority': '#S35-confirm-majority', 'dm': '#S35-default'}[key]
             action = {'everyone': 'rule-everyone', 'majority': 'rule-majority', 'dm': 'rule-decision-maker'}[key]
@@ -405,7 +410,7 @@ def s35_screen(current='dm', viewer='deniz', overlay='', offline=False, dm='mert
                 elif dm:
                     note = f'<p><span class="text-muted-foreground">If you switch:</span> Mert resolves the 7 open conflicts.</p>'
                 elif dm_none_open:
-                    note = 'DMNONE'
+                    note = '<p class="flex gap-2">' + icon('circle-dashed', 'size-4 mt-0.5 shrink-0 text-muted-foreground') + '<span>Not applied yet. Choose who decides first.</span></p>'
                 else:
                     note = '<p class="flex gap-2">' + icon('circle-alert', 'size-4 mt-0.5 shrink-0 text-muted-foreground') + '<span>Needs a Decision Maker. Choose one when you pick this rule.</span></p>'
             elif key == 'majority':
@@ -433,7 +438,7 @@ def s35_screen(current='dm', viewer='deniz', overlay='', offline=False, dm='mert
             rt = 'The Decision Maker chooses the final decision.' if (key == 'dm' and dm is None) else None
             cards.append(rule_card(key, sel, note, None if offline else href, action, offline, large, extra, rt))
         foot = f'<p class="px-1 {"text-body-lg" if large else "text-body-sm"} text-muted-foreground">Changing the rule never changes anyone\'s own decisions. Conflicts that are already resolved stay resolved.</p>'
-        body = (''.join(cards[1:]) + foot) if (dm_none_open or scrolled) else (intro + example_block(large) + ''.join(cards) + foot)
+        body = intro + example_block(large) + ''.join(cards) + foot
     else:
         cur = RULES['dm']
         if viewer == 'mert':
@@ -453,17 +458,18 @@ def s35_screen(current='dm', viewer='deniz', overlay='', offline=False, dm='mert
                 f'<section>{section_label("Other rules")}{group(others)}<p class="mt-2 px-1 text-body-sm text-muted-foreground">Only Deniz, the Owner, can change the rule.</p></section>')
     return f'''{hdr}
   {off}{top}
-  <div class="min-h-0 flex-1 overflow-hidden"><div class="space-y-4 px-4 pb-6 pt-2">{body}</div></div>
+  <div class="min-h-0 flex-1 overflow-hidden"><div class="space-y-4 px-4 {"-mt-52 pb-24" if scrolled else "pb-6"} pt-2">{body}</div></div>
   {overlay}'''
 
 def split_rows(split, large=False):
-    t = 'text-title-3 font-normal' if large else 'text-body'
+    t = 'text-title-2 font-normal' if large else 'text-body'
     out = ''
     for k in ('reject', 'maybe', 'accept'):
         ic, verb, state, _ = DEC[k]
         n = split[k]
         tone = f'text-{k}-soft-foreground' if n else 'text-muted-foreground'
-        out += f'<li class="flex min-h-10 items-center gap-3"><span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-{k}-soft {tone}">{icon(ic, "size-4")}</span><span class="flex-1 {t}">{verb}</span><span class="{t} tabular-nums">{n}</span></li>'
+        cs, isz = ('size-10', 'size-5') if large else ('size-7', 'size-4')
+        out += f'<li class="flex min-h-10 items-center gap-3"><span class="flex {cs} shrink-0 items-center justify-center rounded-full bg-{k}-soft {tone}">{icon(ic, isz)}</span><span class="flex-1 {t}">{verb}</span><span class="{t} tabular-nums">{n}</span></li>'
     return f'<ul class="mt-2" aria-label="Final decisions by type">{out}</ul>'
 
 def build_s35():
@@ -482,16 +488,24 @@ def build_s35():
     ev_body = '''<div class="mt-4 rounded-control bg-muted p-4"><p class="text-label">15 stay open</p><p class="mt-0.5 text-body-sm text-muted-foreground">Mert can no longer resolve them. Each item is final only when Deniz, Mert and Selin choose the same.</p></div>'''
     F('S35-confirm-everyone', 'Switching to Everyone must agree', phone(s35_screen(overlay=dialog(
         'Switch to Everyone must agree?', 'No conflict gets a final decision until members change their decisions to match. Members are notified.',
-        dbtn('Cancel', href='#S35-default') + dbtn('Switch to Everyone must agree', 'primary', '#S35-default', 'confirm-rule'), ev_body))))
+        sbtn('Switch to Everyone must agree', 'primary', '#S35-default', 'confirm-rule') + sbtn('Cancel', href='#S35-default', action='cancel'), ev_body, stacked=True))))
     F('S35-confirm-dm', 'Switching back to Decision Maker decides (Mert is Decision Maker)', phone(s35_screen('majority', overlay=dialog(
         'Switch to Decision Maker decides?', f'Mert resolves the {len(MAJ_OPEN)} open conflicts and any new ones. The {len(MAJ_FINAL)} conflicts that became final by majority stay final. Members are notified.',
-        dbtn('Cancel', href='#S35-switched') + dbtn('Switch to Decision Maker decides', 'primary', '#S35-default', 'confirm-rule')))))
+        sbtn('Switch to Decision Maker decides', 'primary', '#S35-default', 'confirm-rule') + sbtn('Cancel', href='#S35-switched', action='cancel'), stacked=True))))
     pg.section('Without a Decision Maker', 'Majority without a Decision Maker leaves ties open. Decision Maker decides cannot work without one, so picking it asks the Owner to choose a member first, with the same switch as Members (S34).')
     F('S35-majority-no-dm', 'Majority decides, nobody is Decision Maker: ties stay open', phone(s35_screen('majority', dm=None)))
-    F('S35-dm-none', 'Picking Decision Maker decides with no Decision Maker', phone(s35_screen('majority', dm=None, dm_none_open=True)))
-    F('S35-dm-none-confirm', 'Mert switched on: confirm rule and role together', phone(s35_screen('majority', dm=None, dm_none_open=True, dm_pending='mert', overlay=dialog(
+    sw_rows = lambda pending: ''.join(f'<li class="flex min-h-14 items-center gap-3 py-1.5">{av(k, "size-8")}<span class="min-w-0 flex-1 text-body">{P[k]["name"]}{" <span class=\"text-muted-foreground\">(you)</span>" if k == "deniz" else ""}</span>{switch(k == pending, "Decision Maker: " + P[k]["name"], href="#S35-dm-none-confirm")}</li>' for k in ('deniz', 'mert', 'selin'))
+    dm_sheet = f'''<div class="absolute inset-0 z-40 bg-scrim/50"></div>
+  <div class="absolute inset-x-0 bottom-0 z-40 rounded-t-sheet bg-popover px-gutter pb-5 pt-2 shadow-sheet" role="dialog" aria-modal="true" aria-labelledby="dmn35">
+    {handle()}
+    <div class="flex items-start justify-between gap-3 pt-2"><h2 id="dmn35" class="text-title-3">Choose the Decision Maker first</h2><a href="#S35-majority-no-dm" class="-mr-3 flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close">{icon("x")}</a></div>
+    <p class="mt-1 text-body text-muted-foreground">Decision Maker decides needs one member to resolve conflicts. Turn on one switch, then confirm the rule.</p>
+    <ul class="mt-3 divide-y border-t" aria-label="Decision Maker, one member at a time">{sw_rows(None)}</ul>
+  </div>'''
+    F('S35-dm-none', 'Picking Decision Maker decides with no Decision Maker: choose one first', phone(s35_screen('majority', dm=None, dm_none_open=True, overlay=dm_sheet)))
+    F('S35-dm-none-confirm', 'Mert switched on: confirm rule and role together', phone(s35_screen('majority', dm=None, dm_none_open=True, overlay=dialog(
         'Make Mert the Decision Maker?', 'The rule changes to Decision Maker decides. Mert resolves the 7 open conflicts and any new ones. Members are notified.',
-        dbtn('Cancel', href='#S35-dm-none') + dbtn('Make Mert Decision Maker', 'primary', '#S35-default', 'confirm-rule')))))
+        sbtn('Make Mert Decision Maker', 'primary', '#S35-default', 'confirm-rule') + sbtn('Cancel', href='#S35-dm-none', action='cancel'), stacked=True))))
     pg.section('Members who are not the Owner', 'Read-only: the current rule, who chose it and what it means for this member. The Decision Maker gets a direct way to the conflicts.')
     F('S35-collaborator', 'Collaborator view (Selin): read-only', phone(s35_screen(viewer='selin')))
     F('S35-decision-maker', 'Decision Maker view (Mert): read-only', phone(s35_screen(viewer='mert')))
@@ -624,7 +638,7 @@ def s36_progress(done, total, word='resolved', resolve_all=True, extra='', disab
     t = 'text-title-3' if large else 'text-label'
     return f'''<div class="shrink-0 px-gutter pb-1">
     <div class="flex min-h-8 items-center justify-between gap-3"><span class="{t} tabular-nums">{done} / {total} {word}</span>{extra}{ra}</div>
-    <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="{done}" aria-valuemin="0" aria-valuemax="{total}" aria-label="{done} of {total} conflicts {word}"><div class="h-full {pct} rounded-full bg-primary"></div></div>
+    <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="{done}" aria-valuemin="0" aria-valuemax="{total}" aria-label="{done} of {total} {word}"><div class="h-full {pct} rounded-full bg-primary"></div></div>
   </div>'''
 
 def cbtn(kind, state='rest', large=False, lbl_override=None, prefix='Final decision: '):
@@ -657,8 +671,8 @@ def s36_bar(mode='dm', armed=None, mine=None, caption=None, undo=True, undo_labe
     inv = ' invisible' if hide_caption else ''
     return f'<p class="flex shrink-0 items-center justify-center gap-1.5 px-gutter pt-2 text-center text-body-sm text-muted-foreground{inv}"{" aria-hidden=\"true\"" if hide_caption else ""}>{cap}</p>{bar}'
 
-def item_label(it, viewer='mert'):
-    return f'{it["name"]}, {it["sub"]}. Conflict. {dec_text(it["dec"], viewer)}'
+def item_label(it, viewer='mert', dec=None, status='Conflict'):
+    return f'{it["name"]}, {it["sub"]}. {status}. {dec_text(dec or it["dec"], viewer)}'
 
 def s36_screen(cid='c002', next_cid='c012', done=0, total=15, viewer='mert', mode='dm', drag=None, reduced=False, overlay='', top='', hint='',
                dec=None, extra_notes=(), status='conflict', status_label=None, mine=None, caption=None, resolve_all=True, word='resolved',
@@ -672,7 +686,7 @@ def s36_screen(cid='c002', next_cid='c012', done=0, total=15, viewer='mert', mod
     return f'''{hdr}
   {top}
   {prog or s36_progress(done, total, word, resolve_all and mode == 'dm', disabled=disabled)}
-  {cstack(ccard(body, item_label(it, viewer), drag, reduced, mode == 'dm'), nxt)}
+  {cstack(ccard(body, item_label(it, viewer, dec, status_label or status.capitalize()), drag, reduced, mode == 'dm'), nxt)}
   {s36_bar(mode, drag, mine, caption, undo, undo_label, disabled, snack)}
   {overlay}'''
 
@@ -721,9 +735,9 @@ def build_s36():
     <div class="mt-2 flex min-h-14 items-center gap-4"><span class="min-w-0 flex-1"><span class="block text-body">Only visible to me</span><span class="block text-body-sm text-muted-foreground">Deniz and Selin won't see this note.</span></span>{switch(True, "Only visible to me")}</div>
     {btn("Save note", "primary", "#S36-note-saved", "save-note", extra="mt-3")}
   </div>'''
-    F('S36-note', 'Adding a private note while resolving', phone(s36_screen('c020', 'c029', 3, overlay=note_sheet)))
+    F('S36-note', 'Adding a private note while resolving', phone(s36_screen('c020', 'c029', 3, hint=hint020, undo_label='Undo last resolution (Reject on Cem Tekin)', overlay=note_sheet)))
     mnote = [dict(itemId='c020', author='u-mert', text='Ask Deniz how close they are now.', private=True)]
-    F('S36-note-saved', 'Private note on the card: only the author sees it', phone(s36_screen('c020', 'c029', 3, extra_notes=mnote, overlay=snackbar('Note saved', bottom='bottom-28'))))
+    F('S36-note-saved', 'Private note on the card: only the author sees it', phone(s36_screen('c020', 'c029', 3, hint=hint020, undo_label='Undo last resolution (Reject on Cem Tekin)', extra_notes=mnote, overlay=snackbar('Note saved', bottom='bottom-28'))))
     menu = f'''<div class="absolute right-2 top-14 z-40 w-72 overflow-hidden rounded-control bg-popover py-1.5 shadow-overlay" role="menu" aria-label="Conflict options">
     <a href="#S36-resolved" role="menuitem" class="flex h-12 items-center gap-3 px-4 text-body" data-action="skip">{icon("skip-forward", "size-5 text-muted-foreground")}Skip for now</a>
     <a href="S26-item-detail.html#S26-shared-conflict" role="menuitem" class="flex h-12 items-center gap-3 px-4 text-body">{icon("panel-bottom-open", "size-5 text-muted-foreground")}Open item details</a>
@@ -772,14 +786,14 @@ def build_s36():
         status='conflict', caption='Your decision: Reject. The majority decides once everyone has.', word='final', undo=False)))
     tie_dec = dict(item('c020')['dec']); tie_dec['selin'] = 'maybe'
     tie_hint = '<p class="flex gap-2 text-body-sm text-muted-foreground">' + icon('vote', 'size-4 mt-0.5 shrink-0') + '<span>Tie: one Reject, one Maybe, one Accept. As Decision Maker, you break it.</span></p>'
-    F('S36-majority-tie', 'Majority decides: a tie goes to the Decision Maker', phone(s36_screen('c020', 'c060', 0, total=1, dec=tie_dec, hint=tie_hint, status_label='Tie', word='ties resolved', undo=False)))
+    F('S36-majority-tie', 'Majority decides: a tie goes to the Decision Maker', phone(s36_screen('c020', 'c060', 0, total=1, dec=tie_dec, hint=tie_hint, status_label='Tie', word='tie resolved', undo=False)))
 
     pg.section('States', 'Empty, loading, error and offline. Resolutions are written on the phone first and synced; conflicts can change during sync.')
     empty = f'''{s36_header()}
   <div class="flex flex-1 flex-col items-center justify-center px-8 text-center">
     {icon("git-compare-arrows", "size-8 text-muted-foreground")}
     <h2 class="text-balance mt-4 text-title-3">No conflicts</h2>
-    <p class="mt-1 max-w-xs text-balance text-body text-muted-foreground">When members decide an item differently, it shows up here. 15 items in Round 1 are still waiting for your decision.</p>
+    <p class="mt-1 max-w-xs text-balance text-body text-muted-foreground">When members decide an item differently, it shows up here. 15 items in Round&nbsp;1 are still waiting for your decision.</p>
     <div class="mt-6 w-full max-w-xs space-y-2">{btn("Continue sorting", "primary", "S25-sorting.html#S25-web-desktop", "continue-sorting")}{btn("Back to list", "ghost", "S09-list-overview.html#S09-shared-decision-maker")}</div>
   </div>'''
     F('S36-empty', 'No conflicts', phone(empty))
@@ -802,8 +816,8 @@ def build_s36():
   </div>'''
     F('S36-error', 'Error', phone(err))
     unsynced = f'<span class="inline-flex items-center gap-1.5 text-caption text-muted-foreground">{icon("cloud-off", "size-4")}2 not synced</span>'
-    F('S36-offline', 'Offline: resolutions saved on the phone', phone(s36_screen('c020', 'c029', 3, top=offline_banner("You're offline. Resolutions are saved on this phone and sync when you're back online."),
-        prog=s36_progress(3, 15, extra=unsynced, disabled=True), hint=hint020)))
+    F('S36-offline', 'Offline: resolutions saved on the phone', phone(s36_screen('c020', 'c029', 3, top=offline_banner("You're offline. Resolutions are saved on this phone."),
+        prog=s36_progress(3, 15, extra=unsynced, disabled=True), hint=hint020, undo_label='Undo last resolution (Reject on Cem Tekin)')))
     sync_sheet = f'''<div class="absolute inset-0 z-40 bg-scrim/50"></div>
   <div class="absolute inset-x-0 bottom-0 z-40 rounded-t-sheet bg-popover px-gutter pb-5 pt-2 shadow-sheet" role="dialog" aria-modal="true" aria-labelledby="sy36">
     {handle()}
@@ -815,7 +829,7 @@ def build_s36():
     </ul>
     {btn("Continue resolving", "primary", "#S36-progress", "continue", extra="mt-5")}
   </div>'''
-    F('S36-synced', 'Back online: conflicts changed during sync', phone(s36_screen('c020', 'c029', 3, total=16, overlay=sync_sheet)))
+    F('S36-synced', 'Back online: conflicts changed during sync', phone(s36_screen('c020', 'c029', 3, total=16, hint=hint020, undo_label='Undo last resolution (Reject on Cem Tekin)', overlay=sync_sheet)))
 
     pg.section('Accessibility', 'At 200% text the card shows the name, the status and the decisions only (notes move to item details) and the buttons become a labeled grid. Reduced motion: no tilt or fly-out; tint and stamp still show.')
     lt_body = card_body(item('c002'), 'mert', large=True)
@@ -886,7 +900,7 @@ def confirm_sheet(state='ok', large=False, ios=False):
     {busy}'''
     if ios:
         return f'''<div class="absolute inset-0 z-40 bg-scrim/40"></div>
-  <div class="absolute inset-x-0 bottom-0 top-14 z-40 flex flex-col rounded-t-sheet bg-popover shadow-sheet" role="dialog" aria-modal="true" aria-labelledby="{t}">
+  <div class="absolute inset-x-0 bottom-0 top-28 z-40 flex flex-col rounded-t-sheet bg-popover shadow-sheet" role="dialog" aria-modal="true" aria-labelledby="{t}">
     <div class="flex justify-center py-1.5"><span class="h-1 w-9 rounded-full bg-muted-foreground/40"></span></div>
     <div class="grid shrink-0 grid-cols-[1fr_auto_1fr] items-center px-3"><a href="S36-conflicts.html#S36-ios" class="inline-flex h-12 items-center justify-self-start px-1 text-body text-primary">Cancel</a><span class="text-body font-semibold">Resolve all</span><span></span></div>
     <div class="min-h-0 flex-1 overflow-hidden px-5 pt-2"><h2 id="{t}" class="text-title-2">{title}</h2>{body}</div>
@@ -900,7 +914,7 @@ def confirm_sheet(state='ok', large=False, ios=False):
   </div>'''
 
 def summary_screen(state='ok', large=False):
-    t = 'text-body-lg' if large else 'text-body'
+    t = 'text-title-3 font-normal' if large else 'text-body'
     if state == 'error':
         head = f'''<span class="flex size-14 items-center justify-center rounded-full bg-secondary text-secondary-foreground">{icon("gavel", "size-6")}</span>
       <h2 class="mt-4 text-balance text-title-1">Resolved 9 of 12 conflicts</h2>
@@ -914,7 +928,8 @@ def summary_screen(state='ok', large=False):
         err = ''
         split = BULK
     rows = split_rows(split, large)
-    open_sec = f'''<section class="mt-6 text-left">{section_label(f"{len(MERT_UNDECIDED)} still open")}
+    open_label = f"Also open: {len(MERT_UNDECIDED)} you haven't decided" if state == 'error' else f"{len(MERT_UNDECIDED)} still open"
+    open_sec = f'''<section class="mt-6 text-left">{section_label(open_label)}
       <div class="rounded-group bg-card px-4 dark:border">{open_item_rows(MERT_UNDECIDED, big=large)}</div></section>'''
     actions = f'''<div class="shrink-0 space-y-2 px-gutter pb-4 pt-3">
     {btn(f"Review {len(MERT_UNDECIDED) + (3 if state == 'error' else 0)} open conflicts", "primary", "S36-conflicts.html#S36-remaining", "review-open", size="h-14")}
@@ -973,7 +988,7 @@ def build_s37():
                       dbtn('Cancel', href='#S37-summary') + dbtn('Undo Resolve all', 'destructive', '#S37-undone', 'confirm-undo'))
     F('S37-undo', 'Undo from the summary: confirmation', phone(summary_screen() + undo_dlg))
     F('S37-undone', 'Undone: back to 15 open conflicts', phone(s36_screen(undo=False, overlay=snackbar(f'Undid Resolve all. {len(MERT_DECIDED)} conflicts are open again.', bottom='bottom-28', icon_name='undo-2'))))
-    F('S37-offline', 'Offline: Resolve all is blocked, one by one still works', phone(s36_screen(top=offline_banner("You're offline. Resolutions are saved on this phone and sync when you're back online."), undo=False) + confirm_sheet('offline')))
+    F('S37-offline', 'Offline: Resolve all is blocked, one by one still works', phone(s36_screen(top=offline_banner("You're offline. Resolutions are saved on this phone. Resolve all needs a connection."), undo=False) + confirm_sheet('offline')))
     na = f'''{appbar('Resolve conflicts', 'back', 'S09-list-overview.html#S09-shared', sub='Wedding guests, Round 1', lead_label='Back to Wedding guests')}
   <div class="flex flex-1 flex-col items-center justify-center px-8 text-center">
     {icon("gavel", "size-8 text-muted-foreground")}
@@ -983,8 +998,14 @@ def build_s37():
   </div>'''
     F('S37-not-allowed', 'Opened by a member who is not the Decision Maker (old link)', phone(na))
     pg.section('Accessibility and iOS', 'Large text keeps the counts and the open items readable; the sheet scrolls. iOS: the confirmation is a page sheet with Cancel in the bar.')
-    F('S37-large-text', 'Large text (200%): confirmation', phone(bg + confirm_sheet(large=True)))
-    F('S37-summary-large-text', 'Large text (200%): summary', phone(summary_screen(large=True)))
+    def big(h):
+        h = h.replace('text-label-lg', 'text-title-3 font-medium').replace('flex h-14 w-full', 'flex min-h-16 w-full py-2').replace('flex h-12 w-full', 'flex min-h-16 w-full py-2').replace('inline-flex h-12 items-center rounded-control px-4', 'inline-flex min-h-16 items-center rounded-control px-4')
+        h = h.replace('text-body-sm text-muted-foreground', 'text-body-lg text-muted-foreground').replace('flex items-center gap-2 text-title-3">', 'flex items-center gap-2 text-title-2">')
+        h = h.replace('px-1 pb-2 text-label text-muted-foreground', 'px-1 pb-2 text-title-3 text-muted-foreground')
+        h = h.replace('h-7 shrink-0 items-center gap-1.5 rounded-full bg-muted px-2.5 text-caption', 'h-9 shrink-0 items-center gap-1.5 rounded-full bg-muted px-3 text-label-lg')
+        return h
+    F('S37-large-text', 'Large text (200%): confirmation', phone(bg + big(confirm_sheet(large=True))))
+    F('S37-summary-large-text', 'Large text (200%): summary', phone(big(summary_screen(large=True))))
     F('S37-ios', 'iOS: confirmation as a page sheet', phone(s36_screen(hdr=s36_header(ios=True, back_href='S09-list-overview.html#S09-shared-decision-maker'), undo=False) + confirm_sheet(ios=True), ios=True))
     pg.write('S37-bulk-resolve.html')
 
@@ -995,20 +1016,25 @@ EV_IC = {'memberJoined': 'user-plus', 'memberFinished': 'flag', 'newConflicts': 
 
 # Deniz's feed (viewer = Owner). Text per domain-model.md › ActivityEvent; "you" for the viewer.
 FEED = [
-    ('Today', [dict(ev='ev4', type='memberFinished', actor='selin', text='Selin finished sorting Wedding guests', sub='100 / 100 decided', time='11 min ago', href='S09-list-overview.html#S09-shared', unread=True)]),
-    ('Yesterday', [dict(ev='ev7', type='conflictsResolved', actor='mert', text='Mert resolved 3 conflicts in Wedding guests', sub=None, time='9:14 PM', href='S28-results.html#S28-shared-resolved', unread=True)]),
     ('Oct 3', [dict(ev='ev6', type='newConflicts', actor=None, text='15 conflicts in Wedding guests', sub='Mert decides them.', time='11:45 AM', href='S36-conflicts.html#S36-non-dm', unread=True)]),
-    ('Oct 2', [dict(ev='ev5', type='memberJoined', actor='selin', text='Selin joined Wedding guests', sub=None, time='5:40 PM', href='S34-members.html#S34-default')]),
+    ('Oct 2', [dict(ev='ev5', type='memberJoined', actor='selin', text='Selin joined Wedding guests', sub=None, time='5:40 PM', href='S34-members.html#S34-default', unread=True)]),
     ('Sep 28', [dict(ev='ev1', type='roundStarted', actor='deniz', text='You started Round 1 in Wedding guests', sub='100 items', time='7:05 PM', href='S25-sorting.html#S25-shared'),
                 dict(ev='ev3', type='roleChanged', actor='deniz', text='You made Mert the Decision Maker', sub='Wedding guests', time='8:20 AM', href='S34-members.html#S34-default'),
                 dict(ev='ev2', type='memberJoined', actor='mert', text='Mert joined Wedding guests', sub=None, time='8:15 AM', href='S34-members.html#S34-default')]),
 ]
-MERT_FEED = [
+# Later state (Oct 20), after Mert's Resolve all (S37) and Selin finishing Round 1. Never shown with today's (Oct 10) data.
+LATER_FEED = [
     ('Today', [dict(type='memberFinished', actor='selin', text='Selin finished sorting Wedding guests', sub='100 / 100 decided', time='11 min ago', href='S09-list-overview.html#S09-shared', unread=True)]),
+    ('Yesterday', [dict(type='conflictsResolved', actor='mert', text='Mert resolved 12 conflicts in Wedding guests', sub='3 are still open.', time='9:14 PM', href='S28-results.html#S28-shared-resolved', unread=True)]),
+    ('Oct 3', [dict(type='newConflicts', actor=None, text='15 conflicts in Wedding guests', sub='Mert decides them.', time='11:45 AM', href='S36-conflicts.html#S36-non-dm')]),
+    ('Oct 2', [dict(type='memberJoined', actor='selin', text='Selin joined Wedding guests', sub=None, time='5:40 PM', href='S34-members.html#S34-default')]),
+]
+MERT_FEED = [
     ('Oct 3', [dict(type='newConflicts', actor=None, text='15 conflicts in Wedding guests need your decision', sub="You're the Decision Maker.", time='11:45 AM', href='S36-conflicts.html#S36-default', unread=True, action=('Review', 'S36-conflicts.html#S36-default'))]),
-    ('Oct 2', [dict(type='memberJoined', actor='selin', text='Selin joined Wedding guests', sub=None, time='5:40 PM', href='S34-members.html#S34-decision-maker')]),
+    ('Oct 2', [dict(type='memberJoined', actor='selin', text='Selin joined Wedding guests', sub=None, time='5:40 PM', href='S34-members.html#S34-decision-maker', unread=True)]),
     ('Sep 28', [dict(type='roundStarted', actor='deniz', text='Deniz started Round 1 in Wedding guests', sub='100 items', time='7:05 PM', href='S25-sorting.html#S25-shared'),
-                dict(type='roleChanged', actor='deniz', text='Deniz made you the Decision Maker', sub='Wedding guests', time='8:20 AM', href='S34-members.html#S34-decision-maker')]),
+                dict(type='roleChanged', actor='deniz', text='Deniz made you the Decision Maker', sub='Wedding guests', time='8:20 AM', href='S34-members.html#S34-decision-maker'),
+                dict(type='memberJoined', actor='mert', text='You joined Wedding guests', sub=None, time='8:15 AM', href='S34-members.html#S34-decision-maker')]),
 ]
 
 def ev_row(e, read_all=False, large=False):
@@ -1069,7 +1095,7 @@ def s38_header(unread=3, ios=False, offline=False, web=False):
     <h1 class="min-w-0 flex-1 text-title-1">Activity</h1>{mark}{prefs}
   </header>'''
 
-def s38_screen(groups=FEED, unread=3, tab='All', top='', overlay='', read_all=False, ios=False, large=False, filt=None, web=False, nav=True, body=None):
+def s38_screen(groups=FEED, unread=2, tab='All', top='', overlay='', read_all=False, ios=False, large=False, filt=None, web=False, nav=True, body=None):
     hdr = s38_header(0 if read_all else unread, ios, web=web)
     if top and groups is FEED:
         groups = FEED[:4]  # a top block pushes the oldest day below the fold; keep the frame free of clipped rows
@@ -1087,11 +1113,13 @@ def build_s38():
     pg = Page('S38', 'Activity and notifications', 'The Activity tab: what happened on shared lists, grouped by day, with unread state and filters. Plus how SwipeSort notifications read on the phone, the in-app banner, web in-app notifications, notification preferences and the push pre-permission. Spec: <a href="S38-activity.md">S38-activity.md</a>.')
     F = pg.frame
     pg.section('Activity feed', 'Deniz (Owner of Wedding guests). Six event types: someone joined, finished sorting, new conflicts, conflicts resolved, a new round started, a role changed. Each row opens the screen it is about.')
-    F('S38-default', 'Default: 3 unread, grouped by day', phone(s38_screen()))
-    F('S38-all-read', 'Mark all as read', phone(s38_screen(FEED[:4], read_all=True, overlay=snackbar('Marked 3 as read', bottom='bottom-24'))))
+    F('S38-default', 'Default (Oct 10): 2 unread, grouped by day', phone(s38_screen()))
+    F('S38-all-read', 'Mark all as read', phone(s38_screen(FEED[:4], read_all=True, overlay=snackbar('Marked 2 as read', bottom='bottom-24'))))
     F('S38-filter', 'Filter: Conflicts', phone(s38_screen(tab='Conflicts', filt={'newConflicts', 'conflictsResolved'})))
     F('S38-filter-members', 'Filter: Members', phone(s38_screen(tab='Members', filt={'memberJoined', 'memberFinished', 'roleChanged'})))
     F('S38-decision-maker', 'Decision Maker view (Mert): conflicts call for action', phone(s38_screen(MERT_FEED, unread=2)))
+    pg.section('Later: finished sorting and conflicts resolved', 'A later state, Oct 20, used only to show these two event types: Mert ran Resolve all the evening before (S37, 12 resolved, 3 open) and Selin decided her last item this morning (100 / 100). With today\'s data (Oct 10, Selin at 43 / 100, 15 open conflicts) neither event exists, so no other frame shows them.')
+    F('S38-member-finished', 'Later (Oct 20): Selin finished sorting; Mert resolved 12 conflicts', phone(s38_screen(LATER_FEED, unread=2)))
     pg.section('States', 'Empty, loading, error and offline.')
     empty = f'''<div class="flex h-full flex-col items-center justify-center px-8 text-center">
     {icon("activity", "size-8 text-muted-foreground")}
@@ -1123,10 +1151,10 @@ def build_s38():
     rows = [
         ('user-plus', 'Someone joins a list', 'Wedding guests', 'Selin joined the list.', 'Members (S34)'),
         ('user-plus', 'Joins with a Decision Maker link', 'Wedding guests', 'Mert joined as Decision Maker.', 'Members (S34)'),
-        ('flag', 'Someone finishes sorting', 'Wedding guests', 'Selin finished sorting. 100 / 100 decided.', 'List overview (S09)'),
+        ('flag', 'Someone finishes sorting', 'Wedding guests', '{Name} finished sorting. 100 / 100 decided.', 'List overview (S09)'),
         ('git-compare-arrows', 'New conflicts (members)', 'Wedding guests', '3 new conflicts. Mert decides them.', 'Conflicts (S36)'),
         ('git-compare-arrows', 'New conflicts (Decision Maker)', 'Wedding guests', '3 new conflicts need your decision.', 'Conflicts (S36)'),
-        ('check-check', 'Conflicts resolved', 'Wedding guests', 'Mert resolved 12 conflicts. 3 are still open.', 'Results (S28)'),
+        ('check-check', 'Conflicts resolved', 'Wedding guests', '{Decision Maker} resolved 12 conflicts. 3 are still open.', 'Results (S28)'),
         ('play', 'A new round starts', 'Wedding guests', 'Deniz started Round 2 with 11 items.', 'Sorting (S25)'),
         ('user-cog', 'Your role changes', 'Wedding guests', 'Deniz made you the Decision Maker.', 'Members (S34)'),
     ]
@@ -1138,30 +1166,31 @@ def build_s38():
     <ul class="mt-1 divide-y">{lis}</ul>
   </div>'''
     F('S38-push-content', 'Push notification content per event (annotation)', phone(annot))
-    s35bg = s35_screen()
-    banner = f'''<div class="absolute inset-x-3 top-16 z-40" role="status"><a href="S09-list-overview.html#S09-shared" class="flex items-start gap-3 rounded-control bg-popover p-3 shadow-overlay" data-action="open-notification">
-    <span class="relative shrink-0">{av("selin", "size-10")}<span class="absolute -bottom-1 -right-1 flex size-5 items-center justify-center rounded-full bg-secondary text-secondary-foreground ring-2 ring-popover">{icon("flag", "size-3")}</span></span>
-    <span class="min-w-0 flex-1"><span class="block text-label">Selin finished sorting Wedding guests</span><span class="block text-body-sm text-muted-foreground">100 / 100 decided</span></span>
+    s35bg = s35_screen(viewer='selin')
+    banner = f'''<div class="absolute inset-x-3 top-16 z-40" role="status"><a href="S28-results.html#S28-shared-resolved" class="flex items-start gap-3 rounded-control bg-popover p-3 shadow-overlay" data-action="open-notification">
+    <span class="relative shrink-0">{av("mert", "size-10")}<span class="absolute -bottom-1 -right-1 flex size-5 items-center justify-center rounded-full bg-secondary text-secondary-foreground ring-2 ring-popover">{icon("check-check", "size-3")}</span></span>
+    <span class="min-w-0 flex-1"><span class="block text-label">Mert resolved 12 conflicts in Wedding guests</span><span class="block text-body-sm text-muted-foreground">3 are still open.</span></span>
     <span class="text-caption text-muted-foreground">now</span>
   </a></div>'''
-    F('S38-in-app-banner', 'In-app banner while SwipeSort is open (Android, iOS and web)', phone(s35bg + banner))
+    F('S38-in-app-banner', 'In-app banner (moment of S37 Resolve all): Selin is on another screen', phone(s35bg + banner))
     pg.section('Web', 'Push notifications are not available on web (PLT-10): Activity and the badge update live while the tab is open, new events also show as a toast, and the feed explains why push needs the app.')
     web_note = f'''<div class="px-4 pt-3">{alert("neutral", "Push notifications need the app", "In the browser, new events show up here and as a badge while SwipeSort is open. To get notified on your phone, get SwipeSort for Android or iOS.", "monitor-smartphone", link("Get the app", GET_APP, "get-app"))}</div>'''
     F('S38-web', 'Web, mobile browser: in-app only, Get the app', web_phone(s38_screen(top=web_note, web=True)))
-    toast = f'''<div class="absolute bottom-24 right-4 z-40 flex w-80 items-start gap-3 rounded-control bg-popover p-3 shadow-overlay" role="status">
-    <span class="relative shrink-0">{av("selin", "size-10")}<span class="absolute -bottom-1 -right-1 flex size-5 items-center justify-center rounded-full bg-secondary text-secondary-foreground ring-2 ring-popover">{icon("flag", "size-3")}</span></span>
-    <a href="S09-list-overview.html#S09-shared" class="min-w-0 flex-1" data-action="open-notification"><span class="block text-label">Selin finished sorting Wedding guests</span><span class="block text-body-sm text-muted-foreground">100 / 100 decided</span></a>
+    toast = f'''<div class="absolute right-6 top-16 z-40 flex w-80 items-start gap-3 rounded-control bg-popover p-3 shadow-overlay" role="status">
+    <span class="relative shrink-0">{av("mert", "size-10")}<span class="absolute -bottom-1 -right-1 flex size-5 items-center justify-center rounded-full bg-secondary text-secondary-foreground ring-2 ring-popover">{icon("check-check", "size-3")}</span></span>
+    <a href="S28-results.html#S28-shared-resolved" class="min-w-0 flex-1" data-action="open-notification"><span class="block text-label">Mert resolved 12 conflicts in Wedding guests</span><span class="block text-body-sm text-muted-foreground">3 are still open.</span></a>
     <button class="-m-1.5 flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Dismiss">{icon("x", "size-4")}</button>
   </div>'''
-    host = f'''{s36_header(back_href='S09-list-overview.html#S09-shared')}
-  <div class="flex flex-1 flex-col items-center justify-center px-8 pb-24 text-center">
-    {icon("git-compare-arrows", "size-8 text-muted-foreground")}
-    <h2 class="mt-4 text-balance text-title-3">No conflicts</h2>
-    <p class="mt-1 max-w-xs text-balance text-body text-muted-foreground">When members decide an item differently, it shows up here. 24 items in Round 1 are still waiting for your decision.</p>
-    <div class="mt-6 w-full max-w-xs">{btn("Continue sorting", "primary", "S25-sorting.html#S25-shared", "continue-sorting")}</div>
-  </div>'''
-    desk = host + toast.replace('bottom-24 right-4', 'bottom-6 right-4')
-    F('S38-web-desktop', 'Web, desktop: toast for a new event while another screen is open', desktop('swipesort.app/l/7Hq2xK/conflicts', desk))
+    nondm = f'<div class="shrink-0 px-4 pb-2">{alert("info", "Mert decides conflicts", "You can still change your own decision. If everyone chooses the same, the item is Agreed.", "gavel")}</div>'
+    host = s36_screen('c012', 'c034', 12, viewer='deniz', mode='member', mine='accept', caption='Your decision: Accept. Mert decides the final decision.', top=nondm, word='resolved by Mert', undo=False)
+    desk = f'''<div class="desktop">
+  <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/l/7Hq2xK/conflicts</span></div>
+  <div class="desktop-column">
+  {host}
+  </div>
+  {toast}
+</div>'''
+    F('S38-web-desktop', 'Web, desktop (moment of S37 Resolve all): toast in the browser corner while Deniz reviews conflicts', desk)
     pg.section('Accessibility and iOS', 'Large text: rows grow, times move under the text. iOS: large title, standard tab bar.')
     F('S38-large-text', 'Large text (200%)', phone(s38_screen(large=True)))
     F('S38-ios', 'iOS', phone(s38_screen(ios=True), ios=True))

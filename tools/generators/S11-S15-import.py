@@ -149,11 +149,12 @@ def iosbar(title='Import', back=BACK_S11, close_href=HOME, close_label='Close im
 
 
 STEPS5 = ['Choose source', 'Select items', 'Map fields', 'Review duplicates', 'Finish']
-STEPS4 = ['Choose source', 'Select items', 'Review duplicates', 'Finish']  # photos, manual entry
+STEPS4 = ['Choose source', 'Select items', 'Review duplicates', 'Finish']  # manual entry
+STEPS3 = ['Choose source', 'Select items', 'Finish']  # photos (A-62)
 
 
 def stepper(n, total=5, big=False):
-    name = (STEPS5 if total == 5 else STEPS4)[n - 1]
+    name = {5: STEPS5, 4: STEPS4, 3: STEPS3}[total][n - 1]
     segs = ''.join(f'<span class="h-1 flex-1 rounded-full {"bg-primary" if i <= n else "bg-muted"}"></span>' for i in range(1, total + 1))
     lt, ct = ('text-title-3', 'text-body-lg') if big else ('text-label', 'text-caption')
     return f'''<div class="shrink-0 px-gutter pb-3 pt-1">
@@ -292,10 +293,10 @@ SOURCES = [
 def tile(s, state_='ok', big=False):
     if state_ in ('web', 'offline'):
         ic2, desc, href = ('monitor-smartphone', 'Needs the Android or iOS app', '#S11-web-unavailable') if state_ == 'web' else ('wifi-off', 'Needs a connection', '#S11-offline-tapped')
-        return f'''<a href="{href}" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border border-dashed border-input bg-transparent p-4" aria-haspopup="dialog" data-action="source-{s["id"]}"><span class="flex w-full items-start justify-between">{icon(s["icon"], "size-6 text-muted-foreground")}{icon(ic2, "size-4 text-muted-foreground")}</span><span><span class="block text-label-lg text-muted-foreground">{s["name"]}</span><span class="block text-caption text-muted-foreground">{desc}</span></span></a>'''
+        return f'''<a href="{href}" class="flex min-h-28 flex-col justify-start gap-3 rounded-tile border border-dashed border-input bg-transparent p-4" aria-haspopup="dialog" data-action="source-{s["id"]}"><span class="flex w-full items-start justify-between">{icon(s["icon"], "size-6 text-muted-foreground")}{icon(ic2, "size-4 text-muted-foreground")}</span><span><span class="block text-label-lg text-muted-foreground">{s["name"]}</span><span class="block text-caption text-muted-foreground">{desc}</span></span></a>'''
     if big:
         return f'''<a href="{s["href"]}" class="flex min-h-20 items-center gap-4 rounded-tile border bg-card px-4 py-4" data-action="source-{s["id"]}">{icon(s["icon"], "size-7 shrink-0 text-primary")}<span class="min-w-0"><span class="block text-title-1">{s["name"]}</span><span class="block text-title-3 font-normal text-muted-foreground">{s["desc"]}</span></span></a>'''
-    return f'''<a href="{s["href"]}" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-{s["id"]}">{icon(s["icon"], "size-6 text-primary")}<span><span class="block text-label-lg">{s["name"]}</span><span class="block text-caption text-muted-foreground">{s["desc"]}</span></span></a>'''
+    return f'''<a href="{s["href"]}" class="flex min-h-28 flex-col justify-start gap-3 rounded-tile border bg-card p-4" data-action="source-{s["id"]}">{icon(s["icon"], "size-6 text-primary")}<span><span class="block text-label-lg">{s["name"]}</span><span class="block text-caption text-muted-foreground">{s["desc"]}</span></span></a>'''
 
 
 def tiles(states=None, override=None, extra_tiles=''):
@@ -349,11 +350,11 @@ def build_s11():
   </div>'''
     p.frame('S11-large-text', 'Large text (200%): one tile per row, scrolls', phone(big))
 
-    future = '<a href="#S11-new-source" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-calendar">' + icon('calendar', 'size-6 text-primary') + '<span><span class="block text-label-lg">Calendar</span><span class="block text-caption text-muted-foreground">Events from your calendar</span></span></a>'
+    future = '<a href="#S11-new-source" class="flex min-h-28 flex-col justify-start gap-3 rounded-tile border bg-card p-4" data-action="source-calendar">' + icon('calendar', 'size-6 text-primary') + '<span><span class="block text-label-lg">Calendar</span><span class="block text-caption text-muted-foreground">Events from your calendar</span></span></a>'
     p.frame('S11-new-source', 'Extensibility: a future source (example) is one more tile', phone(f'{appbar()}{stepper(1)}{body(tiles(extra_tiles=future))}'))
 
     p.section('Web', 'Contacts import is unavailable in browsers: the tile stays visible with its reason and opens a sheet with “Get the app” and a CSV alternative. Photos become “Upload photos” (file upload, S18 web).')
-    web_over = {'photos': dict(name='Upload photos', icon='image-up', desc='Image files from this device', href='S18-photos-import.html#S18-default')}
+    web_over = {'photos': dict(name='Upload photos', icon='image-up', desc='Image files from this device', href='S18-photos-import.html#S18-web')}
     web_grid = tiles({'contacts': 'web'}, web_over)
     get_line = f'<p class="mt-3 px-1 text-body-sm text-muted-foreground">Contacts import needs the Android or iOS app. <a href="{GET_APP}" class="text-primary underline underline-offset-4" data-action="get-app">Get the app</a></p>'
     p.frame('S11-web', 'Web, mobile browser', phone(f'{appbar()}{stepper(1)}{body(web_grid, extra=get_line)}', 'web'))
@@ -440,19 +441,19 @@ def build_s12():
                         steps_list(['Tap Open settings', 'Tap Permissions, then Contacts', 'Choose Allow']), tone='muted')
     p.frame('S12-contacts-denied', 'Contacts denied, don\'t ask again: open settings (Android)', phone(f'''{appbar()}{stepper(2)}{blocked}{bottom(btn("Open settings", None, "open-settings"), btn("Import a CSV instead", "S14-file-import.html#S14-default", "import-csv-instead", "ghost", size="md"))}'''))
 
-    p.section('Photos', 'Before gallery access. Photos skip field mapping, so the stepper has 4 steps. Limited access (iOS, Android 14+) continues with the allowed photos.')
+    p.section('Photos', 'Before gallery access. Photos skip field mapping and duplicate review, so the stepper has 3 steps (Choose source, Select items, Finish). Limited access (iOS, Android 14+) continues with the allowed photos.')
     photos = explainer('images', 'Allow access to your photos', 'SwipeSort shows your gallery so you can pick photos to sort. Each photo becomes one card.', points_list(PHOTO_POINTS))
-    p.frame('S12-photos', 'Photos explainer (Android)', phone(f'''{appbar()}{stepper(2, 4)}{photos}{bottom(btn("Continue", "S18-photos-import.html#S18-default", "continue"), btn("Not now", S11, "not-now", "ghost", size="md"), note="Next, Android asks you to allow access to all photos or only some.")}'''))
+    p.frame('S12-photos', 'Photos explainer (Android)', phone(f'''{appbar()}{stepper(2, 3)}{photos}{bottom(btn("Continue", "S18-photos-import.html#S18-default", "continue"), btn("Not now", S11, "not-now", "ghost", size="md"), note="Next, Android asks you to allow access to all photos or only some.")}'''))
 
     pblocked = explainer('images', 'Photo access is off', 'To browse your gallery in SwipeSort, turn access on in Settings. Or pick photos with Android\'s photo picker, which needs no access.',
                          steps_list(['Tap Open settings', 'Tap Permissions, then Photos and videos', 'Choose Allow all']), tone='muted')
-    p.frame('S12-photos-denied', 'Photos denied: open settings or use the system picker', phone(f'''{appbar()}{stepper(2, 4)}{pblocked}{bottom(btn("Open settings", None, "open-settings"), btn("Pick photos with the photo picker", "S18-photos-import.html#S18-default", "system-picker", "ghost", size="md"))}'''))
+    p.frame('S12-photos-denied', 'Photos denied: open settings or use the system picker', phone(f'''{appbar()}{stepper(2, 3)}{pblocked}{bottom(btn("Open settings", None, "open-settings"), btn("Pick photos with the photo picker", "S18-photos-import.html#S18-default", "system-picker", "ghost", size="md"))}'''))
 
     thumbs = ''.join(f'<img src="{IMG}photos/ph{i:02d}.svg" alt="" class="aspect-square w-full rounded-xs object-cover">' for i in range(1, 8))
     thumbs += '<span class="flex aspect-square w-full items-center justify-center rounded-xs bg-muted text-label tabular-nums text-muted-foreground">+17</span>'
     limited = explainer('images', 'SwipeSort can see 24 photos', 'You allowed access to selected photos only. Sort these, select more, or allow all photos in Settings.',
                         f'<div class="mt-6 grid grid-cols-4 gap-1.5" role="img" aria-label="24 photos allowed, 7 shown">{thumbs}</div><a href="#S12-photos-limited-ios" class="mt-4 inline-flex h-12 items-center text-label-lg text-primary underline underline-offset-4" data-action="open-settings">Allow all photos in Settings</a>')
-    p.frame('S12-photos-limited-ios', 'iOS: limited photo access', phone(f'''{iosbar()}{stepper(2, 4)}{limited}{bottom(btn("Continue with 24 photos", "S18-photos-import.html#S18-default", "continue"), btn("Select more photos", None, "select-more", "ghost", size="md"))}''', 'ios'))
+    p.frame('S12-photos-limited-ios', 'iOS: limited photo access', phone(f'''{iosbar()}{stepper(2, 3)}{limited}{bottom(btn("Continue with 24 photos", "S18-photos-import.html#S18-default", "continue"), btn("Select more photos", None, "select-more", "ghost", size="md"))}''', 'ios'))
 
     p.section('Notifications', 'Push pre-permission for collaboration events (Android and iOS only). Shown once, right after a list is first shared or joined, and from Activity or Settings while permission is undecided. Not part of the import stepper.')
     notif = explainer('bell', 'Get notified about shared lists', 'Know when it\'s your turn or when a decision needs you, without opening the app.', notif_events())
@@ -1006,7 +1007,7 @@ def build_s15():
     <ul class="mt-3 divide-y overflow-hidden rounded-group bg-card">{tab_rows_big(tabs)}</ul>
   </div>
   {bottom(btn("Continue with 8 rows", "#S15-preview", "continue", extra="min-h-16 text-title-3"), border=True)}'''
-    p.frame('S15-tabs-large-text', 'Large text (200%): tab rows wrap, list scrolls under the actions', phone(tabs_big))
+    p.frame('S15-tabs-large-text', 'Large text (200%): tab rows grow and wrap; Continue stays pinned', phone(tabs_big))
 
     apts = DATA['apartments']
     arows = [[a['tab'], a['address'], f'{a["rent"]:,}', a['rooms'], a['sizeM2'], (a['viewing'] or ''), a['link'].replace('https://', '')] for a in apts]

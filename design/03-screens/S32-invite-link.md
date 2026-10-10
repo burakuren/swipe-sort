@@ -99,6 +99,8 @@ move to the account at that point (S05 moving step, ACC-05).
 - **Open list** (already a member): replaces S32 with S09 shared.
 - **Try again** (offline): retries the token check; success → S33.
 - **Open SwipeSort** on dead links: web → home (S08, or sign-in when signed out); app → S08.
+- Prototype: in `S32-app` and `S32-web-signed-in` the whole loading area is a link to S33 (the app moves on by
+  itself; the link only stands in for that).
 - Transitions: app loading → S33 cross-fade 150 ms (no slide, it is a replacement). Web page loads show
   the skeleton for at most a short moment; no spinners on the web preview.
 - Reduced motion: spinner becomes a static `loader-circle` icon with the same text; skeleton is static.

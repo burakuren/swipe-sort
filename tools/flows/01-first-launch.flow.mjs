@@ -30,21 +30,28 @@ export default {
     await h.frame('S19-contacts');
     await h.tap('S19-contacts', 'continue');
     await h.frame('S20-default');
-    await h.tap('S20-default', 'continue');
+    await h.tap('S20-default', 'review');
+    await h.frame('S20-reviewed-all');
+    assert.match(await page.locator('[data-frame="S20-reviewed-all"]').innerText(), /85 of 88 contacts will be imported/);
+    await h.tap('S20-reviewed-all', 'continue');
     await h.frame('S22-import-pick');
+    assert.match(await page.locator('[data-frame="S22-import-pick"]').innerText(), /85 items from Contacts/);
     await shot('02-import-finish');
     await h.tap('S22-import-pick', 'start-sorting');
     await h.frame('S25-coach-1');
+    assert.match(await page.locator('[data-frame="S25-coach-1"]').innerText(), /0 \/ 85 decided/);
     for (const [from, to] of [['S25-coach-1', 'S25-coach-2'], ['S25-coach-2', 'S25-coach-3'], ['S25-coach-3', 'S25-coach-4']]) {
       await h.tap(from, 'next');
       await h.frame(to);
     }
     await h.tap('S25-coach-4', 'done');
-    await page.waitForURL(/04-prototype\/swipe-demo\.html\?deck=wedding&count=6&next=S27-default$/);
+    await page.waitForURL(/04-prototype\/swipe-demo\.html\?deck=first&count=6&next=S27-first-round$/);
     await page.locator('[data-testid="card"]').first().waitFor({ state: 'visible' });
     const s0 = await demoState(page);
     assert.equal(s0.index, 0);
-    assert.equal(s0.total, 6);
+    assert.equal(s0.base, 0);
+    assert.equal(s0.total, 85, 'the live round keeps the imported total');
+    assert.equal(await page.locator('#progress-label').innerText(), '0 / 85 decided');
     // First decision: a real drag to the right.
     await dragCard(page, 220, 10);
     await waitIndex(page, 1);
@@ -61,8 +68,12 @@ export default {
     }
     const s = await demoState(page);
     assert.deepEqual(s.counts, { accept: 2, reject: 2, maybe: 2 });
-    // The demo moves on to the round summary by itself.
-    await h.frame('S27-default');
+    assert.equal(await page.locator('#progress-label').innerText(), '6 / 85 decided');
+    // The shortened prototype round says so, then moves on to the round summary by itself.
+    await page.locator('#done').waitFor({ state: 'visible' });
+    assert.match(await page.locator('#done').innerText(), /Done for now[\s\S]*6 of 85 decided\. The prototype skips the rest of the round\./);
+    await h.frame('S27-first-round');
+    assert.match(await page.locator('[data-frame="S27-first-round"]').innerText(), /85 \/ 85 decided/);
     await shot('04-round-summary');
     console.log(`    flow 1 path: ${h.log.join(' → ')}`);
     h.done();

@@ -89,7 +89,7 @@ BottomSheet, SearchField, SelectableRow, DecisionBadge, Button, Snackbar, AlertD
 | `S24-custom-pick` | Hand-pick list, 12 selected, my Round 1 decision per row | "Pick items by hand instead" |
 | `S24-empty-option` | Frontend hiring, Q4 after Round 1 (4 accepted, 8 rejected, 0 maybe): Maybe pile disabled with "Nothing in Maybe. Items you swipe up wait here." | A pile with 0 items |
 | `S24-loading` | Count skeletons, "Counting items…", Start round disabled | Counting (large lists, first open) |
-| `S24-shared-owner` | Notice "Starts Round 2 for Deniz, Mert and Selin"; piles from final decisions | Owner of a shared list |
+| `S24-shared-owner` | Notice "Starts Round 2 for Deniz, Mert and Selin"; piles from final decisions: Maybe pile 6, Accepted items 22 (the 32 Agreed items of Round 1: 22 Accept, 6 Maybe, 4 Reject; computed in the generator from `shared.items[].finalDecision`); "Round 2 will have 6 items" | Owner of a shared list |
 | `S24-round-in-progress` | Notice "Round 1 is still open" with each member's progress | Owner, shared list, current round not complete for everyone |
 | `S24-end-round-dialog` | "End Round 1 for everyone and start Round 2?" | Start round from the previous state |
 | `S24-collaborator` | "Suggest a round": "Only Deniz can start rounds", options usable, primary "Ask Deniz" | Collaborator or Decision Maker (not Owner) opens Start new round |
@@ -99,7 +99,7 @@ BottomSheet, SearchField, SelectableRow, DecisionBadge, Button, Snackbar, AlertD
 | `S24-started` | S25 at 0 / 11, Round 2, first Maybe item (Ayşe Demir c001), snackbar "Round 2 started" | Start round succeeded |
 | `S24-large-text` | 200% text: counts under titles, pinned summary and button | System font scale ≥ 150% |
 | `S24-ios`, `S24-ios-sort-menu` | Page sheet, Cancel, checkmarks; Field as a pull-down menu | iOS |
-| `S24-web-desktop` | Desktop column, Select as a popover, keyboard hints | Desktop browser |
+| `S24-web-desktop` | Shared Wedding guests in the desktop column: Accepted items 22 (final decisions) sorted by City, Select as a popover, keyboard hints | Desktop browser |
 
 Solo lists never show the shared notice, the "Based on final decisions" caption or the member count in
 the summary detail. Error state for counting is not needed: counts come from the local working copy.
@@ -124,7 +124,7 @@ the summary detail. Error state for counting is not needed: counts come from the
   Snackbar "Round 2 started" on S25.
 - Shared lists, Owner: if any member has not finished the current round, Start round first opens the
   end-round dialog; confirming ends the round for everyone and starts the new one. Every member gets the
-  "Deniz started Round 2 (11 items)" notification (S38); a member who is sorting sees S25's "Deniz ended
+  "Deniz started Round 2 (6 items)" notification (S38); a member who is sorting sees S25's "Deniz ended
   Round 1" sheet.
 - Collaborator / Decision Maker: "Ask Deniz" sends an in-app request (activity event `roundRequested` to
   the Owner, push if enabled) with the chosen options; the Owner's notification opens S24 with those options
@@ -148,17 +148,17 @@ the summary detail. Error state for counting is not needed: counts come from the
 | Add filter sheet | "Add filter" (editing: "Edit filter"); "Field"; "Condition"; "is", "is not"; "Values"; "Choose one or more. Counts are for the whole list."; number/date: "From", "To"; "Search values"; "With this filter, 12 items match"; button "Add filter" (editing: "Save filter") |
 | Pseudo-fields | "My decision" (values "Accepted", "Rejected", "Maybe", "Not decided"); "List status" ("Agreed", "Pending", "Conflict") |
 | Pick items | "Pick items"; "12 selected"; "Search 100 items"; "Your Round 1 decision is shown on the right"; "Use 12 items"; back label "Back to round options" |
-| Summary | "Round 2 will have 11 items" (1: "1 item"); collaborator "Round 2 would have 11 items"; details "Maybe pile, in original order", "Maybe pile, shuffled", "Accepted items, sorted by City from A to Z", "Custom selection, in original order", shared suffix ", for 3 members"; zero: "Change the filters to include at least 1 item" |
+| Summary | "Round 2 will have 11 items" (1: "1 item"); shared "Round 2 will have 6 items"; collaborator "Round 2 would have 6 items"; details "Maybe pile, in original order", "Maybe pile, shuffled", "Accepted items, sorted by City from A to Z", "Custom selection, in original order", shared suffix ", for 3 members"; zero: "Change the filters to include at least 1 item" |
 | Loading | "Counting items…" |
 | Button | "Start round"; progress "Starting…"; collaborator "Ask Deniz" |
 | Shared Owner notice | "Starts Round 2 for Deniz, Mert and Selin" / "Everyone sorts the same items from the start. Round 1 stays in round history." |
 | Round open notice | "Round 1 is still open" / "Starting Round 2 ends Round 1 for everyone. Decisions made so far are kept."; rows "You", "Mert", "Selin" with "76 / 100 decided" |
-| End-round dialog (shared variant of S40 `S40-new-round`) | Title "End Round 1 for everyone and start Round 2?"; body "Mert and Selin are still sorting. Decisions made so far are kept, and items nobody decided stay undecided." + "Round 2 starts for all 3 members with 11 items."; buttons "Cancel", "End Round 1 and start" |
+| End-round dialog (shared variant of S40 `S40-new-round`) | Title "End Round 1 for everyone and start Round 2?"; body "Mert and Selin are still sorting. Decisions made so far are kept, and items nobody decided stay undecided." + "Round 2 starts for all 3 members with 6 items."; buttons "Cancel", "End Round 1 and start" |
 | Collaborator notice | "Only Deniz can start rounds" / "Rounds apply to every member, so the Owner starts them. Choose the items and order you'd like, then ask Deniz." |
 | Snackbars | "Round 2 started"; "Asked Deniz to start Round 2"; "Hand-picked items cleared" + "Undo"; error "Couldn't start Round 2. Check your connection and try again." + "Try again" |
 | Offline | Banner "You're offline. Decisions are saved on this phone. Starting a round for everyone needs a connection." (S40 offline wording + what needs a connection); under the button "Try again when you're online." |
 | Keyboard hints (web desktop) | "Esc Close", "Enter Start round" |
-| Activity (S38, for the lead) | Owner receives "Selin suggested Round 2: Maybe pile, 11 items" with action "Review" |
+| Activity (S38, for the lead) | Owner receives "Selin suggested Round 2: Maybe pile, 6 items" with action "Review" |
 
 ## 7. Accessibility
 
@@ -197,7 +197,9 @@ the summary detail. Error state for counting is not needed: counts come from the
 
 ## 9. Edge cases
 
-- **Shared lists**: piles count final decisions (Agreed, or resolved by the conflict rule). Items still
+- **Shared lists**: piles count final decisions (Agreed, or resolved by the conflict rule). Example: with Round 1
+  still open, Wedding guests has 32 Agreed items (22 Accept, 6 Maybe, 4 Reject), so Maybe pile = 6 and Accepted
+  items = 22, while Deniz's own counts are 11 and 48. Items still
   Pending or in Conflict are in no pile; use Custom selection with List status = Conflict or Pending to
   include them. On "Everyone must agree" lists the Maybe pile therefore only holds agreed Maybe items.
 - **Round still open on a solo list**: the notice reads "Round 1 is still open. 76 of 100 decided. Starting

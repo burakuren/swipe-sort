@@ -112,10 +112,10 @@ c049 Yiğit Oral, c059 Sophie Laurent, c071 Freya Nielsen). **3 stay open** beca
 | Summary | "Resolved 12 conflicts" / "Your decisions are now final. Deniz and Selin are notified." / "3 still open" / "Review 3 open conflicts", "Export", "Done"; app bar "Undo", close label "Close" |
 | Summary, nothing left open | "Resolved 15 conflicts" / "Every conflict in Round 1 has a final decision. Deniz and Selin are notified." / "Export" (primary), "Done" |
 | Nothing to resolve | "Nothing to resolve with your decisions" / "You haven't decided any of the 3 open conflicts, so there's no decision of yours to apply. Decide them one by one." / "Review 3 open conflicts", "Cancel" |
-| Partial failure | "Resolved 9 of 12 conflicts" / "Deniz and Selin are notified." / "3 conflicts couldn't be resolved" — "The connection dropped while saving. Your decisions on them are safe. Try again to resolve them." / "Try again" / "Review 6 open conflicts" |
+| Partial failure | "Resolved 9 of 12 conflicts" / "Deniz and Selin are notified." / section "Also open: 3 you haven't decided" / "3 conflicts couldn't be resolved" — "The connection dropped while saving. Your decisions on them are safe. Try again to resolve them." / "Try again" / "Review 6 open conflicts" |
 | Undo dialog | "Undo Resolve all?" / "The 12 conflicts open again with every member's decision as it was. Deniz and Selin are notified." / "Cancel", "Undo Resolve all" (destructive: it discards 12 final decisions, A-112) |
 | Undone snackbar | "Undid Resolve all. 12 conflicts are open again." |
-| Offline | Banner "You're offline. Resolutions are saved on this phone and sync when you're back online."; "Resolve all needs a connection" — "It uses everyone's latest decisions, so it can't run offline. You can still resolve conflicts one by one; they sync later."; "Resolve 12 conflicts" (disabled), "Resolve one by one" |
+| Offline | Banner "You're offline. Resolutions are saved on this phone. Resolve all needs a connection." (S40 pattern); "Resolve all needs a connection" — "It uses everyone's latest decisions, so it can't run offline. You can still resolve conflicts one by one; they sync later."; "Resolve 12 conflicts" (disabled), "Resolve one by one" |
 | Not allowed | "Only Mert can resolve all conflicts" / "Mert is the Decision Maker. You can review the conflicts and change your own decisions." / "Review conflicts", "Back to list". Rule Everyone must agree: "Resolve all isn't used with Everyone must agree" / "Conflicts close when members change their decisions to match." |
 | Failure (nothing saved) | Snackbar "Couldn't resolve the conflicts. Check your connection and try again." + "Try again" |
 | Activity / push | "Mert resolved 12 conflicts. 3 are still open." |
@@ -128,14 +128,13 @@ c049 Yiğit Oral, c059 Sophie Laurent, c071 Freya Nielsen). **3 stay open** beca
 - Resolving: primary `aria-busy="true"`, status "Resolving 12 conflicts" announced; completion announces
   "Resolved 12 conflicts. 3 still open."
 - Summary heading is the first focus; Undo is reachable as the second element.
-- Large text (`S37-large-text`, `S37-summary-large-text`): rows grow, subtitles of open items hide (name +
-  badge remain), the sheet body scrolls while actions stay pinned.
+- Large text (`S37-large-text`, `S37-summary-large-text`): every style grows as in `S40-dialog-large-text`: titles `text-title-1`/`text-display`, body `text-title-3`, group labels `text-title-2`, counts and decision labels `text-title-2`, badges `text-label-lg` (36 high), buttons `text-title-3` at least 64 high; subtitles of open items hide (name + badge remain); the sheet body scrolls while actions stay pinned.
 - Color never alone: every count carries icon + label; "Not decided" badge has the dashed-circle icon.
 - Touch targets ≥ 48 (primary 56).
 
 ## 8. iOS and web differences
 
-- **iOS** (`S37-ios`): confirmation is a page sheet with grabber, "Cancel" in the sheet bar, title "Resolve
+- **iOS** (`S37-ios`): confirmation is a page sheet starting below the host's progress row, with grabber, "Cancel" in the sheet bar, title "Resolve
   all" in the bar, the question as a large heading, primary at the bottom. The summary is the same screen
   (pushed modally, swipe-down disabled while resolving). Undo confirmation uses a native alert.
 - **Web**: same as Android (sheet over S36 in the centered phone column on desktop; Escape = Cancel, Enter on

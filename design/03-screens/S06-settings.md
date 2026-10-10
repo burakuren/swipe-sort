@@ -170,12 +170,12 @@ Backup counts refresh in place.
 | Help and feedback | "Replay the introduction" / "See the gesture demo again"; "Help center" / "Guides and answers"; header "Contact us"; "Send feedback" / "Ideas and suggestions"; "Report a problem" / "Something isn't working"; "Email support" / "support@swipesort.app" |
 | Send feedback | Title "Send feedback" (from Report a problem: "Report a problem"); "Type": "Idea", "Problem", "Other"; "Message", placeholder "What would make SwipeSort better?" (Problem: "What happened, and what did you expect?"); counter "100 / 2,000"; "Include device details" / "App version, phone model and system version. No lists or contacts."; "We reply to deniz.yilmaz@example.com." (not signed in: field "Email for a reply (optional)"); "Send feedback" |
 | Feedback sent | Snackbar "Feedback sent. Thanks for helping improve SwipeSort." |
-| Feedback error | Banner "You're offline."; "Couldn't send your feedback" / "You're offline. Your message stays here; send it when you're back online."; "Try again". Server error variant: "Couldn't send your feedback" / "Something went wrong on our side. Your message stays here; try again in a moment." |
+| Feedback error | Banner "You're offline. Your message stays here; sending needs a connection."; "Couldn't send your feedback" / "You're offline. Your message stays here; send it when you're back online."; "Try again". Server error variant: "Couldn't send your feedback" / "Something went wrong on our side. Your message stays here; try again in a moment." |
 | About | "SwipeSort", "Version 1.0.0 (142)", "Terms of service", "Privacy policy", "Open-source licenses", "Rate SwipeSort" / "On Google Play" (iOS "On the App Store") |
 | Licenses | "Open-source licenses"; "SwipeSort is built with these open-source projects. Tap one to read its license."; rows "Expo" MIT, "React Native" MIT, "React Native Reusables" MIT, "NativeWind" MIT, "react-native-gesture-handler" MIT, "react-native-reanimated" MIT, "expo-haptics" MIT, "Inter typeface" "SIL Open Font License 1.1", "Lucide icons" ISC |
 | Get the app sheet (web) | "Get SwipeSort for your phone" / "Haptics, push notifications and importing phone contacts need the app. Your lists come with you when you sign in." / "Get it on Google Play" / "Download on the App Store" |
 | Back buttons (labels) | "Back to Settings", "Back to Help and feedback", "Back to About"; iOS "Settings" |
-| Bottom navigation | "Lists", "Activity" ("Activity, 3 unread"), "Settings" |
+| Bottom navigation | "Lists", "Activity" ("Activity, 3 unread"; no badge when not signed in, since there is no shared activity), "Settings" |
 
 ## 7. Accessibility
 

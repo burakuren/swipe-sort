@@ -71,8 +71,9 @@ SCR-22.
    "3 duplicate pairs merged." after S20, "No duplicates found." when the step was skipped.
 5. **Card template** header (`text-title-3`) with a text button "Customize" (`pencil`, primary, 48 high).
 6. **Live preview**: the real **SwipeCard** (identical markup to S25: `rounded-hero bg-card shadow-hero`, same
-   content rules) on a 372 × 620 card box (the Android sort card, `aspect-[3/5]`), drawn at 50%
-   (`origin-top scale-50`) and centered in a 320-high stage. The item is the first imported item (c001 Ayşe
+   content rules) on a 372 × 620 card box (the Android sort card, `aspect-[3/5]`), drawn at 46%
+   (`origin-top scale-[.46]`, iOS 36% because the screen is shorter) and centered in a 288-high stage (iOS 224), so
+   the whole template row stays visible above the bottom action. The item is the first imported item (c001 Ayşe
    Demir for contacts, k01 Lena Hoffmann for the CSV, p01, ph01, the first book). It updates instantly when a
    tile is chosen (150 ms cross-fade).
 7. **Template carousel** (horizontal scroll, `role="radiogroup"`, gap 12, `px-gutter`): TemplateTile pick variant
@@ -223,8 +224,8 @@ the real result before anything is applied.
   sheet is a page sheet with Cancel / Continue in its bar; edge-swipe back. In the import stack the close `x`
   moves to the right (as in C2).
 - **Web mobile**: same as Android; browser back = app back.
-- **Web desktop** (`S22-web-desktop`): phone column centered; overflow opens a DropdownMenu next to the
-  button (flips up near the bottom of the window); Escape closes it; carousel tiles are reachable with Tab and
+- **Web desktop** (`S22-web-desktop`): phone column centered; overflow opens a DropdownMenu anchored to the
+  button: right-aligned with it and opening upward, its bottom edge 4 px above the button, when there is no room below; Escape closes it; carousel tiles are reachable with Tab and
   the arrow keys; Enter on a tile selects (pick) or applies (change).
 
 ## 9. Edge cases
@@ -251,7 +252,7 @@ the real result before anything is applied.
   full-size preview, to keep the finish step short (SUC-04).
 - **D-S22-2** Template order in pick and change mode: recommended or current first, then your templates, then the
   other built-ins; order is stable while the screen is open.
-- **D-S22-3** The preview is the real SwipeCard at 50% on the Android card box (372 × 620); the app renders the
+- **D-S22-3** The preview is the real SwipeCard at 46% in pick mode (50% in change mode and S23) on the Android card box (372 × 620); the app renders the
   same component with a scale transform.
 - **D-S22-4** The ImportStepper keeps its total when the duplicate step is skipped (A-23): the skipped step
   counts as done and the summary line says "No duplicates found."

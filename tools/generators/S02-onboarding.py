@@ -18,14 +18,17 @@ CITY = dict(kind='photo', img='photos/ph05.svg', title='Mar 3, 2026, 13:28', sub
 
 def card_body(c, large=False):
     if large:
+        # A-125 sparse card: content block vertically centered, tags pinned to the bottom
         return f'''<div class="flex min-h-0 flex-1 flex-col px-6 pb-5 pt-6">
-        <h2 class="line-clamp-4 text-title-1">{c["title"]}</h2>
-        <p class="mt-2 text-title-3 font-normal text-muted-foreground">{c["sub"]}</p>
-        <dl class="mt-5 space-y-3">
-          <div><dt class="text-body-lg text-muted-foreground">Price</dt><dd class="text-title-1 tabular-nums">{c.get("price", "")}</dd></div>
-          <div><dt class="text-body-lg text-muted-foreground">Rating</dt><dd class="text-title-3 font-normal">{c.get("rating", "")} <span class="text-muted-foreground">({c.get("reviews", "")} reviews)</span></dd></div>
-          <div><dt class="text-body-lg text-muted-foreground">Category</dt><dd class="text-title-3 font-normal">{c.get("tag", "")}</dd></div>
-        </dl>
+        <div class="my-auto">
+          <h2 class="line-clamp-4 text-title-1">{c["title"]}</h2>
+          <p class="mt-2 text-title-3 font-normal text-muted-foreground">{c["sub"]}</p>
+          <dl class="mt-6 space-y-4">
+            <div><dt class="text-body-lg text-muted-foreground">Price</dt><dd class="text-title-1 tabular-nums">{c.get("price", "")}</dd></div>
+            <div><dt class="text-body-lg text-muted-foreground">Rating</dt><dd class="text-title-2 font-normal">{c.get("rating", "")} <span class="text-muted-foreground">({c.get("reviews", "")} reviews)</span></dd></div>
+          </dl>
+        </div>
+        <div class="flex gap-2 pt-3"><span class="inline-flex min-h-9 items-center rounded-full bg-secondary px-3 text-body-lg text-secondary-foreground">{c.get("tag", "")}</span></div>
       </div>'''
     if c['kind'] == 'photo':
         return f'''<img src="{IMG}{c["img"]}" alt="" class="min-h-0 w-full flex-1 object-cover">

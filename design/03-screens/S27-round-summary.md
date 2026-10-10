@@ -59,7 +59,7 @@ part is centered (design-principles §6); actions are left-aligned rows.
    - **List status** (shared): segmented bar (agreed `foreground`, conflict `foreground/50`, pending
      `muted` track; same mapping as S09-shared) + a legend: one row per status with a swatch matching its
      segment, the status icon, label, description and count (Agreed 32, Conflict 15, Pending 53).
-   - **Still sorting** (shared): MemberRows (Avatar 32, name, role, progress bar, "85 / 100").
+   - **Still sorting** (shared): MemberRows like S34 (Avatar 32, name, role line with icon, progress bar, "85 / 100").
 5. **Next** (section header): ListGroup of action rows (icon 20, title, description, chevron). Solo:
    Re-sort Maybe (n) with the Maybe icon in `maybe-soft-foreground`, Start a new round (`list-restart`),
    Export (`file-down`). Shared Owner (`S27-shared`): conflicts row, Re-sort Maybe, Start a new round (both
@@ -78,7 +78,7 @@ MemberRow, Alert, BackupIndicator, Button, OfflineBanner, Skeleton, Kbd.
 | --- | --- | --- |
 | `S27-default` | Wedding guests, solo, Round 1 complete on the full 100-item list: 100 / 100 in 38 min; 24 rejected, 14 maybe, 62 accepted; Re-sort Maybe (14), Start a new round, Export; backup line | Last decision of Round 1 on the full list (a later moment than flow 1) |
 | `S27-first-round` | First round ever, end of flow 1: Wedding guests with the 85 imported contacts, not signed in: 85 / 85 in 31 min; 20 rejected, 12 maybe, 53 accepted; Re-sort Maybe (12), Start a new round, Export; backup line | First round after the first import (Flow 1) |
-| `S27-count-up` | Entrance mid-animation: 10 / 6 / 27 at 250 of 500 ms (reduced motion: final numbers at once) | Every round completion |
+| `S27-count-up` | Entrance mid-animation: 10 / 6 / 27 at 250 of 500 ms (the accessible label always carries the final 20 / 12 / 53; reduced motion: final numbers at once) | Every round completion |
 | `S27-desk-round-2` | Desk setup Round 2 (Maybe pile, 6 items, 2 min): 2 rejected, 1 maybe, 3 accepted; List totals after 2 rounds: 11 rejected, 1 maybe, 8 accepted | Re-sorted Maybe pile finished (Flow 2) |
 | `S27-no-maybe` | Frontend hiring, Q4: 8 / 0 / 4; Re-sort Maybe disabled with "Nothing in Maybe this round" | Maybe count 0 |
 | `S27-ended-early` | "Round 1 ended", 88 / 100; "12 items not decided" + Continue Round 1 | End round before finishing |
@@ -122,7 +122,7 @@ offline variant is shown.
 | List totals | "List totals after 2 rounds"; badges "11 rejected", "1 maybe", "8 accepted" |
 | Not decided | "12 items not decided" (1: "1 item not decided") / "They aren't in any pile. Continue Round 1 to decide them, or include them in a new round." / "Continue Round 1" |
 | List status | "List status"; "All 3 members"; legend "Agreed" / "Everyone chose the same", "Conflict" / "Members chose differently", "Pending" / "Not everyone has decided" with counts; offline "As of 12 min ago" |
-| Still sorting | "Still sorting"; "Mert Decision Maker" (role in muted), "Selin"; "85 / 100", "43 / 100" |
+| Still sorting | "Still sorting"; name on the first line ("Mert", "Selin"), role on its own line with its icon as in S34 ("Decision Maker" with `gavel`, "Collaborator" with `user`); "85 / 100", "43 / 100" |
 | Section | "Next" |
 | Rows | "Re-sort Maybe (14)" / "Sort the 14 Maybe items again in a new round" (1: "Sort the 1 Maybe item again in a new round"); disabled "Re-sort Maybe" / "Nothing in Maybe this round"; "Start a new round" / "Choose items and card order"; shared Owner "Ends Round 1 for everyone"; "Export" / "CSV, Excel, Google Sheets or a text summary"; "Review results" / "Final decisions and my decisions"; Owner conflicts row "15 conflicts" / "Mert resolves them as Decision Maker" (Everyone must agree: "Members change their decisions until they match"; Majority: "The majority decides when everyone has sorted") |
 | Shared note | "Deniz, the Owner, starts new rounds." |

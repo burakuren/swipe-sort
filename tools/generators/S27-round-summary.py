@@ -42,7 +42,7 @@ def hero(title, list_name, line, large=False, ic=True):
     </div>'''
 
 
-def counts(r, m, a, total=None, label_prefix='', animating=False):
+def counts(r, m, a, total=None, label_prefix='', animating=False, final=None):
     total = total or (r + m + a)
     cols = ''
     for kind, n in (('reject', r), ('maybe', m), ('accept', a)):
@@ -54,7 +54,8 @@ def counts(r, m, a, total=None, label_prefix='', animating=False):
       </div>'''
     def w(n):
         return f'w-[{round(n * 100 / total)}%]' if total else 'w-0'
-    aria = f'{r} rejected, {m} maybe, {a} accepted'
+    fr, fm, fa = final or (r, m, a)
+    aria = f'{fr} rejected, {fm} maybe, {fa} accepted'
     live = ' aria-live="off"' if animating else ''
     return f'''<div class="px-gutter pt-6"{live}>
       <div class="grid grid-cols-3 gap-2" role="img" aria-label="{label_prefix}{aria}">{cols}</div>
@@ -120,8 +121,9 @@ def still_sorting(rows, loading=False):
     else:
         lis = ''
         for who, name, done, role in rows:
-            rl = f' <span class="text-muted-foreground">{role}</span>' if role else ''
-            lis += f'''<li class="flex min-h-14 items-center gap-3 px-4 py-2.5">{avatar(who, "size-8")}<div class="min-w-0 flex-1"><p class="text-body">{name}{rl}</p><div class="mt-1.5 flex items-center gap-3"><div class="h-1.5 flex-1 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="{done}" aria-valuemin="0" aria-valuemax="100" aria-label="{name}: {done} of 100 decided"><div class="h-full w-[{done}%] rounded-full bg-primary"></div></div><span class="text-caption tabular-nums text-muted-foreground">{done} / 100</span></div></div></li>'''
+            ric = {'Decision Maker': 'gavel', 'Owner': 'crown'}.get(role, 'user')
+            rl = f'<p class="mt-0.5 inline-flex items-center gap-1 text-body-sm text-muted-foreground">{icon(ric, "size-4 shrink-0")}{role}</p>' if role else ''
+            lis += f'''<li class="flex min-h-14 items-start gap-3 px-4 py-2.5">{avatar(who, "size-8")}<div class="min-w-0 flex-1"><p class="text-body">{name}</p>{rl}<div class="mt-1.5 flex items-center gap-3"><div class="h-1.5 flex-1 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="{done}" aria-valuemin="0" aria-valuemax="100" aria-label="{name}: {done} of 100 decided"><div class="h-full w-[{done}%] rounded-full bg-primary"></div></div><span class="text-caption tabular-nums text-muted-foreground">{done} / 100</span></div></div></li>'''
     return f'''<div class="px-gutter pt-8">{section_header("Still sorting")}<ul class="divide-y overflow-hidden rounded-group bg-card">{lis}</ul></div>'''
 
 
@@ -154,7 +156,7 @@ first_body = f'''{hero('Round 1 complete', 'Wedding guests', '85 / 85 decided in
 F.add('S27-first-round', 'First round ever (end of flow 1): 85 imported contacts, not signed in', phone(summary_screen(first_body, REVIEW(), extra_bottom=backup_line)))
 
 countup_body = f'''{hero('Round 1 complete', 'Wedding guests', '85 / 85 decided in 31 min')}
-    {counts(10, 6, 27, 85, animating=True)}
+    {counts(10, 6, 27, 85, animating=True, final=(20, 12, 53))}
     {actions(solo_rows(12))}'''
 F.add('S27-count-up', 'Entrance: counts counting up (250 of 500 ms); reduced motion shows the final numbers at once', phone(summary_screen(countup_body, REVIEW(), extra_bottom=backup_line)))
 
@@ -191,7 +193,7 @@ owner_rows = [arow('git-compare-arrows', f'{NC} conflicts', 'Mert resolves them 
               arow('circle-help', f'Re-sort Maybe ({DM})', 'Ends Round 1 for everyone', 'S24-start-round.html#S24-round-in-progress', 'resort-maybe', icon_cls='text-maybe-soft-foreground'),
               arow('list-restart', 'Start a new round', 'Ends Round 1 for everyone', 'S24-start-round.html#S24-round-in-progress', 'new-round'),
               arow('file-down', 'Export', 'CSV, Excel, Google Sheets or a text summary', 'S39-export.html#S39-shared', 'export')]
-SORTING = [('mert', 'Mert', MERT_DONE, 'Decision Maker'), ('selin', 'Selin', SELIN_DONE, '')]
+SORTING = [('mert', 'Mert', MERT_DONE, 'Decision Maker'), ('selin', 'Selin', SELIN_DONE, 'Collaborator')]
 owner_body = f'''{hero('Your Round 1 is done', 'Wedding guests', '100 / 100 decided', ic=False)}
     {counts(DR, DM, DA, label_prefix='My decisions: ')}
     {list_status()}

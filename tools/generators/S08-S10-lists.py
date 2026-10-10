@@ -264,7 +264,7 @@ def search_btn():
     return icon_action('search', 'Search lists', h08('S08-search'), 'search')
 
 
-def home(body, top='', overlay='', nav_badge=3, fab_html=None, title='large', pad='pb-28', translate=''):
+def home(body, top='', overlay='', nav_badge=2, fab_html=None, title='large', pad='pb-28', translate=''):
     head = large_title('Lists', search_btn()) if title == 'large' else (title if title else '')
     f = fab() if fab_html is None else fab_html
     return f'''{head}
@@ -277,7 +277,7 @@ def home(body, top='', overlay='', nav_badge=3, fab_html=None, title='large', pa
 
 def home_default(action=None, new_conflicts=False, drop=(), archived=2, top='', overlay='', fab_action=None, fab_bottom='bottom-24'):
     body = lists_group(rows_lists('signed', new_conflicts=new_conflicts, drop=drop)) + archived_entry(archived)
-    return home(body, top=top, overlay=overlay, nav_badge=4 if new_conflicts else 3, fab_html=fab(action=fab_action, bottom=fab_bottom))
+    return home(body, top=top, overlay=overlay, nav_badge=3 if new_conflicts else 2, fab_html=fab(action=fab_action, bottom=fab_bottom))
 
 
 def home_guest(web=False, top_extra='', resume_action=False, fab_action=None, overlay=''):
@@ -500,15 +500,17 @@ def my_progress(d, t, rej, may, acc, button, role_note=None, hid='mp-h'):
 
 
 def status_legend(rows_extra=True):
-    items = [('check-check', 'Agreed', 'Everyone chose the same', 32), ('git-compare-arrows', 'Conflict', 'Members chose differently', 15), ('clock', 'Pending', 'Not everyone has decided', 53)]
-    out = ''.join(f'<li class="flex items-center gap-3 py-2">{icon(ic, "size-5 shrink-0")}<span class="min-w-0 flex-1"><span class="block text-body">{t}</span><span class="block text-body-sm text-muted-foreground">{d}</span></span><span class="text-title-3 tabular-nums">{n}</span></li>'
-                  for ic, t, d, n in items)
+    items = [('check-check', 'Agreed', 'Everyone chose the same', 32, 'bg-foreground'), ('git-compare-arrows', 'Conflict', 'Members chose differently', 15, 'bg-foreground/50'),
+             ('clock', 'Pending', 'Not everyone has decided', 53, 'border border-input bg-muted')]
+    out = ''.join(f'<li class="flex items-center gap-3 py-2"><span class="size-3 shrink-0 rounded-full {sw}" aria-hidden="true"></span>{icon(ic, "size-5 shrink-0")}<span class="min-w-0 flex-1"><span class="block text-body">{t}</span><span class="block text-body-sm text-muted-foreground">{d}</span></span><span class="text-title-3 tabular-nums">{n}</span></li>'
+                  for ic, t, d, n, sw in items)
     return f'<!-- Proposed component: ListStatusLegend --><ul class="mt-2 divide-y">{out}</ul>'
 
 
 def list_status_card(button, hid='ls-h', compact=False, right='All 3 members'):
-    leg = (f'<p class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-body-sm"><span class="inline-flex items-center gap-1">{icon("check-check", "size-4")}32 agreed</span>'
-           f'<span class="inline-flex items-center gap-1">{icon("git-compare-arrows", "size-4")}15 conflicts</span><span class="inline-flex items-center gap-1 text-muted-foreground">{icon("clock", "size-4")}53 pending</span></p>'
+    sw = lambda c: f'<span class="size-2.5 shrink-0 rounded-xs {c}" aria-hidden="true"></span>'
+    leg = (f'<p class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-body-sm"><span class="inline-flex items-center gap-1.5">{sw("bg-foreground")}{icon("check-check", "size-4")}<span class="tabular-nums">32</span> agreed</span>'
+           f'<span class="inline-flex items-center gap-1.5">{sw("bg-foreground/50")}{icon("git-compare-arrows", "size-4")}<span class="tabular-nums">15</span> conflicts</span><span class="inline-flex items-center gap-1.5 text-muted-foreground">{sw("border border-input bg-muted")}{icon("clock", "size-4")}<span class="tabular-nums">53</span> pending</span></p>'
            if compact else status_legend())
     return card(card_head('List status', right, hid) + f'<div class="mt-3">{status_bar(32, 15, 53)}</div>' + leg + button, label=hid)
 
@@ -525,9 +527,9 @@ def together_group(rule_href='S35-conflict-rule.html#S35-default', rule_desc='De
 
 def activity_preview(events=None):
     ev = events or [
-        (avatar(IMG + 'people/u-mert.svg', size='size-8'), 'Mert resolved 3 conflicts', 'Yesterday'),
         (f'<span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-conflict text-conflict-foreground">{icon("git-compare-arrows", "size-4")}</span>', '15 new conflicts', 'Oct 3'),
         (avatar(None, 'SY', 'size-8', 'text-caption'), 'Selin joined the list', 'Oct 2'),
+        (avatar(IMG + 'people/u-deniz.svg', size='size-8'), 'You started Round 1 with 100 items', 'Sep 28'),
     ]
     rows = ''.join(f'<li class="flex items-center gap-3 px-4 py-3">{a}<span class="min-w-0 flex-1"><span class="block text-body">{t}</span><span class="block text-body-sm text-muted-foreground">{w}</span></span></li>' for a, t, w in ev)
     return f'<section aria-labelledby="ap-h">{heading_row("Recent activity", "See all", "S38-activity.html#S38-default", "ap-h")}<ul class="mt-1 divide-y overflow-hidden rounded-group bg-card dark:border">{rows}</ul></section>'
@@ -535,8 +537,8 @@ def activity_preview(events=None):
 
 ADDED_EVENTS = [
     (avatar(IMG + 'people/u-deniz.svg', size='size-8'), 'You added 12 items from mert-family.csv', 'Just now'),
-    (avatar(IMG + 'people/u-mert.svg', size='size-8'), 'Mert resolved 3 conflicts', 'Yesterday'),
     (f'<span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-conflict text-conflict-foreground">{icon("git-compare-arrows", "size-4")}</span>', '15 new conflicts', 'Oct 3'),
+    (avatar(None, 'SY', 'size-8', 'text-caption'), 'Selin joined the list', 'Oct 2'),
 ]
 
 
@@ -597,8 +599,8 @@ def ov_shared_waiting():
     waits = ''.join(f'<li class="flex items-center gap-3 py-2.5">{a}<span class="min-w-0 flex-1"><span class="block text-body">{n}</span><span class="mt-1.5 flex items-center gap-3">{pbar(d, 100, "h-1", f"{n}: {d} of 100 decided")}<span class="shrink-0 text-caption tabular-nums text-muted-foreground">{d} / 100</span></span></span></li>'
                     for a, n, d in ((avatar(IMG + 'people/u-mert.svg', size='size-8'), 'Mert', 85), (avatar(None, 'SY', 'size-8', 'text-caption'), 'Selin', 43)))
     c = card(card_head('You decided every item', 'Round 1, shared', 'wt-h', 'circle-check')
-             + '<p class="mt-3 text-title-3 tabular-nums">100 / 100 decided</p><div class="mt-2">' + split_bar(22, 14, 64, 100) + '</div>'
-             + decision_chips(22, 14, 64)
+             + '<p class="mt-3 text-title-3 tabular-nums">100 / 100 decided</p><div class="mt-2">' + split_bar(18, 15, 67, 100) + '</div>'
+             + decision_chips(18, 15, 67)
              + '<p class="mt-4 text-body-sm text-muted-foreground">The list status settles as the others finish. Conflicts can be resolved now.</p>'
              + f'<ul class="mt-1 divide-y" aria-label="Still sorting">{waits}</ul>'
              + btn('See results', href='S28-results.html#S28-shared', action='results', size='md', icon_name='list-checks', extra='mt-3'), label='wt-h')
@@ -783,10 +785,10 @@ P.frame('S08-search', 'Search: results', phone(f'''{search_bar("cl")}
     <section aria-label="Lists">{lists_group([srch_active], label="Matching lists")}</section>
     <section aria-labelledby="sa-h"><h2 id="sa-h" class="px-1 pb-2 text-label text-muted-foreground">Archived</h2>{lists_group([srch_arch], label="Matching archived lists")}</section>
   </div></div>
-  {bottom_nav("lists", badge=3)}'''))
+  {bottom_nav("lists", badge=2)}'''))
 P.frame('S08-search-empty', 'Search: no results', phone(f'''{search_bar("budget")}
   <div class="flex min-h-0 flex-1 flex-col items-center justify-center pb-24" role="status">{empty_state("search-x", "No lists match “budget”", "Check the spelling, or search for another word in the list name.", btn("Clear search", "secondary", href=h08("S08-default"), size="md"), title_cls="text-title-3")}</div>
-  {bottom_nav("lists", badge=3)}'''))
+  {bottom_nav("lists", badge=2)}'''))
 
 P.section('States', 'Lists are stored on the device first, so Home opens instantly from local data. The skeleton only shows on a cold start of a large account. Offline, everything stays usable; changes sync later with a quiet notice under the title.')
 P.frame('S08-loading', 'Loading (skeleton)', phone(home(skeleton_rows(), fab_html='')))
@@ -808,7 +810,7 @@ lt_rows = rows_lists('signed', big=True)
 P.frame('S08-large-text', 'Large text (200%)', phone(f'''<header class="shrink-0"><div class="flex h-app-bar items-center justify-end gap-1 px-1">{search_btn()}</div><h1 class="px-gutter pb-2 text-display">Lists</h1></header>
   <div class="min-h-0 flex-1 overflow-hidden px-4 pb-28 pt-2">{lists_group(lt_rows)}</div>
   {fab(collapsed=True)}
-  {bottom_nav("lists", badge=3).replace("text-caption", "text-label-lg")}'''))
+  {bottom_nav("lists", badge=2).replace("text-caption", "text-label-lg")}'''))
 
 P.section('iOS and web', 'iOS: large title with a search field below it, "+" in the navigation bar instead of a FAB, inset grouped rows, standard tab bar. Web: same layout as Android; lists made without an account are "in this browser only". Desktop shows the phone column centered.')
 ios_rows = rows_lists('signed')
@@ -817,7 +819,7 @@ ios_search = f'<div class="px-4 pb-3"><label class="flex h-11 items-center gap-2
 P.frame('S08-ios', 'iOS: large title, + in the bar, tab bar', phone(f'''{ios_nav(large='Lists', trailing=ios_plus)}
   {ios_search}
   <div class="min-h-0 flex-1 space-y-6 overflow-hidden px-4 pb-6">{lists_group(ios_rows, ios=True)}{archived_entry(ios=True)}</div>
-  {ios_tab_bar('lists', badge=3)}''', kind='ios'))
+  {ios_tab_bar('lists', badge=2)}''', kind='ios'))
 P.frame('S08-ios-first-run', 'iOS: first run', phone(first_run('ios'), kind='ios'))
 P.frame('S08-web', 'Web, mobile browser: not signed in', phone(home_guest(web=True), kind='web'))
 desk_new = f'<a href="{S11}" class="mr-2 inline-flex h-12 items-center gap-2 rounded-control bg-primary px-4 text-label-lg text-primary-foreground">{icon("plus")}New list</a>'
@@ -951,7 +953,7 @@ P.frame('S10-rename-too-long', 'Rename: too long', phone(BG_PHOTOS + dlg('rnl', 
 renamed = inert(ov_solo_default(clip='mb-20').replace('March photos clean-up', 'March 2026 photos'))
 P.frame('S10-renamed', 'Renamed: snackbar', phone(renamed + snackbar('List renamed')))
 ios_alert = ov(f'''{scrim('z-30')}
-  <div class="absolute inset-x-10 top-1/3 z-40 overflow-hidden rounded-dialog bg-popover text-center shadow-dialog" role="alertdialog" aria-modal="true" aria-labelledby="ira-t">
+  <div class="absolute inset-x-10 top-1/2 z-40 -translate-y-1/2 overflow-hidden rounded-dialog bg-popover text-center shadow-dialog" role="alertdialog" aria-modal="true" aria-labelledby="ira-t">
     <div class="px-4 pb-4 pt-5"><h2 id="ira-t" class="text-body font-semibold">Rename list</h2><p class="mt-1 text-body-sm text-muted-foreground">1 to 80 characters</p>
       <input type="text" value="March photos clean-up" aria-label="List name" class="mt-3 h-11 w-full rounded-xs border border-input bg-card px-2 text-body-sm"></div>
     <div class="grid grid-cols-2 border-t"><a href="{h09('S09-ios')}" class="flex h-12 items-center justify-center border-r text-body text-primary">Cancel</a><a href="{h10('S10-renamed')}" class="flex h-12 items-center justify-center text-body font-semibold text-primary">Save</a></div>

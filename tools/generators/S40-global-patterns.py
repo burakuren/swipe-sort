@@ -96,7 +96,7 @@ def large_title(title, trailing=('search',)):
     return f'<div class="shrink-0"><div class="flex h-app-bar items-center justify-end gap-1 px-1">{tr}</div><p class="px-gutter pb-2 text-title-1">{title}</p></div>'
 
 
-def nav(active='lists', badge=3, ios=False):
+def nav(active='lists', badge=2, ios=False):
     items = [('lists', 'list-checks', 'Lists'), ('activity', 'activity', 'Activity'), ('settings', 'settings', 'Settings')]
     out = []
     for key, ic, lab in items:
@@ -354,15 +354,21 @@ def bg_s25(**kw):
 
 
 def bg_s24(shared=False):
-    opts = [('All items', 'Every item in the list, decided or not', '100', False), ('Maybe pile', 'Items marked Maybe in Round 1', '11', True),
-            ('Accepted items', 'Narrow down what you accepted', '48', False), ('Custom selection', 'Filter by a field or pick items by hand', '', False)]
+    if shared:
+        name, notice, summary = 'Wedding guests', 'Starting Round 2 ends Round 1 for everyone. Decisions made so far are kept.', 'Round 2 will have 11 items'
+        opts = [('All items', 'Every item in the list, decided or not', '100', False), ('Maybe pile', 'Final decision is Maybe', '11', True),
+                ('Accepted items', 'Final decision is Accept', '32', False), ('Custom selection', 'Filter by a field or pick items by hand', '', False)]
+    else:
+        name, notice, summary = 'March photos clean-up', '12 of 30 decided. Starting Round 2 ends Round 1.', 'Round 2 will have 5 items'
+        opts = [('All items', 'Every item in the list, decided or not', '30', False), ('Maybe pile', 'Items marked Maybe in Round 1', '1', False),
+                ('Accepted items', 'Narrow down what you accepted', '5', True), ('Custom selection', 'Filter by a field or pick items by hand', '', False)]
     lis = ''.join(f'<li class="flex min-h-16 items-center gap-4 px-4 py-3">{radio(on)}<span class="min-w-0 flex-1"><span class="block text-body">{t}</span><span class="block text-body-sm text-muted-foreground">{d}</span></span>{chip(n) if n else ""}</li>' for t, d, n, on in opts)
     body = f'''<div class="min-h-0 flex-1 overflow-hidden px-4 pt-2"><div class="space-y-6">
-      <div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground">{icon("info", "size-5", "shrink-0")}<div><p class="text-label">Round 1 is still open</p><p class="mt-0.5 text-body-sm">{'Starting Round 2 ends Round 1 for everyone. Decisions made so far are kept.' if shared else '76 of 100 decided. Starting Round 2 ends Round 1.'}</p></div></div>
+      <div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground">{icon("info", "size-5", "shrink-0")}<div><p class="text-label">Round 1 is still open</p><p class="mt-0.5 text-body-sm">{notice}</p></div></div>
       <div><p class="px-1 pb-2 text-label text-muted-foreground">Items</p><ul class="divide-y overflow-hidden rounded-group bg-card dark:border">{lis}</ul></div>
     </div></div>
-    <div class="shrink-0 border-t px-gutter pb-4 pt-3"><p class="pb-3 text-center text-body-sm text-muted-foreground">Round 2 will have 11 items</p>{fake_btn("Start round")}</div>'''
-    return bg(top_bar('x', 'Start a round', 'Wedding guests'), body)
+    <div class="shrink-0 border-t px-gutter pb-4 pt-3"><p class="pb-3 text-center text-body-sm text-muted-foreground">{summary}</p>{fake_btn("Start round")}</div>'''
+    return bg(top_bar('x', 'Start a round', name), body)
 
 
 def bg_s13():
@@ -512,7 +518,7 @@ def bg_s07_confirm():
     li = lambda ic, t: f'<li class="flex gap-3">{icon(ic, "size-5", "mt-0.5 shrink-0 text-muted-foreground")}<span>{t}</span></li>'
     body = f'''<div class="min-h-0 flex-1 overflow-hidden px-gutter pt-2"><div class="space-y-5">
       <p class="text-title-2">Confirm deletion</p><p class="text-body text-muted-foreground">This is the last step. After this, your account can't be restored.</p>
-      <ul class="space-y-3 rounded-group bg-card p-4 text-body dark:border">{li("arrow-right-left", "Wedding guests moves to Mert Aydın")}{li("trash-2", "Desk setup, March photos clean-up and Frontend hiring, Q4 are deleted")}{li("trash-2", "Your profile, decisions and notes are deleted")}</ul>
+      <ul class="space-y-3 rounded-group bg-card p-4 text-body dark:border">{li("arrow-right-left", "“Wedding guests” moves to Mert Aydın")}{li("trash-2", "“Desk setup”, “March photos clean-up”, “Frontend hiring, Q4” and 2 archived lists are deleted")}{li("trash-2", "Your profile, decisions and notes are deleted")}</ul>
       <div><span class="text-label">To confirm, type delete</span><span class="mt-1.5 flex h-12 items-center rounded-control border border-input bg-card px-3.5 text-body">delete</span><p class="mt-1.5 text-body-sm text-muted-foreground">Lowercase is fine.</p></div>
     </div></div>
     <div class="flex shrink-0 flex-col gap-2 px-gutter pb-4 pt-3">{fake_btn("Delete account", "destructive", extra="h-14")}{fake_btn("Keep my account", "ghost")}</div>'''
@@ -544,7 +550,8 @@ VAR = {'destructive': 'bg-destructive text-destructive-foreground', 'primary': '
 
 
 def action(text, variant='ghost', href=None, act=None, extra='', focus=False):
-    cls = f'{BTN} {VAR[variant]} {extra}'
+    base = BTN.replace(' text-label-lg', '') if ' text-' in f' {extra}' else BTN
+    cls = f'{base} {VAR[variant]} {extra}'
     if focus:
         cls += ' ring-2 ring-ring ring-offset-2 ring-offset-popover'
     da = f' data-action="{act}"' if act else ''
@@ -557,11 +564,11 @@ def dialog(title, body, cancel, confirm, variant='destructive', extra='', cancel
            act='confirm', stacked=False, large=False, focus_cancel=False, note=None):
     t, d = uid('t'), uid('d')
     paras = ''.join(f'<p>{p}</p>' for p in (body if isinstance(body, (list, tuple)) else [body]))
-    tcls = 'text-title-1' if large else 'text-title-3'
-    bcls = 'text-title-2 font-normal' if large else 'text-body'
+    tcls = 'text-display' if large else 'text-title-3'
+    bcls = 'text-title-1 font-normal' if large else 'text-body'
     n = f'<p class="mt-3 text-body-sm text-muted-foreground">{note}</p>' if note else ''
-    c = action(cancel, 'ghost', cancel_href, 'cancel', 'text-title-3 font-medium' if large else '', focus=focus_cancel)
-    k = action(confirm, variant, confirm_href, act, 'text-title-3 font-medium' if large else '')
+    c = action(cancel, 'ghost', cancel_href, 'cancel', 'min-h-16 text-title-1 font-medium' if large else '', focus=focus_cancel)
+    k = action(confirm, variant, confirm_href, act, 'min-h-16 text-title-1 font-medium' if large else '')
     if stacked:
         btns = f'<div class="mt-6 flex flex-col gap-2">{k.replace("inline-flex", "flex w-full")}{c.replace("inline-flex", "flex w-full")}</div>'
     else:
@@ -622,10 +629,10 @@ def ios_alert(title, message, buttons, vertical=False):
 
 
 def snackbar(text, act=None, href=None, kind='status', ic=None, pos='bottom-24', large=False, two_line=False):
-    i = icon(ic, 'size-5', 'shrink-0') if ic else ''
-    tcls = 'text-title-2 font-normal' if large else 'text-body-sm'
+    i = icon(ic, 'size-8' if large else 'size-5', 'shrink-0') if ic else ''
+    tcls = 'text-title-1 font-normal' if large else 'text-body-sm'
     if act:
-        acls = f'-my-1 inline-flex h-12 shrink-0 items-center rounded-sm px-3 {"text-title-3" if large else "text-label"} text-primary-inverse'
+        acls = f'-my-1 inline-flex h-12 shrink-0 items-center rounded-sm px-3 {"min-h-16 text-title-1" if large else "text-label"} text-primary-inverse'
         a = f'<a href="{href}" class="{acls}" data-action="{act.lower().replace(" ", "-")}">{act}</a>' if href else f'<button type="button" class="{acls}" data-action="{act.lower().replace(" ", "-")}">{act}</button>'
     else:
         a = ''
@@ -739,7 +746,7 @@ P.add('S40-end-round-shared', 'End round (shared, Owner): for everyone', frame_a
 P.add('S40-new-round', 'Start a new round while one is open (A-34, solo)', frame_android(
     bg_s24(),
     dialog('End Round 1 and start Round 2?',
-           "24 items in Round 1 aren't decided yet. Your decisions so far are kept. Round 2 starts with 11 items.",
+           "18 items in Round 1 aren't decided yet. Your decisions so far are kept. Round 2 starts with 5 items.",
            'Cancel', 'End Round 1 and start', variant='primary', cancel_href='S24-start-round.html#S24-maybe', confirm_href='S24-start-round.html#S24-started', act='confirm-end-round')),
     'New round while one is open')
 
@@ -873,11 +880,11 @@ P.add('S40-sign-out-unsynced', 'Sign out with changes not backed up', frame_andr
 P.add('S40-delete-account', 'Delete account: the final confirmation', frame_android(
     bg_s07_confirm(),
     dialog('Delete your account?',
-           "This can't be undone. Wedding guests moves to Mert Aydın. Your other 3 lists, your decisions and your notes are deleted.",
+           "This can't be undone. “Wedding guests” moves to Mert Aydın. Your other 5 lists (2 of them archived), your decisions and your notes are deleted.",
            'Cancel', 'Delete account', cancel_href='S07-profile.html#S07-delete-confirm', confirm_href='S07-profile.html#S07-deleting', act='confirm-delete-account')),
     'Delete account')
 
-P.add('S40-dialog-large-text', 'Large text: actions stack, destructive on top', frame_android(
+P.add('S40-dialog-large-text', 'Large text (200%): everything scales, actions stack', frame_android(
     bg_s09_solo(),
     dialog('Delete “March photos clean-up”?',
            '30 items, Round 1 and your decisions will be deleted from your account and this phone. The photos in your gallery aren\'t changed.',
@@ -948,7 +955,7 @@ P.add('S40-snackbar-sorting', 'Snackbar above the decision bar (S25)', frame_and
     bg_s25(shared=True, decided=77, cnt=(17, 12, 48)),
     snackbar('Mert chose Maybe on Mia Andersson. This is now a conflict.', 'View', 'S36-conflicts.html#S36-default', ic='git-compare-arrows', pos='bottom-32')), 'Above decision bar')
 
-P.add('S40-snackbar-large-text', 'Snackbar at large text: action below the text', frame_android(
+P.add('S40-snackbar-large-text', 'Snackbar at 200% text: action below the text', frame_android(
     bg_s08(fab=None), snackbar("Couldn't archive “Wedding guests”. Check your connection and try again.", 'Try again', None, kind='alert', ic='circle-alert', large=True, two_line=True)), 'Large text')
 
 # ================================================================ SECTION: banners and sync
@@ -1059,7 +1066,7 @@ def home_live(focus=True):
   {live_nav()}'''
 
 
-def live_nav(active='lists', badge=3):
+def live_nav(active='lists', badge=2):
     out = []
     for key, ic, lab, href in [('lists', 'list-checks', 'Lists', 'S08-home.html#S08-default'), ('activity', 'activity', 'Activity', 'S38-activity.html#S38-default'), ('settings', 'settings', 'Settings', 'S06-settings.html#S06-default')]:
         on = key == active
@@ -1073,8 +1080,8 @@ def live_nav(active='lists', badge=3):
 
 
 toast = f'''<div class="absolute bottom-24 right-4 z-40 flex w-80 items-start gap-3 rounded-control bg-popover p-3 shadow-overlay" role="status">
-    <span class="relative shrink-0">{avatar("selin")}<span class="absolute -bottom-1 -right-1 flex size-5 items-center justify-center rounded-full bg-secondary text-secondary-foreground ring-2 ring-popover">{icon("flag", "size-3")}</span></span>
-    <a href="S09-list-overview.html#S09-shared" class="min-w-0 flex-1 py-1" data-action="open-notification"><span class="block text-label">Selin finished sorting</span><span class="block text-body-sm text-muted-foreground">Wedding guests, 100 / 100 decided</span></a>
+    <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-conflict text-conflict-foreground">{icon("git-compare-arrows", "size-5")}</span>
+    <a href="S36-conflicts.html#S36-non-dm" class="min-w-0 flex-1 py-1" data-action="open-notification"><span class="block text-label">15 conflicts in Wedding guests</span><span class="block text-body-sm text-muted-foreground">Mert decides them.</span></a>
     <button type="button" class="-m-1.5 flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Dismiss" data-action="dismiss">{icon("x", "size-4")}</button>
   </div>'''
 

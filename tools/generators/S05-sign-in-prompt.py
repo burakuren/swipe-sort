@@ -93,7 +93,16 @@ def prompt(sid, purpose='share', kind='android', state=None, large=False, web=Fa
         banner = f'<div class="mt-4 flex items-start gap-2 rounded-control bg-muted px-3 py-2.5 text-body-sm" role="status">{icon("wifi-off", "size-4 mt-0.5 shrink-0")}<span>You\'re offline. Signing in needs a connection. Your lists stay {where}.</span></div>'
     t = 'text-title-1' if large else 'text-title-2'
     b = 'text-title-3 font-normal' if large else 'text-body'
-    pts = '' if large else why_points(points)
+    pts = why_points(points).replace('text-body', 'text-title-3 font-normal') if large else why_points(points)
+    if large:
+        return f'''<div class="min-h-0 flex-1 overflow-hidden pb-3">
+    <div class="pt-3">{round_icon(ic)}</div>
+    <h2 id="{sid}-t" class="mt-4 {t}">{title}</h2>
+    <p class="mt-2 {b} text-muted-foreground">{body}</p>
+    {pts}
+    {banner}
+    </div>
+    <div class="shrink-0 space-y-3 border-t pt-4">{"".join(btns)}</div>'''
     return f'''<div class="pt-3">{round_icon(ic)}</div>
     <h2 id="{sid}-t" class="mt-4 {t}">{title}</h2>
     <p class="mt-2 {b} text-muted-foreground">{body}</p>
@@ -202,11 +211,11 @@ P.frame('S05-moved-backup', 'Moved: from Back up', phone(scene(backed_up(bg_home
 P.frame('S05-moved-merge', 'Moved into an account that already has lists', phone(scene(backed_up(bg_list()), 's05mm', moved('s05mm', 'share', merge=True)), overlay_full=True))
 
 P.section('Move failures', 'Lists are never deleted from the phone until the account confirms them. A partial failure lets sharing continue when the shared list itself moved; a full failure retries automatically when the connection returns.')
-P.frame('S05-move-partial', 'Partial failure: 3 of 4 moved', phone(scene(bg_list(), 's05p', partial('s05p')), overlay_full=True))
+P.frame('S05-move-partial', 'Partial failure: 3 of 4 moved', phone(scene(backed_up(bg_list()), 's05p', partial('s05p')), overlay_full=True))
 P.frame('S05-move-failed', 'Failure: connection dropped', phone(scene(bg_list(), 's05f', failed('s05f')), overlay_full=True))
 
-P.section('Large text, iOS and web', 'Large text: the reasons list hides, buttons grow and the sheet becomes full height. iOS: a page sheet with grabber, Sign in with Apple first. Web: lists made without an account live in this browser only ("On this browser only"); Apple is not offered.')
-P.frame('S05-share-large-text', 'Large text (200%)', phone(scene(bg_list(), 's05lt', prompt('s05lt', 'share', large=True)), overlay_full=True))
+P.section('Large text, iOS and web', 'Large text: the sheet becomes full height; the reasons stay and the text scrolls above pinned buttons. iOS: a page sheet with grabber, Sign in with Apple first. Web: lists made without an account live in this browser only ("On this browser only"); Apple is not offered.')
+P.frame('S05-share-large-text', 'Large text (200%)', phone(bg_list() + sheet('s05lt', prompt('s05lt', 'share', large=True), pad='pb-12'), overlay_full=True))
 P.frame('S05-ios', 'iOS: page sheet, Apple first', phone(scene(bg_list('ios'), 's05i', prompt('s05i', 'share', kind='ios'), kind='ios'), kind='ios', overlay_full=True))
 P.frame('S05-ios-backup', 'iOS: back up', phone(scene(bg_home('ios'), 's05ib', prompt('s05ib', 'backup', kind='ios'), kind='ios'), kind='ios', overlay_full=True))
 web_bg = bg_list(web=True)
