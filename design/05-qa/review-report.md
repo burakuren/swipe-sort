@@ -1,12 +1,55 @@
 # QA review report (Phase 4)
 
 Independent QA of the complete design (S01–S40, 820 frames, foundations, architecture, prototype).
-Reviewer: QA lead (did not design anything). Rounds 1–3: 2026-10-10. Round 2 checked commit 3df77f9 and round 3 checked
-commit f1b3c85, each against fresh scale-1 screenshots.
+Reviewer: QA lead (did not design anything). Rounds 1–4: 2026-10-10. Rounds 2, 3 and 4 checked commits 3df77f9, f1b3c85 and b1aabb1,
+each against fresh scale-1 screenshots.
 
-## Summary (round 3)
+## Final summary (round 4)
 
-**Verdict: not ready, but nearly.** One Blocking finding is open (QA-177). It is a count of 11 / 32 that should read
+**Verdict: ready. No Blocking or Major findings are open.** All 21 findings open after round 3 are fixed and
+verified, including Blocking QA-177 and Majors QA-179–QA-182. The final regression skim covered all 49 frames
+changed in b1aabb1. It found one Minor regression: QA-195, an outdated Undo label in S25-syncing, which the
+lead fixed afterwards (verified in the regenerated frame). **No findings are open.**
+
+| Severity | Open | Closed | Total |
+| --- | --- | --- | --- |
+| Blocking | 0 | 10 | 10 |
+| Major | 0 | 33 | 33 |
+| Minor | 0 | 152 | 152 |
+| **All** | **0** | **195** | **195** |
+
+Closed includes 4 deliberate "Won't fix" resolutions with reasons: QA-041, QA-055, part of QA-034 and the
+A-126 decision in QA-120. Everything else closed is fixed and verified against screenshots, frame text or
+the scripts.
+
+### Final checks (round 4)
+
+| Check | Result |
+| --- | --- |
+| `npm run flows` / `-- --theme=dark` | **5 passed, 0 failed** in both themes (re-run by QA on b1aabb1) |
+| `node tools/qa/traceability.mjs` | **301 / 301 requirements mapped, 0 gaps** |
+| `node tools/qa/refs.mjs` | 0 unknown frame references, 0 broken in-frame links, all navigation-map §5 frames and §6 `data-action`s present, every screen file has `Sxx-default` (the regex now also ignores file globs like `S40-global-patterns.*`) |
+| `npm run lint` / `npm run a11y` | 0 errors / **0 violations (no serious or critical)**: lead's run on b1aabb1; QA's last own runs (rounds 2–3) were also clean |
+| Visual skim | All 49 frames changed in b1aabb1 checked in light, plus dark for S12, S24, S38 and S40. The scrims, snackbar bands, large-text scaling, timeline and counts are consistent. No forbidden domain words, no extra filled primary buttons, dialogs follow A-112 |
+
+### Success criteria (final)
+
+| Criterion | Status | Evidence |
+| --- | --- | --- |
+| SUC-01 coverage.md shows every screen Done | **Met when the lead marks coverage.md Done** | QA verdict: every screen S01–S40 has every applicable state, and none has an open Blocking or Major finding |
+| SUC-02 traceability maps every requirement, no gaps | **Met** | traceability.md: 301 / 301 |
+| SUC-03 no open blocking issues; a11y clean; flows pass | **Met** | 0 Blocking open; a11y 0 violations; flows 5/5 in light and dark |
+| SUC-04 first decision in under a minute, no account (flow 1) | **Met** | 13 interactions from the empty home to the first decision (17 from cold start), guest throughout. The counts are consistent (85 imported) and the flow ends on S27-first-round |
+| SUC-05 partner joins and sorts from a web browser without installing (flow 3) | **Met** | S32 → S03 → S33 → S25 on desktop web, then live keyboard sorting (`deck=mert&count=3`) with a consistent hand-off to S09-shared-decision-maker, bulk resolve and export |
+| SUC-06 product shortlist without wedding wording | **Met** | terms.mjs: domain words only in sample values and template names; the sample product list says "items" |
+| SUC-07 "X / Y decided" and per-decision counts whenever sorting | **Met** | Every S25 sorting frame and the live demo; counts agree between frames (QA-181/182 fixed) |
+| SUC-08 every gesture has a visible, accessible button equivalent | **Met** | S25/S36 decision bars + Undo, screen-reader actions (S25-screen-reader), demo buttons and keys |
+| SUC-09 the source picker takes a new source by adding one tile | **Met** | S11-new-source, data-driven Source definition (A-55) |
+| SUC-10 a coding agent could implement any screen from the docs | **Met** | Every spec has 9 sections; specs, the S40 catalog, navigation-map, domain model and sample data agree (all copy and number contradictions closed) |
+
+## Round 3 summary (history, before fixes in b1aabb1)
+
+Round 3 verdict: not ready, but nearly. One Blocking finding is open (QA-177). It is a count of 11 / 32 that should read
 6 / 22 in one S40 frame, plus one related push string. All 4 round-2 Blocking findings and 6 of the 7 open
 Majors are fixed. QA-140 is closed too; QA-178 tracks the Undo label it left behind. The round-3 regression
 review found 1 Blocking, 4 Major and 13 Minor new findings (QA-177–QA-194). They are mostly count and
@@ -30,7 +73,7 @@ Open Major:
 
 Open Minor (16): QA-083, QA-089, QA-173 (round-1 items still partly or not fixed), QA-178, QA-183–QA-194.
 
-### Tool results (round 3)
+#### Tool results (round 3)
 
 | Check | Result |
 | --- | --- |
@@ -40,7 +83,7 @@ Open Minor (16): QA-083, QA-089, QA-173 (round-1 items still partly or not fixed
 | `npm run flows` / `-- --theme=dark` | **5 passed, 0 failed** in both themes |
 | Visual re-review | 3 reviewers checked every open finding on its frames, plus the 255 frames changed in f1b3c85 (light for all, dark where relevant): about 325 PNGs |
 
-### Prototype flow tests (round 3)
+#### Prototype flow tests (round 3)
 
 | Test | Result | Notes |
 | --- | --- | --- |
@@ -50,7 +93,7 @@ Open Minor (16): QA-083, QA-089, QA-173 (round-1 items still partly or not fixed
 | `04-csv-template.flow.mjs` | Pass | Unchanged. |
 | `05-swipe-demo.flow.mjs` | Pass | As in round 2, plus per-deck Close targets (wedding → S09-guest-wedding, desk-maybe → S09-solo-round-done). |
 
-### Success criteria (round 3)
+#### Success criteria (round 3)
 
 | Criterion | Status | Evidence |
 | --- | --- | --- |
@@ -355,13 +398,13 @@ foundations/architecture/prototype · F S28–S30 · G1 S31–S34 · G2 S35–S3
 | QA-080 | Minor | visual | S21-offline, S22-change-offline | The offline banner butts against the next element; its placement differs from S11-offline. | Place it under the app bar as in S11-offline, with section spacing. | C2, D | Closed | Fixed — banner under the app bar with spacing (round-2 screenshots, light/dark). |
 | QA-081 | Minor | visual | S22-change, S22-change-applied, S22-change-shared, S22-change-offline, S22-import-pick* | Template tile captions do not line up: two-line names push the status label down, and the Person tile in S22-change-applied has no status line. | Bottom-align the status line; give built-ins a status. | D | Closed | Fixed — status lines bottom-aligned; "Built-in" (round-2 screenshots, light/dark). |
 | QA-082 | Minor | visual | S22-import-pick-partial | The summary says "30 items from Photos." while the notice and button say 28 are ready. | "28 of 30 photos copied". | D | Closed | Fixed — "28 of 30 photos copied." (round-2 screenshots, light/dark). |
-| QA-083 | Minor | visual | S22-renamed, S22-duplicated, S23-duplicated, S24-collaborator-asked | The snackbar half-covers the "New template" button or the first field row. | Scroll the content or pad by the snackbar height. | D | Open | Partly fixed — S22-renamed/-duplicated clear; S23-duplicated now half-covers the Tags "Source" row and S24-collaborator-asked still covers "Shuffled". Round 3: Not fixed — S23-duplicated snackbar covers the "Tags 1 of 3" header and touches the Source row; S24-collaborator-asked still covers "Shuffled" / "Sorted by a field". |
+| QA-083 | Minor | visual | S22-renamed, S22-duplicated, S23-duplicated, S24-collaborator-asked | The snackbar half-covers the "New template" button or the first field row. | Scroll the content or pad by the snackbar height. | D | Closed | Partly fixed — S22-renamed/-duplicated clear; S23-duplicated now half-covers the Tags "Source" row and S24-collaborator-asked still covers "Shuffled". Round 3: Not fixed — S23-duplicated snackbar covers the "Tags 1 of 3" header and touches the Source row; S24-collaborator-asked still covers "Shuffled" / "Sorted by a field". Round 4: Fixed — snackbars sit in a band above the bottom action in S22-renamed/-duplicated, S23-duplicated and S24-collaborator-asked; no row is half-covered (light screenshots). |
 | QA-084 | Minor | visual | S23-field-picker | The sheet is near full height but its content ends at ~70 %, leaving ~220 px empty. | Let the sheet hug its content. | D | Closed | Fixed — sheet fits content (round-2 screenshots, light/dark). |
 | QA-085 | Minor | visual | S23-ios | The preview card touches the two-line nav title; "Years of experience" wraps because of three icon buttons. | Add 12–16 px top spacing; tighten the controls. | D | Closed | Fixed — gap under the title; no wrap (round-2 screenshots, light/dark). |
 | QA-086 | Minor | visual | S23-default, S23-duplicated, S23-edit-saved, S23-ios, S23-preview-full, S22-import-pick-custom, S22-import-pick-text, S25-candidate | The compact sample template leaves 55–65 % of the hero card blank; the editor preview looks unfinished. | Use a sample with 3–4 field rows, or define in the card spec how sparse cards distribute space. | D, Lead | Closed | Fixed — Sparse cards vertically centred per A-125 (S23, S22, S25-candidate). |
 | QA-087 | Minor | visual | S25-drag-maybe | The card dragged up covers the "76 / 100 decided" row and clips "Round 1". | Cap the drag offset below the progress row. | Lead | Closed | Not fixed — S25-drag-maybe card still cuts through "76 / 100 decided". Round 3: Fixed — card top sits below the progress bar; "76 / 100 decided" clear (light, dark). |
 | QA-088 | Minor | visual | S25-coach-3 | The raised demo card clips the descenders of "0 / 100 decided". | Lower the card a few px. | Lead | Closed | Fixed — card below the progress text (round-2 screenshots, light/dark). |
-| QA-089 | Minor | visual | S25-large-text | ~300 px of the card is empty while Email is hidden behind "2 more fields in details". | Show Email in the free space or shrink the card. | Lead | Open | Partly fixed — Email shown, ~230 px blank card remains in S25-large-text. Round 3: Partly fixed — all fields shown, ~170 px blank card remains above "Tap for details and notes". |
+| QA-089 | Minor | visual | S25-large-text | ~300 px of the card is empty while Email is hidden behind "2 more fields in details". | Show Email in the free space or shrink the card. | Lead | Closed | Partly fixed — Email shown, ~230 px blank card remains in S25-large-text. Round 3: Partly fixed — all fields shown, ~170 px blank card remains above "Tap for details and notes". Round 4: Fixed — S25-large-text content is vertically centred; no blank band. |
 | QA-090 | Minor | visual | S25-long-text | The name is clamped to "…von Hohenberg-…", losing the surname. | Allow a 4th line or step the size down. | Lead | Closed | Not fixed (worse) — S25-long-text: 4th name line "Lichtenstein" is sliced through its glyphs and touches "Friend". Round 3: Fixed — name wraps to 3 clean lines, no clipping. |
 | QA-091 | Minor | visual | S25-resume, S32-already-member, S32-expired, S32-list-deleted, S32-reset | Centred text leaves widows ("1.", "join.", "link.") and splits names ("Wedding / guests", "Deniz / Yılmaz"). | `text-wrap: balance` and non-breaking spaces in names. | Lead, G1 | Closed | Partly fixed — S32 frames clean; S25-resume still breaks "24 / items left". Round 3: Fixed — S25-resume no longer splits the count; S32 frames clean. |
 | QA-092 | Minor | visual | S26-default, S26-edit, S26-edit-date and other S26 sheets | Text edges step: "Item details"/"My decision" sit on the gutter, "Fields"/"Notes"/footnotes 4 px further in (`px-1`). | One text edge. | E | Closed | Fixed — one text edge (round-2 screenshots, light/dark). |
@@ -445,25 +488,26 @@ foundations/architecture/prototype · F S28–S30 · G1 S31–S34 · G2 S35–S3
 | QA-170 | Minor | visual | S36-note, S36-note-saved, S36-offline, S36-synced vs S36-progress | The same 3 / 15 Merve Kurt state uses different data: Undo says "Accept on Mehmet Yılmaz" in most frames and "Reject on Cem Tekin" in S36-progress; S36-note/-note-saved drop the "Selin hasn't decided yet" notice. | One last action; keep the notice on every Merve Kurt card. | G2 | Closed | Round 3: Fixed — same Undo ("Reject on Cem Tekin") and notice in every Merve Kurt frame (round-3 screenshots / frame text). |
 | QA-171 | Minor | visual | S36-majority-tie, S36-everyone-agreed | Card aria-labels don't match the visible decisions; "0 / 1 ties resolved" should be singular. | Update the aria strings; "0 / 1 tie resolved". | G2 | Closed | Round 3: Fixed — aria labels match; "0 / 1 tie resolved" (round-3 screenshots / frame text). |
 | QA-172 | Minor | visual | S36-offline, S37-offline | The offline banner adds "and sync when you're back online" to the S40 string (QA-030 pattern). | Use the S40 string. | G2 | Closed | Round 3: Fixed — "You're offline. Resolutions are saved on this phone." (round-3 screenshots / frame text). |
-| QA-173 | Minor | visual | S37-large-text, S37-summary-large-text, S40-dialog-large-text | At 200 % only titles and body grow; buttons, section labels and counts stay at 100 % (QA-100 pattern). | Scale button and label styles too. | G2, I | Open | Round 3: Partly fixed — S40-dialog-large-text scales fully; in S37-large-text and S37-summary-large-text button text only grows 16 → 18 px and body copy stays text-body (~110–130 %, not 200 %). |
+| QA-173 | Minor | visual | S37-large-text, S37-summary-large-text, S40-dialog-large-text | At 200 % only titles and body grow; buttons, section labels and counts stay at 100 % (QA-100 pattern). | Scale button and label styles too. | G2, I | Closed | Round 3: Partly fixed — S40-dialog-large-text scales fully; in S37-large-text and S37-summary-large-text button text only grows 16 → 18 px and body copy stays text-body (~110–130 %, not 200 %). Round 4: Fixed — S37-large-text, S37-summary-large-text and S40-dialog-large-text scale titles, body, counts and buttons to 200 %. |
 | QA-174 | Minor | visual | S37-ios | The page-sheet edge cuts through the host's progress row. | Hide that row or start the sheet below it. | G2 | Closed | Round 3: Fixed — sheet starts below the progress row (round-3 screenshots / frame text). |
 | QA-175 | Minor | visual | S36-empty | "Round / 1" breaks across lines. | Keep "Round 1" together. | G2 | Closed | Round 3: Fixed — "Round 1" on one line (round-3 screenshots / frame text). |
 | QA-176 | Minor | visual | S39-web-desktop (light) | The toast breaks the file name at the hyphen ("desk-setup- / accepted.csv"). | Keep the file name on one line. | H | Closed | Round 3: Fixed — file name on one line (round-3 screenshots / frame text). |
-| QA-177 | Blocking | decision model | S40-new-round-shared | The shared new-round pattern shows the Maybe pile ("Final decision is Maybe") with 11 items and Accepted items with 32, "Round 2 will have 11 items" and the dialog "…starts for all 3 members with 11 items". The final decisions are 22 Accept / 6 Maybe / 4 Reject, and S24-end-round-dialog (which S40 says this frame mirrors) shows 6 / 22 and "6 items". | Maybe pile 6, Accepted items 22, "Round 2 will have 6 items", "…with 6 items". | I | Open |  |
-| QA-178 | Minor | copy | S25-web-desktop | Mert's Undo reads "Undo last decision (Accept on Mehmet Yılmaz)", but Mert rejected Mehmet Yılmaz (sample data c002: u-mert = reject; S36-default shows "Mert (you) Rejected"). | Use one of Mert's real last decisions, e.g. "Reject on Mehmet Yılmaz". | Lead | Open |  |
-| QA-179 | Major | decision model | S12-notifications-web (host Activity) | The host feed still shows "Mert resolved 3 conflicts, Yesterday" while the list has 15 open conflicts (the QA-133 event, in a frame QA-133 did not list). The rows also run oldest first, unlike S09 and S38. | Use the S09/S38 events, newest first. | C1 | Open |  |
-| QA-180 | Major | decision model | S09-shared, S09-shared-scrolled, S09-source-details, S09-offline, S09-web-desktop, S10-shared-owner-menu, S10-duplicate-shared, S10-archive-shared, S10-delete-shared, S10-leave-owner-blocked, S10-offline, S21-success, S21-success-activity; S09 spec; sample-data ev1 | The new row "You started Round 1 with 100 items, Sep 28" contradicts the Sources block in the same frames ("Contacts, 88 items, imported Sep 28"; "mert-family.csv, 12 items, added today") and A-65 (the list grew from 88 to 100 today). S21-success-activity shows "You added 12 items… Just now" right above it. | "You started Round 1 with 88 items" (or no count); update ev1, S38 and the S09 spec. | Lead (sample data), B, C2 | Open |  |
-| QA-181 | Major | decision model | S25-syncing (vs S25-offline, S25-no-photo) | Shows 80 / 100 decided (18 / 12 / 50) and "Syncing 4 decisions…", but the current card is still Mia Andersson, who is current at 76 / 100 in S25-offline ("4 not synced"). At 80 / 100 the deck shows Fatma Güler (S25-no-photo). | Keep 76 / 100 (17 / 11 / 48) with Mia current, or show Fatma Güler with the matching sync count. | Lead | Open |  |
-| QA-182 | Major | decision model | S25-last-card (vs S27-default) | The solo last-card frame is at 99 / 100 with 23 / 13 / 63. One more decision cannot reach the S27-default result of 24 / 14 / 62 (Accept 63 > 62). | Use counts one step away from 24 / 14 / 62 (e.g. 24 / 13 / 62 before a final Maybe) or adjust S27-default. | Lead, E | Open |  |
-| QA-183 | Minor | visual | S25-screen-reader | The header carries `ring-2 ring-ring`, a stray primary line under the app bar; the annotation is about the card. | Remove it or put the focus outline on the card. | Lead | Open |  |
-| QA-184 | Minor | visual | S33-joined | The snackbar floats over the lower card just above the tag, unlike the S25 snackbar band above the decision bar. | Match the S25 placement. | G1 | Open |  |
-| QA-185 | Minor | visual | S25-web-desktop | The keyboard hint row is wider than the column gutters (starts ~11 px left of the content edge, ends ~9 px from the border). | Tighten spacing to fit inside the gutters. | Lead | Open |  |
-| QA-186 | Minor | visual | S38-push-content (light) | "Deniz started Round 2 with 11 items." The shared Round 2 has 6 items (same root cause as QA-177). | "…with 6 items." | G2 | Open |  |
-| QA-187 | Minor | visual | S38-default, -all-read, -offline, -permission-prompt, -notifications-off, -web, -ios, -filter-members vs S33-decision-maker, S33-web, S33-web-desktop | Timeline: Mert joins Sep 28 at 8:15 AM and becomes Decision Maker at 8:20 AM, but Round 1 starts at 7:05 PM the same day, while the S33 frames where Mert joins show "Round 1 in progress" with Deniz at 76 / 100. | Put the Round 1 start before Mert's join (or show no round in Mert's S33 frames). | G2, G1 | Open |  |
-| QA-188 | Minor | visual | S38-member-finished | The feed ends at Oct 2 and drops the Sep 28 group shown in every Oct 10 frame, leaving ~40 % of the screen empty. | Keep the Sep 28 group. | G2 | Open |  |
-| QA-189 | Minor | visual | S37-large-text | The soft Reject / Maybe / Accept icon circles touch vertically (no row gap). | Add row padding. | G2 | Open |  |
-| QA-190 | Minor | visual | S11-existing-list (light) | Sources read "Contacts, added Sep 27" and "mert-family.csv, added Sep 28"; everywhere else it is Sep 28 and today. | Align dates with the S09 timeline. | C1 | Open |  |
-| QA-191 | Minor | visual | S08-large-text (light) | The "15 conflicts" chip stays ~12 px at 200 % (QA-100 pattern). | Scale the chip. | B | Open |  |
-| QA-192 | Minor | visual | S20-ios-merge (light) | The scrim dims the host app bar but not the status-bar strip (QA-152 pattern). | Extend the scrim under the status bar. | C2 | Open |  |
-| QA-193 | Minor | visual | S24-end-round-dialog (light) | The scrim leaves the status-bar and home-indicator strips white (QA-053 pattern). | Extend the scrim to the full frame. | E | Open |  |
-| QA-194 | Minor | visual | S21-ios | Photos tile subtitle "From your gallery" (Android wording) vs S11-ios "From your photo library". | Use "From your photo library". | C2 | Open |  |
+| QA-177 | Blocking | decision model | S40-new-round-shared | The shared new-round pattern shows the Maybe pile ("Final decision is Maybe") with 11 items and Accepted items with 32, "Round 2 will have 11 items" and the dialog "…starts for all 3 members with 11 items". The final decisions are 22 Accept / 6 Maybe / 4 Reject, and S24-end-round-dialog (which S40 says this frame mirrors) shows 6 / 22 and "6 items". | Maybe pile 6, Accepted items 22, "Round 2 will have 6 items", "…with 6 items". | I | Closed | Round 4: Fixed — S40-new-round-shared: Maybe 6 / Accepted 22, "Round 2 will have 6 items", "…with 6 items" (light, dark). |
+| QA-178 | Minor | copy | S25-web-desktop | Mert's Undo reads "Undo last decision (Accept on Mehmet Yılmaz)", but Mert rejected Mehmet Yılmaz (sample data c002: u-mert = reject; S36-default shows "Mert (you) Rejected"). | Use one of Mert's real last decisions, e.g. "Reject on Mehmet Yılmaz". | Lead | Closed | Round 4: Fixed — S25-web-desktop Undo: "Reject on Mehmet Yılmaz". |
+| QA-179 | Major | decision model | S12-notifications-web (host Activity) | The host feed still shows "Mert resolved 3 conflicts, Yesterday" while the list has 15 open conflicts (the QA-133 event, in a frame QA-133 did not list). The rows also run oldest first, unlike S09 and S38. | Use the S09/S38 events, newest first. | C1 | Closed | Round 4: Fixed — S12-notifications-web feed mirrors S38-default (15 conflicts, Selin joined, Mert DM, Mert joined, Round 1 with 88 items), newest first. |
+| QA-180 | Major | decision model | S09-shared, S09-shared-scrolled, S09-source-details, S09-offline, S09-web-desktop, S10-shared-owner-menu, S10-duplicate-shared, S10-archive-shared, S10-delete-shared, S10-leave-owner-blocked, S10-offline, S21-success, S21-success-activity; S09 spec; sample-data ev1 | The new row "You started Round 1 with 100 items, Sep 28" contradicts the Sources block in the same frames ("Contacts, 88 items, imported Sep 28"; "mert-family.csv, 12 items, added today") and A-65 (the list grew from 88 to 100 today). S21-success-activity shows "You added 12 items… Just now" right above it. | "You started Round 1 with 88 items" (or no count); update ev1, S38 and the S09 spec. | Lead (sample data), B, C2 | Closed | Round 4: Fixed — "You started Round 1 with 88 items" in S09/S10/S21; S38 "88 items"; Sources 88 + 12 today agree. |
+| QA-181 | Major | decision model | S25-syncing (vs S25-offline, S25-no-photo) | Shows 80 / 100 decided (18 / 12 / 50) and "Syncing 4 decisions…", but the current card is still Mia Andersson, who is current at 76 / 100 in S25-offline ("4 not synced"). At 80 / 100 the deck shows Fatma Güler (S25-no-photo). | Keep 76 / 100 (17 / 11 / 48) with Mia current, or show Fatma Güler with the matching sync count. | Lead | Closed | Round 4: Fixed — S25-syncing shows Fatma Güler at 80 / 100 (Undo label filed as QA-195). |
+| QA-182 | Major | decision model | S25-last-card (vs S27-default) | The solo last-card frame is at 99 / 100 with 23 / 13 / 63. One more decision cannot reach the S27-default result of 24 / 14 / 62 (Accept 63 > 62). | Use counts one step away from 24 / 14 / 62 (e.g. 24 / 13 / 62 before a final Maybe) or adjust S27-default. | Lead, E | Closed | Round 4: Fixed — S25-last-card 99 / 100 at 24 / 13 / 62; a final Maybe reaches S27-default 24 / 14 / 62. |
+| QA-183 | Minor | visual | S25-screen-reader | The header carries `ring-2 ring-ring`, a stray primary line under the app bar; the annotation is about the card. | Remove it or put the focus outline on the card. | Lead | Closed | Round 4: Fixed — header ring removed in S25-screen-reader. |
+| QA-184 | Minor | visual | S33-joined | The snackbar floats over the lower card just above the tag, unlike the S25 snackbar band above the decision bar. | Match the S25 placement. | G1 | Closed | Round 4: Fixed — S33-joined snackbar in the band above the decision bar, as in S25. |
+| QA-185 | Minor | visual | S25-web-desktop | The keyboard hint row is wider than the column gutters (starts ~11 px left of the content edge, ends ~9 px from the border). | Tighten spacing to fit inside the gutters. | Lead | Closed | Round 4: Fixed — S25-web-desktop hint row sits inside the column gutters. |
+| QA-186 | Minor | visual | S38-push-content (light) | "Deniz started Round 2 with 11 items." The shared Round 2 has 6 items (same root cause as QA-177). | "…with 6 items." | G2 | Closed | Round 4: Fixed — S38-push-content: "Deniz started Round 2 with 6 items." |
+| QA-187 | Minor | visual | S38-default, -all-read, -offline, -permission-prompt, -notifications-off, -web, -ios, -filter-members vs S33-decision-maker, S33-web, S33-web-desktop | Timeline: Mert joins Sep 28 at 8:15 AM and becomes Decision Maker at 8:20 AM, but Round 1 starts at 7:05 PM the same day, while the S33 frames where Mert joins show "Round 1 in progress" with Deniz at 76 / 100. | Put the Round 1 start before Mert's join (or show no round in Mert's S33 frames). | G2, G1 | Closed | Round 4: Fixed — S38 timeline: Round 1 7:05 PM, Mert joined 9:15 PM, Decision Maker 9:20 PM (Sep 28). |
+| QA-188 | Minor | visual | S38-member-finished | The feed ends at Oct 2 and drops the Sep 28 group shown in every Oct 10 frame, leaving ~40 % of the screen empty. | Keep the Sep 28 group. | G2 | Closed | Round 4: Fixed — S38-member-finished keeps the Sep 28 group. |
+| QA-189 | Minor | visual | S37-large-text | The soft Reject / Maybe / Accept icon circles touch vertically (no row gap). | Add row padding. | G2 | Closed | Round 4: Fixed — S37-large-text rows have gaps between the icon circles. |
+| QA-190 | Minor | visual | S11-existing-list (light) | Sources read "Contacts, added Sep 27" and "mert-family.csv, added Sep 28"; everywhere else it is Sep 28 and today. | Align dates with the S09 timeline. | C1 | Closed | Round 4: Fixed — S11-existing-list: "88 items, added Sep 28", "12 items, added today". |
+| QA-191 | Minor | visual | S08-large-text (light) | The "15 conflicts" chip stays ~12 px at 200 % (QA-100 pattern). | Scale the chip. | B | Closed | Round 4: Fixed — S08-large-text "15 conflicts" chip scales. |
+| QA-192 | Minor | visual | S20-ios-merge (light) | The scrim dims the host app bar but not the status-bar strip (QA-152 pattern). | Extend the scrim under the status bar. | C2 | Closed | Round 4: Fixed — S20-ios-merge scrim covers the status bar. |
+| QA-193 | Minor | visual | S24-end-round-dialog (light) | The scrim leaves the status-bar and home-indicator strips white (QA-053 pattern). | Extend the scrim to the full frame. | E | Closed | Round 4: Fixed — S24-end-round-dialog scrim covers the full frame (light, dark). |
+| QA-194 | Minor | visual | S21-ios | Photos tile subtitle "From your gallery" (Android wording) vs S11-ios "From your photo library". | Use "From your photo library". | C2 | Closed | Round 4: Fixed — S21-ios "From your photo library". |
+| QA-195 | Minor | copy | S25-syncing | The frame moved to 80 / 100 with Fatma Güler current (QA-181 fix), but the Undo label still reads "Undo last decision (Accept on Ayşe Demir)", the last decision at 76 / 100 (S25-default). At 80 / 100 the last decision is a later item. | Name the 80th decision in the Undo label (the item just before Fatma Güler). | Lead | Closed | Fixed by the lead: Undo label now names the last decision before Fatma Güler ("Accept on Babaanne (Nermin Aydın)"); verified in the regenerated frame. |

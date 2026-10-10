@@ -239,3 +239,4 @@ are merged here by the lead designer after each phase. IDs (A-nn) are referenced
 - **A-124** Web desktop Home has no FAB: a filled "New list" button sits in the app bar next to search. Duplicating a list stays on the original list with "Duplicated as “…”" + Open.
 - **A-125** Sparse-card rule (image area None): content block vertically centered above pinned tags; ≤ 3 rows use text-title-2 values, 4–6 rows text-title-3; title-only uses text-display; decided by the template's row count. Duplicated templates are named "{name} (copy)".
 - **A-126** Extends A-112: "Undo Resolve all" is destructive (it discards final decisions); "Make Mert Owner" stays primary.
+- **A-127** The committed screenshots are rendered at scale 1 (92 MB for 1,686 PNGs); scale 2 would add ~300 MB to the repository. `npm run shots` regenerates them at scale 2 on demand.

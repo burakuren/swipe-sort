@@ -343,7 +343,7 @@ loading = f'''{header()}
 F('S25-loading', 'Loading', phone(loading))
 offline_banner = f'<div class="flex shrink-0 items-center gap-2 bg-muted px-gutter py-2 text-body-sm" role="status">{icon("wifi-off", "size-4 shrink-0")}<span class="flex-1">You\'re offline. Decisions are saved on this phone.</span></div>'
 F('S25-offline', 'Offline: sorting continues, saved locally', phone(sorting(hdr=shared_hdr, extra_top=offline_banner, prog=progress(76, 100, f'<span class="inline-flex items-center gap-1.5 text-caption text-muted-foreground">{icon("cloud-off", "size-4")}4 not synced</span>'))))
-F('S25-syncing', 'Back online: syncing', phone(sorting(body=person_body(PEOPLE['c081']), label='Fatma Güler, Family. Phone +90 500 000 51 38. City Ankara.', hdr=shared_hdr, prog=progress(80, 100, f'<span class="inline-flex items-center gap-1.5 text-caption text-muted-foreground" role="status">{icon("refresh-cw", "size-4 animate-spin")}Syncing 4 decisions…</span>'), counts=(18, 12, 50))))
+F('S25-syncing', 'Back online: syncing', phone(sorting(body=person_body(PEOPLE['c081']), label='Fatma Güler, Family. Phone +90 500 000 51 38. City Ankara.', undo_label='Undo last decision (Accept on Babaanne (Nermin Aydın))', hdr=shared_hdr, prog=progress(80, 100, f'<span class="inline-flex items-center gap-1.5 text-caption text-muted-foreground" role="status">{icon("refresh-cw", "size-4 animate-spin")}Syncing 4 decisions…</span>'), counts=(18, 12, 50))))
 error = f'''{header()}
   <div class="flex flex-1 flex-col items-center justify-center px-8 text-center">
     {icon("triangle-alert", "size-8 text-muted-foreground")}

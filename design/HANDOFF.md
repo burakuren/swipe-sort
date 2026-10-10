@@ -75,7 +75,21 @@ mockups map 1:1 to NativeWind (same token names), which is the point.
 5. **Everything else**: settings and profile (S06, S07), list management (S10), remaining sources (S15–S18,
    S21), round history (S30), activity and notifications (S38), global patterns (S40).
 
-## 5. Rules that are easy to get wrong
+## 5. Precedence when sources disagree
+
+1. `00-brief/brief.md` (the client brief) wins over everything.
+2. `00-brief/assumptions.md` records every decision made beyond the brief (A-01…A-126); later entries
+   refine earlier ones and say so.
+3. `03-screens/S40-global-patterns.*` is the catalog for every confirmation dialog, snackbar, banner,
+   sync notice, error and not-found screen. Where a screen spec words one of these differently, S40 wins.
+4. Specs (`Sxx-*.md`) win over the HTML for behavior and copy; the HTML wins for visual layout.
+5. `02-data/sample-data.json` is illustrative; some frames show later moments (marked "illustrative" in
+   their spec) — never hard-code sample numbers.
+
+The screen HTML is produced by Python generators in `/tools/generators` (design tooling only, not app
+code). If you need to see a state that isn't drawn, the spec's §4 and §9 describe it.
+
+## 6. Rules that are easy to get wrong
 
 - **Terminology**: List, Item, Field, Source, Card template, Round, Accept/Reject/Maybe, Decided, My
   decision, Final decision, Conflict, Owner, Decision Maker, Collaborator, Member. Never show domain words
@@ -93,8 +107,15 @@ mockups map 1:1 to NativeWind (same token names), which is the point.
   offline banner and sync notice (S40).
 - **Touch targets** ≥ 48 dp; text scales to 200% (see large-text frames).
 
-## 6. Platform specifics
+## 7. Platform specifics
 
 Android is the reference (Material 3 behavior: predictive back, bottom sheets, snackbars). iOS variant
 frames (`*-ios`) show where iOS differs: navigation bars, back swipe, page sheets, action sheets, Sign in
 with Apple. Web uses the same phone layout; desktop browsers center it (`S40-desktop-frame`).
+
+## 8. Quality evidence
+
+`05-qa/review-report.md` lists every QA finding over four rounds with its resolution; `05-qa/coverage.md`
+lists every screen with its frames and variants; `05-qa/traceability.md` maps all 301 requirement IDs to
+screens and documents; `05-qa/a11y-report.md` (axe, WCAG 2.2 AA) and `05-qa/lint-report.md` are generated;
+`/tools/flows` holds the Playwright tests for the four main flows and the swipe demo (`npm run flows`).

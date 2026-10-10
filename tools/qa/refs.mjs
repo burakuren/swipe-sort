@@ -47,7 +47,7 @@ for (const d of docs) {
   const lines = txt.split('\n');
   lines.forEach((line, i) => {
     // strip file names like S25-sorting.html / .md
-    const clean = line.replace(/S\d\d-[a-z0-9-]+\.(html|md|py)/g, ' ');
+    const clean = line.replace(/S\d\d-[a-z0-9-]+\.(html|md|py|\*)/g, ' ');
     for (const m of clean.matchAll(/(?<!D-)\b(S\d\d-[a-z0-9]+(?:-[a-z0-9]+)*)\b/g)) {
       let id = m[1];
       if (IGNORE.test(id) || isFrame(id)) continue;
