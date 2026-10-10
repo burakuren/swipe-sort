@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S01 Splash</title>
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body class="mock-page">
+<header class="mock-doc">
+  <h1>S01 Splash</h1>
+  <p>Cold start only. Android uses the system splash screen (icon on the theme background, wordmark as the branding image); iOS uses a static launch screen; the web shows a brief loader only when loading takes longer than 300 ms. Spec: <a href="S01-splash.md">S01-splash.md</a>.</p>
+</header>
+<h2 class="mock-section">Cold start</h2>
+<p>The splash stays only while the app opens its local database. Returning users go straight to Lists (S08); first launch goes to the introduction (S02); an invite link hands off to S32.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S01-default" id="S01-default">
+  <figcaption class="frame-label">S01 · Default (Android system splash) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <div class="relative flex flex-1 flex-col bg-background">
+    <a href="S02-onboarding.html#S02-welcome" class="absolute inset-0 z-10" aria-label="Open the introduction (the app moves on automatically)" data-action="next"></a>
+    <div class="flex flex-1 flex-col items-center justify-center px-8 text-center">
+      <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-28  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-28  dark:block">
+      
+    </div>
+    <div class="flex shrink-0 justify-center pb-12"><span class="text-title-2 tracking-tight">SwipeSort</span></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S01-slow" id="S01-slow">
+  <figcaption class="frame-label">S01 · Slow start (after 2 s): spinner and status · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <div class="relative flex flex-1 flex-col bg-background">
+    <a href="S08-home.html#S08-default" class="absolute inset-0 z-10" aria-label="Open Lists (the app moves on automatically)" data-action="next"></a>
+    <div class="flex flex-1 flex-col items-center justify-center px-8 text-center">
+      <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-28  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-28  dark:block">
+      <div class="mt-10 flex flex-col items-center gap-3" role="status">
+        <i class="i-lucide-loader-circle size-6 animate-spin text-primary" aria-hidden="true"></i>
+        <p class="text-body text-muted-foreground">Opening your lists…</p>
+      </div>
+    </div>
+    <div class="flex shrink-0 justify-center pb-12"><span class="text-title-2 tracking-tight">SwipeSort</span></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S01-updating" id="S01-updating">
+  <figcaption class="frame-label">S01 · First start after an app update (data upgrade) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <div class="relative flex flex-1 flex-col bg-background">
+    
+    <div class="flex flex-1 flex-col items-center justify-center px-8 text-center">
+      <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-28  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-28  dark:block">
+      <div class="mt-10 w-full max-w-xs" role="status">
+        <p class="text-title-3">Updating your lists</p>
+        <p class="mt-1 text-body text-muted-foreground">This takes a few seconds. Your lists and decisions are safe.</p>
+        <div class="mt-5 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" aria-label="Updating your lists, 60%"><div class="h-full w-[60%] rounded-full bg-primary"></div></div>
+      </div>
+    </div>
+    <div class="flex shrink-0 justify-center pb-12"><span class="text-title-2 tracking-tight">SwipeSort</span></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S01-error" id="S01-error">
+  <figcaption class="frame-label">S01 · Error: local data could not be opened · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <div class="relative flex flex-1 flex-col items-center justify-center bg-background px-8 text-center">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-16  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-16  dark:block">
+    <h1 class="mt-8 text-title-2">SwipeSort couldn't open your lists</h1>
+    <p class="mt-2 max-w-xs text-body text-muted-foreground">Nothing was deleted. Try again. If it keeps happening, restart your phone and send us a report.</p>
+    <div class="mt-8 w-full max-w-xs space-y-2">
+      <a href="#S01-slow" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="retry">Try again</a>
+      <a href="S06-settings.html#S06-feedback" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg" data-action="report">Send a report</a>
+    </div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Opened from an invite link</h2>
+<p>App installed: the Android App Link or iOS Universal Link starts the app. The splash shows a status line while the invite is checked, then hands off to S32 (app) without showing onboarding first; onboarding is offered after joining.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S01-invite" id="S01-invite">
+  <figcaption class="frame-label">S01 · Cold start from an invite link · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <div class="relative flex flex-1 flex-col bg-background">
+    <a href="S32-invite-link.html#S32-app" class="absolute inset-0 z-10" aria-label="Open the invite (the app moves on automatically)" data-action="next"></a>
+    <div class="flex flex-1 flex-col items-center justify-center px-8 text-center">
+      <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-28  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-28  dark:block">
+      <div class="mt-10 flex flex-col items-center gap-3" role="status">
+        <i class="i-lucide-loader-circle size-6 animate-spin text-primary" aria-hidden="true"></i>
+        <p class="text-body text-muted-foreground">Opening invite…</p>
+      </div>
+    </div>
+    <div class="flex shrink-0 justify-center pb-12"><span class="text-title-2 tracking-tight">SwipeSort</span></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">iOS and web</h2>
+<p>iOS launch screens are static and carry no text (Apple HIG): the mark alone on the theme background. The in-app continuation (slow start, invite) is identical to Android. The web shows the mark with a thin loading bar only when the app takes more than 300 ms to load.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S01-ios" id="S01-ios">
+  <figcaption class="frame-label">S01 · iOS launch screen (mark only, no text) · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <div class="relative flex flex-1 flex-col bg-background">
+    <a href="S02-onboarding.html#S02-welcome" class="absolute inset-0 z-10" aria-label="Open the introduction (the app moves on automatically)" data-action="next"></a>
+    <div class="flex flex-1 flex-col items-center justify-center px-8 text-center">
+      <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-28  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-28  dark:block">
+      
+    </div>
+    
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S01-ios-slow" id="S01-ios-slow">
+  <figcaption class="frame-label">S01 · iOS slow start (in-app continuation) · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <div class="relative flex flex-1 flex-col bg-background">
+    
+    <div class="flex flex-1 flex-col items-center justify-center px-8 text-center">
+      <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-28  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-28  dark:block">
+      <div class="mt-10 flex flex-col items-center gap-3" role="status">
+        <i class="i-lucide-loader-circle size-6 animate-spin text-primary" aria-hidden="true"></i>
+        <p class="text-body text-muted-foreground">Opening your lists…</p>
+      </div>
+    </div>
+    
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S01-web" id="S01-web">
+  <figcaption class="frame-label">S01 · Web, mobile browser: brief loader · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="screen ">
+  <div class="relative flex flex-1 flex-col items-center justify-center bg-background px-8 text-center">
+    <div class="absolute inset-x-0 top-0 h-1 overflow-hidden bg-muted" role="progressbar" aria-label="Loading SwipeSort"><div class="h-full w-1/3 rounded-full bg-primary"></div></div>
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-20  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-20  dark:block">
+    <p class="mt-6 text-body text-muted-foreground" role="status">Loading SwipeSort…</p>
+  </div>
+  </div>
+</div>
+</figure>
+<figure class="frame" data-frame="S01-web-desktop" id="S01-web-desktop">
+  <figcaption class="frame-label">S01 · Web, desktop browser: brief loader in the phone column · <span class="theme-name"></span></figcaption>
+  <div class="desktop">
+  <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app</span></div>
+  <div class="desktop-column ">
+  <div class="relative flex flex-1 flex-col items-center justify-center bg-background px-8 text-center">
+    <div class="absolute inset-x-0 top-0 h-1 overflow-hidden bg-muted" role="progressbar" aria-label="Loading SwipeSort"><div class="h-full w-1/3 rounded-full bg-primary"></div></div>
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-20  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-20  dark:block">
+    <p class="mt-6 text-body text-muted-foreground" role="status">Loading SwipeSort…</p>
+  </div>
+  </div>
+</div>
+</figure>
+</main>
+</body>
+</html>

@@ -194,6 +194,7 @@ selinIds.forEach((id) => {
 });
 // Force a few conflicts where Mert (Decision Maker) never decided: items 89-92 by Deniz? Deniz only first 76.
 // Add Selin decisions differing from Deniz on items Mert has not decided: give Mert gaps.
+mert['c079'] = 'accept'; // matches Mert's note "Obviously yes."
 for (const id of ['c012', 'c034', 'c056']) {
   delete mert[id];
   selin[id] = deniz[id] === 'accept' ? 'reject' : 'accept';

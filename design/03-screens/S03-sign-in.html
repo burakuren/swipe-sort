@@ -1,0 +1,733 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S03 Sign up / sign in</title>
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body class="mock-page">
+<header class="mock-doc">
+  <h1>S03 Sign up / sign in</h1>
+  <p>Auth modal stack. Google and email on every platform; Sign in with Apple first on iOS (HIG). Email has a sign-in form and a create-account form; "Forgot password?" opens S04. Signing in is never required to use SwipeSort alone (ACC-01). Provider marks are stand-ins for the official assets (spec §8). Spec: <a href="S03-sign-in.md">S03-sign-in.md</a>.</p>
+</header>
+<h2 class="mock-section">Choose a way to sign in</h2>
+<p>Android and web: Google, then email. The context line appears when S03 opens from a share or backup prompt (S05 › Continue with email).</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S03-default" id="S03-default">
+  <figcaption class="frame-label">S03 · Default (Android) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S02-onboarding.html#S02-welcome" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-14  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-14  dark:block">
+    <h1 class="mt-6 text-title-1">Sign in to SwipeSort</h1><p class="mt-2 text-body-lg text-muted-foreground">Back up your lists, use them on other devices and decide together with others.</p>
+    
+    
+    <div class="mt-8 space-y-3"><a href="#S03-google-busy" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" data-action="continue-google"><span class="flex size-6 items-center justify-center rounded-full border border-input bg-card text-label font-bold leading-none text-foreground" aria-hidden="true">G</span>Continue with Google</a><a href="#S03-email" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" data-action="continue-email"><i class="i-lucide-mail size-5" aria-hidden="true"></i>Continue with email</a></div>
+    <p class="mt-4 text-center text-body-sm text-muted-foreground">Signing in is optional. Without an account, lists stay on this phone.</p>
+  </div>
+  <div class="shrink-0 px-gutter pb-5 pt-3"><p class="text-center text-body-sm text-muted-foreground">By continuing, you agree to the <a href="https://swipesort.app/terms" class="text-primary underline underline-offset-4">Terms of Service</a> and <a href="https://swipesort.app/privacy" class="text-primary underline underline-offset-4">Privacy Policy</a>.</p></div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S03-context-share" id="S03-context-share">
+  <figcaption class="frame-label">S03 · Opened from Share: context line · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S02-onboarding.html#S02-welcome" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-14  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-14  dark:block">
+    <h1 class="mt-6 text-title-1">Sign in or create an account</h1>
+    <div class="mt-6"><div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground " role="note"><i class="i-lucide-users size-5 shrink-0" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Sign in to share “Wedding guests”</p><p class="mt-0.5 text-body-sm">Members sort the same list on their own phones. Your 4 lists on this phone move to your account.</p></div></div></div>
+    
+    <div class="mt-8 space-y-3"><a href="#S03-google-busy" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" data-action="continue-google"><span class="flex size-6 items-center justify-center rounded-full border border-input bg-card text-label font-bold leading-none text-foreground" aria-hidden="true">G</span>Continue with Google</a><a href="#S03-email" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" data-action="continue-email"><i class="i-lucide-mail size-5" aria-hidden="true"></i>Continue with email</a></div>
+    <p class="mt-4 text-center text-body-sm text-muted-foreground">Signing in is optional. Without an account, lists stay on this phone.</p>
+  </div>
+  <div class="shrink-0 px-gutter pb-5 pt-3"><p class="text-center text-body-sm text-muted-foreground">By continuing, you agree to the <a href="https://swipesort.app/terms" class="text-primary underline underline-offset-4">Terms of Service</a> and <a href="https://swipesort.app/privacy" class="text-primary underline underline-offset-4">Privacy Policy</a>.</p></div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S03-context-backup" id="S03-context-backup">
+  <figcaption class="frame-label">S03 · Opened from Back up: context line · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S02-onboarding.html#S02-welcome" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-14  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-14  dark:block">
+    <h1 class="mt-6 text-title-1">Sign in or create an account</h1>
+    <div class="mt-6"><div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground " role="note"><i class="i-lucide-cloud-upload size-5 shrink-0" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Sign in to back up your lists</p><p class="mt-0.5 text-body-sm">Your 4 lists move to your account, so they are safe if you lose this phone.</p></div></div></div>
+    
+    <div class="mt-8 space-y-3"><a href="#S03-google-busy" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" data-action="continue-google"><span class="flex size-6 items-center justify-center rounded-full border border-input bg-card text-label font-bold leading-none text-foreground" aria-hidden="true">G</span>Continue with Google</a><a href="#S03-email" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" data-action="continue-email"><i class="i-lucide-mail size-5" aria-hidden="true"></i>Continue with email</a></div>
+    <p class="mt-4 text-center text-body-sm text-muted-foreground">Signing in is optional. Without an account, lists stay on this phone.</p>
+  </div>
+  <div class="shrink-0 px-gutter pb-5 pt-3"><p class="text-center text-body-sm text-muted-foreground">By continuing, you agree to the <a href="https://swipesort.app/terms" class="text-primary underline underline-offset-4">Terms of Service</a> and <a href="https://swipesort.app/privacy" class="text-primary underline underline-offset-4">Privacy Policy</a>.</p></div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Email</h2>
+<p>One sign-in form and one create-account form; each links to the other. Password rules are shown live while typing. Errors sit under the field they concern, or above the form when they concern the account.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S03-email" id="S03-email">
+  <figcaption class="frame-label">S03 · Sign in with email · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S03-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <h1 class="text-title-1">Sign in with email</h1>
+    
+    <div class="mt-6 space-y-5">
+      <div><label for="s03e-email" class="text-label ">Email</label><input id="s03e-email" type="email" class="mt-1.5 h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input" value="deniz.yilmaz@example.com" autocomplete="email"></div>
+      <div>
+        <div><label for="s03e-pw" class="text-label ">Password</label><div class="relative mt-1.5"><input id="s03e-pw" type="password" class="h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input pr-12" value="••••••••••" autocomplete="current-password"><button type="button" class="absolute right-0 top-0 flex size-12 items-center justify-center rounded-full text-muted-foreground" aria-label="Show password"><i class="i-lucide-eye size-5" aria-hidden="true"></i></button></div></div>
+        <div class="mt-1 flex justify-end"><a href="S04-forgot-password.html#S04-default" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4 " data-action="forgot-password">Forgot password?</a></div>
+      </div>
+    </div>
+    <div class="mt-4"><a href="S08-home.html#S08-default" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="sign-in">Sign in</a></div>
+    <p class="mt-6 text-center text-body text-muted-foreground">New to SwipeSort? <a href="#S03-sign-up" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4">Create an account</a></p>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S03-signing-in" id="S03-signing-in">
+  <figcaption class="frame-label">S03 · Signing in (loading) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S03-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <h1 class="text-title-1">Sign in with email</h1>
+    
+    <div class="mt-6 space-y-5">
+      <div><label for="s03si-email" class="text-label ">Email</label><input id="s03si-email" type="email" class="mt-1.5 h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input" value="deniz.yilmaz@example.com" autocomplete="email"></div>
+      <div>
+        <div><label for="s03si-pw" class="text-label ">Password</label><div class="relative mt-1.5"><input id="s03si-pw" type="password" class="h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input pr-12" value="••••••••••" autocomplete="current-password"><button type="button" class="absolute right-0 top-0 flex size-12 items-center justify-center rounded-full text-muted-foreground" aria-label="Show password"><i class="i-lucide-eye size-5" aria-hidden="true"></i></button></div></div>
+        <div class="mt-1 flex justify-end"><a href="S04-forgot-password.html#S04-default" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4 " data-action="forgot-password">Forgot password?</a></div>
+      </div>
+    </div>
+    <div class="mt-4"><button type="button" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" aria-busy="true"><i class="i-lucide-loader-circle size-5 animate-spin" aria-hidden="true"></i>Signing in…</button></div>
+    <p class="mt-6 text-center text-body text-muted-foreground">New to SwipeSort? <a href="#S03-sign-up" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4">Create an account</a></p>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S03-sign-up" id="S03-sign-up">
+  <figcaption class="frame-label">S03 · Create an account: password rules update while typing · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S03-email" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <h1 class="text-title-1">Create an account</h1>
+    
+    <div class="mt-6 space-y-5">
+      <div><label for="s03su-name" class="text-label ">Name</label><input id="s03su-name" type="text" class="mt-1.5 h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input" value="Deniz Yılmaz" autocomplete="name" aria-describedby="s03su-name-h"><p id="s03su-name-h" class="mt-1.5 text-body-sm text-muted-foreground">Shown to members of lists you share.</p></div>
+      <div><label for="s03su-email" class="text-label ">Email</label><input id="s03su-email" type="email" class="mt-1.5 h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input" value="deniz.yilmaz@example.com" autocomplete="email"></div>
+      <div>
+        <div><label for="s03su-pw" class="text-label ">Password</label><div class="relative mt-1.5"><input id="s03su-pw" type="text" class="h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-primary ring-2 ring-ring/30 pr-12" value="sortitout" autocomplete="new-password"><button type="button" class="absolute right-0 top-0 flex size-12 items-center justify-center rounded-full text-muted-foreground" aria-label="Hide password"><i class="i-lucide-eye-off size-5" aria-hidden="true"></i></button></div></div>
+        <ul id="s03su-rules" class="mt-2 space-y-1 text-body-sm" aria-label="Password rules"><li class="flex items-center gap-2 text-foreground"><i class="i-lucide-circle-check size-4 shrink-0" aria-hidden="true"></i><span>At least 8 characters<span class="sr-only">, done</span></span></li><li class="flex items-center gap-2 text-muted-foreground"><i class="i-lucide-circle size-4 shrink-0" aria-hidden="true"></i><span>A number or symbol</span></li></ul>
+      </div>
+    </div>
+    <div class="mt-6"><a href="S08-home.html#S08-default" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="create-account">Create account</a></div>
+    <p class="mt-4 text-center text-body text-muted-foreground">Already have an account? <a href="#S03-email" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4">Sign in</a></p>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S03-creating" id="S03-creating">
+  <figcaption class="frame-label">S03 · Creating account (loading) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S03-email" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <h1 class="text-title-1">Create an account</h1>
+    
+    <div class="mt-6 space-y-5">
+      <div><label for="s03cr-name" class="text-label ">Name</label><input id="s03cr-name" type="text" class="mt-1.5 h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input" value="Deniz Yılmaz" autocomplete="name" aria-describedby="s03cr-name-h"><p id="s03cr-name-h" class="mt-1.5 text-body-sm text-muted-foreground">Shown to members of lists you share.</p></div>
+      <div><label for="s03cr-email" class="text-label ">Email</label><input id="s03cr-email" type="email" class="mt-1.5 h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input" value="deniz.yilmaz@example.com" autocomplete="email"></div>
+      <div>
+        <div><label for="s03cr-pw" class="text-label ">Password</label><div class="relative mt-1.5"><input id="s03cr-pw" type="password" class="h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input pr-12" value="sortitout26" autocomplete="new-password"><button type="button" class="absolute right-0 top-0 flex size-12 items-center justify-center rounded-full text-muted-foreground" aria-label="Show password"><i class="i-lucide-eye size-5" aria-hidden="true"></i></button></div></div>
+        <ul id="s03cr-rules" class="mt-2 space-y-1 text-body-sm" aria-label="Password rules"><li class="flex items-center gap-2 text-foreground"><i class="i-lucide-circle-check size-4 shrink-0" aria-hidden="true"></i><span>At least 8 characters<span class="sr-only">, done</span></span></li><li class="flex items-center gap-2 text-foreground"><i class="i-lucide-circle-check size-4 shrink-0" aria-hidden="true"></i><span>A number or symbol<span class="sr-only">, done</span></span></li></ul>
+      </div>
+    </div>
+    <div class="mt-6"><button type="button" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" aria-busy="true"><i class="i-lucide-loader-circle size-5 animate-spin" aria-hidden="true"></i>Creating account…</button></div>
+    <p class="mt-4 text-center text-body text-muted-foreground">Already have an account? <a href="#S03-email" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4">Sign in</a></p>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Errors</h2>
+<p>What happened and how to fix it. No apologies, no error codes. Typed values are kept.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S03-error-wrong-password" id="S03-error-wrong-password">
+  <figcaption class="frame-label">S03 · Error: wrong password · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S03-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <h1 class="text-title-1">Sign in with email</h1>
+    
+    <div class="mt-6 space-y-5">
+      <div><label for="s03wp-email" class="text-label ">Email</label><input id="s03wp-email" type="email" class="mt-1.5 h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input" value="deniz.yilmaz@example.com" autocomplete="email"></div>
+      <div>
+        <div><label for="s03wp-pw" class="text-label ">Password</label><div class="relative mt-1.5"><input id="s03wp-pw" type="password" class="h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border-2 border-destructive pr-12" value="••••••••••" autocomplete="current-password" aria-invalid="true" aria-describedby="s03wp-pw-e"><button type="button" class="absolute right-0 top-0 flex size-12 items-center justify-center rounded-full text-muted-foreground" aria-label="Show password"><i class="i-lucide-eye size-5" aria-hidden="true"></i></button></div><p id="s03wp-pw-e" class="mt-1.5 flex items-start gap-1.5 text-body-sm text-destructive"><i class="i-lucide-circle-alert size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Wrong password. Try again or reset it.</span></p></div>
+        <div class="mt-1 flex justify-end"><a href="S04-forgot-password.html#S04-default" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4 " data-action="forgot-password">Forgot password?</a></div>
+      </div>
+    </div>
+    <div class="mt-4"><a href="S08-home.html#S08-default" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="sign-in">Sign in</a></div>
+    <p class="mt-6 text-center text-body text-muted-foreground">New to SwipeSort? <a href="#S03-sign-up" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4">Create an account</a></p>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S03-error-invalid-email" id="S03-error-invalid-email">
+  <figcaption class="frame-label">S03 · Error: invalid email · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S03-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <h1 class="text-title-1">Sign in with email</h1>
+    
+    <div class="mt-6 space-y-5">
+      <div><label for="s03ie-email" class="text-label ">Email</label><input id="s03ie-email" type="email" class="mt-1.5 h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border-2 border-destructive" value="deniz.yilmaz@example" autocomplete="email" aria-invalid="true" aria-describedby="s03ie-email-e"><p id="s03ie-email-e" class="mt-1.5 flex items-start gap-1.5 text-body-sm text-destructive"><i class="i-lucide-circle-alert size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Enter a full email address, like name@example.com.</span></p></div>
+      <div>
+        <div><label for="s03ie-pw" class="text-label ">Password</label><div class="relative mt-1.5"><input id="s03ie-pw" type="password" class="h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input pr-12" autocomplete="current-password"><button type="button" class="absolute right-0 top-0 flex size-12 items-center justify-center rounded-full text-muted-foreground" aria-label="Show password"><i class="i-lucide-eye size-5" aria-hidden="true"></i></button></div></div>
+        <div class="mt-1 flex justify-end"><a href="S04-forgot-password.html#S04-default" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4 " data-action="forgot-password">Forgot password?</a></div>
+      </div>
+    </div>
+    <div class="mt-4"><a href="S08-home.html#S08-default" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="sign-in">Sign in</a></div>
+    <p class="mt-6 text-center text-body text-muted-foreground">New to SwipeSort? <a href="#S03-sign-up" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4">Create an account</a></p>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S03-error-account-exists" id="S03-error-account-exists">
+  <figcaption class="frame-label">S03 · Error: account already exists (create account) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S03-email" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <h1 class="text-title-1">Create an account</h1>
+    <div class="mt-4"><div class="flex gap-3 rounded-control border border-destructive/40 bg-card p-4 " role="alert"><i class="i-lucide-circle-alert size-5 shrink-0 text-destructive" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">An account with this email already exists</p><p class="mt-0.5 text-body-sm text-muted-foreground">Sign in instead. If you forgot the password, you can reset it.</p><div class="mt-2"><a href="#S03-email" class="inline-flex h-12 items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-secondary text-secondary-foreground" data-action="sign-in-instead">Sign in instead</a></div></div></div></div>
+    <div class="mt-6 space-y-5">
+      <div><label for="s03ae-name" class="text-label ">Name</label><input id="s03ae-name" type="text" class="mt-1.5 h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input" value="Deniz Yılmaz" autocomplete="name" aria-describedby="s03ae-name-h"><p id="s03ae-name-h" class="mt-1.5 text-body-sm text-muted-foreground">Shown to members of lists you share.</p></div>
+      <div><label for="s03ae-email" class="text-label ">Email</label><input id="s03ae-email" type="email" class="mt-1.5 h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input" value="deniz.yilmaz@example.com" autocomplete="email"></div>
+      <div>
+        <div><label for="s03ae-pw" class="text-label ">Password</label><div class="relative mt-1.5"><input id="s03ae-pw" type="password" class="h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input pr-12" value="sortitout26" autocomplete="new-password"><button type="button" class="absolute right-0 top-0 flex size-12 items-center justify-center rounded-full text-muted-foreground" aria-label="Show password"><i class="i-lucide-eye size-5" aria-hidden="true"></i></button></div></div>
+        <ul id="s03ae-rules" class="mt-2 space-y-1 text-body-sm" aria-label="Password rules"><li class="flex items-center gap-2 text-foreground"><i class="i-lucide-circle-check size-4 shrink-0" aria-hidden="true"></i><span>At least 8 characters<span class="sr-only">, done</span></span></li><li class="flex items-center gap-2 text-foreground"><i class="i-lucide-circle-check size-4 shrink-0" aria-hidden="true"></i><span>A number or symbol<span class="sr-only">, done</span></span></li></ul>
+      </div>
+    </div>
+    <div class="mt-6"><a href="S08-home.html#S08-default" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="create-account">Create account</a></div>
+    <p class="mt-4 text-center text-body text-muted-foreground">Already have an account? <a href="#S03-email" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4">Sign in</a></p>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S03-error-uses-google" id="S03-error-uses-google">
+  <figcaption class="frame-label">S03 · Error: this email signs in with Google · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S03-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <h1 class="text-title-1">Sign in with email</h1>
+    <div class="mt-4"><div class="flex gap-3 rounded-control border bg-card p-4 " role="note"><i class="i-lucide-info size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">This email signs in with Google</p><p class="mt-0.5 text-body-sm text-muted-foreground">Continue with Google to open your account. You can add a password later in Profile.</p><div class="mt-1"><a href="#S03-google-busy" class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" data-action="continue-google"><span class="flex size-6 items-center justify-center rounded-full border border-input bg-card text-label font-bold leading-none text-foreground" aria-hidden="true">G</span>Continue with Google</a></div></div></div></div>
+    <div class="mt-6 space-y-5">
+      <div><label for="s03ug-email" class="text-label ">Email</label><input id="s03ug-email" type="email" class="mt-1.5 h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input" value="deniz.yilmaz@example.com" autocomplete="email"></div>
+      <div>
+        <div><label for="s03ug-pw" class="text-label ">Password</label><div class="relative mt-1.5"><input id="s03ug-pw" type="password" class="h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input pr-12" autocomplete="current-password"><button type="button" class="absolute right-0 top-0 flex size-12 items-center justify-center rounded-full text-muted-foreground" aria-label="Show password"><i class="i-lucide-eye size-5" aria-hidden="true"></i></button></div></div>
+        <div class="mt-1 flex justify-end"><a href="S04-forgot-password.html#S04-default" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4 " data-action="forgot-password">Forgot password?</a></div>
+      </div>
+    </div>
+    <div class="mt-4"><a href="S08-home.html#S08-default" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="sign-in">Sign in</a></div>
+    <p class="mt-6 text-center text-body text-muted-foreground">New to SwipeSort? <a href="#S03-sign-up" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4">Create an account</a></p>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S03-error-weak-password" id="S03-error-weak-password">
+  <figcaption class="frame-label">S03 · Error on submit: password misses a rule · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S03-email" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <h1 class="text-title-1">Create an account</h1>
+    
+    <div class="mt-6 space-y-5">
+      <div><label for="s03wk-name" class="text-label ">Name</label><input id="s03wk-name" type="text" class="mt-1.5 h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input" value="Deniz Yılmaz" autocomplete="name" aria-describedby="s03wk-name-h"><p id="s03wk-name-h" class="mt-1.5 text-body-sm text-muted-foreground">Shown to members of lists you share.</p></div>
+      <div><label for="s03wk-email" class="text-label ">Email</label><input id="s03wk-email" type="email" class="mt-1.5 h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input" value="deniz.yilmaz@example.com" autocomplete="email"></div>
+      <div>
+        <div><label for="s03wk-pw" class="text-label ">Password</label><div class="relative mt-1.5"><input id="s03wk-pw" type="text" class="h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border-2 border-destructive pr-12" value="sortitout" autocomplete="new-password" aria-invalid="true" aria-describedby="s03wk-pw-e"><button type="button" class="absolute right-0 top-0 flex size-12 items-center justify-center rounded-full text-muted-foreground" aria-label="Hide password"><i class="i-lucide-eye-off size-5" aria-hidden="true"></i></button></div><p id="s03wk-pw-e" class="mt-1.5 flex items-start gap-1.5 text-body-sm text-destructive"><i class="i-lucide-circle-alert size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Add a number or symbol to your password.</span></p></div>
+        <ul id="s03wk-rules" class="mt-2 space-y-1 text-body-sm" aria-label="Password rules"><li class="flex items-center gap-2 text-foreground"><i class="i-lucide-circle-check size-4 shrink-0" aria-hidden="true"></i><span>At least 8 characters<span class="sr-only">, done</span></span></li><li class="flex items-center gap-2 text-destructive"><i class="i-lucide-circle-alert size-4 shrink-0" aria-hidden="true"></i><span>A number or symbol<span class="sr-only">, missing</span></span></li></ul>
+      </div>
+    </div>
+    <div class="mt-6"><a href="S08-home.html#S08-default" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="create-account">Create account</a></div>
+    <p class="mt-4 text-center text-body text-muted-foreground">Already have an account? <a href="#S03-email" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4">Sign in</a></p>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S03-error-locked" id="S03-error-locked">
+  <figcaption class="frame-label">S03 · Error: too many attempts · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S03-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <h1 class="text-title-1">Sign in with email</h1>
+    <div class="mt-4"><div class="flex gap-3 rounded-control border border-destructive/40 bg-card p-4 " role="alert"><i class="i-lucide-circle-alert size-5 shrink-0 text-destructive" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Too many attempts</p><p class="mt-0.5 text-body-sm text-muted-foreground">For your security, sign-in is paused for 15 minutes. You can reset your password now.</p><div class="mt-2"><a href="S04-forgot-password.html#S04-default" class="inline-flex h-12 items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-secondary text-secondary-foreground">Reset password</a></div></div></div></div>
+    <div class="mt-6 space-y-5">
+      <div><label for="s03lk-email" class="text-label ">Email</label><input id="s03lk-email" type="email" class="mt-1.5 h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input" value="deniz.yilmaz@example.com" autocomplete="email"></div>
+      <div>
+        <div><label for="s03lk-pw" class="text-label ">Password</label><div class="relative mt-1.5"><input id="s03lk-pw" type="password" class="h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input pr-12" value="••••••••••" autocomplete="current-password"><button type="button" class="absolute right-0 top-0 flex size-12 items-center justify-center rounded-full text-muted-foreground" aria-label="Show password"><i class="i-lucide-eye size-5" aria-hidden="true"></i></button></div></div>
+        <div class="mt-1 flex justify-end"><a href="S04-forgot-password.html#S04-default" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4 " data-action="forgot-password">Forgot password?</a></div>
+      </div>
+    </div>
+    <div class="mt-4"><a href="S08-home.html#S08-default" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="sign-in">Sign in</a></div>
+    <p class="mt-6 text-center text-body text-muted-foreground">New to SwipeSort? <a href="#S03-sign-up" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4">Create an account</a></p>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S03-error-no-connection" id="S03-error-no-connection">
+  <figcaption class="frame-label">S03 · Error: connection lost while signing in · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S03-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <h1 class="text-title-1">Sign in with email</h1>
+    <div class="mt-4"><div class="flex gap-3 rounded-control border border-destructive/40 bg-card p-4 " role="alert"><i class="i-lucide-circle-alert size-5 shrink-0 text-destructive" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Couldn't sign in</p><p class="mt-0.5 text-body-sm text-muted-foreground">No connection. Check your connection and try again. Your lists stay on this phone.</p></div></div></div>
+    <div class="mt-6 space-y-5">
+      <div><label for="s03nc-email" class="text-label ">Email</label><input id="s03nc-email" type="email" class="mt-1.5 h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input" value="deniz.yilmaz@example.com" autocomplete="email"></div>
+      <div>
+        <div><label for="s03nc-pw" class="text-label ">Password</label><div class="relative mt-1.5"><input id="s03nc-pw" type="password" class="h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input pr-12" value="••••••••••" autocomplete="current-password"><button type="button" class="absolute right-0 top-0 flex size-12 items-center justify-center rounded-full text-muted-foreground" aria-label="Show password"><i class="i-lucide-eye size-5" aria-hidden="true"></i></button></div></div>
+        <div class="mt-1 flex justify-end"><a href="S04-forgot-password.html#S04-default" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4 " data-action="forgot-password">Forgot password?</a></div>
+      </div>
+    </div>
+    <div class="mt-4"><a href="S08-home.html#S08-default" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="sign-in">Sign in</a></div>
+    <p class="mt-6 text-center text-body text-muted-foreground">New to SwipeSort? <a href="#S03-sign-up" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4">Create an account</a></p>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Google</h2>
+<p>Google opens the system account chooser (out of scope). While it returns, the Google button shows progress and the other options are disabled. Cancelling returns quietly; a failure explains what to do.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S03-google-busy" id="S03-google-busy">
+  <figcaption class="frame-label">S03 · Google: signing in · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S02-onboarding.html#S02-welcome" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-14  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-14  dark:block">
+    <h1 class="mt-6 text-title-1">Sign in to SwipeSort</h1><p class="mt-2 text-body-lg text-muted-foreground">Back up your lists, use them on other devices and decide together with others.</p>
+    
+    
+    <div class="mt-8 space-y-3"><button type="button" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" aria-busy="true"><i class="i-lucide-loader-circle size-5 animate-spin" aria-hidden="true"></i>Signing in…</button><button type="button" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card opacity-50" disabled><i class="i-lucide-mail size-5" aria-hidden="true"></i>Continue with email</button></div>
+    <p class="mt-4 text-center text-body-sm text-muted-foreground">Signing in is optional. Without an account, lists stay on this phone.</p>
+  </div>
+  <div class="shrink-0 px-gutter pb-5 pt-3"><p class="text-center text-body-sm text-muted-foreground">By continuing, you agree to the <a href="https://swipesort.app/terms" class="text-primary underline underline-offset-4">Terms of Service</a> and <a href="https://swipesort.app/privacy" class="text-primary underline underline-offset-4">Privacy Policy</a>.</p></div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S03-google-cancelled" id="S03-google-cancelled">
+  <figcaption class="frame-label">S03 · Google: cancelled in the account chooser · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S02-onboarding.html#S02-welcome" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-14  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-14  dark:block">
+    <h1 class="mt-6 text-title-1">Sign in to SwipeSort</h1><p class="mt-2 text-body-lg text-muted-foreground">Back up your lists, use them on other devices and decide together with others.</p>
+    
+    
+    <div class="mt-8 space-y-3"><a href="#S03-google-busy" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" data-action="continue-google"><span class="flex size-6 items-center justify-center rounded-full border border-input bg-card text-label font-bold leading-none text-foreground" aria-hidden="true">G</span>Continue with Google</a><a href="#S03-email" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" data-action="continue-email"><i class="i-lucide-mail size-5" aria-hidden="true"></i>Continue with email</a></div>
+    <p class="mt-4 text-center text-body-sm text-muted-foreground">Signing in is optional. Without an account, lists stay on this phone.</p>
+  </div>
+  <div class="shrink-0 px-gutter pb-5 pt-3"><p class="text-center text-body-sm text-muted-foreground">By continuing, you agree to the <a href="https://swipesort.app/terms" class="text-primary underline underline-offset-4">Terms of Service</a> and <a href="https://swipesort.app/privacy" class="text-primary underline underline-offset-4">Privacy Policy</a>.</p></div>
+  <div class="absolute inset-x-4 bottom-6 z-40 flex min-h-12 items-center gap-3 rounded-control bg-foreground px-4 py-3 text-background shadow-overlay" role="status"><span class="flex-1 text-body-sm">Google sign-in cancelled. Choose a way to continue.</span></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S03-google-failed" id="S03-google-failed">
+  <figcaption class="frame-label">S03 · Google: failed · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S02-onboarding.html#S02-welcome" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-14  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-14  dark:block">
+    <h1 class="mt-6 text-title-1">Sign in to SwipeSort</h1><p class="mt-2 text-body-lg text-muted-foreground">Back up your lists, use them on other devices and decide together with others.</p>
+    
+    <div class="mt-6"><div class="flex gap-3 rounded-control border border-destructive/40 bg-card p-4 " role="alert"><i class="i-lucide-circle-alert size-5 shrink-0 text-destructive" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Google sign-in didn't work</p><p class="mt-0.5 text-body-sm text-muted-foreground">Check your connection and try again, or continue with email.</p></div></div></div>
+    <div class="mt-8 space-y-3"><a href="#S03-google-busy" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" data-action="continue-google"><span class="flex size-6 items-center justify-center rounded-full border border-input bg-card text-label font-bold leading-none text-foreground" aria-hidden="true">G</span>Continue with Google</a><a href="#S03-email" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" data-action="continue-email"><i class="i-lucide-mail size-5" aria-hidden="true"></i>Continue with email</a></div>
+    <p class="mt-4 text-center text-body-sm text-muted-foreground">Signing in is optional. Without an account, lists stay on this phone.</p>
+  </div>
+  <div class="shrink-0 px-gutter pb-5 pt-3"><p class="text-center text-body-sm text-muted-foreground">By continuing, you agree to the <a href="https://swipesort.app/terms" class="text-primary underline underline-offset-4">Terms of Service</a> and <a href="https://swipesort.app/privacy" class="text-primary underline underline-offset-4">Privacy Policy</a>.</p></div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Offline and large text</h2>
+<p>Offline: sign-in buttons are disabled with the reason; the user can close and keep working without an account. Large text: the mark hides, buttons grow and wrap.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S03-offline" id="S03-offline">
+  <figcaption class="frame-label">S03 · Offline · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S02-onboarding.html#S02-welcome" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  <div class="flex shrink-0 items-center gap-2 bg-muted px-gutter py-2 text-body-sm" role="status"><i class="i-lucide-wifi-off size-4 shrink-0" aria-hidden="true"></i><span class="flex-1">You're offline. Signing in needs a connection.</span></div>
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-14  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-14  dark:block">
+    <h1 class="mt-6 text-title-1">Sign in to SwipeSort</h1><p class="mt-2 text-body-lg text-muted-foreground">Back up your lists, use them on other devices and decide together with others.</p>
+    
+    
+    <div class="mt-8 space-y-3"><button type="button" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card opacity-50" disabled><span class="flex size-6 items-center justify-center rounded-full border border-input bg-card text-label font-bold leading-none text-foreground" aria-hidden="true">G</span>Continue with Google</button><button type="button" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card opacity-50" disabled><i class="i-lucide-mail size-5" aria-hidden="true"></i>Continue with email</button></div>
+    <p class="mt-4 text-center text-body-sm text-muted-foreground">Your lists stay on this phone. Try again when you're online.</p>
+  </div>
+  <div class="shrink-0 px-gutter pb-5 pt-3"><p class="text-center text-body-sm text-muted-foreground">By continuing, you agree to the <a href="https://swipesort.app/terms" class="text-primary underline underline-offset-4">Terms of Service</a> and <a href="https://swipesort.app/privacy" class="text-primary underline underline-offset-4">Privacy Policy</a>.</p></div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S03-email-offline" id="S03-email-offline">
+  <figcaption class="frame-label">S03 · Offline on the email form · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S03-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  <div class="flex shrink-0 items-center gap-2 bg-muted px-gutter py-2 text-body-sm" role="status"><i class="i-lucide-wifi-off size-4 shrink-0" aria-hidden="true"></i><span class="flex-1">You're offline. Signing in needs a connection.</span></div>
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <h1 class="text-title-1">Sign in with email</h1>
+    
+    <div class="mt-6 space-y-5">
+      <div><label for="s03of-email" class="text-label ">Email</label><input id="s03of-email" type="email" class="mt-1.5 h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input" value="deniz.yilmaz@example.com" autocomplete="email"></div>
+      <div>
+        <div><label for="s03of-pw" class="text-label ">Password</label><div class="relative mt-1.5"><input id="s03of-pw" type="password" class="h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input pr-12" value="••••••••••" autocomplete="current-password"><button type="button" class="absolute right-0 top-0 flex size-12 items-center justify-center rounded-full text-muted-foreground" aria-label="Show password"><i class="i-lucide-eye size-5" aria-hidden="true"></i></button></div></div>
+        <div class="mt-1 flex justify-end"><a href="S04-forgot-password.html#S04-default" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4 " data-action="forgot-password">Forgot password?</a></div>
+      </div>
+    </div>
+    <div class="mt-4"><button type="button" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground opacity-50" disabled>Sign in</button></div>
+    <p class="mt-6 text-center text-body text-muted-foreground">New to SwipeSort? <a href="#S03-sign-up" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4">Create an account</a></p>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S03-large-text" id="S03-large-text">
+  <figcaption class="frame-label">S03 · Large text (200%) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S02-onboarding.html#S02-welcome" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    
+    <h1 class="mt-6 text-display">Sign in to SwipeSort</h1><p class="mt-2 text-title-3 font-normal text-muted-foreground">Back up your lists, use them on other devices and decide together with others.</p>
+    
+    
+    <div class="mt-8 space-y-3"><a href="#S03-google-busy" class="inline-flex min-h-16 h-auto py-3 w-full items-center justify-center gap-2 rounded-control px-5 text-title-3 border border-input bg-card" data-action="continue-google"><span class="flex size-6 items-center justify-center rounded-full border border-input bg-card text-label font-bold leading-none text-foreground" aria-hidden="true">G</span>Continue with Google</a><a href="#S03-email" class="inline-flex min-h-16 h-auto py-3 w-full items-center justify-center gap-2 rounded-control px-5 text-title-3 border border-input bg-card" data-action="continue-email"><i class="i-lucide-mail size-5" aria-hidden="true"></i>Continue with email</a></div>
+    <p class="mt-4 text-center text-body-lg text-muted-foreground">Signing in is optional. Without an account, lists stay on this phone.</p>
+  </div>
+  <div class="shrink-0 px-gutter pb-5 pt-3"><p class="text-center text-body-lg text-muted-foreground">By continuing, you agree to the <a href="https://swipesort.app/terms" class="text-primary underline underline-offset-4">Terms of Service</a> and <a href="https://swipesort.app/privacy" class="text-primary underline underline-offset-4">Privacy Policy</a>.</p></div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">iOS</h2>
+<p>Presented as a page sheet with Cancel. Sign in with Apple comes first (App Store guideline 4.8 and HIG), then Google, then email. The Apple button is the system AppleAuthenticationButton.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S03-ios" id="S03-ios">
+  <figcaption class="frame-label">S03 · iOS: Apple first · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="shrink-0">
+    <div class="grid h-12 grid-cols-[1fr_auto_1fr] items-center gap-2 px-2">
+      <a href="S02-onboarding.html#S02-welcome" class="inline-flex h-12 items-center px-2 text-body text-primary" data-action="close">Cancel</a>
+      <span></span>
+      <div class="flex justify-self-end"></div>
+    </div>
+    
+  </header>
+  
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-14  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-14  dark:block">
+    <h1 class="mt-6 text-title-1">Sign in to SwipeSort</h1><p class="mt-2 text-body-lg text-muted-foreground">Back up your lists, use them on other devices and decide together with others.</p>
+    
+    
+    <div class="mt-8 space-y-3"><a href="#" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-foreground text-background" data-action="continue-apple"><i class="i-lucide-apple size-5" aria-hidden="true"></i>Continue with Apple</a><a href="#S03-ios" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" data-action="continue-google"><span class="flex size-6 items-center justify-center rounded-full border border-input bg-card text-label font-bold leading-none text-foreground" aria-hidden="true">G</span>Continue with Google</a><a href="#S03-ios-email" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" data-action="continue-email"><i class="i-lucide-mail size-5" aria-hidden="true"></i>Continue with email</a></div>
+    <p class="mt-4 text-center text-body-sm text-muted-foreground">Signing in is optional. Without an account, lists stay on this phone.</p>
+  </div>
+  <div class="shrink-0 px-gutter pb-5 pt-3"><p class="text-center text-body-sm text-muted-foreground">By continuing, you agree to the <a href="https://swipesort.app/terms" class="text-primary underline underline-offset-4">Terms of Service</a> and <a href="https://swipesort.app/privacy" class="text-primary underline underline-offset-4">Privacy Policy</a>.</p></div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S03-ios-context-share" id="S03-ios-context-share">
+  <figcaption class="frame-label">S03 · iOS: opened from Share · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="shrink-0">
+    <div class="grid h-12 grid-cols-[1fr_auto_1fr] items-center gap-2 px-2">
+      <a href="S02-onboarding.html#S02-welcome" class="inline-flex h-12 items-center px-2 text-body text-primary" data-action="close">Cancel</a>
+      <span></span>
+      <div class="flex justify-self-end"></div>
+    </div>
+    
+  </header>
+  
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-14  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-14  dark:block">
+    <h1 class="mt-6 text-title-1">Sign in or create an account</h1>
+    <div class="mt-6"><div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground " role="note"><i class="i-lucide-users size-5 shrink-0" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Sign in to share “Wedding guests”</p><p class="mt-0.5 text-body-sm">Members sort the same list on their own phones. Your 4 lists on this phone move to your account.</p></div></div></div>
+    
+    <div class="mt-8 space-y-3"><a href="#" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-foreground text-background" data-action="continue-apple"><i class="i-lucide-apple size-5" aria-hidden="true"></i>Continue with Apple</a><a href="#S03-ios" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" data-action="continue-google"><span class="flex size-6 items-center justify-center rounded-full border border-input bg-card text-label font-bold leading-none text-foreground" aria-hidden="true">G</span>Continue with Google</a><a href="#S03-ios-email" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" data-action="continue-email"><i class="i-lucide-mail size-5" aria-hidden="true"></i>Continue with email</a></div>
+    <p class="mt-4 text-center text-body-sm text-muted-foreground">Signing in is optional. Without an account, lists stay on this phone.</p>
+  </div>
+  <div class="shrink-0 px-gutter pb-5 pt-3"><p class="text-center text-body-sm text-muted-foreground">By continuing, you agree to the <a href="https://swipesort.app/terms" class="text-primary underline underline-offset-4">Terms of Service</a> and <a href="https://swipesort.app/privacy" class="text-primary underline underline-offset-4">Privacy Policy</a>.</p></div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S03-ios-email" id="S03-ios-email">
+  <figcaption class="frame-label">S03 · iOS: sign in with email · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="shrink-0">
+    <div class="grid h-12 grid-cols-[1fr_auto_1fr] items-center gap-2 px-2">
+      <a href="#S03-ios" class="inline-flex h-12 items-center gap-0.5 justify-self-start pr-2 text-body text-primary"><i class="i-lucide-chevron-left size-6" aria-hidden="true"></i>Sign in</a>
+      <span></span>
+      <div class="flex justify-self-end"></div>
+    </div>
+    
+  </header>
+  
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <h1 class="text-title-1">Sign in with email</h1>
+    
+    <div class="mt-6 space-y-5">
+      <div><label for="s03ios-email" class="text-label ">Email</label><input id="s03ios-email" type="email" class="mt-1.5 h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input" value="deniz.yilmaz@example.com" autocomplete="email"></div>
+      <div>
+        <div><label for="s03ios-pw" class="text-label ">Password</label><div class="relative mt-1.5"><input id="s03ios-pw" type="password" class="h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input pr-12" value="••••••••••" autocomplete="current-password"><button type="button" class="absolute right-0 top-0 flex size-12 items-center justify-center rounded-full text-muted-foreground" aria-label="Show password"><i class="i-lucide-eye size-5" aria-hidden="true"></i></button></div></div>
+        <div class="mt-1 flex justify-end"><a href="S04-forgot-password.html#S04-default" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4 " data-action="forgot-password">Forgot password?</a></div>
+      </div>
+    </div>
+    <div class="mt-4"><a href="S08-home.html#S08-default" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="sign-in">Sign in</a></div>
+    <p class="mt-6 text-center text-body text-muted-foreground">New to SwipeSort? <a href="#S03-sign-up" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4">Create an account</a></p>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Web</h2>
+<p>Mobile browsers: the Android layout without Apple. Desktop browsers: the phone column, used by an invited member in prototype flow 3 (Mert opens Deniz’s link and signs in to join).</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S03-web" id="S03-web">
+  <figcaption class="frame-label">S03 · Web, mobile browser · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S02-onboarding.html#S02-welcome" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-14  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-14  dark:block">
+    <h1 class="mt-6 text-title-1">Sign in to SwipeSort</h1><p class="mt-2 text-body-lg text-muted-foreground">Back up your lists, use them on other devices and decide together with others.</p>
+    
+    
+    <div class="mt-8 space-y-3"><a href="#S03-google-busy" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" data-action="continue-google"><span class="flex size-6 items-center justify-center rounded-full border border-input bg-card text-label font-bold leading-none text-foreground" aria-hidden="true">G</span>Continue with Google</a><a href="#S03-email" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" data-action="continue-email"><i class="i-lucide-mail size-5" aria-hidden="true"></i>Continue with email</a></div>
+    <p class="mt-4 text-center text-body-sm text-muted-foreground">Signing in is optional. Without an account, lists stay on this phone.</p>
+  </div>
+  <div class="shrink-0 px-gutter pb-5 pt-3"><p class="text-center text-body-sm text-muted-foreground">By continuing, you agree to the <a href="https://swipesort.app/terms" class="text-primary underline underline-offset-4">Terms of Service</a> and <a href="https://swipesort.app/privacy" class="text-primary underline underline-offset-4">Privacy Policy</a>.</p></div>
+  
+  </div>
+</div>
+</figure>
+<figure class="frame" data-frame="S03-web-desktop" id="S03-web-desktop">
+  <figcaption class="frame-label">S03 · Web, desktop browser: invited member signs in to join · <span class="theme-name"></span></figcaption>
+  <div class="desktop">
+  <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/join/7Hq2xK</span></div>
+  <div class="desktop-column ">
+  <header class="flex h-app-bar shrink-0 items-center gap-2 px-gutter"><img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-8  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-8  dark:block"><span class="text-title-3 tracking-tight">SwipeSort</span></header>
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-4">
+    <h1 class="text-title-1">Sign in to join</h1>
+    <p class="mt-2 text-body-lg text-muted-foreground">No app needed. You can sort right here in your browser.</p>
+    <div class="mt-6 flex items-center gap-3 rounded-group bg-card p-4 dark:border">
+      <img src="../02-data/images/people/u-deniz.svg" alt="" class="size-12 shrink-0 rounded-full object-cover">
+      <div class="min-w-0 flex-1"><p class="text-body"><span class="font-semibold">Deniz Yılmaz</span> invited you to</p><p class="truncate text-title-3">Wedding guests</p><p class="text-body-sm text-muted-foreground">100 items</p></div>
+    </div>
+    <div class="mt-8 space-y-3">
+      <a href="S33-join-list.html#S33-web-desktop" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" data-action="continue-google"><span class="flex size-6 items-center justify-center rounded-full border border-input bg-card text-label font-bold leading-none text-foreground" aria-hidden="true">G</span>Continue with Google</a>
+      <a href="#S03-web-desktop-email" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" data-action="continue-email"><i class="i-lucide-mail size-5" aria-hidden="true"></i>Continue with email</a>
+    </div>
+    <p class="mt-4 text-center text-body-sm text-muted-foreground">Next, you’ll see the list and your role before joining.</p>
+  </div>
+  <div class="shrink-0 px-gutter pb-5 pt-3"><p class="text-center text-body-sm text-muted-foreground">By continuing, you agree to the <a href="https://swipesort.app/terms" class="text-primary underline underline-offset-4">Terms of Service</a> and <a href="https://swipesort.app/privacy" class="text-primary underline underline-offset-4">Privacy Policy</a>.</p></div>
+  </div>
+</div>
+</figure>
+<figure class="frame" data-frame="S03-web-desktop-email" id="S03-web-desktop-email">
+  <figcaption class="frame-label">S03 · Web, desktop browser: email sign-in while joining · <span class="theme-name"></span></figcaption>
+  <div class="desktop">
+  <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/join/7Hq2xK</span></div>
+  <div class="desktop-column ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S03-web-desktop" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <h1 class="text-title-1">Sign in with email</h1>
+    
+    <div class="mt-6 space-y-5">
+      <div><label for="s03wde-email" class="text-label ">Email</label><input id="s03wde-email" type="email" class="mt-1.5 h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input" value="mert.aydin@example.com" autocomplete="email"></div>
+      <div>
+        <div><label for="s03wde-pw" class="text-label ">Password</label><div class="relative mt-1.5"><input id="s03wde-pw" type="password" class="h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input pr-12" autocomplete="current-password"><button type="button" class="absolute right-0 top-0 flex size-12 items-center justify-center rounded-full text-muted-foreground" aria-label="Show password"><i class="i-lucide-eye size-5" aria-hidden="true"></i></button></div></div>
+        <div class="mt-1 flex justify-end"><a href="S04-forgot-password.html#S04-default" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4 " data-action="forgot-password">Forgot password?</a></div>
+      </div>
+    </div>
+    <div class="mt-4"><a href="S33-join-list.html#S33-web-desktop" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="sign-in">Sign in</a></div>
+    <p class="mt-6 text-center text-body text-muted-foreground">New to SwipeSort? <a href="#S03-sign-up" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4">Create an account</a></p>
+  </div>
+  </div>
+</div>
+</figure>
+</main>
+</body>
+</html>

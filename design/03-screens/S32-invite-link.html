@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S32 Opening an invite link</title>
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body class="mock-page">
+<header class="mock-doc">
+  <h1>S32 Opening an invite link</h1>
+  <p>What the invited person sees when they open <code>swipesort.app/join/&lt;token&gt;</code>: in the app when installed (Android App Link, iOS Universal Link), otherwise in the web app, where they can sign in, join and sort without installing anything. Spec: <a href="S32-invite-link.md">S32-invite-link.md</a>.</p>
+</header>
+<h2 class="mock-section">Web app (app not installed)</h2>
+<p>Prototype flow 3: Mert opens the link Deniz copied, on his laptop. The page is public (no sign-in needed to see it) but shows only what the invited person needs: who invited them, the list, their role and the members.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S32-web-desktop" id="S32-web-desktop">
+  <figcaption class="frame-label">S32 · Web, desktop browser: invite preview · <span class="theme-name"></span></figcaption>
+  <div class="desktop">
+  <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/join/k4Rm9Tq2</span></div>
+  <div class="desktop-column">
+  <header class="flex h-16 shrink-0 items-center gap-2 px-gutter">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-8 dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-8 dark:block"><span class="text-title-3">SwipeSort</span>
+    <div class="ml-auto flex items-center"></div>
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <div class="flex items-center gap-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-14 shrink-0 rounded-full "><p class="text-body-lg">Deniz Yılmaz invited you to sort a list together</p></div>
+      <h1 class="mt-5 text-title-1">Wedding guests</h1>
+      <p class="mt-1 text-body text-muted-foreground">100 items, Round 1</p>
+    <div class="mt-6 space-y-6"><div class="rounded-group bg-card p-4 dark:border">
+      <div class="flex items-start gap-3"><span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground"><i class="i-lucide-user-round size-5" aria-hidden="true"></i></span><div class="min-w-0 flex-1"><p class="text-label-lg">You'll join as Collaborator</p><p class="mt-0.5 text-body-sm text-muted-foreground">You sort every item on your own. Your decisions count toward each item's final decision.</p></div></div>
+      
+    </div><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Members (1)</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex min-h-14 items-center gap-3 px-4 py-2.5"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-8 shrink-0 rounded-full"><span class="min-w-0 flex-1"><span class="block truncate text-body">Deniz Yılmaz</span><span class="block text-body-sm text-muted-foreground">Owner, Decision Maker</span></span></li></ul></div></div>
+    <div class="mt-6"><a href="S03-sign-in.html#S03-web-desktop" class="flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="sign-in-to-join">Sign in to join</a>
+    <p class="mt-3 text-center text-body-sm text-muted-foreground">No download needed. Sort right here in your browser.</p></div>
+    <div class="mt-6 flex items-center justify-between gap-3 border-t pt-4"><p class="text-body-sm text-muted-foreground">Prefer the app? It works the same, with haptics and push notifications.</p><a href="#S32-get-app" class="flex h-12  items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card shrink-0" data-action="get-app">Get the app</a></div>
+  </div>
+  </div>
+</div>
+</figure>
+<figure class="frame" data-frame="S32-web" id="S32-web">
+  <figcaption class="frame-label">S32 · Web, mobile browser with the app banner · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="screen">
+  <!-- Proposed component: AppBanner (web only: get the app) -->
+  <div class="flex shrink-0 items-center gap-2 border-b bg-card py-1 pl-1 pr-3" role="region" aria-label="Get the app">
+    <button class="flex size-12 shrink-0 items-center justify-center rounded-full text-muted-foreground" aria-label="Close banner"><i class="i-lucide-x size-4" aria-hidden="true"></i></button>
+    <img src="../01-foundations/brand/app-icon.svg" alt="" class="size-10 shrink-0 rounded-control">
+    <div class="min-w-0 flex-1"><p class="text-label">SwipeSort</p><p class="truncate text-caption text-muted-foreground">Sort with swipes in the app</p></div>
+    <a href="#S32-get-app" class="flex h-12  items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card shrink-0 px-3 text-label">Get the app</a>
+  </div>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-6">
+    <div class="flex items-center gap-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-14 shrink-0 rounded-full "><p class="text-body-lg">Deniz Yılmaz invited you to sort a list together</p></div>
+      <h1 class="mt-5 text-title-1">Wedding guests</h1>
+      <p class="mt-1 text-body text-muted-foreground">100 items, Round 1</p>
+    <div class="mt-6 space-y-6"><div class="rounded-group bg-card p-4 dark:border">
+      <div class="flex items-start gap-3"><span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground"><i class="i-lucide-user-round size-5" aria-hidden="true"></i></span><div class="min-w-0 flex-1"><p class="text-label-lg">You'll join as Collaborator</p><p class="mt-0.5 text-body-sm text-muted-foreground">You sort every item on your own. Your decisions count toward each item's final decision.</p></div></div>
+      
+    </div><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Members (1)</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex min-h-14 items-center gap-3 px-4 py-2.5"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-8 shrink-0 rounded-full"><span class="min-w-0 flex-1"><span class="block truncate text-body">Deniz Yılmaz</span><span class="block text-body-sm text-muted-foreground">Owner, Decision Maker</span></span></li></ul></div></div>
+    <div class="mt-6"><a href="S03-sign-in.html#S03-web-desktop" class="flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground">Sign in to join</a>
+    <p class="mt-3 text-center text-body-sm text-muted-foreground">No download needed. Sort right here in your browser.</p></div>
+    
+  </div>
+  </div>
+</div>
+</figure>
+<figure class="frame" data-frame="S32-get-app" id="S32-get-app">
+  <figcaption class="frame-label">S32 · Web, desktop: Get the app · <span class="theme-name"></span></figcaption>
+  <div class="desktop">
+  <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/join/k4Rm9Tq2</span></div>
+  <div class="desktop-column">
+  <header class="flex h-16 shrink-0 items-center gap-2 px-gutter">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-8 dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-8 dark:block"><span class="text-title-3">SwipeSort</span>
+    <div class="ml-auto flex items-center"></div>
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <div class="flex items-center gap-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-14 shrink-0 rounded-full "><p class="text-body-lg">Deniz Yılmaz invited you to sort a list together</p></div>
+      <h1 class="mt-5 text-title-1">Wedding guests</h1>
+      <p class="mt-1 text-body text-muted-foreground">100 items, Round 1</p>
+    <div class="mt-6 space-y-6"><div class="rounded-group bg-card p-4 dark:border">
+      <div class="flex items-start gap-3"><span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground"><i class="i-lucide-user-round size-5" aria-hidden="true"></i></span><div class="min-w-0 flex-1"><p class="text-label-lg">You'll join as Collaborator</p><p class="mt-0.5 text-body-sm text-muted-foreground">You sort every item on your own. Your decisions count toward each item's final decision.</p></div></div>
+      
+    </div><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Members (1)</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex min-h-14 items-center gap-3 px-4 py-2.5"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-8 shrink-0 rounded-full"><span class="min-w-0 flex-1"><span class="block truncate text-body">Deniz Yılmaz</span><span class="block text-body-sm text-muted-foreground">Owner, Decision Maker</span></span></li></ul></div></div>
+    <div class="mt-6"><a href="S03-sign-in.html#S03-web-desktop" class="flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground">Sign in to join</a>
+    <p class="mt-3 text-center text-body-sm text-muted-foreground">No download needed. Sort right here in your browser.</p></div>
+    <div class="mt-6 flex items-center justify-between gap-3 border-t pt-4"><p class="text-body-sm text-muted-foreground">Prefer the app? It works the same, with haptics and push notifications.</p><a href="#S32-get-app" class="flex h-12  items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card shrink-0" data-action="get-app">Get the app</a></div>
+  </div><div class="absolute inset-0 z-50 bg-scrim/50"></div>
+  <div class="absolute inset-0 z-50 flex items-center justify-center px-6">
+    <div class="w-full rounded-dialog bg-popover p-6 shadow-dialog" role="alertdialog" aria-modal="true" aria-labelledby="dt46" aria-describedby="dd47">
+      <h2 id="dt46" class="text-title-3">Get SwipeSort on your phone</h2>
+      <p id="dd47" class="mt-2 text-body text-muted-foreground">Scan the code with your phone's camera, or search for SwipeSort in Google Play or the App Store. Your invite works in the app too.</p>
+      <div class="mx-auto mt-5 flex size-40 items-center justify-center rounded-control border bg-card" role="img" aria-label="QR code for swipesort.app/get"><i class="i-lucide-qr-code size-32 text-foreground" aria-hidden="true"></i></div><p class="mt-3 text-center text-body-sm text-muted-foreground">swipesort.app/get</p>
+      <div class="mt-6 flex flex-wrap justify-end gap-2"><a href="#S32-web-desktop" class="inline-flex h-12 items-center rounded-control px-4 text-label-lg">Close</a></div>
+    </div>
+  </div>
+  </div>
+</div>
+</figure>
+<figure class="frame" data-frame="S32-web-signed-in" id="S32-web-signed-in">
+  <figcaption class="frame-label">S32 · Web, already signed in: skips sign-in, opens Join · <span class="theme-name"></span></figcaption>
+  <div class="desktop">
+  <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/join/k4Rm9Tq2</span></div>
+  <div class="desktop-column">
+  <header class="flex h-16 shrink-0 items-center gap-2 px-gutter">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-8 dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-8 dark:block"><span class="text-title-3">SwipeSort</span>
+    <div class="ml-auto flex items-center"><button class="flex h-12 items-center gap-2 rounded-full pl-1 pr-3 text-label" aria-label="Account: Mert Aydın"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-8 shrink-0 rounded-full "><span>Mert</span></button></div>
+  </header>
+  <div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-16 text-center" role="status">
+    <i class="i-lucide-loader-circle size-8 animate-spin text-primary" aria-hidden="true"></i>
+    <p class="mt-4 text-title-3">Opening Wedding guests…</p>
+    <p class="mt-1 text-body-sm text-muted-foreground">Signed in as Mert Aydın</p>
+    <a href="S33-join-list.html#S33-web-desktop" class="sr-only focus:not-sr-only">Continue to the join screen (prototype)</a>
+  </div>
+  </div>
+</div>
+</figure>
+<figure class="frame" data-frame="S32-loading" id="S32-loading">
+  <figcaption class="frame-label">S32 · Web: loading the invite · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="screen">
+  <header class="flex h-16 shrink-0 items-center gap-2 px-gutter">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-8 dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-8 dark:block"><span class="text-title-3">SwipeSort</span>
+    <div class="ml-auto flex items-center"></div>
+  </header>
+  <div class="min-h-0 flex-1 px-gutter pt-2" aria-busy="true" role="status" aria-label="Loading invite">
+    <div class="flex items-center gap-3"><span class="size-14 animate-pulse rounded-full bg-muted"></span><div class="flex-1 space-y-2"><span class="block h-4 w-4/5 animate-pulse rounded-full bg-muted"></span><span class="block h-4 w-1/2 animate-pulse rounded-full bg-muted"></span></div></div>
+    <span class="mt-6 block h-8 w-2/3 animate-pulse rounded-full bg-muted"></span>
+    <span class="mt-2 block h-4 w-1/3 animate-pulse rounded-full bg-muted"></span>
+    <div class="mt-6 h-24 animate-pulse rounded-group bg-muted"></div>
+    <div class="mt-6 h-16 animate-pulse rounded-group bg-muted"></div>
+    <div class="mt-6 h-14 animate-pulse rounded-control bg-muted"></div>
+  </div>
+  </div>
+</div>
+</figure></main>
+<h2 class="mock-section">App installed</h2>
+<p>The link opens SwipeSort directly. A short loading state names the list, then the join screen (S33) replaces it. iOS behaves the same with a Universal Link (no separate frame).</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S32-app" id="S32-app">
+  <figcaption class="frame-label">S32 · App: opening the invite · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <div class="flex flex-1 flex-col items-center justify-center px-8 pb-16 text-center" role="status">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-16 dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-16 dark:block">
+    <div class="mt-8 flex items-center gap-3"><i class="i-lucide-loader-circle size-6 animate-spin text-primary" aria-hidden="true"></i><p class="text-title-3">Opening Wedding guests…</p></div>
+    <p class="mt-2 text-body-sm text-muted-foreground">Invite from Deniz Yılmaz</p>
+    <a href="S33-join-list.html#S33-default" class="sr-only focus:not-sr-only" data-action="continue">Continue to the join screen (prototype)</a>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S32-already-member" id="S32-already-member">
+  <figcaption class="frame-label">S32 · Already a member · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Invite</h1></div>
+    
+  </header>
+  <div class="flex flex-1 flex-col items-center justify-center px-8 pb-16 text-center">
+    <div class="flex -space-x-2" role="img" aria-label="3 members: Deniz, Mert, Selin"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-12 shrink-0 rounded-full ring-2 ring-background"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-12 shrink-0 rounded-full ring-2 ring-background"><span class="flex size-12 shrink-0 items-center justify-center rounded-full bg-muted text-label-lg text-muted-foreground ring-2 ring-background" aria-hidden="true">SY</span></div>
+    <h2 class="mt-5 text-title-2">You're already in Wedding guests</h2>
+    <p class="mt-2 max-w-xs text-body text-muted-foreground">You joined on Sep 28. You're the Decision Maker.</p>
+    <a href="S09-list-overview.html#S09-shared" class="flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground mt-6 max-w-xs" data-action="open-list">Open list</a>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S32-offline" id="S32-offline">
+  <figcaption class="frame-label">S32 · App: offline · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Invite</h1></div>
+    
+  </header>
+  <div class="flex shrink-0 items-center gap-2 bg-muted px-gutter py-2 text-body-sm" role="status"><i class="i-lucide-wifi-off size-4 shrink-0" aria-hidden="true"></i><span class="flex-1">You're offline.</span></div>
+  <div class="flex flex-1 flex-col items-center justify-center px-8 pb-16 text-center">
+    <span class="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground"><i class="i-lucide-wifi-off size-6" aria-hidden="true"></i></span>
+    <h2 class="mt-4 text-title-2">Connect to open this invite</h2>
+    <p class="mt-2 max-w-xs text-body text-muted-foreground">Joining a list needs a connection. The link keeps working until it expires, so you can try again later.</p>
+    <button class="flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-secondary text-secondary-foreground mt-6 max-w-xs"><i class="i-lucide-refresh-cw size-5" aria-hidden="true"></i>Try again</button>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Links that no longer work</h2>
+<p>Expired, reset and unknown links never show the list's contents. When the link can still be traced to its sender (expired or reset), the page names them so the person knows whom to ask.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S32-expired" id="S32-expired">
+  <figcaption class="frame-label">S32 · Link expired · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="screen">
+  <header class="flex h-16 shrink-0 items-center gap-2 px-gutter">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-8 dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-8 dark:block"><span class="text-title-3">SwipeSort</span>
+    <div class="ml-auto flex items-center"></div>
+  </header>
+  <div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-16 text-center">
+    <span class="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground"><i class="i-lucide-clock-alert size-6" aria-hidden="true"></i></span>
+    <h1 class="mt-4 text-title-2">This invite link expired</h1>
+    <p class="mt-2 max-w-xs text-body text-muted-foreground">Invite links work for 14 days. Ask Deniz Yılmaz to send you a new one.</p>
+    <a href="S08-home.html#S08-default" class="flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-secondary text-secondary-foreground mt-6 max-w-xs">Open SwipeSort</a>
+  </div>
+  </div>
+</div>
+</figure>
+<figure class="frame" data-frame="S32-reset" id="S32-reset">
+  <figcaption class="frame-label">S32 · Link was reset · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="screen">
+  <header class="flex h-16 shrink-0 items-center gap-2 px-gutter">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-8 dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-8 dark:block"><span class="text-title-3">SwipeSort</span>
+    <div class="ml-auto flex items-center"></div>
+  </header>
+  <div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-16 text-center">
+    <span class="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground"><i class="i-lucide-link-2-off size-6" aria-hidden="true"></i></span>
+    <h1 class="mt-4 text-title-2">This invite link was reset</h1>
+    <p class="mt-2 max-w-xs text-body text-muted-foreground">Deniz Yılmaz made a new link, so this one stopped working. Ask Deniz for the new link.</p>
+    <a href="S08-home.html#S08-default" class="flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-secondary text-secondary-foreground mt-6 max-w-xs">Open SwipeSort</a>
+  </div>
+  </div>
+</div>
+</figure>
+<figure class="frame" data-frame="S32-invalid" id="S32-invalid">
+  <figcaption class="frame-label">S32 · Unknown or broken link · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="screen">
+  <header class="flex h-16 shrink-0 items-center gap-2 px-gutter">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-8 dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-8 dark:block"><span class="text-title-3">SwipeSort</span>
+    <div class="ml-auto flex items-center"></div>
+  </header>
+  <div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-16 text-center">
+    <span class="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground"><i class="i-lucide-search-x size-6" aria-hidden="true"></i></span>
+    <h1 class="mt-4 text-title-2">This invite link doesn't work</h1>
+    <p class="mt-2 max-w-xs text-body text-muted-foreground">Check that you copied the whole link, or ask the person who sent it for a new one.</p>
+    <a href="S08-home.html#S08-default" class="flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-secondary text-secondary-foreground mt-6 max-w-xs">Open SwipeSort</a>
+  </div>
+  </div>
+</div>
+</figure>
+<figure class="frame" data-frame="S32-list-deleted" id="S32-list-deleted">
+  <figcaption class="frame-label">S32 · List was deleted · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="screen">
+  <header class="flex h-16 shrink-0 items-center gap-2 px-gutter">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-8 dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-8 dark:block"><span class="text-title-3">SwipeSort</span>
+    <div class="ml-auto flex items-center"></div>
+  </header>
+  <div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-16 text-center">
+    <span class="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground"><i class="i-lucide-list-x size-6" aria-hidden="true"></i></span>
+    <h1 class="mt-4 text-title-2">This list was deleted</h1>
+    <p class="mt-2 max-w-xs text-body text-muted-foreground">Its Owner deleted it, so there's nothing to join.</p>
+    <a href="S08-home.html#S08-default" class="flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-secondary text-secondary-foreground mt-6 max-w-xs">Open SwipeSort</a>
+  </div>
+  </div>
+</div>
+</figure>
+<figure class="frame" data-frame="S32-list-archived" id="S32-list-archived">
+  <figcaption class="frame-label">S32 · List is archived · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="screen">
+  <header class="flex h-16 shrink-0 items-center gap-2 px-gutter">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-8 dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-8 dark:block"><span class="text-title-3">SwipeSort</span>
+    <div class="ml-auto flex items-center"></div>
+  </header>
+  <div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-16 text-center">
+    <span class="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground"><i class="i-lucide-archive size-6" aria-hidden="true"></i></span>
+    <h1 class="mt-4 text-title-2">This list is archived</h1>
+    <p class="mt-2 max-w-xs text-body text-muted-foreground">Its Owner archived it, so it can't take new members right now. Ask Deniz Yılmaz to restore it.</p>
+    <a href="S08-home.html#S08-default" class="flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-secondary text-secondary-foreground mt-6 max-w-xs">Open SwipeSort</a>
+  </div>
+  </div>
+</div>
+</figure></main>
+<h2 class="mock-section">Role changed</h2>
+<p>A Decision Maker invite works for one person. If someone else took the role first (or the Owner changed it), the page says so before the person signs in.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S32-role-changed" id="S32-role-changed">
+  <figcaption class="frame-label">S32 · Invite role changed to Collaborator · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="screen">
+  <!-- Proposed component: AppBanner (web only: get the app) -->
+  <div class="flex shrink-0 items-center gap-2 border-b bg-card py-1 pl-1 pr-3" role="region" aria-label="Get the app">
+    <button class="flex size-12 shrink-0 items-center justify-center rounded-full text-muted-foreground" aria-label="Close banner"><i class="i-lucide-x size-4" aria-hidden="true"></i></button>
+    <img src="../01-foundations/brand/app-icon.svg" alt="" class="size-10 shrink-0 rounded-control">
+    <div class="min-w-0 flex-1"><p class="text-label">SwipeSort</p><p class="truncate text-caption text-muted-foreground">Sort with swipes in the app</p></div>
+    <a href="#S32-get-app" class="flex h-12  items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card shrink-0 px-3 text-label">Get the app</a>
+  </div>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-6">
+    <div class="flex items-center gap-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-14 shrink-0 rounded-full "><p class="text-body-lg">Deniz Yılmaz invited you to sort a list together</p></div>
+      <h1 class="mt-5 text-title-1">Wedding guests</h1>
+      <p class="mt-1 text-body text-muted-foreground">100 items, Round 1</p>
+    <div class="mt-6 space-y-6"><div class="rounded-group bg-card p-4 dark:border">
+      <div class="flex items-start gap-3"><span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground"><i class="i-lucide-user-round size-5" aria-hidden="true"></i></span><div class="min-w-0 flex-1"><p class="text-label-lg">You'll join as Collaborator</p><p class="mt-0.5 text-body-sm text-muted-foreground">You sort every item on your own. Your decisions count toward each item's final decision.</p></div></div>
+      <div class="mt-3 flex gap-2 rounded-control bg-primary-soft p-3 text-primary-soft-foreground" role="note"><i class="i-lucide-info size-5 shrink-0" aria-hidden="true"></i><p class="text-body-sm">This invite was for the Decision Maker role. Mert Aydın joined in that role first, so you'll join as Collaborator.</p></div>
+    </div><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Members (2)</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex min-h-14 items-center gap-3 px-4 py-2.5"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-8 shrink-0 rounded-full"><span class="min-w-0 flex-1"><span class="block truncate text-body">Deniz Yılmaz</span><span class="block text-body-sm text-muted-foreground">Owner</span></span></li><li class="flex min-h-14 items-center gap-3 px-4 py-2.5"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-8 shrink-0 rounded-full"><span class="min-w-0 flex-1"><span class="block truncate text-body">Mert Aydın</span><span class="block text-body-sm text-muted-foreground">Decision Maker</span></span></li></ul></div></div>
+    <div class="mt-6"><a href="S03-sign-in.html#S03-web-desktop" class="flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground">Sign in to join</a>
+    <p class="mt-3 text-center text-body-sm text-muted-foreground">No download needed. Sort right here in your browser.</p></div>
+    
+  </div>
+  </div>
+</div>
+</figure>
+</main>
+</body>
+</html>

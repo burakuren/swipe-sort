@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S14 File import (CSV and Excel)</title>
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body class="mock-page">
+<header class="mock-doc">
+  <h1>S14 File import (CSV and Excel)</h1>
+  <p>Select items for the CSV or Excel source: pick a file, check the detected structure in a preview, choose Excel sheets, and recover from file errors. Spec: <a href="S14-file-import.md">S14-file-import.md</a>. Shared import chrome (modal app bar, ImportStepper, bottom actions) matches S16–S21.</p>
+</header>
+<h2 class="mock-section">Choose a file</h2>
+<p>The system file picker (out of scope) opens from “Choose file”. Reading starts as soon as a file is picked.</p>
+<main class="mock-canvas">
+
+<figure class="frame" data-frame="S14-default" id="S14-default">
+  <figcaption class="frame-label">S14 · Default: choose a file (Android) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
+    <h2 class="text-title-2">Choose a CSV or Excel file</h2>
+    <p class="mt-1 text-body text-muted-foreground">Each row becomes an item and each column a field. Column names, like Name or Price, go in the first row.</p>
+    <p class="mt-6 px-1 pb-2 text-label text-muted-foreground">What works</p>
+    <ul class="divide-y overflow-hidden rounded-group bg-card">
+      <li class="flex min-h-14 items-center gap-4 px-4 py-3"><i class="i-lucide-file-text size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span><span class="block text-body">.csv</span><span class="block text-body-sm text-muted-foreground">Comma, semicolon or tab separated</span></span></li>
+      <li class="flex min-h-14 items-center gap-4 px-4 py-3"><i class="i-lucide-file-spreadsheet size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span><span class="block text-body">.xlsx</span><span class="block text-body-sm text-muted-foreground">Excel workbooks; you choose the sheets</span></span></li>
+      <li class="flex min-h-14 items-center gap-4 px-4 py-3"><i class="i-lucide-ruler size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span><span class="block text-body">Up to 10,000 rows and 50 columns</span><span class="block text-body-sm text-muted-foreground">Files up to 20 MB</span></span></li>
+    </ul>
+    <div class="mt-auto pb-2 pt-6"><p class="flex gap-2 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Your file isn’t changed. SwipeSort imports a copy.</span></p></div>
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S14-csv-preview" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="choose-file">Choose file</a>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S14-reading" id="S14-reading">
+  <figcaption class="frame-label">S14 · Reading a file · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
+    <div class="flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2">
+      <span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-file-spreadsheet size-5" aria-hidden="true"></i></span>
+      <div class="min-w-0 flex-1"><p class="truncate text-body">office-furniture.xlsx</p><p class="truncate text-body-sm text-muted-foreground">2.4 MB</p></div>
+    </div>
+    <div class="mt-8" role="status" aria-live="polite">
+      <div class="flex items-center gap-3 text-body"><i class="i-lucide-loader-circle size-5 animate-spin text-primary" aria-hidden="true"></i>Reading office-furniture.xlsx…</div>
+      <div class="mt-3 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" aria-label="Reading, 40 percent"><div class="h-full w-[40%] rounded-full bg-primary"></div></div>
+      <p class="mt-2 text-body-sm text-muted-foreground">Large files take a few seconds. Nothing is imported until you continue.</p>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <button class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground opacity-50" disabled>Continue</button><div class="mt-1"><a href="#S14-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="cancel">Cancel</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+</main>
+<h2 class="mock-section">Preview</h2>
+<p>What SwipeSort detected: the header row, the separator and the rows that become items. The table scrolls sideways; mapping (S19) renames, hides and types the columns.</p>
+<main class="mock-canvas">
+
+<figure class="frame" data-frame="S14-csv-preview" id="S14-csv-preview">
+  <figcaption class="frame-label">S14 · CSV loaded: candidates-q4.csv · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
+    <div class="flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2">
+      <span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-file-text size-5" aria-hidden="true"></i></span>
+      <div class="min-w-0 flex-1"><p class="truncate text-body">candidates-q4.csv</p><p class="truncate text-body-sm text-muted-foreground">12 rows, 8 columns, 3 KB</p></div><a href="#S14-default" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="change-file">Change</a>
+    </div>
+    <ul class="mt-3 divide-y overflow-hidden rounded-group bg-card">
+      <li><button type="button" role="switch" aria-checked="true" class="flex min-h-14 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">First row has column names</span><span class="block text-body-sm text-muted-foreground">Detected in candidates-q4.csv</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1" aria-hidden="true"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></button></li>
+      <li><button type="button" class="flex min-h-14 w-full items-center gap-4 px-4 py-3 text-left" aria-haspopup="listbox"><span class="flex-1 text-body">Separator</span><span class="text-body text-muted-foreground">Comma</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></li>
+    </ul>
+    <div class="mt-5 flex items-baseline justify-between px-1 pb-2"><h2 class="text-label text-muted-foreground">Preview</h2><span class="text-caption tabular-nums text-muted-foreground">12 rows</span></div>
+    <div class="min-h-0 overflow-hidden rounded-group bg-card"><div class="overflow-x-auto" tabindex="0" role="region" aria-label="Preview of candidates-q4.csv, scrolls sideways"><table class="w-max min-w-full text-left"><caption class="sr-only">Preview of candidates-q4.csv</caption><thead class="bg-muted"><tr><th scope="col" class="px-3 py-2.5 text-label text-muted-foreground"><span class="sr-only">Row</span></th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Name</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Role</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Years of experience</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Location</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Expected salary</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Portfolio</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Email</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Source</th></tr></thead><tbody class="divide-y"><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">1</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Lena Hoffmann</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">6</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Berlin</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">78000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">lenahoffmann.example</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">lena.hoffmann@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Referral</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">2</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Kaan Yurt</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">4</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">İstanbul</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">62000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">kaanyurt.example</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">kaan.yurt@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">LinkedIn</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">3</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Aisha Bello</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">8</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">London</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">92000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">aisha.example</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">aisha.bello@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Careers page</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">4</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Marco Bianchi</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">3</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Milan</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm text-muted-foreground">—</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm text-muted-foreground">—</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">marco.bianchi@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Careers page</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">5</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Ece Doğru</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">5</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Remote (Ankara)</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">60000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">code.example/ecedogru</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">ece.dogru@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Referral</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">6</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Pieter de Vries</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">10</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Amsterdam</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">105000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">pieterdevries.nl</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">pieter@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Agency</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">7</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Sun-hee Park</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">2</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Seoul</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">54000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">sunhee.park</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">sunhee.park@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">LinkedIn</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">8</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Jakub Nowak</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">7</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Kraków</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">70000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm text-muted-foreground">—</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">jakub.nowak@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Careers page</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">9</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Carolina Mendes Albuquerque de Souza</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">5</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Porto</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">66000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">carolina.codes</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">carolina.souza@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Referral</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">10</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Tunç Ersoy</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">9</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">İzmir</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">88000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">tuncersoy.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">tunc@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">LinkedIn</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">11</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Grace Liu</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">4</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Toronto</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">81000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">graceliu.ca</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">grace.liu@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Careers page</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">12</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Omar Farouk</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">6</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Cairo</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">48000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">omarfarouk.example</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">omar.farouk@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Agency</span></td></tr></tbody></table></div></div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="S19-field-mapping.html#S19-csv" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="continue">Continue with 12 rows</a>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S14-no-header" id="S14-no-header">
+  <figcaption class="frame-label">S14 · Header row turned off: generic column names · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
+    <div class="flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2">
+      <span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-file-text size-5" aria-hidden="true"></i></span>
+      <div class="min-w-0 flex-1"><p class="truncate text-body">candidates-q4.csv</p><p class="truncate text-body-sm text-muted-foreground">13 rows, 8 columns, 3 KB</p></div><a href="#S14-default" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="change-file">Change</a>
+    </div>
+    <ul class="mt-3 divide-y overflow-hidden rounded-group bg-card">
+      <li><button type="button" role="switch" aria-checked="false" class="flex min-h-14 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">First row has column names</span><span class="block text-body-sm text-muted-foreground">Off: the first row is imported as an item</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full border-2 border-input bg-muted p-1" aria-hidden="true"><span class="size-5 rounded-full bg-muted-foreground"></span></span></button></li>
+      <li><button type="button" class="flex min-h-14 w-full items-center gap-4 px-4 py-3 text-left" aria-haspopup="listbox"><span class="flex-1 text-body">Separator</span><span class="text-body text-muted-foreground">Comma</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></li>
+    </ul>
+    <div class="mt-5 flex items-baseline justify-between px-1 pb-2"><h2 class="text-label text-muted-foreground">Preview</h2><span class="text-caption tabular-nums text-muted-foreground">13 rows</span></div>
+    <div class="min-h-0 overflow-hidden rounded-group bg-card"><div class="overflow-x-auto" tabindex="0" role="region" aria-label="Preview without a header row, scrolls sideways"><table class="w-max min-w-full text-left"><caption class="sr-only">Preview without a header row</caption><thead class="bg-muted"><tr><th scope="col" class="px-3 py-2.5 text-label text-muted-foreground"><span class="sr-only">Row</span></th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Column A</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Column B</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Column C</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Column D</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Column E</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Column F</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Column G</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Column H</th></tr></thead><tbody class="divide-y"><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">1</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Name</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Role</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Years of experience</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Location</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Expected salary</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Portfolio</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Email</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Source</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">2</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Lena Hoffmann</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">6</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Berlin</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">78000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">lenahoffmann.example</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">lena.hoffmann@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Referral</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">3</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Kaan Yurt</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">4</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">İstanbul</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">62000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">kaanyurt.example</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">kaan.yurt@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">LinkedIn</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">4</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Aisha Bello</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">8</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">London</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">92000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">aisha.example</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">aisha.bello@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Careers page</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">5</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Marco Bianchi</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">3</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Milan</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm text-muted-foreground">—</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm text-muted-foreground">—</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">marco.bianchi@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Careers page</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">6</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Ece Doğru</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">5</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Remote (Ankara)</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">60000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">code.example/ecedogru</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">ece.dogru@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Referral</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">7</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Pieter de Vries</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">10</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Amsterdam</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">105000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">pieterdevries.nl</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">pieter@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Agency</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">8</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Sun-hee Park</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">2</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Seoul</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">54000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">sunhee.park</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">sunhee.park@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">LinkedIn</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">9</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Jakub Nowak</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">7</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Kraków</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">70000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm text-muted-foreground">—</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">jakub.nowak@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Careers page</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">10</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Carolina Mendes Albuquerque de Souza</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">5</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Porto</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">66000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">carolina.codes</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">carolina.souza@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Referral</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">11</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Tunç Ersoy</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">9</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">İzmir</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">88000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">tuncersoy.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">tunc@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">LinkedIn</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">12</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Grace Liu</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">4</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Toronto</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">81000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">graceliu.ca</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">grace.liu@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Careers page</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">13</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Omar Farouk</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Frontend engineer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">6</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Cairo</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">48000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">omarfarouk.example</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">omar.farouk@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Agency</span></td></tr></tbody></table></div></div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="S19-field-mapping.html#S19-csv" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground">Continue with 13 rows</a>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S14-excel-sheets" id="S14-excel-sheets">
+  <figcaption class="frame-label">S14 · Excel with several sheets: choose sheets · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
+    <div class="flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2">
+      <span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-file-spreadsheet size-5" aria-hidden="true"></i></span>
+      <div class="min-w-0 flex-1"><p class="truncate text-body">office-furniture.xlsx</p><p class="truncate text-body-sm text-muted-foreground">4 sheets, 2.4 MB</p></div><a href="#S14-default" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="change-file">Change</a>
+    </div>
+    <h2 class="mt-5 text-title-3">Choose sheets</h2>
+    <p class="mt-1 text-body-sm text-muted-foreground">Pick one, or several with the same columns to combine them.</p>
+    <ul class="mt-3 divide-y overflow-hidden rounded-group bg-card"><li><button type="button" role="checkbox" aria-checked="true" class="flex min-h-16 w-full items-center gap-3 px-4 py-2 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-sm bg-primary text-primary-foreground" aria-hidden="true"><i class="i-lucide-check size-4" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block text-body">Shortlist</span><span class="block truncate text-body-sm text-muted-foreground">20 rows. Name, Price, Rating, Store, Category, Link</span></span></button></li><li><button type="button" role="checkbox" aria-checked="false" class="flex min-h-16 w-full items-center gap-3 px-4 py-2 text-left"><span class="size-6 shrink-0 rounded-sm border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body">Last year</span><span class="block truncate text-body-sm text-muted-foreground">34 rows. Name, Price, Rating, Store, Category, Link</span></span></button></li><li><button type="button" role="checkbox" aria-checked="false" class="flex min-h-16 w-full items-center gap-3 px-4 py-2 text-left"><span class="size-6 shrink-0 rounded-sm border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body">Price history</span><span class="block truncate text-body-sm text-muted-foreground">12 rows. Date, Item, Price</span></span></button></li><li><button type="button" role="checkbox" aria-checked="false" disabled class="flex min-h-16 w-full items-center gap-3 px-4 py-2 text-left"><span class="size-6 shrink-0 rounded-sm border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body text-muted-foreground">Notes</span><span class="block text-body-sm text-muted-foreground">No rows, nothing to import</span></span></button></li></ul>
+    <div class="mt-5 flex items-baseline justify-between px-1 pb-2"><h2 class="text-label text-muted-foreground">Shortlist</h2><span class="text-caption tabular-nums text-muted-foreground">20 rows</span></div>
+    <div class="min-h-0 overflow-hidden rounded-group bg-card"><div class="overflow-x-auto" tabindex="0" role="region" aria-label="Preview of the Shortlist sheet, scrolls sideways"><table class="w-max min-w-full text-left"><caption class="sr-only">Preview of the Shortlist sheet</caption><thead class="bg-muted"><tr><th scope="col" class="px-3 py-2.5 text-label text-muted-foreground"><span class="sr-only">Row</span></th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Name</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Price</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Rating</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Store</th></tr></thead><tbody class="divide-y"><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">1</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Ergo Mesh task chair</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">389</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">4.6</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Nordhaus</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">2</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Walnut sit-stand desk, 140 × 70 cm</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">649</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">4.7</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Oakline</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">3</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">27-inch 4K USB-C monitor</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">429</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">4.5</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Pixelhaus</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">4</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Low-profile mechanical keyboard</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">129</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">4.4</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Keystone</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">5</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Ceramic desk lamp with dimmer</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">79</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">4.2</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Lumen & Co</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">6</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Wool felt desk mat, large</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">39</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">4.8</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Oakline</span></td></tr></tbody></table></div></div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="S19-field-mapping.html#S19-default" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="continue">Continue with 20 rows</a>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S14-csv-preview-large-text" id="S14-csv-preview-large-text">
+  <figcaption class="frame-label">S14 · Large text (200%): preview becomes one row at a time · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-7" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-2">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-title-3">Select items</p><p class="text-body-lg shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1">
+    <div class="flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2">
+      <span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-file-text size-5" aria-hidden="true"></i></span>
+      <div class="min-w-0 flex-1"><p class="truncate text-title-3 font-normal">candidates-q4.csv</p><p class="truncate text-body-lg text-muted-foreground">12 rows, 8 columns</p></div><a href="#S14-default" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="change-file">Change</a>
+    </div>
+    <ul class="mt-3 overflow-hidden rounded-group bg-card"><li><button type="button" role="switch" aria-checked="true" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1 text-title-3 font-normal">First row has column names</span><span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1" aria-hidden="true"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></button></li></ul>
+    <div class="mt-4 rounded-group bg-card p-4">
+      <div class="flex items-center justify-between gap-2"><h2 class="text-title-3">Row 1 of 12</h2><span class="flex"><button class="flex size-12 items-center justify-center rounded-full opacity-50" aria-label="Previous row" disabled><i class="i-lucide-chevron-left size-6" aria-hidden="true"></i></button><button class="flex size-12 items-center justify-center rounded-full" aria-label="Next row"><i class="i-lucide-chevron-right size-6" aria-hidden="true"></i></button></span></div>
+      <dl class="mt-2 space-y-3"><div><dt class="text-body-lg text-muted-foreground">Name</dt><dd class="text-title-3 font-normal">Lena Hoffmann</dd></div><div><dt class="text-body-lg text-muted-foreground">Role</dt><dd class="text-title-3 font-normal">Frontend engineer</dd></div><div><dt class="text-body-lg text-muted-foreground">Years of experience</dt><dd class="text-title-3 font-normal">6</dd></div><div><dt class="text-body-lg text-muted-foreground">Location</dt><dd class="text-title-3 font-normal">Berlin</dd></div><div><dt class="text-body-lg text-muted-foreground">Expected salary</dt><dd class="text-title-3 font-normal">78000</dd></div></dl>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="S19-field-mapping.html#S19-csv" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground min-h-16 text-title-3">Continue with 12 rows</a>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+</main>
+<h2 class="mock-section">File errors</h2>
+<p>Each error says what happened and what to do, names the file, and offers a way forward. Error haptic on Android and iOS. The original file is never touched.</p>
+<main class="mock-canvas">
+
+<figure class="frame" data-frame="S14-error-unreadable" id="S14-error-unreadable">
+  <figcaption class="frame-label">S14 · Unreadable file · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-8 text-center">
+    <i class="i-lucide-file-x size-8 text-muted-foreground" aria-hidden="true"></i>
+    <h2 class="mt-4 text-title-3">This file can’t be read</h2>
+    <p class="mt-1 max-w-xs text-body text-muted-foreground">budget-final.xlsx may be damaged or protected with a password. Open it in a spreadsheet app, save it as .csv or .xlsx, and try again.</p>
+    
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S14-default" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="choose-file">Choose another file</a><div class="mt-1"><a href="S11-source-picker.html#S11-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="another-source">Choose another source</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S14-error-empty" id="S14-error-empty">
+  <figcaption class="frame-label">S14 · Empty file · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-8 text-center">
+    <i class="i-lucide-file-question size-8 text-muted-foreground" aria-hidden="true"></i>
+    <h2 class="mt-4 text-title-3">This file has no rows</h2>
+    <p class="mt-1 max-w-xs text-body text-muted-foreground">plants.csv has column names but nothing below them. Add rows and try again, or choose another file.</p>
+    
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S14-default" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="choose-file">Choose another file</a><div class="mt-1"><a href="S11-source-picker.html#S11-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="another-source">Choose another source</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S14-error-too-many-columns" id="S14-error-too-many-columns">
+  <figcaption class="frame-label">S14 · Too many columns (limit 50) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-8 text-center">
+    <i class="i-lucide-columns-3 size-8 text-muted-foreground" aria-hidden="true"></i>
+    <h2 class="mt-4 text-title-3">This file has 73 columns</h2>
+    <p class="mt-1 max-w-xs text-body text-muted-foreground">SwipeSort imports up to 50 columns per list. Choose the columns you need, or continue with the first 50.</p>
+    
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S14-choose-columns" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="choose-columns">Choose columns</a><div class="mt-1"><a href="#S14-csv-preview" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="first-50">Continue with the first 50</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S14-error-too-large" id="S14-error-too-large">
+  <figcaption class="frame-label">S14 · File too large (limit 20 MB) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-8 text-center">
+    <i class="i-lucide-file-warning size-8 text-muted-foreground" aria-hidden="true"></i>
+    <h2 class="mt-4 text-title-3">This file is too large</h2>
+    <p class="mt-1 max-w-xs text-body text-muted-foreground">crm-export-full.csv is 48 MB. SwipeSort imports files up to 20 MB. Remove columns you don’t need or split the file, then try again.</p>
+    
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S14-default" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="choose-file">Choose another file</a><div class="mt-1"><a href="S11-source-picker.html#S11-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="another-source">Choose another source</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S14-error-too-many-rows" id="S14-error-too-many-rows">
+  <figcaption class="frame-label">S14 · Too many rows (limit 10,000) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-8 text-center">
+    <i class="i-lucide-rows-3 size-8 text-muted-foreground" aria-hidden="true"></i>
+    <h2 class="mt-4 text-title-3">This file has 14,250 rows</h2>
+    <p class="mt-1 max-w-xs text-body text-muted-foreground">SwipeSort imports up to 10,000 rows per file. Import the first 10,000 now and add the rest to the same list later.</p>
+    
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S14-csv-preview" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="first-10000">Import the first 10,000 rows</a><div class="mt-1"><a href="#S14-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="choose-file">Choose another file</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S14-error-unsupported" id="S14-error-unsupported">
+  <figcaption class="frame-label">S14 · Unsupported file type · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-8 text-center">
+    <i class="i-lucide-file-x size-8 text-muted-foreground" aria-hidden="true"></i>
+    <h2 class="mt-4 text-title-3">SwipeSort can’t open .numbers files</h2>
+    <p class="mt-1 max-w-xs text-body text-muted-foreground">Export it from Numbers as CSV or Excel, then choose it again. SwipeSort opens .csv and .xlsx files.</p>
+    
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S14-default" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="choose-file">Choose another file</a><div class="mt-1"><a href="S11-source-picker.html#S11-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="another-source">Choose another source</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S14-choose-columns" id="S14-choose-columns">
+  <figcaption class="frame-label">S14 · Too many columns: choose columns · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
+    <div class="flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2">
+      <span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-file-text size-5" aria-hidden="true"></i></span>
+      <div class="min-w-0 flex-1"><p class="truncate text-body">crm-export-2026.csv</p><p class="truncate text-body-sm text-muted-foreground">1,240 rows, 73 columns</p></div><a href="#S14-default" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="change-file">Change</a>
+    </div>
+    <h2 class="mt-5 text-title-3">Choose up to 50 columns</h2>
+    <div class="mt-3"><div class="relative"><label for="s14c-q" class="sr-only">Search columns</label><i class="i-lucide-search size-5 pointer-events-none absolute left-3.5 top-3.5 text-muted-foreground" aria-hidden="true"></i><input id="s14c-q" type="search" class="h-12 w-full rounded-full border-0 bg-secondary pl-11 pr-12 text-body placeholder:text-muted-foreground" placeholder="Search columns" value=""></div></div>
+    <div class="mt-2 flex items-center justify-between px-1"><span class="text-body-sm tabular-nums text-muted-foreground">8 of 73 selected</span><button class="inline-flex h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg  -mr-3 px-3 text-primary" data-action="select-50">Select first 50</button></div>
+    <ul class="mt-1 divide-y overflow-hidden rounded-group bg-card"><li><button type="button" role="checkbox" aria-checked="true" class="flex min-h-14 w-full items-center gap-3 px-4 py-2 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-sm bg-primary text-primary-foreground" aria-hidden="true"><i class="i-lucide-check size-4" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block text-body">Contact name</span><span class="block truncate text-body-sm text-muted-foreground">For example: Ece Doğru</span></span></button></li><li><button type="button" role="checkbox" aria-checked="true" class="flex min-h-14 w-full items-center gap-3 px-4 py-2 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-sm bg-primary text-primary-foreground" aria-hidden="true"><i class="i-lucide-check size-4" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block text-body">Company</span><span class="block truncate text-body-sm text-muted-foreground">For example: Kuzey Yazılım</span></span></button></li><li><button type="button" role="checkbox" aria-checked="true" class="flex min-h-14 w-full items-center gap-3 px-4 py-2 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-sm bg-primary text-primary-foreground" aria-hidden="true"><i class="i-lucide-check size-4" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block text-body">Email</span><span class="block truncate text-body-sm text-muted-foreground">For example: ece.dogru@example.com</span></span></button></li><li><button type="button" role="checkbox" aria-checked="true" class="flex min-h-14 w-full items-center gap-3 px-4 py-2 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-sm bg-primary text-primary-foreground" aria-hidden="true"><i class="i-lucide-check size-4" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block text-body">Phone</span><span class="block truncate text-body-sm text-muted-foreground">For example: +90 500 000 07 26</span></span></button></li><li><button type="button" role="checkbox" aria-checked="true" class="flex min-h-14 w-full items-center gap-3 px-4 py-2 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-sm bg-primary text-primary-foreground" aria-hidden="true"><i class="i-lucide-check size-4" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block text-body">Deal owner</span><span class="block truncate text-body-sm text-muted-foreground">For example: Deniz Yılmaz</span></span></button></li><li><button type="button" role="checkbox" aria-checked="true" class="flex min-h-14 w-full items-center gap-3 px-4 py-2 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-sm bg-primary text-primary-foreground" aria-hidden="true"><i class="i-lucide-check size-4" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block text-body">Stage</span><span class="block truncate text-body-sm text-muted-foreground">For example: Proposal sent</span></span></button></li><li><button type="button" role="checkbox" aria-checked="true" class="flex min-h-14 w-full items-center gap-3 px-4 py-2 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-sm bg-primary text-primary-foreground" aria-hidden="true"><i class="i-lucide-check size-4" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block text-body">Created</span><span class="block truncate text-body-sm text-muted-foreground">For example: Sep 12, 2026</span></span></button></li></ul>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S14-csv-preview" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="continue">Continue with 8 columns</a>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S14-partial" id="S14-partial">
+  <figcaption class="frame-label">S14 · Partial import: 84 of 88 rows readable · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
+    <div class="flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2">
+      <span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-file-text size-5" aria-hidden="true"></i></span>
+      <div class="min-w-0 flex-1"><p class="truncate text-body">contacts-export.csv</p><p class="truncate text-body-sm text-muted-foreground">88 rows, 4 columns, 9 KB</p></div><a href="#S14-default" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="change-file">Change</a>
+    </div>
+    <div class="mt-3"><div class="flex gap-3 rounded-control border border-destructive/40 bg-card p-4" role="alert"><i class="i-lucide-circle-alert size-5 shrink-0 text-destructive" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">84 of 88 rows can be imported</p><p class="mt-0.5 text-body-sm text-muted-foreground">4 rows don’t match the columns and will be skipped. The other rows are fine.</p><a href="#S14-skipped-rows" class="inline-flex h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg  -ml-3 mt-1 px-3 text-primary underline underline-offset-4" data-action="show-skipped">Show skipped rows</a></div></div></div>
+    <div class="mt-5 flex items-baseline justify-between px-1 pb-2"><h2 class="text-label text-muted-foreground">Preview</h2><span class="text-caption tabular-nums text-muted-foreground">84 rows</span></div>
+    <div class="min-h-0 overflow-hidden rounded-group bg-card"><div class="overflow-x-auto" tabindex="0" role="region" aria-label="Preview of contacts-export.csv, scrolls sideways"><table class="w-max min-w-full text-left"><caption class="sr-only">Preview of contacts-export.csv</caption><thead class="bg-muted"><tr><th scope="col" class="px-3 py-2.5 text-label text-muted-foreground"><span class="sr-only">Row</span></th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Name</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Phone</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Email</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">City</th></tr></thead><tbody class="divide-y"><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">1</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Ayşe Demir</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">+90 500 000 97 62</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">ayse.demir@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">İstanbul</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">2</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Mehmet Yılmaz</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">+90 500 000 96 91</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">mehmet.yilmaz@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">İstanbul</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">3</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Zeynep Kaya</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">+90 500 000 97 10</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">zeynep.kaya@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Ankara</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">4</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Emre Çelik</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">+90 500 000 67 46</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">emre.celik@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">İstanbul</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">5</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Elif Şahin</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">+90 500 000 45 82</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">elif.sahin@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">İzmir</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">6</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Burak Arslan</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">+90 500 000 95 92</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">burak.arslan@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">İstanbul</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">7</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Gökhan Doğan</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">+90 500 000 97 41</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">gokhan.dogan@example.com</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Bursa</span></td></tr></tbody></table></div></div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="S19-field-mapping.html#S19-default" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="continue">Continue with 84 rows</a>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S14-skipped-rows" id="S14-skipped-rows">
+  <figcaption class="frame-label">S14 · Skipped rows sheet · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0"><div class="flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2">
+      <span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-file-text size-5" aria-hidden="true"></i></span>
+      <div class="min-w-0 flex-1"><p class="truncate text-body">contacts-export.csv</p><p class="truncate text-body-sm text-muted-foreground">88 rows, 4 columns, 9 KB</p></div><a href="#S14-default" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="change-file">Change</a>
+    </div></div>
+  <div class="absolute inset-0 z-10 bg-scrim/50"></div>
+  <div class="absolute inset-x-0 bottom-0 z-20 rounded-t-sheet bg-popover px-gutter pb-5 pt-2 shadow-sheet" role="dialog" aria-modal="true" aria-labelledby="s14sk">
+    <div class="flex justify-center py-1.5"><span class="h-1 w-8 rounded-full bg-muted-foreground/40"></span></div>
+    <div class="flex items-center justify-between gap-3 pt-2"><h2 id="s14sk" class="text-title-3">4 skipped rows</h2><a href="#S14-partial" class="-mr-3 flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close"><i class="i-lucide-x size-5" aria-hidden="true"></i></a></div>
+    <p class="mt-1 text-body text-muted-foreground">To keep these rows, fix them in a spreadsheet app and import the file again.</p><ul class="mt-3 divide-y"><li class="flex min-h-14 items-center gap-4 py-2"><span class="w-16 shrink-0 text-label tabular-nums">Row 23</span><span class="text-body-sm text-muted-foreground">Has 6 cells; the file has 4 columns</span></li><li class="flex min-h-14 items-center gap-4 py-2"><span class="w-16 shrink-0 text-label tabular-nums">Row 41</span><span class="text-body-sm text-muted-foreground">A quote mark isn’t closed</span></li><li class="flex min-h-14 items-center gap-4 py-2"><span class="w-16 shrink-0 text-label tabular-nums">Row 57</span><span class="text-body-sm text-muted-foreground">Has 5 cells; the file has 4 columns</span></li><li class="flex min-h-14 items-center gap-4 py-2"><span class="w-16 shrink-0 text-label tabular-nums">Row 88</span><span class="text-body-sm text-muted-foreground">Has 6 cells; the file has 4 columns</span></li></ul>
+    <div class="mt-5 space-y-1"><a href="S19-field-mapping.html#S19-default" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="continue">Continue with 84 rows</a><a href="#S14-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="choose-file">Choose another file</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+</main>
+<h2 class="mock-section">Web and iOS</h2>
+<p>Mobile web works like Android (the browser’s file chooser). Desktop adds a drop zone. iOS opens the Files picker from a page sheet.</p>
+<main class="mock-canvas">
+
+<figure class="frame" data-frame="S14-web-desktop" id="S14-web-desktop">
+  <figcaption class="frame-label">S14 · Web, desktop: drop zone and browse · <span class="theme-name"></span></figcaption>
+  <div class="desktop">
+  <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/new</span></div>
+  <div class="desktop-column">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
+    <h2 class="text-title-2">Choose a CSV or Excel file</h2>
+    <p class="mt-1 text-body text-muted-foreground">Each row becomes an item and each column a field. Column names, like Name or Price, go in the first row.</p>
+    <div class="mt-5 flex flex-col items-center rounded-tile border-2 border-dashed border-input px-6 py-8 text-center">
+      <i class="i-lucide-upload size-8 text-muted-foreground" aria-hidden="true"></i>
+      <p class="mt-3 text-label-lg">Drop a CSV or Excel file here</p>
+      <p class="mt-1 text-body-sm text-muted-foreground">or</p>
+      <a href="#S14-csv-preview" class="inline-flex h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground mt-3" data-action="choose-file">Browse files</a>
+    </div><p class="mt-4 text-body-sm text-muted-foreground">Works with .csv and .xlsx files up to 20 MB, 10,000 rows and 50 columns.</p>
+    <div class="mt-auto pb-2 pt-6"><p class="flex gap-2 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Your file isn’t changed. SwipeSort imports a copy.</span></p></div>
+  </div>
+  </div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S14-web-desktop-drag" id="S14-web-desktop-drag">
+  <figcaption class="frame-label">S14 · Web, desktop: dragging a file over the page · <span class="theme-name"></span></figcaption>
+  <div class="desktop">
+  <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/new</span></div>
+  <div class="desktop-column">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
+    <h2 class="text-title-2">Choose a CSV or Excel file</h2>
+    <p class="mt-1 text-body text-muted-foreground">Each row becomes an item and each column a field. Column names, like Name or Price, go in the first row.</p>
+    <div class="mt-5 flex flex-col items-center rounded-tile border-2 border-dashed border-primary bg-primary-soft px-6 py-8 text-center text-primary-soft-foreground" role="status">
+      <i class="i-lucide-upload size-8" aria-hidden="true"></i>
+      <p class="mt-3 text-label-lg">Drop the file to import it</p>
+      <p class="mt-1 text-body-sm">.csv or .xlsx, up to 20 MB</p>
+      <span class="mt-3 block h-12" aria-hidden="true"></span>
+    </div><p class="mt-4 text-body-sm text-muted-foreground">Works with .csv and .xlsx files up to 20 MB, 10,000 rows and 50 columns.</p>
+    <div class="mt-auto pb-2 pt-6"><p class="flex gap-2 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Your file isn’t changed. SwipeSort imports a copy.</span></p></div>
+  </div>
+  </div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S14-ios" id="S14-ios">
+  <figcaption class="frame-label">S14 · iOS: page sheet, Files picker · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios bg-muted">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <div class="h-2.5 shrink-0" aria-hidden="true"></div>
+  <div class="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-sheet bg-background">
+  <header class="grid h-11 shrink-0 grid-cols-[1fr_auto_1fr] items-center px-2">
+    <a href="S11-source-picker.html#S11-ios" class="inline-flex h-12 items-center gap-0.5 justify-self-start pr-2 text-body text-primary" aria-label="Back to Choose source"><i class="i-lucide-chevron-left size-6" aria-hidden="true"></i>Back</a>
+    <h1 class="text-body font-semibold">Import</h1>
+    <div class="flex justify-end"><a href="S08-home.html#S08-default" class="ml-auto flex size-12 items-center justify-center rounded-full text-primary" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a></div>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
+    <h2 class="text-title-2">Choose a CSV or Excel file</h2>
+    <p class="mt-1 text-body text-muted-foreground">Each row becomes an item and each column a field. Column names, like Name or Price, go in the first row.</p>
+    <p class="mt-6 px-1 pb-2 text-label text-muted-foreground">What works</p>
+    <ul class="divide-y overflow-hidden rounded-group bg-card">
+      <li class="flex min-h-14 items-center gap-4 px-4 py-3"><i class="i-lucide-file-text size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span><span class="block text-body">.csv</span><span class="block text-body-sm text-muted-foreground">Comma, semicolon or tab separated</span></span></li>
+      <li class="flex min-h-14 items-center gap-4 px-4 py-3"><i class="i-lucide-file-spreadsheet size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span><span class="block text-body">.xlsx</span><span class="block text-body-sm text-muted-foreground">Excel workbooks; you choose the sheets</span></span></li>
+      <li class="flex min-h-14 items-center gap-4 px-4 py-3"><i class="i-lucide-ruler size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span><span class="block text-body">Up to 10,000 rows and 50 columns</span><span class="block text-body-sm text-muted-foreground">Files up to 20 MB</span></span></li>
+    </ul>
+    <div class="mt-auto pb-2 pt-6"><p class="flex gap-2 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Your file isn’t changed. SwipeSort imports a copy.</span></p></div>
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="mb-3 text-body-sm text-muted-foreground">Opens Files. iCloud Drive and other locations work.</p><a href="#S14-csv-preview" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="choose-file">Choose file</a>
+  </div>
+  </div>
+  </div>
+  <div class="sysbar-nav bg-background" aria-hidden="true"></div>
+</div>
+</figure>
+</main>
+</body>
+</html>

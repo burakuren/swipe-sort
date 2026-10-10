@@ -416,7 +416,7 @@ F('S25-web', 'Web, mobile browser', web_phone(sorting(hdr=shared_hdr, prog=progr
 kbd = lambda k, t: f'<span class="inline-flex items-center gap-1.5"><kbd class="inline-flex h-6 min-w-6 items-center justify-center rounded-sm border border-b-2 bg-card px-1.5 text-caption text-foreground">{k}</kbd>{t}</span>'
 hints = f'<div class="flex shrink-0 justify-center gap-4 pb-3 text-caption text-muted-foreground" aria-label="Keyboard shortcuts">{kbd("←", "Reject")}{kbd("↑", "Maybe")}{kbd("→", "Accept")}{kbd("Z", "Undo")}{kbd("N", "Note")}</div>'
 mert_hdr = header('Wedding guests', 'Round 1, shared').replace('S09-list-overview.html#S09-default', 'S09-list-overview.html#S09-shared')
-desk_screen = sorting(hdr=mert_hdr, prog=progress(85, 100, members), counts=(22, 14, 49), undo=True)
+desk_screen = sorting(hdr=mert_hdr, prog=progress(85, 100, members), counts=(21, 14, 50), undo=True)
 finish = '<a href="S27-round-summary.html#S27-shared" class="sr-only focus:not-sr-only" data-action="finish">Finish sorting (prototype shortcut to the summary)</a>'
 desktop = f'''<div class="desktop">
   <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/l/7Hq2xK/sort</span></div>

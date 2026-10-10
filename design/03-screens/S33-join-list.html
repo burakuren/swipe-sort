@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S33 Join a list</title>
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body class="mock-page">
+<header class="mock-doc">
+  <h1>S33 Join a list</h1>
+  <p>The signed-in invited person sees who invited them, the list, their role and what it means, the members and their progress, then joins and starts sorting every item of the current round (DM-16). Spec: <a href="S33-join-list.md">S33-join-list.md</a>.</p>
+</header>
+<h2 class="mock-section">Join</h2>
+<p>Selin joins from the app (Android). Joining takes one tap; sorting starts right away.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S33-default" id="S33-default">
+  <figcaption class="frame-label">S33 · Default: join as Collaborator (app) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Join a list</h1></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-4 pt-2">
+    <div class="flex items-center gap-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full "><p class="text-body-lg">Deniz Yılmaz invited you</p></div>
+    <h2 class="mt-3 text-title-1">Wedding guests</h2>
+    <p class="mt-1 text-body text-muted-foreground">100 items, Round 1 in progress</p>
+    <div class="mt-5 space-y-5"><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Your role</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-user-round size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Collaborator</span><span class="mt-0.5 block text-body-sm text-muted-foreground">You sort every item and add notes. You can invite others as Collaborator.</span></span></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-list-checks size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">All 100 items of Round 1</span><span class="mt-0.5 block text-body-sm text-muted-foreground">Everyone sorts every item of the round.</span></span></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-eye-off size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Others' decisions are hidden</span><span class="mt-0.5 block text-body-sm text-muted-foreground">While you sort, so nobody sways you.</span></span></li></ul></div><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Members (2)</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex items-start gap-3 px-4 py-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="text-body">Deniz Yılmaz</p><div class="mt-0.5 flex flex-wrap items-center justify-between gap-x-3"><span class="flex min-w-0 flex-wrap items-center gap-x-3 text-body-sm text-muted-foreground"><span class="inline-flex items-center gap-1 whitespace-nowrap"><i class="i-lucide-crown size-4 shrink-0" aria-hidden="true"></i>Owner</span></span><span class="shrink-0 text-caption tabular-nums text-muted-foreground">76 / 100 decided</span></div><div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="76" aria-valuemin="0" aria-valuemax="100" aria-label="Deniz: 76 of 100 decided"><div class="h-full w-[76%] rounded-full bg-primary"></div></div></div></li><li class="flex items-start gap-3 px-4 py-3"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="text-body">Mert Aydın</p><div class="mt-0.5 flex flex-wrap items-center justify-between gap-x-3"><span class="flex min-w-0 flex-wrap items-center gap-x-3 text-body-sm text-muted-foreground"><span class="inline-flex items-center gap-1 whitespace-nowrap"><i class="i-lucide-gavel size-4 shrink-0" aria-hidden="true"></i>Decision Maker</span></span><span class="shrink-0 text-caption tabular-nums text-muted-foreground">85 / 100 decided</span></div><div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" aria-label="Mert: 85 of 100 decided"><div class="h-full w-[85%] rounded-full bg-primary"></div></div></div></li></ul></div></div>
+  </div>
+  <div class="shrink-0 space-y-2 border-t bg-background px-gutter pb-4 pt-3"><a href="S25-sorting.html#S25-shared" class="flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="join">Join and start sorting</a><p class="flex flex-wrap items-center justify-center gap-x-1 text-center text-body-sm text-muted-foreground">Joining as Selin Yılmaz.</p></div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S33-joining" id="S33-joining">
+  <figcaption class="frame-label">S33 · Joining… · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Join a list</h1></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-4 pt-2">
+    <div class="flex items-center gap-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full "><p class="text-body-lg">Deniz Yılmaz invited you</p></div>
+    <h2 class="mt-3 text-title-1">Wedding guests</h2>
+    <p class="mt-1 text-body text-muted-foreground">100 items, Round 1 in progress</p>
+    <div class="mt-5 space-y-5"><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Your role</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-user-round size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Collaborator</span><span class="mt-0.5 block text-body-sm text-muted-foreground">You sort every item and add notes. You can invite others as Collaborator.</span></span></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-list-checks size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">All 100 items of Round 1</span><span class="mt-0.5 block text-body-sm text-muted-foreground">Everyone sorts every item of the round.</span></span></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-eye-off size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Others' decisions are hidden</span><span class="mt-0.5 block text-body-sm text-muted-foreground">While you sort, so nobody sways you.</span></span></li></ul></div><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Members (2)</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex items-start gap-3 px-4 py-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="text-body">Deniz Yılmaz</p><div class="mt-0.5 flex flex-wrap items-center justify-between gap-x-3"><span class="flex min-w-0 flex-wrap items-center gap-x-3 text-body-sm text-muted-foreground"><span class="inline-flex items-center gap-1 whitespace-nowrap"><i class="i-lucide-crown size-4 shrink-0" aria-hidden="true"></i>Owner</span></span><span class="shrink-0 text-caption tabular-nums text-muted-foreground">76 / 100 decided</span></div><div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="76" aria-valuemin="0" aria-valuemax="100" aria-label="Deniz: 76 of 100 decided"><div class="h-full w-[76%] rounded-full bg-primary"></div></div></div></li><li class="flex items-start gap-3 px-4 py-3"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="text-body">Mert Aydın</p><div class="mt-0.5 flex flex-wrap items-center justify-between gap-x-3"><span class="flex min-w-0 flex-wrap items-center gap-x-3 text-body-sm text-muted-foreground"><span class="inline-flex items-center gap-1 whitespace-nowrap"><i class="i-lucide-gavel size-4 shrink-0" aria-hidden="true"></i>Decision Maker</span></span><span class="shrink-0 text-caption tabular-nums text-muted-foreground">85 / 100 decided</span></div><div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" aria-label="Mert: 85 of 100 decided"><div class="h-full w-[85%] rounded-full bg-primary"></div></div></div></li></ul></div></div>
+  </div>
+  <div class="shrink-0 space-y-2 border-t bg-background px-gutter pb-4 pt-3"><button class="flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" aria-busy="true" disabled><i class="i-lucide-loader-circle size-5 animate-spin" aria-hidden="true"></i>Joining…</button><p class="flex flex-wrap items-center justify-center gap-x-1 text-center text-body-sm text-muted-foreground">Joining as Selin Yılmaz.</p></div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S33-joined" id="S33-joined">
+  <figcaption class="frame-label">S33 · Joined: sorting starts, snackbar confirms · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 items-center justify-center rounded-full" aria-label="Close sorting"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Wedding guests</h1><p class="text-caption text-muted-foreground">Round 1, shared</p></div>
+    <button class="flex size-12 items-center justify-center rounded-full" aria-label="More options"><i class="i-lucide-ellipsis-vertical size-6" aria-hidden="true"></i></button>
+  </header>
+  <div class="shrink-0 px-gutter pb-1">
+    <div class="flex items-center justify-between gap-3"><span class="text-label tabular-nums">0 / 100 decided</span><div class="flex -space-x-2" role="img" aria-label="3 members: Deniz, Mert, Selin"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-6 shrink-0 rounded-full ring-2 ring-background"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-6 shrink-0 rounded-full ring-2 ring-background"><span class="flex size-6 shrink-0 items-center justify-center rounded-full bg-muted text-caption text-muted-foreground ring-2 ring-background" aria-hidden="true">SY</span></div></div>
+    <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="0 of 100 decided"><div class="h-full w-0 rounded-full bg-primary"></div></div>
+  </div>
+  <div class="relative mt-2 min-h-0 flex-1">
+    <div class="absolute inset-x-gutter bottom-5 top-0 flex origin-top scale-95 translate-y-10 flex-col overflow-hidden rounded-hero border bg-card shadow-raised" aria-hidden="true"><img src="../02-data/images/people/c002.svg" alt="" class="h-[46%] w-full object-cover"></div>
+    <article class="absolute inset-x-gutter bottom-5 top-0 flex origin-bottom flex-col overflow-hidden rounded-hero bg-card shadow-hero" aria-label="Ayşe Demir, Family. Phone +90 500 000 97 62. Email ayse.demir@example.com. City İstanbul." aria-roledescription="card" tabindex="0"><img src="../02-data/images/people/c001.svg" alt="" class="h-[46%] w-full object-cover">
+      <div class="flex min-h-0 flex-1 flex-col px-6 pb-5 pt-5">
+        <h2 class="line-clamp-3 text-card-title">Ayşe Demir</h2>
+        <p class="mt-1 text-body-lg text-muted-foreground">Family</p>
+        <dl class="mt-4 space-y-2 text-body"><div class="flex gap-3"><dt class="w-16 shrink-0 text-muted-foreground">Phone</dt><dd class="min-w-0 truncate tabular-nums">+90 500 000 97 62</dd></div><div class="flex gap-3"><dt class="w-16 shrink-0 text-muted-foreground">Email</dt><dd class="min-w-0 truncate">ayse.demir@example.com</dd></div><div class="flex gap-3"><dt class="w-16 shrink-0 text-muted-foreground">City</dt><dd class="min-w-0 truncate">İstanbul</dd></div></dl>
+        <div class="mt-auto flex gap-2 pt-3"><span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">Bride's</span></div>
+      </div></article>
+  </div>
+  <div class="flex shrink-0 items-start justify-between px-5 pb-4 pt-2">
+    <button class="flex min-w-touch flex-col items-center gap-1.5 opacity-40" aria-label="Nothing to undo" disabled><span class="flex size-12 items-center justify-center rounded-full border border-input bg-card"><i class="i-lucide-undo-2 size-5" aria-hidden="true"></i></span><span class="text-caption text-muted-foreground">Undo</span></button>
+    <button class="flex min-w-touch flex-col items-center gap-1.5" aria-label="Reject, 0 rejected"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption text-center">Reject <span class="tabular-nums text-muted-foreground">0</span></span></button>
+    <button class="flex min-w-touch flex-col items-center gap-1.5" aria-label="Maybe, 0 maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption text-center">Maybe <span class="tabular-nums text-muted-foreground">0</span></span></button>
+    <button class="flex min-w-touch flex-col items-center gap-1.5" aria-label="Accept, 0 accepted"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption text-center">Accept <span class="tabular-nums text-muted-foreground">0</span></span></button>
+    <button class="flex min-w-touch flex-col items-center gap-1.5" aria-label="Add note"><span class="flex size-12 items-center justify-center rounded-full border border-input bg-card"><i class="i-lucide-sticky-note size-5" aria-hidden="true"></i></span><span class="text-caption text-muted-foreground">Note</span></button>
+  </div>
+  <div class="absolute inset-x-4 bottom-32 z-40 flex min-h-12 items-center gap-3 rounded-control bg-foreground px-4 py-3 text-background shadow-overlay" role="status"><i class="i-lucide-circle-check size-5 shrink-0" aria-hidden="true"></i><span class="flex-1 text-body-sm">You joined Wedding guests</span></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S33-decision-maker" id="S33-decision-maker">
+  <figcaption class="frame-label">S33 · Invited as Decision Maker (Mert) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Join a list</h1></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-4 pt-2">
+    <div class="flex items-center gap-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full "><p class="text-body-lg">Deniz Yılmaz invited you</p></div>
+    <h2 class="mt-3 text-title-1">Wedding guests</h2>
+    <p class="mt-1 text-body text-muted-foreground">100 items, Round 1 in progress</p>
+    <div class="mt-5 space-y-5"><div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground" role="note"><i class="i-lucide-info size-5 shrink-0" aria-hidden="true"></i><p class="text-body-sm">Deniz is the Decision Maker now. The role moves to you when you join.</p></div><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Your role</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-gavel size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Decision Maker</span><span class="mt-0.5 block text-body-sm text-muted-foreground">You sort every item and resolve conflicts. Under the current rule, Decision Maker decides, your choice on a conflict is final.</span></span></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-list-checks size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">All 100 items of Round 1</span><span class="mt-0.5 block text-body-sm text-muted-foreground">Everyone sorts every item of the round.</span></span></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-eye-off size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Others' decisions are hidden</span><span class="mt-0.5 block text-body-sm text-muted-foreground">While you sort, so nobody sways you.</span></span></li></ul></div><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Members (1)</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex items-start gap-3 px-4 py-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="text-body">Deniz Yılmaz</p><div class="mt-0.5 flex flex-wrap items-center justify-between gap-x-3"><span class="flex min-w-0 flex-wrap items-center gap-x-3 text-body-sm text-muted-foreground"><span class="inline-flex items-center gap-1 whitespace-nowrap"><i class="i-lucide-crown size-4 shrink-0" aria-hidden="true"></i>Owner</span><span class="inline-flex items-center gap-1 whitespace-nowrap"><i class="i-lucide-gavel size-4 shrink-0" aria-hidden="true"></i>Decision Maker</span></span><span class="shrink-0 text-caption tabular-nums text-muted-foreground">76 / 100 decided</span></div><div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="76" aria-valuemin="0" aria-valuemax="100" aria-label="Deniz: 76 of 100 decided"><div class="h-full w-[76%] rounded-full bg-primary"></div></div></div></li></ul></div></div>
+  </div>
+  <div class="shrink-0 space-y-2 border-t bg-background px-gutter pb-4 pt-3"><a href="S25-sorting.html#S25-shared" class="flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground">Join and start sorting</a><p class="flex flex-wrap items-center justify-center gap-x-1 text-center text-body-sm text-muted-foreground">Joining as Mert Aydın.</p></div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Web</h2>
+<p>Prototype flow 3: after signing in on the desktop browser (S03-web-desktop), Mert joins and sorts right away with keyboard shortcuts. Nothing to install; "Get the app" is offered but secondary.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S33-web-desktop" id="S33-web-desktop">
+  <figcaption class="frame-label">S33 · Web, desktop browser: Mert joins · <span class="theme-name"></span></figcaption>
+  <div class="desktop">
+  <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/join/k4Rm9Tq2</span></div>
+  <div class="desktop-column">
+  <header class="flex h-16 shrink-0 items-center gap-2 px-gutter">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-8 dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-8 dark:block"><span class="text-title-3">SwipeSort</span>
+    <div class="ml-auto flex items-center"><span class="flex items-center gap-1"><a href="S32-invite-link.html#S32-get-app" class="flex h-12  items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card px-3 text-label">Get the app</a><button class="flex h-12 items-center gap-2 rounded-full pl-1 pr-3 text-label" aria-label="Account: Mert Aydın"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-8 shrink-0 rounded-full "><span>Mert</span></button></span></div>
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-4 pt-2">
+    <div class="flex items-center gap-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full "><p class="text-body-lg">Deniz Yılmaz invited you</p></div>
+    <h2 class="mt-3 text-title-1">Wedding guests</h2>
+    <p class="mt-1 text-body text-muted-foreground">100 items, Round 1 in progress</p>
+    <div class="mt-5 space-y-5"><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Your role</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-user-round size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Collaborator</span><span class="mt-0.5 block text-body-sm text-muted-foreground">You sort every item and add notes. You can invite others as Collaborator.</span></span></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-list-checks size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">All 100 items of Round 1</span><span class="mt-0.5 block text-body-sm text-muted-foreground">Everyone sorts every item of the round.</span></span></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-eye-off size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Others' decisions are hidden</span><span class="mt-0.5 block text-body-sm text-muted-foreground">While you sort, so nobody sways you.</span></span></li></ul></div><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Members (1)</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex items-start gap-3 px-4 py-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="text-body">Deniz Yılmaz</p><div class="mt-0.5 flex flex-wrap items-center justify-between gap-x-3"><span class="flex min-w-0 flex-wrap items-center gap-x-3 text-body-sm text-muted-foreground"><span class="inline-flex items-center gap-1 whitespace-nowrap"><i class="i-lucide-crown size-4 shrink-0" aria-hidden="true"></i>Owner</span><span class="inline-flex items-center gap-1 whitespace-nowrap"><i class="i-lucide-gavel size-4 shrink-0" aria-hidden="true"></i>Decision Maker</span></span><span class="shrink-0 text-caption tabular-nums text-muted-foreground">76 / 100 decided</span></div><div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="76" aria-valuemin="0" aria-valuemax="100" aria-label="Deniz: 76 of 100 decided"><div class="h-full w-[76%] rounded-full bg-primary"></div></div></div></li></ul></div></div>
+  </div>
+  <div class="shrink-0 space-y-2 border-t bg-background px-gutter pb-4 pt-3"><a href="S25-sorting.html#S25-web-desktop" class="flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="start-sorting">Join and start sorting</a><p class="flex flex-wrap items-center justify-center gap-x-1 text-center text-body-sm text-muted-foreground">Joining as Mert Aydın. <a href="S03-sign-in.html#S03-web-desktop" class="inline-flex min-h-12 items-center text-primary underline underline-offset-4">Switch account</a></p></div>
+  
+  </div>
+</div>
+</figure>
+<figure class="frame" data-frame="S33-web" id="S33-web">
+  <figcaption class="frame-label">S33 · Web, mobile browser · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="screen">
+  <!-- Proposed component: AppBanner (web only: get the app) -->
+  <div class="flex shrink-0 items-center gap-2 border-b bg-card py-1 pl-1 pr-3" role="region" aria-label="Get the app">
+    <button class="flex size-12 shrink-0 items-center justify-center rounded-full text-muted-foreground" aria-label="Close banner"><i class="i-lucide-x size-4" aria-hidden="true"></i></button>
+    <img src="../01-foundations/brand/app-icon.svg" alt="" class="size-10 shrink-0 rounded-control">
+    <div class="min-w-0 flex-1"><p class="text-label">SwipeSort</p><p class="truncate text-caption text-muted-foreground">Sort with swipes in the app</p></div>
+    <a href="S32-invite-link.html#S32-get-app" class="flex h-12  items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card shrink-0 px-3 text-label">Get the app</a>
+  </div><header class="flex h-16 shrink-0 items-center gap-2 px-gutter">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-8 dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-8 dark:block"><span class="text-title-3">SwipeSort</span>
+    <div class="ml-auto flex items-center"><button class="flex h-12 items-center gap-2 rounded-full pl-1 pr-3 text-label" aria-label="Account: Mert Aydın"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-8 shrink-0 rounded-full "><span>Mert</span></button></div>
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-4 pt-2">
+    <div class="flex items-center gap-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full "><p class="text-body-lg">Deniz Yılmaz invited you</p></div>
+    <h2 class="mt-3 text-title-1">Wedding guests</h2>
+    <p class="mt-1 text-body text-muted-foreground">100 items, Round 1 in progress</p>
+    <div class="mt-5 space-y-5"><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Your role</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-user-round size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Collaborator</span><span class="mt-0.5 block text-body-sm text-muted-foreground">You sort every item and add notes. You can invite others as Collaborator.</span></span></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-list-checks size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">All 100 items of Round 1</span><span class="mt-0.5 block text-body-sm text-muted-foreground">Everyone sorts every item of the round.</span></span></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-eye-off size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Others' decisions are hidden</span><span class="mt-0.5 block text-body-sm text-muted-foreground">While you sort, so nobody sways you.</span></span></li></ul></div><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Members (1)</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex items-start gap-3 px-4 py-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="text-body">Deniz Yılmaz</p><div class="mt-0.5 flex flex-wrap items-center justify-between gap-x-3"><span class="flex min-w-0 flex-wrap items-center gap-x-3 text-body-sm text-muted-foreground"><span class="inline-flex items-center gap-1 whitespace-nowrap"><i class="i-lucide-crown size-4 shrink-0" aria-hidden="true"></i>Owner</span><span class="inline-flex items-center gap-1 whitespace-nowrap"><i class="i-lucide-gavel size-4 shrink-0" aria-hidden="true"></i>Decision Maker</span></span><span class="shrink-0 text-caption tabular-nums text-muted-foreground">76 / 100 decided</span></div><div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="76" aria-valuemin="0" aria-valuemax="100" aria-label="Deniz: 76 of 100 decided"><div class="h-full w-[76%] rounded-full bg-primary"></div></div></div></li></ul></div></div>
+  </div>
+  <div class="shrink-0 space-y-2 border-t bg-background px-gutter pb-4 pt-3"><a href="S25-sorting.html#S25-web-desktop" class="flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground">Join and start sorting</a><p class="flex flex-wrap items-center justify-center gap-x-1 text-center text-body-sm text-muted-foreground">Joining as Mert Aydın. <a href="S03-sign-in.html#S03-web-desktop" class="inline-flex min-h-12 items-center text-primary underline underline-offset-4">Switch account</a></p></div>
+  
+  </div>
+</div>
+</figure></main>
+<h2 class="mock-section">States</h2>
+<p>Loading the invite details, offline, the link reset while the person was deciding, and a list with no round in progress.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S33-loading" id="S33-loading">
+  <figcaption class="frame-label">S33 · Loading · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Join a list</h1></div>
+    
+  </header>
+  <div class="min-h-0 flex-1 px-gutter pt-2" aria-busy="true" role="status" aria-label="Loading invite">
+    <div class="flex items-center gap-3"><span class="size-12 animate-pulse rounded-full bg-muted"></span><span class="block h-4 w-1/2 animate-pulse rounded-full bg-muted"></span></div>
+    <span class="mt-5 block h-8 w-2/3 animate-pulse rounded-full bg-muted"></span>
+    <span class="mt-2 block h-4 w-1/2 animate-pulse rounded-full bg-muted"></span>
+    <div class="mt-8 h-56 animate-pulse rounded-group bg-muted"></div>
+    <div class="mt-6 h-40 animate-pulse rounded-group bg-muted"></div>
+  </div>
+  <div class="shrink-0 space-y-2 border-t bg-background px-gutter pb-4 pt-3"><button class="flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground opacity-50" disabled>Join and start sorting</button><p class="flex flex-wrap items-center justify-center gap-x-1 text-center text-body-sm text-muted-foreground">Joining as Selin Yılmaz.</p></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S33-offline" id="S33-offline">
+  <figcaption class="frame-label">S33 · Offline: joining needs a connection · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Join a list</h1></div>
+    
+  </header>
+  <div class="flex shrink-0 items-center gap-2 bg-muted px-gutter py-2 text-body-sm" role="status"><i class="i-lucide-wifi-off size-4 shrink-0" aria-hidden="true"></i><span class="flex-1">You're offline.</span></div>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-4 pt-2">
+    <div class="flex items-center gap-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full "><p class="text-body-lg">Deniz Yılmaz invited you</p></div>
+    <h2 class="mt-3 text-title-1">Wedding guests</h2>
+    <p class="mt-1 text-body text-muted-foreground">100 items, Round 1 in progress</p>
+    <div class="mt-5 space-y-5"><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Your role</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-user-round size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Collaborator</span><span class="mt-0.5 block text-body-sm text-muted-foreground">You sort every item and add notes. You can invite others as Collaborator.</span></span></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-list-checks size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">All 100 items of Round 1</span><span class="mt-0.5 block text-body-sm text-muted-foreground">Everyone sorts every item of the round.</span></span></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-eye-off size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Others' decisions are hidden</span><span class="mt-0.5 block text-body-sm text-muted-foreground">While you sort, so nobody sways you.</span></span></li></ul></div><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Members (2)</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex items-start gap-3 px-4 py-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="text-body">Deniz Yılmaz</p><div class="mt-0.5 flex flex-wrap items-center justify-between gap-x-3"><span class="flex min-w-0 flex-wrap items-center gap-x-3 text-body-sm text-muted-foreground"><span class="inline-flex items-center gap-1 whitespace-nowrap"><i class="i-lucide-crown size-4 shrink-0" aria-hidden="true"></i>Owner</span></span><span class="shrink-0 text-caption tabular-nums text-muted-foreground">76 / 100 decided</span></div><div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="76" aria-valuemin="0" aria-valuemax="100" aria-label="Deniz: 76 of 100 decided"><div class="h-full w-[76%] rounded-full bg-primary"></div></div></div></li><li class="flex items-start gap-3 px-4 py-3"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="text-body">Mert Aydın</p><div class="mt-0.5 flex flex-wrap items-center justify-between gap-x-3"><span class="flex min-w-0 flex-wrap items-center gap-x-3 text-body-sm text-muted-foreground"><span class="inline-flex items-center gap-1 whitespace-nowrap"><i class="i-lucide-gavel size-4 shrink-0" aria-hidden="true"></i>Decision Maker</span></span><span class="shrink-0 text-caption tabular-nums text-muted-foreground">85 / 100 decided</span></div><div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" aria-label="Mert: 85 of 100 decided"><div class="h-full w-[85%] rounded-full bg-primary"></div></div></div></li></ul></div></div>
+  </div>
+  <div class="shrink-0 space-y-2 border-t bg-background px-gutter pb-4 pt-3"><p class="flex items-center gap-2 text-body-sm text-foreground"><i class="i-lucide-wifi-off size-4 shrink-0 text-muted-foreground" aria-hidden="true"></i>Joining needs a connection. Connect and try again.</p><button class="flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground opacity-50" disabled>Join and start sorting</button><p class="flex flex-wrap items-center justify-center gap-x-1 text-center text-body-sm text-muted-foreground">Joining as Selin Yılmaz.</p></div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S33-error-link-reset" id="S33-error-link-reset">
+  <figcaption class="frame-label">S33 · Error: link reset while joining · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Join a list</h1></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-4 pt-2">
+    <div class="flex items-center gap-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full "><p class="text-body-lg">Deniz Yılmaz invited you</p></div>
+    <h2 class="mt-3 text-title-1">Wedding guests</h2>
+    <p class="mt-1 text-body text-muted-foreground">100 items, Round 1 in progress</p>
+    <div class="mt-5 space-y-5"><div class="flex gap-3 rounded-control border border-destructive/40 bg-card p-4" role="alert"><i class="i-lucide-circle-alert size-5 shrink-0 text-destructive" aria-hidden="true"></i><div class="flex-1"><p class="text-label">This invite link was reset</p><p class="mt-0.5 text-body-sm text-muted-foreground">Deniz made a new link while you were here, so this one can't be used to join. Ask Deniz for the new link.</p></div></div><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Your role</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-user-round size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Collaborator</span><span class="mt-0.5 block text-body-sm text-muted-foreground">You sort every item and add notes. You can invite others as Collaborator.</span></span></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-list-checks size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">All 100 items of Round 1</span><span class="mt-0.5 block text-body-sm text-muted-foreground">Everyone sorts every item of the round.</span></span></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-eye-off size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Others' decisions are hidden</span><span class="mt-0.5 block text-body-sm text-muted-foreground">While you sort, so nobody sways you.</span></span></li></ul></div><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Members (2)</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex items-start gap-3 px-4 py-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="text-body">Deniz Yılmaz</p><div class="mt-0.5 flex flex-wrap items-center justify-between gap-x-3"><span class="flex min-w-0 flex-wrap items-center gap-x-3 text-body-sm text-muted-foreground"><span class="inline-flex items-center gap-1 whitespace-nowrap"><i class="i-lucide-crown size-4 shrink-0" aria-hidden="true"></i>Owner</span></span><span class="shrink-0 text-caption tabular-nums text-muted-foreground">76 / 100 decided</span></div><div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="76" aria-valuemin="0" aria-valuemax="100" aria-label="Deniz: 76 of 100 decided"><div class="h-full w-[76%] rounded-full bg-primary"></div></div></div></li><li class="flex items-start gap-3 px-4 py-3"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="text-body">Mert Aydın</p><div class="mt-0.5 flex flex-wrap items-center justify-between gap-x-3"><span class="flex min-w-0 flex-wrap items-center gap-x-3 text-body-sm text-muted-foreground"><span class="inline-flex items-center gap-1 whitespace-nowrap"><i class="i-lucide-gavel size-4 shrink-0" aria-hidden="true"></i>Decision Maker</span></span><span class="shrink-0 text-caption tabular-nums text-muted-foreground">85 / 100 decided</span></div><div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" aria-label="Mert: 85 of 100 decided"><div class="h-full w-[85%] rounded-full bg-primary"></div></div></div></li></ul></div></div>
+  </div>
+  <div class="shrink-0 space-y-2 border-t bg-background px-gutter pb-4 pt-3"><a href="S08-home.html#S08-default" class="flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-secondary text-secondary-foreground">Back to my lists</a></div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S33-no-round" id="S33-no-round">
+  <figcaption class="frame-label">S33 · No round in progress · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Join a list</h1></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-4 pt-2">
+    <div class="flex items-center gap-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full "><p class="text-body-lg">Deniz Yılmaz invited you</p></div>
+    <h2 class="mt-3 text-title-1">Wedding guests</h2>
+    <p class="mt-1 text-body text-muted-foreground">100 items, no round in progress</p>
+    <div class="mt-5 space-y-5"><div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground" role="note"><i class="i-lucide-info size-5 shrink-0" aria-hidden="true"></i><p class="text-body-sm">Round 1 is complete. You can see the results now. When Deniz starts the next round, you'll sort it with everyone.</p></div><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Your role</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-user-round size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Collaborator</span><span class="mt-0.5 block text-body-sm text-muted-foreground">You sort every item and add notes. You can invite others as Collaborator.</span></span></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-list-checks size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">All 100 items of Round 1</span><span class="mt-0.5 block text-body-sm text-muted-foreground">Everyone sorts every item of the round.</span></span></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-eye-off size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Others' decisions are hidden</span><span class="mt-0.5 block text-body-sm text-muted-foreground">While you sort, so nobody sways you.</span></span></li></ul></div><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Members (2)</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex items-start gap-3 px-4 py-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="text-body">Deniz Yılmaz</p><div class="mt-0.5 flex flex-wrap items-center justify-between gap-x-3"><span class="flex min-w-0 flex-wrap items-center gap-x-3 text-body-sm text-muted-foreground"><span class="inline-flex items-center gap-1 whitespace-nowrap"><i class="i-lucide-crown size-4 shrink-0" aria-hidden="true"></i>Owner</span></span><span class="shrink-0 text-caption tabular-nums text-muted-foreground">76 / 100 decided</span></div><div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="76" aria-valuemin="0" aria-valuemax="100" aria-label="Deniz: 76 of 100 decided"><div class="h-full w-[76%] rounded-full bg-primary"></div></div></div></li><li class="flex items-start gap-3 px-4 py-3"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="text-body">Mert Aydın</p><div class="mt-0.5 flex flex-wrap items-center justify-between gap-x-3"><span class="flex min-w-0 flex-wrap items-center gap-x-3 text-body-sm text-muted-foreground"><span class="inline-flex items-center gap-1 whitespace-nowrap"><i class="i-lucide-gavel size-4 shrink-0" aria-hidden="true"></i>Decision Maker</span></span><span class="shrink-0 text-caption tabular-nums text-muted-foreground">85 / 100 decided</span></div><div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" aria-label="Mert: 85 of 100 decided"><div class="h-full w-[85%] rounded-full bg-primary"></div></div></div></li></ul></div></div>
+  </div>
+  <div class="shrink-0 space-y-2 border-t bg-background px-gutter pb-4 pt-3"><a href="S09-list-overview.html#S09-shared" class="flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground">Join list</a><p class="text-center text-body-sm text-muted-foreground">Joining as Selin Yılmaz.</p></div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Accessibility and iOS</h2>
+<p>Large text: the role rows grow, progress counts move below their bars, the action stays pinned. iOS: full-screen modal with Cancel in the navigation bar.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S33-large-text" id="S33-large-text">
+  <figcaption class="frame-label">S33 · Large text (200%) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-2">Join a list</h1></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-4 pt-2">
+    <div class="flex items-center gap-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full "><p class="text-title-3 font-normal">Deniz Yılmaz invited you</p></div>
+    <h2 class="mt-3 text-display">Wedding guests</h2>
+    <p class="mt-1 text-title-3 font-normal text-muted-foreground">100 items, Round 1 in progress</p>
+    <div class="mt-5 space-y-5"><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Your role</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-user-round size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-title-3 font-normal">Collaborator</span><span class="mt-0.5 block text-body-lg text-muted-foreground">You sort every item and add notes. You can invite others as Collaborator.</span></span></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-list-checks size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-title-3 font-normal">All 100 items of Round 1</span><span class="mt-0.5 block text-body-lg text-muted-foreground">Everyone sorts every item of the round.</span></span></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-eye-off size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-title-3 font-normal">Others' decisions are hidden</span><span class="mt-0.5 block text-body-lg text-muted-foreground">While you sort, so nobody sways you.</span></span></li></ul></div><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Members (2)</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex items-start gap-3 px-4 py-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="text-title-3 font-normal">Deniz Yılmaz</p><span class="flex min-w-0 flex-wrap items-center gap-x-3 text-body-lg text-muted-foreground"><span class="inline-flex items-center gap-1 whitespace-nowrap"><i class="i-lucide-crown size-4 shrink-0" aria-hidden="true"></i>Owner</span></span><div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="76" aria-valuemin="0" aria-valuemax="100" aria-label="Deniz: 76 of 100 decided"><div class="h-full w-[76%] rounded-full bg-primary"></div></div><p class="mt-1 text-body-lg tabular-nums text-muted-foreground">76 / 100 decided</p></div></li><li class="flex items-start gap-3 px-4 py-3"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="text-title-3 font-normal">Mert Aydın</p><span class="flex min-w-0 flex-wrap items-center gap-x-3 text-body-lg text-muted-foreground"><span class="inline-flex items-center gap-1 whitespace-nowrap"><i class="i-lucide-gavel size-4 shrink-0" aria-hidden="true"></i>Decision Maker</span></span><div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" aria-label="Mert: 85 of 100 decided"><div class="h-full w-[85%] rounded-full bg-primary"></div></div><p class="mt-1 text-body-lg tabular-nums text-muted-foreground">85 / 100 decided</p></div></li></ul></div></div>
+  </div>
+  <div class="shrink-0 space-y-2 border-t bg-background px-gutter pb-4 pt-3"><a href="S25-sorting.html#S25-shared" class="flex min-h-14 w-full items-center justify-center rounded-control bg-primary px-5 py-2 text-center text-title-3 text-primary-foreground">Join and start sorting</a></div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S33-ios" id="S33-ios">
+  <figcaption class="frame-label">S33 · iOS · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="grid h-11 shrink-0 grid-cols-[1fr_auto_1fr] items-center px-2">
+    <a href="S08-home.html#S08-default" class="inline-flex h-12 items-center justify-self-start px-2 text-body text-primary">Cancel</a>
+    <h1 class="text-body font-semibold">Join a list</h1>
+    <div class="flex justify-end"></div>
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-4 pt-2">
+    <div class="flex items-center gap-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full "><p class="text-body-lg">Deniz Yılmaz invited you</p></div>
+    <h2 class="mt-3 text-title-1">Wedding guests</h2>
+    <p class="mt-1 text-body text-muted-foreground">100 items, Round 1 in progress</p>
+    <div class="mt-5 space-y-5"><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Your role</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-user-round size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Collaborator</span><span class="mt-0.5 block text-body-sm text-muted-foreground">You sort every item and add notes. You can invite others as Collaborator.</span></span></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-list-checks size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">All 100 items of Round 1</span><span class="mt-0.5 block text-body-sm text-muted-foreground">Everyone sorts every item of the round.</span></span></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-eye-off size-5 shrink-0 text-muted-foreground mt-0.5" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Others' decisions are hidden</span><span class="mt-0.5 block text-body-sm text-muted-foreground">While you sort, so nobody sways you.</span></span></li></ul></div><div><h2 class="px-1 pb-2 text-label text-muted-foreground">Members (2)</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border"><li class="flex items-start gap-3 px-4 py-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="text-body">Deniz Yılmaz</p><div class="mt-0.5 flex flex-wrap items-center justify-between gap-x-3"><span class="flex min-w-0 flex-wrap items-center gap-x-3 text-body-sm text-muted-foreground"><span class="inline-flex items-center gap-1 whitespace-nowrap"><i class="i-lucide-crown size-4 shrink-0" aria-hidden="true"></i>Owner</span></span><span class="shrink-0 text-caption tabular-nums text-muted-foreground">76 / 100 decided</span></div><div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="76" aria-valuemin="0" aria-valuemax="100" aria-label="Deniz: 76 of 100 decided"><div class="h-full w-[76%] rounded-full bg-primary"></div></div></div></li><li class="flex items-start gap-3 px-4 py-3"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="text-body">Mert Aydın</p><div class="mt-0.5 flex flex-wrap items-center justify-between gap-x-3"><span class="flex min-w-0 flex-wrap items-center gap-x-3 text-body-sm text-muted-foreground"><span class="inline-flex items-center gap-1 whitespace-nowrap"><i class="i-lucide-gavel size-4 shrink-0" aria-hidden="true"></i>Decision Maker</span></span><span class="shrink-0 text-caption tabular-nums text-muted-foreground">85 / 100 decided</span></div><div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" aria-label="Mert: 85 of 100 decided"><div class="h-full w-[85%] rounded-full bg-primary"></div></div></div></li></ul></div></div>
+  </div>
+  <div class="shrink-0 space-y-2 border-t bg-background px-gutter pb-4 pt-3"><a href="S25-sorting.html#S25-shared" class="flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground">Join and start sorting</a><p class="flex flex-wrap items-center justify-center gap-x-1 text-center text-body-sm text-muted-foreground">Joining as Selin Yılmaz.</p></div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+</main>
+</body>
+</html>

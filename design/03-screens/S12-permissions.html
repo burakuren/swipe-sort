@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S12 Pre-permission explainers and recovery</title>
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body class="mock-page">
+<header class="mock-doc">
+  <h1>S12 Pre-permission explainers and recovery</h1>
+  <p>Shown before every system permission prompt (contacts, photos, notifications) and when access was denied. One layout for every permission: icon, title, what happens to the data, then the system prompt. Spec: <a href="S12-permissions.md">S12-permissions.md</a>. Shared import chrome (modal app bar, ImportStepper, bottom actions) matches S16–S21.</p>
+</header>
+<h2 class="mock-section">Contacts</h2>
+<p>Before the Android or iOS contacts prompt. “Continue” triggers the system prompt; when access is granted the import continues at S13. Denied access gets a recovery state with a working alternative.</p>
+<main class="mock-canvas">
+
+<figure class="frame" data-frame="S12-default" id="S12-default">
+  <figcaption class="frame-label">S12 · Contacts explainer (same as S12-contacts) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-3">
+    <span class="flex size-14 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-contact size-7" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-title-2">Allow access to your contacts</h2>
+    <p class="mt-2 max-w-prose text-body-lg text-muted-foreground">SwipeSort reads your contacts so you can pick the ones to sort. Here’s how they’re handled.</p>
+    <ul class="mt-7 space-y-5"><li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground"><i class="i-lucide-list-checks size-6" aria-hidden="true"></i></span><div class="min-w-0"><p class="text-label-lg">Only the contacts you pick</p><p class="mt-0.5 text-body-sm text-muted-foreground">You choose on the next screen. Nothing else is imported.</p></div></li><li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground"><i class="i-lucide-smartphone size-6" aria-hidden="true"></i></span><div class="min-w-0"><p class="text-label-lg">Kept on this phone</p><p class="mt-0.5 text-body-sm text-muted-foreground">Imported contacts stay on this phone until you share or back up the list.</p></div></li><li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground"><i class="i-lucide-shield-check size-6" aria-hidden="true"></i></span><div class="min-w-0"><p class="text-label-lg">Your address book isn’t changed</p><p class="mt-0.5 text-body-sm text-muted-foreground">SwipeSort never edits, adds or deletes contacts. Decisions only change SwipeSort’s copy.</p></div></li></ul>
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="mb-3 text-body-sm text-muted-foreground">Next, Android asks you to allow access.</p><a href="S13-contacts-import.html#S13-select-default" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="continue">Continue</a><div class="mt-1"><a href="S11-source-picker.html#S11-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="not-now">Not now</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S12-contacts" id="S12-contacts">
+  <figcaption class="frame-label">S12 · Contacts explainer (Android) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-3">
+    <span class="flex size-14 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-contact size-7" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-title-2">Allow access to your contacts</h2>
+    <p class="mt-2 max-w-prose text-body-lg text-muted-foreground">SwipeSort reads your contacts so you can pick the ones to sort. Here’s how they’re handled.</p>
+    <ul class="mt-7 space-y-5"><li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground"><i class="i-lucide-list-checks size-6" aria-hidden="true"></i></span><div class="min-w-0"><p class="text-label-lg">Only the contacts you pick</p><p class="mt-0.5 text-body-sm text-muted-foreground">You choose on the next screen. Nothing else is imported.</p></div></li><li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground"><i class="i-lucide-smartphone size-6" aria-hidden="true"></i></span><div class="min-w-0"><p class="text-label-lg">Kept on this phone</p><p class="mt-0.5 text-body-sm text-muted-foreground">Imported contacts stay on this phone until you share or back up the list.</p></div></li><li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground"><i class="i-lucide-shield-check size-6" aria-hidden="true"></i></span><div class="min-w-0"><p class="text-label-lg">Your address book isn’t changed</p><p class="mt-0.5 text-body-sm text-muted-foreground">SwipeSort never edits, adds or deletes contacts. Decisions only change SwipeSort’s copy.</p></div></li></ul>
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="mb-3 text-body-sm text-muted-foreground">Next, Android asks you to allow access.</p><a href="S13-contacts-import.html#S13-select-default" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="continue">Continue</a><div class="mt-1"><a href="S11-source-picker.html#S11-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="not-now">Not now</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S12-contacts-denied-once" id="S12-contacts-denied-once">
+  <figcaption class="frame-label">S12 · Contacts denied once (Android can ask again) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-3">
+    <span class="flex size-14 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground"><i class="i-lucide-contact size-7" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-title-2">SwipeSort can’t see your contacts</h2>
+    <p class="mt-2 max-w-prose text-body-lg text-muted-foreground">You chose Don’t allow. To pick contacts, allow access. Or use a CSV file: most contacts apps can export one.</p>
+    <div class="mt-7"><p class="flex gap-2 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Access only lets SwipeSort read contacts. It never changes your address book.</span></p></div>
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <button class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="allow-again">Allow access</button><div class="mt-1"><a href="S14-file-import.html#S14-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="import-csv-instead">Import a CSV instead</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S12-contacts-denied" id="S12-contacts-denied">
+  <figcaption class="frame-label">S12 · Contacts denied, don’t ask again: open settings (Android) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-3">
+    <span class="flex size-14 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground"><i class="i-lucide-contact size-7" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-title-2">Contacts access is off</h2>
+    <p class="mt-2 max-w-prose text-body-lg text-muted-foreground">Android won’t ask again, so access has to be turned on in Settings. When you come back, your contacts are ready to choose.</p>
+    <ol class="mt-6 space-y-3" aria-label="Steps"><li class="flex items-start gap-3"><span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-secondary text-label tabular-nums text-secondary-foreground">1</span><span class="pt-0.5 text-body">Tap Open settings</span></li><li class="flex items-start gap-3"><span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-secondary text-label tabular-nums text-secondary-foreground">2</span><span class="pt-0.5 text-body">Tap Permissions, then Contacts</span></li><li class="flex items-start gap-3"><span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-secondary text-label tabular-nums text-secondary-foreground">3</span><span class="pt-0.5 text-body">Choose Allow</span></li></ol>
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <button class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="open-settings">Open settings</button><div class="mt-1"><a href="S14-file-import.html#S14-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="import-csv-instead">Import a CSV instead</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+</main>
+<h2 class="mock-section">Photos</h2>
+<p>Before gallery access. Photos skip field mapping, so the stepper has 4 steps. Limited access (iOS, Android 14+) continues with the allowed photos.</p>
+<main class="mock-canvas">
+
+<figure class="frame" data-frame="S12-photos" id="S12-photos">
+  <figcaption class="frame-label">S12 · Photos explainer (Android) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 4</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="4" aria-label="Step 2 of 4, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-3">
+    <span class="flex size-14 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-images size-7" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-title-2">Allow access to your photos</h2>
+    <p class="mt-2 max-w-prose text-body-lg text-muted-foreground">SwipeSort shows your gallery so you can pick photos to sort. Each photo becomes one card.</p>
+    <ul class="mt-7 space-y-5"><li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground"><i class="i-lucide-images size-6" aria-hidden="true"></i></span><div class="min-w-0"><p class="text-label-lg">Only the photos you pick</p><p class="mt-0.5 text-body-sm text-muted-foreground">Choose photos or whole albums on the next screen.</p></div></li><li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground"><i class="i-lucide-smartphone size-6" aria-hidden="true"></i></span><div class="min-w-0"><p class="text-label-lg">Kept on this phone</p><p class="mt-0.5 text-body-sm text-muted-foreground">Photos stay on this phone until you share or back up the list.</p></div></li><li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground"><i class="i-lucide-shield-check size-6" aria-hidden="true"></i></span><div class="min-w-0"><p class="text-label-lg">Nothing is deleted</p><p class="mt-0.5 text-body-sm text-muted-foreground">Rejecting a photo doesn’t delete it. Your gallery isn’t changed.</p></div></li></ul>
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="mb-3 text-body-sm text-muted-foreground">Next, Android asks you to allow access to all photos or only some.</p><a href="S18-photos-import.html#S18-default" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="continue">Continue</a><div class="mt-1"><a href="S11-source-picker.html#S11-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="not-now">Not now</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S12-photos-denied" id="S12-photos-denied">
+  <figcaption class="frame-label">S12 · Photos denied: open settings or use the system picker · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 4</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="4" aria-label="Step 2 of 4, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-3">
+    <span class="flex size-14 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground"><i class="i-lucide-images size-7" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-title-2">Photo access is off</h2>
+    <p class="mt-2 max-w-prose text-body-lg text-muted-foreground">To browse your gallery in SwipeSort, turn access on in Settings. Or pick photos with Android’s photo picker, which needs no access.</p>
+    <ol class="mt-6 space-y-3" aria-label="Steps"><li class="flex items-start gap-3"><span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-secondary text-label tabular-nums text-secondary-foreground">1</span><span class="pt-0.5 text-body">Tap Open settings</span></li><li class="flex items-start gap-3"><span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-secondary text-label tabular-nums text-secondary-foreground">2</span><span class="pt-0.5 text-body">Tap Permissions, then Photos and videos</span></li><li class="flex items-start gap-3"><span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-secondary text-label tabular-nums text-secondary-foreground">3</span><span class="pt-0.5 text-body">Choose Allow all</span></li></ol>
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <button class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="open-settings">Open settings</button><div class="mt-1"><a href="S18-photos-import.html#S18-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="system-picker">Pick photos with the photo picker</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S12-photos-limited-ios" id="S12-photos-limited-ios">
+  <figcaption class="frame-label">S12 · iOS: limited photo access · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios bg-muted">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <div class="h-2.5 shrink-0" aria-hidden="true"></div>
+  <div class="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-sheet bg-background">
+  <header class="grid h-11 shrink-0 grid-cols-[1fr_auto_1fr] items-center px-2">
+    <a href="S11-source-picker.html#S11-ios" class="inline-flex h-12 items-center gap-0.5 justify-self-start pr-2 text-body text-primary" aria-label="Back to Choose source"><i class="i-lucide-chevron-left size-6" aria-hidden="true"></i>Back</a>
+    <h1 class="text-body font-semibold">Import</h1>
+    <div class="flex justify-end"><a href="S08-home.html#S08-default" class="ml-auto flex size-12 items-center justify-center rounded-full text-primary" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a></div>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 4</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="4" aria-label="Step 2 of 4, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-3">
+    <span class="flex size-14 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-images size-7" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-title-2">SwipeSort can see 24 photos</h2>
+    <p class="mt-2 max-w-prose text-body-lg text-muted-foreground">You allowed access to selected photos only. Sort these, select more, or allow all photos in Settings.</p>
+    <div class="mt-6 grid grid-cols-4 gap-1.5" role="img" aria-label="24 photos allowed, 7 shown"><img src="../02-data/images/photos/ph01.svg" alt="" class="aspect-square w-full rounded-xs object-cover"><img src="../02-data/images/photos/ph02.svg" alt="" class="aspect-square w-full rounded-xs object-cover"><img src="../02-data/images/photos/ph03.svg" alt="" class="aspect-square w-full rounded-xs object-cover"><img src="../02-data/images/photos/ph04.svg" alt="" class="aspect-square w-full rounded-xs object-cover"><img src="../02-data/images/photos/ph05.svg" alt="" class="aspect-square w-full rounded-xs object-cover"><img src="../02-data/images/photos/ph06.svg" alt="" class="aspect-square w-full rounded-xs object-cover"><img src="../02-data/images/photos/ph07.svg" alt="" class="aspect-square w-full rounded-xs object-cover"><span class="flex aspect-square w-full items-center justify-center rounded-xs bg-muted text-label tabular-nums text-muted-foreground">+17</span></div><a href="#S12-photos-limited-ios" class="mt-4 inline-flex h-12 items-center text-label-lg text-primary underline underline-offset-4" data-action="open-settings">Allow all photos in Settings</a>
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="S18-photos-import.html#S18-default" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="continue">Continue with 24 photos</a><div class="mt-1"><button class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="select-more">Select more photos</button></div>
+  </div>
+  </div>
+  </div>
+  <div class="sysbar-nav bg-background" aria-hidden="true"></div>
+</div>
+</figure>
+</main>
+<h2 class="mock-section">Notifications</h2>
+<p>Push pre-permission for collaboration events (Android and iOS only). Shown once, right after a list is first shared or joined, and from Activity or Settings while permission is undecided. Not part of the import stepper.</p>
+<main class="mock-canvas">
+
+<figure class="frame" data-frame="S12-notifications" id="S12-notifications">
+  <figcaption class="frame-label">S12 · Notifications explainer (Android) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1"><a href="S09-list-overview.html#S09-shared" class="flex size-12 items-center justify-center rounded-full" aria-label="Not now" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a></header><div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-3">
+    <span class="flex size-14 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-bell size-7" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-title-2">Get notified about shared lists</h2>
+    <p class="mt-2 max-w-prose text-body-lg text-muted-foreground">Know when it’s your turn or when a decision needs you, without opening the app.</p>
+    <p class="mt-6 px-1 pb-2 text-label text-muted-foreground">You’ll hear when</p><ul class="divide-y overflow-hidden rounded-group bg-card"><li class="flex min-h-12 items-center gap-4 px-4 py-2"><i class="i-lucide-user-plus size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="text-body">Someone joins a list</span></li><li class="flex min-h-12 items-center gap-4 px-4 py-2"><i class="i-lucide-flag size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="text-body">A member finishes sorting</span></li><li class="flex min-h-12 items-center gap-4 px-4 py-2"><i class="i-lucide-git-compare-arrows size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="text-body">New conflicts need a decision</span></li><li class="flex min-h-12 items-center gap-4 px-4 py-2"><i class="i-lucide-gavel size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="text-body">Conflicts are resolved</span></li><li class="flex min-h-12 items-center gap-4 px-4 py-2"><i class="i-lucide-play size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="text-body">A new round starts</span></li><li class="flex min-h-12 items-center gap-4 px-4 py-2"><i class="i-lucide-user-cog size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="text-body">Your role changes</span></li></ul>
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="mb-3 text-body-sm text-muted-foreground">Choose which ones in Settings, under Notifications.</p><button class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="turn-on">Turn on notifications</button><div class="mt-1"><a href="S09-list-overview.html#S09-shared" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="not-now">Not now</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S12-notifications-denied" id="S12-notifications-denied">
+  <figcaption class="frame-label">S12 · Notifications denied: open settings · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1"><a href="S09-list-overview.html#S09-shared" class="flex size-12 items-center justify-center rounded-full" aria-label="Not now" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a></header><div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-3">
+    <span class="flex size-14 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground"><i class="i-lucide-bell-off size-7" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-title-2">Notifications are off</h2>
+    <p class="mt-2 max-w-prose text-body-lg text-muted-foreground">Android won’t ask again. To get notified, turn them on in Settings. Activity always shows every update in the app.</p>
+    <ol class="mt-6 space-y-3" aria-label="Steps"><li class="flex items-start gap-3"><span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-secondary text-label tabular-nums text-secondary-foreground">1</span><span class="pt-0.5 text-body">Tap Open settings</span></li><li class="flex items-start gap-3"><span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-secondary text-label tabular-nums text-secondary-foreground">2</span><span class="pt-0.5 text-body">Tap Notifications</span></li><li class="flex items-start gap-3"><span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-secondary text-label tabular-nums text-secondary-foreground">3</span><span class="pt-0.5 text-body">Turn on All SwipeSort notifications</span></li></ol>
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <button class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="open-settings">Open settings</button><div class="mt-1"><a href="S09-list-overview.html#S09-shared" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="not-now">Not now</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S12-notifications-web" id="S12-notifications-web">
+  <figcaption class="frame-label">S12 · Web: push unavailable, in-app Activity instead · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center px-gutter"><h1 class="text-title-1">Activity</h1></header><ul class="mt-2 divide-y"><li class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground"><i class="i-lucide-activity size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Selin joined the list</span><span class="block text-body-sm text-muted-foreground">Wedding guests</span></span><span class="text-caption text-muted-foreground">Oct 2</span></li><li class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground"><i class="i-lucide-activity size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">15 new conflicts</span><span class="block text-body-sm text-muted-foreground">Wedding guests</span></span><span class="text-caption text-muted-foreground">Oct 3</span></li><li class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground"><i class="i-lucide-activity size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Mert resolved 3 conflicts</span><span class="block text-body-sm text-muted-foreground">Wedding guests</span></span><span class="text-caption text-muted-foreground">Yesterday</span></li></ul><div class="absolute inset-0 z-10 bg-scrim/50"></div>
+  <div class="absolute inset-x-0 bottom-0 z-20 rounded-t-sheet bg-popover px-gutter pb-5 pt-2 shadow-sheet" role="dialog" aria-modal="true" aria-labelledby="s12nw">
+    <div class="flex justify-center py-1.5"><span class="h-1 w-8 rounded-full bg-muted-foreground/40"></span></div>
+    <div class="flex items-center justify-between gap-3 pt-2"><h2 id="s12nw" class="text-title-3">Push notifications need the app</h2><button class="-mr-3 flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close"><i class="i-lucide-x size-5" aria-hidden="true"></i></button></div>
+    <div class="mt-2 flex gap-3"><i class="i-lucide-monitor-smartphone size-5 mt-0.5 shrink-0 text-muted-foreground" aria-hidden="true"></i><p class="text-body text-muted-foreground">In the browser, updates appear in Activity while SwipeSort is open. To get notified on your phone, get SwipeSort for Android or iOS.</p></div>
+    <div class="mt-5 space-y-1"><a href="https://swipesort.app/get" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="get-app">Get the app</a><a href="#S12-notifications-web" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="not-now">Not now</a></div>
+  </div>
+  </div>
+</div>
+</figure>
+</main>
+<h2 class="mock-section">iOS</h2>
+<p>iOS asks only once per permission: after a denial the only way back is Settings, so iOS recovery never offers “Allow access”. Contacts (iOS 18) and photos can be limited to a selection.</p>
+<main class="mock-canvas">
+
+<figure class="frame" data-frame="S12-contacts-ios" id="S12-contacts-ios">
+  <figcaption class="frame-label">S12 · iOS: contacts explainer · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios bg-muted">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <div class="h-2.5 shrink-0" aria-hidden="true"></div>
+  <div class="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-sheet bg-background">
+  <header class="grid h-11 shrink-0 grid-cols-[1fr_auto_1fr] items-center px-2">
+    <a href="S11-source-picker.html#S11-ios" class="inline-flex h-12 items-center gap-0.5 justify-self-start pr-2 text-body text-primary" aria-label="Back to Choose source"><i class="i-lucide-chevron-left size-6" aria-hidden="true"></i>Back</a>
+    <h1 class="text-body font-semibold">Import</h1>
+    <div class="flex justify-end"><a href="S08-home.html#S08-default" class="ml-auto flex size-12 items-center justify-center rounded-full text-primary" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a></div>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-3">
+    <span class="flex size-14 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-contact size-7" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-title-2">Allow access to your contacts</h2>
+    <p class="mt-2 max-w-prose text-body-lg text-muted-foreground">SwipeSort reads your contacts so you can pick the ones to sort. Here’s how they’re handled.</p>
+    <ul class="mt-7 space-y-5"><li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground"><i class="i-lucide-list-checks size-6" aria-hidden="true"></i></span><div class="min-w-0"><p class="text-label-lg">Only the contacts you pick</p><p class="mt-0.5 text-body-sm text-muted-foreground">You choose on the next screen. Nothing else is imported.</p></div></li><li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground"><i class="i-lucide-smartphone size-6" aria-hidden="true"></i></span><div class="min-w-0"><p class="text-label-lg">Kept on this phone</p><p class="mt-0.5 text-body-sm text-muted-foreground">Imported contacts stay on this phone until you share or back up the list.</p></div></li><li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground"><i class="i-lucide-shield-check size-6" aria-hidden="true"></i></span><div class="min-w-0"><p class="text-label-lg">Your address book isn’t changed</p><p class="mt-0.5 text-body-sm text-muted-foreground">SwipeSort never edits, adds or deletes contacts. Decisions only change SwipeSort’s copy.</p></div></li></ul>
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="mb-3 text-body-sm text-muted-foreground">Next, iOS asks once. Allow full access, or choose contacts to share.</p><a href="S13-contacts-import.html#S13-select-default" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="continue">Continue</a><div class="mt-1"><a href="S11-source-picker.html#S11-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="not-now">Not now</a></div>
+  </div>
+  </div>
+  </div>
+  <div class="sysbar-nav bg-background" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S12-contacts-denied-ios" id="S12-contacts-denied-ios">
+  <figcaption class="frame-label">S12 · iOS: contacts denied · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios bg-muted">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <div class="h-2.5 shrink-0" aria-hidden="true"></div>
+  <div class="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-sheet bg-background">
+  <header class="grid h-11 shrink-0 grid-cols-[1fr_auto_1fr] items-center px-2">
+    <a href="S11-source-picker.html#S11-ios" class="inline-flex h-12 items-center gap-0.5 justify-self-start pr-2 text-body text-primary" aria-label="Back to Choose source"><i class="i-lucide-chevron-left size-6" aria-hidden="true"></i>Back</a>
+    <h1 class="text-body font-semibold">Import</h1>
+    <div class="flex justify-end"><a href="S08-home.html#S08-default" class="ml-auto flex size-12 items-center justify-center rounded-full text-primary" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a></div>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-3">
+    <span class="flex size-14 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground"><i class="i-lucide-contact size-7" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-title-2">Contacts access is off</h2>
+    <p class="mt-2 max-w-prose text-body-lg text-muted-foreground">iOS asks only once, so access has to be turned on in Settings. When you come back, your contacts are ready to choose.</p>
+    <ol class="mt-6 space-y-3" aria-label="Steps"><li class="flex items-start gap-3"><span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-secondary text-label tabular-nums text-secondary-foreground">1</span><span class="pt-0.5 text-body">Tap Open Settings</span></li><li class="flex items-start gap-3"><span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-secondary text-label tabular-nums text-secondary-foreground">2</span><span class="pt-0.5 text-body">Tap Contacts</span></li><li class="flex items-start gap-3"><span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-secondary text-label tabular-nums text-secondary-foreground">3</span><span class="pt-0.5 text-body">Choose Full Access</span></li></ol>
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <button class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="open-settings">Open Settings</button><div class="mt-1"><a href="S14-file-import.html#S14-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="import-csv-instead">Import a CSV instead</a></div>
+  </div>
+  </div>
+  </div>
+  <div class="sysbar-nav bg-background" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S12-notifications-ios" id="S12-notifications-ios">
+  <figcaption class="frame-label">S12 · iOS: notifications explainer · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios bg-muted">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <div class="h-2.5 shrink-0" aria-hidden="true"></div>
+  <div class="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-sheet bg-background">
+  <header class="grid h-14 shrink-0 grid-cols-[1fr_auto_1fr] items-center px-2"><a href="S09-list-overview.html#S09-shared" class="inline-flex h-12 items-center justify-self-start px-2 text-body text-primary" data-action="close">Not now</a><span></span><span></span></header><div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-3">
+    <span class="flex size-14 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-bell size-7" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-title-2">Get notified about shared lists</h2>
+    <p class="mt-2 max-w-prose text-body-lg text-muted-foreground">Know when it’s your turn or when a decision needs you, without opening the app.</p>
+    <p class="mt-6 px-1 pb-2 text-label text-muted-foreground">You’ll hear when</p><ul class="divide-y overflow-hidden rounded-group bg-card"><li class="flex min-h-12 items-center gap-4 px-4 py-2"><i class="i-lucide-user-plus size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="text-body">Someone joins a list</span></li><li class="flex min-h-12 items-center gap-4 px-4 py-2"><i class="i-lucide-flag size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="text-body">A member finishes sorting</span></li><li class="flex min-h-12 items-center gap-4 px-4 py-2"><i class="i-lucide-git-compare-arrows size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="text-body">New conflicts need a decision</span></li><li class="flex min-h-12 items-center gap-4 px-4 py-2"><i class="i-lucide-gavel size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="text-body">Conflicts are resolved</span></li><li class="flex min-h-12 items-center gap-4 px-4 py-2"><i class="i-lucide-play size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="text-body">A new round starts</span></li><li class="flex min-h-12 items-center gap-4 px-4 py-2"><i class="i-lucide-user-cog size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="text-body">Your role changes</span></li></ul>
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="mb-3 text-body-sm text-muted-foreground">Next, iOS asks once. Change it later in Settings.</p><button class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="turn-on">Turn on notifications</button>
+  </div>
+  </div>
+  </div>
+  <div class="sysbar-nav bg-background" aria-hidden="true"></div>
+</div>
+</figure>
+</main>
+<h2 class="mock-section">Accessibility</h2>
+<p>Large text: the explainer scrolls; the bottom actions stay pinned and wrap.</p>
+<main class="mock-canvas">
+
+<figure class="frame" data-frame="S12-contacts-large-text" id="S12-contacts-large-text">
+  <figcaption class="frame-label">S12 · Large text (200%): contacts explainer · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-7" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-2">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-title-3">Select items</p><p class="text-body-lg shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-3">
+    <span class="flex size-14 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-contact size-7" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-display">Allow access to your contacts</h2>
+    <p class="mt-2 max-w-prose text-title-2 font-normal text-muted-foreground">SwipeSort reads your contacts so you can pick the ones to sort.</p>
+    <ul class="mt-7 space-y-5"><li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground"><i class="i-lucide-list-checks size-7" aria-hidden="true"></i></span><div class="min-w-0"><p class="text-title-2">Only the contacts you pick</p><p class="mt-0.5 text-title-3 font-normal text-muted-foreground">You choose on the next screen. Nothing else is imported.</p></div></li><li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground"><i class="i-lucide-smartphone size-7" aria-hidden="true"></i></span><div class="min-w-0"><p class="text-title-2">Kept on this phone</p><p class="mt-0.5 text-title-3 font-normal text-muted-foreground">Imported contacts stay on this phone until you share or back up the list.</p></div></li><li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground"><i class="i-lucide-shield-check size-7" aria-hidden="true"></i></span><div class="min-w-0"><p class="text-title-2">Your address book isn’t changed</p><p class="mt-0.5 text-title-3 font-normal text-muted-foreground">SwipeSort never edits, adds or deletes contacts. Decisions only change SwipeSort’s copy.</p></div></li></ul>
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3"><a href="S13-contacts-import.html#S13-select-default" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground min-h-16 text-title-3" data-action="continue">Continue</a><div class="mt-1"><a href="S11-source-picker.html#S11-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg  text-title-3" data-action="not-now">Not now</a></div></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+</main>
+</body>
+</html>

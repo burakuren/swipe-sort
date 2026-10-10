@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S02 Onboarding</title>
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body class="mock-page">
+<header class="mock-doc">
+  <h1>S02 Onboarding</h1>
+  <p>First launch only (replay from Settings › Help). Three steps: welcome, a hands-on gesture demo with neutral sample cards, and a recap. No account is ever required (ACC-01). The demo uses the same drag feedback as S25 (tilt, tint, stamp, armed button); physics in motion.md §2 and live in <a href="../04-prototype/swipe-demo.html">swipe-demo.html</a>. Spec: <a href="S02-onboarding.md">S02-onboarding.md</a>.</p>
+</header>
+<h2 class="mock-section">Welcome</h2>
+<p>What SwipeSort does in one sentence, shown with real sample cards. "Get started" opens the demo; "I have an account" opens S03. Skip goes straight to an empty Lists screen (S08 first run).</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S02-welcome" id="S02-welcome">
+  <figcaption class="frame-label">S02 · Welcome · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center justify-end px-1"><a href="S08-home.html#S08-first-run" class="inline-flex h-12 shrink-0 items-center rounded-control px-4 text-label-lg text-primary" data-action="skip">Skip</a></header>
+  
+  <div class="flex min-h-0 flex-1 flex-col justify-center"><div class="relative mx-auto h-96 w-72 shrink-0" aria-hidden="true">
+      <div class="absolute left-0 top-8 h-72 w-52 origin-bottom -rotate-6 overflow-hidden rounded-hero border bg-card shadow-raised"><img src="../02-data/images/photos/ph09.svg" alt="" class="h-full w-full object-cover"></div>
+      <div class="absolute right-0 top-8 h-72 w-52 origin-bottom rotate-6 overflow-hidden rounded-hero border bg-card shadow-raised"><img src="../02-data/images/products/p05.svg" alt="" class="h-1/2 w-full object-cover"></div>
+      <div class="absolute left-1/2 top-2 flex h-80 w-56 -translate-x-1/2 rotate-3 flex-col overflow-hidden rounded-hero bg-card shadow-hero">
+        <img src="../02-data/images/products/p02.svg" alt="" class="h-[52%] w-full object-cover">
+        <div class="px-4 pt-3"><p class="line-clamp-2 text-title-3">Walnut sit-stand desk</p><p class="text-body-sm text-muted-foreground">Oakline</p><p class="mt-2 text-title-3 tabular-nums">€649</p></div>
+        <div class="absolute left-3 top-3 inline-flex h-9 -rotate-6 items-center gap-1.5 rounded-full bg-accept px-3 text-label text-accept-foreground shadow-overlay"><i class="i-lucide-check size-5" aria-hidden="true"></i>Accept</div>
+      </div>
+    </div></div>
+  <div class="shrink-0 px-gutter text-center">
+    <h1 class="text-balance text-title-1">Sort any list, one card at a time</h1>
+    <p class="mx-auto mt-2 max-w-prose text-body-lg text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, products, photos and ideas, alone or with others.</p>
+  </div>
+  <div class="shrink-0 space-y-2 px-gutter pb-4 pt-6">
+    <a href="#S02-demo" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="next">Get started</a>
+    <a href="S03-sign-in.html#S03-default" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg" data-action="sign-in">I have an account</a>
+    <p class="flex items-center justify-center gap-1.5 pt-1 text-body-sm text-muted-foreground"><i class="i-lucide-smartphone size-4" aria-hidden="true"></i>No account needed. Lists stay on this phone.</p>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Gesture demo</h2>
+<p>A deck of four neutral sample cards (products and photos from sample data). The user tries all three gestures in any order; the checklist fills as each one is used, and the instruction always names the next untried gesture. Buttons count too. Nothing is saved. After the third gesture the recap opens automatically (700 ms after the commit).</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S02-demo" id="S02-demo">
+  <figcaption class="frame-label">S02 · Demo, step 1: swipe right to accept · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S02-welcome" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back to welcome"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    <a href="S08-home.html#S08-first-run" class="inline-flex h-12 shrink-0 items-center rounded-control px-4 text-label-lg text-primary" data-action="skip">Skip</a>
+  </header>
+  <div class="shrink-0 px-gutter">
+    <h1 class="text-title-2">Swipe right to accept</h1>
+    <p class="mt-1 text-body text-muted-foreground">Try it on these sample cards. Nothing is saved.</p>
+    <div class="mt-3 flex items-center justify-between gap-3">
+      <ul class="flex flex-wrap gap-2" aria-label="Gestures tried"><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Reject<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accept<span class="sr-only">, not tried yet</span></li></ul>
+      <span class="shrink-0 text-caption tabular-nums text-muted-foreground">0 of 3</span>
+    </div>
+  </div>
+  <div class="relative mt-4 min-h-0 flex-1">
+    <div class="absolute inset-x-8 bottom-4 top-0 flex origin-top scale-95 translate-y-8 flex-col overflow-hidden rounded-hero border bg-card shadow-raised" aria-hidden="true"><img src="../02-data/images/photos/ph09.svg" alt="" class="min-h-0 w-full flex-1 object-cover">
+      <div class="px-5 pb-4 pt-3">
+        <h2 class="text-title-2">Mar 5, 2026, 17:56</h2>
+        <p class="mt-0.5 text-body text-muted-foreground">Göreme, Cappadocia</p>
+      </div></div>
+    <article class="absolute inset-x-8 bottom-4 top-0 flex origin-bottom flex-col overflow-hidden rounded-hero bg-card shadow-hero " aria-label="Walnut sit-stand desk, 140 × 70 cm, Oakline, 649 euros, rated 4.7" aria-roledescription="card" tabindex="0">
+      <img src="../02-data/images/products/p02.svg" alt="" class="h-[44%] w-full object-cover">
+      <div class="flex min-h-0 flex-1 flex-col px-5 pb-4 pt-4">
+        <h2 class="line-clamp-2 text-title-1">Walnut sit-stand desk, 140 × 70 cm</h2>
+        <p class="mt-1 text-body-lg text-muted-foreground">Oakline</p>
+        <div class="mt-3 flex items-baseline justify-between"><span class="text-title-2 tabular-nums">€649</span><span class="inline-flex items-center gap-1 text-body"><i class="i-lucide-star size-4" aria-hidden="true"></i>4.7 <span class="text-muted-foreground">(532)</span></span></div>
+        <div class="mt-auto flex gap-2 pt-3"><span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">Desk</span></div>
+      </div>
+      
+    </article>
+    <div class="pointer-events-none absolute right-3 top-[28%] z-10 flex size-14 items-center justify-center rounded-full bg-popover text-foreground shadow-overlay" aria-hidden="true"><i class="i-lucide-arrow-right size-7" aria-hidden="true"></i></div>
+  </div>
+  <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
+  <a href="#S02-demo-done" class="sr-only focus:not-sr-only" data-action="next">Finish the demo (prototype shortcut: the app moves on after the third gesture)</a>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S02-demo-drag-accept" id="S02-demo-drag-accept">
+  <figcaption class="frame-label">S02 · Dragging right, armed: tint, stamp, Accept button fills · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S02-welcome" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back to welcome"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    <a href="S08-home.html#S08-first-run" class="inline-flex h-12 shrink-0 items-center rounded-control px-4 text-label-lg text-primary" data-action="skip">Skip</a>
+  </header>
+  <div class="shrink-0 px-gutter">
+    <h1 class="text-title-2">Swipe right to accept</h1>
+    <p class="mt-1 text-body text-muted-foreground">Try it on these sample cards. Nothing is saved.</p>
+    <div class="mt-3 flex items-center justify-between gap-3">
+      <ul class="flex flex-wrap gap-2" aria-label="Gestures tried"><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Reject<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accept<span class="sr-only">, not tried yet</span></li></ul>
+      <span class="shrink-0 text-caption tabular-nums text-muted-foreground">0 of 3</span>
+    </div>
+  </div>
+  <div class="relative mt-4 min-h-0 flex-1">
+    <div class="absolute inset-x-8 bottom-4 top-0 flex origin-top scale-[.975] translate-y-4 flex-col overflow-hidden rounded-hero border bg-card shadow-raised" aria-hidden="true"><img src="../02-data/images/photos/ph09.svg" alt="" class="min-h-0 w-full flex-1 object-cover">
+      <div class="px-5 pb-4 pt-3">
+        <h2 class="text-title-2">Mar 5, 2026, 17:56</h2>
+        <p class="mt-0.5 text-body text-muted-foreground">Göreme, Cappadocia</p>
+      </div></div>
+    <article class="absolute inset-x-8 bottom-4 top-0 flex origin-bottom flex-col overflow-hidden rounded-hero bg-card shadow-hero-drag translate-x-24 rotate-6" aria-label="Walnut sit-stand desk, 140 × 70 cm, Oakline, 649 euros, rated 4.7" aria-roledescription="card" tabindex="0">
+      <img src="../02-data/images/products/p02.svg" alt="" class="h-[44%] w-full object-cover">
+      <div class="flex min-h-0 flex-1 flex-col px-5 pb-4 pt-4">
+        <h2 class="line-clamp-2 text-title-1">Walnut sit-stand desk, 140 × 70 cm</h2>
+        <p class="mt-1 text-body-lg text-muted-foreground">Oakline</p>
+        <div class="mt-3 flex items-baseline justify-between"><span class="text-title-2 tabular-nums">€649</span><span class="inline-flex items-center gap-1 text-body"><i class="i-lucide-star size-4" aria-hidden="true"></i>4.7 <span class="text-muted-foreground">(532)</span></span></div>
+        <div class="mt-auto flex gap-2 pt-3"><span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">Desk</span></div>
+      </div>
+      <div class="pointer-events-none absolute inset-0 bg-accept opacity-25"></div>
+      <div class="pointer-events-none absolute left-5 top-5 -rotate-6 inline-flex h-11 items-center gap-2 rounded-full bg-accept px-4 text-label-lg text-accept-foreground shadow-overlay"><i class="i-lucide-check size-6" aria-hidden="true"></i>Accept</div>
+    </article>
+    
+  </div>
+  <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept text-accept-foreground ring-4 ring-accept/25"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
+  
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S02-demo-snap-back" id="S02-demo-snap-back">
+  <figcaption class="frame-label">S02 · Released too early: card snaps back, hint · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S02-welcome" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back to welcome"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    <a href="S08-home.html#S08-first-run" class="inline-flex h-12 shrink-0 items-center rounded-control px-4 text-label-lg text-primary" data-action="skip">Skip</a>
+  </header>
+  <div class="shrink-0 px-gutter">
+    <h1 class="text-title-2">Swipe right to accept</h1>
+    <p class="mt-1 text-body text-muted-foreground">Try it on these sample cards. Nothing is saved.</p>
+    <div class="mt-3 flex items-center justify-between gap-3">
+      <ul class="flex flex-wrap gap-2" aria-label="Gestures tried"><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Reject<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accept<span class="sr-only">, not tried yet</span></li></ul>
+      <span class="shrink-0 text-caption tabular-nums text-muted-foreground">0 of 3</span>
+    </div>
+  </div>
+  <div class="relative mt-4 min-h-0 flex-1">
+    <div class="absolute inset-x-8 bottom-4 top-0 flex origin-top scale-95 translate-y-8 flex-col overflow-hidden rounded-hero border bg-card shadow-raised" aria-hidden="true"><img src="../02-data/images/photos/ph09.svg" alt="" class="min-h-0 w-full flex-1 object-cover">
+      <div class="px-5 pb-4 pt-3">
+        <h2 class="text-title-2">Mar 5, 2026, 17:56</h2>
+        <p class="mt-0.5 text-body text-muted-foreground">Göreme, Cappadocia</p>
+      </div></div>
+    <article class="absolute inset-x-8 bottom-4 top-0 flex origin-bottom flex-col overflow-hidden rounded-hero bg-card shadow-hero " aria-label="Walnut sit-stand desk, 140 × 70 cm, Oakline, 649 euros, rated 4.7" aria-roledescription="card" tabindex="0">
+      <img src="../02-data/images/products/p02.svg" alt="" class="h-[44%] w-full object-cover">
+      <div class="flex min-h-0 flex-1 flex-col px-5 pb-4 pt-4">
+        <h2 class="line-clamp-2 text-title-1">Walnut sit-stand desk, 140 × 70 cm</h2>
+        <p class="mt-1 text-body-lg text-muted-foreground">Oakline</p>
+        <div class="mt-3 flex items-baseline justify-between"><span class="text-title-2 tabular-nums">€649</span><span class="inline-flex items-center gap-1 text-body"><i class="i-lucide-star size-4" aria-hidden="true"></i>4.7 <span class="text-muted-foreground">(532)</span></span></div>
+        <div class="mt-auto flex gap-2 pt-3"><span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">Desk</span></div>
+      </div>
+      
+    </article>
+    
+  </div>
+  <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
+  
+  <div class="absolute inset-x-4 bottom-32 z-40 flex min-h-12 items-center gap-3 rounded-control bg-foreground px-4 py-3 text-background shadow-overlay" role="status"><span class="flex-1 text-body-sm">Drag a little further to decide. Let go early to cancel.</span></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S02-demo-step-2" id="S02-demo-step-2">
+  <figcaption class="frame-label">S02 · Demo, step 2: swipe left to reject · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S02-welcome" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back to welcome"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    <a href="S08-home.html#S08-first-run" class="inline-flex h-12 shrink-0 items-center rounded-control px-4 text-label-lg text-primary" data-action="skip">Skip</a>
+  </header>
+  <div class="shrink-0 px-gutter">
+    <h1 class="text-title-2">Swipe left to reject</h1>
+    <p class="mt-1 text-body text-muted-foreground">Accepted. Now send this one the other way.</p>
+    <div class="mt-3 flex items-center justify-between gap-3">
+      <ul class="flex flex-wrap gap-2" aria-label="Gestures tried"><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Reject<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full bg-accept-soft px-3 text-caption text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accept<i class="i-lucide-circle-check size-4" aria-hidden="true"></i><span class="sr-only">, tried</span></li></ul>
+      <span class="shrink-0 text-caption tabular-nums text-muted-foreground">1 of 3</span>
+    </div>
+  </div>
+  <div class="relative mt-4 min-h-0 flex-1">
+    <div class="absolute inset-x-8 bottom-4 top-0 flex origin-top scale-95 translate-y-8 flex-col overflow-hidden rounded-hero border bg-card shadow-raised" aria-hidden="true"><img src="../02-data/images/products/p05.svg" alt="" class="h-[44%] w-full object-cover">
+      <div class="flex min-h-0 flex-1 flex-col px-5 pb-4 pt-4">
+        <h2 class="line-clamp-2 text-title-1">Ceramic desk lamp with dimmer</h2>
+        <p class="mt-1 text-body-lg text-muted-foreground">Lumen & Co</p>
+        <div class="mt-3 flex items-baseline justify-between"><span class="text-title-2 tabular-nums">€79</span><span class="inline-flex items-center gap-1 text-body"><i class="i-lucide-star size-4" aria-hidden="true"></i>4.2 <span class="text-muted-foreground">(211)</span></span></div>
+        <div class="mt-auto flex gap-2 pt-3"><span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">Lamp</span></div>
+      </div></div>
+    <article class="absolute inset-x-8 bottom-4 top-0 flex origin-bottom flex-col overflow-hidden rounded-hero bg-card shadow-hero " aria-label="Photo IMG_2049.JPG, taken Mar 5, 2026 in Göreme, Cappadocia" aria-roledescription="card" tabindex="0">
+      <img src="../02-data/images/photos/ph09.svg" alt="" class="min-h-0 w-full flex-1 object-cover">
+      <div class="px-5 pb-4 pt-3">
+        <h2 class="text-title-2">Mar 5, 2026, 17:56</h2>
+        <p class="mt-0.5 text-body text-muted-foreground">Göreme, Cappadocia</p>
+      </div>
+      
+    </article>
+    <div class="pointer-events-none absolute left-3 top-[28%] z-10 flex size-14 items-center justify-center rounded-full bg-popover text-foreground shadow-overlay" aria-hidden="true"><i class="i-lucide-arrow-left size-7" aria-hidden="true"></i></div>
+  </div>
+  <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
+  
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S02-demo-drag-reject" id="S02-demo-drag-reject">
+  <figcaption class="frame-label">S02 · Dragging left, armed · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S02-welcome" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back to welcome"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    <a href="S08-home.html#S08-first-run" class="inline-flex h-12 shrink-0 items-center rounded-control px-4 text-label-lg text-primary" data-action="skip">Skip</a>
+  </header>
+  <div class="shrink-0 px-gutter">
+    <h1 class="text-title-2">Swipe left to reject</h1>
+    <p class="mt-1 text-body text-muted-foreground">Accepted. Now send this one the other way.</p>
+    <div class="mt-3 flex items-center justify-between gap-3">
+      <ul class="flex flex-wrap gap-2" aria-label="Gestures tried"><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Reject<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full bg-accept-soft px-3 text-caption text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accept<i class="i-lucide-circle-check size-4" aria-hidden="true"></i><span class="sr-only">, tried</span></li></ul>
+      <span class="shrink-0 text-caption tabular-nums text-muted-foreground">1 of 3</span>
+    </div>
+  </div>
+  <div class="relative mt-4 min-h-0 flex-1">
+    <div class="absolute inset-x-8 bottom-4 top-0 flex origin-top scale-[.975] translate-y-4 flex-col overflow-hidden rounded-hero border bg-card shadow-raised" aria-hidden="true"><img src="../02-data/images/products/p05.svg" alt="" class="h-[44%] w-full object-cover">
+      <div class="flex min-h-0 flex-1 flex-col px-5 pb-4 pt-4">
+        <h2 class="line-clamp-2 text-title-1">Ceramic desk lamp with dimmer</h2>
+        <p class="mt-1 text-body-lg text-muted-foreground">Lumen & Co</p>
+        <div class="mt-3 flex items-baseline justify-between"><span class="text-title-2 tabular-nums">€79</span><span class="inline-flex items-center gap-1 text-body"><i class="i-lucide-star size-4" aria-hidden="true"></i>4.2 <span class="text-muted-foreground">(211)</span></span></div>
+        <div class="mt-auto flex gap-2 pt-3"><span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">Lamp</span></div>
+      </div></div>
+    <article class="absolute inset-x-8 bottom-4 top-0 flex origin-bottom flex-col overflow-hidden rounded-hero bg-card shadow-hero-drag -translate-x-24 -rotate-6" aria-label="Photo IMG_2049.JPG, taken Mar 5, 2026 in Göreme, Cappadocia" aria-roledescription="card" tabindex="0">
+      <img src="../02-data/images/photos/ph09.svg" alt="" class="min-h-0 w-full flex-1 object-cover">
+      <div class="px-5 pb-4 pt-3">
+        <h2 class="text-title-2">Mar 5, 2026, 17:56</h2>
+        <p class="mt-0.5 text-body text-muted-foreground">Göreme, Cappadocia</p>
+      </div>
+      <div class="pointer-events-none absolute inset-0 bg-reject opacity-25"></div>
+      <div class="pointer-events-none absolute right-5 top-5 rotate-6 inline-flex h-11 items-center gap-2 rounded-full bg-reject px-4 text-label-lg text-reject-foreground shadow-overlay"><i class="i-lucide-x size-6" aria-hidden="true"></i>Reject</div>
+    </article>
+    
+  </div>
+  <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject text-reject-foreground ring-4 ring-reject/25"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
+  
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S02-demo-step-3" id="S02-demo-step-3">
+  <figcaption class="frame-label">S02 · Demo, step 3: swipe up for maybe · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S02-welcome" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back to welcome"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    <a href="S08-home.html#S08-first-run" class="inline-flex h-12 shrink-0 items-center rounded-control px-4 text-label-lg text-primary" data-action="skip">Skip</a>
+  </header>
+  <div class="shrink-0 px-gutter">
+    <h1 class="text-title-2">Swipe up for maybe</h1>
+    <p class="mt-1 text-body text-muted-foreground">Not sure? Maybe items wait in their own pile so you can sort them again later.</p>
+    <div class="mt-3 flex items-center justify-between gap-3">
+      <ul class="flex flex-wrap gap-2" aria-label="Gestures tried"><li class="inline-flex h-8 items-center gap-1.5 rounded-full bg-reject-soft px-3 text-caption text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Reject<i class="i-lucide-circle-check size-4" aria-hidden="true"></i><span class="sr-only">, tried</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full bg-accept-soft px-3 text-caption text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accept<i class="i-lucide-circle-check size-4" aria-hidden="true"></i><span class="sr-only">, tried</span></li></ul>
+      <span class="shrink-0 text-caption tabular-nums text-muted-foreground">2 of 3</span>
+    </div>
+  </div>
+  <div class="relative mt-4 min-h-0 flex-1">
+    <div class="absolute inset-x-8 bottom-4 top-0 flex origin-top scale-95 translate-y-8 flex-col overflow-hidden rounded-hero border bg-card shadow-raised" aria-hidden="true"><img src="../02-data/images/photos/ph05.svg" alt="" class="min-h-0 w-full flex-1 object-cover">
+      <div class="px-5 pb-4 pt-3">
+        <h2 class="text-title-2">Mar 3, 2026, 13:28</h2>
+        <p class="mt-0.5 text-body text-muted-foreground">Kadıköy, İstanbul</p>
+      </div></div>
+    <article class="absolute inset-x-8 bottom-4 top-0 flex origin-bottom flex-col overflow-hidden rounded-hero bg-card shadow-hero " aria-label="Ceramic desk lamp with dimmer, Lumen & Co, 79 euros, rated 4.2" aria-roledescription="card" tabindex="0">
+      <img src="../02-data/images/products/p05.svg" alt="" class="h-[44%] w-full object-cover">
+      <div class="flex min-h-0 flex-1 flex-col px-5 pb-4 pt-4">
+        <h2 class="line-clamp-2 text-title-1">Ceramic desk lamp with dimmer</h2>
+        <p class="mt-1 text-body-lg text-muted-foreground">Lumen & Co</p>
+        <div class="mt-3 flex items-baseline justify-between"><span class="text-title-2 tabular-nums">€79</span><span class="inline-flex items-center gap-1 text-body"><i class="i-lucide-star size-4" aria-hidden="true"></i>4.2 <span class="text-muted-foreground">(211)</span></span></div>
+        <div class="mt-auto flex gap-2 pt-3"><span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">Lamp</span></div>
+      </div>
+      
+    </article>
+    <div class="pointer-events-none absolute left-1/2 -top-1 -translate-x-1/2 z-10 flex size-14 items-center justify-center rounded-full bg-popover text-foreground shadow-overlay" aria-hidden="true"><i class="i-lucide-arrow-up size-7" aria-hidden="true"></i></div>
+  </div>
+  <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
+  
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S02-demo-drag-maybe" id="S02-demo-drag-maybe">
+  <figcaption class="frame-label">S02 · Dragging up, armed · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S02-welcome" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back to welcome"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    <a href="S08-home.html#S08-first-run" class="inline-flex h-12 shrink-0 items-center rounded-control px-4 text-label-lg text-primary" data-action="skip">Skip</a>
+  </header>
+  <div class="shrink-0 px-gutter">
+    <h1 class="text-title-2">Swipe up for maybe</h1>
+    <p class="mt-1 text-body text-muted-foreground">Not sure? Maybe items wait in their own pile so you can sort them again later.</p>
+    <div class="mt-3 flex items-center justify-between gap-3">
+      <ul class="flex flex-wrap gap-2" aria-label="Gestures tried"><li class="inline-flex h-8 items-center gap-1.5 rounded-full bg-reject-soft px-3 text-caption text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Reject<i class="i-lucide-circle-check size-4" aria-hidden="true"></i><span class="sr-only">, tried</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full bg-accept-soft px-3 text-caption text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accept<i class="i-lucide-circle-check size-4" aria-hidden="true"></i><span class="sr-only">, tried</span></li></ul>
+      <span class="shrink-0 text-caption tabular-nums text-muted-foreground">2 of 3</span>
+    </div>
+  </div>
+  <div class="relative mt-4 min-h-0 flex-1">
+    <div class="absolute inset-x-8 bottom-4 top-0 flex origin-top scale-[.975] translate-y-4 flex-col overflow-hidden rounded-hero border bg-card shadow-raised" aria-hidden="true"><img src="../02-data/images/photos/ph05.svg" alt="" class="min-h-0 w-full flex-1 object-cover">
+      <div class="px-5 pb-4 pt-3">
+        <h2 class="text-title-2">Mar 3, 2026, 13:28</h2>
+        <p class="mt-0.5 text-body text-muted-foreground">Kadıköy, İstanbul</p>
+      </div></div>
+    <article class="absolute inset-x-8 bottom-4 top-0 flex origin-bottom flex-col overflow-hidden rounded-hero bg-card shadow-hero-drag -translate-y-14" aria-label="Ceramic desk lamp with dimmer, Lumen & Co, 79 euros, rated 4.2" aria-roledescription="card" tabindex="0">
+      <img src="../02-data/images/products/p05.svg" alt="" class="h-[44%] w-full object-cover">
+      <div class="flex min-h-0 flex-1 flex-col px-5 pb-4 pt-4">
+        <h2 class="line-clamp-2 text-title-1">Ceramic desk lamp with dimmer</h2>
+        <p class="mt-1 text-body-lg text-muted-foreground">Lumen & Co</p>
+        <div class="mt-3 flex items-baseline justify-between"><span class="text-title-2 tabular-nums">€79</span><span class="inline-flex items-center gap-1 text-body"><i class="i-lucide-star size-4" aria-hidden="true"></i>4.2 <span class="text-muted-foreground">(211)</span></span></div>
+        <div class="mt-auto flex gap-2 pt-3"><span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">Lamp</span></div>
+      </div>
+      <div class="pointer-events-none absolute inset-0 bg-maybe opacity-25"></div>
+      <div class="pointer-events-none absolute bottom-12 left-1/2 -translate-x-1/2 inline-flex h-11 items-center gap-2 rounded-full bg-maybe px-4 text-label-lg text-maybe-foreground shadow-overlay"><i class="i-lucide-circle-help size-6" aria-hidden="true"></i>Maybe</div>
+    </article>
+    
+  </div>
+  <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe text-maybe-foreground ring-4 ring-maybe/25"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
+  
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S02-demo-other-order" id="S02-demo-other-order">
+  <figcaption class="frame-label">S02 · Any order works: left first, the hint moves on to the next untried gesture · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S02-welcome" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back to welcome"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    <a href="S08-home.html#S08-first-run" class="inline-flex h-12 shrink-0 items-center rounded-control px-4 text-label-lg text-primary" data-action="skip">Skip</a>
+  </header>
+  <div class="shrink-0 px-gutter">
+    <h1 class="text-title-2">Swipe right to accept</h1>
+    <p class="mt-1 text-body text-muted-foreground">Rejected. You can also accept: swipe right.</p>
+    <div class="mt-3 flex items-center justify-between gap-3">
+      <ul class="flex flex-wrap gap-2" aria-label="Gestures tried"><li class="inline-flex h-8 items-center gap-1.5 rounded-full bg-reject-soft px-3 text-caption text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Reject<i class="i-lucide-circle-check size-4" aria-hidden="true"></i><span class="sr-only">, tried</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accept<span class="sr-only">, not tried yet</span></li></ul>
+      <span class="shrink-0 text-caption tabular-nums text-muted-foreground">1 of 3</span>
+    </div>
+  </div>
+  <div class="relative mt-4 min-h-0 flex-1">
+    <div class="absolute inset-x-8 bottom-4 top-0 flex origin-top scale-95 translate-y-8 flex-col overflow-hidden rounded-hero border bg-card shadow-raised" aria-hidden="true"><img src="../02-data/images/products/p05.svg" alt="" class="h-[44%] w-full object-cover">
+      <div class="flex min-h-0 flex-1 flex-col px-5 pb-4 pt-4">
+        <h2 class="line-clamp-2 text-title-1">Ceramic desk lamp with dimmer</h2>
+        <p class="mt-1 text-body-lg text-muted-foreground">Lumen & Co</p>
+        <div class="mt-3 flex items-baseline justify-between"><span class="text-title-2 tabular-nums">€79</span><span class="inline-flex items-center gap-1 text-body"><i class="i-lucide-star size-4" aria-hidden="true"></i>4.2 <span class="text-muted-foreground">(211)</span></span></div>
+        <div class="mt-auto flex gap-2 pt-3"><span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">Lamp</span></div>
+      </div></div>
+    <article class="absolute inset-x-8 bottom-4 top-0 flex origin-bottom flex-col overflow-hidden rounded-hero bg-card shadow-hero " aria-label="Photo IMG_2049.JPG, taken Mar 5, 2026 in Göreme, Cappadocia" aria-roledescription="card" tabindex="0">
+      <img src="../02-data/images/photos/ph09.svg" alt="" class="min-h-0 w-full flex-1 object-cover">
+      <div class="px-5 pb-4 pt-3">
+        <h2 class="text-title-2">Mar 5, 2026, 17:56</h2>
+        <p class="mt-0.5 text-body text-muted-foreground">Göreme, Cappadocia</p>
+      </div>
+      
+    </article>
+    <div class="pointer-events-none absolute right-3 top-[28%] z-10 flex size-14 items-center justify-center rounded-full bg-popover text-foreground shadow-overlay" aria-hidden="true"><i class="i-lucide-arrow-right size-7" aria-hidden="true"></i></div>
+  </div>
+  <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
+  
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Recap</h2>
+<p>The three sample decisions, shown as decision badges in the Reject, Maybe, Accept order, then into the app. "Get started" opens Lists in its first-run state (S08) without asking for an account.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S02-demo-done" id="S02-demo-done">
+  <figcaption class="frame-label">S02 · Recap after the demo · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S02-demo" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back to the demo"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-4">
+    <h1 class="text-title-1">You know the three gestures</h1>
+    <p class="mt-2 text-body-lg text-muted-foreground">Right to accept, left to reject, up for maybe. Undo is always one tap away, and you can change any decision later.</p>
+    <ul class="mt-8 divide-y overflow-hidden rounded-group bg-card text-left dark:border" aria-label="Your demo decisions"><li class="flex min-h-16 items-center gap-3 px-4 py-2.5"><img src="../02-data/images/photos/ph09.svg" alt="" class="size-10 shrink-0 rounded-sm object-cover"><div class="min-w-0 flex-1"><p class="truncate text-body">Göreme, Cappadocia</p><p class="flex items-center gap-1 text-body-sm text-muted-foreground"><i class="i-lucide-arrow-left size-4" aria-hidden="true"></i>Swiped left</p></div><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full bg-reject-soft px-2.5 text-caption text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Rejected</span></li><li class="flex min-h-16 items-center gap-3 px-4 py-2.5"><img src="../02-data/images/products/p05.svg" alt="" class="size-10 shrink-0 rounded-sm object-cover"><div class="min-w-0 flex-1"><p class="truncate text-body">Ceramic desk lamp</p><p class="flex items-center gap-1 text-body-sm text-muted-foreground"><i class="i-lucide-arrow-up size-4" aria-hidden="true"></i>Swiped up</p></div><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full bg-maybe-soft px-2.5 text-caption text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe</span></li><li class="flex min-h-16 items-center gap-3 px-4 py-2.5"><img src="../02-data/images/products/p02.svg" alt="" class="size-10 shrink-0 rounded-sm object-cover"><div class="min-w-0 flex-1"><p class="truncate text-body">Walnut sit-stand desk</p><p class="flex items-center gap-1 text-body-sm text-muted-foreground"><i class="i-lucide-arrow-right size-4" aria-hidden="true"></i>Swiped right</p></div><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full bg-accept-soft px-2.5 text-caption text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted</span></li></ul>
+  </div>
+  <div class="shrink-0 space-y-2 px-gutter pb-4 pt-4">
+    <a href="S08-home.html#S08-first-run" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="get-started">Get started</a>
+    <a href="S03-sign-in.html#S03-default" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg" data-action="sign-in">I have an account</a>
+    <p class="flex items-center justify-center gap-1.5 pt-1 text-center text-body-sm text-muted-foreground"><i class="i-lucide-smartphone size-4 shrink-0" aria-hidden="true"></i>No account needed. Lists stay on this phone.</p>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Accessibility</h2>
+<p>Reduced motion: the card follows the finger without tilt and the hint arrow is static; tint and stamp still show. Large text: the welcome illustration hides and the demo uses the labeled button grid from S25. Screen readers: the card exposes Accept, Reject and Maybe actions, and the instruction says so.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S02-demo-reduced-motion" id="S02-demo-reduced-motion">
+  <figcaption class="frame-label">S02 · Reduced motion: no tilt, static hint, tint and stamp kept · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S02-welcome" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back to welcome"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    <a href="S08-home.html#S08-first-run" class="inline-flex h-12 shrink-0 items-center rounded-control px-4 text-label-lg text-primary" data-action="skip">Skip</a>
+  </header>
+  <div class="shrink-0 px-gutter">
+    <h1 class="text-title-2">Swipe right to accept</h1>
+    <p class="mt-1 text-body text-muted-foreground">Try it on these sample cards. Nothing is saved.</p>
+    <div class="mt-3 flex items-center justify-between gap-3">
+      <ul class="flex flex-wrap gap-2" aria-label="Gestures tried"><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Reject<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accept<span class="sr-only">, not tried yet</span></li></ul>
+      <span class="shrink-0 text-caption tabular-nums text-muted-foreground">0 of 3</span>
+    </div>
+  </div>
+  <div class="relative mt-4 min-h-0 flex-1">
+    <div class="absolute inset-x-8 bottom-4 top-0 flex origin-top scale-95 translate-y-8 flex-col overflow-hidden rounded-hero border bg-card shadow-raised" aria-hidden="true"><img src="../02-data/images/photos/ph09.svg" alt="" class="min-h-0 w-full flex-1 object-cover">
+      <div class="px-5 pb-4 pt-3">
+        <h2 class="text-title-2">Mar 5, 2026, 17:56</h2>
+        <p class="mt-0.5 text-body text-muted-foreground">Göreme, Cappadocia</p>
+      </div></div>
+    <article class="absolute inset-x-8 bottom-4 top-0 flex origin-bottom flex-col overflow-hidden rounded-hero bg-card shadow-hero-drag translate-x-24" aria-label="Walnut sit-stand desk, 140 × 70 cm, Oakline, 649 euros, rated 4.7" aria-roledescription="card" tabindex="0">
+      <img src="../02-data/images/products/p02.svg" alt="" class="h-[44%] w-full object-cover">
+      <div class="flex min-h-0 flex-1 flex-col px-5 pb-4 pt-4">
+        <h2 class="line-clamp-2 text-title-1">Walnut sit-stand desk, 140 × 70 cm</h2>
+        <p class="mt-1 text-body-lg text-muted-foreground">Oakline</p>
+        <div class="mt-3 flex items-baseline justify-between"><span class="text-title-2 tabular-nums">€649</span><span class="inline-flex items-center gap-1 text-body"><i class="i-lucide-star size-4" aria-hidden="true"></i>4.7 <span class="text-muted-foreground">(532)</span></span></div>
+        <div class="mt-auto flex gap-2 pt-3"><span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">Desk</span></div>
+      </div>
+      <div class="pointer-events-none absolute inset-0 bg-accept opacity-25"></div>
+      <div class="pointer-events-none absolute left-5 top-5 -rotate-6 inline-flex h-11 items-center gap-2 rounded-full bg-accept px-4 text-label-lg text-accept-foreground shadow-overlay"><i class="i-lucide-check size-6" aria-hidden="true"></i>Accept</div>
+    </article>
+    
+  </div>
+  <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept text-accept-foreground ring-4 ring-accept/25"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
+  
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S02-welcome-large-text" id="S02-welcome-large-text">
+  <figcaption class="frame-label">S02 · Large text (200%): illustration hidden, text wraps · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex min-h-16 shrink-0 items-center justify-end px-1"><a href="S08-home.html#S08-first-run" class="inline-flex h-12 shrink-0 items-center rounded-control px-4 text-title-3 text-primary" data-action="skip">Skip</a></header>
+  <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
+    <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-16  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-16  dark:block">
+    <h1 class="mt-6 text-display">Sort any list, one card at a time</h1>
+    <p class="mt-3 text-title-3 font-normal text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, products, photos and ideas, alone or with others.</p>
+  </div>
+  <div class="shrink-0 space-y-2 px-gutter pb-4 pt-4">
+    <a href="#S02-demo" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground min-h-16 h-auto py-3 text-title-3">Get started</a>
+    <a href="S03-sign-in.html#S03-default" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg min-h-16 h-auto py-3 text-title-3">I have an account</a>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S02-demo-large-text" id="S02-demo-large-text">
+  <figcaption class="frame-label">S02 · Large text (200%): image hidden, labeled button grid · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S02-welcome" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back to welcome"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    <a href="S08-home.html#S08-first-run" class="inline-flex h-12 shrink-0 items-center rounded-control px-4 text-label-lg text-primary" data-action="skip">Skip</a>
+  </header>
+  <div class="shrink-0 px-gutter">
+    <h1 class="text-title-1">Swipe right to accept</h1>
+    <p class="mt-1 text-title-3 font-normal text-muted-foreground">Or use the buttons below.</p>
+    <p class="mt-2 text-body-lg tabular-nums text-muted-foreground">0 of 3 gestures tried</p>
+  </div>
+  <div class="relative mt-4 min-h-0 flex-1">
+    <div class="absolute inset-x-8 bottom-4 top-0 flex origin-top scale-95 translate-y-8 flex-col overflow-hidden rounded-hero border bg-card shadow-raised" aria-hidden="true"><img src="../02-data/images/photos/ph09.svg" alt="" class="min-h-0 w-full flex-1 object-cover">
+      <div class="px-5 pb-4 pt-3">
+        <h2 class="text-title-2">Mar 5, 2026, 17:56</h2>
+        <p class="mt-0.5 text-body text-muted-foreground">Göreme, Cappadocia</p>
+      </div></div>
+    <article class="absolute inset-x-8 bottom-4 top-0 flex origin-bottom flex-col overflow-hidden rounded-hero bg-card shadow-hero " aria-label="Walnut sit-stand desk, 140 × 70 cm, Oakline, 649 euros, rated 4.7" aria-roledescription="card" tabindex="0">
+      <div class="flex min-h-0 flex-1 flex-col px-6 pb-5 pt-6">
+        <h2 class="line-clamp-4 text-title-1">Walnut sit-stand desk, 140 × 70 cm</h2>
+        <p class="mt-2 text-title-3 font-normal text-muted-foreground">Oakline</p>
+        <p class="mt-auto text-title-1 tabular-nums">€649</p>
+      </div>
+      
+    </article>
+    
+  </div>
+  <div class="grid shrink-0 grid-cols-3 gap-2 px-4 pb-4 pt-3"><button type="button" class="flex min-h-16 flex-col items-center justify-center gap-1 rounded-control bg-reject-soft px-2 py-2 text-reject-soft-foreground" data-action="reject"><i class="i-lucide-x size-7" aria-hidden="true"></i><span class="text-title-3">Reject</span></button><button type="button" class="flex min-h-16 flex-col items-center justify-center gap-1 rounded-control bg-maybe-soft px-2 py-2 text-maybe-soft-foreground" data-action="maybe"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i><span class="text-title-3">Maybe</span></button><button type="button" class="flex min-h-16 flex-col items-center justify-center gap-1 rounded-control bg-accept-soft px-2 py-2 text-accept-soft-foreground" data-action="accept"><i class="i-lucide-check size-7" aria-hidden="true"></i><span class="text-title-3">Accept</span></button></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S02-demo-screen-reader" id="S02-demo-screen-reader">
+  <figcaption class="frame-label">S02 · Screen-reader actions on the demo card (annotation) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S02-welcome" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back to welcome"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    <a href="S08-home.html#S08-first-run" class="inline-flex h-12 shrink-0 items-center rounded-control px-4 text-label-lg text-primary" data-action="skip">Skip</a>
+  </header>
+  <div class="shrink-0 px-gutter">
+    <h1 class="text-title-2">Swipe right to accept</h1>
+    <p class="mt-1 text-body text-muted-foreground">Try it on these sample cards. Nothing is saved.</p>
+    <div class="mt-3 flex items-center justify-between gap-3">
+      <ul class="flex flex-wrap gap-2" aria-label="Gestures tried"><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Reject<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accept<span class="sr-only">, not tried yet</span></li></ul>
+      <span class="shrink-0 text-caption tabular-nums text-muted-foreground">0 of 3</span>
+    </div>
+  </div>
+  <div class="relative mt-4 min-h-0 flex-1">
+    <div class="absolute inset-x-8 bottom-4 top-0 flex origin-top scale-95 translate-y-8 flex-col overflow-hidden rounded-hero border bg-card shadow-raised" aria-hidden="true"><img src="../02-data/images/photos/ph09.svg" alt="" class="min-h-0 w-full flex-1 object-cover">
+      <div class="px-5 pb-4 pt-3">
+        <h2 class="text-title-2">Mar 5, 2026, 17:56</h2>
+        <p class="mt-0.5 text-body text-muted-foreground">Göreme, Cappadocia</p>
+      </div></div>
+    <article class="absolute inset-x-8 bottom-4 top-0 flex origin-bottom flex-col overflow-hidden rounded-hero bg-card shadow-hero " aria-label="Walnut sit-stand desk, 140 × 70 cm, Oakline, 649 euros, rated 4.7" aria-roledescription="card" tabindex="0">
+      <img src="../02-data/images/products/p02.svg" alt="" class="h-[44%] w-full object-cover">
+      <div class="flex min-h-0 flex-1 flex-col px-5 pb-4 pt-4">
+        <h2 class="line-clamp-2 text-title-1">Walnut sit-stand desk, 140 × 70 cm</h2>
+        <p class="mt-1 text-body-lg text-muted-foreground">Oakline</p>
+        <div class="mt-3 flex items-baseline justify-between"><span class="text-title-2 tabular-nums">€649</span><span class="inline-flex items-center gap-1 text-body"><i class="i-lucide-star size-4" aria-hidden="true"></i>4.7 <span class="text-muted-foreground">(532)</span></span></div>
+        <div class="mt-auto flex gap-2 pt-3"><span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">Desk</span></div>
+      </div>
+      
+    </article>
+    
+  </div>
+  <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
+  
+  <div class="absolute inset-0 z-20 bg-scrim/50" aria-hidden="true"></div>
+  <div class="absolute inset-x-6 top-1/3 z-30 rounded-dialog bg-popover p-5 shadow-dialog" role="dialog" aria-labelledby="s02sr">
+    <p class="text-caption text-muted-foreground">Screen reader (TalkBack actions menu, VoiceOver rotor)</p>
+    <h2 id="s02sr" class="mt-1 text-title-3">Walnut sit-stand desk, 140 × 70 cm</h2>
+    <ul class="mt-3 divide-y text-body">
+      <li class="flex h-12 items-center gap-3"><i class="i-lucide-check size-5 text-accept-soft-foreground" aria-hidden="true"></i>Accept</li>
+      <li class="flex h-12 items-center gap-3"><i class="i-lucide-x size-5 text-reject-soft-foreground" aria-hidden="true"></i>Reject</li>
+      <li class="flex h-12 items-center gap-3"><i class="i-lucide-circle-help size-5 text-maybe-soft-foreground" aria-hidden="true"></i>Maybe</li>
+    </ul>
+    <p class="mt-3 text-body-sm text-muted-foreground">Instruction read first: “Try the three decisions on these sample cards. Use the card's actions or the buttons below.” After an action: “Accepted. 1 of 3 tried.”</p>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">iOS and web</h2>
+<p>iOS: navigation bar with a back chevron and Skip as a text button; edge swipe goes back a step. Web: same layout; mobile browsers show a short note about the app; desktop browsers add arrow-key hints (web only).</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S02-welcome-ios" id="S02-welcome-ios">
+  <figcaption class="frame-label">S02 · iOS welcome · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="shrink-0">
+    <div class="grid h-12 grid-cols-[1fr_auto_1fr] items-center gap-2 px-2">
+      <span></span>
+      <span></span>
+      <div class="flex justify-self-end"><a href="S08-home.html#S08-first-run" class="inline-flex h-12 items-center px-2 text-body text-primary" data-action="skip">Skip</a></div>
+    </div>
+    
+  </header>
+  
+  <div class="flex min-h-0 flex-1 flex-col justify-center"><div class="relative mx-auto h-96 w-72 shrink-0" aria-hidden="true">
+      <div class="absolute left-0 top-8 h-72 w-52 origin-bottom -rotate-6 overflow-hidden rounded-hero border bg-card shadow-raised"><img src="../02-data/images/photos/ph09.svg" alt="" class="h-full w-full object-cover"></div>
+      <div class="absolute right-0 top-8 h-72 w-52 origin-bottom rotate-6 overflow-hidden rounded-hero border bg-card shadow-raised"><img src="../02-data/images/products/p05.svg" alt="" class="h-1/2 w-full object-cover"></div>
+      <div class="absolute left-1/2 top-2 flex h-80 w-56 -translate-x-1/2 rotate-3 flex-col overflow-hidden rounded-hero bg-card shadow-hero">
+        <img src="../02-data/images/products/p02.svg" alt="" class="h-[52%] w-full object-cover">
+        <div class="px-4 pt-3"><p class="line-clamp-2 text-title-3">Walnut sit-stand desk</p><p class="text-body-sm text-muted-foreground">Oakline</p><p class="mt-2 text-title-3 tabular-nums">€649</p></div>
+        <div class="absolute left-3 top-3 inline-flex h-9 -rotate-6 items-center gap-1.5 rounded-full bg-accept px-3 text-label text-accept-foreground shadow-overlay"><i class="i-lucide-check size-5" aria-hidden="true"></i>Accept</div>
+      </div>
+    </div></div>
+  <div class="shrink-0 px-gutter text-center">
+    <h1 class="text-balance text-title-1">Sort any list, one card at a time</h1>
+    <p class="mx-auto mt-2 max-w-prose text-body-lg text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, products, photos and ideas, alone or with others.</p>
+  </div>
+  <div class="shrink-0 space-y-2 px-gutter pb-4 pt-6">
+    <a href="#S02-demo" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="next">Get started</a>
+    <a href="S03-sign-in.html#S03-default" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg" data-action="sign-in">I have an account</a>
+    <p class="flex items-center justify-center gap-1.5 pt-1 text-body-sm text-muted-foreground"><i class="i-lucide-smartphone size-4" aria-hidden="true"></i>No account needed. Lists stay on this phone.</p>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S02-demo-ios" id="S02-demo-ios">
+  <figcaption class="frame-label">S02 · iOS demo, step 1 · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="shrink-0">
+    <div class="grid h-12 grid-cols-[1fr_auto_1fr] items-center gap-2 px-2">
+      <a href="#S02-welcome" class="inline-flex h-12 items-center gap-0.5 justify-self-start pr-2 text-body text-primary"><i class="i-lucide-chevron-left size-6" aria-hidden="true"></i>Back</a>
+      <span></span>
+      <div class="flex justify-self-end"><a href="S08-home.html#S08-first-run" class="inline-flex h-12 items-center px-2 text-body text-primary" data-action="skip">Skip</a></div>
+    </div>
+    
+  </header>
+  <div class="shrink-0 px-gutter">
+    <h1 class="text-title-2">Swipe right to accept</h1>
+    <p class="mt-1 text-body text-muted-foreground">Try it on these sample cards. Nothing is saved.</p>
+    <div class="mt-3 flex items-center justify-between gap-3">
+      <ul class="flex flex-wrap gap-2" aria-label="Gestures tried"><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Reject<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accept<span class="sr-only">, not tried yet</span></li></ul>
+      <span class="shrink-0 text-caption tabular-nums text-muted-foreground">0 of 3</span>
+    </div>
+  </div>
+  <div class="relative mt-4 min-h-0 flex-1">
+    <div class="absolute inset-x-8 bottom-4 top-0 flex origin-top scale-95 translate-y-8 flex-col overflow-hidden rounded-hero border bg-card shadow-raised" aria-hidden="true"><img src="../02-data/images/photos/ph09.svg" alt="" class="min-h-0 w-full flex-1 object-cover">
+      <div class="px-5 pb-4 pt-3">
+        <h2 class="text-title-2">Mar 5, 2026, 17:56</h2>
+        <p class="mt-0.5 text-body text-muted-foreground">Göreme, Cappadocia</p>
+      </div></div>
+    <article class="absolute inset-x-8 bottom-4 top-0 flex origin-bottom flex-col overflow-hidden rounded-hero bg-card shadow-hero " aria-label="Walnut sit-stand desk, 140 × 70 cm, Oakline, 649 euros, rated 4.7" aria-roledescription="card" tabindex="0">
+      <img src="../02-data/images/products/p02.svg" alt="" class="h-[44%] w-full object-cover">
+      <div class="flex min-h-0 flex-1 flex-col px-5 pb-4 pt-4">
+        <h2 class="line-clamp-2 text-title-1">Walnut sit-stand desk, 140 × 70 cm</h2>
+        <p class="mt-1 text-body-lg text-muted-foreground">Oakline</p>
+        <div class="mt-3 flex items-baseline justify-between"><span class="text-title-2 tabular-nums">€649</span><span class="inline-flex items-center gap-1 text-body"><i class="i-lucide-star size-4" aria-hidden="true"></i>4.7 <span class="text-muted-foreground">(532)</span></span></div>
+        <div class="mt-auto flex gap-2 pt-3"><span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">Desk</span></div>
+      </div>
+      
+    </article>
+    <div class="pointer-events-none absolute right-3 top-[28%] z-10 flex size-14 items-center justify-center rounded-full bg-popover text-foreground shadow-overlay" aria-hidden="true"><i class="i-lucide-arrow-right size-7" aria-hidden="true"></i></div>
+  </div>
+  <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
+  
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S02-web" id="S02-web">
+  <figcaption class="frame-label">S02 · Web, mobile browser: welcome with a note about the app · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="screen ">
+  
+  <div class="shrink-0 px-gutter pb-2 pt-4"><div class="flex gap-3 rounded-control border bg-card p-4 " role="note"><i class="i-lucide-monitor-smartphone size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Using SwipeSort in your browser</p><p class="mt-0.5 text-body-sm text-muted-foreground">Everything works here. Get the app to import phone contacts and photos from your gallery.</p><div class="mt-1"><a href="https://swipesort.app/get" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4 ">Get the app</a></div></div></div></div>
+  <div class="flex min-h-0 flex-1 flex-col justify-center"><div class="relative mx-auto h-96 w-72 shrink-0" aria-hidden="true">
+      <div class="absolute left-0 top-8 h-72 w-52 origin-bottom -rotate-6 overflow-hidden rounded-hero border bg-card shadow-raised"><img src="../02-data/images/photos/ph09.svg" alt="" class="h-full w-full object-cover"></div>
+      <div class="absolute right-0 top-8 h-72 w-52 origin-bottom rotate-6 overflow-hidden rounded-hero border bg-card shadow-raised"><img src="../02-data/images/products/p05.svg" alt="" class="h-1/2 w-full object-cover"></div>
+      <div class="absolute left-1/2 top-2 flex h-80 w-56 -translate-x-1/2 rotate-3 flex-col overflow-hidden rounded-hero bg-card shadow-hero">
+        <img src="../02-data/images/products/p02.svg" alt="" class="h-[52%] w-full object-cover">
+        <div class="px-4 pt-3"><p class="line-clamp-2 text-title-3">Walnut sit-stand desk</p><p class="text-body-sm text-muted-foreground">Oakline</p><p class="mt-2 text-title-3 tabular-nums">€649</p></div>
+        <div class="absolute left-3 top-3 inline-flex h-9 -rotate-6 items-center gap-1.5 rounded-full bg-accept px-3 text-label text-accept-foreground shadow-overlay"><i class="i-lucide-check size-5" aria-hidden="true"></i>Accept</div>
+      </div>
+    </div></div>
+  <div class="shrink-0 px-gutter text-center">
+    <h1 class="text-balance text-title-1">Sort any list, one card at a time</h1>
+    <p class="mx-auto mt-2 max-w-prose text-body-lg text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, products, photos and ideas, alone or with others.</p>
+  </div>
+  <div class="shrink-0 space-y-2 px-gutter pb-4 pt-6">
+    <a href="#S02-demo" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="next">Get started</a>
+    <a href="S03-sign-in.html#S03-default" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg" data-action="sign-in">I have an account</a>
+    <p class="flex items-center justify-center gap-1.5 pt-1 text-body-sm text-muted-foreground"><i class="i-lucide-smartphone size-4" aria-hidden="true"></i>No account needed. Lists stay on this phone.</p>
+  </div>
+  </div>
+</div>
+</figure>
+<figure class="frame" data-frame="S02-web-desktop" id="S02-web-desktop">
+  <figcaption class="frame-label">S02 · Web, desktop browser: demo with keyboard hints · <span class="theme-name"></span></figcaption>
+  <div class="desktop">
+  <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/welcome</span></div>
+  <div class="desktop-column ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S02-welcome" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back to welcome"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    <a href="S08-home.html#S08-first-run" class="inline-flex h-12 shrink-0 items-center rounded-control px-4 text-label-lg text-primary" data-action="skip">Skip</a>
+  </header>
+  <div class="shrink-0 px-gutter">
+    <h1 class="text-title-2">Press → or drag right to accept</h1>
+    <p class="mt-1 text-body text-muted-foreground">Try it on these sample cards. Nothing is saved.</p>
+    <div class="mt-3 flex items-center justify-between gap-3">
+      <ul class="flex flex-wrap gap-2" aria-label="Gestures tried"><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Reject<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accept<span class="sr-only">, not tried yet</span></li></ul>
+      <span class="shrink-0 text-caption tabular-nums text-muted-foreground">0 of 3</span>
+    </div>
+  </div>
+  <div class="relative mt-4 min-h-0 flex-1">
+    <div class="absolute inset-x-8 bottom-4 top-0 flex origin-top scale-95 translate-y-8 flex-col overflow-hidden rounded-hero border bg-card shadow-raised" aria-hidden="true"><img src="../02-data/images/photos/ph09.svg" alt="" class="min-h-0 w-full flex-1 object-cover">
+      <div class="px-5 pb-4 pt-3">
+        <h2 class="text-title-2">Mar 5, 2026, 17:56</h2>
+        <p class="mt-0.5 text-body text-muted-foreground">Göreme, Cappadocia</p>
+      </div></div>
+    <article class="absolute inset-x-8 bottom-4 top-0 flex origin-bottom flex-col overflow-hidden rounded-hero bg-card shadow-hero " aria-label="Walnut sit-stand desk, 140 × 70 cm, Oakline, 649 euros, rated 4.7" aria-roledescription="card" tabindex="0">
+      <img src="../02-data/images/products/p02.svg" alt="" class="h-[44%] w-full object-cover">
+      <div class="flex min-h-0 flex-1 flex-col px-5 pb-4 pt-4">
+        <h2 class="line-clamp-2 text-title-1">Walnut sit-stand desk, 140 × 70 cm</h2>
+        <p class="mt-1 text-body-lg text-muted-foreground">Oakline</p>
+        <div class="mt-3 flex items-baseline justify-between"><span class="text-title-2 tabular-nums">€649</span><span class="inline-flex items-center gap-1 text-body"><i class="i-lucide-star size-4" aria-hidden="true"></i>4.7 <span class="text-muted-foreground">(532)</span></span></div>
+        <div class="mt-auto flex gap-2 pt-3"><span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">Desk</span></div>
+      </div>
+      
+    </article>
+    <div class="pointer-events-none absolute right-3 top-[28%] z-10 flex size-14 items-center justify-center rounded-full bg-popover text-foreground shadow-overlay" aria-hidden="true"><i class="i-lucide-arrow-right size-7" aria-hidden="true"></i></div>
+  </div>
+  <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
+  
+  <div class="flex shrink-0 justify-center gap-4 pb-4 text-caption text-muted-foreground" aria-label="Keyboard shortcuts"><span class="inline-flex items-center gap-1.5"><kbd class="inline-flex h-6 min-w-6 items-center justify-center rounded-sm border border-b-2 bg-card px-1.5 text-caption text-foreground">←</kbd>Reject</span><span class="inline-flex items-center gap-1.5"><kbd class="inline-flex h-6 min-w-6 items-center justify-center rounded-sm border border-b-2 bg-card px-1.5 text-caption text-foreground">↑</kbd>Maybe</span><span class="inline-flex items-center gap-1.5"><kbd class="inline-flex h-6 min-w-6 items-center justify-center rounded-sm border border-b-2 bg-card px-1.5 text-caption text-foreground">→</kbd>Accept</span></div>
+  </div>
+</div>
+</figure>
+</main>
+</body>
+</html>

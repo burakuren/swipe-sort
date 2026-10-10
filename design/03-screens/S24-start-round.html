@@ -1,0 +1,1159 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S24 Start a round</title>
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body class="mock-page">
+<header class="mock-doc">
+  <h1>S24 Start a round</h1>
+  <p>Choose which items go into the next round and the card order. Spec: <a href="S24-start-round.md">S24-start-round.md</a>. Next: <a href="S25-sorting.html">S25 Sorting</a>.</p>
+</header>
+<h2 class="mock-section">Choose items and card order</h2>
+<p>A full-screen modal from S09 (Start new round) or S27 (Re-sort Maybe, Start a new round). Items: All, Maybe pile, Accepted items, Custom selection, each with its count. Card order: Original, Shuffled, Sorted by a field. The summary above Start round always states the round size.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S24-default" id="S24-default">
+  <figcaption class="frame-label">S24 · Default: Maybe pile chosen (Wedding guests after Round 1) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Start a round</h1><p class="truncate text-caption text-muted-foreground">Wedding guests</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <div class="">
+    
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-2">Items</h2>
+    <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Items in Round 2"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="All items, 100 items. Every item in the list, decided or not" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">All items</span><span class="block text-body-sm text-muted-foreground">Every item in the list, decided or not</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">100</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Maybe pile, 11 items. Items marked Maybe in Round 1" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Maybe pile</span><span class="block text-body-sm text-muted-foreground">Items marked Maybe in Round 1</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-maybe-soft px-2.5 text-label tabular-nums text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>11</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Accepted items, 48 items. Narrow down what you accepted" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Accepted items</span><span class="block text-body-sm text-muted-foreground">Narrow down what you accepted</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-accept-soft px-2.5 text-label tabular-nums text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>48</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Custom selection. Filter by a field or pick items by hand" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Custom selection</span><span class="block text-body-sm text-muted-foreground">Filter by a field or pick items by hand</span></span></button>
+        
+      </div></div>
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-6">Card order</h2>
+    <div class="divide-y rounded-group bg-card" role="radiogroup" aria-label="Card order"><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Original order. As the items were imported" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Original order</span><span class="block text-body-sm text-muted-foreground">As the items were imported</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Shuffled. A new random order for this round" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Shuffled</span><span class="block text-body-sm text-muted-foreground">A new random order for this round</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Sorted by a field. Choose a field and a direction" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Sorted by a field</span><span class="block text-body-sm text-muted-foreground">Choose a field and a direction</span></span></button>
+        
+      </div></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="flex items-center justify-center gap-2 text-body" role="status"><i class="i-lucide-layers size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="tabular-nums">Round 2 will have 11 items</span></p>
+    <p class="mt-0.5 text-center text-body-sm text-muted-foreground">Maybe pile, in original order</p>
+    <div class="mt-3"><a href="#S24-started" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="start-round">Start round</a></div>
+    
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S24-maybe" id="S24-maybe">
+  <figcaption class="frame-label">S24 · Re-sort Maybe: Maybe pile preselected, shuffled (Desk setup) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-solo-round-done" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Start a round</h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <div class="">
+    
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-2">Items</h2>
+    <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Items in Round 2"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="All items, 20 items. Every item in the list, decided or not" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">All items</span><span class="block text-body-sm text-muted-foreground">Every item in the list, decided or not</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">20</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Maybe pile, 6 items. Items marked Maybe in Round 1" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Maybe pile</span><span class="block text-body-sm text-muted-foreground">Items marked Maybe in Round 1</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-maybe-soft px-2.5 text-label tabular-nums text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>6</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Accepted items, 5 items. Narrow down what you accepted" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Accepted items</span><span class="block text-body-sm text-muted-foreground">Narrow down what you accepted</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-accept-soft px-2.5 text-label tabular-nums text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>5</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Custom selection. Filter by a field or pick items by hand" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Custom selection</span><span class="block text-body-sm text-muted-foreground">Filter by a field or pick items by hand</span></span></button>
+        
+      </div></div>
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-6">Card order</h2>
+    <div class="divide-y rounded-group bg-card" role="radiogroup" aria-label="Card order"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Original order. As the items were imported" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Original order</span><span class="block text-body-sm text-muted-foreground">As the items were imported</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Shuffled. A new random order for this round" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Shuffled</span><span class="block text-body-sm text-muted-foreground">A new random order for this round</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Sorted by a field. Choose a field and a direction" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Sorted by a field</span><span class="block text-body-sm text-muted-foreground">Choose a field and a direction</span></span></button>
+        
+      </div></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="flex items-center justify-center gap-2 text-body" role="status"><i class="i-lucide-layers size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="tabular-nums">Round 2 will have 6 items</span></p>
+    <p class="mt-0.5 text-center text-body-sm text-muted-foreground">Maybe pile, shuffled</p>
+    <div class="mt-3"><a href="../04-prototype/swipe-demo.html?deck=desk-maybe&amp;next=S27-desk-round-2" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="start-round">Start round</a></div>
+    
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S24-sorted-by" id="S24-sorted-by">
+  <figcaption class="frame-label">S24 · Sorted by a field: Accepted items by City, A to Z · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Start a round</h1><p class="truncate text-caption text-muted-foreground">Wedding guests</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <div class="-mt-48">
+    
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-2">Items</h2>
+    <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Items in Round 2"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="All items, 100 items. Every item in the list, decided or not" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">All items</span><span class="block text-body-sm text-muted-foreground">Every item in the list, decided or not</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">100</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Maybe pile, 11 items. Items marked Maybe in Round 1" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Maybe pile</span><span class="block text-body-sm text-muted-foreground">Items marked Maybe in Round 1</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-maybe-soft px-2.5 text-label tabular-nums text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>11</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Accepted items, 48 items. Narrow down what you accepted" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Accepted items</span><span class="block text-body-sm text-muted-foreground">Narrow down what you accepted</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-accept-soft px-2.5 text-label tabular-nums text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>48</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Custom selection. Filter by a field or pick items by hand" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Custom selection</span><span class="block text-body-sm text-muted-foreground">Filter by a field or pick items by hand</span></span></button>
+        
+      </div></div>
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-6">Card order</h2>
+    <div class="divide-y rounded-group bg-card" role="radiogroup" aria-label="Card order"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Original order. As the items were imported" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Original order</span><span class="block text-body-sm text-muted-foreground">As the items were imported</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Shuffled. A new random order for this round" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Shuffled</span><span class="block text-body-sm text-muted-foreground">A new random order for this round</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Sorted by a field. Choose a field and a direction" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Sorted by a field</span><span class="block text-body-sm text-muted-foreground">Choose a field and a direction</span></span></button>
+        <div class="relative space-y-3 px-4 pb-4 pl-14">
+          <a href="#S24-sort-field-sheet" class="flex min-h-14 w-full items-center justify-between gap-3 rounded-control border bg-card px-3.5 py-1.5 text-left border-input" aria-haspopup="listbox" aria-expanded="false" aria-label="Field: City" data-action="choose-sort-field"><span class="flex min-w-0 flex-col items-start"><span class="text-caption text-muted-foreground">Field</span><span class="truncate text-body">City</span></span><i class="i-lucide-chevron-down size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a>
+          
+          <div class="flex rounded-full bg-secondary p-1" role="radiogroup" aria-label="Direction"><button type="button" role="radio" aria-checked="true" class="inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full px-3 text-label bg-card text-foreground shadow-raised"><i class="i-lucide-arrow-down-a-z size-4" aria-hidden="true"></i>A to Z</button><button type="button" role="radio" aria-checked="false" class="inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full px-3 text-label text-muted-foreground"><i class="i-lucide-arrow-up-z-a size-4" aria-hidden="true"></i>Z to A</button></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="flex items-center justify-center gap-2 text-body" role="status"><i class="i-lucide-layers size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="tabular-nums">Round 2 will have 48 items</span></p>
+    <p class="mt-0.5 text-center text-body-sm text-muted-foreground">Accepted items, sorted by City from A to Z</p>
+    <div class="mt-3"><button type="button" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="start-round">Start round</button></div>
+    
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S24-sort-field-sheet" id="S24-sort-field-sheet">
+  <figcaption class="frame-label">S24 · Choosing the sort field (Select as a bottom sheet) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Start a round</h1><p class="truncate text-caption text-muted-foreground">Wedding guests</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <div class="">
+    
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-2">Items</h2>
+    <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Items in Round 2"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="All items, 100 items. Every item in the list, decided or not" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">All items</span><span class="block text-body-sm text-muted-foreground">Every item in the list, decided or not</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">100</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Maybe pile, 11 items. Items marked Maybe in Round 1" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Maybe pile</span><span class="block text-body-sm text-muted-foreground">Items marked Maybe in Round 1</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-maybe-soft px-2.5 text-label tabular-nums text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>11</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Accepted items, 48 items. Narrow down what you accepted" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Accepted items</span><span class="block text-body-sm text-muted-foreground">Narrow down what you accepted</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-accept-soft px-2.5 text-label tabular-nums text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>48</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Custom selection. Filter by a field or pick items by hand" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Custom selection</span><span class="block text-body-sm text-muted-foreground">Filter by a field or pick items by hand</span></span></button>
+        
+      </div></div>
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-6">Card order</h2>
+    <div class="divide-y rounded-group bg-card" role="radiogroup" aria-label="Card order"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Original order. As the items were imported" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Original order</span><span class="block text-body-sm text-muted-foreground">As the items were imported</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Shuffled. A new random order for this round" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Shuffled</span><span class="block text-body-sm text-muted-foreground">A new random order for this round</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Sorted by a field. Choose a field and a direction" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Sorted by a field</span><span class="block text-body-sm text-muted-foreground">Choose a field and a direction</span></span></button>
+        <div class="relative space-y-3 px-4 pb-4 pl-14">
+          <a href="#S24-sort-field-sheet" class="flex min-h-14 w-full items-center justify-between gap-3 rounded-control border bg-card px-3.5 py-1.5 text-left border-primary ring-2 ring-ring/30" aria-haspopup="listbox" aria-expanded="true" aria-label="Field: City" data-action="choose-sort-field"><span class="flex min-w-0 flex-col items-start"><span class="text-caption text-muted-foreground">Field</span><span class="truncate text-body">City</span></span><i class="i-lucide-chevron-down size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a>
+          
+          <div class="flex rounded-full bg-secondary p-1" role="radiogroup" aria-label="Direction"><button type="button" role="radio" aria-checked="true" class="inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full px-3 text-label bg-card text-foreground shadow-raised"><i class="i-lucide-arrow-down-a-z size-4" aria-hidden="true"></i>A to Z</button><button type="button" role="radio" aria-checked="false" class="inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full px-3 text-label text-muted-foreground"><i class="i-lucide-arrow-up-z-a size-4" aria-hidden="true"></i>Z to A</button></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="flex items-center justify-center gap-2 text-body" role="status"><i class="i-lucide-layers size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="tabular-nums">Round 2 will have 48 items</span></p>
+    <p class="mt-0.5 text-center text-body-sm text-muted-foreground">Accepted items, sorted by City from A to Z</p>
+    <div class="mt-3"><button type="button" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="start-round">Start round</button></div>
+    
+  </div>
+  <div class="absolute inset-0 z-10 bg-scrim/50"></div><div class="absolute inset-x-0 bottom-0 z-20 flex flex-col overflow-hidden rounded-t-sheet bg-popover pt-2 pb-0 shadow-sheet " role="dialog" aria-modal="true" aria-labelledby="sfs">
+    <div class="flex shrink-0 justify-center py-1.5"><span class="h-1 w-8 rounded-full bg-muted-foreground/40"></span></div>
+    <div class="flex items-center justify-between px-gutter pt-1"><h2 id="sfs" class="text-title-3">Sort by</h2><a href="#S24-sorted-by" class="flex size-12 shrink-0 items-center justify-center rounded-full -mr-3" aria-label="Close"><i class="i-lucide-x size-5" aria-hidden="true"></i></a></div>
+    <div class="mt-2 divide-y" role="radiogroup" aria-labelledby="sfs"><div><button type="button" role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-4 px-gutter py-2 text-left"><i class="i-lucide-type size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Name</span><span class="block text-body-sm text-muted-foreground">Text</span></span></button></div><div><button type="button" role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-4 px-gutter py-2 text-left"><i class="i-lucide-phone size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Phone</span><span class="block text-body-sm text-muted-foreground">Phone</span></span></button></div><div><button type="button" role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-4 px-gutter py-2 text-left"><i class="i-lucide-mail size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Email</span><span class="block text-body-sm text-muted-foreground">Email</span></span></button></div><div><button type="button" role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-4 px-gutter py-2 text-left"><i class="i-lucide-type size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Side</span><span class="block text-body-sm text-muted-foreground">Text</span></span></button></div><div><button type="button" role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-4 px-gutter py-2 text-left"><i class="i-lucide-type size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Relationship</span><span class="block text-body-sm text-muted-foreground">Text</span></span></button></div><div><button type="button" role="radio" aria-checked="true" class="flex min-h-14 w-full items-center gap-4 px-gutter py-2 text-left"><i class="i-lucide-type size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">City</span><span class="block text-body-sm text-muted-foreground">Text</span></span><i class="i-lucide-check size-5 text-primary" aria-hidden="true"></i></button></div></div>
+    <p class="px-gutter pb-6 pt-3 text-body-sm text-muted-foreground">Text sorts A to Z, numbers from low to high and dates from oldest. Change the direction after choosing.</p>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Custom selection</h2>
+<p>Filter by any field (field, condition, value chips) with a live count, or pick items by hand. Pseudo-fields My decision (and List status on shared lists) are filterable too.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S24-custom" id="S24-custom">
+  <figcaption class="frame-label">S24 · Custom selection with two filters and the resulting count · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Start a round</h1><p class="truncate text-caption text-muted-foreground">Wedding guests</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <div class="">
+    
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-2">Items</h2>
+    <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Items in Round 2"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="All items, 100 items. Every item in the list, decided or not" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">All items</span><span class="block text-body-sm text-muted-foreground">Every item in the list, decided or not</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">100</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Maybe pile, 11 items. Items marked Maybe in Round 1" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Maybe pile</span><span class="block text-body-sm text-muted-foreground">Items marked Maybe in Round 1</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-maybe-soft px-2.5 text-label tabular-nums text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>11</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Accepted items, 48 items. Narrow down what you accepted" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Accepted items</span><span class="block text-body-sm text-muted-foreground">Narrow down what you accepted</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-accept-soft px-2.5 text-label tabular-nums text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>48</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Custom selection, 12 items. Filter by a field or pick items by hand" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Custom selection</span><span class="block text-body-sm text-muted-foreground">Filter by a field or pick items by hand</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">12</span></button>
+        <div class="space-y-3 px-4 pb-4 pl-14">
+          <p class="text-body-sm text-muted-foreground">Items that match every filter</p>
+          <ul class="space-y-2"><li class="flex items-center gap-1 rounded-control border bg-background pl-3.5">
+              <a href="#S24-add-filter" class="flex min-h-12 min-w-0 flex-1 items-center gap-1.5 text-left text-body" aria-label="Edit filter: Side is Bride's"><span class="text-muted-foreground">Side</span><span>is Bride's</span></a>
+              <button type="button" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Remove filter: Side is Bride's"><i class="i-lucide-x size-5" aria-hidden="true"></i></button>
+            </li><li class="flex items-center gap-1 rounded-control border bg-background pl-3.5">
+              <a href="#S24-add-filter" class="flex min-h-12 min-w-0 flex-1 items-center gap-1.5 text-left text-body" aria-label="Edit filter: Relationship is Family"><span class="text-muted-foreground">Relationship</span><span>is Family</span></a>
+              <button type="button" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Remove filter: Relationship is Family"><i class="i-lucide-x size-5" aria-hidden="true"></i></button>
+            </li></ul>
+          <a href="#S24-add-filter" class="inline-flex h-12 items-center gap-2 rounded-control pr-3 text-label-lg text-primary" data-action="add-filter"><i class="i-lucide-plus size-5" aria-hidden="true"></i>Add filter</a>
+          <p class="flex items-center gap-2 text-body-sm" role="status"><i class="i-lucide-layers size-4 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="tabular-nums">12 items match</span></p>
+          <a href="#S24-custom-pick" class="inline-flex h-12 items-center gap-2 rounded-control pr-3 text-label-lg text-primary" data-action="pick-items"><i class="i-lucide-list-checks size-5" aria-hidden="true"></i>Pick items by hand instead</a>
+        </div>
+      </div></div>
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-6">Card order</h2>
+    <div class="divide-y rounded-group bg-card" role="radiogroup" aria-label="Card order"><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Original order. As the items were imported" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Original order</span><span class="block text-body-sm text-muted-foreground">As the items were imported</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Shuffled. A new random order for this round" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Shuffled</span><span class="block text-body-sm text-muted-foreground">A new random order for this round</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Sorted by a field. Choose a field and a direction" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Sorted by a field</span><span class="block text-body-sm text-muted-foreground">Choose a field and a direction</span></span></button>
+        
+      </div></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="flex items-center justify-center gap-2 text-body" role="status"><i class="i-lucide-layers size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="tabular-nums">Round 2 will have 12 items</span></p>
+    <p class="mt-0.5 text-center text-body-sm text-muted-foreground">Custom selection, in original order</p>
+    <div class="mt-3"><button type="button" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="start-round">Start round</button></div>
+    
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S24-add-filter" id="S24-add-filter">
+  <figcaption class="frame-label">S24 · Filter builder: field, condition, value chips, live count · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Start a round</h1><p class="truncate text-caption text-muted-foreground">Wedding guests</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <div class="">
+    
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-2">Items</h2>
+    <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Items in Round 2"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="All items, 100 items. Every item in the list, decided or not" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">All items</span><span class="block text-body-sm text-muted-foreground">Every item in the list, decided or not</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">100</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Maybe pile, 11 items. Items marked Maybe in Round 1" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Maybe pile</span><span class="block text-body-sm text-muted-foreground">Items marked Maybe in Round 1</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-maybe-soft px-2.5 text-label tabular-nums text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>11</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Accepted items, 48 items. Narrow down what you accepted" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Accepted items</span><span class="block text-body-sm text-muted-foreground">Narrow down what you accepted</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-accept-soft px-2.5 text-label tabular-nums text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>48</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Custom selection, 51 items. Filter by a field or pick items by hand" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Custom selection</span><span class="block text-body-sm text-muted-foreground">Filter by a field or pick items by hand</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">51</span></button>
+        <div class="space-y-3 px-4 pb-4 pl-14">
+          <p class="text-body-sm text-muted-foreground">Items that match every filter</p>
+          <ul class="space-y-2"><li class="flex items-center gap-1 rounded-control border bg-background pl-3.5">
+              <a href="#S24-add-filter" class="flex min-h-12 min-w-0 flex-1 items-center gap-1.5 text-left text-body" aria-label="Edit filter: Side is Bride's"><span class="text-muted-foreground">Side</span><span>is Bride's</span></a>
+              <button type="button" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Remove filter: Side is Bride's"><i class="i-lucide-x size-5" aria-hidden="true"></i></button>
+            </li></ul>
+          <a href="#S24-add-filter" class="inline-flex h-12 items-center gap-2 rounded-control pr-3 text-label-lg text-primary" data-action="add-filter"><i class="i-lucide-plus size-5" aria-hidden="true"></i>Add filter</a>
+          <p class="flex items-center gap-2 text-body-sm" role="status"><i class="i-lucide-layers size-4 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="tabular-nums">51 items match</span></p>
+          <a href="#S24-custom-pick" class="inline-flex h-12 items-center gap-2 rounded-control pr-3 text-label-lg text-primary" data-action="pick-items"><i class="i-lucide-list-checks size-5" aria-hidden="true"></i>Pick items by hand instead</a>
+        </div>
+      </div></div>
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-6">Card order</h2>
+    <div class="divide-y rounded-group bg-card" role="radiogroup" aria-label="Card order"><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Original order. As the items were imported" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Original order</span><span class="block text-body-sm text-muted-foreground">As the items were imported</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Shuffled. A new random order for this round" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Shuffled</span><span class="block text-body-sm text-muted-foreground">A new random order for this round</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Sorted by a field. Choose a field and a direction" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Sorted by a field</span><span class="block text-body-sm text-muted-foreground">Choose a field and a direction</span></span></button>
+        
+      </div></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="flex items-center justify-center gap-2 text-body" role="status"><i class="i-lucide-layers size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="tabular-nums">Round 2 will have 51 items</span></p>
+    <p class="mt-0.5 text-center text-body-sm text-muted-foreground">Custom selection, in original order</p>
+    <div class="mt-3"><button type="button" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="start-round">Start round</button></div>
+    
+  </div>
+  <div class="absolute inset-0 z-10 bg-scrim/50"></div><div class="absolute inset-x-0 bottom-0 z-20 flex flex-col overflow-hidden rounded-t-sheet bg-popover pt-2 pb-0 shadow-sheet " role="dialog" aria-modal="true" aria-labelledby="afs">
+    <div class="flex shrink-0 justify-center py-1.5"><span class="h-1 w-8 rounded-full bg-muted-foreground/40"></span></div>
+    <div class="flex items-center justify-between px-gutter pt-1"><h2 id="afs" class="text-title-3">Add filter</h2><a href="#S24-custom" class="flex size-12 shrink-0 items-center justify-center rounded-full -mr-3" aria-label="Close"><i class="i-lucide-x size-5" aria-hidden="true"></i></a></div>
+    <div class="space-y-5 px-gutter pb-6 pt-3">
+      <button type="button" class="flex min-h-14 w-full items-center justify-between gap-3 rounded-control border bg-card px-3.5 py-1.5 text-left border-input" aria-haspopup="listbox" aria-expanded="false" aria-label="Field: Relationship" data-action="choose-sort-field"><span class="flex min-w-0 flex-col items-start"><span class="text-caption text-muted-foreground">Field</span><span class="truncate text-body">Relationship</span></span><i class="i-lucide-chevron-down size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></button>
+      <div><p class="pb-2 text-label">Condition</p><div class="flex rounded-full bg-secondary p-1" role="radiogroup" aria-label="Condition"><button type="button" role="radio" aria-checked="true" class="inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full px-3 text-label bg-card text-foreground shadow-raised">is</button><button type="button" role="radio" aria-checked="false" class="inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full px-3 text-label text-muted-foreground">is not</button></div></div>
+      <div><p class="pb-1 text-label">Values</p><p class="pb-3 text-body-sm text-muted-foreground">Choose one or more. Counts are for the whole list.</p><div class="flex flex-wrap gap-x-2 gap-y-3"><button type="button" aria-pressed="true" class="inline-flex h-9 items-center gap-1.5 rounded-full border border-primary bg-primary-soft px-3 text-label text-primary-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Family <span class="tabular-nums">25</span></button><button type="button" aria-pressed="false" class="inline-flex h-9 items-center gap-1.5 rounded-full border border-input px-3 text-label">Friend <span class="tabular-nums text-muted-foreground">47</span></button><button type="button" aria-pressed="false" class="inline-flex h-9 items-center gap-1.5 rounded-full border border-input px-3 text-label">Colleague <span class="tabular-nums text-muted-foreground">28</span></button></div></div>
+      <p class="flex items-center gap-2 text-body-sm" role="status"><i class="i-lucide-layers size-4 shrink-0 text-muted-foreground" aria-hidden="true"></i>With this filter, 12 items match</p>
+      <a href="#S24-custom" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="confirm-filter">Add filter</a>
+    </div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S24-custom-none" id="S24-custom-none">
+  <figcaption class="frame-label">S24 · Filters match no items: Start round disabled · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Start a round</h1><p class="truncate text-caption text-muted-foreground">Wedding guests</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <div class="">
+    
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-2">Items</h2>
+    <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Items in Round 2"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="All items, 100 items. Every item in the list, decided or not" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">All items</span><span class="block text-body-sm text-muted-foreground">Every item in the list, decided or not</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">100</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Maybe pile, 11 items. Items marked Maybe in Round 1" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Maybe pile</span><span class="block text-body-sm text-muted-foreground">Items marked Maybe in Round 1</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-maybe-soft px-2.5 text-label tabular-nums text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>11</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Accepted items, 48 items. Narrow down what you accepted" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Accepted items</span><span class="block text-body-sm text-muted-foreground">Narrow down what you accepted</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-accept-soft px-2.5 text-label tabular-nums text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>48</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Custom selection, 0 items. Filter by a field or pick items by hand" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Custom selection</span><span class="block text-body-sm text-muted-foreground">Filter by a field or pick items by hand</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">0</span></button>
+        <div class="space-y-3 px-4 pb-4 pl-14">
+          <p class="text-body-sm text-muted-foreground">Items that match every filter</p>
+          <ul class="space-y-2"><li class="flex items-center gap-1 rounded-control border bg-background pl-3.5">
+              <a href="#S24-add-filter" class="flex min-h-12 min-w-0 flex-1 items-center gap-1.5 text-left text-body" aria-label="Edit filter: City is Tokyo"><span class="text-muted-foreground">City</span><span>is Tokyo</span></a>
+              <button type="button" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Remove filter: City is Tokyo"><i class="i-lucide-x size-5" aria-hidden="true"></i></button>
+            </li><li class="flex items-center gap-1 rounded-control border bg-background pl-3.5">
+              <a href="#S24-add-filter" class="flex min-h-12 min-w-0 flex-1 items-center gap-1.5 text-left text-body" aria-label="Edit filter: Relationship is Family"><span class="text-muted-foreground">Relationship</span><span>is Family</span></a>
+              <button type="button" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Remove filter: Relationship is Family"><i class="i-lucide-x size-5" aria-hidden="true"></i></button>
+            </li></ul>
+          <a href="#S24-add-filter" class="inline-flex h-12 items-center gap-2 rounded-control pr-3 text-label-lg text-primary" data-action="add-filter"><i class="i-lucide-plus size-5" aria-hidden="true"></i>Add filter</a>
+          <p class="flex items-start gap-2 text-body-sm" role="status"><i class="i-lucide-circle-alert size-4 mt-0.5 shrink-0 text-destructive" aria-hidden="true"></i><span>No items match these filters. Remove a filter or choose other values.</span></p>
+          <a href="#S24-custom-pick" class="inline-flex h-12 items-center gap-2 rounded-control pr-3 text-label-lg text-primary" data-action="pick-items"><i class="i-lucide-list-checks size-5" aria-hidden="true"></i>Pick items by hand instead</a>
+        </div>
+      </div></div>
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-6">Card order</h2>
+    <div class="divide-y rounded-group bg-card" role="radiogroup" aria-label="Card order"><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Original order. As the items were imported" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Original order</span><span class="block text-body-sm text-muted-foreground">As the items were imported</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Shuffled. A new random order for this round" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Shuffled</span><span class="block text-body-sm text-muted-foreground">A new random order for this round</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Sorted by a field. Choose a field and a direction" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Sorted by a field</span><span class="block text-body-sm text-muted-foreground">Choose a field and a direction</span></span></button>
+        
+      </div></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="flex items-center justify-center gap-2 text-body" role="status"><i class="i-lucide-layers size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="tabular-nums">Round 2 will have 0 items</span></p>
+    <p class="mt-0.5 text-center text-body-sm text-muted-foreground">Change the filters to include at least 1 item</p>
+    <div class="mt-3"><button type="button" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground  opacity-50" data-action="start-round" disabled>Start round</button></div>
+    
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S24-custom-pick" id="S24-custom-pick">
+  <figcaption class="frame-label">S24 · Pick items by hand (search, multi-select) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S24-custom" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to round options" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Pick items</h1><p class="truncate text-caption text-muted-foreground">12 selected</p></div>
+    
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="relative"><i class="i-lucide-search pointer-events-none absolute left-3.5 top-3.5 size-5 text-muted-foreground" aria-hidden="true"></i><input type="search" aria-label="Search items" placeholder="Search 100 items" class="h-12 w-full rounded-full border-0 bg-secondary pl-11 pr-4 text-body placeholder:text-muted-foreground"></div>
+  </div>
+  <div class="flex shrink-0 items-center justify-between px-gutter pb-1"><p class="text-label text-muted-foreground">Your Round 1 decision is shown on the right</p></div>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter"><ul class="divide-y overflow-hidden rounded-group bg-card"><li><button type="button" role="checkbox" aria-checked="true" class="flex min-h-16 w-full items-center gap-3 px-4 py-2 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-sm bg-primary text-primary-foreground" aria-hidden="true"><i class="i-lucide-check size-4" aria-hidden="true"></i></span><img src="../02-data/images/people/c001.svg" alt="" class="size-10 shrink-0 rounded-full object-cover "><span class="min-w-0 flex-1"><span class="block truncate text-body">Ayşe Demir</span><span class="block truncate text-body-sm text-muted-foreground">Bride's, Family</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe</span></button></li><li><button type="button" role="checkbox" aria-checked="true" class="flex min-h-16 w-full items-center gap-3 px-4 py-2 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-sm bg-primary text-primary-foreground" aria-hidden="true"><i class="i-lucide-check size-4" aria-hidden="true"></i></span><img src="../02-data/images/people/c002.svg" alt="" class="size-10 shrink-0 rounded-full object-cover "><span class="min-w-0 flex-1"><span class="block truncate text-body">Mehmet Yılmaz</span><span class="block truncate text-body-sm text-muted-foreground">Bride's, Family</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted</span></button></li><li><button type="button" role="checkbox" aria-checked="false" class="flex min-h-16 w-full items-center gap-3 px-4 py-2 text-left"><span class="size-6 shrink-0 rounded-sm border-2 border-input" aria-hidden="true"></span><img src="../02-data/images/people/c003.svg" alt="" class="size-10 shrink-0 rounded-full object-cover "><span class="min-w-0 flex-1"><span class="block truncate text-body">Zeynep Kaya</span><span class="block truncate text-body-sm text-muted-foreground">Groom's, Family</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted</span></button></li><li><button type="button" role="checkbox" aria-checked="true" class="flex min-h-16 w-full items-center gap-3 px-4 py-2 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-sm bg-primary text-primary-foreground" aria-hidden="true"><i class="i-lucide-check size-4" aria-hidden="true"></i></span><img src="../02-data/images/people/c004.svg" alt="" class="size-10 shrink-0 rounded-full object-cover "><span class="min-w-0 flex-1"><span class="block truncate text-body">Emre Çelik</span><span class="block truncate text-body-sm text-muted-foreground">Groom's, Friend</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe</span></button></li><li><button type="button" role="checkbox" aria-checked="true" class="flex min-h-16 w-full items-center gap-3 px-4 py-2 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-sm bg-primary text-primary-foreground" aria-hidden="true"><i class="i-lucide-check size-4" aria-hidden="true"></i></span><img src="../02-data/images/people/c005.svg" alt="" class="size-10 shrink-0 rounded-full object-cover "><span class="min-w-0 flex-1"><span class="block truncate text-body">Elif Şahin</span><span class="block truncate text-body-sm text-muted-foreground">Bride's, Friend</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe</span></button></li><li><button type="button" role="checkbox" aria-checked="false" class="flex min-h-16 w-full items-center gap-3 px-4 py-2 text-left"><span class="size-6 shrink-0 rounded-sm border-2 border-input" aria-hidden="true"></span><img src="../02-data/images/people/c006.svg" alt="" class="size-10 shrink-0 rounded-full object-cover "><span class="min-w-0 flex-1"><span class="block truncate text-body">Burak Arslan</span><span class="block truncate text-body-sm text-muted-foreground">Groom's, Colleague</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted</span></button></li><li><button type="button" role="checkbox" aria-checked="false" class="flex min-h-16 w-full items-center gap-3 px-4 py-2 text-left"><span class="size-6 shrink-0 rounded-sm border-2 border-input" aria-hidden="true"></span><span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-label text-muted-foreground " aria-hidden="true">GD</span><span class="min-w-0 flex-1"><span class="block truncate text-body">Gökhan Doğan</span><span class="block truncate text-body-sm text-muted-foreground">Groom's, Friend</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted</span></button></li><li><button type="button" role="checkbox" aria-checked="false" class="flex min-h-16 w-full items-center gap-3 px-4 py-2 text-left"><span class="size-6 shrink-0 rounded-sm border-2 border-input" aria-hidden="true"></span><img src="../02-data/images/people/c008.svg" alt="" class="size-10 shrink-0 rounded-full object-cover "><span class="min-w-0 flex-1"><span class="block truncate text-body">İrem Aksoy</span><span class="block truncate text-body-sm text-muted-foreground">Bride's, Colleague</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Rejected</span></button></li><li><button type="button" role="checkbox" aria-checked="true" class="flex min-h-16 w-full items-center gap-3 px-4 py-2 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-sm bg-primary text-primary-foreground" aria-hidden="true"><i class="i-lucide-check size-4" aria-hidden="true"></i></span><span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-label text-muted-foreground " aria-hidden="true">OK</span><span class="min-w-0 flex-1"><span class="block truncate text-body">Oğuz Kılıç</span><span class="block truncate text-body-sm text-muted-foreground">Groom's, Family</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted</span></button></li><li><button type="button" role="checkbox" aria-checked="false" class="flex min-h-16 w-full items-center gap-3 px-4 py-2 text-left"><span class="size-6 shrink-0 rounded-sm border-2 border-input" aria-hidden="true"></span><img src="../02-data/images/people/c010.svg" alt="" class="size-10 shrink-0 rounded-full object-cover "><span class="min-w-0 flex-1"><span class="block truncate text-body">Şule Erdoğan</span><span class="block truncate text-body-sm text-muted-foreground">Bride's, Family</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Rejected</span></button></li></ul></div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3"><a href="#S24-custom" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="use-items">Use 12 items</a></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Unavailable options and loading</h2>
+<p>Options with nothing in them stay visible but disabled, with the reason in place of the description. Counts load from the working copy; while counting, Start round waits.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S24-empty-option" id="S24-empty-option">
+  <figcaption class="frame-label">S24 · Empty Maybe pile: option disabled with the reason (Frontend hiring, Q4) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Start a round</h1><p class="truncate text-caption text-muted-foreground">Frontend hiring, Q4</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <div class="">
+    
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-2">Items</h2>
+    <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Items in Round 2"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="All items, 12 items. Every item in the list, decided or not" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">All items</span><span class="block text-body-sm text-muted-foreground">Every item in the list, decided or not</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">12</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Maybe pile, 0 items. Nothing in Maybe. Items you swipe up wait here." class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left" disabled><span class="size-6 shrink-0 rounded-full border-2 border-input opacity-50" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body text-muted-foreground">Maybe pile</span><span class="block text-body-sm text-muted-foreground">Nothing in Maybe. Items you swipe up wait here.</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">0</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Accepted items, 4 items. Narrow down what you accepted" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Accepted items</span><span class="block text-body-sm text-muted-foreground">Narrow down what you accepted</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-accept-soft px-2.5 text-label tabular-nums text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>4</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Custom selection. Filter by a field or pick items by hand" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Custom selection</span><span class="block text-body-sm text-muted-foreground">Filter by a field or pick items by hand</span></span></button>
+        
+      </div></div>
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-6">Card order</h2>
+    <div class="divide-y rounded-group bg-card" role="radiogroup" aria-label="Card order"><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Original order. As the items were imported" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Original order</span><span class="block text-body-sm text-muted-foreground">As the items were imported</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Shuffled. A new random order for this round" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Shuffled</span><span class="block text-body-sm text-muted-foreground">A new random order for this round</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Sorted by a field. Choose a field and a direction" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Sorted by a field</span><span class="block text-body-sm text-muted-foreground">Choose a field and a direction</span></span></button>
+        
+      </div></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="flex items-center justify-center gap-2 text-body" role="status"><i class="i-lucide-layers size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="tabular-nums">Round 2 will have 4 items</span></p>
+    <p class="mt-0.5 text-center text-body-sm text-muted-foreground">Accepted items, in original order</p>
+    <div class="mt-3"><button type="button" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="start-round">Start round</button></div>
+    
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S24-loading" id="S24-loading">
+  <figcaption class="frame-label">S24 · Loading counts · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Start a round</h1><p class="truncate text-caption text-muted-foreground">Wedding guests</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <div class="">
+    
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-2">Items</h2>
+    <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Items in Round 2"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="All items. Every item in the list, decided or not" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">All items</span><span class="block text-body-sm text-muted-foreground">Every item in the list, decided or not</span></span><span class="block h-7 w-10 shrink-0 animate-pulse rounded-full bg-muted" aria-hidden="true"></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Maybe pile. Items marked Maybe in Round 1" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Maybe pile</span><span class="block text-body-sm text-muted-foreground">Items marked Maybe in Round 1</span></span><span class="block h-7 w-10 shrink-0 animate-pulse rounded-full bg-muted" aria-hidden="true"></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Accepted items. Narrow down what you accepted" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Accepted items</span><span class="block text-body-sm text-muted-foreground">Narrow down what you accepted</span></span><span class="block h-7 w-10 shrink-0 animate-pulse rounded-full bg-muted" aria-hidden="true"></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Custom selection. Filter by a field or pick items by hand" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Custom selection</span><span class="block text-body-sm text-muted-foreground">Filter by a field or pick items by hand</span></span><span class="block h-7 w-10 shrink-0 animate-pulse rounded-full bg-muted" aria-hidden="true"></span></button>
+        
+      </div></div>
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-6">Card order</h2>
+    <div class="divide-y rounded-group bg-card" role="radiogroup" aria-label="Card order"><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Original order. As the items were imported" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Original order</span><span class="block text-body-sm text-muted-foreground">As the items were imported</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Shuffled. A new random order for this round" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Shuffled</span><span class="block text-body-sm text-muted-foreground">A new random order for this round</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Sorted by a field. Choose a field and a direction" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Sorted by a field</span><span class="block text-body-sm text-muted-foreground">Choose a field and a direction</span></span></button>
+        
+      </div></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3" aria-busy="true">
+    <p class="flex items-center justify-center gap-2 text-body text-muted-foreground" role="status"><i class="i-lucide-loader-circle size-5 shrink-0 animate-spin text-primary" aria-hidden="true"></i>Counting items…</p>
+    <p class="mt-0.5 text-center text-body-sm text-muted-foreground">Maybe pile, in original order</p>
+    <div class="mt-3"><button type="button" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground  opacity-50" data-action="start-round" disabled>Start round</button></div>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Shared lists</h2>
+<p>Rounds on shared lists are started by the Owner and apply to every member (DM-15). Piles use final decisions. Collaborators and the Decision Maker can propose a round and ask the Owner.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S24-shared-owner" id="S24-shared-owner">
+  <figcaption class="frame-label">S24 · Shared list, Owner: starts the round for everyone · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Start a round</h1><p class="truncate text-caption text-muted-foreground">Wedding guests</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <div class="">
+    <div class="mb-4 flex items-start gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground" role="note">
+      <span class="flex -space-x-2" role="img" aria-label="Deniz, Mert and Selin"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-8 shrink-0 rounded-full object-cover ring-2 ring-background"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-8 shrink-0 rounded-full object-cover ring-2 ring-background"><span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-caption text-muted-foreground ring-2 ring-background" aria-hidden="true">SY</span></span>
+      <div class="min-w-0 flex-1"><p class="text-label">Starts Round 2 for Deniz, Mert and Selin</p><p class="mt-0.5 text-body-sm">Everyone sorts the same items from the start. Round 1 stays in round history.</p></div>
+    </div>
+    <div class="flex items-end justify-between gap-3 px-1 pb-2 pt-2"><h2 class="text-label text-muted-foreground">Items</h2><span class="text-caption text-muted-foreground">Based on final decisions</span></div>
+    <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Items in Round 2"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="All items, 100 items. Every item in the list, decided or not" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">All items</span><span class="block text-body-sm text-muted-foreground">Every item in the list, decided or not</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">100</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Maybe pile, 11 items. Final decision is Maybe" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Maybe pile</span><span class="block text-body-sm text-muted-foreground">Final decision is Maybe</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-maybe-soft px-2.5 text-label tabular-nums text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>11</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Accepted items, 48 items. Final decision is Accept" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Accepted items</span><span class="block text-body-sm text-muted-foreground">Final decision is Accept</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-accept-soft px-2.5 text-label tabular-nums text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>48</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Custom selection. Filter by a field or pick items by hand" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Custom selection</span><span class="block text-body-sm text-muted-foreground">Filter by a field or pick items by hand</span></span></button>
+        
+      </div></div>
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-6">Card order</h2>
+    <div class="divide-y rounded-group bg-card" role="radiogroup" aria-label="Card order"><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Original order. As the items were imported" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Original order</span><span class="block text-body-sm text-muted-foreground">As the items were imported</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Shuffled. A new random order for this round" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Shuffled</span><span class="block text-body-sm text-muted-foreground">A new random order for this round</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Sorted by a field. Choose a field and a direction" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Sorted by a field</span><span class="block text-body-sm text-muted-foreground">Choose a field and a direction</span></span></button>
+        
+      </div></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="flex items-center justify-center gap-2 text-body" role="status"><i class="i-lucide-layers size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="tabular-nums">Round 2 will have 11 items</span></p>
+    <p class="mt-0.5 text-center text-body-sm text-muted-foreground">Maybe pile, in original order, for 3 members</p>
+    <div class="mt-3"><button type="button" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="start-round">Start round</button></div>
+    
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S24-round-in-progress" id="S24-round-in-progress">
+  <figcaption class="frame-label">S24 · A round is in progress: inline warning before ending it · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Start a round</h1><p class="truncate text-caption text-muted-foreground">Wedding guests</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <div class="">
+    <div class="mb-4 rounded-control border bg-card p-4" role="note">
+      <div class="flex items-start gap-3"><i class="i-lucide-flag size-5 mt-0.5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Round 1 is still open</p><p class="mt-0.5 text-body-sm text-muted-foreground">Starting Round 2 ends Round 1 for everyone. Decisions made so far are kept.</p></div></div>
+      <ul class="mt-3 space-y-2 pl-8 text-body-sm">
+        <li class="flex items-center gap-2"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-6 shrink-0 rounded-full object-cover "><span class="flex-1">You</span><span class="tabular-nums text-muted-foreground">76 / 100 decided</span></li>
+        <li class="flex items-center gap-2"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-6 shrink-0 rounded-full object-cover "><span class="flex-1">Mert</span><span class="tabular-nums text-muted-foreground">85 / 100 decided</span></li>
+        <li class="flex items-center gap-2"><span class="flex size-6 shrink-0 items-center justify-center rounded-full bg-muted text-caption text-muted-foreground " aria-hidden="true">SY</span><span class="flex-1">Selin</span><span class="tabular-nums text-muted-foreground">43 / 100 decided</span></li>
+      </ul>
+    </div>
+    <div class="flex items-end justify-between gap-3 px-1 pb-2 pt-2"><h2 class="text-label text-muted-foreground">Items</h2><span class="text-caption text-muted-foreground">Based on final decisions</span></div>
+    <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Items in Round 2"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="All items, 100 items. Every item in the list, decided or not" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">All items</span><span class="block text-body-sm text-muted-foreground">Every item in the list, decided or not</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">100</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Maybe pile, 11 items. Final decision is Maybe" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Maybe pile</span><span class="block text-body-sm text-muted-foreground">Final decision is Maybe</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-maybe-soft px-2.5 text-label tabular-nums text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>11</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Accepted items, 48 items. Final decision is Accept" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Accepted items</span><span class="block text-body-sm text-muted-foreground">Final decision is Accept</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-accept-soft px-2.5 text-label tabular-nums text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>48</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Custom selection. Filter by a field or pick items by hand" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Custom selection</span><span class="block text-body-sm text-muted-foreground">Filter by a field or pick items by hand</span></span></button>
+        
+      </div></div>
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-6">Card order</h2>
+    <div class="divide-y rounded-group bg-card" role="radiogroup" aria-label="Card order"><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Original order. As the items were imported" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Original order</span><span class="block text-body-sm text-muted-foreground">As the items were imported</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Shuffled. A new random order for this round" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Shuffled</span><span class="block text-body-sm text-muted-foreground">A new random order for this round</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Sorted by a field. Choose a field and a direction" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Sorted by a field</span><span class="block text-body-sm text-muted-foreground">Choose a field and a direction</span></span></button>
+        
+      </div></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="flex items-center justify-center gap-2 text-body" role="status"><i class="i-lucide-layers size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="tabular-nums">Round 2 will have 11 items</span></p>
+    <p class="mt-0.5 text-center text-body-sm text-muted-foreground">Maybe pile, in original order, for 3 members</p>
+    <div class="mt-3"><a href="#S24-end-round-dialog" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="start-round">Start round</a></div>
+    
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S24-end-round-dialog" id="S24-end-round-dialog">
+  <figcaption class="frame-label">S24 · Confirm: end the open round, then start (S40 end-round pattern) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Start a round</h1><p class="truncate text-caption text-muted-foreground">Wedding guests</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <div class="">
+    <div class="mb-4 rounded-control border bg-card p-4" role="note">
+      <div class="flex items-start gap-3"><i class="i-lucide-flag size-5 mt-0.5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Round 1 is still open</p><p class="mt-0.5 text-body-sm text-muted-foreground">Starting Round 2 ends Round 1 for everyone. Decisions made so far are kept.</p></div></div>
+      <ul class="mt-3 space-y-2 pl-8 text-body-sm">
+        <li class="flex items-center gap-2"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-6 shrink-0 rounded-full object-cover "><span class="flex-1">You</span><span class="tabular-nums text-muted-foreground">76 / 100 decided</span></li>
+        <li class="flex items-center gap-2"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-6 shrink-0 rounded-full object-cover "><span class="flex-1">Mert</span><span class="tabular-nums text-muted-foreground">85 / 100 decided</span></li>
+        <li class="flex items-center gap-2"><span class="flex size-6 shrink-0 items-center justify-center rounded-full bg-muted text-caption text-muted-foreground " aria-hidden="true">SY</span><span class="flex-1">Selin</span><span class="tabular-nums text-muted-foreground">43 / 100 decided</span></li>
+      </ul>
+    </div>
+    <div class="flex items-end justify-between gap-3 px-1 pb-2 pt-2"><h2 class="text-label text-muted-foreground">Items</h2><span class="text-caption text-muted-foreground">Based on final decisions</span></div>
+    <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Items in Round 2"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="All items, 100 items. Every item in the list, decided or not" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">All items</span><span class="block text-body-sm text-muted-foreground">Every item in the list, decided or not</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">100</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Maybe pile, 11 items. Final decision is Maybe" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Maybe pile</span><span class="block text-body-sm text-muted-foreground">Final decision is Maybe</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-maybe-soft px-2.5 text-label tabular-nums text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>11</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Accepted items, 48 items. Final decision is Accept" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Accepted items</span><span class="block text-body-sm text-muted-foreground">Final decision is Accept</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-accept-soft px-2.5 text-label tabular-nums text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>48</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Custom selection. Filter by a field or pick items by hand" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Custom selection</span><span class="block text-body-sm text-muted-foreground">Filter by a field or pick items by hand</span></span></button>
+        
+      </div></div>
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-6">Card order</h2>
+    <div class="divide-y rounded-group bg-card" role="radiogroup" aria-label="Card order"><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Original order. As the items were imported" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Original order</span><span class="block text-body-sm text-muted-foreground">As the items were imported</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Shuffled. A new random order for this round" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Shuffled</span><span class="block text-body-sm text-muted-foreground">A new random order for this round</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Sorted by a field. Choose a field and a direction" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Sorted by a field</span><span class="block text-body-sm text-muted-foreground">Choose a field and a direction</span></span></button>
+        
+      </div></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="flex items-center justify-center gap-2 text-body" role="status"><i class="i-lucide-layers size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="tabular-nums">Round 2 will have 11 items</span></p>
+    <p class="mt-0.5 text-center text-body-sm text-muted-foreground">Maybe pile, in original order, for 3 members</p>
+    <div class="mt-3"><a href="#S24-end-round-dialog" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " >Start round</a></div>
+    
+  </div>
+  <div class="absolute inset-0 z-20 bg-scrim/50"></div><div class="absolute inset-0 z-30 flex items-center justify-center px-6">
+    <div class="w-full rounded-dialog bg-popover p-6 shadow-dialog" role="alertdialog" aria-modal="true" aria-labelledby="erd" aria-describedby="erdd">
+      <h2 id="erd" class="text-title-3">End Round 1 for everyone?</h2>
+      <div id="erdd" class="mt-2 space-y-2 text-body text-muted-foreground"><p>Mert and Selin are still sorting. Decisions made so far are kept, and items nobody decided stay undecided.</p><p>Round 2 then starts for all 3 members with 11 items.</p></div>
+      <div class="mt-6 flex flex-wrap justify-end gap-2"><a href="#S24-round-in-progress" class="inline-flex h-12 min-w-touch px-5 items-center justify-center gap-2 rounded-control text-label-lg  " data-action="cancel">Cancel</a><a href="S25-sorting.html#S25-shared" class="inline-flex h-12 min-w-touch px-5 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="confirm-end-round">End Round 1 and start</a></div>
+    </div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S24-collaborator" id="S24-collaborator">
+  <figcaption class="frame-label">S24 · Collaborator (Selin): can't start, asks the Owner instead · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Suggest a round</h1><p class="truncate text-caption text-muted-foreground">Wedding guests</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <div class="">
+    <div class="mb-4 flex items-start gap-3 rounded-control border bg-card p-4" role="note">
+      <i class="i-lucide-lock size-5 mt-0.5 shrink-0 text-muted-foreground" aria-hidden="true"></i>
+      <div class="min-w-0 flex-1"><p class="text-label">Only Deniz can start rounds</p><p class="mt-0.5 text-body-sm text-muted-foreground">Rounds apply to every member, so the Owner starts them. Choose the items and order you'd like, then ask Deniz.</p></div>
+    </div>
+    <div class="flex items-end justify-between gap-3 px-1 pb-2 pt-2"><h2 class="text-label text-muted-foreground">Items</h2><span class="text-caption text-muted-foreground">Based on final decisions</span></div>
+    <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Items in Round 2"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="All items, 100 items. Every item in the list, decided or not" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">All items</span><span class="block text-body-sm text-muted-foreground">Every item in the list, decided or not</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">100</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Maybe pile, 11 items. Final decision is Maybe" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Maybe pile</span><span class="block text-body-sm text-muted-foreground">Final decision is Maybe</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-maybe-soft px-2.5 text-label tabular-nums text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>11</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Accepted items, 48 items. Final decision is Accept" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Accepted items</span><span class="block text-body-sm text-muted-foreground">Final decision is Accept</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-accept-soft px-2.5 text-label tabular-nums text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>48</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Custom selection. Filter by a field or pick items by hand" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Custom selection</span><span class="block text-body-sm text-muted-foreground">Filter by a field or pick items by hand</span></span></button>
+        
+      </div></div>
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-6">Card order</h2>
+    <div class="divide-y rounded-group bg-card" role="radiogroup" aria-label="Card order"><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Original order. As the items were imported" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Original order</span><span class="block text-body-sm text-muted-foreground">As the items were imported</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Shuffled. A new random order for this round" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Shuffled</span><span class="block text-body-sm text-muted-foreground">A new random order for this round</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Sorted by a field. Choose a field and a direction" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Sorted by a field</span><span class="block text-body-sm text-muted-foreground">Choose a field and a direction</span></span></button>
+        
+      </div></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="flex items-center justify-center gap-2 text-body" role="status"><i class="i-lucide-layers size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="tabular-nums">Round 2 would have 11 items</span></p>
+    <p class="mt-0.5 text-center text-body-sm text-muted-foreground">Maybe pile, in original order</p>
+    <div class="mt-3"><a href="#S24-collaborator-asked" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="ask-owner"><i class="i-lucide-send size-5" aria-hidden="true"></i>Ask Deniz</a></div>
+    
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S24-collaborator-asked" id="S24-collaborator-asked">
+  <figcaption class="frame-label">S24 · After asking: request sent to the Owner · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Suggest a round</h1><p class="truncate text-caption text-muted-foreground">Wedding guests</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <div class="">
+    <div class="mb-4 flex items-start gap-3 rounded-control border bg-card p-4" role="note">
+      <i class="i-lucide-lock size-5 mt-0.5 shrink-0 text-muted-foreground" aria-hidden="true"></i>
+      <div class="min-w-0 flex-1"><p class="text-label">Only Deniz can start rounds</p><p class="mt-0.5 text-body-sm text-muted-foreground">Rounds apply to every member, so the Owner starts them. Choose the items and order you'd like, then ask Deniz.</p></div>
+    </div>
+    <div class="flex items-end justify-between gap-3 px-1 pb-2 pt-2"><h2 class="text-label text-muted-foreground">Items</h2><span class="text-caption text-muted-foreground">Based on final decisions</span></div>
+    <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Items in Round 2"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="All items, 100 items. Every item in the list, decided or not" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">All items</span><span class="block text-body-sm text-muted-foreground">Every item in the list, decided or not</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">100</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Maybe pile, 11 items. Final decision is Maybe" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Maybe pile</span><span class="block text-body-sm text-muted-foreground">Final decision is Maybe</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-maybe-soft px-2.5 text-label tabular-nums text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>11</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Accepted items, 48 items. Final decision is Accept" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Accepted items</span><span class="block text-body-sm text-muted-foreground">Final decision is Accept</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-accept-soft px-2.5 text-label tabular-nums text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>48</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Custom selection. Filter by a field or pick items by hand" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Custom selection</span><span class="block text-body-sm text-muted-foreground">Filter by a field or pick items by hand</span></span></button>
+        
+      </div></div>
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-6">Card order</h2>
+    <div class="divide-y rounded-group bg-card" role="radiogroup" aria-label="Card order"><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Original order. As the items were imported" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Original order</span><span class="block text-body-sm text-muted-foreground">As the items were imported</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Shuffled. A new random order for this round" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Shuffled</span><span class="block text-body-sm text-muted-foreground">A new random order for this round</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Sorted by a field. Choose a field and a direction" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Sorted by a field</span><span class="block text-body-sm text-muted-foreground">Choose a field and a direction</span></span></button>
+        
+      </div></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="flex items-center justify-center gap-2 text-body" role="status"><i class="i-lucide-layers size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="tabular-nums">Round 2 would have 11 items</span></p>
+    <p class="mt-0.5 text-center text-body-sm text-muted-foreground">Maybe pile, in original order</p>
+    <div class="mt-3"><a href="#S24-collaborator-asked" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " ><i class="i-lucide-send size-5" aria-hidden="true"></i>Ask Deniz</a></div>
+    
+  </div>
+  <div class="absolute inset-x-4 bottom-36 z-30 flex min-h-12 items-center gap-3 rounded-control bg-foreground px-4 py-3 text-background shadow-overlay" role="status"><span class="flex-1 text-body-sm">Asked Deniz to start Round 2</span></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S24-offline" id="S24-offline">
+  <figcaption class="frame-label">S24 · Shared list offline: starting for everyone needs a connection · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Start a round</h1><p class="truncate text-caption text-muted-foreground">Wedding guests</p></div>
+    
+  </header>
+  <div class="flex shrink-0 items-center gap-2 bg-muted px-gutter py-2 text-body-sm" role="status"><i class="i-lucide-wifi-off size-4 shrink-0" aria-hidden="true"></i><span class="flex-1">You're offline. Starting a round for everyone needs a connection.</span></div>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <div class="">
+    
+    <div class="flex items-end justify-between gap-3 px-1 pb-2 pt-2"><h2 class="text-label text-muted-foreground">Items</h2><span class="text-caption text-muted-foreground">Based on final decisions</span></div>
+    <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Items in Round 2"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="All items, 100 items. Every item in the list, decided or not" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">All items</span><span class="block text-body-sm text-muted-foreground">Every item in the list, decided or not</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">100</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Maybe pile, 11 items. Final decision is Maybe" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Maybe pile</span><span class="block text-body-sm text-muted-foreground">Final decision is Maybe</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-maybe-soft px-2.5 text-label tabular-nums text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>11</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Accepted items, 48 items. Final decision is Accept" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Accepted items</span><span class="block text-body-sm text-muted-foreground">Final decision is Accept</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-accept-soft px-2.5 text-label tabular-nums text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>48</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Custom selection. Filter by a field or pick items by hand" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Custom selection</span><span class="block text-body-sm text-muted-foreground">Filter by a field or pick items by hand</span></span></button>
+        
+      </div></div>
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-6">Card order</h2>
+    <div class="divide-y rounded-group bg-card" role="radiogroup" aria-label="Card order"><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Original order. As the items were imported" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Original order</span><span class="block text-body-sm text-muted-foreground">As the items were imported</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Shuffled. A new random order for this round" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Shuffled</span><span class="block text-body-sm text-muted-foreground">A new random order for this round</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Sorted by a field. Choose a field and a direction" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Sorted by a field</span><span class="block text-body-sm text-muted-foreground">Choose a field and a direction</span></span></button>
+        
+      </div></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="flex items-center justify-center gap-2 text-body" role="status"><i class="i-lucide-layers size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="tabular-nums">Round 2 will have 11 items</span></p>
+    <p class="mt-0.5 text-center text-body-sm text-muted-foreground">Maybe pile, in original order, for 3 members</p>
+    <div class="mt-3"><button type="button" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground  opacity-50" data-action="start-round" disabled>Start round</button></div>
+    <p class="mt-2 text-center text-body-sm text-muted-foreground">Try again when you're online.</p>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S24-start-failed" id="S24-start-failed">
+  <figcaption class="frame-label">S24 · Couldn't start: error snackbar with Try again · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Start a round</h1><p class="truncate text-caption text-muted-foreground">Wedding guests</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <div class="">
+    
+    <div class="flex items-end justify-between gap-3 px-1 pb-2 pt-2"><h2 class="text-label text-muted-foreground">Items</h2><span class="text-caption text-muted-foreground">Based on final decisions</span></div>
+    <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Items in Round 2"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="All items, 100 items. Every item in the list, decided or not" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">All items</span><span class="block text-body-sm text-muted-foreground">Every item in the list, decided or not</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">100</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Maybe pile, 11 items. Final decision is Maybe" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Maybe pile</span><span class="block text-body-sm text-muted-foreground">Final decision is Maybe</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-maybe-soft px-2.5 text-label tabular-nums text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>11</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Accepted items, 48 items. Final decision is Accept" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Accepted items</span><span class="block text-body-sm text-muted-foreground">Final decision is Accept</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-accept-soft px-2.5 text-label tabular-nums text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>48</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Custom selection. Filter by a field or pick items by hand" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Custom selection</span><span class="block text-body-sm text-muted-foreground">Filter by a field or pick items by hand</span></span></button>
+        
+      </div></div>
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-6">Card order</h2>
+    <div class="divide-y rounded-group bg-card" role="radiogroup" aria-label="Card order"><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Original order. As the items were imported" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Original order</span><span class="block text-body-sm text-muted-foreground">As the items were imported</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Shuffled. A new random order for this round" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Shuffled</span><span class="block text-body-sm text-muted-foreground">A new random order for this round</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Sorted by a field. Choose a field and a direction" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Sorted by a field</span><span class="block text-body-sm text-muted-foreground">Choose a field and a direction</span></span></button>
+        
+      </div></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="flex items-center justify-center gap-2 text-body" role="status"><i class="i-lucide-layers size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="tabular-nums">Round 2 will have 11 items</span></p>
+    <p class="mt-0.5 text-center text-body-sm text-muted-foreground">Maybe pile, in original order, for 3 members</p>
+    <div class="mt-3"><button type="button" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="start-round">Start round</button></div>
+    
+  </div>
+  <div class="absolute inset-x-4 bottom-36 z-30 flex min-h-12 items-center gap-3 rounded-control bg-foreground py-1.5 pl-4 pr-1.5 text-background shadow-overlay" role="alert"><i class="i-lucide-circle-alert size-5 shrink-0" aria-hidden="true"></i><span class="flex-1 text-body-sm">Couldn't start Round 2. Check your connection and try again.</span><button type="button" class="-my-1 inline-flex h-12 items-center rounded-sm px-3 text-label text-primary-inverse">Try again</button></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">After Start round</h2>
+<p>Start round replaces this modal with S25 at the first card of the new round. The snackbar names the action.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S24-started" id="S24-started">
+  <figcaption class="frame-label">S24 · Round 2 started: S25 opens at the first Maybe item · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <button type="button" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close sorting" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></button>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Wedding guests</h1><p class="text-caption text-muted-foreground">Round 2</p></div>
+    <button type="button" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="More options" data-action="menu"><i class="i-lucide-ellipsis-vertical size-6" aria-hidden="true"></i></button>
+  </header>
+  
+  <div class="shrink-0 px-gutter pb-1">
+    <span class="text-label tabular-nums">0 / 11 decided</span>
+    <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="11" aria-label="0 of 11 decided"><div class="h-full w-[0%] rounded-full bg-primary"></div></div>
+  </div>
+  <div class="relative mt-2 min-h-0 flex-1">
+    <div class="absolute inset-x-gutter bottom-5 top-0 flex origin-top translate-y-10 scale-95 flex-col overflow-hidden rounded-hero border bg-card shadow-raised" aria-hidden="true"></div>
+    <article class="absolute inset-x-gutter bottom-5 top-0 flex flex-col overflow-hidden rounded-hero bg-card shadow-hero" aria-label="Ayşe Demir, Family. Phone +90 500 000 97 62. Email ayse.demir@example.com. City İstanbul. Note: Mum insists. Seat near the family table." aria-roledescription="card" tabindex="0"><img src="../02-data/images/people/c001.svg" alt="" class="h-[46%] w-full object-cover">
+      <div class="flex min-h-0 flex-1 flex-col px-6 pb-5 pt-5">
+        <p class="line-clamp-3 text-card-title">Ayşe Demir</p>
+        <p class="mt-1 text-body-lg text-muted-foreground">Family</p>
+        <dl class="mt-4 space-y-2 text-body"><div class="flex gap-3"><dt class="w-16 shrink-0 text-muted-foreground">Phone</dt><dd class="min-w-0 truncate tabular-nums">+90 500 000 97 62</dd></div><div class="flex gap-3"><dt class="w-16 shrink-0 text-muted-foreground">Email</dt><dd class="min-w-0 truncate tabular-nums">ayse.demir@example.com</dd></div><div class="flex gap-3"><dt class="w-16 shrink-0 text-muted-foreground">City</dt><dd class="min-w-0 truncate tabular-nums">İstanbul</dd></div></dl>
+        <div class="mt-auto space-y-3 pt-3"><p class="flex items-center gap-2 text-body-sm text-muted-foreground"><i class="i-lucide-sticky-note size-4 shrink-0" aria-hidden="true"></i><span class="truncate">Mum insists. Seat near the family table.</span></p><div class="flex gap-2"><span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">Bride's</span></div></div>
+      </div></article>
+  </div>
+  <div class="flex shrink-0 items-start justify-between px-5 pb-4 pt-2">
+    <button type="button" class="flex min-w-touch flex-col items-center gap-1.5 opacity-40" aria-label="Nothing to undo" data-action="undo" disabled><span class="flex size-12 items-center justify-center rounded-full border border-input bg-card"><i class="i-lucide-undo-2 size-5" aria-hidden="true"></i></span><span class="text-caption text-muted-foreground">Undo</span></button>
+    <button type="button" class="flex min-w-touch flex-col items-center gap-1.5" aria-label="Reject, 0 rejected" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject <span class="tabular-nums text-muted-foreground">0</span></span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" aria-label="Maybe, 0 maybe" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe <span class="tabular-nums text-muted-foreground">0</span></span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" aria-label="Accept, 0 accepted" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept <span class="tabular-nums text-muted-foreground">0</span></span></button>
+    <button type="button" class="flex min-w-touch flex-col items-center gap-1.5" aria-label="Add note" data-action="note"><span class="flex size-12 items-center justify-center rounded-full border border-input bg-card"><i class="i-lucide-sticky-note size-5" aria-hidden="true"></i></span><span class="text-caption text-muted-foreground">Note</span></button>
+  </div>
+  <div class="absolute inset-x-4 bottom-32 z-30 flex min-h-12 items-center gap-3 rounded-control bg-foreground px-4 py-3 text-background shadow-overlay" role="status"><span class="flex-1 text-body-sm">Round 2 started</span></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Accessibility</h2>
+<p>At 200% text the counts move under each option and the descriptions wrap; the screen scrolls and the summary with Start round stays pinned.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S24-large-text" id="S24-large-text">
+  <figcaption class="frame-label">S24 · Large text (200%) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close" data-action="close"><i class="i-lucide-x size-7" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 px-1 text-title-1">Start a round</h1>
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <h2 class="px-1 pb-2 text-title-3 font-normal text-muted-foreground">Items</h2>
+    <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Items in Round 2"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="All items, 100 items. Every item in the list, decided or not" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-title-1 font-medium ">All items</span><span class="mt-0.5 block text-title-2 font-normal text-muted-foreground">Every item in the list, decided or not</span><span class="mt-2 block"><span class="inline-flex h-10 shrink-0 items-center rounded-full px-1 text-title-3 tabular-nums text-muted-foreground">100</span></span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Maybe pile, 11 items. Items marked Maybe in Round 1" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-title-1 font-medium ">Maybe pile</span><span class="mt-0.5 block text-title-2 font-normal text-muted-foreground">Items marked Maybe in Round 1</span><span class="mt-2 block"><span class="inline-flex h-10 shrink-0 items-center gap-1 rounded-full bg-maybe-soft px-2.5 text-title-3 tabular-nums text-maybe-soft-foreground"><i class="i-lucide-circle-help size-6" aria-hidden="true"></i>11</span></span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Accepted items, 48 items. Narrow down what you accepted" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-title-1 font-medium ">Accepted items</span><span class="mt-0.5 block text-title-2 font-normal text-muted-foreground">Narrow down what you accepted</span><span class="mt-2 block"><span class="inline-flex h-10 shrink-0 items-center gap-1 rounded-full bg-accept-soft px-2.5 text-title-3 tabular-nums text-accept-soft-foreground"><i class="i-lucide-check size-6" aria-hidden="true"></i>48</span></span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Custom selection. Filter by a field or pick items by hand" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-title-1 font-medium ">Custom selection</span><span class="mt-0.5 block text-title-2 font-normal text-muted-foreground">Filter by a field or pick items by hand</span></span></button>
+        
+      </div></div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="text-center text-title-2 font-normal tabular-nums" role="status">Round 2 will have 11 items</p>
+    <div class="mt-3"><button type="button" class="inline-flex min-h-16 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground text-title-2" data-action="start-round">Start round</button></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">iOS and web</h2>
+<p>iOS presents the modal as a page sheet with Cancel in the navigation bar, trailing checkmarks instead of radio buttons and a pull-down menu for the sort field. Web uses the Android layout; on desktop the Select opens as a popover.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S24-ios" id="S24-ios">
+  <figcaption class="frame-label">S24 · iOS: page sheet, Cancel, checkmarks (Desk setup, sorted by Price) · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <div class="absolute inset-0 bg-scrim/40" aria-hidden="true"></div>
+  <div class="absolute inset-x-0 bottom-0 top-2 flex flex-col overflow-hidden rounded-t-sheet bg-background" role="dialog" aria-modal="true" aria-labelledby="ios-t">
+    <div class="flex shrink-0 justify-center pt-1.5"><span class="h-1 w-9 rounded-full bg-muted-foreground/40"></span></div>
+    <header class="grid h-14 shrink-0 grid-cols-[1fr_auto_1fr] items-center gap-2 px-3">
+    <div class="justify-self-start"><a href="S09-list-overview.html#S09-default" class="inline-flex h-12 min-w-touch items-center justify-center px-1 text-body text-primary" data-action="close">Cancel</a></div>
+    <div class="min-w-0 text-center"><h1 class="truncate text-body font-semibold"><span id="ios-t">Start a round</span></h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    <div class="justify-self-end"></div>
+  </header>
+    <div class="min-h-0 flex-1 overflow-hidden px-4 pt-2">
+      <h2 class="px-4 pb-1.5 text-body-sm text-muted-foreground">Items</h2>
+      <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Items"><div><button type="button" role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-3 px-4 py-2.5 text-left"><span class="min-w-0 flex-1"><span class="block text-body">All items</span><span class="block text-body-sm text-muted-foreground">Every item in the list</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">20</span><span class="flex size-6 shrink-0 items-center justify-center text-primary"></span></button></div><div><button type="button" role="radio" aria-checked="true" class="flex min-h-14 w-full items-center gap-3 px-4 py-2.5 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Maybe pile</span><span class="block text-body-sm text-muted-foreground">Marked Maybe in Round 1</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-maybe-soft px-2.5 text-label tabular-nums text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>6</span><span class="flex size-6 shrink-0 items-center justify-center text-primary"><i class="i-lucide-check size-5" aria-hidden="true"></i></span></button></div><div><button type="button" role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-3 px-4 py-2.5 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Accepted items</span><span class="block text-body-sm text-muted-foreground">Narrow down what you accepted</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-accept-soft px-2.5 text-label tabular-nums text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>5</span><span class="flex size-6 shrink-0 items-center justify-center text-primary"></span></button></div><div><button type="button" role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-3 px-4 py-2.5 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Custom selection</span><span class="block text-body-sm text-muted-foreground">Filter or pick by hand</span></span><span class="flex size-6 shrink-0 items-center justify-center text-primary"></span></button></div></div>
+      <h2 class="px-4 pb-1.5 pt-5 text-body-sm text-muted-foreground">Card order</h2>
+      <div class="divide-y rounded-group bg-card" role="radiogroup" aria-label="Card order"><div><button type="button" role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-3 px-4 py-2.5 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Original order</span><span class="block text-body-sm text-muted-foreground">As imported</span></span><span class="flex size-6 shrink-0 items-center justify-center text-primary"></span></button></div><div><button type="button" role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-3 px-4 py-2.5 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Shuffled</span><span class="block text-body-sm text-muted-foreground">New random order</span></span><span class="flex size-6 shrink-0 items-center justify-center text-primary"></span></button></div><div class="relative"><button type="button" role="radio" aria-checked="true" class="flex min-h-14 w-full items-center gap-3 px-4 py-2.5 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Sorted by a field</span></span><span class="flex size-6 shrink-0 items-center justify-center text-primary"><i class="i-lucide-check size-5" aria-hidden="true"></i></span></button>
+          <div class="flex items-center gap-2 px-4 pb-3"><button type="button" class="inline-flex h-12 min-w-0 flex-1 items-center justify-between gap-2 rounded-control bg-secondary px-3.5 text-body" aria-haspopup="menu" aria-expanded="false" aria-label="Field: Price">Price<i class="i-lucide-chevrons-up-down size-4 text-muted-foreground" aria-hidden="true"></i></button><button type="button" class="inline-flex h-12 items-center gap-2 rounded-control bg-secondary px-3.5 text-body" aria-label="Direction: low to high"><i class="i-lucide-arrow-down-0-1 size-4" aria-hidden="true"></i>Low to high</button></div>
+          
+        </div></div>
+    </div>
+    <div class="shrink-0 px-4 pb-2 pt-3">
+      <p class="text-center text-body tabular-nums" role="status">Round 2 will have 6 items</p>
+      <div class="mt-3"><a href="../04-prototype/swipe-demo.html?deck=desk-maybe&amp;next=S27-desk-round-2" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground rounded-full">Start round</a></div>
+    </div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S24-ios-sort-menu" id="S24-ios-sort-menu">
+  <figcaption class="frame-label">S24 · iOS: sort field as a pull-down menu · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <div class="absolute inset-0 bg-scrim/40" aria-hidden="true"></div>
+  <div class="absolute inset-x-0 bottom-0 top-2 flex flex-col overflow-hidden rounded-t-sheet bg-background" role="dialog" aria-modal="true" aria-labelledby="ios-t">
+    <div class="flex shrink-0 justify-center pt-1.5"><span class="h-1 w-9 rounded-full bg-muted-foreground/40"></span></div>
+    <header class="grid h-14 shrink-0 grid-cols-[1fr_auto_1fr] items-center gap-2 px-3">
+    <div class="justify-self-start"><a href="S09-list-overview.html#S09-default" class="inline-flex h-12 min-w-touch items-center justify-center px-1 text-body text-primary" data-action="close">Cancel</a></div>
+    <div class="min-w-0 text-center"><h1 class="truncate text-body font-semibold"><span id="ios-t">Start a round</span></h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    <div class="justify-self-end"></div>
+  </header>
+    <div class="min-h-0 flex-1 overflow-hidden px-4 pt-2">
+      <h2 class="px-4 pb-1.5 text-body-sm text-muted-foreground">Items</h2>
+      <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Items"><div><button type="button" role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-3 px-4 py-2.5 text-left"><span class="min-w-0 flex-1"><span class="block text-body">All items</span><span class="block text-body-sm text-muted-foreground">Every item in the list</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">20</span><span class="flex size-6 shrink-0 items-center justify-center text-primary"></span></button></div><div><button type="button" role="radio" aria-checked="true" class="flex min-h-14 w-full items-center gap-3 px-4 py-2.5 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Maybe pile</span><span class="block text-body-sm text-muted-foreground">Marked Maybe in Round 1</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-maybe-soft px-2.5 text-label tabular-nums text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>6</span><span class="flex size-6 shrink-0 items-center justify-center text-primary"><i class="i-lucide-check size-5" aria-hidden="true"></i></span></button></div><div><button type="button" role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-3 px-4 py-2.5 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Accepted items</span><span class="block text-body-sm text-muted-foreground">Narrow down what you accepted</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-accept-soft px-2.5 text-label tabular-nums text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>5</span><span class="flex size-6 shrink-0 items-center justify-center text-primary"></span></button></div><div><button type="button" role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-3 px-4 py-2.5 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Custom selection</span><span class="block text-body-sm text-muted-foreground">Filter or pick by hand</span></span><span class="flex size-6 shrink-0 items-center justify-center text-primary"></span></button></div></div>
+      <h2 class="px-4 pb-1.5 pt-5 text-body-sm text-muted-foreground">Card order</h2>
+      <div class="divide-y rounded-group bg-card" role="radiogroup" aria-label="Card order"><div><button type="button" role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-3 px-4 py-2.5 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Original order</span><span class="block text-body-sm text-muted-foreground">As imported</span></span><span class="flex size-6 shrink-0 items-center justify-center text-primary"></span></button></div><div><button type="button" role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-3 px-4 py-2.5 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Shuffled</span><span class="block text-body-sm text-muted-foreground">New random order</span></span><span class="flex size-6 shrink-0 items-center justify-center text-primary"></span></button></div><div class="relative"><button type="button" role="radio" aria-checked="true" class="flex min-h-14 w-full items-center gap-3 px-4 py-2.5 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Sorted by a field</span></span><span class="flex size-6 shrink-0 items-center justify-center text-primary"><i class="i-lucide-check size-5" aria-hidden="true"></i></span></button>
+          <div class="flex items-center gap-2 px-4 pb-3"><button type="button" class="inline-flex h-12 min-w-0 flex-1 items-center justify-between gap-2 rounded-control bg-secondary px-3.5 text-body" aria-haspopup="menu" aria-expanded="true" aria-label="Field: Price">Price<i class="i-lucide-chevrons-up-down size-4 text-muted-foreground" aria-hidden="true"></i></button><button type="button" class="inline-flex h-12 items-center gap-2 rounded-control bg-secondary px-3.5 text-body" aria-label="Direction: low to high"><i class="i-lucide-arrow-down-0-1 size-4" aria-hidden="true"></i>Low to high</button></div>
+          <div class="absolute bottom-full left-4 z-20 mb-1 w-64 overflow-hidden rounded-group bg-popover shadow-overlay" role="menu" aria-label="Sort by"><button type="button" role="menuitemradio" aria-checked="false" class="flex h-12 w-full items-center gap-3 border-b px-4 text-left text-body"><span class="flex size-5 shrink-0 items-center justify-center"></span>Name</button><button type="button" role="menuitemradio" aria-checked="true" class="flex h-12 w-full items-center gap-3 border-b px-4 text-left text-body"><span class="flex size-5 shrink-0 items-center justify-center"><i class="i-lucide-check size-4" aria-hidden="true"></i></span>Price</button><button type="button" role="menuitemradio" aria-checked="false" class="flex h-12 w-full items-center gap-3 border-b px-4 text-left text-body"><span class="flex size-5 shrink-0 items-center justify-center"></span>Rating</button><button type="button" role="menuitemradio" aria-checked="false" class="flex h-12 w-full items-center gap-3 border-b px-4 text-left text-body"><span class="flex size-5 shrink-0 items-center justify-center"></span>Reviews</button><button type="button" role="menuitemradio" aria-checked="false" class="flex h-12 w-full items-center gap-3 border-b px-4 text-left text-body"><span class="flex size-5 shrink-0 items-center justify-center"></span>Store</button><button type="button" role="menuitemradio" aria-checked="false" class="flex h-12 w-full items-center gap-3 border-b px-4 text-left text-body"><span class="flex size-5 shrink-0 items-center justify-center"></span>Category</button></div>
+        </div></div>
+    </div>
+    <div class="shrink-0 px-4 pb-2 pt-3">
+      <p class="text-center text-body tabular-nums" role="status">Round 2 will have 6 items</p>
+      <div class="mt-3"><a href="../04-prototype/swipe-demo.html?deck=desk-maybe&amp;next=S27-desk-round-2" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground rounded-full">Start round</a></div>
+    </div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S24-web-desktop" id="S24-web-desktop">
+  <figcaption class="frame-label">S24 · Web, desktop: Select opens as a popover · <span class="theme-name"></span></figcaption>
+  <div class="desktop">
+  <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/l/7Hq2xK/rounds/new</span></div>
+  <div class="desktop-column">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Start a round</h1><p class="truncate text-caption text-muted-foreground">Wedding guests</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <div class="-mt-48">
+    
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-2">Items</h2>
+    <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Items in Round 2"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="All items, 100 items. Every item in the list, decided or not" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">All items</span><span class="block text-body-sm text-muted-foreground">Every item in the list, decided or not</span></span><span class="inline-flex h-7 shrink-0 items-center rounded-full px-1 text-label tabular-nums text-muted-foreground">100</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Maybe pile, 11 items. Items marked Maybe in Round 1" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Maybe pile</span><span class="block text-body-sm text-muted-foreground">Items marked Maybe in Round 1</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-maybe-soft px-2.5 text-label tabular-nums text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>11</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Accepted items, 48 items. Narrow down what you accepted" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Accepted items</span><span class="block text-body-sm text-muted-foreground">Narrow down what you accepted</span></span><span class="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-accept-soft px-2.5 text-label tabular-nums text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>48</span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Custom selection. Filter by a field or pick items by hand" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Custom selection</span><span class="block text-body-sm text-muted-foreground">Filter by a field or pick items by hand</span></span></button>
+        
+      </div></div>
+    <h2 class="px-1 pb-2 text-label text-muted-foreground pt-6">Card order</h2>
+    <div class="divide-y rounded-group bg-card" role="radiogroup" aria-label="Card order"><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Original order. As the items were imported" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Original order</span><span class="block text-body-sm text-muted-foreground">As the items were imported</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="false" aria-label="Shuffled. A new random order for this round" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body ">Shuffled</span><span class="block text-body-sm text-muted-foreground">A new random order for this round</span></span></button>
+        
+      </div><div>
+        <button type="button" role="radio" aria-checked="true" aria-label="Sorted by a field. Choose a field and a direction" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body ">Sorted by a field</span><span class="block text-body-sm text-muted-foreground">Choose a field and a direction</span></span></button>
+        <div class="relative space-y-3 px-4 pb-4 pl-14">
+          <a href="#S24-sort-field-sheet" class="flex min-h-14 w-full items-center justify-between gap-3 rounded-control border bg-card px-3.5 py-1.5 text-left border-primary ring-2 ring-ring/30" aria-haspopup="listbox" aria-expanded="true" aria-label="Field: City" data-action="choose-sort-field"><span class="flex min-w-0 flex-col items-start"><span class="text-caption text-muted-foreground">Field</span><span class="truncate text-body">City</span></span><i class="i-lucide-chevron-down size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a>
+          <div class="absolute inset-x-4 bottom-full z-20 mb-1 overflow-hidden rounded-control bg-popover py-1.5 shadow-overlay" role="listbox" aria-label="Field"><div role="option" aria-selected="false" class="flex h-12 items-center gap-3 px-4 text-body "><span class="flex size-5 shrink-0 items-center justify-center text-primary"></span>Name</div><div role="option" aria-selected="false" class="flex h-12 items-center gap-3 px-4 text-body "><span class="flex size-5 shrink-0 items-center justify-center text-primary"></span>Phone</div><div role="option" aria-selected="false" class="flex h-12 items-center gap-3 px-4 text-body "><span class="flex size-5 shrink-0 items-center justify-center text-primary"></span>Email</div><div role="option" aria-selected="false" class="flex h-12 items-center gap-3 px-4 text-body "><span class="flex size-5 shrink-0 items-center justify-center text-primary"></span>Side</div><div role="option" aria-selected="false" class="flex h-12 items-center gap-3 px-4 text-body bg-accent"><span class="flex size-5 shrink-0 items-center justify-center text-primary"></span>Relationship</div><div role="option" aria-selected="true" class="flex h-12 items-center gap-3 px-4 text-body "><span class="flex size-5 shrink-0 items-center justify-center text-primary"><i class="i-lucide-check size-4" aria-hidden="true"></i></span>City</div></div>
+          <div class="flex rounded-full bg-secondary p-1" role="radiogroup" aria-label="Direction"><button type="button" role="radio" aria-checked="true" class="inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full px-3 text-label bg-card text-foreground shadow-raised"><i class="i-lucide-arrow-down-a-z size-4" aria-hidden="true"></i>A to Z</button><button type="button" role="radio" aria-checked="false" class="inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full px-3 text-label text-muted-foreground"><i class="i-lucide-arrow-up-z-a size-4" aria-hidden="true"></i>Z to A</button></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="flex items-center justify-center gap-2 text-body" role="status"><i class="i-lucide-layers size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="tabular-nums">Round 2 will have 48 items</span></p>
+    <p class="mt-0.5 text-center text-body-sm text-muted-foreground">Accepted items, sorted by City from A to Z</p>
+    <div class="mt-3"><button type="button" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="start-round">Start round</button></div>
+    
+  </div>
+  
+  <div class="flex shrink-0 flex-wrap justify-center gap-x-4 gap-y-2 border-t bg-background px-4 py-3 text-caption text-muted-foreground" aria-label="Keyboard shortcuts"><span class="inline-flex items-center gap-1.5"><kbd class="inline-flex h-6 min-w-6 items-center justify-center rounded-sm border border-b-2 bg-card px-1.5 text-caption text-foreground">Esc</kbd>Close</span><span class="inline-flex items-center gap-1.5"><kbd class="inline-flex h-6 min-w-6 items-center justify-center rounded-sm border border-b-2 bg-card px-1.5 text-caption text-foreground">Enter</kbd>Start round</span></div>
+  </div>
+</div>
+</figure>
+</main>
+</body>
+</html>

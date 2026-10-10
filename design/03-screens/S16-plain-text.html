@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S16 Plain-text import</title>
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body class="mock-page">
+<header class="mock-doc">
+  <h1>S16 Plain-text import</h1>
+  <p>Step 2 of a plain-text import: paste a list or open a .txt file, one item per line. Parsed lines become items with one field, named in S19. Spec: <a href="S16-plain-text.md">S16-plain-text.md</a>.</p>
+</header>
+<h2 class="mock-section">Paste or open a file</h2>
+<p>One item per line. The live count updates as the user types; blank lines are skipped and counted separately. Opening a .txt file loads its text into the same box, where it stays editable.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S16-default" id="S16-default">
+  <figcaption class="frame-label">S16 · Default: 12 lines pasted · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+    
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 2 of 4</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="4" aria-label="Step 2 of 4, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-4 px-gutter pb-6 pt-1">
+    <div><h2 class="text-title-2">Paste your list</h2><p class="mt-1 text-body text-muted-foreground">One item per line. Blank lines are skipped.</p></div>
+    <div class="flex rounded-full bg-secondary p-1" role="tablist" aria-label="Show"><button role="tab" aria-selected="true" class="min-h-touch flex-1 rounded-full px-3 text-label bg-card shadow-raised">Text</button><button role="tab" aria-selected="false" class="min-h-touch flex-1 rounded-full px-3 text-label text-muted-foreground">Preview (12)</button></div>
+    
+    
+    <div><label for="ta1" class="sr-only">Items, one per line</label><textarea id="ta1" rows="15" class="block w-full resize-none rounded-control border border-input bg-card px-3.5 py-3 text-body placeholder:text-muted-foreground ">The Remains of the Day
+Piranesi
+Kürk Mantolu Madonna
+Klara and the Sun
+Tomorrow, and Tomorrow, and Tomorrow
+Beyaz Kale
+
+A Gentleman in Moscow
+The Overstory
+İnce Memed
+Station Eleven
+Sapiens
+The Left Hand of Darkness</textarea><div class="mt-2 flex items-baseline justify-between gap-3" role="status"><span class="text-label tabular-nums">12 items</span><span class="text-caption text-muted-foreground">1 blank line skipped</span></div></div>
+    <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control px-4 text-label-lg border border-input bg-card w-full"><i class="i-lucide-file-up size-5" aria-hidden="true"></i>Open a .txt file</button>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="S19-field-mapping.html#S19-text" class="flex h-14 w-full items-center justify-center gap-2 rounded-control bg-primary px-6 text-label-lg text-primary-foreground" data-action="continue">Continue</a>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S16-empty" id="S16-empty">
+  <figcaption class="frame-label">S16 · Empty (first open) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+    
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 2 of 4</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="4" aria-label="Step 2 of 4, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-4 px-gutter pb-6 pt-1">
+    <div><h2 class="text-title-2">Paste your list</h2><p class="mt-1 text-body text-muted-foreground">One item per line. Blank lines are skipped.</p></div>
+    <div class="flex rounded-full bg-secondary p-1" role="tablist" aria-label="Show"><button role="tab" aria-selected="true" class="min-h-touch flex-1 rounded-full px-3 text-label bg-card shadow-raised">Text</button><button role="tab" aria-selected="false" class="min-h-touch flex-1 rounded-full px-3 text-label text-muted-foreground">Preview (0)</button></div>
+    <div><label for="ta2" class="sr-only">Items, one per line</label><textarea id="ta2" rows="15" class="block w-full resize-none rounded-control border border-primary ring-2 ring-ring/30 bg-card px-3.5 py-3 text-body placeholder:text-muted-foreground " placeholder="Type or paste, one item per line"></textarea><div class="mt-2 flex items-baseline justify-between gap-3" role="status"><span class="text-label text-muted-foreground tabular-nums">0 items</span></div></div>
+    <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control px-4 text-label-lg border border-input bg-card w-full"><i class="i-lucide-file-up size-5" aria-hidden="true"></i>Open a .txt file</button>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <button class="flex h-14 w-full items-center justify-center gap-2 rounded-control bg-primary px-6 text-label-lg text-primary-foreground opacity-50" disabled>Continue</button>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S16-preview" id="S16-preview">
+  <figcaption class="frame-label">S16 · Preview tab: parsed items in order · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+    
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 2 of 4</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="4" aria-label="Step 2 of 4, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-4 px-gutter pb-6 pt-1">
+    <div><h2 class="text-title-2">Paste your list</h2><p class="mt-1 text-body text-muted-foreground">One item per line. Blank lines are skipped.</p></div>
+    <div class="flex rounded-full bg-secondary p-1" role="tablist" aria-label="Show"><button role="tab" aria-selected="false" class="min-h-touch flex-1 rounded-full px-3 text-label text-muted-foreground">Text</button><button role="tab" aria-selected="true" class="min-h-touch flex-1 rounded-full px-3 text-label bg-card shadow-raised">Preview (12)</button></div>
+    <p class="text-body-sm text-muted-foreground">Each line becomes one item, in this order.</p>
+    <ol class="divide-y overflow-hidden rounded-group bg-card" aria-label="12 items"><li class="flex min-h-12 items-center gap-3 px-4 py-2"><span class="w-6 shrink-0 text-caption tabular-nums text-muted-foreground" aria-hidden="true">1</span><span class="min-w-0 flex-1 text-body">The Remains of the Day</span></li><li class="flex min-h-12 items-center gap-3 px-4 py-2"><span class="w-6 shrink-0 text-caption tabular-nums text-muted-foreground" aria-hidden="true">2</span><span class="min-w-0 flex-1 text-body">Piranesi</span></li><li class="flex min-h-12 items-center gap-3 px-4 py-2"><span class="w-6 shrink-0 text-caption tabular-nums text-muted-foreground" aria-hidden="true">3</span><span class="min-w-0 flex-1 text-body">Kürk Mantolu Madonna</span></li><li class="flex min-h-12 items-center gap-3 px-4 py-2"><span class="w-6 shrink-0 text-caption tabular-nums text-muted-foreground" aria-hidden="true">4</span><span class="min-w-0 flex-1 text-body">Klara and the Sun</span></li><li class="flex min-h-12 items-center gap-3 px-4 py-2"><span class="w-6 shrink-0 text-caption tabular-nums text-muted-foreground" aria-hidden="true">5</span><span class="min-w-0 flex-1 text-body">Tomorrow, and Tomorrow, and Tomorrow</span></li><li class="flex min-h-12 items-center gap-3 px-4 py-2"><span class="w-6 shrink-0 text-caption tabular-nums text-muted-foreground" aria-hidden="true">6</span><span class="min-w-0 flex-1 text-body">Beyaz Kale</span></li><li class="flex min-h-12 items-center gap-3 px-4 py-2"><span class="w-6 shrink-0 text-caption tabular-nums text-muted-foreground" aria-hidden="true">7</span><span class="min-w-0 flex-1 text-body">A Gentleman in Moscow</span></li><li class="flex min-h-12 items-center gap-3 px-4 py-2"><span class="w-6 shrink-0 text-caption tabular-nums text-muted-foreground" aria-hidden="true">8</span><span class="min-w-0 flex-1 text-body">The Overstory</span></li><li class="flex min-h-12 items-center gap-3 px-4 py-2"><span class="w-6 shrink-0 text-caption tabular-nums text-muted-foreground" aria-hidden="true">9</span><span class="min-w-0 flex-1 text-body">İnce Memed</span></li><li class="flex min-h-12 items-center gap-3 px-4 py-2"><span class="w-6 shrink-0 text-caption tabular-nums text-muted-foreground" aria-hidden="true">10</span><span class="min-w-0 flex-1 text-body">Station Eleven</span></li><li class="flex min-h-12 items-center gap-3 px-4 py-2"><span class="w-6 shrink-0 text-caption tabular-nums text-muted-foreground" aria-hidden="true">11</span><span class="min-w-0 flex-1 text-body">Sapiens</span></li><li class="flex min-h-12 items-center gap-3 px-4 py-2"><span class="w-6 shrink-0 text-caption tabular-nums text-muted-foreground" aria-hidden="true">12</span><span class="min-w-0 flex-1 text-body">The Left Hand of Darkness</span></li></ol>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="S19-field-mapping.html#S19-text" class="flex h-14 w-full items-center justify-center gap-2 rounded-control bg-primary px-6 text-label-lg text-primary-foreground" data-action="continue">Continue</a>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S16-duplicates" id="S16-duplicates">
+  <figcaption class="frame-label">S16 · Duplicate lines · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+    
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 2 of 4</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="4" aria-label="Step 2 of 4, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-4 px-gutter pb-6 pt-1">
+    <div><h2 class="text-title-2">Paste your list</h2><p class="mt-1 text-body text-muted-foreground">One item per line. Blank lines are skipped.</p></div>
+    <div class="flex rounded-full bg-secondary p-1" role="tablist" aria-label="Show"><button role="tab" aria-selected="true" class="min-h-touch flex-1 rounded-full px-3 text-label bg-card shadow-raised">Text</button><button role="tab" aria-selected="false" class="min-h-touch flex-1 rounded-full px-3 text-label text-muted-foreground">Preview (14)</button></div>
+    <div class="flex gap-3 rounded-control bg-primary-soft text-primary-soft-foreground p-4" role="note"><i class="i-lucide-copy size-5 shrink-0" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">2 lines appear twice: Piranesi, Station Eleven.</p><p class="mt-0.5 text-body-sm">Duplicates stay in the list unless you remove them.</p><div class="mt-2 flex flex-wrap gap-x-4"><button class="inline-flex min-h-touch items-center text-label text-primary underline underline-offset-4" data-action="remove-duplicates">Remove duplicates</button></div></div></div>
+    
+    <div><label for="ta3" class="sr-only">Items, one per line</label><textarea id="ta3" rows="9" class="block w-full resize-none rounded-control border border-input bg-card px-3.5 py-3 text-body placeholder:text-muted-foreground ">The Remains of the Day
+Piranesi
+Kürk Mantolu Madonna
+Piranesi
+Klara and the Sun
+Tomorrow, and Tomorrow, and Tomorrow
+Beyaz Kale
+A Gentleman in Moscow
+The Overstory
+İnce Memed
+Station Eleven
+Station Eleven
+Sapiens
+The Left Hand of Darkness</textarea><div class="mt-2 flex items-baseline justify-between gap-3" role="status"><span class="text-label tabular-nums">14 items, 2 duplicates</span></div></div>
+    <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control px-4 text-label-lg border border-input bg-card w-full"><i class="i-lucide-file-up size-5" aria-hidden="true"></i>Open a .txt file</button>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="S19-field-mapping.html#S19-text" class="flex h-14 w-full items-center justify-center gap-2 rounded-control bg-primary px-6 text-label-lg text-primary-foreground" data-action="continue">Continue</a>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S16-too-many" id="S16-too-many">
+  <figcaption class="frame-label">S16 · Too many lines (limit 5,000) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+    
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 2 of 4</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="4" aria-label="Step 2 of 4, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-4 px-gutter pb-6 pt-1">
+    <div><h2 class="text-title-2">Paste your list</h2><p class="mt-1 text-body text-muted-foreground">One item per line. Blank lines are skipped.</p></div>
+    <div class="flex rounded-full bg-secondary p-1" role="tablist" aria-label="Show"><button role="tab" aria-selected="true" class="min-h-touch flex-1 rounded-full px-3 text-label bg-card shadow-raised">Text</button><button role="tab" aria-selected="false" class="min-h-touch flex-1 rounded-full px-3 text-label text-muted-foreground">Preview (5,000)</button></div>
+    <div class="flex gap-3 rounded-control border border-destructive/40 bg-card p-4" role="alert"><i class="i-lucide-circle-alert size-5 shrink-0 text-destructive" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">6,214 lines</p><p class="mt-0.5 text-body-sm text-muted-foreground">Up to 5,000 items can be imported at a time. Only the first 5,000 lines will be imported.</p></div></div>
+    
+    <div><label for="ta4" class="sr-only">Items, one per line</label><textarea id="ta4" rows="10" class="block w-full resize-none rounded-control border border-input bg-card px-3.5 py-3 text-body placeholder:text-muted-foreground ">Ishiguro, The Buried Giant
+Le Guin, The Dispossessed
+Mandel, Sea of Tranquility
+Pamuk, Kar
+Pamuk, Masumiyet Müzesi
+Atwood, The Testaments
+Kemal, Yer Demir Gök Bakır
+Clarke, Jonathan Strange and Mr Norrell
+von Arnim, Elizabeth and Her German Garden
+Ali, Kürk Mantolu Madonna</textarea><div class="mt-2 flex items-baseline justify-between gap-3" role="status"><span class="inline-flex items-center gap-1.5 text-label tabular-nums text-destructive"><i class="i-lucide-circle-alert size-4" aria-hidden="true"></i>6,214 items, limit 5,000</span></div></div>
+    <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control px-4 text-label-lg border border-input bg-card w-full"><i class="i-lucide-file-up size-5" aria-hidden="true"></i>Open a .txt file</button>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="S19-field-mapping.html#S19-text" class="flex h-14 w-full items-center justify-center gap-2 rounded-control bg-primary px-6 text-label-lg text-primary-foreground" data-action="continue">Continue with 5,000 items</a>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S16-file" id="S16-file">
+  <figcaption class="frame-label">S16 · Opened book-club.txt · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+    
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 2 of 4</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="4" aria-label="Step 2 of 4, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-4 px-gutter pb-6 pt-1">
+    <div><h2 class="text-title-2">Paste your list</h2><p class="mt-1 text-body text-muted-foreground">One item per line. Blank lines are skipped.</p></div>
+    <div class="flex rounded-full bg-secondary p-1" role="tablist" aria-label="Show"><button role="tab" aria-selected="true" class="min-h-touch flex-1 rounded-full px-3 text-label bg-card shadow-raised">Text</button><button role="tab" aria-selected="false" class="min-h-touch flex-1 rounded-full px-3 text-label text-muted-foreground">Preview (12)</button></div>
+    
+    <div class="flex min-h-14 items-center gap-3 rounded-control border bg-card py-1 pl-4 pr-1">
+      <i class="i-lucide-file-text size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i>
+      <div class="min-w-0 flex-1"><p class="truncate text-body">book-club.txt</p><p class="text-caption text-muted-foreground">12 lines, editable below</p></div>
+      <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control px-4 text-label-lg  px-3" aria-label="Clear book-club.txt">Clear</button>
+    </div>
+    <div><label for="ta5" class="sr-only">Items, one per line</label><textarea id="ta5" rows="12" class="block w-full resize-none rounded-control border border-input bg-card px-3.5 py-3 text-body placeholder:text-muted-foreground ">The Remains of the Day
+Piranesi
+Kürk Mantolu Madonna
+Klara and the Sun
+Tomorrow, and Tomorrow, and Tomorrow
+Beyaz Kale
+A Gentleman in Moscow
+The Overstory
+İnce Memed
+Station Eleven
+Sapiens
+The Left Hand of Darkness</textarea><div class="mt-2 flex items-baseline justify-between gap-3" role="status"><span class="text-label tabular-nums">12 items</span></div></div>
+    <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control px-4 text-label-lg  w-full"><i class="i-lucide-file-up size-5" aria-hidden="true"></i>Open another file</button>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="S19-field-mapping.html#S19-text" class="flex h-14 w-full items-center justify-center gap-2 rounded-control bg-primary px-6 text-label-lg text-primary-foreground" data-action="continue">Continue</a>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Loading and errors</h2>
+<p>Reading a file is usually instant; the spinner shows for large files. File errors say what happened and how to fix it; the paste box stays available as a fallback.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S16-loading" id="S16-loading">
+  <figcaption class="frame-label">S16 · Reading a file · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+    
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 2 of 4</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="4" aria-label="Step 2 of 4, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-4 px-gutter pb-6 pt-1">
+    <div><h2 class="text-title-2">Paste your list</h2><p class="mt-1 text-body text-muted-foreground">One item per line. Blank lines are skipped.</p></div>
+    <div class="flex rounded-full bg-secondary p-1" role="tablist" aria-label="Show"><button role="tab" aria-selected="true" class="min-h-touch flex-1 rounded-full px-3 text-label bg-card shadow-raised">Text</button><button role="tab" aria-selected="false" class="min-h-touch flex-1 rounded-full px-3 text-label text-muted-foreground">Preview (0)</button></div>
+    <div class="flex h-80 items-center justify-center rounded-control border border-input bg-card" aria-busy="true"><div class="flex items-center gap-3 text-body text-muted-foreground" role="status"><i class="i-lucide-loader-circle size-6 animate-spin text-primary" aria-hidden="true"></i>Reading book-club.txt…</div></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <button class="flex h-14 w-full items-center justify-center gap-2 rounded-control bg-primary px-6 text-label-lg text-primary-foreground opacity-50" disabled>Continue</button>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S16-error-empty-file" id="S16-error-empty-file">
+  <figcaption class="frame-label">S16 · Error: the file is empty · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+    
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 2 of 4</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="4" aria-label="Step 2 of 4, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-4 px-gutter pb-6 pt-1">
+    <div><h2 class="text-title-2">Paste your list</h2><p class="mt-1 text-body text-muted-foreground">One item per line. Blank lines are skipped.</p></div>
+    <div class="flex rounded-full bg-secondary p-1" role="tablist" aria-label="Show"><button role="tab" aria-selected="true" class="min-h-touch flex-1 rounded-full px-3 text-label bg-card shadow-raised">Text</button><button role="tab" aria-selected="false" class="min-h-touch flex-1 rounded-full px-3 text-label text-muted-foreground">Preview (0)</button></div>
+    <div class="flex gap-3 rounded-control border border-destructive/40 bg-card p-4" role="alert"><i class="i-lucide-file-x size-5 shrink-0 text-destructive" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">reading-list.txt is empty</p><p class="mt-0.5 text-body-sm text-muted-foreground">Choose another file or paste your list.</p></div></div>
+    <div><label for="ta6" class="sr-only">Items, one per line</label><textarea id="ta6" rows="9" class="block w-full resize-none rounded-control border border-input bg-card px-3.5 py-3 text-body placeholder:text-muted-foreground " placeholder="Type or paste, one item per line"></textarea><div class="mt-2 flex items-baseline justify-between gap-3" role="status"><span class="text-label text-muted-foreground tabular-nums">0 items</span></div></div>
+    <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control px-4 text-label-lg bg-secondary text-secondary-foreground w-full" data-action="choose-file"><i class="i-lucide-file-up size-5" aria-hidden="true"></i>Choose another file</button>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <button class="flex h-14 w-full items-center justify-center gap-2 rounded-control bg-primary px-6 text-label-lg text-primary-foreground opacity-50" disabled>Continue</button>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S16-error-unreadable" id="S16-error-unreadable">
+  <figcaption class="frame-label">S16 · Error: the file can’t be read · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+    
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 2 of 4</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="4" aria-label="Step 2 of 4, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-4 px-gutter pb-6 pt-1">
+    <div><h2 class="text-title-2">Paste your list</h2><p class="mt-1 text-body text-muted-foreground">One item per line. Blank lines are skipped.</p></div>
+    <div class="flex rounded-full bg-secondary p-1" role="tablist" aria-label="Show"><button role="tab" aria-selected="true" class="min-h-touch flex-1 rounded-full px-3 text-label bg-card shadow-raised">Text</button><button role="tab" aria-selected="false" class="min-h-touch flex-1 rounded-full px-3 text-label text-muted-foreground">Preview (0)</button></div>
+    <div class="flex gap-3 rounded-control border border-destructive/40 bg-card p-4" role="alert"><i class="i-lucide-file-warning size-5 shrink-0 text-destructive" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">book-club.docx can’t be read</p><p class="mt-0.5 text-body-sm text-muted-foreground">Save it as plain text (.txt) and try again.</p></div></div>
+    <div><label for="ta7" class="sr-only">Items, one per line</label><textarea id="ta7" rows="9" class="block w-full resize-none rounded-control border border-input bg-card px-3.5 py-3 text-body placeholder:text-muted-foreground " placeholder="Type or paste, one item per line"></textarea><div class="mt-2 flex items-baseline justify-between gap-3" role="status"><span class="text-label text-muted-foreground tabular-nums">0 items</span></div></div>
+    <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control px-4 text-label-lg bg-secondary text-secondary-foreground w-full" data-action="choose-file"><i class="i-lucide-file-up size-5" aria-hidden="true"></i>Choose another file</button>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <button class="flex h-14 w-full items-center justify-center gap-2 rounded-control bg-primary px-6 text-label-lg text-primary-foreground opacity-50" disabled>Continue</button>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Accessibility</h2>
+<p>At 200% text the box keeps at least 6 visible lines and the page scrolls; the count and the file button stay below the box.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S16-large-text" id="S16-large-text">
+  <figcaption class="frame-label">S16 · Large text (200%) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-7" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-2">Import</h1>
+  </header>
+  <div class="shrink-0 px-gutter pb-3"><p class="text-title-3">Select items</p><p class="text-body-lg text-muted-foreground">Step 2 of 4</p>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="4" aria-label="Step 2 of 4, Select items"><span class="h-1.5 flex-1 rounded-full bg-primary"></span><span class="h-1.5 flex-1 rounded-full bg-primary"></span><span class="h-1.5 flex-1 rounded-full bg-muted"></span><span class="h-1.5 flex-1 rounded-full bg-muted"></span></div></div>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-4 px-gutter pb-6 pt-1">
+    <div><h2 class="text-display">Paste your list</h2><p class="mt-1 text-title-2 font-normal text-muted-foreground">One item per line. Blank lines are skipped.</p></div>
+    <div class="flex rounded-full bg-secondary p-1" role="tablist" aria-label="Show"><button role="tab" aria-selected="true" class="min-h-14 flex-1 rounded-full px-3 text-title-2 font-normal bg-card shadow-raised">Text</button><button role="tab" aria-selected="false" class="min-h-14 flex-1 rounded-full px-3 text-title-2 font-normal text-muted-foreground">Preview (12)</button></div>
+    <div><label for="ta8" class="sr-only">Items, one per line</label><textarea id="ta8" rows="7" class="block w-full resize-none rounded-control border border-input bg-card px-3.5 py-3 text-title-2 font-normal placeholder:text-muted-foreground ">The Remains of the Day
+Piranesi
+Kürk Mantolu Madonna
+Klara and the Sun
+Tomorrow, and Tomorrow, and Tomorrow
+Beyaz Kale
+A Gentleman in Moscow</textarea><div class="mt-2" role="status"><span class="text-title-2 tabular-nums">12 items</span></div></div>
+    <button class="inline-flex min-h-16 items-center justify-center gap-2 rounded-control px-4 border border-input bg-card w-full text-title-3 font-normal"><i class="i-lucide-file-up size-5" aria-hidden="true"></i>Open a .txt file</button>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3"><a href="S19-field-mapping.html#S19-text" class="flex min-h-16 w-full items-center justify-center rounded-control bg-primary px-6 text-title-3 text-primary-foreground" data-action="continue">Continue</a></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">iOS and web</h2>
+<p>iOS: 44 pt bar with a back chevron to the source picker (edge swipe goes back) and close at the right; “Open a .txt file” opens the Files app. Web: the file opens with the browser’s file picker; on desktop the user can also drop a file on the page.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S16-ios" id="S16-ios">
+  <figcaption class="frame-label">S16 · iOS · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="grid h-11 shrink-0 grid-cols-[1fr_auto_1fr] items-center px-2">
+    <a href="S11-source-picker.html#S11-default" class="inline-flex h-12 items-center gap-0.5 justify-self-start pr-2 text-body text-primary" aria-label="Back to Choose source"><i class="i-lucide-chevron-left size-6" aria-hidden="true"></i>Back</a>
+    <h1 class="text-body font-semibold">Import</h1>
+    <div class="flex justify-end"><a href="S08-home.html#S08-default" class="ml-auto flex size-12 items-center justify-center rounded-full text-primary" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a></div>
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 2 of 4</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="4" aria-label="Step 2 of 4, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-4 px-gutter pb-6 pt-1">
+    <div><h2 class="text-title-2">Paste your list</h2><p class="mt-1 text-body text-muted-foreground">One item per line. Blank lines are skipped.</p></div>
+    <div class="flex rounded-full bg-secondary p-1" role="tablist" aria-label="Show"><button role="tab" aria-selected="true" class="min-h-touch flex-1 rounded-full px-3 text-label bg-card shadow-raised">Text</button><button role="tab" aria-selected="false" class="min-h-touch flex-1 rounded-full px-3 text-label text-muted-foreground">Preview (12)</button></div>
+    
+    
+    <div><label for="ta9" class="sr-only">Items, one per line</label><textarea id="ta9" rows="13" class="block w-full resize-none rounded-control border border-input bg-card px-3.5 py-3 text-body placeholder:text-muted-foreground ">The Remains of the Day
+Piranesi
+Kürk Mantolu Madonna
+Klara and the Sun
+Tomorrow, and Tomorrow, and Tomorrow
+Beyaz Kale
+
+A Gentleman in Moscow
+The Overstory
+İnce Memed
+Station Eleven
+Sapiens
+The Left Hand of Darkness</textarea><div class="mt-2 flex items-baseline justify-between gap-3" role="status"><span class="text-label tabular-nums">12 items</span><span class="text-caption text-muted-foreground">1 blank line skipped</span></div></div>
+    <button class="inline-flex h-12 items-center justify-center gap-2 rounded-control px-4 text-label-lg border border-input bg-card w-full"><i class="i-lucide-file-up size-5" aria-hidden="true"></i>Open a .txt file</button>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="S19-field-mapping.html#S19-text" class="flex h-14 w-full items-center justify-center gap-2 rounded-control bg-primary px-6 text-label-lg text-primary-foreground" data-action="continue">Continue</a>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S16-web-desktop" id="S16-web-desktop">
+  <figcaption class="frame-label">S16 · Web, desktop: paste or drop a file · <span class="theme-name"></span></figcaption>
+  <div class="desktop">
+  <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/import/text</span></div>
+  <div class="desktop-column">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+    
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 2 of 4</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="4" aria-label="Step 2 of 4, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-4 px-gutter pb-6 pt-1">
+    <div><h2 class="text-title-2">Paste your list</h2><p class="mt-1 text-body text-muted-foreground">One item per line. Blank lines are skipped.</p></div>
+    <div class="flex rounded-full bg-secondary p-1" role="tablist" aria-label="Show"><button role="tab" aria-selected="true" class="min-h-touch flex-1 rounded-full px-3 text-label bg-card shadow-raised">Text</button><button role="tab" aria-selected="false" class="min-h-touch flex-1 rounded-full px-3 text-label text-muted-foreground">Preview (12)</button></div>
+    
+    
+    <div><label for="ta10" class="sr-only">Items, one per line</label><textarea id="ta10" rows="8" class="block w-full resize-none rounded-control border border-input bg-card px-3.5 py-3 text-body placeholder:text-muted-foreground ">The Remains of the Day
+Piranesi
+Kürk Mantolu Madonna
+Klara and the Sun
+Tomorrow, and Tomorrow, and Tomorrow
+Beyaz Kale
+
+A Gentleman in Moscow
+The Overstory
+İnce Memed
+Station Eleven
+Sapiens
+The Left Hand of Darkness</textarea><div class="mt-2 flex items-baseline justify-between gap-3" role="status"><span class="text-label tabular-nums">12 items</span><span class="text-caption text-muted-foreground">1 blank line skipped</span></div></div>
+    <div class="flex flex-col items-center rounded-tile border-2 border-dashed border-input px-4 py-5 text-center">
+      <i class="i-lucide-file-up size-6 text-muted-foreground" aria-hidden="true"></i>
+      <p class="mt-2 text-body">Drop a .txt file here, or <button class="inline-flex min-h-touch items-center text-primary underline underline-offset-4">browse</button></p>
+      <p class="text-caption text-muted-foreground">Plain text, UTF-8, up to 5,000 lines</p>
+    </div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="S19-field-mapping.html#S19-text" class="flex h-14 w-full items-center justify-center gap-2 rounded-control bg-primary px-6 text-label-lg text-primary-foreground" data-action="continue">Continue</a>
+  </div>
+  
+  </div>
+</div>
+</figure>
+</main>
+</body>
+</html>

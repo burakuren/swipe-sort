@@ -159,7 +159,7 @@ contain a `Sxx-default` frame plus the IDs listed for it here.
 | `S05-share` | Sign-in prompt for sharing; `S05-backup`, `S05-moving`, `S05-moved` |
 | `S06-default` | Settings root (signed in); `S06-guest` |
 | `S08-first-run` | Empty home with Try a sample list; `S08-default` (lists); `S08-guest` |
-| `S09-solo` = `S09-default`; `S09-solo-round-done` (Desk setup after round 1); `S09-shared` (Wedding guests); `S09-guest-wedding` (wedding list before sharing, guest) | List overview |
+| `S09-default` (solo list); `S09-solo-round-done` (Desk setup after round 1); `S09-shared` (Wedding guests); `S09-guest-wedding` (wedding list before sharing, not signed in) | List overview |
 | `S11-default` | Source picker (Android); `S11-web` |
 | `S12-contacts` | Contacts explainer; `S12-photos`, `S12-notifications`, `S12-contacts-denied` |
 | `S13-select-default` | Contacts selection (88 selected) |
@@ -171,7 +171,7 @@ contain a `Sxx-default` frame plus the IDs listed for it here.
 | `S24-maybe` | Start round with Maybe pile preselected; `S24-default` |
 | `S25-default` | Sorting (solo); `S25-shared`, `S25-web-desktop`, `S25-candidate`, `S25-coach-1` |
 | `S27-default` | Round summary (solo, Wedding guests round 1 complete); `S27-desk-round-2` (Maybe pile re-sorted); `S27-shared` |
-| `S28-default` | Results |
+| `S28-default` | Results (Desk setup, after Round 2); `S28-shared` (Wedding guests) |
 | `S31-default` | Invite; `S31-link-copied` |
 | `S32-web-desktop` | Invite link opened in desktop browser; `S32-app` |
 | `S33-default` | Join (app); `S33-web-desktop` |

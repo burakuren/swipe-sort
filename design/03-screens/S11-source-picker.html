@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S11 Source picker</title>
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body class="mock-page">
+<header class="mock-doc">
+  <h1>S11 Source picker</h1>
+  <p>Step 1 of every import. Each tile is one Source definition; a new source is one more tile that reuses the same steps (Select items, Map fields, Review duplicates, Finish). Spec: <a href="S11-source-picker.md">S11-source-picker.md</a>. Shared import chrome (modal app bar, ImportStepper, bottom actions) matches S16–S21.</p>
+</header>
+<h2 class="mock-section">Source picker</h2>
+<p>Android reference. Tapping a tile opens that source’s Select items step; contacts and photos first show the pre-permission explainer (S12) unless access was already granted.</p>
+<main class="mock-canvas">
+
+<figure class="frame" data-frame="S11-default" id="S11-default">
+  <figcaption class="frame-label">S11 · Default: new list (Android) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Choose source</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 1 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5" aria-label="Step 1 of 5, Choose source"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col px-gutter pb-5 pt-1">
+    <h2 class="text-title-2">Where are your items?</h2>
+    <p class="mt-1 text-body text-muted-foreground">Choose a source. You can add items from other sources later.</p>
+    <div class="mt-6 grid auto-rows-fr grid-cols-2 gap-3"><a href="S12-permissions.html#S12-contacts" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-contacts"><i class="i-lucide-contact size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Contacts</span><span class="block text-caption text-muted-foreground">From this phone</span></span></a><a href="S14-file-import.html#S14-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-csv"><i class="i-lucide-file-spreadsheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">CSV or Excel</span><span class="block text-caption text-muted-foreground">A .csv or .xlsx file</span></span></a><a href="S15-google-sheets.html#S15-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-google"><i class="i-lucide-sheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Google Sheets</span><span class="block text-caption text-muted-foreground">From Google Drive</span></span></a><a href="S16-plain-text.html#S16-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-text"><i class="i-lucide-text size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Plain text</span><span class="block text-caption text-muted-foreground">Paste a list or a .txt file</span></span></a><a href="S17-manual-entry.html#S17-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-manual"><i class="i-lucide-square-pen size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Manual entry</span><span class="block text-caption text-muted-foreground">Type items one by one</span></span></a><a href="S12-permissions.html#S12-photos" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-photos"><i class="i-lucide-images size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Photos</span><span class="block text-caption text-muted-foreground">From your gallery</span></span></a></div>
+    
+    <div class="mt-auto pt-6"><p class="flex gap-2 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>SwipeSort imports a copy. Your contacts, files and sheets are never changed.</span></p></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S11-existing-list" id="S11-existing-list">
+  <figcaption class="frame-label">S11 · Adding items to an existing list (from S21) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close, back to Wedding guests" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Add items</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Choose source</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 1 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5" aria-label="Step 1 of 5, Choose source"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col px-gutter pb-5 pt-1">
+    <h2 class="text-title-2">Add items to Wedding guests</h2>
+    <p class="mt-1 text-body text-muted-foreground">Choose where the new items come from. They join the current round.</p>
+    <div class="mt-6 grid auto-rows-fr grid-cols-2 gap-3"><a href="S12-permissions.html#S12-contacts" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-contacts"><i class="i-lucide-contact size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Contacts</span><span class="block text-caption text-muted-foreground">From this phone</span></span></a><a href="S14-file-import.html#S14-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-csv"><i class="i-lucide-file-spreadsheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">CSV or Excel</span><span class="block text-caption text-muted-foreground">A .csv or .xlsx file</span></span></a><a href="S15-google-sheets.html#S15-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-google"><i class="i-lucide-sheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Google Sheets</span><span class="block text-caption text-muted-foreground">From Google Drive</span></span></a><a href="S16-plain-text.html#S16-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-text"><i class="i-lucide-text size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Plain text</span><span class="block text-caption text-muted-foreground">Paste a list or a .txt file</span></span></a><a href="S17-manual-entry.html#S17-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-manual"><i class="i-lucide-square-pen size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Manual entry</span><span class="block text-caption text-muted-foreground">Type items one by one</span></span></a><a href="S12-permissions.html#S12-photos" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-photos"><i class="i-lucide-images size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Photos</span><span class="block text-caption text-muted-foreground">From your gallery</span></span></a></div>
+    <h3 class="mt-7 px-1 pb-2 text-label text-muted-foreground">Already in Wedding guests</h3>
+    <ul class="divide-y overflow-hidden rounded-group bg-card">
+      <li class="flex min-h-14 items-center gap-4 px-4 py-3"><i class="i-lucide-contact size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Contacts</span><span class="block text-body-sm text-muted-foreground">88 items, added Sep 27</span></span></li>
+      <li class="flex min-h-14 items-center gap-4 px-4 py-3"><i class="i-lucide-file-spreadsheet size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block truncate text-body">mert-family.csv</span><span class="block text-body-sm text-muted-foreground">12 items, added Sep 28</span></span></li>
+    </ul>
+    <p class="mt-2 flex gap-2 px-1 text-body-sm text-muted-foreground"><i class="i-lucide-combine size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>A list can combine any sources. New items are checked for duplicates before they’re added.</span></p>
+    
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S11-offline" id="S11-offline">
+  <figcaption class="frame-label">S11 · Offline: Google Sheets unavailable, other sources work · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="flex shrink-0 items-center gap-2 bg-muted px-gutter py-2 text-body-sm" role="status"><i class="i-lucide-wifi-off size-4 shrink-0" aria-hidden="true"></i><span class="flex-1">You’re offline. Google Sheets needs a connection; other sources work.</span></div><div class="h-3 shrink-0"></div><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Choose source</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 1 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5" aria-label="Step 1 of 5, Choose source"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col px-gutter pb-5 pt-1">
+    <h2 class="text-title-2">Where are your items?</h2>
+    <p class="mt-1 text-body text-muted-foreground">Choose a source. You can add items from other sources later.</p>
+    <div class="mt-6 grid auto-rows-fr grid-cols-2 gap-3"><a href="S12-permissions.html#S12-contacts" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-contacts"><i class="i-lucide-contact size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Contacts</span><span class="block text-caption text-muted-foreground">From this phone</span></span></a><a href="S14-file-import.html#S14-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-csv"><i class="i-lucide-file-spreadsheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">CSV or Excel</span><span class="block text-caption text-muted-foreground">A .csv or .xlsx file</span></span></a><a href="#S11-offline-tapped" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border border-dashed border-input bg-transparent p-4" aria-haspopup="dialog" data-action="source-google"><span class="flex w-full items-start justify-between"><i class="i-lucide-sheet size-6 text-muted-foreground" aria-hidden="true"></i><i class="i-lucide-wifi-off size-4 text-muted-foreground" aria-hidden="true"></i></span><span><span class="block text-label-lg text-muted-foreground">Google Sheets</span><span class="block text-caption text-muted-foreground">Needs a connection</span></span></a><a href="S16-plain-text.html#S16-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-text"><i class="i-lucide-text size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Plain text</span><span class="block text-caption text-muted-foreground">Paste a list or a .txt file</span></span></a><a href="S17-manual-entry.html#S17-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-manual"><i class="i-lucide-square-pen size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Manual entry</span><span class="block text-caption text-muted-foreground">Type items one by one</span></span></a><a href="S12-permissions.html#S12-photos" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-photos"><i class="i-lucide-images size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Photos</span><span class="block text-caption text-muted-foreground">From your gallery</span></span></a></div>
+    
+    <div class="mt-auto pt-6"><p class="flex gap-2 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>SwipeSort imports a copy. Your contacts, files and sheets are never changed.</span></p></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S11-offline-tapped" id="S11-offline-tapped">
+  <figcaption class="frame-label">S11 · Offline: Google Sheets tile tapped · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="flex shrink-0 items-center gap-2 bg-muted px-gutter py-2 text-body-sm" role="status"><i class="i-lucide-wifi-off size-4 shrink-0" aria-hidden="true"></i><span class="flex-1">You’re offline. Google Sheets needs a connection; other sources work.</span></div><div class="h-3 shrink-0"></div><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Choose source</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 1 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5" aria-label="Step 1 of 5, Choose source"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col px-gutter pb-5 pt-1">
+    <h2 class="text-title-2">Where are your items?</h2>
+    <p class="mt-1 text-body text-muted-foreground">Choose a source. You can add items from other sources later.</p>
+    <div class="mt-6 grid auto-rows-fr grid-cols-2 gap-3"><a href="S12-permissions.html#S12-contacts" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-contacts"><i class="i-lucide-contact size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Contacts</span><span class="block text-caption text-muted-foreground">From this phone</span></span></a><a href="S14-file-import.html#S14-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-csv"><i class="i-lucide-file-spreadsheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">CSV or Excel</span><span class="block text-caption text-muted-foreground">A .csv or .xlsx file</span></span></a><a href="#S11-offline-tapped" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border border-dashed border-input bg-transparent p-4" aria-haspopup="dialog" data-action="source-google"><span class="flex w-full items-start justify-between"><i class="i-lucide-sheet size-6 text-muted-foreground" aria-hidden="true"></i><i class="i-lucide-wifi-off size-4 text-muted-foreground" aria-hidden="true"></i></span><span><span class="block text-label-lg text-muted-foreground">Google Sheets</span><span class="block text-caption text-muted-foreground">Needs a connection</span></span></a><a href="S16-plain-text.html#S16-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-text"><i class="i-lucide-text size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Plain text</span><span class="block text-caption text-muted-foreground">Paste a list or a .txt file</span></span></a><a href="S17-manual-entry.html#S17-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-manual"><i class="i-lucide-square-pen size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Manual entry</span><span class="block text-caption text-muted-foreground">Type items one by one</span></span></a><a href="S12-permissions.html#S12-photos" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-photos"><i class="i-lucide-images size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Photos</span><span class="block text-caption text-muted-foreground">From your gallery</span></span></a></div>
+    
+    
+  </div>
+  <div class="absolute inset-x-4 bottom-6 z-10 flex min-h-12 items-center gap-3 rounded-control bg-foreground px-4 py-3 text-background shadow-overlay" role="status"><i class="i-lucide-wifi-off size-5 shrink-0" aria-hidden="true"></i><span class="flex-1 text-body-sm">Google Sheets needs a connection. Try again when you’re online.</span></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S11-large-text" id="S11-large-text">
+  <figcaption class="frame-label">S11 · Large text (200%): one tile per row, scrolls · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-7" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-2">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-title-3">Choose source</p><p class="text-body-lg shrink-0 tabular-nums text-muted-foreground">Step 1 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5" aria-label="Step 1 of 5, Choose source"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
+    <h2 class="text-display">Where are your items?</h2>
+    <p class="mt-2 text-title-3 font-normal text-muted-foreground">Choose a source. You can add items from other sources later.</p>
+    <div class="mt-5 space-y-3"><a href="S12-permissions.html#S12-contacts" class="flex min-h-20 items-center gap-4 rounded-tile border bg-card px-4 py-4" data-action="source-contacts"><i class="i-lucide-contact size-7 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0"><span class="block text-title-1">Contacts</span><span class="block text-title-3 font-normal text-muted-foreground">From this phone</span></span></a><a href="S14-file-import.html#S14-default" class="flex min-h-20 items-center gap-4 rounded-tile border bg-card px-4 py-4" data-action="source-csv"><i class="i-lucide-file-spreadsheet size-7 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0"><span class="block text-title-1">CSV or Excel</span><span class="block text-title-3 font-normal text-muted-foreground">A .csv or .xlsx file</span></span></a><a href="S15-google-sheets.html#S15-default" class="flex min-h-20 items-center gap-4 rounded-tile border bg-card px-4 py-4" data-action="source-google"><i class="i-lucide-sheet size-7 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0"><span class="block text-title-1">Google Sheets</span><span class="block text-title-3 font-normal text-muted-foreground">From Google Drive</span></span></a><a href="S16-plain-text.html#S16-default" class="flex min-h-20 items-center gap-4 rounded-tile border bg-card px-4 py-4" data-action="source-text"><i class="i-lucide-text size-7 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0"><span class="block text-title-1">Plain text</span><span class="block text-title-3 font-normal text-muted-foreground">Paste a list or a .txt file</span></span></a><a href="S17-manual-entry.html#S17-default" class="flex min-h-20 items-center gap-4 rounded-tile border bg-card px-4 py-4" data-action="source-manual"><i class="i-lucide-square-pen size-7 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0"><span class="block text-title-1">Manual entry</span><span class="block text-title-3 font-normal text-muted-foreground">Type items one by one</span></span></a><a href="S12-permissions.html#S12-photos" class="flex min-h-20 items-center gap-4 rounded-tile border bg-card px-4 py-4" data-action="source-photos"><i class="i-lucide-images size-7 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0"><span class="block text-title-1">Photos</span><span class="block text-title-3 font-normal text-muted-foreground">From your gallery</span></span></a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S11-new-source" id="S11-new-source">
+  <figcaption class="frame-label">S11 · Extensibility: a future source (example) is one more tile · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Choose source</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 1 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5" aria-label="Step 1 of 5, Choose source"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col px-gutter pb-5 pt-1">
+    <h2 class="text-title-2">Where are your items?</h2>
+    <p class="mt-1 text-body text-muted-foreground">Choose a source. You can add items from other sources later.</p>
+    <div class="mt-6 grid auto-rows-fr grid-cols-2 gap-3"><a href="S12-permissions.html#S12-contacts" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-contacts"><i class="i-lucide-contact size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Contacts</span><span class="block text-caption text-muted-foreground">From this phone</span></span></a><a href="S14-file-import.html#S14-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-csv"><i class="i-lucide-file-spreadsheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">CSV or Excel</span><span class="block text-caption text-muted-foreground">A .csv or .xlsx file</span></span></a><a href="S15-google-sheets.html#S15-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-google"><i class="i-lucide-sheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Google Sheets</span><span class="block text-caption text-muted-foreground">From Google Drive</span></span></a><a href="S16-plain-text.html#S16-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-text"><i class="i-lucide-text size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Plain text</span><span class="block text-caption text-muted-foreground">Paste a list or a .txt file</span></span></a><a href="S17-manual-entry.html#S17-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-manual"><i class="i-lucide-square-pen size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Manual entry</span><span class="block text-caption text-muted-foreground">Type items one by one</span></span></a><a href="S12-permissions.html#S12-photos" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-photos"><i class="i-lucide-images size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Photos</span><span class="block text-caption text-muted-foreground">From your gallery</span></span></a><a href="#S11-new-source" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-calendar"><i class="i-lucide-calendar size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Calendar</span><span class="block text-caption text-muted-foreground">Events from your calendar</span></span></a></div>
+    
+    <div class="mt-auto pt-6"><p class="flex gap-2 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>SwipeSort imports a copy. Your contacts, files and sheets are never changed.</span></p></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+</main>
+<h2 class="mock-section">Web</h2>
+<p>Contacts import is unavailable in browsers: the tile stays visible with its reason and opens a sheet with “Get the app” and a CSV alternative. Photos become “Upload photos” (file upload, S18 web).</p>
+<main class="mock-canvas">
+
+<figure class="frame" data-frame="S11-web" id="S11-web">
+  <figcaption class="frame-label">S11 · Web, mobile browser · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Choose source</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 1 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5" aria-label="Step 1 of 5, Choose source"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col px-gutter pb-5 pt-1">
+    <h2 class="text-title-2">Where are your items?</h2>
+    <p class="mt-1 text-body text-muted-foreground">Choose a source. You can add items from other sources later.</p>
+    <div class="mt-6 grid auto-rows-fr grid-cols-2 gap-3"><a href="#S11-web-unavailable" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border border-dashed border-input bg-transparent p-4" aria-haspopup="dialog" data-action="source-contacts"><span class="flex w-full items-start justify-between"><i class="i-lucide-contact size-6 text-muted-foreground" aria-hidden="true"></i><i class="i-lucide-monitor-smartphone size-4 text-muted-foreground" aria-hidden="true"></i></span><span><span class="block text-label-lg text-muted-foreground">Contacts</span><span class="block text-caption text-muted-foreground">Needs the Android or iOS app</span></span></a><a href="S14-file-import.html#S14-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-csv"><i class="i-lucide-file-spreadsheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">CSV or Excel</span><span class="block text-caption text-muted-foreground">A .csv or .xlsx file</span></span></a><a href="S15-google-sheets.html#S15-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-google"><i class="i-lucide-sheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Google Sheets</span><span class="block text-caption text-muted-foreground">From Google Drive</span></span></a><a href="S16-plain-text.html#S16-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-text"><i class="i-lucide-text size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Plain text</span><span class="block text-caption text-muted-foreground">Paste a list or a .txt file</span></span></a><a href="S17-manual-entry.html#S17-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-manual"><i class="i-lucide-square-pen size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Manual entry</span><span class="block text-caption text-muted-foreground">Type items one by one</span></span></a><a href="S18-photos-import.html#S18-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-photos"><i class="i-lucide-image-up size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Upload photos</span><span class="block text-caption text-muted-foreground">Image files from this device</span></span></a></div>
+    
+    <div class="mt-auto pt-6"><p class="flex gap-2 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>SwipeSort imports a copy. Your contacts, files and sheets are never changed.</span></p></div>
+  </div>
+  </div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S11-web-unavailable" id="S11-web-unavailable">
+  <figcaption class="frame-label">S11 · Web: contacts tile tapped, unavailable sheet · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Choose source</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 1 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5" aria-label="Step 1 of 5, Choose source"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col px-gutter pb-5 pt-1">
+    <h2 class="text-title-2">Where are your items?</h2>
+    <p class="mt-1 text-body text-muted-foreground">Choose a source. You can add items from other sources later.</p>
+    <div class="mt-6 grid auto-rows-fr grid-cols-2 gap-3"><a href="#S11-web-unavailable" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border border-dashed border-input bg-transparent p-4" aria-haspopup="dialog" data-action="source-contacts"><span class="flex w-full items-start justify-between"><i class="i-lucide-contact size-6 text-muted-foreground" aria-hidden="true"></i><i class="i-lucide-monitor-smartphone size-4 text-muted-foreground" aria-hidden="true"></i></span><span><span class="block text-label-lg text-muted-foreground">Contacts</span><span class="block text-caption text-muted-foreground">Needs the Android or iOS app</span></span></a><a href="S14-file-import.html#S14-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-csv"><i class="i-lucide-file-spreadsheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">CSV or Excel</span><span class="block text-caption text-muted-foreground">A .csv or .xlsx file</span></span></a><a href="S15-google-sheets.html#S15-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-google"><i class="i-lucide-sheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Google Sheets</span><span class="block text-caption text-muted-foreground">From Google Drive</span></span></a><a href="S16-plain-text.html#S16-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-text"><i class="i-lucide-text size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Plain text</span><span class="block text-caption text-muted-foreground">Paste a list or a .txt file</span></span></a><a href="S17-manual-entry.html#S17-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-manual"><i class="i-lucide-square-pen size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Manual entry</span><span class="block text-caption text-muted-foreground">Type items one by one</span></span></a><a href="S18-photos-import.html#S18-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-photos"><i class="i-lucide-image-up size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Upload photos</span><span class="block text-caption text-muted-foreground">Image files from this device</span></span></a></div>
+    
+    
+  </div>
+  <div class="absolute inset-0 z-10 bg-scrim/50"></div>
+  <div class="absolute inset-x-0 bottom-0 z-20 rounded-t-sheet bg-popover px-gutter pb-5 pt-2 shadow-sheet" role="dialog" aria-modal="true" aria-labelledby="s11wu">
+    <div class="flex justify-center py-1.5"><span class="h-1 w-8 rounded-full bg-muted-foreground/40"></span></div>
+    <div class="flex items-center justify-between gap-3 pt-2"><h2 id="s11wu" class="text-title-3">Contacts import needs the app</h2><a href="#S11-web" class="-mr-3 flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close"><i class="i-lucide-x size-5" aria-hidden="true"></i></a></div>
+    <div class="mt-2 flex gap-3"><i class="i-lucide-monitor-smartphone size-5 mt-0.5 shrink-0 text-muted-foreground" aria-hidden="true"></i><p class="text-body text-muted-foreground">Browsers can’t read your phone’s contacts. Get SwipeSort for Android or iOS to import them, or export your contacts as a CSV file and import that here.</p></div>
+    <div class="mt-5 space-y-1"><a href="https://swipesort.app/get" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="get-app">Get the app</a><a href="S14-file-import.html#S14-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="import-csv-instead">Import a CSV instead</a></div>
+  </div>
+  </div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S11-web-desktop" id="S11-web-desktop">
+  <figcaption class="frame-label">S11 · Web, desktop browser: phone layout centered · <span class="theme-name"></span></figcaption>
+  <div class="desktop">
+  <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/new</span></div>
+  <div class="desktop-column">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Choose source</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 1 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5" aria-label="Step 1 of 5, Choose source"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col px-gutter pb-5 pt-1">
+    <h2 class="text-title-2">Where are your items?</h2>
+    <p class="mt-1 text-body text-muted-foreground">Choose a source. You can add items from other sources later.</p>
+    <div class="mt-6 grid auto-rows-fr grid-cols-2 gap-3"><a href="#S11-web-unavailable" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border border-dashed border-input bg-transparent p-4" aria-haspopup="dialog" data-action="source-contacts"><span class="flex w-full items-start justify-between"><i class="i-lucide-contact size-6 text-muted-foreground" aria-hidden="true"></i><i class="i-lucide-monitor-smartphone size-4 text-muted-foreground" aria-hidden="true"></i></span><span><span class="block text-label-lg text-muted-foreground">Contacts</span><span class="block text-caption text-muted-foreground">Needs the Android or iOS app</span></span></a><a href="S14-file-import.html#S14-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-csv"><i class="i-lucide-file-spreadsheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">CSV or Excel</span><span class="block text-caption text-muted-foreground">A .csv or .xlsx file</span></span></a><a href="S15-google-sheets.html#S15-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-google"><i class="i-lucide-sheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Google Sheets</span><span class="block text-caption text-muted-foreground">From Google Drive</span></span></a><a href="S16-plain-text.html#S16-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-text"><i class="i-lucide-text size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Plain text</span><span class="block text-caption text-muted-foreground">Paste a list or a .txt file</span></span></a><a href="S17-manual-entry.html#S17-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-manual"><i class="i-lucide-square-pen size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Manual entry</span><span class="block text-caption text-muted-foreground">Type items one by one</span></span></a><a href="S18-photos-import.html#S18-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-photos"><i class="i-lucide-image-up size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Upload photos</span><span class="block text-caption text-muted-foreground">Image files from this device</span></span></a></div>
+    
+    <div class="mt-auto pt-6"><p class="flex gap-2 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>SwipeSort imports a copy. Your contacts, files and sheets are never changed.</span></p></div>
+  </div>
+  </div>
+</div>
+</figure>
+</main>
+<h2 class="mock-section">iOS</h2>
+<p>The import opens as a page sheet: Cancel top-left, centered title. Swipe-down dismisses only while nothing is selected yet (later steps ask first).</p>
+<main class="mock-canvas">
+
+<figure class="frame" data-frame="S11-ios" id="S11-ios">
+  <figcaption class="frame-label">S11 · iOS: page sheet · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios bg-muted">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <div class="h-2.5 shrink-0" aria-hidden="true"></div>
+  <div class="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-sheet bg-background">
+  <header class="grid h-11 shrink-0 grid-cols-[1fr_auto_1fr] items-center px-2">
+    <a href="S08-home.html#S08-default" class="flex size-12 items-center justify-center rounded-full text-primary" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="text-body font-semibold">Import</h1>
+    <div class="flex justify-end"><span></span></div>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Choose source</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 1 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5" aria-label="Step 1 of 5, Choose source"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col px-gutter pb-5 pt-1">
+    <h2 class="text-title-2">Where are your items?</h2>
+    <p class="mt-1 text-body text-muted-foreground">Choose a source. You can add items from other sources later.</p>
+    <div class="mt-6 grid auto-rows-fr grid-cols-2 gap-3"><a href="S12-permissions.html#S12-contacts" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-contacts"><i class="i-lucide-contact size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Contacts</span><span class="block text-caption text-muted-foreground">From this phone</span></span></a><a href="S14-file-import.html#S14-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-csv"><i class="i-lucide-file-spreadsheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">CSV or Excel</span><span class="block text-caption text-muted-foreground">A .csv or .xlsx file</span></span></a><a href="S15-google-sheets.html#S15-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-google"><i class="i-lucide-sheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Google Sheets</span><span class="block text-caption text-muted-foreground">From Google Drive</span></span></a><a href="S16-plain-text.html#S16-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-text"><i class="i-lucide-text size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Plain text</span><span class="block text-caption text-muted-foreground">Paste a list or a .txt file</span></span></a><a href="S17-manual-entry.html#S17-default" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-manual"><i class="i-lucide-square-pen size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Manual entry</span><span class="block text-caption text-muted-foreground">Type items one by one</span></span></a><a href="S12-permissions.html#S12-photos" class="flex min-h-28 flex-col justify-between gap-3 rounded-tile border bg-card p-4" data-action="source-photos"><i class="i-lucide-images size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Photos</span><span class="block text-caption text-muted-foreground">From your photo library</span></span></a></div>
+    
+    <div class="mt-auto pt-6"><p class="flex gap-2 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>SwipeSort imports a copy. Your contacts, files and sheets are never changed.</span></p></div>
+  </div>
+  </div>
+  </div>
+  <div class="sysbar-nav bg-background" aria-hidden="true"></div>
+</div>
+</figure>
+</main>
+</body>
+</html>

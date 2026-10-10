@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S15 Google Sheets connection and sheet/tab selection</title>
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body class="mock-page">
+<header class="mock-doc">
+  <h1>S15 Google Sheets connection and sheet/tab selection</h1>
+  <p>Select items for the Google Sheets source: connect read-only, pick a spreadsheet, choose one or more tabs, preview, then map fields. Spec: <a href="S15-google-sheets.md">S15-google-sheets.md</a>. Shared import chrome (modal app bar, ImportStepper, bottom actions) matches S16–S21.</p>
+</header>
+<h2 class="mock-section">Connect</h2>
+<p>Google Sheets needs its own read-only permission, even when you signed in to SwipeSort with Google. No SwipeSort account is required. The Google account chooser is native (out of scope).</p>
+<main class="mock-canvas">
+
+<figure class="frame" data-frame="S15-default" id="S15-default">
+  <figcaption class="frame-label">S15 · Default: connect explainer · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-3">
+    <span class="flex size-14 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-sheet size-7" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-title-2">Connect Google Sheets</h2>
+    <p class="mt-2 max-w-prose text-body-lg text-muted-foreground">Sign in with Google to choose a spreadsheet. SwipeSort imports a copy of its rows.</p>
+    <ul class="mt-7 space-y-5"><li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground"><i class="i-lucide-eye size-6" aria-hidden="true"></i></span><div class="min-w-0"><p class="text-label-lg">Read-only</p><p class="mt-0.5 text-body-sm text-muted-foreground">SwipeSort sees your spreadsheets to list them. It can’t change them.</p></div></li><li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground"><i class="i-lucide-file-pen-line size-6" aria-hidden="true"></i></span><div class="min-w-0"><p class="text-label-lg">Writing only when you export</p><p class="mt-0.5 text-body-sm text-muted-foreground">If you export decisions to a sheet later, SwipeSort asks first and shows what it will add.</p></div></li><li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground"><i class="i-lucide-unplug size-6" aria-hidden="true"></i></span><div class="min-w-0"><p class="text-label-lg">Disconnect any time</p><p class="mt-0.5 text-body-sm text-muted-foreground">In Settings, under Connected accounts.</p></div></li></ul>
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="mb-3 text-body-sm text-muted-foreground">Next, Google asks you to choose an account.</p><a href="#S15-spreadsheets" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="connect">Connect Google account</a><div class="mt-1"><a href="S11-source-picker.html#S11-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="another-source">Choose another source</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S15-connecting" id="S15-connecting">
+  <figcaption class="frame-label">S15 · Connecting · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-8 text-center">
+    <i class="i-lucide-loader-circle size-8 animate-spin text-primary" aria-hidden="true"></i>
+    <h2 role="status" class="mt-4 text-title-3">Connecting to Google…</h2>
+    <p class="mt-1 max-w-xs text-body text-muted-foreground">Finish in the Google window. This takes a few seconds.</p>
+    
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <div class=""><a href="#S15-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="cancel">Cancel</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+</main>
+<h2 class="mock-section">Choose a spreadsheet</h2>
+<p>Recently edited first, including spreadsheets shared with you. Search filters as you type.</p>
+<main class="mock-canvas">
+
+<figure class="frame" data-frame="S15-spreadsheets" id="S15-spreadsheets">
+  <figcaption class="frame-label">S15 · Connected: spreadsheet list · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="mx-gutter flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="truncate text-body">deniz.yilmaz@example.com</p><p class="text-body-sm text-muted-foreground">Google account, read-only</p></div><a href="#S15-account-switch" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="switch-account">Switch</a></div>
+  <div class="shrink-0 px-gutter pb-1 pt-3"><div class="relative"><label for="s15-q" class="sr-only">Search spreadsheets</label><i class="i-lucide-search size-5 pointer-events-none absolute left-3.5 top-3.5 text-muted-foreground" aria-hidden="true"></i><input id="s15-q" type="search" class="h-12 w-full rounded-full border-0 bg-secondary pl-11 pr-12 text-body placeholder:text-muted-foreground" placeholder="Search spreadsheets" value=""></div></div>
+  <div class="min-h-0 flex-1 overflow-hidden"><h2 class="px-gutter pb-1 pt-3 text-label text-muted-foreground">Recent</h2><ul class="divide-y"><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Team offsite October</span><span class="block truncate text-body-sm text-muted-foreground">Edited yesterday</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Frontend hiring pipeline</span><span class="block truncate text-body-sm text-muted-foreground">Edited 3 days ago</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Home office budget</span><span class="block truncate text-body-sm text-muted-foreground">Shared by Mert Aydın, edited Oct 2</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Book club 2026</span><span class="block truncate text-body-sm text-muted-foreground">Edited Sep 14</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2" data-action="pick-sheet"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Flat hunt 2026</span><span class="block truncate text-body-sm text-muted-foreground">Edited Jul 21</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Moving checklist</span><span class="block truncate text-body-sm text-muted-foreground">Edited Jul 3</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Lisbon trip ideas</span><span class="block truncate text-body-sm text-muted-foreground">Edited Jun 12</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Running log</span><span class="block truncate text-body-sm text-muted-foreground">Edited May 30</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li></ul></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S15-search" id="S15-search">
+  <figcaption class="frame-label">S15 · Searching “flat” · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="mx-gutter flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="truncate text-body">deniz.yilmaz@example.com</p><p class="text-body-sm text-muted-foreground">Google account, read-only</p></div><a href="#S15-account-switch" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="switch-account">Switch</a></div>
+  <div class="shrink-0 px-gutter pb-1 pt-3"><div class="relative"><label for="s15s-q" class="sr-only">Search spreadsheets</label><i class="i-lucide-search size-5 pointer-events-none absolute left-3.5 top-3.5 text-muted-foreground" aria-hidden="true"></i><input id="s15s-q" type="search" class="h-12 w-full rounded-full border-0 bg-secondary pl-11 pr-12 text-body placeholder:text-muted-foreground" placeholder="Search spreadsheets" value="flat"><button class="absolute right-0 top-0 flex size-12 items-center justify-center rounded-full" aria-label="Clear search"><i class="i-lucide-x size-5 text-muted-foreground" aria-hidden="true"></i></button></div></div>
+  <div class="min-h-0 flex-1 overflow-hidden"><h2 class="px-gutter pb-1 pt-3 text-label text-muted-foreground">2 spreadsheets match “flat”</h2><ul class="divide-y"><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2" data-action="pick-sheet"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body"><span class="font-semibold">Flat</span> hunt 2026</span><span class="block truncate text-body-sm text-muted-foreground">Edited Jul 21</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body"><span class="font-semibold">Flat</span> hunt 2024</span><span class="block truncate text-body-sm text-muted-foreground">Edited Mar 2, 2024</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li></ul></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S15-loading" id="S15-loading">
+  <figcaption class="frame-label">S15 · Loading spreadsheets · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="mx-gutter flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="truncate text-body">deniz.yilmaz@example.com</p><p class="text-body-sm text-muted-foreground">Google account, read-only</p></div><a href="#S15-account-switch" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="switch-account">Switch</a></div>
+  <div class="shrink-0 px-gutter pb-1 pt-3"><div class="relative"><label for="s15l-q" class="sr-only">Search spreadsheets</label><i class="i-lucide-search size-5 pointer-events-none absolute left-3.5 top-3.5 text-muted-foreground" aria-hidden="true"></i><input id="s15l-q" type="search" class="h-12 w-full rounded-full border-0 bg-secondary pl-11 pr-12 text-body placeholder:text-muted-foreground" placeholder="Search spreadsheets" value=""></div></div>
+  <div class="min-h-0 flex-1 overflow-hidden"><p class="flex items-center gap-2 px-gutter pb-1 pt-3 text-body-sm text-muted-foreground" role="status"><i class="i-lucide-loader-circle size-4 animate-spin text-primary" aria-hidden="true"></i>Loading spreadsheets…</p><ul aria-hidden="true"><li class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="size-10 animate-pulse rounded-sm bg-muted"></span><span class="flex-1 space-y-2"><span class="block h-3.5 w-2/3 animate-pulse rounded-full bg-muted"></span><span class="block h-3 w-1/3 animate-pulse rounded-full bg-muted"></span></span></li><li class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="size-10 animate-pulse rounded-sm bg-muted"></span><span class="flex-1 space-y-2"><span class="block h-3.5 w-1/2 animate-pulse rounded-full bg-muted"></span><span class="block h-3 w-1/3 animate-pulse rounded-full bg-muted"></span></span></li><li class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="size-10 animate-pulse rounded-sm bg-muted"></span><span class="flex-1 space-y-2"><span class="block h-3.5 w-3/5 animate-pulse rounded-full bg-muted"></span><span class="block h-3 w-1/3 animate-pulse rounded-full bg-muted"></span></span></li><li class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="size-10 animate-pulse rounded-sm bg-muted"></span><span class="flex-1 space-y-2"><span class="block h-3.5 w-2/5 animate-pulse rounded-full bg-muted"></span><span class="block h-3 w-1/3 animate-pulse rounded-full bg-muted"></span></span></li><li class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="size-10 animate-pulse rounded-sm bg-muted"></span><span class="flex-1 space-y-2"><span class="block h-3.5 w-1/2 animate-pulse rounded-full bg-muted"></span><span class="block h-3 w-1/3 animate-pulse rounded-full bg-muted"></span></span></li><li class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="size-10 animate-pulse rounded-sm bg-muted"></span><span class="flex-1 space-y-2"><span class="block h-3.5 w-2/3 animate-pulse rounded-full bg-muted"></span><span class="block h-3 w-1/3 animate-pulse rounded-full bg-muted"></span></span></li></ul></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S15-no-spreadsheets" id="S15-no-spreadsheets">
+  <figcaption class="frame-label">S15 · Connected account has no spreadsheets · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="mx-gutter flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="truncate text-body">deniz.yilmaz@example.com</p><p class="text-body-sm text-muted-foreground">Google account, read-only</p></div><a href="#S15-account-switch" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="switch-account">Switch</a></div><div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-8 text-center">
+    <i class="i-lucide-sheet size-8 text-muted-foreground" aria-hidden="true"></i>
+    <h2 class="mt-4 text-title-3">No spreadsheets in this account</h2>
+    <p class="mt-1 max-w-xs text-body text-muted-foreground">Create one in Google Sheets, or switch to the account that has your sheet.</p>
+    
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S15-account-switch" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="switch-account">Switch account</a><div class="mt-1"><a href="S11-source-picker.html#S11-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="another-source">Choose another source</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S15-account-switch" id="S15-account-switch">
+  <figcaption class="frame-label">S15 · Already connected: switch account sheet · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="mx-gutter flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="truncate text-body">deniz.yilmaz@example.com</p><p class="text-body-sm text-muted-foreground">Google account, read-only</p></div><a href="#S15-account-switch" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="switch-account">Switch</a></div>
+  <div class="shrink-0 px-gutter pb-1 pt-3"><div class="relative"><label for="s15w-q" class="sr-only">Search spreadsheets</label><i class="i-lucide-search size-5 pointer-events-none absolute left-3.5 top-3.5 text-muted-foreground" aria-hidden="true"></i><input id="s15w-q" type="search" class="h-12 w-full rounded-full border-0 bg-secondary pl-11 pr-12 text-body placeholder:text-muted-foreground" placeholder="Search spreadsheets" value=""></div></div>
+  <div class="min-h-0 flex-1 overflow-hidden"><ul class="divide-y"><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Team offsite October</span><span class="block truncate text-body-sm text-muted-foreground">Edited yesterday</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Frontend hiring pipeline</span><span class="block truncate text-body-sm text-muted-foreground">Edited 3 days ago</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Home office budget</span><span class="block truncate text-body-sm text-muted-foreground">Shared by Mert Aydın, edited Oct 2</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Book club 2026</span><span class="block truncate text-body-sm text-muted-foreground">Edited Sep 14</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2" data-action="pick-sheet"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Flat hunt 2026</span><span class="block truncate text-body-sm text-muted-foreground">Edited Jul 21</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Moving checklist</span><span class="block truncate text-body-sm text-muted-foreground">Edited Jul 3</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Lisbon trip ideas</span><span class="block truncate text-body-sm text-muted-foreground">Edited Jun 12</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Running log</span><span class="block truncate text-body-sm text-muted-foreground">Edited May 30</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li></ul></div><div class="absolute inset-0 z-10 bg-scrim/50"></div>
+  <div class="absolute inset-x-0 bottom-0 z-20 rounded-t-sheet bg-popover px-gutter pb-5 pt-2 shadow-sheet" role="dialog" aria-modal="true" aria-labelledby="s15sw">
+    <div class="flex justify-center py-1.5"><span class="h-1 w-8 rounded-full bg-muted-foreground/40"></span></div>
+    <div class="flex items-center justify-between gap-3 pt-2"><h2 id="s15sw" class="text-title-3">Google account</h2><a href="#S15-spreadsheets" class="-mr-3 flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close"><i class="i-lucide-x size-5" aria-hidden="true"></i></a></div>
+    <ul class="mt-2 divide-y">
+      <li class="flex min-h-16 items-center gap-3 py-2"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 rounded-full"><span class="min-w-0 flex-1"><span class="block text-body">Deniz Yılmaz</span><span class="block truncate text-body-sm text-muted-foreground">deniz.yilmaz@example.com</span></span><i class="i-lucide-check size-5 text-primary" aria-hidden="true"></i><span class="sr-only">Connected</span></li>
+      <li><button class="flex min-h-14 w-full items-center gap-3 py-2 text-left" data-action="another-account"><span class="flex size-10 items-center justify-center rounded-full bg-secondary"><i class="i-lucide-user-plus size-5" aria-hidden="true"></i></span><span class="text-body">Use another Google account</span></button></li>
+      <li><button class="flex min-h-14 w-full items-center gap-3 py-2 text-left text-destructive" data-action="disconnect"><span class="flex size-10 items-center justify-center"><i class="i-lucide-unplug size-5" aria-hidden="true"></i></span><span class="text-body">Disconnect Google Sheets</span></button></li>
+    </ul>
+    <p class="mt-2 text-body-sm text-muted-foreground">Disconnecting doesn’t change your lists or your spreadsheets.</p>
+    <div class="mt-5 space-y-1"></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+</main>
+<h2 class="mock-section">Choose tabs and preview</h2>
+<p>One tab, or several with the same columns combined into one list. Combined tabs add a Tab field so items keep their origin. Empty tabs are listed but can’t be selected.</p>
+<main class="mock-canvas">
+
+<figure class="frame" data-frame="S15-tabs" id="S15-tabs">
+  <figcaption class="frame-label">S15 · Tabs: Kadıköy and Beşiktaş combined · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
+    <div class="flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2">
+      <span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span>
+      <div class="min-w-0 flex-1"><p class="truncate text-body">Flat hunt 2026</p><p class="truncate text-body-sm text-muted-foreground">4 tabs, edited Jul 21</p></div><a href="#S15-spreadsheets" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="change-file">Change</a>
+    </div>
+    <h2 class="mt-5 text-title-3">Choose tabs</h2>
+    <p class="mt-1 text-body-sm text-muted-foreground">Pick one tab, or several with the same columns to combine them.</p>
+    <ul class="mt-3 divide-y overflow-hidden rounded-group bg-card"><li><button type="button" role="checkbox" aria-checked="true" class="flex min-h-16 w-full items-center gap-3 px-4 py-2 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-sm bg-primary text-primary-foreground" aria-hidden="true"><i class="i-lucide-check size-4" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block text-body">Kadıköy</span><span class="block text-body-sm text-muted-foreground">4 rows. Address, Rent, Rooms, Size, Viewing, Link</span></span></button></li><li><button type="button" role="checkbox" aria-checked="true" class="flex min-h-16 w-full items-center gap-3 px-4 py-2 text-left"><span class="flex size-6 shrink-0 items-center justify-center rounded-sm bg-primary text-primary-foreground" aria-hidden="true"><i class="i-lucide-check size-4" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block text-body">Beşiktaş</span><span class="block text-body-sm text-muted-foreground">4 rows. Address, Rent, Rooms, Size, Viewing, Link</span></span></button></li><li><button type="button" role="checkbox" aria-checked="false" class="flex min-h-16 w-full items-center gap-3 px-4 py-2 text-left"><span class="size-6 shrink-0 rounded-sm border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body">Archive 2025</span><span class="block text-body-sm text-muted-foreground">11 rows. Address, Rent, Rooms, Size, Link</span></span></button></li><li><button type="button" role="checkbox" aria-checked="false" disabled class="flex min-h-16 w-full items-center gap-3 px-4 py-2 text-left"><span class="size-6 shrink-0 rounded-sm border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body text-muted-foreground">Notes</span><span class="block text-body-sm text-muted-foreground">No rows, nothing to import</span></span></button></li></ul>
+    <div class="mt-4"><div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground" role="note"><i class="i-lucide-combine size-5 shrink-0" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">2 tabs become one list</p><p class="mt-0.5 text-body-sm">A Tab field keeps track of where each item came from, so you can still tell Kadıköy from Beşiktaş.</p></div></div></div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S15-preview" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="continue">Continue with 8 rows</a>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S15-preview" id="S15-preview">
+  <figcaption class="frame-label">S15 · Preview of the combined tabs · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
+    <div class="flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2">
+      <span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span>
+      <div class="min-w-0 flex-1"><p class="truncate text-body">Flat hunt 2026</p><p class="truncate text-body-sm text-muted-foreground">Kadıköy and Beşiktaş, 8 rows</p></div><a href="#S15-tabs" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="change-file">Change</a>
+    </div>
+    <ul class="mt-3 divide-y overflow-hidden rounded-group bg-card">
+      <li><button type="button" role="switch" aria-checked="true" class="flex min-h-14 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">First row has column names</span><span class="block text-body-sm text-muted-foreground">Detected in both tabs</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1" aria-hidden="true"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></button></li>
+      
+    </ul>
+    <div class="mt-5 flex items-baseline justify-between px-1 pb-2"><h2 class="text-label text-muted-foreground">Preview</h2><span class="text-caption tabular-nums text-muted-foreground">8 rows</span></div>
+    <div class="min-h-0 overflow-hidden rounded-group bg-card"><div class="overflow-x-auto" tabindex="0" role="region" aria-label="Preview of Flat hunt 2026, tabs Kadıköy and Beşiktaş, scrolls sideways"><table class="w-max min-w-full text-left"><caption class="sr-only">Preview of Flat hunt 2026, tabs Kadıköy and Beşiktaş</caption><thead class="bg-muted"><tr><th scope="col" class="px-3 py-2.5 text-label text-muted-foreground"><span class="sr-only">Row</span></th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Tab</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Address</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Rent</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Rooms</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Size</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Viewing</th><th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">Link</th></tr></thead><tbody class="divide-y"><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">1</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Kadıköy</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Moda Cd. 112, Kadıköy</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">42,000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">2+1</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">95</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">2026-10-12 11:00</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">listings.example/ist/48210</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">2</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Kadıköy</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Bahariye Cd. 48, Kadıköy</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">38,500</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">2+1</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">88</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">2026-10-12 13:30</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">listings.example/ist/48223</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">3</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Kadıköy</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Yeldeğirmeni, Misak-ı Milli Sk. 7</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">31,000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">1+1</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">62</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">2026-10-13 10:00</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">listings.example/ist/48236</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">4</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Kadıköy</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Caferağa, Dumlupınar Sk. 21</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">45,000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">3+1</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">120</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">2026-10-13 15:00</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">listings.example/ist/48249</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">5</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Beşiktaş</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Abbasağa, Ihlamurdere Cd. 33</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">48,000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">2+1</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">90</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">2026-10-14 12:00</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">listings.example/ist/48262</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">6</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Beşiktaş</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Sinanpaşa, Şair Nedim Cd. 9</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">52,000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">3+1</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">115</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">2026-10-14 17:00</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">listings.example/ist/48275</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">7</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Beşiktaş</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Türkali, Ihlamur Yolu 4</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">39,500</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">1+1</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">58</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm text-muted-foreground">—</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">listings.example/ist/48288</span></td></tr><tr><td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">8</td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Beşiktaş</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">Akaretler Sıraevler 18</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">95,000</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">3+1</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">160</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">2026-10-15 09:30</span></td><td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm">listings.example/ist/48301</span></td></tr></tbody></table></div></div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="S19-field-mapping.html#S19-default" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="continue">Continue with 8 rows</a>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S15-empty-tab" id="S15-empty-tab">
+  <figcaption class="frame-label">S15 · Empty tabs: nothing to import · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
+    <div class="flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2">
+      <span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span>
+      <div class="min-w-0 flex-1"><p class="truncate text-body">Moving checklist</p><p class="truncate text-body-sm text-muted-foreground">2 tabs, edited Jul 3</p></div><a href="#S15-spreadsheets" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="change-file">Change</a>
+    </div>
+    <h2 class="mt-5 text-title-3">Choose tabs</h2>
+    <ul class="mt-3 divide-y overflow-hidden rounded-group bg-card"><li><button type="button" role="checkbox" aria-checked="false" disabled class="flex min-h-16 w-full items-center gap-3 px-4 py-2 text-left"><span class="size-6 shrink-0 rounded-sm border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body text-muted-foreground">Packing</span><span class="block text-body-sm text-muted-foreground">Column names only, nothing to import</span></span></button></li><li><button type="button" role="checkbox" aria-checked="false" disabled class="flex min-h-16 w-full items-center gap-3 px-4 py-2 text-left"><span class="size-6 shrink-0 rounded-sm border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body text-muted-foreground">Utilities</span><span class="block text-body-sm text-muted-foreground">No rows, nothing to import</span></span></button></li></ul>
+    <div class="mt-4 flex gap-3 rounded-control border bg-card p-4" role="note"><i class="i-lucide-file-question size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div><p class="text-label">Nothing to import</p><p class="mt-0.5 text-body-sm text-muted-foreground">Moving checklist has no rows yet. Add rows in Google Sheets, then refresh, or choose another spreadsheet.</p></div></div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S15-spreadsheets" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="another-sheet">Choose another spreadsheet</a><div class="mt-1"><button class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="refresh">Refresh</button></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+</main>
+<h2 class="mock-section">Errors and offline</h2>
+<p>Google connection failure (SRC-23), revoked access and no connection. Every state keeps a way to another source.</p>
+<main class="mock-canvas">
+
+<figure class="frame" data-frame="S15-error-connection" id="S15-error-connection">
+  <figcaption class="frame-label">S15 · Google connection failure · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-8 text-center">
+    <i class="i-lucide-cloud-off size-8 text-muted-foreground" aria-hidden="true"></i>
+    <h2 class="mt-4 text-title-3">Google Sheets didn’t respond</h2>
+    <p class="mt-1 max-w-xs text-body text-muted-foreground">Check your connection and try again. Nothing was imported.</p>
+    
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <button class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="retry">Try again</button><div class="mt-1"><a href="S11-source-picker.html#S11-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="another-source">Choose another source</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S15-error-access" id="S15-error-access">
+  <figcaption class="frame-label">S15 · Access removed in the Google account · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-8 text-center">
+    <i class="i-lucide-unplug size-8 text-muted-foreground" aria-hidden="true"></i>
+    <h2 class="mt-4 text-title-3">SwipeSort can’t see your spreadsheets</h2>
+    <p class="mt-1 max-w-xs text-body text-muted-foreground">Access to Google Sheets was removed from your Google account. Connect again to choose a sheet.</p>
+    
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S15-default" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="reconnect">Connect again</a><div class="mt-1"><a href="S11-source-picker.html#S11-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="another-source">Choose another source</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S15-offline" id="S15-offline">
+  <figcaption class="frame-label">S15 · Offline · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="flex shrink-0 items-center gap-2 bg-muted px-gutter py-2 text-body-sm" role="status"><i class="i-lucide-wifi-off size-4 shrink-0" aria-hidden="true"></i><span class="flex-1">You’re offline.</span></div><div class="h-3 shrink-0"></div><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-8 text-center">
+    <i class="i-lucide-wifi-off size-8 text-muted-foreground" aria-hidden="true"></i>
+    <h2 class="mt-4 text-title-3">Google Sheets needs a connection</h2>
+    <p class="mt-1 max-w-xs text-body text-muted-foreground">Connect to the internet and try again, or import from another source. Contacts and files work offline.</p>
+    
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <button class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="retry">Try again</button><div class="mt-1"><a href="S11-source-picker.html#S11-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="another-source">Choose another source</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+</main>
+<h2 class="mock-section">Web and iOS</h2>
+<p>Desktop and mobile web use a Google popup (OAuth). iOS uses the system web sign-in sheet (out of scope), then the same screens in a page sheet.</p>
+<main class="mock-canvas">
+
+<figure class="frame" data-frame="S15-web-desktop" id="S15-web-desktop">
+  <figcaption class="frame-label">S15 · Web, desktop: Google sign-in popup open · <span class="theme-name"></span></figcaption>
+  <div class="desktop">
+  <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/new/google</span></div>
+  <div class="desktop-column">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-8 text-center">
+    <i class="i-lucide-app-window size-8 text-muted-foreground" aria-hidden="true"></i>
+    <h2 class="mt-4 text-title-3">Continue in the Google window</h2>
+    <p class="mt-1 max-w-xs text-body text-muted-foreground">Choose your account and allow read-only access. SwipeSort continues here when you’re done.</p>
+    
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <button class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg border border-input bg-card" data-action="reopen-popup">Open the Google window again</button>
+  </div>
+  </div>
+  <div class="absolute right-10 top-24 z-20 flex h-96 w-96 flex-col overflow-hidden rounded-control border bg-card shadow-dialog" aria-hidden="true">
+    <div class="flex h-9 shrink-0 items-center gap-2 border-b bg-secondary px-3 text-caption text-muted-foreground"><i class="i-lucide-lock size-3.5" aria-hidden="true"></i>accounts.google.com</div>
+    <div class="flex-1 space-y-3 p-6"><span class="block h-4 w-24 rounded-full bg-muted"></span><span class="block h-6 w-48 rounded-full bg-muted"></span><span class="block h-12 rounded-control bg-muted"></span><span class="block h-12 rounded-control bg-muted"></span><p class="pt-2 text-caption text-muted-foreground">Google sign-in (native, out of scope)</p></div>
+  </div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S15-web-popup-blocked" id="S15-web-popup-blocked">
+  <figcaption class="frame-label">S15 · Web, desktop: popup blocked · <span class="theme-name"></span></figcaption>
+  <div class="desktop">
+  <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/new/google</span></div>
+  <div class="desktop-column">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Import</h1>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div><div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-8 text-center">
+    <i class="i-lucide-app-window size-8 text-muted-foreground" aria-hidden="true"></i>
+    <h2 class="mt-4 text-title-3">Your browser blocked the Google window</h2>
+    <p class="mt-1 max-w-xs text-body text-muted-foreground">Allow pop-ups for swipesort.app in the address bar, then try again.</p>
+    
+  </div><div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S15-web-desktop" class="flex w-full h-14 px-6 items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground" data-action="retry">Try again</a><div class="mt-1"><a href="S11-source-picker.html#S11-default" class="flex w-full h-12 px-5 items-center justify-center gap-2 rounded-control text-label-lg" data-action="another-source">Choose another source</a></div>
+  </div>
+  </div>
+</div>
+</figure>
+
+<figure class="frame" data-frame="S15-ios" id="S15-ios">
+  <figcaption class="frame-label">S15 · iOS: spreadsheet list in a page sheet · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios bg-muted">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <div class="h-2.5 shrink-0" aria-hidden="true"></div>
+  <div class="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-sheet bg-background">
+  <header class="grid h-11 shrink-0 grid-cols-[1fr_auto_1fr] items-center px-2">
+    <a href="S11-source-picker.html#S11-ios" class="inline-flex h-12 items-center gap-0.5 justify-self-start pr-2 text-body text-primary" aria-label="Back to Choose source"><i class="i-lucide-chevron-left size-6" aria-hidden="true"></i>Back</a>
+    <h1 class="text-body font-semibold">Import</h1>
+    <div class="flex justify-end"><a href="S08-home.html#S08-default" class="ml-auto flex size-12 items-center justify-center rounded-full text-primary" aria-label="Close import" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a></div>
+  </header><div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="text-caption shrink-0 tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="mx-gutter flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="truncate text-body">deniz.yilmaz@example.com</p><p class="text-body-sm text-muted-foreground">Google account, read-only</p></div><a href="#S15-account-switch" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="switch-account">Switch</a></div>
+  <div class="shrink-0 px-gutter pb-1 pt-3"><div class="relative"><label for="s15i-q" class="sr-only">Search spreadsheets</label><i class="i-lucide-search size-5 pointer-events-none absolute left-3.5 top-3.5 text-muted-foreground" aria-hidden="true"></i><input id="s15i-q" type="search" class="h-12 w-full rounded-full border-0 bg-secondary pl-11 pr-12 text-body placeholder:text-muted-foreground" placeholder="Search spreadsheets" value=""></div></div>
+  <div class="min-h-0 flex-1 overflow-hidden"><h2 class="px-gutter pb-1 pt-3 text-label text-muted-foreground">Recent</h2><ul class="divide-y"><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Team offsite October</span><span class="block truncate text-body-sm text-muted-foreground">Edited yesterday</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Frontend hiring pipeline</span><span class="block truncate text-body-sm text-muted-foreground">Edited 3 days ago</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Home office budget</span><span class="block truncate text-body-sm text-muted-foreground">Shared by Mert Aydın, edited Oct 2</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Book club 2026</span><span class="block truncate text-body-sm text-muted-foreground">Edited Sep 14</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2" data-action="pick-sheet"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Flat hunt 2026</span><span class="block truncate text-body-sm text-muted-foreground">Edited Jul 21</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Moving checklist</span><span class="block truncate text-body-sm text-muted-foreground">Edited Jul 3</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Lisbon trip ideas</span><span class="block truncate text-body-sm text-muted-foreground">Edited Jun 12</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S15-tabs" class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><span class="block truncate text-body">Running log</span><span class="block truncate text-body-sm text-muted-foreground">Edited May 30</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li></ul></div>
+  </div>
+  </div>
+  <div class="sysbar-nav bg-background" aria-hidden="true"></div>
+</div>
+</figure>
+</main>
+</body>
+</html>

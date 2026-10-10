@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S21 Add items to an existing list</title>
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body class="mock-page">
+<header class="mock-doc">
+  <h1>S21 Add items to an existing list</h1>
+  <p>From S09 “Add items”: the same import steps with list context. Columns are matched to the list’s existing fields, rows are checked against items already in the list (S20-existing), and new items join the current round. Sample: mert-family.csv added to Wedding guests (shared with Mert and Selin). Spec: <a href="S21-add-items.md">S21-add-items.md</a>.</p>
+</header>
+<h2 class="mock-section">Flow</h2>
+<p>Choose source (with list context) → select the file → match columns to the list’s fields → duplicates against existing items (S20-existing) → confirm → adding → back to the list with a snackbar.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S21-default" id="S21-default">
+  <figcaption class="frame-label">S21 · Default: choose a source for Wedding guests · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 items-center justify-center rounded-full" aria-label="Close adding items" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Add items</h1>
+    
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Choose source</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 1 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5" aria-label="Step 1 of 5, Choose source"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-5 pb-6 pt-1">
+    <div class="px-gutter">
+      <h2 class="text-title-2">Add items to Wedding guests</h2>
+      <p class="mt-1 text-body text-muted-foreground">New items join Round 1, so every member sorts them. Decisions already made stay as they are.</p>
+    </div>
+    <div class="px-gutter">
+      <p class="px-1 pb-2 text-label text-muted-foreground">In this list now</p>
+      <ul class="overflow-hidden rounded-group bg-card"><li class="flex min-h-14 items-center gap-4 px-4 py-3"><i class="i-lucide-contact size-5 text-muted-foreground" aria-hidden="true"></i><span class="flex-1 text-body">Contacts</span><span class="text-body tabular-nums text-muted-foreground">88 items</span></li></ul>
+    </div>
+    <div class="px-gutter">
+      <p class="px-1 pb-2 text-label text-muted-foreground">Add from</p>
+      <div class="grid grid-cols-2 gap-3"><a href="S13-contacts-import.html#S13-select-default" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-contacts"><i class="i-lucide-contact size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Contacts</span><span class="block text-caption text-muted-foreground">From this phone</span></span></a><a href="#S21-file" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-csv"><i class="i-lucide-file-spreadsheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">CSV or Excel</span><span class="block text-caption text-muted-foreground">.csv, .xlsx</span></span></a><a href="S15-google-sheets.html#S15-default" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-google"><i class="i-lucide-sheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Google Sheets</span><span class="block text-caption text-muted-foreground">From your Google Drive</span></span></a><a href="S16-plain-text.html#S16-empty" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-text"><i class="i-lucide-text size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Plain text</span><span class="block text-caption text-muted-foreground">Paste or open a .txt file</span></span></a><a href="S17-manual-entry.html#S17-empty" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-manual"><i class="i-lucide-square-pen size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Manual entry</span><span class="block text-caption text-muted-foreground">Type items in</span></span></a><a href="S18-photos-import.html#S18-default" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-photos"><i class="i-lucide-images size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Photos</span><span class="block text-caption text-muted-foreground">From your gallery</span></span></a></div>
+      <p class="mt-3 px-1 text-body-sm text-muted-foreground">A list can combine items from any of these sources.</p>
+    </div>
+    </div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S21-file" id="S21-file">
+  <figcaption class="frame-label">S21 · File chosen: mert-family.csv · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 items-center justify-center rounded-full" aria-label="Close adding items" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Add items</h1>
+    
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Select items</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 2 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="5" aria-label="Step 2 of 5, Select items"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-5 pb-6 pt-1">
+    <div class="px-gutter"><div class="flex items-center gap-3 rounded-group bg-card px-4 py-3">
+      <span class="flex size-10 shrink-0 items-center justify-center rounded-control bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-file-spreadsheet size-5" aria-hidden="true"></i></span>
+      <div class="min-w-0 flex-1"><p class="truncate text-body font-medium">mert-family.csv</p><p class="text-body-sm text-muted-foreground">15 rows, 7 columns</p></div>
+      <button class="inline-flex min-h-touch shrink-0 items-center rounded-control px-3 text-label text-primary">Change</button>
+    </div></div>
+    <div class="px-gutter">
+      <p class="px-1 pb-2 text-label text-muted-foreground">First rows</p>
+      <ul class="divide-y overflow-hidden rounded-group bg-card"><li class="flex min-h-14 items-center gap-3 px-4 py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-label text-muted-foreground" aria-hidden="true">BS</span><div class="min-w-0 flex-1"><p class="truncate text-body">Begüm Sağlam</p><p class="truncate text-body-sm text-muted-foreground">begum.saglam@example.com</p></div></li><li class="flex min-h-14 items-center gap-3 px-4 py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-label text-muted-foreground" aria-hidden="true">TK</span><div class="min-w-0 flex-1"><p class="truncate text-body">Tarık Kalkan</p><p class="truncate text-body-sm text-muted-foreground">+90 500 000 52 74</p></div></li><li class="flex min-h-14 items-center gap-3 px-4 py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-label text-muted-foreground" aria-hidden="true">CE</span><div class="min-w-0 flex-1"><p class="truncate text-body">Canan Eren</p><p class="truncate text-body-sm text-muted-foreground">+90 500 000 15 86</p></div></li><li class="flex min-h-14 items-center gap-3 px-4 py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-label text-muted-foreground" aria-hidden="true">LÖ</span><div class="min-w-0 flex-1"><p class="truncate text-body">Levent Öğüt</p><p class="truncate text-body-sm text-muted-foreground">+90 500 000 54 34</p></div></li></ul>
+      <p class="mt-2 px-1 text-body-sm text-muted-foreground">Showing 4 of 15 rows. Every row is added; you can review matches in the next steps.</p>
+    </div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S21-mapping" class="flex h-14 w-full items-center justify-center gap-2 rounded-control bg-primary px-6 text-label-lg text-primary-foreground" data-action="continue">Continue</a>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S21-mapping" id="S21-mapping">
+  <figcaption class="frame-label">S21 · Map columns to the list’s fields (one new field) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 items-center justify-center rounded-full" aria-label="Close adding items" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Add items</h1>
+    
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Map fields</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 3 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="3" aria-valuemin="1" aria-valuemax="5" aria-label="Step 3 of 5, Map fields"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-4 pb-6 pt-1">
+    <p class="px-gutter text-body text-muted-foreground">Match the 7 columns in mert-family.csv to fields in Wedding guests.</p>
+    
+    <div class="px-gutter">
+      <div class="flex items-end justify-between px-1 pb-2"><p class="w-2/5 text-label text-muted-foreground">Column in the file</p><p class="flex-1 pl-3 text-label text-muted-foreground">Field in the list</p></div>
+      <ul class="divide-y overflow-hidden rounded-group bg-card"><li class="px-4 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-2/5 min-w-0 shrink-0"><p class="flex items-center gap-1.5 truncate text-body font-medium">Name</p><p class="truncate text-body-sm text-muted-foreground">Begüm Sağlam, Tarık Kalkan</p></div>
+          <div class="min-w-0 flex-1"><button class="flex h-12 w-full items-center gap-2 rounded-control border border-input bg-card px-3.5 text-left text-body " aria-haspopup="dialog" aria-label="Name goes to: Name. Change"><i class="i-lucide-heading size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1 truncate ">Name</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></div>
+        </div>
+      </li><li class="px-4 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-2/5 min-w-0 shrink-0"><p class="flex items-center gap-1.5 truncate text-body font-medium">Phone</p><p class="truncate text-body-sm text-muted-foreground">+90 500 000 52 74, +90 500 000 15 86</p></div>
+          <div class="min-w-0 flex-1"><button class="flex h-12 w-full items-center gap-2 rounded-control border border-input bg-card px-3.5 text-left text-body " aria-haspopup="dialog" aria-label="Phone goes to: Phone. Change"><i class="i-lucide-phone size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1 truncate ">Phone</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></div>
+        </div>
+      </li><li class="px-4 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-2/5 min-w-0 shrink-0"><p class="flex items-center gap-1.5 truncate text-body font-medium">E-mail</p><p class="truncate text-body-sm text-muted-foreground">begum.saglam@example.com</p></div>
+          <div class="min-w-0 flex-1"><button class="flex h-12 w-full items-center gap-2 rounded-control border border-input bg-card px-3.5 text-left text-body " aria-haspopup="dialog" aria-label="E-mail goes to: Email. Change"><i class="i-lucide-mail size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1 truncate ">Email</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></div>
+        </div>
+      </li><li class="px-4 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-2/5 min-w-0 shrink-0"><p class="flex items-center gap-1.5 truncate text-body font-medium">Side</p><p class="truncate text-body-sm text-muted-foreground">Bride's, Groom's</p></div>
+          <div class="min-w-0 flex-1"><button class="flex h-12 w-full items-center gap-2 rounded-control border border-input bg-card px-3.5 text-left text-body " aria-haspopup="dialog" aria-label="Side goes to: Side. Change"><i class="i-lucide-type size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1 truncate ">Side</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></div>
+        </div>
+      </li><li class="px-4 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-2/5 min-w-0 shrink-0"><p class="flex items-center gap-1.5 truncate text-body font-medium">Relationship</p><p class="truncate text-body-sm text-muted-foreground">Friend, Colleague, Family</p></div>
+          <div class="min-w-0 flex-1"><button class="flex h-12 w-full items-center gap-2 rounded-control border border-input bg-card px-3.5 text-left text-body " aria-haspopup="dialog" aria-label="Relationship goes to: Relationship. Change"><i class="i-lucide-type size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1 truncate ">Relationship</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></div>
+        </div>
+      </li><li class="px-4 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-2/5 min-w-0 shrink-0"><p class="flex items-center gap-1.5 truncate text-body font-medium">City</p><p class="truncate text-body-sm text-muted-foreground">İstanbul, Ankara, İzmir</p></div>
+          <div class="min-w-0 flex-1"><button class="flex h-12 w-full items-center gap-2 rounded-control border border-input bg-card px-3.5 text-left text-body " aria-haspopup="dialog" aria-label="City goes to: City. Change"><i class="i-lucide-type size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1 truncate ">City</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></div>
+        </div>
+      </li><li class="px-4 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-2/5 min-w-0 shrink-0"><p class="flex items-center gap-1.5 truncate text-body font-medium">Address</p><p class="truncate text-body-sm text-muted-foreground">Çankaya, Ankara; Moda, İstanbul</p></div>
+          <div class="min-w-0 flex-1"><button class="flex h-12 w-full items-center gap-2 rounded-control border border-input bg-card px-3.5 text-left text-body " aria-haspopup="dialog" aria-label="Address goes to: New field. Change"><i class="i-lucide-circle-plus size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1 truncate ">New field</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></div>
+        </div><div class="mt-1.5"><span class="inline-flex h-6 items-center gap-1 rounded-full bg-primary-soft px-2 text-caption text-primary-soft-foreground"><i class="i-lucide-plus size-3.5" aria-hidden="true"></i>New</span></div><p class="mt-1.5 text-caption text-muted-foreground">Items already in the list leave it empty.</p>
+      </li></ul>
+      <p class="mt-2 flex items-start gap-2 px-1 text-body-sm text-muted-foreground"><i class="i-lucide-info mt-0.5 size-4 shrink-0" aria-hidden="true"></i>Photo has no column in this file. New items show initials instead.</p>
+    </div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="S20-duplicate-review.html#S20-existing" class="flex h-14 w-full items-center justify-center gap-2 rounded-control bg-primary px-6 text-label-lg text-primary-foreground" data-action="continue">Continue</a>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S21-field-select" id="S21-field-select">
+  <figcaption class="frame-label">S21 · New column: add as a field or leave out · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 items-center justify-center rounded-full" aria-label="Close adding items" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Add items</h1>
+    
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Map fields</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 3 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="3" aria-valuemin="1" aria-valuemax="5" aria-label="Step 3 of 5, Map fields"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-4 pb-6 pt-1">
+    <p class="px-gutter text-body text-muted-foreground">Match the 7 columns in mert-family.csv to fields in Wedding guests.</p>
+    
+    <div class="px-gutter">
+      <div class="flex items-end justify-between px-1 pb-2"><p class="w-2/5 text-label text-muted-foreground">Column in the file</p><p class="flex-1 pl-3 text-label text-muted-foreground">Field in the list</p></div>
+      <ul class="divide-y overflow-hidden rounded-group bg-card"><li class="px-4 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-2/5 min-w-0 shrink-0"><p class="flex items-center gap-1.5 truncate text-body font-medium">Name</p><p class="truncate text-body-sm text-muted-foreground">Begüm Sağlam, Tarık Kalkan</p></div>
+          <div class="min-w-0 flex-1"><button class="flex h-12 w-full items-center gap-2 rounded-control border border-input bg-card px-3.5 text-left text-body " aria-haspopup="dialog" aria-label="Name goes to: Name. Change"><i class="i-lucide-heading size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1 truncate ">Name</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></div>
+        </div>
+      </li><li class="px-4 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-2/5 min-w-0 shrink-0"><p class="flex items-center gap-1.5 truncate text-body font-medium">Phone</p><p class="truncate text-body-sm text-muted-foreground">+90 500 000 52 74, +90 500 000 15 86</p></div>
+          <div class="min-w-0 flex-1"><button class="flex h-12 w-full items-center gap-2 rounded-control border border-input bg-card px-3.5 text-left text-body " aria-haspopup="dialog" aria-label="Phone goes to: Phone. Change"><i class="i-lucide-phone size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1 truncate ">Phone</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></div>
+        </div>
+      </li><li class="px-4 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-2/5 min-w-0 shrink-0"><p class="flex items-center gap-1.5 truncate text-body font-medium">E-mail</p><p class="truncate text-body-sm text-muted-foreground">begum.saglam@example.com</p></div>
+          <div class="min-w-0 flex-1"><button class="flex h-12 w-full items-center gap-2 rounded-control border border-input bg-card px-3.5 text-left text-body " aria-haspopup="dialog" aria-label="E-mail goes to: Email. Change"><i class="i-lucide-mail size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1 truncate ">Email</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></div>
+        </div>
+      </li><li class="px-4 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-2/5 min-w-0 shrink-0"><p class="flex items-center gap-1.5 truncate text-body font-medium">Side</p><p class="truncate text-body-sm text-muted-foreground">Bride's, Groom's</p></div>
+          <div class="min-w-0 flex-1"><button class="flex h-12 w-full items-center gap-2 rounded-control border border-input bg-card px-3.5 text-left text-body " aria-haspopup="dialog" aria-label="Side goes to: Side. Change"><i class="i-lucide-type size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1 truncate ">Side</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></div>
+        </div>
+      </li><li class="px-4 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-2/5 min-w-0 shrink-0"><p class="flex items-center gap-1.5 truncate text-body font-medium">Relationship</p><p class="truncate text-body-sm text-muted-foreground">Friend, Colleague, Family</p></div>
+          <div class="min-w-0 flex-1"><button class="flex h-12 w-full items-center gap-2 rounded-control border border-input bg-card px-3.5 text-left text-body " aria-haspopup="dialog" aria-label="Relationship goes to: Relationship. Change"><i class="i-lucide-type size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1 truncate ">Relationship</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></div>
+        </div>
+      </li><li class="px-4 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-2/5 min-w-0 shrink-0"><p class="flex items-center gap-1.5 truncate text-body font-medium">City</p><p class="truncate text-body-sm text-muted-foreground">İstanbul, Ankara, İzmir</p></div>
+          <div class="min-w-0 flex-1"><button class="flex h-12 w-full items-center gap-2 rounded-control border border-input bg-card px-3.5 text-left text-body " aria-haspopup="dialog" aria-label="City goes to: City. Change"><i class="i-lucide-type size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1 truncate ">City</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></div>
+        </div>
+      </li><li class="px-4 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-2/5 min-w-0 shrink-0"><p class="flex items-center gap-1.5 truncate text-body font-medium">Address</p><p class="truncate text-body-sm text-muted-foreground">Çankaya, Ankara; Moda, İstanbul</p></div>
+          <div class="min-w-0 flex-1"><button class="flex h-12 w-full items-center gap-2 rounded-control border border-input bg-card px-3.5 text-left text-body " aria-haspopup="dialog" aria-label="Address goes to: New field. Change"><i class="i-lucide-circle-plus size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1 truncate ">New field</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></div>
+        </div><div class="mt-1.5"><span class="inline-flex h-6 items-center gap-1 rounded-full bg-primary-soft px-2 text-caption text-primary-soft-foreground"><i class="i-lucide-plus size-3.5" aria-hidden="true"></i>New</span></div><p class="mt-1.5 text-caption text-muted-foreground">Items already in the list leave it empty.</p>
+      </li></ul>
+      <p class="mt-2 flex items-start gap-2 px-1 text-body-sm text-muted-foreground"><i class="i-lucide-info mt-0.5 size-4 shrink-0" aria-hidden="true"></i>Photo has no column in this file. New items show initials instead.</p>
+    </div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="S20-duplicate-review.html#S20-existing" class="flex h-14 w-full items-center justify-center gap-2 rounded-control bg-primary px-6 text-label-lg text-primary-foreground" data-action="continue">Continue</a>
+  </div>
+  <div class="absolute inset-0 z-10 bg-scrim/50"></div>
+  <div class="absolute inset-x-0 bottom-0 z-20 rounded-t-sheet bg-popover px-gutter pb-6 pt-2 shadow-sheet" role="dialog" aria-modal="true" aria-labelledby="fs1">
+    <div class="flex shrink-0 justify-center py-1.5"><span class="h-1 w-8 rounded-full bg-muted-foreground/40"></span></div>
+    <div class="flex shrink-0 items-start justify-between gap-2 pt-2"><div class="min-w-0"><h2 id="fs1" class="text-title-3">Address goes to</h2><p class="mt-0.5 text-body-sm text-muted-foreground">Column in mert-family.csv</p></div><button class="-mr-3 flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close"><i class="i-lucide-x size-5" aria-hidden="true"></i></button></div>
+    <div class="mt-2 divide-y" role="radiogroup" aria-label="Field for the Address column"><div><button role="radio" aria-checked="true" class="flex min-h-14 w-full items-center gap-4 px-1 py-2 text-left"><i class="i-lucide-circle-plus size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">New field: Address</span><span class="block text-body-sm text-muted-foreground">Added to every item; existing items leave it empty</span></span><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary"><span class="size-3 rounded-full bg-primary"></span></span></button></div><div><button role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-4 px-1 py-2 text-left"><i class="i-lucide-circle-slash size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Don’t import</span><span class="block text-body-sm text-muted-foreground">The column is left out</span></span><span class="size-6 shrink-0 rounded-full border-2 border-input"></span></button></div><div><button role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-4 px-1 py-2 text-left"><i class="i-lucide-heading size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Name</span><span class="block text-body-sm text-muted-foreground">Title. Already filled by Name</span></span><span class="size-6 shrink-0 rounded-full border-2 border-input"></span></button></div><div><button role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-4 px-1 py-2 text-left"><i class="i-lucide-phone size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Phone</span><span class="block text-body-sm text-muted-foreground">Already filled by Phone</span></span><span class="size-6 shrink-0 rounded-full border-2 border-input"></span></button></div><div><button role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-4 px-1 py-2 text-left"><i class="i-lucide-mail size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Email</span><span class="block text-body-sm text-muted-foreground">Already filled by E-mail</span></span><span class="size-6 shrink-0 rounded-full border-2 border-input"></span></button></div><div><button role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-4 px-1 py-2 text-left"><i class="i-lucide-image size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Photo</span><span class="block text-body-sm text-muted-foreground">No column yet</span></span><span class="size-6 shrink-0 rounded-full border-2 border-input"></span></button></div><div><button role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-4 px-1 py-2 text-left"><i class="i-lucide-type size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">City</span><span class="block text-body-sm text-muted-foreground">Already filled by City</span></span><span class="size-6 shrink-0 rounded-full border-2 border-input"></span></button></div></div>
+    
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S21-mapping-error" id="S21-mapping-error">
+  <figcaption class="frame-label">S21 · Error: the title field has no column · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 items-center justify-center rounded-full" aria-label="Close adding items" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Add items</h1>
+    
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Map fields</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 3 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="3" aria-valuemin="1" aria-valuemax="5" aria-label="Step 3 of 5, Map fields"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-4 pb-6 pt-1">
+    <p class="px-gutter text-body text-muted-foreground">Match the 7 columns in mert-family.csv to fields in Wedding guests.</p>
+    <div class="px-gutter"><div class="flex gap-3 rounded-control border border-destructive/40 bg-card p-4" role="alert"><i class="i-lucide-circle-alert size-5 shrink-0 text-destructive" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Name has no column</p><p class="mt-0.5 text-body-sm text-muted-foreground">Every item needs a title. Choose the column that holds the names.</p><div class="mt-2 flex flex-wrap gap-x-4"><button class="inline-flex min-h-touch items-center text-label text-primary underline underline-offset-4">Use Ad Soyad for Name</button></div></div></div></div>
+    <div class="px-gutter">
+      <div class="flex items-end justify-between px-1 pb-2"><p class="w-2/5 text-label text-muted-foreground">Column in the file</p><p class="flex-1 pl-3 text-label text-muted-foreground">Field in the list</p></div>
+      <ul class="divide-y overflow-hidden rounded-group bg-card"><li class="px-4 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-2/5 min-w-0 shrink-0"><p class="flex items-center gap-1.5 truncate text-body font-medium">Ad Soyad</p><p class="truncate text-body-sm text-muted-foreground">Begüm Sağlam, Tarık Kalkan</p></div>
+          <div class="min-w-0 flex-1"><button class="flex h-12 w-full items-center gap-2 rounded-control border border-input bg-card px-3.5 text-left text-body " aria-haspopup="dialog" aria-label="Ad Soyad goes to: New field. Change"><i class="i-lucide-circle-plus size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1 truncate ">New field</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></div>
+        </div><div class="mt-1.5"><span class="inline-flex h-6 items-center gap-1 rounded-full bg-primary-soft px-2 text-caption text-primary-soft-foreground"><i class="i-lucide-plus size-3.5" aria-hidden="true"></i>New</span></div><p class="mt-1.5 text-caption text-muted-foreground">Items already in the list leave it empty.</p>
+      </li><li class="px-4 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-2/5 min-w-0 shrink-0"><p class="flex items-center gap-1.5 truncate text-body font-medium">Phone</p><p class="truncate text-body-sm text-muted-foreground">+90 500 000 52 74, +90 500 000 15 86</p></div>
+          <div class="min-w-0 flex-1"><button class="flex h-12 w-full items-center gap-2 rounded-control border border-input bg-card px-3.5 text-left text-body " aria-haspopup="dialog" aria-label="Phone goes to: Phone. Change"><i class="i-lucide-phone size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1 truncate ">Phone</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></div>
+        </div>
+      </li><li class="px-4 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-2/5 min-w-0 shrink-0"><p class="flex items-center gap-1.5 truncate text-body font-medium">E-mail</p><p class="truncate text-body-sm text-muted-foreground">begum.saglam@example.com</p></div>
+          <div class="min-w-0 flex-1"><button class="flex h-12 w-full items-center gap-2 rounded-control border border-input bg-card px-3.5 text-left text-body " aria-haspopup="dialog" aria-label="E-mail goes to: Email. Change"><i class="i-lucide-mail size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1 truncate ">Email</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></div>
+        </div>
+      </li><li class="px-4 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-2/5 min-w-0 shrink-0"><p class="flex items-center gap-1.5 truncate text-body font-medium">Side</p><p class="truncate text-body-sm text-muted-foreground">Bride's, Groom's</p></div>
+          <div class="min-w-0 flex-1"><button class="flex h-12 w-full items-center gap-2 rounded-control border border-input bg-card px-3.5 text-left text-body " aria-haspopup="dialog" aria-label="Side goes to: Side. Change"><i class="i-lucide-type size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1 truncate ">Side</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></div>
+        </div>
+      </li><li class="px-4 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-2/5 min-w-0 shrink-0"><p class="flex items-center gap-1.5 truncate text-body font-medium">Relationship</p><p class="truncate text-body-sm text-muted-foreground">Friend, Colleague, Family</p></div>
+          <div class="min-w-0 flex-1"><button class="flex h-12 w-full items-center gap-2 rounded-control border border-input bg-card px-3.5 text-left text-body " aria-haspopup="dialog" aria-label="Relationship goes to: Relationship. Change"><i class="i-lucide-type size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1 truncate ">Relationship</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></div>
+        </div>
+      </li><li class="px-4 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-2/5 min-w-0 shrink-0"><p class="flex items-center gap-1.5 truncate text-body font-medium">City</p><p class="truncate text-body-sm text-muted-foreground">İstanbul, Ankara, İzmir</p></div>
+          <div class="min-w-0 flex-1"><button class="flex h-12 w-full items-center gap-2 rounded-control border border-input bg-card px-3.5 text-left text-body " aria-haspopup="dialog" aria-label="City goes to: City. Change"><i class="i-lucide-type size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1 truncate ">City</span><i class="i-lucide-chevron-down size-5 text-muted-foreground" aria-hidden="true"></i></button></div>
+        </div>
+      </li></ul>
+      <p class="mt-2 flex items-start gap-2 px-1 text-body-sm text-muted-foreground"><i class="i-lucide-info mt-0.5 size-4 shrink-0" aria-hidden="true"></i>Photo has no column in this file. New items show initials instead.</p>
+    </div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S21-mapping-error" class="flex h-14 w-full items-center justify-center gap-2 rounded-control bg-primary px-6 text-label-lg text-primary-foreground" data-action="continue">Continue</a>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S21-confirm" id="S21-confirm">
+  <figcaption class="frame-label">S21 · Confirm: Add 12 items to Wedding guests (shared list) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 items-center justify-center rounded-full" aria-label="Close adding items" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Add items</h1>
+    
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Add to list</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 5 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="5" aria-valuemin="1" aria-valuemax="5" aria-label="Step 5 of 5, Add to list"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span></div>
+  </div>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-4 pb-6 pt-1">
+    <h2 class="px-gutter text-title-2">Add 12 items to Wedding guests</h2>
+    
+    <div class="px-gutter"><ul class="divide-y overflow-hidden rounded-group bg-card"><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-file-spreadsheet mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-body">12 new items</p><p class="text-body-sm text-muted-foreground">From mert-family.csv</p></div></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-merge mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-body">3 rows match items already in the list</p><p class="text-body-sm text-muted-foreground">2 merged, 1 skipped. Their decisions and notes stay.</p></div></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-circle-plus mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-body">1 new field: Address</p><p class="text-body-sm text-muted-foreground">Items already in the list leave it empty.</p></div></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-layers mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-body">New items join Round 1</p><p class="text-body-sm text-muted-foreground">Every member sorts them. Decisions already made don’t change.</p></div></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-layout-template mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-body">Cards use the Person template</p><p class="text-body-sm text-muted-foreground">Address shows in item details. Add it to cards in Card template.</p></div></li></ul></div>
+    <div class="px-gutter"><div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground" role="note"><span class="flex shrink-0 -space-x-2"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-8 shrink-0 rounded-full object-cover"><span class="flex size-8 items-center justify-center rounded-full bg-muted text-caption text-muted-foreground ring-2 ring-primary-soft">SY</span></span><div class="min-w-0 flex-1"><p class="text-label">Mert and Selin will see 12 new items to sort</p><p class="mt-0.5 text-body-sm">They get a notification. Their progress counts the new items.</p></div></div></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S21-success" class="flex h-14 w-full items-center justify-center gap-2 rounded-control bg-primary px-6 text-label-lg text-primary-foreground" data-action="add-to-list">Add to list</a>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S21-adding" id="S21-adding">
+  <figcaption class="frame-label">S21 · Adding progress · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 items-center justify-center rounded-full" aria-label="Close adding items" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Add items</h1>
+    
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Add to list</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 5 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="5" aria-valuemin="1" aria-valuemax="5" aria-label="Step 5 of 5, Add to list"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span></div>
+  </div>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-4 pb-6 pt-1">
+    <h2 class="px-gutter text-title-2">Add 12 items to Wedding guests</h2>
+    <div class="px-gutter"><div class="h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="7" aria-valuemin="0" aria-valuemax="12" aria-label="Adding items, 7 of 12"><div class="h-full w-[58%] rounded-full bg-primary"></div></div><p class="mt-2 text-body-sm tabular-nums text-muted-foreground" role="status">7 of 12 added. You can leave; adding continues.</p></div>
+    <div class="px-gutter"><ul class="divide-y overflow-hidden rounded-group bg-card"><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-file-spreadsheet mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-body">12 new items</p><p class="text-body-sm text-muted-foreground">From mert-family.csv</p></div></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-merge mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-body">3 rows match items already in the list</p><p class="text-body-sm text-muted-foreground">2 merged, 1 skipped. Their decisions and notes stay.</p></div></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-circle-plus mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-body">1 new field: Address</p><p class="text-body-sm text-muted-foreground">Items already in the list leave it empty.</p></div></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-layers mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-body">New items join Round 1</p><p class="text-body-sm text-muted-foreground">Every member sorts them. Decisions already made don’t change.</p></div></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-layout-template mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-body">Cards use the Person template</p><p class="text-body-sm text-muted-foreground">Address shows in item details. Add it to cards in Card template.</p></div></li></ul></div>
+    <div class="px-gutter"><div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground" role="note"><span class="flex shrink-0 -space-x-2"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-8 shrink-0 rounded-full object-cover"><span class="flex size-8 items-center justify-center rounded-full bg-muted text-caption text-muted-foreground ring-2 ring-primary-soft">SY</span></span><div class="min-w-0 flex-1"><p class="text-label">Mert and Selin will see 12 new items to sort</p><p class="mt-0.5 text-body-sm">They get a notification. Their progress counts the new items.</p></div></div></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <button class="flex h-14 w-full items-center justify-center gap-2 rounded-control bg-primary px-6 text-label-lg text-primary-foreground" aria-busy="true" disabled><i class="i-lucide-loader-circle size-5 animate-spin" aria-hidden="true"></i>Adding 12 items…</button>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S21-success" id="S21-success">
+  <figcaption class="frame-label">S21 · Back on the list: snackbar “Added 12 items” · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <!-- Simplified S09-shared for context; the full layout is in S09-list-overview.html#S09-shared -->
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S08-home.html#S08-default" class="flex size-12 items-center justify-center rounded-full" aria-label="Back to Lists"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Wedding guests</h1>
+    <button class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Invite"><i class="i-lucide-user-plus size-6" aria-hidden="true"></i></button><button class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="More options"><i class="i-lucide-ellipsis-vertical size-6" aria-hidden="true"></i></button>
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-5 pb-6 pt-1">
+    <div class="px-gutter">
+      <p class="flex items-center gap-1.5 text-body-sm text-muted-foreground"><i class="i-lucide-users size-4" aria-hidden="true"></i>Shared with Mert and Selin</p>
+      <div class="mt-4 rounded-group bg-card p-4">
+        <div class="flex items-baseline justify-between"><span class="text-label tabular-nums">76 / 100 decided</span><span class="text-caption text-muted-foreground">Round 1</span></div>
+        <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="76" aria-valuemin="0" aria-valuemax="100" aria-label="76 of 100 decided"><div class="h-full w-[76%] rounded-full bg-primary"></div></div>
+        <a href="S25-sorting.html#S25-shared" class="mt-4 flex h-12 w-full items-center justify-center rounded-control bg-primary text-label-lg text-primary-foreground">Continue sorting</a>
+      </div>
+    </div>
+    <div class="px-gutter">
+      <p class="px-1 pb-2 text-label text-muted-foreground">Sources</p>
+      <ul class="divide-y overflow-hidden rounded-group bg-card">
+        <li class="flex min-h-14 items-center gap-4 px-4 py-3"><i class="i-lucide-contact size-5 text-muted-foreground" aria-hidden="true"></i><span class="flex-1 text-body">Contacts</span><span class="text-body tabular-nums text-muted-foreground">88 items</span></li>
+        <li class="flex min-h-14 items-center gap-4 px-4 py-3"><i class="i-lucide-file-spreadsheet size-5 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block truncate text-body">mert-family.csv</span><span class="block text-body-sm text-muted-foreground">Added just now</span></span><span class="text-body tabular-nums text-muted-foreground">12 items</span></li>
+        <li><a href="#S21-default" class="flex min-h-14 items-center gap-4 px-4 py-3"><i class="i-lucide-plus size-5 text-muted-foreground" aria-hidden="true"></i><span class="flex-1 text-body">Add items</span><i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+      </ul>
+    </div>
+    </div>
+  </div>
+  <div class="absolute inset-x-4 bottom-6 z-30 flex min-h-12 items-center gap-3 rounded-control bg-foreground py-1.5 pl-4 pr-1.5 text-background shadow-overlay" role="status"><span class="flex-1 text-body-sm">Added 12 items</span><button class="-my-1 inline-flex h-12 items-center rounded-sm px-3 text-label text-primary-inverse">Undo</button></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Errors, offline and platforms</h2>
+<p>Partial add, offline (local sources work; Google Sheets needs a connection), web (contacts and gallery need the app; photos upload instead) and iOS.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S21-partial" id="S21-partial">
+  <figcaption class="frame-label">S21 · Partial: 10 of 12 added · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 items-center justify-center rounded-full" aria-label="Close adding items" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Add items</h1>
+    
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-5 px-gutter pb-6 pt-4">
+    <div class="flex items-start gap-3"><i class="i-lucide-circle-alert mt-1 size-6 shrink-0 text-destructive" aria-hidden="true"></i><div><h2 class="text-title-2">Added 10 of 12 items</h2><p class="mt-1 text-body text-muted-foreground">2 rows in mert-family.csv couldn’t be added. The other 10 are in Wedding guests and join Round 1.</p></div></div>
+    <div><p class="px-1 pb-2 text-label text-muted-foreground">Not added</p><ul class="divide-y overflow-hidden rounded-group bg-card"><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-file-x mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-body">Row 9</p><p class="text-body-sm text-muted-foreground">Has 9 values but the file has 7 columns.</p></div></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-file-x mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-body">Row 14</p><p class="text-body-sm text-muted-foreground">Has characters that can’t be read. Save the file as UTF-8.</p></div></li></ul>
+    <p class="mt-2 px-1 text-body-sm text-muted-foreground">Fix these rows in the file and add it again. Rows already in the list show up as duplicates, so nothing is added twice.</p></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="S09-list-overview.html#S09-shared" class="flex h-14 w-full items-center justify-center gap-2 rounded-control bg-primary px-6 text-label-lg text-primary-foreground" data-action="done">Done</a><a href="#S21-file" class="mt-1 flex h-12 w-full items-center justify-center rounded-control px-5 text-label-lg">Add the file again</a>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S21-offline" id="S21-offline">
+  <figcaption class="frame-label">S21 · Offline: local sources work, Google Sheets doesn’t · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 items-center justify-center rounded-full" aria-label="Close adding items" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Add items</h1>
+    
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Choose source</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 1 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5" aria-label="Step 1 of 5, Choose source"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  <div class="flex shrink-0 items-center gap-2 bg-muted px-gutter py-2 text-body-sm" role="status"><i class="i-lucide-wifi-off size-4 shrink-0" aria-hidden="true"></i><span class="flex-1">You're offline. Items you add sync to Mert and Selin later.</span></div>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-5 pb-6 pt-1">
+    <div class="px-gutter">
+      <h2 class="text-title-2">Add items to Wedding guests</h2>
+      <p class="mt-1 text-body text-muted-foreground">New items join Round 1, so every member sorts them. Decisions already made stay as they are.</p>
+    </div>
+    <div class="px-gutter">
+      <p class="px-1 pb-2 text-label text-muted-foreground">In this list now</p>
+      <ul class="overflow-hidden rounded-group bg-card"><li class="flex min-h-14 items-center gap-4 px-4 py-3"><i class="i-lucide-contact size-5 text-muted-foreground" aria-hidden="true"></i><span class="flex-1 text-body">Contacts</span><span class="text-body tabular-nums text-muted-foreground">88 items</span></li></ul>
+    </div>
+    <div class="px-gutter">
+      <p class="px-1 pb-2 text-label text-muted-foreground">Add from</p>
+      <div class="grid grid-cols-2 gap-3"><a href="S13-contacts-import.html#S13-select-default" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-contacts"><i class="i-lucide-contact size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Contacts</span><span class="block text-caption text-muted-foreground">From this phone</span></span></a><a href="#S21-file" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-csv"><i class="i-lucide-file-spreadsheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">CSV or Excel</span><span class="block text-caption text-muted-foreground">.csv, .xlsx</span></span></a><button class="flex min-h-28 flex-col justify-between rounded-tile border border-dashed border-input bg-transparent p-4 text-left" aria-label="Google Sheets, needs a connection"><span class="flex w-full items-start justify-between"><i class="i-lucide-sheet size-6 text-muted-foreground" aria-hidden="true"></i><i class="i-lucide-wifi-off size-4 text-muted-foreground" aria-hidden="true"></i></span><span><span class="block text-label-lg text-muted-foreground">Google Sheets</span><span class="block text-caption text-muted-foreground">Needs a connection</span></span></button><a href="S16-plain-text.html#S16-empty" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-text"><i class="i-lucide-text size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Plain text</span><span class="block text-caption text-muted-foreground">Paste or open a .txt file</span></span></a><a href="S17-manual-entry.html#S17-empty" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-manual"><i class="i-lucide-square-pen size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Manual entry</span><span class="block text-caption text-muted-foreground">Type items in</span></span></a><a href="S18-photos-import.html#S18-default" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-photos"><i class="i-lucide-images size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Photos</span><span class="block text-caption text-muted-foreground">From your gallery</span></span></a></div>
+      <p class="mt-3 px-1 text-body-sm text-muted-foreground">A list can combine items from any of these sources.</p>
+    </div>
+    </div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S21-web" id="S21-web">
+  <figcaption class="frame-label">S21 · Web: contacts unavailable, photos upload · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 items-center justify-center rounded-full" aria-label="Close adding items" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">Add items</h1>
+    
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Choose source</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 1 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5" aria-label="Step 1 of 5, Choose source"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-5 pb-6 pt-1">
+    <div class="px-gutter">
+      <h2 class="text-title-2">Add items to Wedding guests</h2>
+      <p class="mt-1 text-body text-muted-foreground">New items join Round 1, so every member sorts them. Decisions already made stay as they are.</p>
+    </div>
+    <div class="px-gutter">
+      <p class="px-1 pb-2 text-label text-muted-foreground">In this list now</p>
+      <ul class="overflow-hidden rounded-group bg-card"><li class="flex min-h-14 items-center gap-4 px-4 py-3"><i class="i-lucide-contact size-5 text-muted-foreground" aria-hidden="true"></i><span class="flex-1 text-body">Contacts</span><span class="text-body tabular-nums text-muted-foreground">88 items</span></li></ul>
+    </div>
+    <div class="px-gutter">
+      <p class="px-1 pb-2 text-label text-muted-foreground">Add from</p>
+      <div class="grid grid-cols-2 gap-3"><button class="flex min-h-28 flex-col justify-between rounded-tile border border-dashed border-input bg-transparent p-4 text-left" aria-label="Contacts, needs the Android or iOS app"><span class="flex w-full items-start justify-between"><i class="i-lucide-contact size-6 text-muted-foreground" aria-hidden="true"></i><i class="i-lucide-monitor-smartphone size-4 text-muted-foreground" aria-hidden="true"></i></span><span><span class="block text-label-lg text-muted-foreground">Contacts</span><span class="block text-caption text-muted-foreground">Needs the Android or iOS app</span></span></button><a href="#S21-file" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-csv"><i class="i-lucide-file-spreadsheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">CSV or Excel</span><span class="block text-caption text-muted-foreground">.csv, .xlsx</span></span></a><a href="S15-google-sheets.html#S15-default" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-google"><i class="i-lucide-sheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Google Sheets</span><span class="block text-caption text-muted-foreground">From your Google Drive</span></span></a><a href="S16-plain-text.html#S16-empty" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-text"><i class="i-lucide-text size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Plain text</span><span class="block text-caption text-muted-foreground">Paste or open a .txt file</span></span></a><a href="S17-manual-entry.html#S17-empty" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-manual"><i class="i-lucide-square-pen size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Manual entry</span><span class="block text-caption text-muted-foreground">Type items in</span></span></a><a href="S18-photos-import.html#S18-web" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-photos"><i class="i-lucide-upload size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Photos</span><span class="block text-caption text-muted-foreground">Upload from this device</span></span></a></div>
+      <p class="mt-3 px-1 text-body-sm text-muted-foreground">A list can combine items from any of these sources. Contacts import needs the Android or iOS app. <a href="https://swipesort.app/get" class="text-primary underline underline-offset-4">Get the app</a></p>
+    </div>
+    </div>
+  </div>
+  </div>
+</div>
+</figure>
+<figure class="frame" data-frame="S21-ios" id="S21-ios">
+  <figcaption class="frame-label">S21 · iOS: choose a source · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="grid h-11 shrink-0 grid-cols-[1fr_auto_1fr] items-center px-2">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 items-center justify-center rounded-full text-primary" aria-label="Close adding items" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="text-body font-semibold">Add items</h1>
+    <div class="flex justify-end"><span></span></div>
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Choose source</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 1 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5" aria-label="Step 1 of 5, Choose source"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span><span class="h-1 flex-1 rounded-full bg-muted"></span></div>
+  </div>
+  
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-5 pb-6 pt-1">
+    <div class="px-gutter">
+      <h2 class="text-title-2">Add items to Wedding guests</h2>
+      <p class="mt-1 text-body text-muted-foreground">New items join Round 1, so every member sorts them. Decisions already made stay as they are.</p>
+    </div>
+    <div class="px-gutter">
+      <p class="px-1 pb-2 text-label text-muted-foreground">In this list now</p>
+      <ul class="overflow-hidden rounded-group bg-card"><li class="flex min-h-14 items-center gap-4 px-4 py-3"><i class="i-lucide-contact size-5 text-muted-foreground" aria-hidden="true"></i><span class="flex-1 text-body">Contacts</span><span class="text-body tabular-nums text-muted-foreground">88 items</span></li></ul>
+    </div>
+    <div class="px-gutter">
+      <p class="px-1 pb-2 text-label text-muted-foreground">Add from</p>
+      <div class="grid grid-cols-2 gap-3"><a href="S13-contacts-import.html#S13-select-default" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-contacts"><i class="i-lucide-contact size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Contacts</span><span class="block text-caption text-muted-foreground">From this phone</span></span></a><a href="#S21-file" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-csv"><i class="i-lucide-file-spreadsheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">CSV or Excel</span><span class="block text-caption text-muted-foreground">.csv, .xlsx</span></span></a><a href="S15-google-sheets.html#S15-default" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-google"><i class="i-lucide-sheet size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Google Sheets</span><span class="block text-caption text-muted-foreground">From your Google Drive</span></span></a><a href="S16-plain-text.html#S16-empty" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-text"><i class="i-lucide-text size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Plain text</span><span class="block text-caption text-muted-foreground">Paste or open a .txt file</span></span></a><a href="S17-manual-entry.html#S17-empty" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-manual"><i class="i-lucide-square-pen size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Manual entry</span><span class="block text-caption text-muted-foreground">Type items in</span></span></a><a href="S18-photos-import.html#S18-default" class="flex min-h-28 flex-col justify-between rounded-tile border bg-card p-4" data-action="source-photos"><i class="i-lucide-images size-6 text-primary" aria-hidden="true"></i><span><span class="block text-label-lg">Photos</span><span class="block text-caption text-muted-foreground">From your gallery</span></span></a></div>
+      <p class="mt-3 px-1 text-body-sm text-muted-foreground">A list can combine items from any of these sources.</p>
+    </div>
+    </div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S21-ios-confirm" id="S21-ios-confirm">
+  <figcaption class="frame-label">S21 · iOS: confirm · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="grid h-11 shrink-0 grid-cols-[1fr_auto_1fr] items-center px-2">
+    <a href="S20-duplicate-review.html#S20-existing" class="inline-flex h-12 items-center gap-0.5 justify-self-start pr-2 text-body text-primary" aria-label="Back to Review duplicates"><i class="i-lucide-chevron-left size-6" aria-hidden="true"></i>Back</a>
+    <h1 class="text-body font-semibold">Add items</h1>
+    <div class="flex justify-end"><a href="S09-list-overview.html#S09-shared" class="ml-auto flex size-12 items-center justify-center rounded-full text-primary" aria-label="Close adding items" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a></div>
+  </header>
+  <div class="shrink-0 px-gutter pb-3 pt-1">
+    <div class="flex items-baseline justify-between gap-3"><p class="text-label">Add to list</p><p class="shrink-0 text-caption tabular-nums text-muted-foreground">Step 5 of 5</p></div>
+    <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="5" aria-valuemin="1" aria-valuemax="5" aria-label="Step 5 of 5, Add to list"><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span><span class="h-1 flex-1 rounded-full bg-primary"></span></div>
+  </div>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-4 pb-6 pt-1">
+    <h2 class="px-gutter text-title-2">Add 12 items to Wedding guests</h2>
+    
+    <div class="px-gutter"><ul class="divide-y overflow-hidden rounded-group bg-card"><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-file-spreadsheet mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-body">12 new items</p><p class="text-body-sm text-muted-foreground">From mert-family.csv</p></div></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-merge mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-body">3 rows match items already in the list</p><p class="text-body-sm text-muted-foreground">2 merged, 1 skipped. Their decisions and notes stay.</p></div></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-circle-plus mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-body">1 new field: Address</p><p class="text-body-sm text-muted-foreground">Items already in the list leave it empty.</p></div></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-layers mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-body">New items join Round 1</p><p class="text-body-sm text-muted-foreground">Every member sorts them. Decisions already made don’t change.</p></div></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-layout-template mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-body">Cards use the Person template</p><p class="text-body-sm text-muted-foreground">Address shows in item details. Add it to cards in Card template.</p></div></li></ul></div>
+    <div class="px-gutter"><div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground" role="note"><span class="flex shrink-0 -space-x-2"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-8 shrink-0 rounded-full object-cover"><span class="flex size-8 items-center justify-center rounded-full bg-muted text-caption text-muted-foreground ring-2 ring-primary-soft">SY</span></span><div class="min-w-0 flex-1"><p class="text-label">Mert and Selin will see 12 new items to sort</p><p class="mt-0.5 text-body-sm">They get a notification. Their progress counts the new items.</p></div></div></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S21-success" class="flex h-14 w-full items-center justify-center gap-2 rounded-control bg-primary px-6 text-label-lg text-primary-foreground" data-action="add-to-list">Add to list</a>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S21-large-text" id="S21-large-text">
+  <figcaption class="frame-label">S21 · Large text (200%): confirm · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 items-center justify-center rounded-full" aria-label="Close adding items"><i class="i-lucide-x size-7" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-2">Add items</h1>
+  </header>
+  <div class="shrink-0 px-gutter pb-3"><p class="text-title-3">Add to list</p><p class="text-body-lg text-muted-foreground">Step 5 of 5</p></div>
+  <div class="min-h-0 flex-1 overflow-hidden">
+    <div class="space-y-4 pb-6 pt-1">
+    <h2 class="px-gutter text-title-1">Add 12 items to Wedding guests</h2>
+    <div class="px-gutter"><ul class="divide-y overflow-hidden rounded-group bg-card"><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-file-spreadsheet mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-title-3 font-normal">12 new items</p><p class="text-body-lg text-muted-foreground">From mert-family.csv</p></div></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-merge mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-title-3 font-normal">3 rows match items already in the list</p><p class="text-body-lg text-muted-foreground">2 merged, 1 skipped. Their decisions and notes stay.</p></div></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-circle-plus mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-title-3 font-normal">1 new field: Address</p><p class="text-body-lg text-muted-foreground">Items already in the list leave it empty.</p></div></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-layers mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-title-3 font-normal">New items join Round 1</p><p class="text-body-lg text-muted-foreground">Every member sorts them. Decisions already made don’t change.</p></div></li><li class="flex items-start gap-4 px-4 py-3"><i class="i-lucide-layout-template mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-title-3 font-normal">Cards use the Person template</p><p class="text-body-lg text-muted-foreground">Address shows in item details. Add it to cards in Card template.</p></div></li></ul></div>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3"><a href="#S21-success" class="flex min-h-16 w-full items-center justify-center rounded-control bg-primary px-6 text-title-3 text-primary-foreground" data-action="add-to-list">Add to list</a></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+</main>
+</body>
+</html>

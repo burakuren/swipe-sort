@@ -332,8 +332,8 @@
         },
         "u-mert": {
           "decided": 85,
-          "accept": 49,
-          "reject": 22,
+          "accept": 50,
+          "reject": 21,
           "maybe": 14
         },
         "u-selin": {
@@ -3994,7 +3994,7 @@
         "itemId": "c079",
         "decisions": {
           "u-deniz": null,
-          "u-mert": "reject",
+          "u-mert": "accept",
           "u-selin": null
         },
         "status": "pending",
