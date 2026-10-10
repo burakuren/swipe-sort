@@ -469,8 +469,9 @@ def split_rows(split, large=False):
         n = split[k]
         tone = f'text-{k}-soft-foreground' if n else 'text-muted-foreground'
         cs, isz = ('size-10', 'size-5') if large else ('size-7', 'size-4')
-        out += f'<li class="flex min-h-10 items-center gap-3"><span class="flex {cs} shrink-0 items-center justify-center rounded-full bg-{k}-soft {tone}">{icon(ic, isz)}</span><span class="flex-1 {t}">{verb}</span><span class="{t} tabular-nums">{n}</span></li>'
-    return f'<ul class="mt-2" aria-label="Final decisions by type">{out}</ul>'
+        nt = 'text-title-1' if large else t
+        out += f'<li class="flex min-h-10 items-center gap-3"><span class="flex {cs} shrink-0 items-center justify-center rounded-full bg-{k}-soft {tone}">{icon(ic, isz)}</span><span class="flex-1 {t}">{verb}</span><span class="{nt} tabular-nums">{n}</span></li>'
+    return f'<ul class="mt-2 {"space-y-3" if large else ""}" aria-label="Final decisions by type">{out}</ul>'.replace(' "', '"')
 
 def build_s35():
     pg = Page('S35', 'Conflict rule settings', 'How a conflict gets its final decision on a shared list: Everyone must agree, Majority decides or Decision Maker decides (DM-06 to DM-09). The Owner chooses; everyone else sees what the rule means for them. Spec: <a href="S35-conflict-rule.md">S35-conflict-rule.md</a>.')
@@ -999,10 +1000,11 @@ def build_s37():
     F('S37-not-allowed', 'Opened by a member who is not the Decision Maker (old link)', phone(na))
     pg.section('Accessibility and iOS', 'Large text keeps the counts and the open items readable; the sheet scrolls. iOS: the confirmation is a page sheet with Cancel in the bar.')
     def big(h):
-        h = h.replace('text-label-lg', 'text-title-3 font-medium').replace('flex h-14 w-full', 'flex min-h-16 w-full py-2').replace('flex h-12 w-full', 'flex min-h-16 w-full py-2').replace('inline-flex h-12 items-center rounded-control px-4', 'inline-flex min-h-16 items-center rounded-control px-4')
+        h = h.replace('text-title-3 font-normal', 'text-title-2 font-normal').replace('text-title-1"', 'text-display"').replace('i-lucide-gavel size-4', 'i-lucide-gavel size-6').replace('i-lucide-circle-dashed size-4', 'i-lucide-circle-dashed size-6')
+        h = h.replace('text-label-lg', 'text-title-2').replace('flex h-14 w-full', 'flex min-h-16 w-full py-2').replace('flex h-12 w-full', 'flex min-h-16 w-full py-2').replace('inline-flex h-12 items-center rounded-control px-4', 'inline-flex min-h-16 items-center rounded-control px-4')
         h = h.replace('text-body-sm text-muted-foreground', 'text-body-lg text-muted-foreground').replace('flex items-center gap-2 text-title-3">', 'flex items-center gap-2 text-title-2">')
-        h = h.replace('px-1 pb-2 text-label text-muted-foreground', 'px-1 pb-2 text-title-3 text-muted-foreground')
-        h = h.replace('h-7 shrink-0 items-center gap-1.5 rounded-full bg-muted px-2.5 text-caption', 'h-9 shrink-0 items-center gap-1.5 rounded-full bg-muted px-3 text-label-lg')
+        h = h.replace('px-1 pb-2 text-label text-muted-foreground', 'px-1 pb-2 text-title-2 text-muted-foreground')
+        h = h.replace('h-9 shrink-0 items-center gap-1.5 rounded-full bg-muted px-2.5 text-title-2', 'min-h-10 shrink-0 items-center gap-1.5 rounded-full bg-muted px-3 py-1 text-title-3').replace('text-body-lg text-muted-foreground', 'text-title-2 font-normal text-muted-foreground')
         return h
     F('S37-large-text', 'Large text (200%): confirmation', phone(bg + big(confirm_sheet(large=True))))
     F('S37-summary-large-text', 'Large text (200%): summary', phone(big(summary_screen(large=True))))
@@ -1015,27 +1017,68 @@ def build_s37():
 EV_IC = {'memberJoined': 'user-plus', 'memberFinished': 'flag', 'newConflicts': 'git-compare-arrows', 'conflictsResolved': 'check-check', 'roundStarted': 'play', 'roleChanged': 'user-cog', 'ruleChanged': 'git-compare-arrows'}
 
 # Deniz's feed (viewer = Owner). Text per domain-model.md › ActivityEvent; "you" for the viewer.
-FEED = [
-    ('Oct 3', [dict(ev='ev6', type='newConflicts', actor=None, text='15 conflicts in Wedding guests', sub='Mert decides them.', time='11:45 AM', href='S36-conflicts.html#S36-non-dm', unread=True)]),
-    ('Oct 2', [dict(ev='ev5', type='memberJoined', actor='selin', text='Selin joined Wedding guests', sub=None, time='5:40 PM', href='S34-members.html#S34-default', unread=True)]),
-    ('Sep 28', [dict(ev='ev1', type='roundStarted', actor='deniz', text='You started Round 1 in Wedding guests', sub='100 items', time='7:05 PM', href='S25-sorting.html#S25-shared'),
-                dict(ev='ev3', type='roleChanged', actor='deniz', text='You made Mert the Decision Maker', sub='Wedding guests', time='8:20 AM', href='S34-members.html#S34-default'),
-                dict(ev='ev2', type='memberJoined', actor='mert', text='Mert joined Wedding guests', sub=None, time='8:15 AM', href='S34-members.html#S34-default')]),
-]
+import re as _re
+from datetime import datetime as _dt, date as _date
+
+def _when(at):
+    t = _dt.fromisoformat(at.replace('Z', '+00:00'))
+    return t.date(), t.strftime('%-I:%M %p')
+
+def _day(d, today):
+    delta = (today - d).days
+    return 'Today' if delta == 0 else ('Yesterday' if delta == 1 else d.strftime('%b %-d'))
+
+def _ev(e, viewer):
+    actor = UID2K.get(e.get('actor')) if e.get('actor') else None
+    me = lambda k: 'You' if k == viewer else P[k]['first']
+    t = e['type']
+    if t == 'roundStarted':
+        n = _re.search(r'with (\d+) items', e['text']).group(1)
+        return dict(type=t, actor=actor, text=f'{me(actor)} started Round 1 in Wedding guests', sub=f'{n} items', href='S25-sorting.html#S25-shared')
+    if t == 'memberJoined':
+        return dict(type=t, actor=actor, text=f'{me(actor)} joined Wedding guests', sub=None, href='S34-members.html#S34-decision-maker' if viewer == 'mert' else 'S34-members.html#S34-default')
+    if t == 'roleChanged':
+        tgt = UID2K[e['target']]
+        who = 'you' if tgt == viewer else P[tgt]['first']
+        return dict(type=t, actor=actor, text=f'{me(actor)} made {who} the Decision Maker', sub='Wedding guests', href='S34-members.html#S34-decision-maker' if viewer == 'mert' else 'S34-members.html#S34-default')
+    if t == 'newConflicts':
+        if viewer == 'mert':
+            return dict(type=t, actor=None, text=f'{e["count"]} conflicts in Wedding guests need your decision', sub="You're the Decision Maker.", href='S36-conflicts.html#S36-default', action=('Review', 'S36-conflicts.html#S36-default'))
+        return dict(type=t, actor=None, text=f'{e["count"]} conflicts in Wedding guests', sub='Mert decides them.', href='S36-conflicts.html#S36-non-dm')
+    if t == 'memberFinished':
+        return dict(type=t, actor=actor, text=f'{me(actor)} finished sorting Wedding guests', sub='100 / 100 decided', href='S09-list-overview.html#S09-shared')
+    raise ValueError(t)
+
+def build_feed(viewer, today, extra=(), unread_ids=('ev5', 'ev6')):
+    """Activity feed from sample-data.json (future events excluded); `extra` adds later-dated events."""
+    rows = []
+    for e in DATA['activity']:
+        if e.get('future'):
+            continue
+        d, tm = _when(e['at'])
+        r = _ev(e, viewer); r.update(time=tm, unread=e['id'] in unread_ids, _at=e['at'])
+        rows.append((d, r))
+    for d, r in extra:
+        rows.append((d, r))
+    rows.sort(key=lambda x: x[1]['_at'], reverse=True)
+    groups = []
+    for d, r in rows:
+        label = _day(d, today)
+        if groups and groups[-1][0] == label:
+            groups[-1][1].append(r)
+        else:
+            groups.append((label, [r]))
+    return groups
+
+TODAY = _date(2026, 10, 10)
+FEED = build_feed('deniz', TODAY)
+MERT_FEED = build_feed('mert', TODAY)
 # Later state (Oct 20), after Mert's Resolve all (S37) and Selin finishing Round 1. Never shown with today's (Oct 10) data.
-LATER_FEED = [
-    ('Today', [dict(type='memberFinished', actor='selin', text='Selin finished sorting Wedding guests', sub='100 / 100 decided', time='11 min ago', href='S09-list-overview.html#S09-shared', unread=True)]),
-    ('Yesterday', [dict(type='conflictsResolved', actor='mert', text='Mert resolved 12 conflicts in Wedding guests', sub='3 are still open.', time='9:14 PM', href='S28-results.html#S28-shared-resolved', unread=True)]),
-    ('Oct 3', [dict(type='newConflicts', actor=None, text='15 conflicts in Wedding guests', sub='Mert decides them.', time='11:45 AM', href='S36-conflicts.html#S36-non-dm')]),
-    ('Oct 2', [dict(type='memberJoined', actor='selin', text='Selin joined Wedding guests', sub=None, time='5:40 PM', href='S34-members.html#S34-default')]),
-]
-MERT_FEED = [
-    ('Oct 3', [dict(type='newConflicts', actor=None, text='15 conflicts in Wedding guests need your decision', sub="You're the Decision Maker.", time='11:45 AM', href='S36-conflicts.html#S36-default', unread=True, action=('Review', 'S36-conflicts.html#S36-default'))]),
-    ('Oct 2', [dict(type='memberJoined', actor='selin', text='Selin joined Wedding guests', sub=None, time='5:40 PM', href='S34-members.html#S34-decision-maker', unread=True)]),
-    ('Sep 28', [dict(type='roundStarted', actor='deniz', text='Deniz started Round 1 in Wedding guests', sub='100 items', time='7:05 PM', href='S25-sorting.html#S25-shared'),
-                dict(type='roleChanged', actor='deniz', text='Deniz made you the Decision Maker', sub='Wedding guests', time='8:20 AM', href='S34-members.html#S34-decision-maker'),
-                dict(type='memberJoined', actor='mert', text='You joined Wedding guests', sub=None, time='8:15 AM', href='S34-members.html#S34-decision-maker')]),
-]
+_fin = next(e for e in DATA['activity'] if e['type'] == 'memberFinished')
+LATER_FEED = build_feed('deniz', _date(2026, 10, 20), unread_ids=(), extra=[
+    (_date(2026, 10, 20), dict(_ev(_fin, 'deniz'), time='11 min ago', unread=True, _at='2026-10-20T09:30:00Z')),
+    (_date(2026, 10, 19), dict(type='conflictsResolved', actor='mert', text='Mert resolved 12 conflicts in Wedding guests', sub='3 are still open.', time='9:14 PM', href='S28-results.html#S28-shared-resolved', unread=True, _at='2026-10-19T21:14:00Z')),
+])
 
 def ev_row(e, read_all=False, large=False):
     unread = e.get('unread') and not read_all
@@ -1155,7 +1198,7 @@ def build_s38():
         ('git-compare-arrows', 'New conflicts (members)', 'Wedding guests', '3 new conflicts. Mert decides them.', 'Conflicts (S36)'),
         ('git-compare-arrows', 'New conflicts (Decision Maker)', 'Wedding guests', '3 new conflicts need your decision.', 'Conflicts (S36)'),
         ('check-check', 'Conflicts resolved', 'Wedding guests', '{Decision Maker} resolved 12 conflicts. 3 are still open.', 'Results (S28)'),
-        ('play', 'A new round starts', 'Wedding guests', 'Deniz started Round 2 with 11 items.', 'Sorting (S25)'),
+        ('play', 'A new round starts', 'Wedding guests', 'Deniz started Round 2 with 6 items.', 'Sorting (S25)'),
         ('user-cog', 'Your role changes', 'Wedding guests', 'Deniz made you the Decision Maker.', 'Members (S34)'),
     ]
     lis = ''.join(f'''<li class="py-2"><p class="flex items-center gap-2 text-caption text-muted-foreground">{icon(ic, "size-4")}{ev}<span class="ml-auto">Opens {opens}</span></p>

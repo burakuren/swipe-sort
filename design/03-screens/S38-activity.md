@@ -73,7 +73,7 @@ Route: `(tabs)/activity`. Feed covers every shared list the user is a member of 
 | `S38-all-read` | "Mark all as read": unread styling and badge gone, snackbar |
 | `S38-filter` | Tab Conflicts |
 | `S38-filter-members` | Tab Members |
-| `S38-member-finished` | Later state, Oct 20 (the only frame with these two events): Selin finished sorting today (100 / 100), Mert resolved 12 conflicts yesterday (3 open, after S37); 2 unread |
+| `S38-member-finished` | Later state, Oct 20 (the only frame with these two events): Selin finished sorting today (100 / 100), Mert resolved 12 conflicts yesterday (3 open, after S37); 2 unread; the older days (Oct 3, Oct 2, Sep 28) stay below |
 | `S38-decision-maker` | Mert's feed: "15 conflicts need your decision" with "Review"; "Deniz made you the Decision Maker" |
 | `S38-empty` | No shared lists yet (or nothing happened yet) |
 | `S38-loading` | First load: skeleton rows |
@@ -88,7 +88,7 @@ Route: `(tabs)/activity`. Feed covers every shared list the user is a member of 
 | `S38-large-text` | 200% font scale |
 | `S38-ios` | iOS large title and tab bar |
 
-Sample events ev1–ev6 (text adapted to the viewer). ev4 (memberFinished) is an illustrative future event and appears only in the later-dated `S38-member-finished`; conflictsResolved appears only in frames set after S37 ("Mert resolved 12 conflicts"). ev2/ev5 render as "Mert joined Wedding guests" / "Selin joined Wedding guests"; joining through a Decision Maker invite link renders "Mert joined Wedding guests as Decision Maker" (G1, S33). Push bodies keep the short form because the push title is the list name; the push annotation describes "finishes sorting" and "conflicts resolved" generically ("{Name} finished sorting…").
+Sample events ev1–ev6, generated from `sample-data.json › activity` (texts adapted to the viewer, times and days from `at`; Sep 28: Round 1 started 7:05 PM with 88 items, Mert joined 9:15 PM, made Decision Maker 9:20 PM). ev4 (memberFinished) is an illustrative future event and appears only in the later-dated `S38-member-finished`; conflictsResolved appears only in frames set after S37 ("Mert resolved 12 conflicts"). ev2/ev5 render as "Mert joined Wedding guests" / "Selin joined Wedding guests"; joining through a Decision Maker invite link renders "Mert joined Wedding guests as Decision Maker" (G1, S33). Push bodies keep the short form because the push title is the list name; the push annotation describes "finishes sorting" and "conflicts resolved" generically ("{Name} finished sorting…").
 
 ## 5. Interactions, gestures and transitions
 
@@ -126,15 +126,15 @@ Sample events ev1–ev6 (text adapted to the viewer). ev4 (memberFinished) is an
 | App bar | "Activity"; "Mark all as read"; "Notification settings" |
 | Tabs | "All", "Conflicts", "Members"; group label "Filter activity" |
 | Day headers | "Today", "Yesterday", "Oct 3", "Oct 2", "Sep 28" |
-| Events (Owner, Oct 10) | "15 conflicts in Wedding guests" / "Mert decides them."; "Selin joined Wedding guests"; "You started Round 1 in Wedding guests" / "100 items"; "You made Mert the Decision Maker" / "Wedding guests"; "Mert joined Wedding guests" |
-| Events (Decision Maker, Oct 10, 2 unread) | "15 conflicts in Wedding guests need your decision" / "You're the Decision Maker." + "Review"; "Deniz started Round 1 in Wedding guests" / "100 items"; "Deniz made you the Decision Maker" / "Wedding guests"; "You joined Wedding guests" |
+| Events (Owner, Oct 10) | "15 conflicts in Wedding guests" / "Mert decides them."; "Selin joined Wedding guests"; "You started Round 1 in Wedding guests" / "88 items"; "You made Mert the Decision Maker" / "Wedding guests"; "Mert joined Wedding guests" |
+| Events (Decision Maker, Oct 10, 2 unread) | "15 conflicts in Wedding guests need your decision" / "You're the Decision Maker." + "Review"; "Deniz started Round 1 in Wedding guests" / "88 items"; "Deniz made you the Decision Maker" / "Wedding guests"; "You joined Wedding guests" |
 | Other event texts | Main line = actor + verb + list name (domain-model ActivityEvent); role events name the list on the second line. "Mert joined Wedding guests as Decision Maker"; "Deniz made Selin the Decision Maker"; "Nobody is the Decision Maker now"; "Deniz changed the conflict rule to Majority decides"; "Mert resolved 12 conflicts in Wedding guests" / "3 are still open."; "Deniz started Round 2 with 11 items"; "Selin left the list"; new conflicts under Everyone must agree: "3 new conflicts" / "Wedding guests. Members need to match." |
-| Times | "now", "11 min ago", "9:14 PM", "11:45 AM" |
+| Times | "now", "11 min ago", clock times from `activity[].at` ("11:45 AM", "5:40 PM", "9:20 PM", "9:15 PM", "7:05 PM") |
 | Unread (screen reader) | "Unread." prefix |
 | Snackbar | "Marked 2 as read" |
 | Permission prompt | "Get notified about shared lists" / "Know when someone finishes sorting or a conflict needs a decision, without opening SwipeSort." / "Not now", "Turn on notifications" |
 | Notifications off | "Notifications are off" / "SwipeSort can't send push notifications on this phone. New events still appear here." / "Turn on in Settings" |
-| Push (title = list name) | "Selin joined the list."; "Mert joined as Decision Maker."; "Selin finished sorting. 100 / 100 decided."; "3 new conflicts. Mert decides them."; "3 new conflicts need your decision."; "Mert resolved 12 conflicts. 3 are still open."; "Deniz started Round 2 with 11 items."; "Deniz made you the Decision Maker." |
+| Push (title = list name) | "Selin joined the list."; "Mert joined as Decision Maker."; "Selin finished sorting. 100 / 100 decided."; "3 new conflicts. Mert decides them."; "3 new conflicts need your decision."; "Mert resolved 12 conflicts. 3 are still open."; "Deniz started Round 2 with 6 items."; "Deniz made you the Decision Maker." |
 | In-app banner | "Mert resolved 12 conflicts in Wedding guests" / "3 are still open." / "now" (any event uses the same pattern) |
 | Web alert | "Push notifications need the app" / "In the browser, new events show up here and as a badge while SwipeSort is open. To get notified on your phone, get SwipeSort for Android or iOS." / "Get the app" |
 | Web toast | "Mert resolved 12 conflicts in Wedding guests" / "3 are still open."; "Dismiss" |

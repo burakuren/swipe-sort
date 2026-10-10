@@ -218,6 +218,8 @@ def rows_lists(mode='signed', resume_wed=None, new_conflicts=False, drop=(), res
     if 'wed' not in drop:
         if mode == 'signed':
             chips = chip('3 new conflicts' if new_conflicts else '15 conflicts', 'conflict', 'git-compare-arrows')
+            if big:  # chips scale with the font (200%)
+                chips = chips.replace('h-7 ', 'min-h-10 py-1 ').replace('px-2.5 text-caption', 'px-3 text-body-lg').replace('size-4', 'size-6')
             meta = mi('users', 'Shared with 2') + chips
             href = h09('S09-shared')
             rs = resume('S25-sorting.html#S25-shared', 'Wedding guests')
@@ -529,7 +531,7 @@ def activity_preview(events=None):
     ev = events or [
         (f'<span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-conflict text-conflict-foreground">{icon("git-compare-arrows", "size-4")}</span>', '15 new conflicts', 'Oct 3'),
         (avatar(None, 'SY', 'size-8', 'text-caption'), 'Selin joined the list', 'Oct 2'),
-        (avatar(IMG + 'people/u-deniz.svg', size='size-8'), 'You started Round 1 with 100 items', 'Sep 28'),
+        (avatar(IMG + 'people/u-deniz.svg', size='size-8'), 'You started Round 1 with 88 items', 'Sep 28'),
     ]
     rows = ''.join(f'<li class="flex items-center gap-3 px-4 py-3">{a}<span class="min-w-0 flex-1"><span class="block text-body">{t}</span><span class="block text-body-sm text-muted-foreground">{w}</span></span></li>' for a, t, w in ev)
     return f'<section aria-labelledby="ap-h">{heading_row("Recent activity", "See all", "S38-activity.html#S38-default", "ap-h")}<ul class="mt-1 divide-y overflow-hidden rounded-group bg-card dark:border">{rows}</ul></section>'

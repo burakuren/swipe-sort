@@ -291,6 +291,6 @@ P.frame('S20-large-text', 'Large text (200%)', phone(big))
 P.section('iOS', 'Same review layout with the iOS bar (back chevron, edge swipe goes back to mapping). The merge detail is a page sheet with Cancel and Merge in its bar instead of bottom buttons.')
 ios_bar = modal_bar(ios=True, back=('Map fields', 'S19-field-mapping.html#S19-contacts'))
 P.frame('S20-ios', 'iOS', phone(screen(default_content, note='2 not reviewed yet. They\'ll be imported as separate items.', bar=ios_bar), ios=True))
-P.frame('S20-ios-merge', 'iOS: merge detail as a page sheet', phone(screen(scrolled, bar=ios_bar, overlay=ios_sheet('ims', 'Merge 2 items', merge_body.replace('mt-4 min-h-0', 'mt-3 min-h-0'), right='Merge')), ios=True))
+P.frame('S20-ios-merge', 'iOS: merge detail as a page sheet', phone(screen(scrolled, bar=ios_bar, overlay=ios_sheet('ims', 'Merge 2 items', merge_body.replace('mt-4 min-h-0', 'mt-3 min-h-0'), right='Merge')), ios=True, overlay_full=True))
 
 P.write('S20-duplicate-review.html')

@@ -37,7 +37,7 @@
       "isDecisionMaker": true,
       "isMe": false,
       "avatar": "images/people/u-mert.svg",
-      "joinedAt": "2026-09-28T08:15:00Z"
+      "joinedAt": "2026-09-28T21:15:00Z"
     },
     {
       "id": "u-selin",
@@ -4324,14 +4324,14 @@
       "type": "roundStarted",
       "actor": "u-deniz",
       "at": "2026-09-28T19:05:00Z",
-      "text": "Deniz started Round 1 with 100 items"
+      "text": "Deniz started Round 1 with 88 items"
     },
     {
       "id": "ev2",
       "listId": "l-wedding",
       "type": "memberJoined",
       "actor": "u-mert",
-      "at": "2026-09-28T08:15:00Z",
+      "at": "2026-09-28T21:15:00Z",
       "text": "Mert joined the list"
     },
     {
@@ -4340,7 +4340,7 @@
       "type": "roleChanged",
       "actor": "u-deniz",
       "target": "u-mert",
-      "at": "2026-09-28T08:20:00Z",
+      "at": "2026-09-28T21:20:00Z",
       "text": "Deniz made Mert the Decision Maker"
     },
     {

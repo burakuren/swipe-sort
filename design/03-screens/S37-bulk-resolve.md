@@ -128,7 +128,7 @@ c049 Yiğit Oral, c059 Sophie Laurent, c071 Freya Nielsen). **3 stay open** beca
 - Resolving: primary `aria-busy="true"`, status "Resolving 12 conflicts" announced; completion announces
   "Resolved 12 conflicts. 3 still open."
 - Summary heading is the first focus; Undo is reachable as the second element.
-- Large text (`S37-large-text`, `S37-summary-large-text`): every style grows as in `S40-dialog-large-text`: titles `text-title-1`/`text-display`, body `text-title-3`, group labels `text-title-2`, counts and decision labels `text-title-2`, badges `text-label-lg` (36 high), buttons `text-title-3` at least 64 high; subtitles of open items hide (name + badge remain); the sheet body scrolls while actions stay pinned.
+- Large text (`S37-large-text`, `S37-summary-large-text`): every style reaches the 200% scale: titles `text-display`, body, item names and decision labels `text-title-2`, counts `text-title-1`, group and section labels `text-title-2` with 24 icons, badges `text-title-3` (40 high), buttons `text-title-2` at least 64 high; decision rows have 12 dp between the icon circles; subtitles of open items hide (name + badge remain); the sheet body scrolls while actions stay pinned.
 - Color never alone: every count carries icon + label; "Not decided" badge has the dashed-circle icon.
 - Touch targets ≥ 48 (primary 56).
 

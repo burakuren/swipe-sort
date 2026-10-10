@@ -291,6 +291,9 @@ def menu(items, top='top-14'):
     return f'<div class="absolute right-2 {top} z-20 w-64 overflow-hidden rounded-control bg-popover py-1.5 shadow-overlay" role="menu" aria-label="Template options">{out}</div>'
 
 
+SNACK_BAND = '<div class="h-16 shrink-0" aria-hidden="true"></div>'  # content ends above the snackbar band
+
+
 def bg(content, overlay):
     """Background under a modal overlay is inert (as in the app: focus and touch stay in the sheet or dialog)."""
     if 'aria-modal="true"' in overlay:
@@ -339,7 +342,7 @@ CUSTOM_ROWS = [
 ]
 
 
-def manage(custom_rows=CUSTOM_ROWS, empty=False, overlay='', bar=None, extra_rows='', scroll=''):
+def manage(custom_rows=CUSTOM_ROWS, empty=False, overlay='', bar=None, extra_rows='', scroll='', band=False):
     tiles = ''.join(lib_tile(n, im, 'S23-template-editor.html#S23-built-in' if n == 'Candidate' else None) for n, im in ALL)
     if empty:
         yours = f'''<div class="flex flex-col items-center rounded-group bg-card px-6 py-6 text-center dark:border">
@@ -357,7 +360,7 @@ def manage(custom_rows=CUSTOM_ROWS, empty=False, overlay='', bar=None, extra_row
     <p class="px-1 text-body-sm text-muted-foreground {scroll}">Templates decide which fields show on a list's cards. Any list can switch templates at any time.</p>
     <div class="mt-5">{sec_head("Built-in")}<div class="grid grid-cols-2 gap-3">{tiles}</div></div>
     <div class="mt-6">{sec_head("Your templates")}{yours}</div>
-  </div>'''
+  </div>{SNACK_BAND if band else ''}'''
     return f'''{bg(content, overlay)}
   {overlay}'''
 
@@ -392,13 +395,13 @@ rename_body = f'''<div class="mt-4">{label_input("rn1", "Template name", value="
 P.frame('S22-rename', 'Rename dialog', phone(manage(overlay=dlg('rd1', 'Rename template', rename_body,
     dbtn('Cancel', href='#S22-default') + btn('Rename', 'primary', href='#S22-renamed', action='confirm-rename'), role='dialog'))))
 renamed_rows = [('Candidate, short', 'none', 'Used by Frontend hiring, Q4', 'S23-template-editor.html#S23-edit-saved'), CUSTOM_ROWS[1]]
-P.frame('S22-renamed', 'Renamed: snackbar confirms', phone(manage(custom_rows=renamed_rows, scroll='-mt-24', overlay=snackbar('Template renamed', bottom='bottom-3'))))
+P.frame('S22-renamed', 'Renamed: snackbar confirms', phone(manage(custom_rows=renamed_rows, scroll='-mt-24', band=True, overlay=snackbar('Template renamed', bottom='bottom-3'))))
 rename_err = f'''<div class="mt-4">{label_input("rn2", "Template name", value="Guest with table side", error="You already have a template with this name. Choose another name.")}</div>'''
 P.frame('S22-rename-error', 'Rename: name already used', phone(manage(overlay=dlg('rd2', 'Rename template', rename_err,
     dbtn('Cancel', href='#S22-default') + btn('Rename', 'primary'), role='dialog'))))
 dup_row = custom_row('Candidate, compact (copy)', 'none', 'Not used by any list', 'S23-template-editor.html#S23-duplicated')
 P.frame('S22-duplicated', 'Duplicated: the copy appears first in Your templates (newest first)', phone(manage(
-    custom_rows=[], extra_rows=dup_row + ''.join(custom_row(*r) for r in CUSTOM_ROWS), scroll='-mt-40',
+    custom_rows=[], extra_rows=dup_row + ''.join(custom_row(*r) for r in CUSTOM_ROWS), scroll='-mt-40', band=True,
     overlay=snackbar('Duplicated as “Candidate, compact (copy)”', 'Edit', bottom='bottom-3', action_href='S23-template-editor.html#S23-duplicated'))))
 
 del_body = f'''<p id="dd1-d" class="mt-2 text-body text-muted-foreground">Wedding guests uses this template. Its cards switch to the template you choose, for every member of the list.</p>
@@ -406,7 +409,7 @@ del_body = f'''<p id="dd1-d" class="mt-2 text-body text-muted-foreground">Weddin
 P.frame('S22-delete', 'Delete a template in use: choose a replacement', phone(manage(overlay=dlg('dd1', 'Delete “Guest with table side”?', del_body,
     dbtn('Cancel', href='#S22-default') + btn('Delete template', 'destructive', href='#S22-deleted', action='confirm-delete'), top='top-1/4'))))
 P.frame('S22-deleted', 'Deleted: Undo restores the template and the list\'s choice', phone(manage(
-    custom_rows=[CUSTOM_ROWS[0]], scroll='-mt-12', overlay=snackbar('Template deleted', 'Undo', bottom='bottom-3'))))
+    custom_rows=[CUSTOM_ROWS[0]], scroll='-mt-12', band=True, overlay=snackbar('Template deleted', 'Undo', bottom='bottom-3'))))
 
 new_body = f'''<div class="mt-4 space-y-5">
       <div><p class="text-label">Use fields from</p><div class="mt-1.5">{select_trigger("Frontend hiring, Q4", "Use fields from: Frontend hiring, Q4", ic="list-checks")}</div><p class="mt-1.5 text-caption text-muted-foreground">The preview shows this list's items. You can use the template on any list.</p></div>
@@ -717,7 +720,7 @@ def editor_body(layout, vals, hidden=HIDDEN_CSV, part='top', focus_up_row=None, 
 
 def editor(layout, vals, idx, title='New template', caption='Copy of Candidate, not saved', back='#S23-discard', back_label='Back to Finish',
            part='top', overlay='', bottom_html=None, helper='', trailing='', ios=False, readonly=False, notice='', title_error=False,
-           sub_warn=False, focus_up_row=None, preview_with='', bar=None, no_title=False, label_override=None, pt='pt-4'):
+           sub_warn=False, focus_up_row=None, preview_with='', bar=None, no_title=False, label_override=None, pt='pt-4', band=False):
     body = card_body(layout, vals, CLABEL, hidden=HIDDEN_CSV, no_title=no_title)
     label = label_override or card_label(layout, vals, CLABEL, HIDDEN_CSV)
     if bar is None:
@@ -735,7 +738,7 @@ def editor(layout, vals, idx, title='New template', caption='Copy of Candidate, 
     bot = bottom_html if bottom_html is not None else bottom('Save template', '#S23-save', 'save-template')
     return bg(f'''{bar}
   {prev}
-  {eb}
+  {eb}{'<div class="h-20 shrink-0" aria-hidden="true"></div>' if band else ''}
   {bot}''', overlay) + overlay
 
 
@@ -886,8 +889,8 @@ E.frame('S23-rename', 'Rename dialog', phone(editor(
     overlay=dlg('rd3', 'Rename template', rn, dbtn('Cancel', href='#S23-edit-saved') + btn('Rename', 'primary', href='#S23-edit-saved', action='confirm-rename'), role='dialog'))))
 E.frame('S23-duplicated', 'Duplicated: now editing the copy', phone(editor(
     COMPACT, L01, 1, title='Candidate, compact (copy)', caption='Custom template, not used by any list', back='S22-template-library.html#S22-duplicated',
-    back_label='Back to Card templates', trailing=saved_trailing, bottom_html=bottom('Save template', disabled=True), part='rows', pt='pt-14',
-    overlay=snackbar('Duplicated as “Candidate, compact (copy)”', bottom='bottom-36'))))
+    back_label='Back to Card templates', trailing=saved_trailing, bottom_html=bottom('Save template', disabled=True), part='rows', band=True, pt='pt-10',
+    overlay=snackbar('Duplicated as “Candidate, compact (copy)”', bottom='bottom-28'))))
 del_body2 = f'''<p class="mt-2 text-body text-muted-foreground">Frontend hiring, Q4 uses this template. Its cards switch to the template you choose.</p>
     <div class="mt-4"><p class="text-label">Card template for Frontend hiring, Q4</p><div class="mt-1.5">{select_trigger("Candidate", "Card template for Frontend hiring, Q4: Candidate")}</div><p class="mt-1.5 text-caption text-muted-foreground">Candidate is the template it was based on.</p></div>'''
 E.frame('S23-delete', 'Delete from the editor: choose a replacement', phone(editor(

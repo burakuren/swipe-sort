@@ -168,7 +168,7 @@ const duplicates = [
 // ---------------- members & decisions (shared wedding list) ----------------
 const members = [
   { id: 'u-deniz', name: 'Deniz Yılmaz', email: 'deniz.yilmaz@example.com', role: 'Owner', isDecisionMaker: false, isMe: true, avatar: 'images/people/u-deniz.svg', joinedAt: '2026-09-27T19:02:00Z' },
-  { id: 'u-mert', name: 'Mert Aydın', email: 'mert.aydin@example.com', role: 'Collaborator', isDecisionMaker: true, isMe: false, avatar: 'images/people/u-mert.svg', joinedAt: '2026-09-28T08:15:00Z' },
+  { id: 'u-mert', name: 'Mert Aydın', email: 'mert.aydin@example.com', role: 'Collaborator', isDecisionMaker: true, isMe: false, avatar: 'images/people/u-mert.svg', joinedAt: '2026-09-28T21:15:00Z' },
   { id: 'u-selin', name: 'Selin Yılmaz', email: 'selin.yilmaz@example.com', role: 'Collaborator', isDecisionMaker: false, isMe: false, avatar: null, joinedAt: '2026-10-02T17:40:00Z' },
 ];
 // Targets: Deniz 76 decided (A48 R17 M11), Mert 88, Selin 41.
@@ -380,9 +380,9 @@ const rounds = [
 ];
 
 const activity = [
-  { id: 'ev1', listId: 'l-wedding', type: 'roundStarted', actor: 'u-deniz', at: '2026-09-28T19:05:00Z', text: 'Deniz started Round 1 with 100 items' },
-  { id: 'ev2', listId: 'l-wedding', type: 'memberJoined', actor: 'u-mert', at: '2026-09-28T08:15:00Z', text: 'Mert joined the list' },
-  { id: 'ev3', listId: 'l-wedding', type: 'roleChanged', actor: 'u-deniz', target: 'u-mert', at: '2026-09-28T08:20:00Z', text: 'Deniz made Mert the Decision Maker' },
+  { id: 'ev1', listId: 'l-wedding', type: 'roundStarted', actor: 'u-deniz', at: '2026-09-28T19:05:00Z', text: 'Deniz started Round 1 with 88 items' },
+  { id: 'ev2', listId: 'l-wedding', type: 'memberJoined', actor: 'u-mert', at: '2026-09-28T21:15:00Z', text: 'Mert joined the list' },
+  { id: 'ev3', listId: 'l-wedding', type: 'roleChanged', actor: 'u-deniz', target: 'u-mert', at: '2026-09-28T21:20:00Z', text: 'Deniz made Mert the Decision Maker' },
   { id: 'ev4', listId: 'l-wedding', type: 'memberFinished', actor: 'u-selin', at: '2026-10-10T09:30:00Z', text: 'Selin finished sorting', future: true, $note: 'Illustrative future event for S38: shown in the activity feed state after Selin decides all 100 items' },
   { id: 'ev5', listId: 'l-wedding', type: 'memberJoined', actor: 'u-selin', at: '2026-10-02T17:40:00Z', text: 'Selin joined the list' },
   { id: 'ev6', listId: 'l-wedding', type: 'newConflicts', at: '2026-10-03T11:45:00Z', count: st('conflict'), text: `${st('conflict')} new conflicts` },

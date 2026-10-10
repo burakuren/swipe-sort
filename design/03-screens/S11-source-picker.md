@@ -53,7 +53,7 @@ Full-screen modal (Android), page sheet (iOS), same column on web. Top to bottom
    entry, Photos. Grid order = `Source.order`; an odd count leaves the last cell empty.
 5. **Data-safety note** pinned to the bottom of the content: `shield-check` 16 + one line.
 6. List context only: section "Already in {list name}" (ListGroup with one row per existing Source: icon,
-   label, "88 items, added Sep 27") and a `combine` hint about combining sources (SRC-18).
+   label, "88 items, added Sep 28") and a `combine` hint about combining sources (SRC-18).
 
 No bottom action bar: a tile tap is the action. No loading state: the source list is static and local (a
 remote source list is not planned; if one is added later, render the static tiles immediately and append).
@@ -121,7 +121,7 @@ Not applicable: empty (there is always at least one source), loading (static), e
 | Offline banner | "You're offline. Changes are saved on this phone. Google Sheets needs a connection." (S40 pattern) |
 | Offline snackbar | "Google Sheets needs a connection. Try again when you're online." |
 | Safety note | "SwipeSort imports a copy. Your contacts, files and sheets are never changed." |
-| List context group | "Already in Wedding guests"; rows "Contacts" / "88 items, added Sep 27", "mert-family.csv" / "12 items, added Sep 28" |
+| List context group | "Already in Wedding guests"; rows "Contacts" / "88 items, added Sep 28", "mert-family.csv" / "12 items, added today" |
 | Combine hint | "A list can combine any sources. New items are checked for duplicates before they're added." |
 | Web sheet title | "Contacts import needs the app" |
 | Web sheet body | "Browsers can't read your phone's contacts. Get SwipeSort for Android or iOS to import them, or export your contacts as a CSV file and import that here." |

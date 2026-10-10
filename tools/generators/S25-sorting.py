@@ -343,7 +343,7 @@ loading = f'''{header()}
 F('S25-loading', 'Loading', phone(loading))
 offline_banner = f'<div class="flex shrink-0 items-center gap-2 bg-muted px-gutter py-2 text-body-sm" role="status">{icon("wifi-off", "size-4 shrink-0")}<span class="flex-1">You\'re offline. Decisions are saved on this phone.</span></div>'
 F('S25-offline', 'Offline: sorting continues, saved locally', phone(sorting(hdr=shared_hdr, extra_top=offline_banner, prog=progress(76, 100, f'<span class="inline-flex items-center gap-1.5 text-caption text-muted-foreground">{icon("cloud-off", "size-4")}4 not synced</span>'))))
-F('S25-syncing', 'Back online: syncing', phone(sorting(hdr=shared_hdr, prog=progress(80, 100, f'<span class="inline-flex items-center gap-1.5 text-caption text-muted-foreground" role="status">{icon("refresh-cw", "size-4 animate-spin")}Syncing 4 decisions…</span>'), counts=(18, 12, 50))))
+F('S25-syncing', 'Back online: syncing', phone(sorting(body=person_body(PEOPLE['c081']), label='Fatma Güler, Family. Phone +90 500 000 51 38. City Ankara.', hdr=shared_hdr, prog=progress(80, 100, f'<span class="inline-flex items-center gap-1.5 text-caption text-muted-foreground" role="status">{icon("refresh-cw", "size-4 animate-spin")}Syncing 4 decisions…</span>'), counts=(18, 12, 50))))
 error = f'''{header()}
   <div class="flex flex-1 flex-col items-center justify-center px-8 text-center">
     {icon("triangle-alert", "size-8 text-muted-foreground")}
@@ -354,7 +354,7 @@ error = f'''{header()}
   </div>'''
 F('S25-error', 'Error: list could not be opened', phone(error))
 last = person_body(PEOPLE['c080'])
-F('S25-last-card', 'Last card, several phone numbers, private note', phone(sorting(body=last, label='Dr. Hülya Öztürk (dentist), Friend. Phone +90 500 000 97 25 and 1 more. City İstanbul. Private note.', done=99, counts=(23, 13, 63), nxt=False)))
+F('S25-last-card', 'Last card, several phone numbers, private note', phone(sorting(body=last, label='Dr. Hülya Öztürk (dentist), Friend. Phone +90 500 000 97 25 and 1 more. City İstanbul. Private note.', done=99, counts=(24, 13, 62), nxt=False)))
 resume = f'''{header()}
   {progress(76)}
   <div class="flex flex-1 flex-col items-center justify-center px-8 text-center">
@@ -376,11 +376,11 @@ F('S25-nothing-left', 'Opening a round with nothing left to sort', phone(done_st
 
 # ----- Accessibility -----
 frames.append(section('Accessibility', 'Large text, reduced motion and screen-reader actions. Every gesture has a visible button and a named action.'))
-big_body = f'''<div class="flex min-h-0 flex-1 flex-col px-6 pb-5 pt-6">
+big_body = f'''<div class="flex min-h-0 flex-1 flex-col px-6 pb-5 pt-6"><div class="my-auto">
         <h2 class="line-clamp-4 text-display">Mia Andersson</h2>
         <p class="mt-2 text-title-2 font-normal text-muted-foreground">Colleague</p>
         <dl class="mt-5 space-y-3 text-title-3 font-normal"><div><dt class="text-body-lg text-muted-foreground">Phone</dt><dd class="tabular-nums">+46 8 0000 4021</dd></div><div><dt class="text-body-lg text-muted-foreground">Email</dt><dd class="break-all">mia.andersson@example.com</dd></div><div><dt class="text-body-lg text-muted-foreground">City</dt><dd>Stockholm</dd></div><div><dt class="text-body-lg text-muted-foreground">Side</dt><dd>Bride's</dd></div></dl>
-        <p class="mt-auto pt-4 text-body-lg text-primary">Tap for details and notes</p>
+        </div><p class="pt-4 text-body-lg text-primary">Tap for details and notes</p>
       </div>'''
 big_bar = f'''<div class="grid shrink-0 grid-cols-3 gap-2 px-4 pb-3 pt-2">
     <button class="flex min-h-16 flex-col items-center justify-center gap-1 rounded-control bg-reject-soft px-2 py-2 text-reject-soft-foreground" aria-label="Reject, 17 rejected" data-action="reject">{icon("x", "size-7")}<span class="text-title-3">Reject <span class="tabular-nums">17</span></span></button>
@@ -412,7 +412,7 @@ sr = f'''<div class="absolute inset-0 z-10 bg-scrim/50"></div>
     </ul>
     <p class="mt-3 text-body-sm text-muted-foreground">After an action: “Accepted Mia Andersson. 77 of 100 decided.”</p>
   </div>'''
-F('S25-screen-reader', 'Screen-reader actions (annotation)', phone(sorting(overlay=sr, hdr=header().replace('class="flex h-app-bar', 'class="flex h-app-bar ring-2 ring-ring'))))
+F('S25-screen-reader', 'Screen-reader actions (annotation)', phone(sorting(overlay=sr, hdr=header())))
 
 # ----- Platforms -----
 frames.append(section('iOS and web', 'iOS: modal with a top bar and an iOS page sheet for notes; swipe-down to dismiss is off while sorting. Web: no haptics; desktop shows the phone layout centered with keyboard hints.'))
@@ -429,10 +429,10 @@ ios_sheet = f'''<div class="absolute inset-0 z-10 bg-scrim/40"></div>
 F('S25-ios-note', 'iOS note as a page sheet', phone(sorting(hdr=header(ios=True), overlay=ios_sheet), ios=True))
 F('S25-web', 'Web, mobile browser', web_phone(sorting(hdr=shared_hdr, prog=progress(76, 100, members))))
 kbd = lambda k, t: f'<span class="inline-flex items-center gap-1.5"><kbd class="inline-flex h-6 min-w-6 items-center justify-center rounded-sm border border-b-2 bg-card px-1.5 text-caption text-foreground">{k}</kbd>{t}</span>'
-hints = f'<div class="flex shrink-0 justify-center gap-4 pb-3 text-caption text-muted-foreground" aria-label="Keyboard shortcuts">{kbd("←", "Reject")}{kbd("↑", "Maybe")}{kbd("→", "Accept")}{kbd("Z", "Undo")}{kbd("N", "Note")}</div>'
+hints = f'<div class="flex shrink-0 justify-center gap-2.5 px-gutter pb-3 text-caption text-muted-foreground" aria-label="Keyboard shortcuts">{kbd("←", "Reject")}{kbd("↑", "Maybe")}{kbd("→", "Accept")}{kbd("Z", "Undo")}{kbd("N", "Note")}</div>'
 mert_hdr = header('Wedding guests', 'Round 1, shared').replace('S09-list-overview.html#S09-default', 'S09-list-overview.html#S09-shared-decision-maker').replace('data-action="close"', 'data-action="finish"')
 LIVE = '../04-prototype/swipe-demo.html?deck=mert&amp;count=3&amp;next=..%2F03-screens%2FS09-list-overview.html%23S09-shared-decision-maker'
-desk_screen = sorting(body=person_body(PEOPLE['c089']), label='Begüm Sağlam, Friend. Email begum.saglam@example.com. City İstanbul.', nxt_body=None, hdr=mert_hdr, prog=progress(85, 100, members), counts=(21, 14, 50), undo=True, undo_label='Undo last decision (Accept on Mehmet Yılmaz)')
+desk_screen = sorting(body=person_body(PEOPLE['c089']), label='Begüm Sağlam, Friend. Email begum.saglam@example.com. City İstanbul.', nxt_body=None, hdr=mert_hdr, prog=progress(85, 100, members), counts=(21, 14, 50), undo=True, undo_label='Undo last decision (Reject on Mehmet Yılmaz)')
 # Prototype: on the desktop frame the decision buttons open the live demo with Mert's undecided items.
 _bar_at = desk_screen.index('<div class="flex shrink-0 items-start justify-between px-5 pb-4 pt-2">')
 desk_screen = desk_screen[:_bar_at] + desk_screen[_bar_at:].replace('<button class="flex min-w-touch', f'<a href="{LIVE}" class="flex min-w-touch').replace('</span></button>', '</span></a>')

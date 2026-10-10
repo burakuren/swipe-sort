@@ -11,7 +11,8 @@ def icon(name, size='size-5', extra=''):
 
 
 # ---------------------------------------------------------------- page and frames
-def phone(content, ios=False):
+def phone(content, ios=False, overlay=''):
+    """overlay: full-frame layer (scrim + dialog) placed over the system bars too (group A pattern)."""
     cls = 'phone-ios' if ios else 'phone'
     return f'''<div class="{cls}">
   <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
@@ -19,6 +20,7 @@ def phone(content, ios=False):
   {content}
   </div>
   <div class="sysbar-nav" aria-hidden="true"></div>
+  {overlay}
 </div>'''
 
 

@@ -386,7 +386,7 @@ ios_mv_body = f'''<p class="mt-4 text-body-sm text-muted-foreground">8 items hav
 P.frame('S19-ios-multi-value', 'iOS: several values as a page sheet', phone(mapping_screen(
     CONTACT_FIELDS, '88 contacts with 7 fields. Rename fields, set their type and choose what shows on cards.',
     bar=ios_bar, continue_href='S20-duplicate-review.html#S20-default',
-    overlay=ios_sheet('imv', 'Several phone numbers', ios_mv_body)), ios=True))
+    overlay=ios_sheet('imv', 'Several phone numbers', ios_mv_body)), ios=True, overlay_full=True))
 
 pop_items = ''
 for t, name, ex, warn in type_rows:

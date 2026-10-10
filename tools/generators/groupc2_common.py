@@ -23,14 +23,18 @@ def icon(name, size='size-5', extra=''):
 
 
 # ---------------------------------------------------------------- frames and page
-def phone(content, ios=False):
+def phone(content, ios=False, overlay_full=False):
+    """overlay_full: the frame shows a sheet over a scrim that extends under the system bars
+    (the screen stops being the containing block; the bars draw on top of the scrim)."""
     cls = 'phone-ios' if ios else 'phone'
+    scr = 'screen static' if overlay_full else 'screen'
+    bar = ' relative z-50' if overlay_full else ''
     return f'''<div class="{cls}">
-  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
-  <div class="screen">
+  <div class="sysbar-top{bar}" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="{scr}">
   {content}
   </div>
-  <div class="sysbar-nav" aria-hidden="true"></div>
+  <div class="sysbar-nav{bar}" aria-hidden="true"></div>
 </div>'''
 
 
@@ -330,8 +334,8 @@ def sheet(sid, title, body, actions='', top=None, close=True, subtitle=''):
   </div>'''
 
 
-def ios_sheet(sid, title, body, left='Cancel', right='Done', top='top-12'):
-    """iOS page sheet with grabber and Cancel / Done in its own nav bar."""
+def ios_sheet(sid, title, body, left='Cancel', right='Done', top='top-24'):
+    """iOS page sheet with grabber and Cancel / Done in its own nav bar. Use with phone(..., ios=True, overlay_full=True)."""
     return f'''{scrim(op='bg-scrim/40')}
   <div class="absolute inset-x-0 bottom-0 {top} z-20 flex flex-col rounded-t-sheet bg-popover px-5 pt-2 shadow-sheet" role="dialog" aria-modal="true" aria-labelledby="{sid}">
     <div class="flex shrink-0 justify-center py-1.5"><span class="h-1 w-9 rounded-full bg-muted-foreground/40"></span></div>

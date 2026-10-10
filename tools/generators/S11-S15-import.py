@@ -331,8 +331,8 @@ def build_s11():
 
     existing = f'''<h3 class="mt-7 px-1 pb-2 text-label text-muted-foreground">Already in Wedding guests</h3>
     <ul class="divide-y overflow-hidden rounded-group bg-card">
-      <li class="flex min-h-14 items-center gap-4 px-4 py-3">{icon("contact", "size-5 shrink-0 text-muted-foreground")}<span class="min-w-0 flex-1"><span class="block text-body">Contacts</span><span class="block text-body-sm text-muted-foreground">88 items, added Sep 27</span></span></li>
-      <li class="flex min-h-14 items-center gap-4 px-4 py-3">{icon("file-spreadsheet", "size-5 shrink-0 text-muted-foreground")}<span class="min-w-0 flex-1"><span class="block truncate text-body">mert-family.csv</span><span class="block text-body-sm text-muted-foreground">12 items, added Sep 28</span></span></li>
+      <li class="flex min-h-14 items-center gap-4 px-4 py-3">{icon("contact", "size-5 shrink-0 text-muted-foreground")}<span class="min-w-0 flex-1"><span class="block text-body">Contacts</span><span class="block text-body-sm text-muted-foreground">88 items, added Sep 28</span></span></li>
+      <li class="flex min-h-14 items-center gap-4 px-4 py-3">{icon("file-spreadsheet", "size-5 shrink-0 text-muted-foreground")}<span class="min-w-0 flex-1"><span class="block truncate text-body">mert-family.csv</span><span class="block text-body-sm text-muted-foreground">12 items, added today</span></span></li>
     </ul>
     <p class="mt-2 flex gap-2 px-1 text-body-sm text-muted-foreground">{icon("combine", "size-4 mt-0.5 shrink-0")}<span>A list can combine any sources. New items are checked for duplicates before they're added.</span></p>'''
     p.frame('S11-existing-list', 'Adding items to an existing list (from S21)', phone(f'''{appbar("Add items", WEDDING, "Close, back to Wedding guests")}{stepper(1)}{body(tiles(), "Add items to Wedding guests", "Choose where the new items come from. They join the current round.", existing, note=False)}'''))
@@ -463,9 +463,26 @@ def build_s12():
                         steps_list(['Tap Open settings', 'Tap Notifications', 'Turn on All SwipeSort notifications']), tone='muted')
     p.frame('S12-notifications-denied', 'Notifications denied: open settings', phone(f'''{notif_bar}{ndenied}{bottom(btn("Open settings", None, "open-settings"), btn("Not now", "S09-list-overview.html#S09-shared", "not-now", "ghost", size="md"))}'''))
 
-    acts = [('Selin joined the list', 'Wedding guests', 'Oct 2'), ('15 new conflicts', 'Wedding guests', 'Oct 3'), ('Mert resolved 3 conflicts', 'Wedding guests', 'Yesterday')]
-    act_rows = ''.join(f'<li class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground">{icon("activity")}</span><span class="min-w-0 flex-1"><span class="block truncate text-body">{a}</span><span class="block text-body-sm text-muted-foreground">{b}</span></span><span class="text-caption text-muted-foreground">{c}</span></li>' for a, b, c in acts)
-    web_bg = f'''<header class="flex h-app-bar shrink-0 items-center px-gutter"><h1 class="text-title-1">Activity</h1></header><ul class="mt-2 divide-y">{act_rows}</ul>'''
+    # Same events as S38-default, newest first, grouped by day (sample data `activity`)
+    groups = [
+        ('Oct 3', [('git-compare-arrows', '15 conflicts in Wedding guests', 'Mert decides them.', '11:45 AM', True)]),
+        ('Oct 2', [('user-plus', 'Selin joined Wedding guests', None, '5:40 PM', True)]),
+        ('Sep 28', [('gavel', 'You made Mert the Decision Maker', 'Wedding guests', '9:20 PM', False),
+                    ('user-plus', 'Mert joined Wedding guests', None, '9:15 PM', False),
+                    ('play', 'You started Round 1 in Wedding guests', '88 items', '7:05 PM', False)]),
+    ]
+    act_html = ''
+    for day, rows in groups:
+        lis = ''
+        for ic, a, b, t, unread in rows:
+            bg = ' bg-primary-soft/40' if unread else ''
+            sr = '<span class="sr-only">Unread. </span>' if unread else ''
+            wt = ' font-semibold' if unread else ''
+            dot = '<span class="size-2.5 rounded-full bg-primary" aria-hidden="true"></span>' if unread else ''
+            sub = f'<span class="mt-0.5 block text-body-sm text-muted-foreground">{b}</span>' if b else ''
+            lis += f'<li class="flex min-h-16 items-start gap-3 px-gutter py-3{bg}"><span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground">{icon(ic)}</span><span class="min-w-0 flex-1">{sr}<span class="block text-body{wt}">{a}</span>{sub}</span><span class="flex shrink-0 flex-col items-end gap-2"><span class="text-caption text-muted-foreground">{t}</span>{dot}</span></li>'
+        act_html += f'<h2 class="px-gutter pb-1 pt-4 text-label text-muted-foreground">{day}</h2><ul class="divide-y">{lis}</ul>'
+    web_bg = f'''<header class="flex h-app-bar shrink-0 items-center px-gutter"><h1 class="text-title-1">Activity</h1></header><div class="min-h-0 flex-1 overflow-hidden">{act_html}</div>'''
     wbody = f'''<div class="mt-2 flex gap-3">{icon("monitor-smartphone", "size-5 mt-0.5 shrink-0 text-muted-foreground")}<p class="text-body text-muted-foreground">In the browser, updates appear in Activity while SwipeSort is open. To get notified on your phone, get SwipeSort for Android or iOS.</p></div>'''
     p.frame('S12-notifications-web', 'Web: push unavailable, in-app Activity instead', phone(f'''{web_bg}{sheet("s12nw", "Push notifications need the app", wbody, btn("Get the app", GET_APP, "get-app") + btn("Not now", "#S12-notifications-web", "not-now", "ghost", size="md"))}''', 'web'))
 

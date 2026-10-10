@@ -253,7 +253,7 @@ P.frame('S21-web', 'Web: contacts unavailable, photos upload', web_phone(f'''{ba
 
 P.frame('S21-ios', 'iOS: choose a source', phone(f'''{bar(ios=True)}
   {stepper("Choose source", 1, 5)}
-  {picker()}''', ios=True))
+  {picker({"Photos": tile('images', 'Photos', 'From your photo library', 'S18-photos-import.html#S18-ios-limited', 'source-photos')})}''', ios=True))
 P.frame('S21-ios-confirm', 'iOS: confirm', phone(confirm(ios=True), ios=True))
 
 big = f'''<header class="flex min-h-16 shrink-0 items-center gap-1 px-1">

@@ -280,6 +280,16 @@ def bg_s09_solo(name='March photos clean-up', items=30, decided=12, cnt=(6, 1, 5
     return bg(head, body)
 
 
+def bg_s09_solo_large():
+    c = lambda cls, i, n, w: f'<span class="inline-flex h-12 items-center gap-2 rounded-full px-4 text-title-3 font-medium {cls}">{icon(i, "size-6")}<span class="tabular-nums">{n}</span> {w}</span>'
+    body = f'''<div class="min-h-0 flex-1 overflow-hidden px-4 pt-1"><div class="space-y-6">
+      <div class="px-1"><p class="text-display">March photos clean-up</p><p class="mt-2 flex items-center gap-2 text-title-2 font-normal text-muted-foreground">{icon("lock", "size-7")}Only you</p></div>
+      <div class="rounded-group bg-card p-4 dark:border"><p class="text-title-2 font-medium">Progress</p><p class="mt-3 text-display tabular-nums">12 / 30 decided</p><span class="mt-3 flex">{bar(40)}</span>
+        <span class="mt-4 flex flex-wrap gap-2">{c("bg-reject-soft text-reject-soft-foreground", "x", 6, "rejected")}{c("bg-maybe-soft text-maybe-soft-foreground", "circle-help", 1, "maybe")}{c("bg-accept-soft text-accept-soft-foreground", "check", 5, "accepted")}</span></div>
+    </div></div>'''
+    return bg(top_bar('arrow-left', None, None, ('ellipsis-vertical',)), body)
+
+
 def member_row(who, name, role_ic, role, prog, you=False):
     r = f'<span class="inline-flex items-center gap-1">{icon(role_ic, "size-4")}{role}</span>' if role_ic else role
     y = ' (you)' if you else ''
@@ -355,9 +365,9 @@ def bg_s25(**kw):
 
 def bg_s24(shared=False):
     if shared:
-        name, notice, summary = 'Wedding guests', 'Starting Round 2 ends Round 1 for everyone. Decisions made so far are kept.', 'Round 2 will have 11 items'
-        opts = [('All items', 'Every item in the list, decided or not', '100', False), ('Maybe pile', 'Final decision is Maybe', '11', True),
-                ('Accepted items', 'Final decision is Accept', '32', False), ('Custom selection', 'Filter by a field or pick items by hand', '', False)]
+        name, notice, summary = 'Wedding guests', 'Starting Round 2 ends Round 1 for everyone. Decisions made so far are kept.', 'Round 2 will have 6 items'
+        opts = [('All items', 'Every item in the list, decided or not', '100', False), ('Maybe pile', 'Final decision is Maybe', '6', True),
+                ('Accepted items', 'Final decision is Accept', '22', False), ('Custom selection', 'Filter by a field or pick items by hand', '', False)]
     else:
         name, notice, summary = 'March photos clean-up', '12 of 30 decided. Starting Round 2 ends Round 1.', 'Round 2 will have 5 items'
         opts = [('All items', 'Every item in the list, decided or not', '30', False), ('Maybe pile', 'Items marked Maybe in Round 1', '1', False),
@@ -365,7 +375,7 @@ def bg_s24(shared=False):
     lis = ''.join(f'<li class="flex min-h-16 items-center gap-4 px-4 py-3">{radio(on)}<span class="min-w-0 flex-1"><span class="block text-body">{t}</span><span class="block text-body-sm text-muted-foreground">{d}</span></span>{chip(n) if n else ""}</li>' for t, d, n, on in opts)
     body = f'''<div class="min-h-0 flex-1 overflow-hidden px-4 pt-2"><div class="space-y-6">
       <div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground">{icon("info", "size-5", "shrink-0")}<div><p class="text-label">Round 1 is still open</p><p class="mt-0.5 text-body-sm">{notice}</p></div></div>
-      <div><p class="px-1 pb-2 text-label text-muted-foreground">Items</p><ul class="divide-y overflow-hidden rounded-group bg-card dark:border">{lis}</ul></div>
+      <div><p class="flex items-baseline justify-between px-1 pb-2 text-label text-muted-foreground"><span>Items</span>{'<span class="text-caption">Based on final decisions</span>' if shared else ''}</p><ul class="divide-y overflow-hidden rounded-group bg-card dark:border">{lis}</ul></div>
     </div></div>
     <div class="shrink-0 border-t px-gutter pb-4 pt-3"><p class="pb-3 text-center text-body-sm text-muted-foreground">{summary}</p>{fake_btn("Start round")}</div>'''
     return bg(top_bar('x', 'Start a round', name), body)
@@ -754,7 +764,7 @@ P.add('S40-new-round-shared', 'Start a new round while one is open (shared, Owne
     bg_s24(shared=True),
     dialog('End Round 1 for everyone and start Round 2?',
            ['Mert and Selin are still sorting. Decisions made so far are kept, and items nobody decided stay undecided.',
-            'Round 2 starts for all 3 members with 11 items.'],
+            'Round 2 starts for all 3 members with 6 items.'],
            'Cancel', 'End Round 1 and start', variant='primary', cancel_href='S24-start-round.html#S24-round-in-progress', confirm_href='S25-sorting.html#S25-shared', act='confirm-end-round')),
     'New round while one is open (shared)')
 
@@ -885,7 +895,7 @@ P.add('S40-delete-account', 'Delete account: the final confirmation', frame_andr
     'Delete account')
 
 P.add('S40-dialog-large-text', 'Large text (200%): everything scales, actions stack', frame_android(
-    bg_s09_solo(),
+    bg_s09_solo_large(),
     dialog('Delete “March photos clean-up”?',
            '30 items, Round 1 and your decisions will be deleted from your account and this phone. The photos in your gallery aren\'t changed.',
            'Cancel', 'Delete list', stacked=True, large=True, cancel_href='S09-list-overview.html#S09-default', confirm_href='S10-list-management.html#S10-deleted-snackbar', act='confirm-delete')),

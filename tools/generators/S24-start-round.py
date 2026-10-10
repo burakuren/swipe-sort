@@ -301,19 +301,23 @@ F.add('S24-round-in-progress', 'A round is in progress: inline warning before en
 end_dialog = dialog('erd', 'End Round 1 for everyone and start Round 2?',
                     f'<p>Mert and Selin are still sorting. Decisions made so far are kept, and items nobody decided stay undecided.</p><p>Round 2 starts for all 3 members with {SM} items.</p>',
                     btn('Cancel', 'ghost', '#S24-round-in-progress', 'cancel', full=False) + btn('End Round 1 and start', 'primary', 'S25-sorting.html#S25-shared', 'confirm-end-round', full=False))
-F.add('S24-end-round-dialog', 'Confirm: end the open round for everyone, then start (shared variant of S40-new-round)', phone(in_progress.replace('data-action="start-round"', '') + scrim('bg-scrim/50', 'z-20') + end_dialog))
+F.add('S24-end-round-dialog', 'Confirm: end the open round for everyone, then start (shared variant of S40-new-round)', phone(in_progress.replace('data-action="start-round"', ''), overlay='<div class="absolute inset-0 z-20 bg-scrim/50" aria-hidden="true"></div>' + end_dialog))
 
 collab_notice = f'''<div class="mb-4 flex items-start gap-3 rounded-control border bg-card p-4" role="note">
       {icon("lock", "size-5 mt-0.5 shrink-0 text-muted-foreground")}
       <div class="min-w-0 flex-1"><p class="text-label">Only Deniz can start rounds</p><p class="mt-0.5 text-body-sm text-muted-foreground">Rounds apply to every member, so the Owner starts them. Choose the items and order you'd like, then ask Deniz.</p></div>
     </div>'''
-collab = screen(
-    'Wedding guests', wedding_items(shared=True), 'maybe', 'original', close_href='S09-list-overview.html#S09-shared', notice=collab_notice, header=modal_bar('Suggest a round', 'Wedding guests', 'S09-list-overview.html#S09-shared', 'Close'),
+def collab_screen(scroll=''):
+    return screen(
+    'Wedding guests', wedding_items(shared=True), 'maybe', 'original', close_href='S09-list-overview.html#S09-shared', notice=collab_notice, scroll=scroll, header=modal_bar('Suggest a round', 'Wedding guests', 'S09-list-overview.html#S09-shared', 'Close'),
     items_trailing='<span class="text-caption text-muted-foreground">Based on final decisions</span>',
     bottom=summary_bar(SM, 2, 'Maybe pile, in original order', btn('Ask Deniz', 'primary', '#S24-collaborator-asked', 'ask-owner', ic='send')).replace('will have', 'would have'),
 )
+
+
+collab = collab_screen()
 F.add('S24-collaborator', "Collaborator (Selin): can't start, asks the Owner instead", phone(collab))
-F.add('S24-collaborator-asked', 'After asking: request sent to the Owner', phone(collab.replace('data-action="ask-owner"', '') + snackbar('Asked Deniz to start Round 2', bottom='bottom-36')))
+F.add('S24-collaborator-asked', 'After asking: request sent to the Owner', phone(collab_screen('-mt-44').replace('data-action="ask-owner"', '') + snackbar('Asked Deniz to start Round 2', bottom='bottom-36')))
 
 F.add('S24-offline', 'Shared list offline: starting for everyone needs a connection', phone(screen(
     'Wedding guests', wedding_items(shared=True), 'maybe', 'original', close_href='S09-list-overview.html#S09-shared',

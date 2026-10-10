@@ -14,7 +14,7 @@ export default {
       ['S33-web-desktop', 'start-sorting'],
     ];
     const after = [
-      ['S09-shared-decision-maker', 'review-conflicts'], ['S36-default', 'resolve-all'], ['S37-confirm', 'confirm-resolve'],
+      ['S36-default', 'resolve-all'], ['S37-confirm', 'confirm-resolve'],
       ['S37-summary', 'export'], ['S39-shared', 'format-google'], ['S39-shared-google-destination', 'continue'],
       ['S39-shared-google-confirm', 'confirm-write'],
     ];
@@ -36,20 +36,27 @@ export default {
     for (const k of ['←', '↑', '→', 'Z']) assert.ok(hints.includes(k), `missing keyboard hint ${k}`);
     assert.match(await page.locator('[data-frame="S25-web-desktop"] [data-action="finish"]').getAttribute('href'), /S09-list-overview\.html#S09-shared-decision-maker$/);
     await h.tap('S25-web-desktop', 'accept');
-    await page.waitForURL(/04-prototype\/swipe-demo\.html\?deck=mert/);
+    await page.waitForURL(/04-prototype\/swipe-demo\.html\?deck=mert&count=3/);
     await page.locator('[data-testid="card"]').first().waitFor({ state: 'visible' });
     const s0 = await demoState(page);
     assert.equal(s0.base, 85); assert.equal(s0.total, 100);
     assert.deepEqual(s0.counts, { accept: 50, reject: 21, maybe: 14 });
     assert.equal(await page.locator('#progress-label').innerText(), '85 / 100 decided');
-    h.log.push(`swipe-demo deck=mert (${s0.total - s0.base} items, keyboard)`);
-    const keys = ['ArrowRight', 'ArrowLeft', 'ArrowUp'];
-    const n = (await page.evaluate(() => window.__swipeDemo.state())).total - s0.base;
-    for (let i = 0; i < n; i++) { await page.keyboard.press(keys[i % 3]); await waitIndex(page, i + 1); }
-    assert.equal(await page.locator('#progress-label').innerText(), '100 / 100 decided');
+    assert.match(await page.locator('#close').getAttribute('href'), /S09-list-overview\.html#S09-shared-decision-maker$/);
+    // Mert's deck holds only items he never decided and that are not open conflicts (c089–c100).
+    const first = await page.locator('[data-testid="card"]').first().getAttribute('data-id');
+    assert.ok(/^c(089|09\d|100)$/.test(first), `unexpected first card ${first}`);
+    h.log.push(`swipe-demo deck=mert&count=3 (keyboard)`);
+    for (const [i, key] of [[1, 'ArrowRight'], [2, 'ArrowLeft'], [3, 'ArrowUp']]) { await page.keyboard.press(key); await waitIndex(page, i); }
+    assert.equal(await page.locator('#progress-label').innerText(), '88 / 100 decided');
+    await page.locator('#done').waitFor({ state: 'visible' });
+    assert.match(await page.locator('#done').innerText(), /Done for now[\s\S]*88 of 100 decided\. The prototype skips the rest of the round, and the next screens show the list as it was before this session\./);
     await shot('S25-live-keyboard-done');
-
-    for (let i = 0; i < after.length; i++) await step(i + 1, ...after[i]);
+    // Lands on the Decision Maker overview, shown as it was before this session (85 / 100).
+    await h.frame('S09-shared-decision-maker');
+    assert.match(await page.locator('[data-frame="S09-shared-decision-maker"]').innerText(), /85 \/ 100 decided/);
+    await h.tap('S09-shared-decision-maker', 'review-conflicts');
+    for (let i = 0; i < after.length; i++) await step(1, ...after[i]);
     await h.frame('S39-success-shared');
     await shot('99-exported');
     console.log(`    flow 3 path: ${h.log.join(' → ')} (${h.taps} taps)`);

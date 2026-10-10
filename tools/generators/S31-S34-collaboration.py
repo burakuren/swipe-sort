@@ -809,7 +809,7 @@ def sorting_after_join():
     <div class="flex items-center justify-between gap-3"><span class="text-label tabular-nums">0 / 100 decided</span>{members}</div>
     <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="0 of 100 decided"><div class="h-full w-0 rounded-full bg-primary"></div></div>
   </div>
-  <div class="relative mt-2 min-h-0 flex-1">
+  <div class="relative mt-2 min-h-0 flex-1 mb-16">
     <div class="absolute inset-x-gutter bottom-5 top-0 flex origin-top scale-95 translate-y-10 flex-col overflow-hidden rounded-hero border bg-card shadow-raised" aria-hidden="true"><img src="{IMG}people/c002.svg" alt="" class="h-[46%] w-full object-cover"></div>
     <article class="absolute inset-x-gutter bottom-5 top-0 flex origin-bottom flex-col overflow-hidden rounded-hero bg-card shadow-hero" aria-label="Ayşe Demir, Family. Phone +90 500 000 97 62. Email ayse.demir@example.com. City İstanbul." aria-roledescription="card" tabindex="0">{card_body}</article>
   </div>
@@ -820,7 +820,7 @@ def sorting_after_join():
     {dbtn_("accept", "check", "Accept", "accepted")}
     <button class="flex min-w-touch flex-col items-center gap-1.5" aria-label="Add note"><span class="flex size-12 items-center justify-center rounded-full border border-input bg-card">{icon("sticky-note")}</span><span class="text-caption text-muted-foreground">Note</span></button>
   </div>
-  {snackbar("You joined Wedding guests", bottom="bottom-44", icon_name="circle-check")}'''
+  {snackbar("You joined Wedding guests", bottom="bottom-32", icon_name="circle-check")}'''
 
 def build_s33():
     pg = Page('S33', 'Join a list', 'The signed-in invited person sees who invited them, the list, their role and what it means, the members and their progress, then joins and starts sorting every item of the current round (DM-16). Spec: <a href="S33-join-list.md">S33-join-list.md</a>.')

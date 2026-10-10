@@ -177,7 +177,7 @@ Related frames in S10: `S10-row-sheet` (long press), `S10-archived-snackbar`, `S
 - Conflict chip: icon + text, inverted neutral (color not the only signal). Unread dot has a text
   equivalent.
 - Live regions: search result count (polite), sync notice (polite), sync error (`alert`).
-- Large text (`S08-large-text`): names `text-title-1` and wrap to 2 lines; status and counts wrap; the
+- Large text (`S08-large-text`): names `text-title-1` and wrap to 2 lines; status, chips (the Conflict chip grows with the text) and counts wrap; the
   progress fraction stays at the end of the bar; Resume moves below the row content (full label); the FAB
   collapses to the 56 icon FAB ("New list") so it never covers row content; bottom navigation labels grow. Rows grow, nothing truncates except the second line of names.
 - Touch targets ≥ 48: rows ≥ 72, Resume 48 high, icon buttons 48, FAB 56.

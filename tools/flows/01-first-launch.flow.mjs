@@ -52,6 +52,7 @@ export default {
     assert.equal(s0.base, 0);
     assert.equal(s0.total, 85, 'the live round keeps the imported total');
     assert.equal(await page.locator('#progress-label').innerText(), '0 / 85 decided');
+    assert.match(await page.locator('#close').getAttribute('href'), /S09-list-overview\.html#S09-guest-wedding$/);
     // First decision: a real drag to the right.
     await dragCard(page, 220, 10);
     await waitIndex(page, 1);
@@ -71,7 +72,7 @@ export default {
     assert.equal(await page.locator('#progress-label').innerText(), '6 / 85 decided');
     // The shortened prototype round says so, then moves on to the round summary by itself.
     await page.locator('#done').waitFor({ state: 'visible' });
-    assert.match(await page.locator('#done').innerText(), /Done for now[\s\S]*6 of 85 decided\. The prototype skips the rest of the round\./);
+    assert.match(await page.locator('#done').innerText(), /Done for now[\s\S]*6 of 85 decided\. The prototype skips the rest of the round/);
     await h.frame('S27-first-round');
     assert.match(await page.locator('[data-frame="S27-first-round"]').innerText(), /85 \/ 85 decided/);
     await shot('04-round-summary');

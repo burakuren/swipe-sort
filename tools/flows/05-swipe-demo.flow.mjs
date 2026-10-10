@@ -98,6 +98,7 @@ export default {
     assert.equal(s.base, 76); assert.equal(s.total, 100);
     assert.deepEqual(s.counts, { accept: 48, reject: 17, maybe: 11 });
     assert.equal(await page.locator('#progress-label').innerText(), '76 / 100 decided');
+    assert.match(await page.locator('#close').getAttribute('href'), /S09-list-overview\.html#S09-guest-wedding$/);
     for (const [key, n] of [['ArrowRight', 1], ['ArrowLeft', 2], ['ArrowUp', 3]]) { await page.keyboard.press(key); await waitIndex(page, n); }
     assert.equal(await page.locator('#progress-label').innerText(), '79 / 100 decided');
     await page.locator('#done').waitFor({ state: 'visible' });
@@ -105,6 +106,7 @@ export default {
     // 10. A full deck finishes with the decision split.
     await page.goto(`${base}?deck=desk-maybe`);
     await card().waitFor({ state: 'visible' });
+    assert.match(await page.locator('#close').getAttribute('href'), /S09-list-overview\.html#S09-solo-round-done$/);
     const total = (await demoState(page)).total;
     for (let i = 0; i < total; i++) { await page.keyboard.press('ArrowRight'); await waitIndex(page, i + 1); }
     await page.locator('#done').waitFor({ state: 'visible' });
