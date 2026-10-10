@@ -325,11 +325,11 @@ const candidates = [
 const templates = [
   { id: 't-person', name: 'Person', builtIn: true, layout: { image: 'avatar', title: 'name', subtitle: 'relationship', rows: ['phone', 'email', 'city'], tags: ['side'] } },
   { id: 't-product', name: 'Product', builtIn: true, layout: { image: 'cover', title: 'name', subtitle: 'store', rows: ['price', 'rating'], tags: ['category'] } },
-  { id: 't-photo', name: 'Photo', builtIn: true, layout: { image: 'full', title: 'takenAt', subtitle: 'location', rows: [], tags: [] } },
+  { id: 't-photo', name: 'Photo', builtIn: true, layout: { image: 'full', title: 'takenAt', subtitle: 'location', rows: ['fileName', 'sizeMB'], tags: [] } },
   { id: 't-task', name: 'Task', builtIn: true, layout: { image: 'none', title: 'title', subtitle: 'due', rows: ['owner', 'estimate'], tags: ['priority'] } },
   { id: 't-candidate', name: 'Candidate', builtIn: true, layout: { image: 'avatar', title: 'name', subtitle: 'role', rows: ['yearsExperience', 'location', 'expectedSalary', 'portfolio'], tags: ['source'] } },
   { id: 't-generic', name: 'Generic', builtIn: true, layout: { image: 'none', title: 'first field', subtitle: 'second field', rows: ['next 4 fields'], tags: [] } },
-  { id: 't-wedding-table', name: 'Guest with table side', builtIn: false, basedOn: 't-person', createdAt: '2026-09-28T19:30:00Z', usedBy: ['l-wedding'], layout: { image: 'avatar', title: 'name', subtitle: 'side', rows: ['relationship', 'phone'], tags: ['city'] } },
+  { id: 't-wedding-table', name: 'Guest with table side', builtIn: false, basedOn: 't-person', createdAt: '2026-09-28T19:30:00Z', usedBy: [], layout: { image: 'avatar', title: 'name', subtitle: 'side', rows: ['relationship', 'phone'], tags: ['city'] } },
   { id: 't-candidate-compact', name: 'Candidate, compact', builtIn: false, basedOn: 't-candidate', createdAt: '2026-10-08T14:00:00Z', usedBy: ['l-candidates'], layout: { image: 'none', title: 'name', subtitle: 'location', rows: ['yearsExperience', 'expectedSalary'], tags: ['source'] } },
 ];
 

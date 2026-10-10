@@ -5,7 +5,7 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 from groupc2_common import *  # noqa
 
-P = Page('S21', 'Add items to an existing list', 'From S09 “Add items”: the same import steps with list context. Columns are matched to the list’s existing fields, rows are checked against items already in the list (S20-existing), and new items join the current round. Sample: mert-family.csv added to Wedding guests (shared with Mert and Selin). Spec: <a href="S21-add-items.md">S21-add-items.md</a>.')
+P = Page('S21', 'Add items to an existing list', 'From S09 “Add items”: the same import steps with list context. Columns are matched to the list\'s existing fields, rows are checked against items already in the list (S20-existing), and new items join the current round. Sample: mert-family.csv added to Wedding guests (shared with Mert and Selin). Spec: <a href="S21-add-items.md">S21-add-items.md</a>.')
 
 CLOSE = 'S09-list-overview.html#S09-shared'
 LIST = 'Wedding guests'
@@ -59,7 +59,7 @@ def picker(overrides=None, banner='', note_extra=''):
 
 
 # ------------------------------------------------------------------ flow
-P.section('Flow', 'Choose source (with list context) → select the file → match columns to the list’s fields → duplicates against existing items (S20-existing) → confirm → adding → back to the list with a snackbar.')
+P.section('Flow', 'Choose source (with list context) → select the file → match columns to the list\'s fields → duplicates against existing items (S20-existing) → confirm → adding → back to the list with a snackbar.')
 
 P.frame('S21-default', 'Default: choose a source for Wedding guests', phone(f'''{bar()}
   {stepper("Choose source", 1, 5)}
@@ -135,11 +135,11 @@ def mapping(rows, top='', overlay='', ios=False):
   {overlay}'''
 
 
-P.frame('S21-mapping', 'Map columns to the list’s fields (one new field)', phone(mapping(MAP)))
+P.frame('S21-mapping', 'Map columns to the list\'s fields (one new field)', phone(mapping(MAP)))
 
 opts = [
     ('circle-plus', 'New field: Address', 'Added to every item; existing items leave it empty', True),
-    ('circle-slash', 'Don’t import', 'The column is left out', False),
+    ('circle-slash', 'Don\'t import', 'The column is left out', False),
     ('heading', 'Name', 'Title. Already filled by Name', False),
     ('phone', 'Phone', 'Already filled by Phone', False),
     ('mail', 'Email', 'Already filled by E-mail', False),
@@ -160,7 +160,7 @@ summary_items = [
     ('file-spreadsheet', '12 new items', 'From mert-family.csv'),
     ('merge', '3 rows match items already in the list', '2 merged, 1 skipped. Their decisions and notes stay.'),
     ('circle-plus', '1 new field: Address', 'Items already in the list leave it empty.'),
-    ('layers', 'New items join Round 1', 'Every member sorts them. Decisions already made don’t change.'),
+    ('layers', 'New items join Round 1', 'Every member sorts them. Decisions already made don\'t change.'),
     ('layout-template', 'Cards use the Person template', 'Address shows in item details. Add it to cards in Card template.'),
 ]
 
@@ -196,48 +196,41 @@ def confirm(busy=False, ios=False):
 P.frame('S21-confirm', 'Confirm: Add 12 items to Wedding guests (shared list)', phone(confirm()))
 P.frame('S21-adding', 'Adding progress', phone(confirm(busy=True)))
 
-# success on S09 (simplified)
-s09 = f'''<!-- Simplified S09-shared for context; the full layout is in S09-list-overview.html#S09-shared -->
-  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
-    <a href="S08-home.html#S08-default" class="flex size-12 items-center justify-center rounded-full" aria-label="Back to Lists">{icon("arrow-left", "size-6")}</a>
-    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3">{LIST}</h1>
-    {icon_btn("user-plus", "Invite", size="size-6")}{icon_btn("ellipsis-vertical", "More options", size="size-6")}
-  </header>
-  <div class="min-h-0 flex-1 overflow-hidden">
-    <div class="space-y-5 pb-6 pt-1">
-    <div class="px-gutter">
-      <p class="flex items-center gap-1.5 text-body-sm text-muted-foreground">{icon("users", "size-4")}Shared with Mert and Selin</p>
-      <div class="mt-4 rounded-group bg-card p-4">
-        <div class="flex items-baseline justify-between"><span class="text-label tabular-nums">76 / 100 decided</span><span class="text-caption text-muted-foreground">Round 1</span></div>
-        <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="76" aria-valuemin="0" aria-valuemax="100" aria-label="76 of 100 decided"><div class="h-full w-[76%] rounded-full bg-primary"></div></div>
-        <a href="S25-sorting.html#S25-shared" class="mt-4 flex h-12 w-full items-center justify-center rounded-control bg-primary text-label-lg text-primary-foreground">Continue sorting</a>
-      </div>
-    </div>
-    <div class="px-gutter">
-      <p class="px-1 pb-2 text-label text-muted-foreground">Sources</p>
-      <ul class="divide-y overflow-hidden rounded-group bg-card">
-        <li class="flex min-h-14 items-center gap-4 px-4 py-3">{icon("contact", "size-5 text-muted-foreground")}<span class="flex-1 text-body">Contacts</span><span class="text-body tabular-nums text-muted-foreground">88 items</span></li>
-        <li class="flex min-h-14 items-center gap-4 px-4 py-3">{icon("file-spreadsheet", "size-5 text-muted-foreground")}<span class="min-w-0 flex-1"><span class="block truncate text-body">mert-family.csv</span><span class="block text-body-sm text-muted-foreground">Added just now</span></span><span class="text-body tabular-nums text-muted-foreground">12 items</span></li>
-        <li><a href="#S21-default" class="flex min-h-14 items-center gap-4 px-4 py-3">{icon("plus", "size-5 text-muted-foreground")}<span class="flex-1 text-body">Add items</span>{icon("chevron-right", "size-5 text-muted-foreground")}</a></li>
-      </ul>
-    </div>
-    </div>
-  </div>
-  {snackbar("Added 12 items", "Undo", bottom="bottom-6")}'''
-P.frame('S21-success', 'Back on the list: snackbar “Added 12 items”', phone(s09))
+# success on S09: the real S09-shared screen (Group B) embedded from S09-list-overview.html
+import re as _re
+_S09 = open(os.path.join(SCREENS, 'S09-list-overview.html'), encoding='utf-8').read()
+
+
+def s09_screen(frame_id, suffix):
+    i = _S09.index(f'data-frame="{frame_id}"')
+    i = _S09.index('<div class="screen', i)
+    i = _S09.index('>', i) + 1
+    j = _S09.index('<div class="sysbar-nav"', i)
+    inner = _S09[i:j].rstrip()
+    assert inner.endswith('</div>')
+    inner = inner[:-len('</div>')]
+    for fid in set(_re.findall(r' id="([^"]+)"', inner)):
+        inner = inner.replace(f'"{fid}"', f'"{fid}-{suffix}"')
+    return f'<!-- Embedded from S09-list-overview.html#{frame_id} (Group B) -->\n' + inner
+
+
+added_event = f'<li class="flex items-center gap-3 px-4 py-3">{avatar(photo="images/people/u-deniz.svg", size="size-8")}<span class="min-w-0 flex-1"><span class="block text-body">You added 12 items from mert-family.csv</span><span class="block text-body-sm text-muted-foreground">Just now</span></span></li>'
+ACT_UL = '<ul class="mt-1 divide-y overflow-hidden rounded-group bg-card dark:border">'
+P.frame('S21-success', 'Back on S09: snackbar “Added 12 items” with Undo', phone(s09_screen('S09-shared', 's21a') + snackbar('Added 12 items', 'Undo', bottom='bottom-6')))
+P.frame('S21-success-activity', 'S09 scrolled: the addition in Recent activity', phone(s09_screen('S09-shared-scrolled', 's21b').replace(ACT_UL, ACT_UL + added_event, 1)))
 
 # ------------------------------------------------------------------ errors and states
 P.section('Errors, offline and platforms', 'Partial add, offline (local sources work; Google Sheets needs a connection), web (contacts and gallery need the app; photos upload instead) and iOS.')
 
 skipped = [
     ('Row 9', 'Has 9 values but the file has 7 columns.'),
-    ('Row 14', 'Has characters that can’t be read. Save the file as UTF-8.'),
+    ('Row 14', 'Has characters that can\'t be read. Save the file as UTF-8.'),
 ]
 sk = ''.join(f'<li class="flex items-start gap-4 px-4 py-3">{icon("file-x", "mt-0.5 size-5 shrink-0 text-muted-foreground")}<div class="min-w-0 flex-1"><p class="text-body">{a}</p><p class="text-body-sm text-muted-foreground">{b}</p></div></li>' for a, b in skipped)
 partial = f'''{bar()}
   <div class="min-h-0 flex-1 overflow-hidden">
     <div class="space-y-5 px-gutter pb-6 pt-4">
-    <div class="flex items-start gap-3">{icon("circle-alert", "mt-1 size-6 shrink-0 text-destructive")}<div><h2 class="text-title-2">Added 10 of 12 items</h2><p class="mt-1 text-body text-muted-foreground">2 rows in mert-family.csv couldn’t be added. The other 10 are in {LIST} and join Round 1.</p></div></div>
+    <div class="flex items-start gap-3">{icon("circle-alert", "mt-1 size-6 shrink-0 text-destructive")}<div><h2 class="text-title-2">Added 10 of 12 items</h2><p class="mt-1 text-body text-muted-foreground">2 rows in mert-family.csv couldn\'t be added. The other 10 are in {LIST} and join Round 1.</p></div></div>
     <div><p class="px-1 pb-2 text-label text-muted-foreground">Not added</p><ul class="divide-y overflow-hidden rounded-group bg-card">{sk}</ul>
     <p class="mt-2 px-1 text-body-sm text-muted-foreground">Fix these rows in the file and add it again. Rows already in the list show up as duplicates, so nothing is added twice.</p></div>
     </div>
@@ -246,7 +239,7 @@ partial = f'''{bar()}
 P.frame('S21-partial', 'Partial: 10 of 12 added', phone(partial))
 
 off_tile = tile_off('sheet', 'Google Sheets', 'Needs a connection', 'wifi-off', 'Google Sheets, needs a connection')
-P.frame('S21-offline', 'Offline: local sources work, Google Sheets doesn’t', phone(f'''{bar()}
+P.frame('S21-offline', 'Offline: local sources work, Google Sheets doesn\'t', phone(f'''{bar()}
   {stepper("Choose source", 1, 5)}
   {picker({"Google Sheets": off_tile}, banner=offline_banner("You're offline. Items you add sync to Mert and Selin later."))}'''))
 

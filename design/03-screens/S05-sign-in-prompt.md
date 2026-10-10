@@ -92,29 +92,29 @@ VIS-13, SUC-05, DEL-24 (flow 3).
 | Share body | "Sharing needs an account, so members can sort “Wedding guests” on their own devices and see where you agree." |
 | Share reasons | "Your 4 lists on this phone move to your account and are backed up."; "Sorting keeps working offline, like now." |
 | Backup title | "Sign in to back up your lists" |
-| Backup body | "Your lists are saved on this phone only. If you lose it or remove the app, they’re gone. An account keeps them safe and on every device." |
+| Backup body | "Your lists are saved on this phone only. If you lose it or remove the app, they're gone. An account keeps them safe and on every device." |
 | Backup reasons | "Your 4 lists on this phone move to your account."; "Open them on other phones and in the browser." |
 | Buttons | "Continue with Apple" (iOS), "Continue with Google", "Continue with email", "Not now" |
 | Busy | "Signing in…" |
-| Offline | "You’re offline. Signing in needs a connection. Your lists stay on this phone." |
+| Offline | "You're offline. Signing in needs a connection. Your lists stay on this phone." |
 | Signed in as | "Signed in as deniz.yilmaz@example.com" |
 | Moving title | "Moving your lists to your account" |
-| Moving body | "Keep SwipeSort open. Each list stays on this phone until it’s safely in your account." |
+| Moving body | "Keep SwipeSort open. Each list stays on this phone until it's safely in your account." |
 | Progress | "2 of 4 moved" (screen reader "2 of 4 lists moved") |
 | Row statuses | "Moved", "Moving…", "Waiting", "Not moved"; item count "100 items" |
 | Moved title | "4 lists moved to your account" |
-| Moved body (share) | "They’re backed up to deniz.yilmaz@example.com and stay on this phone too. Now you can share “Wedding guests”." |
-| Moved body (backup) | "They’re backed up to deniz.yilmaz@example.com and stay on this phone too. Changes back up automatically from now on." |
+| Moved body (share) | "They're backed up to deniz.yilmaz@example.com and stay on this phone too. Now you can share “Wedding guests”." |
+| Moved body (backup) | "They're backed up to deniz.yilmaz@example.com and stay on this phone too. Changes back up automatically from now on." |
 | Moved actions | "Share list" (share); "Done" (backup) |
 | Merge title | "4 lists added to your account" |
 | Merge body | "Your account now has 6 lists: the 4 from this phone and the 2 that were already there. Nothing was replaced. Now you can share “Wedding guests”." |
 | Partial title | "3 of 4 lists moved" |
-| Partial body | "“March photos clean-up” didn’t move. It’s still on this phone and nothing is lost. Try again now, or later from Settings › Backup." |
+| Partial body | "“March photos clean-up” didn't move. It's still on this phone and nothing is lost. Try again now, or later from Settings › Backup." |
 | Partial actions | "Try again", "Continue to share" |
-| Failed title | "Your lists didn’t move" |
-| Failed body | "The connection dropped. You’re signed in, and all 4 lists are safe on this phone. They move automatically when you’re back online, or try again now." |
+| Failed title | "Your lists didn't move" |
+| Failed body | "The connection dropped. You're signed in, and all 4 lists are safe on this phone. They move automatically when you're back online, or try again now." |
 | Failed actions | "Try again", "Later" |
-| Web wording | "On this browser only"; "Lists are in this browser only"; "Your 4 lists in this browser move to your account and are backed up."; backup body "Your lists are saved in this browser only. If you clear its data, they’re gone. An account keeps them safe and on every device."; moving body "Keep SwipeSort open. Each list stays on this browser until it’s safely in your account." |
+| Web wording | "On this browser only"; "Lists are in this browser only"; "Your 4 lists in this browser move to your account and are backed up."; backup body "Your lists are saved in this browser only. If you clear its data, they're gone. An account keeps them safe and on every device."; moving body "Keep SwipeSort open. Each list stays on this browser until it's safely in your account." |
 | Singular forms | "1 list moved to your account"; "Your list on this phone moves to your account." |
 | Prototype-only link | "Finish moving (prototype shortcut: the sheet moves on by itself)" |
 

@@ -177,7 +177,7 @@ large = f'''<header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
 P.frame('S17-large-text', 'Large text (200%)', phone(large))
 
 # ------------------------------------------------------------------ platforms
-P.section('iOS', 'iOS: the item form is a page sheet with Cancel and Add in its own bar (Add = save and close); “Add another” sits under the form. The bar shows a back chevron to Set up fields. Web is the same as Android; the Photo field opens the browser’s file picker.')
+P.section('iOS', 'iOS: the item form is a page sheet with Cancel and Add in its own bar (Add = save and close); “Add another” sits under the form. The bar shows a back chevron to Set up fields. Web is the same as Android; the Photo field opens the browser\'s file picker.')
 ios_bar = modal_bar('New list', CLOSE, ios=True, back=('Set up fields', '#S17-fields'))
 ios_form = item_form('io', P4['name'], str(P4['price']), P4['store'], 'keystone.example/p/1111', photo='p04').replace('mt-3 min-h-0 flex-1', 'mt-4 min-h-0 flex-1') + f'<div class="shrink-0 pb-8 pt-3"><button class="{SECONDARY} w-full" data-action="add-another">Add another</button></div>'
 P.frame('S17-ios-add-item', 'iOS: new item as a page sheet', phone(items_screen(['p01', 'p02', 'p03'], bar=ios_bar, overlay=ios_sheet('io1', 'New item', ios_form, left='Cancel', right='Add')), ios=True))

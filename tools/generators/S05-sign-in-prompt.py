@@ -8,39 +8,30 @@ ORIGIN_BACKUP = 'S08-home.html#S08-guest'
 
 
 # ---------------------------------------------------------------- backgrounds (inert copies of the origin screens)
-def bg_list(kind='android'):
-    rows = ''.join(f'<li class="flex min-h-14 items-center gap-4 px-4 py-3">{icon(ic, "size-5 text-muted-foreground")}<span class="flex-1 text-body">{t}</span>{icon("chevron-right", "size-5 text-muted-foreground")}</li>'
-                   for ic, t in (('list-checks', 'Results'), ('history', 'Rounds'), ('layout-template', 'Card template'), ('list-plus', 'Add items')))
-    bar = (f'<div class="grid h-12 grid-cols-[1fr_auto_1fr] items-center px-2"><span class="inline-flex items-center gap-0.5 text-body text-primary">{icon("chevron-left", "size-6")}Lists</span><span class="text-body font-semibold">Wedding guests</span><span class="flex justify-end gap-1 pr-2 text-primary">{icon("share", "size-6")}</span></div>'
-           if kind == 'ios' else
-           f'<div class="flex h-app-bar items-center gap-1 px-1"><span class="flex size-12 items-center justify-center">{icon("arrow-left", "size-6")}</span><span class="flex-1 px-1 text-title-3">Wedding guests</span><span class="flex size-12 items-center justify-center">{icon("share-2", "size-6")}</span><span class="flex size-12 items-center justify-center">{icon("ellipsis-vertical", "size-6")}</span></div>')
-    return f'''<div class="flex flex-1 flex-col" aria-hidden="true">
-    {bar}
-    <div class="px-gutter">
-      <p class="flex items-center gap-1.5 text-body-sm text-muted-foreground">{icon("cloud-off", "size-4")}On this phone only</p>
-      <div class="mt-5 rounded-group bg-card p-4 dark:border">
-        <div class="flex items-baseline justify-between"><span class="text-label tabular-nums">76 / 100 decided</span><span class="text-caption text-muted-foreground">Round 1</span></div>
-        <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted"><div class="h-full w-[76%] rounded-full bg-primary"></div></div>
-        <div class="mt-3 flex gap-4 text-caption"><span class="inline-flex items-center gap-1 text-reject-soft-foreground">{icon("x", "size-4")}17</span><span class="inline-flex items-center gap-1 text-maybe-soft-foreground">{icon("circle-help", "size-4")}11</span><span class="inline-flex items-center gap-1 text-accept-soft-foreground">{icon("check", "size-4")}48</span></div>
-        <div class="mt-4 flex h-12 items-center justify-center rounded-control bg-primary text-label-lg text-primary-foreground">Continue sorting</div>
-      </div>
-      <ul class="mt-5 divide-y overflow-hidden rounded-group bg-card dark:border">{rows}</ul>
-    </div>
-  </div>'''
+# Reuses Group B's markup (tools/generators/S08-S10-lists.py) without running its page writers: only the
+# helper definitions above its first `P = Page(` are executed.
+_B = {}
+_src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'S08-S10-lists.py')).read()
+exec(_src[:_src.index("\nP = Page('S08'")], _B)
 
 
-def bg_home(kind='android'):
-    lists = [('Wedding guests', 76, 100), ('Desk setup', 20, 20), ('March photos clean-up', 12, 30), ('Frontend hiring, Q4', 0, 12)]
-    rows = ''
-    for n, d, t in lists:
-        pct = round(d * 100 / t)
-        rows += f'''<li class="flex items-center gap-4 px-4 py-4"><div class="min-w-0 flex-1"><p class="truncate text-title-3">{n}</p><p class="mt-0.5 flex items-center gap-1.5 text-body-sm text-muted-foreground">{icon("cloud-off", "size-4")}On this phone only</p><div class="mt-3 flex items-center gap-3"><div class="h-1.5 flex-1 overflow-hidden rounded-full bg-muted"><div class="h-full w-[{pct}%] rounded-full bg-primary"></div></div><span class="text-caption tabular-nums text-muted-foreground">{d} / {t}</span></div></div></li>'''
-    return f'''<div class="flex flex-1 flex-col" aria-hidden="true">
-    <div class="h-app-bar"></div>
-    <p class="px-gutter pb-2 text-title-1">Lists</p>
-    <div class="mx-gutter flex items-center gap-2 py-2 text-body-sm text-muted-foreground">{icon("cloud-off", "size-4")}<span class="flex-1">Lists are on this phone only</span><span class="text-label text-primary">Back up</span></div>
-    <ul class="mx-gutter mt-2 divide-y overflow-hidden rounded-group bg-card dark:border">{rows}</ul>
-  </div>'''
+def bg_list(kind='android', web=False):
+    """S09-guest-wedding (Wedding guests before sharing, not signed in)."""
+    s = _B['ov_guest_wedding'](web=web)
+    if kind == 'ios':
+        s = s.replace(_B['ov_bar'](share=('S05-sign-in-prompt.html#S05-share', 'Share list', None)),
+                      _B['ov_ios_bar'](share=('S05-sign-in-prompt.html#S05-share', 'Share list')))
+    return _B['inert'](s)
+
+
+def bg_home(kind='android', web=False):
+    """S08-guest (lists on this phone only; one indicator line under the Lists title)."""
+    s = _B['home_guest'](web=web)
+    if kind == 'ios':
+        s = s.replace(large_title('Lists', _B['search_btn']()), ios_nav(large='Lists'))
+        s = s.replace(bottom_nav('lists', badge=0), ios_tab_bar('lists', badge=0))
+        s = s.replace(_B['fab'](), '')
+    return _B['inert'](s)
 
 
 # ---------------------------------------------------------------- sheet content
@@ -67,8 +58,8 @@ def prompt(sid, purpose='share', kind='android', state=None, large=False, web=Fa
         email_href = 'S03-sign-in.html#S03-context-share'
     else:
         ic, title = 'cloud-upload', 'Sign in to back up your lists'
-        body = (f'Your lists are saved in this browser only. If you clear its data, they’re gone. An account keeps them safe and on every device.' if web else
-                'Your lists are saved on this phone only. If you lose it or remove the app, they’re gone. An account keeps them safe and on every device.')
+        body = (f'Your lists are saved in this browser only. If you clear its data, they\'re gone. An account keeps them safe and on every device.' if web else
+                'Your lists are saved on this phone only. If you lose it or remove the app, they\'re gone. An account keeps them safe and on every device.')
         points = [('cloud-upload', f'Your 4 lists {where} move to your account.'),
                   ('smartphone', 'Open them on other phones and in the browser.')]
         not_now = ORIGIN_BACKUP
@@ -86,7 +77,7 @@ def prompt(sid, purpose='share', kind='android', state=None, large=False, web=Fa
         btns = [b.replace('h-14', 'min-h-16 h-auto py-3').replace('text-label-lg', 'text-title-3') for b in btns]
     banner = ''
     if off:
-        banner = f'<div class="mt-4 flex items-start gap-2 rounded-control bg-muted px-3 py-2.5 text-body-sm" role="status">{icon("wifi-off", "size-4 mt-0.5 shrink-0")}<span>You’re offline. Signing in needs a connection. Your lists stay {where}.</span></div>'
+        banner = f'<div class="mt-4 flex items-start gap-2 rounded-control bg-muted px-3 py-2.5 text-body-sm" role="status">{icon("wifi-off", "size-4 mt-0.5 shrink-0")}<span>You\'re offline. Signing in needs a connection. Your lists stay {where}.</span></div>'
     t = 'text-title-1' if large else 'text-title-2'
     b = 'text-title-3 font-normal' if large else 'text-body'
     pts = '' if large else why_points(points)
@@ -123,7 +114,7 @@ def moving(sid, web=False):
     where = 'this browser' if web else 'this phone'
     return f'''{signed_in_as()}
     <h2 id="{sid}-t" class="mt-5 text-title-2">Moving your lists to your account</h2>
-    <p class="mt-2 text-body text-muted-foreground">Keep SwipeSort open. Each list stays on {where} until it’s safely in your account.</p>
+    <p class="mt-2 text-body text-muted-foreground">Keep SwipeSort open. Each list stays on {where} until it\'s safely in your account.</p>
     <div class="mt-5" role="status">
       <div class="flex items-baseline justify-between"><span class="text-label tabular-nums">2 of 4 moved</span></div>
       <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="4" aria-label="2 of 4 lists moved"><div class="h-full w-1/2 rounded-full bg-primary"></div></div>
@@ -141,7 +132,7 @@ def moved(sid, purpose='share', merge=False):
         action = btn('Done', href='S06-settings.html#S06-backup', action='done')
     title = '4 lists added to your account' if merge else '4 lists moved to your account'
     body = (f'Your account now has 6 lists: the 4 from this phone and the 2 that were already there. Nothing was replaced. {tail}' if merge
-            else f'They’re backed up to {ME["email"]} and stay on this phone too. {tail}')
+            else f'They\'re backed up to {ME["email"]} and stay on this phone too. {tail}')
     return f'''<div class="pt-3">{round_icon('cloud-check', 'neutral')}</div>
     <h2 id="{sid}-t" class="mt-4 text-title-2" role="status">{title}</h2>
     <p class="mt-2 text-body text-muted-foreground">{body}</p>
@@ -152,15 +143,15 @@ def moved(sid, purpose='share', merge=False):
 def partial(sid):
     return f'''<div class="pt-3">{round_icon('circle-alert', 'error')}</div>
     <h2 id="{sid}-t" class="mt-4 text-title-2">3 of 4 lists moved</h2>
-    <p class="mt-2 text-body text-muted-foreground">“March photos clean-up” didn’t move. It’s still on this phone and nothing is lost. Try again now, or later from Settings › Backup.</p>
+    <p class="mt-2 text-body text-muted-foreground">“March photos clean-up” didn\'t move. It\'s still on this phone and nothing is lost. Try again now, or later from Settings › Backup.</p>
     {list_rows(['moved', 'moved', 'failed', 'moved'])}
     <div class="mt-5 space-y-2">{btn('Try again', href='#S05-moving', action='retry')}{btn('Continue to share', 'ghost', href='S31-invite.html#S31-default', action='continue')}</div>'''
 
 
 def failed(sid):
     return f'''<div class="pt-3">{round_icon('wifi-off', 'error')}</div>
-    <h2 id="{sid}-t" class="mt-4 text-title-2">Your lists didn’t move</h2>
-    <p class="mt-2 text-body text-muted-foreground">The connection dropped. You’re signed in, and all 4 lists are safe on this phone. They move automatically when you’re back online, or try again now.</p>
+    <h2 id="{sid}-t" class="mt-4 text-title-2">Your lists didn\'t move</h2>
+    <p class="mt-2 text-body text-muted-foreground">The connection dropped. You\'re signed in, and all 4 lists are safe on this phone. They move automatically when you\'re back online, or try again now.</p>
     {list_rows(['failed'] * 4)}
     <div class="mt-5 space-y-2">{btn('Try again', href='#S05-moving', action='retry')}{btn('Later', 'ghost', href=ORIGIN_SHARE, action='later')}</div>'''
 
@@ -194,9 +185,9 @@ P.section('Large text, iOS and web', 'Large text: the reasons list hides, button
 P.frame('S05-share-large-text', 'Large text (200%)', phone(scene(bg_list(), 's05lt', prompt('s05lt', 'share', large=True))))
 P.frame('S05-ios', 'iOS: page sheet, Apple first', phone(scene(bg_list('ios'), 's05i', prompt('s05i', 'share', kind='ios'), kind='ios'), kind='ios'))
 P.frame('S05-ios-backup', 'iOS: back up', phone(scene(bg_home('ios'), 's05ib', prompt('s05ib', 'backup', kind='ios'), kind='ios'), kind='ios'))
-web_bg = bg_list().replace('On this phone only', 'On this browser only')
+web_bg = bg_list(web=True)
 P.frame('S05-web', 'Web, mobile browser: lists live in this browser', phone(scene(web_bg, 's05w', prompt('s05w', 'share', web=True)), kind='web'))
-P.frame('S05-web-backup', 'Web: back up from this browser', phone(scene(bg_home().replace('On this phone only', 'On this browser only').replace('Lists are on this phone only', 'Lists are in this browser only'), 's05wb', prompt('s05wb', 'backup', web=True)), kind='web'))
+P.frame('S05-web-backup', 'Web: back up from this browser', phone(scene(bg_home(web=True), 's05wb', prompt('s05wb', 'backup', web=True)), kind='web'))
 P.frame('S05-web-moving', 'Web: moving lists from this browser', phone(scene(web_bg, 's05wm', moving('s05wm', web=True).replace('data-action="next"', 'data-action="next-web"')), kind='web'))
 
 P.write('S05-sign-in-prompt.html')

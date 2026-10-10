@@ -133,9 +133,9 @@ Offline: mapping works on data already read; no offline state (Google Sheets dat
 | Rename | Field label (sr) "Field name"; "Save name"; "Original name in the source: Side"; error "That name is already used. Choose another." |
 | Type names | "Text", "Number", "Phone", "Email", "Date", "Link", "Image" |
 | Type sheet | "Type of Expected salary"; "The type changes how values look, sort and filter."; "Example: 78,000"; "Doesn't fit 11 values" |
-| Title sheet | "Card title"; "Choose the field shown as the largest text on each card."; "Photo can’t be the title. Image fields show in the card’s image area." |
+| Title sheet | "Card title"; "Choose the field shown as the largest text on each card."; "Photo can't be the title. Image fields show in the card's image area." |
 | Several values chip | "All numbers", "First number", "One per label"; a11y "Several values: All numbers. Change how Phone handles several values" |
-| Several values sheet | "Several phone numbers"; "8 items have 2 or more numbers, like Mehmet Yılmaz."; "All numbers in one field" / "Cards show the first number and how many more. Item details show all of them."; "First number only" / "Other numbers are left out of this list. Your contacts aren’t changed."; "One field per label" / "Creates Mobile, Home and Work fields, each with one number."; "Done" |
+| Several values sheet | "Several phone numbers"; "8 items have 2 or more numbers, like Mehmet Yılmaz."; "All numbers in one field" / "Cards show the first number and how many more. Item details show all of them."; "First number only" / "Other numbers are left out of this list. Your contacts aren't changed."; "One field per label" / "Creates Mobile, Home and Work fields, each with one number."; "Done" |
 | Hidden group | "Hidden by SwipeSort (1)"; "Role: same value in all 12 items" |
 | Plain-text tip | "Give the field a name" / "Cards and exports use it. For this list, Book or Title reads better than Text." / "Rename Text" |
 | Error, no title | "Choose a title field. Every card needs a title, and hiding Name removed it." |

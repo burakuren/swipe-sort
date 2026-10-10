@@ -142,8 +142,8 @@ def error_body(title, body, ic):
 P.frame('S16-error-empty-file', 'Error: the file is empty', phone(screen(
     error_body('reading-list.txt is empty', 'Choose another file or paste your list.', 'file-x'),
     bottom('Continue', disabled=True))))
-P.frame('S16-error-unreadable', 'Error: the file can’t be read', phone(screen(
-    error_body('book-club.docx can’t be read', 'Save it as plain text (.txt) and try again.', 'file-warning'),
+P.frame('S16-error-unreadable', 'Error: the file can\'t be read', phone(screen(
+    error_body('book-club.docx can\'t be read', 'Save it as plain text (.txt) and try again.', 'file-warning'),
     bottom('Continue', disabled=True))))
 
 # ------------------------------------------------------------------ accessibility
@@ -166,7 +166,7 @@ P.frame('S16-large-text', 'Large text (200%)', phone(f'''{large_bar}
   <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3"><a href="{NEXT}" class="flex min-h-16 w-full items-center justify-center rounded-control bg-primary px-6 text-title-3 text-primary-foreground" data-action="continue">Continue</a></div>'''))
 
 # ------------------------------------------------------------------ platforms
-P.section('iOS and web', 'iOS: 44 pt bar with a back chevron to the source picker (edge swipe goes back) and close at the right; “Open a .txt file” opens the Files app. Web: the file opens with the browser’s file picker; on desktop the user can also drop a file on the page.')
+P.section('iOS and web', 'iOS: 44 pt bar with a back chevron to the source picker (edge swipe goes back) and close at the right; “Open a .txt file” opens the Files app. Web: the file opens with the browser\'s file picker; on desktop the user can also drop a file on the page.')
 ios_bar = modal_bar('Import', CLOSE, ios=True, back=('Choose source', 'S11-source-picker.html#S11-default'))
 P.frame('S16-ios', 'iOS', phone(screen(default_body(rows=13), bottom('Continue', NEXT, 'continue'), bar=ios_bar), ios=True))
 

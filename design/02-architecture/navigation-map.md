@@ -166,7 +166,7 @@ contain a `Sxx-default` frame plus the IDs listed for it here.
 | `S14-default` | File import start; `S14-csv-preview` (candidates-q4.csv loaded) |
 | `S19-contacts` | Field mapping for contacts; `S19-csv` (candidates) |
 | `S20-default` | Duplicate review (4 groups) ; `S20-none` |
-| `S22-import-pick` | Finish import: template + list name; `S22-import-pick-custom` (custom template selected) |
+| `S22-import-pick` | Finish import: template + list name (contacts); `S22-import-pick-csv` (candidates CSV); `S22-import-pick-custom` (custom template selected); `S22-change` (change mode) |
 | `S23-default` | Template editor; `S23-save` |
 | `S24-maybe` | Start round with Maybe pile preselected; `S24-default` |
 | `S25-default` | Sorting (solo); `S25-shared`, `S25-web-desktop`, `S25-candidate`, `S25-coach-1` |
@@ -177,7 +177,7 @@ contain a `Sxx-default` frame plus the IDs listed for it here.
 | `S33-default` | Join (app); `S33-web-desktop` |
 | `S36-default` | One-by-one conflicts |
 | `S37-confirm` | Bulk resolve confirmation; `S37-summary` |
-| `S39-default` | Export: choose format; `S39-google-destination`, `S39-google-confirm`, `S39-success-google`, `S39-shared` |
+| `S39-default` | Export: choose format; `S39-google-destination`, `S39-google-confirm`, `S39-success-google`, `S39-shared`, `S39-shared-google-destination`, `S39-shared-google-confirm`, `S39-success-shared` |
 
 ## 6. Prototype flows
 
@@ -201,10 +201,11 @@ contain a `Sxx-default` frame plus the IDs listed for it here.
 `S32-web-desktop` [`sign-in-to-join`] → `S03-web-desktop` [`continue-google`] → `S33-web-desktop`
 [`start-sorting`] → `S25-web-desktop` (keyboard sorting) [`finish`] → `S27-shared`
 [`review-conflicts`] → `S36-default` [`resolve-all`] → `S37-confirm` [`confirm-resolve`] →
-`S37-summary` [`export`] → `S39-shared` → `S39-success-google` (via the Google steps).
+`S37-summary` [`export`] → `S39-shared` [`format-google`] → `S39-shared-google-destination` [`continue`] →
+`S39-shared-google-confirm` [`confirm-write`] → `S39-success-shared`.
 
 **Flow 4: list from CSV with a custom template**
 `S08-default` [`new-list`] → `S11-default` [`source-csv`] → `S14-default` [`choose-file`] →
-`S14-csv-preview` [`continue`] → `S19-csv` [`continue`] → `S20-none` [`continue`] → `S22-import-pick`
+`S14-csv-preview` [`continue`] → `S19-csv` [`continue`] → `S20-none` [`continue`] → `S22-import-pick-csv`
 [`customize-template`] → `S23-default` [`save-template`] → `S23-save` [`confirm-save`] →
 `S22-import-pick-custom` [`start-sorting`] → `S25-candidate`.

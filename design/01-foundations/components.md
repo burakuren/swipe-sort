@@ -280,3 +280,66 @@ users get a single dialog explaining actions instead of gesture steps.
 
 `h-6 min-w-6 rounded-sm border border-b-2 bg-card text-caption`. Shown in the S25 desktop frame under the
 decision bar: ← Reject, ↑ Maybe, → Accept, Z Undo. Hidden on touch devices.
+
+---
+
+## Components promoted from the screens (Phase 3)
+
+Designed inside screen files during Phase 3 and promoted here. Each entry names the reference frame(s) that
+show it in every variant; build it once in `components/ui/` and reuse it. All use existing tokens only.
+
+| Component | Built from | Anatomy and rules | Reference frames |
+| --- | --- | --- | --- |
+| **FullHeightSheet** | BottomSheet | Full-height sheet on `bg-background`, sticky footer for the primary action | `S31-default` |
+| **PermissionExplainer** | Custom | 56 icon circle, title, lead, then 3 promise points / steps / event list / thumbnails, bottom actions | `S12-contacts`, `S12-notifications`, `S15-default` |
+| **SourceTile (offline variant)** | SourceTile | Dashed tile, `wifi-off`, "Needs a connection" | `S11-offline` |
+| **FileRow / FileCard** | Row | File icon, name, meta (size, rows), "Change" | `S14-csv-preview`, `S39-file-ready` |
+| **FilePreviewTable** | Custom | Horizontally scrolling table in a group, row numbers, "—" for empty cells, focusable scroll region; record view at ≥150% text | `S14-csv-preview`, `S14-csv-preview-large-text` |
+| **FastScrollIndex** | Custom | Letter strip + letter bubble for lists > 200 | `S13-large` |
+| **FieldMappingRow** | Row | Field name + rename, sample values, type chip (Select), several-values chip, "Show on cards" switch | `S19-contacts`, `S19-type-sheet`, `S19-multi-value` |
+| **DuplicateGroup** | Custom | Reason line, two columns, Same/Similar markers (icon + word), Merge / Keep both / Skip radiogroup, outcome line; compact variant for long lists | `S20-default`, `S20-merge`, `S20-large` |
+| **ColumnMatchRow** | Row + Select | File column and samples left, list field select right, "New" badge | `S21-mapping` |
+| **SelectableTile** | Checkbox | Photo tile as `role=checkbox` with a check badge | `S18-default` |
+| **UploadFileRow + DropZone** | Custom | Upload progress per file, retry; drop zone on desktop only | `S18-web`, `S18-web-uploading` |
+| **PasswordRules** | Custom | Live rule list with `circle` / `circle-check` / `circle-alert` | `S03-sign-up`, `S04-new-password` |
+| **ListMoveRow** | Row | List icon tile, name, count, neutral status icon + label | `S05-moving`, `S05-move-partial` |
+| **GestureChecklist** | Badge | Reject / Maybe / Accept chips; dashed when untried, soft + check when tried | `S02-demo` |
+| **SignInCard** | Group | Icon, text, primary button; shown when not signed in | `S06-guest` |
+| **SettingsStatusBlock** | Group | Backup state icon + label + detail + action | `S06-backup`, `S06-backup-failed` |
+| **ProviderRow** | Row | Sign-in method with a trailing text action (Connect / Disconnect) | `S07-default` |
+| **OwnershipChoice** | RadioGroup | Per owned shared list: transfer to a member or delete for everyone | `S07-delete-transfer` |
+| **ResumeButton** | Button (pill) | Trailing pill on a list row, opens S25 at the next undecided item | `S08-default` |
+| **DecisionCountChips** | Badge | Decision badges with counts in Reject, Maybe, Accept order | `S09-default` |
+| **ListStatusLegend** | Group | Agreed / Conflict / Pending rows with meaning and count | `S09-shared` |
+| **DecisionMakerCallout** | Alert | Resolve card at the top for the Decision Maker | `S09-shared-decision-maker` |
+| **MembersLink** | AvatarStack + Row | Avatar stack + names, opens S34 | `S09-shared` |
+| **SourceRow** | Row | Type icon, source label, count + date, "New" badge; opens a details sheet | `S09-shared-added`, `S09-source-details` |
+| **SearchAppBar** | AppBar + SearchField | Search field replaces the title | `S08-search` |
+| **SwipeActions (iOS)** | Custom | Row swipe actions on iOS | `S10-ios-archived`, `S28` iOS frames |
+| **CountChip** | Badge | Pile count with decision icon on its soft color | `S24-default` |
+| **DecisionPicker** | RadioGroup | Three equal buttons; selected = solid decision fill + icon + label | `S26-decision-changed` |
+| **DecideBar** | DecisionButton | Three soft pill buttons pinned under the S26 sheet | `S26-default` |
+| **FieldRow (detail)** | Row | 96 label column, wrapping value, edited block (badge, original value, Revert) | `S26-edited`, `S26-revert-confirm` |
+| **NoteCard** | Card (flat) | Shared (muted fill), private (dashed, lock, "Only you"), solo; Edit / Delete | `S26-default`, `S26-private-note` |
+| **FilterRow** | Row + chips | Field, operator, value chips; AND across rows | `S24-custom`, `S29-default` |
+| **SummaryCounts** | Custom | Three decision columns with a split bar (S27 only) | `S27-default` |
+| **TemplateTile (pick variant)** | TemplateTile | 128 wide, caption Recommended / Custom / Current, horizontal radio carousel | `S22-import-pick` |
+| **CardPreview** | SwipeCard | Scaled SwipeCard (`aspect-card`, 50%) with previous/next and expand | `S22-import-pick`, `S23-default` |
+| **ReorderRow** | Row | Drag handle + move up / move down / remove; lifted state while dragging | `S23-reorder` |
+| **InfoRow** | Row | Non-interactive icon, title, description | `S33-default` |
+| **AppBanner (web)** | Alert | "Get the app" strip on mobile web | `S32-web` |
+| **GetAppDialog** | Dialog | QR code + store links on desktop | `S32-get-app` |
+| **ConflictCard** | SwipeCard | SwipeCard + expanded MemberDecisions + notes; stamp "Final: Accept" for the Decision Maker | `S36-default`, `S36-drag-accept`, `S36-everyone-drag` |
+| **RuleCard** | RadioGroup item | Tile with description, example and consequence | `S35-default` |
+| **ActivityRow** | Row | Avatar with event badge, two lines, time, unread dot | `S38-default` |
+| **InAppBanner / WebToast** | Snackbar | Top banner in app; toast on web (push unavailable) | `S38-in-app-banner`, `S38-web` |
+| **ColumnPreview** | Badge | Your fields as outline chips, added columns as primary-soft chips with `plus` | `S39-google-destination` |
+| **WriteConfirmation** | Group | Label/value rows: Creates / Writes / Doesn't change | `S39-google-confirm` |
+
+| **AppliedFilterChip** | Toggle | Removable input chip (label + `x`) | `S28-filtered` |
+| **ChangeDecisionSheet** | BottomSheet + DecisionPicker | Change my decision from a row; applies on tap | `S28-change-decision` |
+| **MemberDecisionsText** | Text + icons | "You and Selin accepted" / "Mert rejected" with decision icons | `S28-shared` |
+| **RoundRow** | Row | Round summary: name, date, split bar + legend, info button | `S30-default` |
+| **DecisionSegments (extended)** | Tabs | Adds Conflicts, Pending and Not decided tabs | `S28-shared`, `S28-shared-mine` |
+
+Token added for these: `aspect-card` (3 / 5, the Android sort-card shape).

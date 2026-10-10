@@ -49,7 +49,10 @@ removed, e.g. manual entry: Choose source, Add items, Add to list).
    avatars); primary "Add to list".
 5. **Adding** (`S21-adding`): same layout, primary button busy "Adding 12 items…", determinate progress
    "7 of 12 added".
-6. **Success**: S09 with Snackbar "Added 12 items" + Undo (frame shows a simplified S09 for context).
+6. **Success**: the real S09-shared screen (embedded from `S09-list-overview.html`) with Snackbar "Added 12 items"
+   + Undo; S09's Recent activity gets "You added 12 items from mert-family.csv". S09 has no sources section, so the
+   new source ("mert-family.csv, 12 items, added just now") is listed in S10 › list details / S09 overflow "Sources"
+   (Group B to confirm); the item count in the S09 header reads 100 items.
 7. **Partial** (`S21-partial`): result screen with error icon, title, list of rows not added with reasons,
    primary "Done", ghost "Add the file again".
 
@@ -65,7 +68,8 @@ removed, e.g. manual entry: Choose source, Add items, Add to list).
 | `S20-existing` (in S20) | 3 rows match items already in the list (c003 Zeynep Kaya, c009 Oğuz Kılıç, c023 Onur Keskin) |
 | `S21-confirm` | After review: 12 new items, 2 merged, 1 skipped, 1 new field, shared notice |
 | `S21-adding` | "Add to list" tapped |
-| `S21-success` | Done: back on S09, snackbar "Added 12 items" with Undo; source listed "Added just now" |
+| `S21-success` | Done: back on S09-shared, snackbar "Added 12 items" with Undo |
+| `S21-success-activity` | S09-shared scrolled: "You added 12 items from mert-family.csv", "Just now" at the top of Recent activity |
 | `S21-partial` | 2 rows couldn't be read: "Added 10 of 12 items" |
 | `S21-offline` | No connection: Google Sheets tile unavailable; local sources work |
 | `S21-web` | Web: Contacts tile unavailable with "Get the app"; Photos becomes upload |
@@ -108,18 +112,18 @@ removed, e.g. manual entry: Choose source, Add items, Add to list).
 | Tiles | "Contacts" / "From this phone"; "CSV or Excel" / ".csv, .xlsx"; "Google Sheets" / "From your Google Drive"; "Plain text" / "Paste or open a .txt file"; "Manual entry" / "Type items in"; "Photos" / "From your gallery" |
 | File | "mert-family.csv"; "15 rows, 7 columns"; "Change"; "First rows"; "Showing 4 of 15 rows. Every row is added; you can review matches in the next steps." |
 | Map fields | "Match the 7 columns in mert-family.csv to fields in Wedding guests."; "Column in the file"; "Field in the list"; badge "New"; target "New field"; "Items already in the list leave it empty."; "Photo has no column in this file. New items show initials instead."; select a11y "Address goes to: New field. Change" |
-| Target sheet | "Address goes to"; "Column in mert-family.csv"; "New field: Address" / "Added to every item; existing items leave it empty"; "Don’t import" / "The column is left out"; "Name" / "Title. Already filled by Name"; "Already filled by {column}"; "No column yet"; swap note "Phone was already filled by Mobile. Mobile is now Don’t import." |
+| Target sheet | "Address goes to"; "Column in mert-family.csv"; "New field: Address" / "Added to every item; existing items leave it empty"; "Don't import" / "The column is left out"; "Name" / "Title. Already filled by Name"; "Already filled by {column}"; "No column yet"; swap note "Phone was already filled by Mobile. Mobile is now Don't import." |
 | Mapping error | "Name has no column"; "Every item needs a title. Choose the column that holds the names."; "Use Ad Soyad for Name" |
-| Confirm | "Add 12 items to Wedding guests"; "12 new items" / "From mert-family.csv"; "3 rows match items already in the list" / "2 merged, 1 skipped. Their decisions and notes stay."; "1 new field: Address" / "Items already in the list leave it empty."; "New items join Round 1" / "Every member sorts them. Decisions already made don’t change."; "Cards use the Person template" / "Address shows in item details. Add it to cards in Card template." |
+| Confirm | "Add 12 items to Wedding guests"; "12 new items" / "From mert-family.csv"; "3 rows match items already in the list" / "2 merged, 1 skipped. Their decisions and notes stay."; "1 new field: Address" / "Items already in the list leave it empty."; "New items join Round 1" / "Every member sorts them. Decisions already made don't change."; "Cards use the Person template" / "Address shows in item details. Add it to cards in Card template." |
 | Shared notice | "Mert and Selin will see 12 new items to sort"; "They get a notification. Their progress counts the new items." |
 | Buttons | "Continue"; "Add to list"; busy "Adding 12 items…"; "7 of 12 added. You can leave; adding continues." |
-| Success | Snackbar "Added 12 items" + "Undo"; undo result "Removed 12 items"; source row "mert-family.csv" / "Added just now" / "12 items" |
-| Partial | "Added 10 of 12 items"; "2 rows in mert-family.csv couldn’t be added. The other 10 are in Wedding guests and join Round 1."; "Not added"; "Row 9" / "Has 9 values but the file has 7 columns."; "Row 14" / "Has characters that can’t be read. Save the file as UTF-8."; "Fix these rows in the file and add it again. Rows already in the list show up as duplicates, so nothing is added twice."; "Done"; "Add the file again" |
+| Success | Snackbar "Added 12 items" + "Undo"; undo result "Removed 12 items"; activity on S09 "You added 12 items from mert-family.csv" / "Just now"; source entry wherever sources are listed: "mert-family.csv" / "Added just now" / "12 items" |
+| Partial | "Added 10 of 12 items"; "2 rows in mert-family.csv couldn't be added. The other 10 are in Wedding guests and join Round 1."; "Not added"; "Row 9" / "Has 9 values but the file has 7 columns."; "Row 14" / "Has characters that can't be read. Save the file as UTF-8."; "Fix these rows in the file and add it again. Rows already in the list show up as duplicates, so nothing is added twice."; "Done"; "Add the file again" |
 | Offline | Banner "You're offline. Items you add sync to Mert and Selin later."; tile "Google Sheets" / "Needs a connection" |
 | Web | Tile "Contacts" / "Needs the Android or iOS app"; "Photos" / "Upload from this device"; "Contacts import needs the Android or iOS app." + "Get the app" |
 | Discard dialog (S40) | "Discard adding items?" / "Nothing is added to Wedding guests." / "Keep going" / "Discard" |
 | Activity (S38) | "Deniz added 12 items to Wedding guests" |
-| Solo list confirm | the shared notice is omitted; "New items join Round 1" reads "You’ll sort them in Round 1." |
+| Solo list confirm | the shared notice is omitted; "New items join Round 1" reads "You'll sort them in Round 1." |
 
 ## 7. Accessibility
 

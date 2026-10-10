@@ -107,7 +107,7 @@ class Page:
 </body>
 </html>
 '''
-        html = html.replace("'", '’')
+        html = html.replace("'", '\'')
         with open(os.path.join(SCREENS, self.file), 'w', encoding='utf-8') as f:
             f.write(html)
         print(f'{self.file}: {html.count("data-frame=")} frames')
@@ -320,7 +320,7 @@ def build_s11():
     {n}
   </div>'''
 
-    p.section('Source picker', 'Android reference. Tapping a tile opens that source’s Select items step; contacts and photos first show the pre-permission explainer (S12) unless access was already granted.')
+    p.section('Source picker', 'Android reference. Tapping a tile opens that source\'s Select items step; contacts and photos first show the pre-permission explainer (S12) unless access was already granted.')
     p.frame('S11-default', 'Default: new list (Android)', phone(f'{appbar()}{stepper(1)}{body(tiles())}'))
 
     existing = f'''<h3 class="mt-7 px-1 pb-2 text-label text-muted-foreground">Already in Wedding guests</h3>
@@ -391,7 +391,7 @@ def explainer(ic, title, lead, inner, tone='primary', big=False):
 CONTACT_POINTS = [
     ('list-checks', 'Only the contacts you pick', 'You choose on the next screen. Nothing else is imported.'),
     ('smartphone', 'Kept on this phone', 'Imported contacts stay on this phone until you share or back up the list.'),
-    ('shield-check', "Your address book isn't changed", 'SwipeSort never edits, adds or deletes contacts. Decisions only change SwipeSort’s copy.'),
+    ('shield-check', "Your address book isn't changed", 'SwipeSort never edits, adds or deletes contacts. Decisions only change SwipeSort\'s copy.'),
 ]
 PHOTO_POINTS = [
     ('images', 'Only the photos you pick', 'Choose photos or whole albums on the next screen.'),
@@ -410,7 +410,7 @@ NOTIF_EVENTS = [
 
 def notif_events():
     rows = ''.join(f'<li class="flex min-h-12 items-center gap-4 px-4 py-2">{icon(i, "size-5 shrink-0 text-muted-foreground")}<span class="text-body">{t}</span></li>' for i, t in NOTIF_EVENTS)
-    return f'<p class="mt-6 px-1 pb-2 text-label text-muted-foreground">You’ll hear when</p><ul class="divide-y overflow-hidden rounded-group bg-card">{rows}</ul>'
+    return f'<p class="mt-6 px-1 pb-2 text-label text-muted-foreground">You\'ll hear when</p><ul class="divide-y overflow-hidden rounded-group bg-card">{rows}</ul>'
 
 
 def build_s12():
@@ -419,26 +419,26 @@ def build_s12():
     S13 = 'S13-contacts-import.html#S13-select-default'
     S11 = 'S11-source-picker.html#S11-default'
 
-    contacts = explainer('contact', 'Allow access to your contacts', 'SwipeSort reads your contacts so you can pick the ones to sort. Here’s how they’re handled.', points_list(CONTACT_POINTS))
+    contacts = explainer('contact', 'Allow access to your contacts', 'SwipeSort reads your contacts so you can pick the ones to sort. Here\'s how they\'re handled.', points_list(CONTACT_POINTS))
     contacts_bottom = bottom(btn('Continue', S13, 'continue'), btn('Not now', S11, 'not-now', 'ghost', size='md'), note='Next, Android asks you to allow access.')
 
     p.section('Contacts', 'Before the Android or iOS contacts prompt. “Continue” triggers the system prompt; when access is granted the import continues at S13. Denied access gets a recovery state with a working alternative.')
     p.frame('S12-default', 'Contacts explainer (same as S12-contacts)', phone(f'{appbar()}{stepper(2)}{contacts}{contacts_bottom}'))
     p.frame('S12-contacts', 'Contacts explainer (Android)', phone(f'{appbar()}{stepper(2)}{contacts}{contacts_bottom}'))
 
-    once = explainer('contact', "SwipeSort can't see your contacts", 'You chose Don’t allow. To pick contacts, allow access. Or use a CSV file: most contacts apps can export one.',
+    once = explainer('contact', "SwipeSort can't see your contacts", 'You chose Don\'t allow. To pick contacts, allow access. Or use a CSV file: most contacts apps can export one.',
                      f'<div class="mt-7">{safety_note("Access only lets SwipeSort read contacts. It never changes your address book.")}</div>', tone='muted')
     p.frame('S12-contacts-denied-once', 'Contacts denied once (Android can ask again)', phone(f'''{appbar()}{stepper(2)}{once}{bottom(btn("Allow access", None, "allow-again"), btn("Import a CSV instead", "S14-file-import.html#S14-default", "import-csv-instead", "ghost", size="md"))}'''))
 
-    blocked = explainer('contact', 'Contacts access is off', 'Android won’t ask again, so access has to be turned on in Settings. When you come back, your contacts are ready to choose.',
+    blocked = explainer('contact', 'Contacts access is off', 'Android won\'t ask again, so access has to be turned on in Settings. When you come back, your contacts are ready to choose.',
                         steps_list(['Tap Open settings', 'Tap Permissions, then Contacts', 'Choose Allow']), tone='muted')
-    p.frame('S12-contacts-denied', 'Contacts denied, don’t ask again: open settings (Android)', phone(f'''{appbar()}{stepper(2)}{blocked}{bottom(btn("Open settings", None, "open-settings"), btn("Import a CSV instead", "S14-file-import.html#S14-default", "import-csv-instead", "ghost", size="md"))}'''))
+    p.frame('S12-contacts-denied', 'Contacts denied, don\'t ask again: open settings (Android)', phone(f'''{appbar()}{stepper(2)}{blocked}{bottom(btn("Open settings", None, "open-settings"), btn("Import a CSV instead", "S14-file-import.html#S14-default", "import-csv-instead", "ghost", size="md"))}'''))
 
     p.section('Photos', 'Before gallery access. Photos skip field mapping, so the stepper has 4 steps. Limited access (iOS, Android 14+) continues with the allowed photos.')
     photos = explainer('images', 'Allow access to your photos', 'SwipeSort shows your gallery so you can pick photos to sort. Each photo becomes one card.', points_list(PHOTO_POINTS))
     p.frame('S12-photos', 'Photos explainer (Android)', phone(f'''{appbar()}{stepper(2, 4)}{photos}{bottom(btn("Continue", "S18-photos-import.html#S18-default", "continue"), btn("Not now", S11, "not-now", "ghost", size="md"), note="Next, Android asks you to allow access to all photos or only some.")}'''))
 
-    pblocked = explainer('images', 'Photo access is off', 'To browse your gallery in SwipeSort, turn access on in Settings. Or pick photos with Android’s photo picker, which needs no access.',
+    pblocked = explainer('images', 'Photo access is off', 'To browse your gallery in SwipeSort, turn access on in Settings. Or pick photos with Android\'s photo picker, which needs no access.',
                          steps_list(['Tap Open settings', 'Tap Permissions, then Photos and videos', 'Choose Allow all']), tone='muted')
     p.frame('S12-photos-denied', 'Photos denied: open settings or use the system picker', phone(f'''{appbar()}{stepper(2, 4)}{pblocked}{bottom(btn("Open settings", None, "open-settings"), btn("Pick photos with the photo picker", "S18-photos-import.html#S18-default", "system-picker", "ghost", size="md"))}'''))
 
@@ -449,10 +449,10 @@ def build_s12():
     p.frame('S12-photos-limited-ios', 'iOS: limited photo access', phone(f'''{iosbar()}{stepper(2, 4)}{limited}{bottom(btn("Continue with 24 photos", "S18-photos-import.html#S18-default", "continue"), btn("Select more photos", None, "select-more", "ghost", size="md"))}''', 'ios'))
 
     p.section('Notifications', 'Push pre-permission for collaboration events (Android and iOS only). Shown once, right after a list is first shared or joined, and from Activity or Settings while permission is undecided. Not part of the import stepper.')
-    notif = explainer('bell', 'Get notified about shared lists', 'Know when it’s your turn or when a decision needs you, without opening the app.', notif_events())
+    notif = explainer('bell', 'Get notified about shared lists', 'Know when it\'s your turn or when a decision needs you, without opening the app.', notif_events())
     notif_bar = f'''<header class="flex h-app-bar shrink-0 items-center gap-1 px-1"><a href="S09-list-overview.html#S09-shared" class="flex size-12 items-center justify-center rounded-full" aria-label="Not now" data-action="close">{icon("x", "size-6")}</a></header>'''
     p.frame('S12-notifications', 'Notifications explainer (Android)', phone(f'''{notif_bar}{notif}{bottom(btn("Turn on notifications", None, "turn-on"), btn("Not now", "S09-list-overview.html#S09-shared", "not-now", "ghost", size="md"), note="Choose which ones in Settings, under Notifications.")}'''))
-    ndenied = explainer('bell-off', 'Notifications are off', 'Android won’t ask again. To get notified, turn them on in Settings. Activity always shows every update in the app.',
+    ndenied = explainer('bell-off', 'Notifications are off', 'Android won\'t ask again. To get notified, turn them on in Settings. Activity always shows every update in the app.',
                         steps_list(['Tap Open settings', 'Tap Notifications', 'Turn on All SwipeSort notifications']), tone='muted')
     p.frame('S12-notifications-denied', 'Notifications denied: open settings', phone(f'''{notif_bar}{ndenied}{bottom(btn("Open settings", None, "open-settings"), btn("Not now", "S09-list-overview.html#S09-shared", "not-now", "ghost", size="md"))}'''))
 
@@ -463,12 +463,12 @@ def build_s12():
     p.frame('S12-notifications-web', 'Web: push unavailable, in-app Activity instead', phone(f'''{web_bg}{sheet("s12nw", "Push notifications need the app", wbody, btn("Get the app", GET_APP, "get-app") + btn("Not now", "#S12-notifications-web", "not-now", "ghost", size="md"))}''', 'web'))
 
     p.section('iOS', 'iOS asks only once per permission: after a denial the only way back is Settings, so iOS recovery never offers “Allow access”. Contacts (iOS 18) and photos can be limited to a selection.')
-    cios = explainer('contact', 'Allow access to your contacts', 'SwipeSort reads your contacts so you can pick the ones to sort. Here’s how they’re handled.', points_list(CONTACT_POINTS))
+    cios = explainer('contact', 'Allow access to your contacts', 'SwipeSort reads your contacts so you can pick the ones to sort. Here\'s how they\'re handled.', points_list(CONTACT_POINTS))
     p.frame('S12-contacts-ios', 'iOS: contacts explainer', phone(f'''{iosbar()}{stepper(2)}{cios}{bottom(btn("Continue", S13, "continue"), btn("Not now", S11, "not-now", "ghost", size="md"), note="Next, iOS asks once. Allow full access, or choose contacts to share.")}''', 'ios'))
     dios = explainer('contact', 'Contacts access is off', 'iOS asks only once, so access has to be turned on in Settings. When you come back, your contacts are ready to choose.',
                      steps_list(['Tap Open Settings', 'Tap Contacts', 'Choose Full Access']), tone='muted')
     p.frame('S12-contacts-denied-ios', 'iOS: contacts denied', phone(f'''{iosbar()}{stepper(2)}{dios}{bottom(btn("Open Settings", None, "open-settings"), btn("Import a CSV instead", "S14-file-import.html#S14-default", "import-csv-instead", "ghost", size="md"))}''', 'ios'))
-    nios = explainer('bell', 'Get notified about shared lists', 'Know when it’s your turn or when a decision needs you, without opening the app.', notif_events())
+    nios = explainer('bell', 'Get notified about shared lists', 'Know when it\'s your turn or when a decision needs you, without opening the app.', notif_events())
     nbar_ios = f'''<header class="grid h-14 shrink-0 grid-cols-[1fr_auto_1fr] items-center px-2"><a href="S09-list-overview.html#S09-shared" class="inline-flex h-12 items-center justify-self-start px-2 text-body text-primary" data-action="close">Not now</a><span></span><span></span></header>'''
     p.frame('S12-notifications-ios', 'iOS: notifications explainer', phone(f'''{nbar_ios}{nios}{bottom(btn("Turn on notifications", None, "turn-on"), note="Next, iOS asks once. Change it later in Settings.")}''', 'ios'))
 
@@ -610,7 +610,7 @@ def select_all(state_, count, label='Select all', round_=False, big=False):
 # =====================================================================================
 def build_s13():
     p = Page('S13', 'S13-contacts-import.html', 'Contacts import',
-             'Select items for the Contacts source: search and multi-select contacts from the address book (96 contacts on Deniz’s phone: the 88 sample contacts plus 8 service numbers).')
+             'Select items for the Contacts source: search and multi-select contacts from the address book (96 contacts on Deniz\'s phone: the 88 sample contacts plus 8 service numbers).')
     S19C = 'S19-field-mapping.html#S19-contacts'
 
     def screen(content, count, sa_state, primary, search='', fid='s13', hint='', ios=False, round_=False, big=False, bar=None, extra_top=''):
@@ -630,8 +630,8 @@ def build_s13():
     all96 = contact_sections(ADDRESS, lambda c: True, limit=7)
     none_ = contact_sections(ADDRESS, lambda c: False)
 
-    p.section('Select contacts', 'Everything starts selected: sorting is where decisions happen, so this step only removes contacts that clearly don’t belong, like services and shops. Selection survives searching and clearing the search.')
-    hint = f'<p class="flex shrink-0 items-center gap-2 bg-primary-soft px-gutter py-2.5 text-body-sm text-primary-soft-foreground" role="note">{icon("info", "size-4 shrink-0")}<span>All contacts are selected. Uncheck the ones you don’t want to sort.</span></p>'
+    p.section('Select contacts', 'Everything starts selected: sorting is where decisions happen, so this step only removes contacts that clearly don\'t belong, like services and shops. Selection survives searching and clearing the search.')
+    hint = f'<p class="flex shrink-0 items-center gap-2 bg-primary-soft px-gutter py-2.5 text-body-sm text-primary-soft-foreground" role="note">{icon("info", "size-4 shrink-0")}<span>All contacts are selected. Uncheck the ones you don\'t want to sort.</span></p>'
     p.frame('S13-default', 'Default: all 96 selected on arrival', phone(screen(all96, '96 of 96 selected', 'on', cont(96), fid='s13d', hint=hint)))
     p.frame('S13-select-default', 'After unchecking 8 service numbers: 88 of 96', phone(screen(sel88, '88 of 96 selected', 'mixed', cont(88, action='continue'), fid='s13s')))
 
@@ -656,11 +656,11 @@ def build_s13():
   {bottom(btn("Continue", disabled=True), border=True)}'''
     p.frame('S13-loading', 'Loading contacts', phone(loading))
 
-    empty_book = f'''{appbar()}{stepper(2)}{state("contact", "No contacts on this phone", "Add contacts in your phone’s Contacts app, or import them from a CSV file.")}
+    empty_book = f'''{appbar()}{stepper(2)}{state("contact", "No contacts on this phone", "Add contacts in your phone\'s Contacts app, or import them from a CSV file.")}
   {bottom(btn("Import a CSV instead", "S14-file-import.html#S14-default", "import-csv-instead"), btn("Choose another source", "S11-source-picker.html#S11-default", "another-source", "ghost", size="md"))}'''
     p.frame('S13-empty', 'Empty address book', phone(empty_book))
 
-    err = f'''{appbar()}{stepper(2)}{state("triangle-alert", "Contacts couldn’t be read", "Your phone didn’t return the contacts. Try again, or import a CSV file instead.")}
+    err = f'''{appbar()}{stepper(2)}{state("triangle-alert", "Contacts couldn\'t be read", "Your phone didn\'t return the contacts. Try again, or import a CSV file instead.")}
   {bottom(btn("Try again", None, "retry"), btn("Import a CSV instead", "S14-file-import.html#S14-default", "import-csv-instead", "ghost", size="md"))}'''
     p.frame('S13-error', 'Error reading contacts', phone(err))
 
@@ -752,7 +752,7 @@ def build_s14():
     <h2 class="text-title-2">Choose a CSV or Excel file</h2>
     <p class="mt-1 text-body text-muted-foreground">Each row becomes an item and each column a field. Column names, like Name or Price, go in the first row.</p>
     {drop}{w}
-    <div class="mt-auto pb-2 pt-6">{safety_note("Your file isn’t changed. SwipeSort imports a copy.")}</div>
+    <div class="mt-auto pb-2 pt-6">{safety_note("Your file isn\'t changed. SwipeSort imports a copy.")}</div>
   </div>'''
 
     p.section('Choose a file', 'The system file picker (out of scope) opens from “Choose file”. Reading starts as soon as a file is picked.')
@@ -836,12 +836,12 @@ def build_s14():
         p.frame(fid, label, phone(f'''{appbar()}{stepper(2)}{state(ic, title, body)}{bottom(prim, sec)}'''))
 
     another = btn('Choose another source', 'S11-source-picker.html#S11-default', 'another-source', 'ghost', size='md')
-    err('S14-error-unreadable', 'Unreadable file', 'file-x', 'This file can’t be read', 'budget-final.xlsx may be damaged or protected with a password. Open it in a spreadsheet app, save it as .csv or .xlsx, and try again.', btn('Choose another file', '#S14-default', 'choose-file'), another)
+    err('S14-error-unreadable', 'Unreadable file', 'file-x', 'This file can\'t be read', 'budget-final.xlsx may be damaged or protected with a password. Open it in a spreadsheet app, save it as .csv or .xlsx, and try again.', btn('Choose another file', '#S14-default', 'choose-file'), another)
     err('S14-error-empty', 'Empty file', 'file-question', 'This file has no rows', 'plants.csv has column names but nothing below them. Add rows and try again, or choose another file.', btn('Choose another file', '#S14-default', 'choose-file'), another)
     err('S14-error-too-many-columns', 'Too many columns (limit 50)', 'columns-3', 'This file has 73 columns', 'SwipeSort imports up to 50 columns per list. Choose the columns you need, or continue with the first 50.', btn('Choose columns', '#S14-choose-columns', 'choose-columns'), btn('Continue with the first 50', '#S14-csv-preview', 'first-50', 'ghost', size='md'))
-    err('S14-error-too-large', 'File too large (limit 20 MB)', 'file-warning', 'This file is too large', 'crm-export-full.csv is 48 MB. SwipeSort imports files up to 20 MB. Remove columns you don’t need or split the file, then try again.', btn('Choose another file', '#S14-default', 'choose-file'), another)
+    err('S14-error-too-large', 'File too large (limit 20 MB)', 'file-warning', 'This file is too large', 'crm-export-full.csv is 48 MB. SwipeSort imports files up to 20 MB. Remove columns you don\'t need or split the file, then try again.', btn('Choose another file', '#S14-default', 'choose-file'), another)
     err('S14-error-too-many-rows', 'Too many rows (limit 10,000)', 'rows-3', 'This file has 14,250 rows', 'SwipeSort imports up to 10,000 rows per file. Import the first 10,000 now and add the rest to the same list later.', btn('Import the first 10,000 rows', '#S14-csv-preview', 'first-10000'), btn('Choose another file', '#S14-default', 'choose-file', 'ghost', size='md'))
-    err('S14-error-unsupported', 'Unsupported file type', 'file-x', 'SwipeSort can’t open .numbers files', 'Export it from Numbers as CSV or Excel, then choose it again. SwipeSort opens .csv and .xlsx files.', btn('Choose another file', '#S14-default', 'choose-file'), another)
+    err('S14-error-unsupported', 'Unsupported file type', 'file-x', 'SwipeSort can\'t open .numbers files', 'Export it from Numbers as CSV or Excel, then choose it again. SwipeSort opens .csv and .xlsx files.', btn('Choose another file', '#S14-default', 'choose-file'), another)
 
     cols_list = ['Contact name', 'Company', 'Email', 'Phone', 'Deal owner', 'Stage', 'Created', 'Last activity', 'Lead source', 'City']
     samples = ['Ece Doğru', 'Kuzey Yazılım', 'ece.dogru@example.com', '+90 500 000 07 26', 'Deniz Yılmaz', 'Proposal sent', 'Sep 12, 2026', 'Oct 8, 2026', 'Referral', 'Ankara']
@@ -863,19 +863,19 @@ def build_s14():
     part = f'''{appbar()}{stepper(2)}
   <div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
     {file_row("contacts-export.csv", "88 rows, 4 columns, 9 KB")}
-    <div class="mt-3">{error_alert("84 of 88 rows can be imported", "4 rows don’t match the columns and will be skipped. The other rows are fine.", show)}</div>
+    <div class="mt-3">{error_alert("84 of 88 rows can be imported", "4 rows don\'t match the columns and will be skipped. The other rows are fine.", show)}</div>
     <div class="mt-5 flex items-baseline justify-between px-1 pb-2"><h2 class="text-label text-muted-foreground">Preview</h2><span class="text-caption tabular-nums text-muted-foreground">84 rows</span></div>
     {table(["Name", "Phone", "Email", "City"], prow, "Preview of contacts-export.csv")}
   </div>
   {bottom(btn("Continue with 84 rows", "S19-field-mapping.html#S19-default", "continue"), border=True)}'''
     p.frame('S14-partial', 'Partial import: 84 of 88 rows readable', phone(part))
-    skipped = [('Row 23', 'Has 6 cells; the file has 4 columns'), ('Row 41', 'A quote mark isn’t closed'), ('Row 57', 'Has 5 cells; the file has 4 columns'), ('Row 88', 'Has 6 cells; the file has 4 columns')]
+    skipped = [('Row 23', 'Has 6 cells; the file has 4 columns'), ('Row 41', 'A quote mark isn\'t closed'), ('Row 57', 'Has 5 cells; the file has 4 columns'), ('Row 88', 'Has 6 cells; the file has 4 columns')]
     sk = ''.join(f'<li class="flex min-h-14 items-center gap-4 py-2"><span class="w-16 shrink-0 text-label tabular-nums">{a}</span><span class="text-body-sm text-muted-foreground">{b}</span></li>' for a, b in skipped)
     sbody = f'<p class="mt-1 text-body text-muted-foreground">To keep these rows, fix them in a spreadsheet app and import the file again.</p><ul class="mt-3 divide-y">{sk}</ul>'
     p.frame('S14-skipped-rows', 'Skipped rows sheet', phone(f'''{appbar()}{stepper(2)}<div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">{file_row("contacts-export.csv", "88 rows, 4 columns, 9 KB")}</div>
   {sheet("s14sk", "4 skipped rows", sbody, btn("Continue with 84 rows", "S19-field-mapping.html#S19-default", "continue") + btn("Choose another file", "#S14-default", "choose-file", "ghost", size="md"), "#S14-partial")}'''))
 
-    p.section('Web and iOS', 'Mobile web works like Android (the browser’s file chooser). Desktop adds a drop zone. iOS opens the Files picker from a page sheet.')
+    p.section('Web and iOS', 'Mobile web works like Android (the browser\'s file chooser). Desktop adds a drop zone. iOS opens the Files picker from a page sheet.')
     drop = f'''<div class="mt-5 flex flex-col items-center rounded-tile border-2 border-dashed border-input px-6 py-8 text-center">
       {icon("upload", "size-8 text-muted-foreground")}
       <p class="mt-3 text-label-lg">Drop a CSV or Excel file here</p>
@@ -925,7 +925,7 @@ def build_s15():
     S11 = 'S11-source-picker.html#S11-default'
     another = btn('Choose another source', S11, 'another-source', 'ghost', size='md')
 
-    pts = [('eye', 'Read-only', 'SwipeSort sees your spreadsheets to list them. It can’t change them.'),
+    pts = [('eye', 'Read-only', 'SwipeSort sees your spreadsheets to list them. It can\'t change them.'),
            ('file-pen-line', 'Writing only when you export', 'If you export decisions to a sheet later, SwipeSort asks first and shows what it will add.'),
            ('unplug', 'Disconnect any time', 'In Settings, under Connected accounts.')]
     connect = explainer('sheet', 'Connect Google Sheets', 'Sign in with Google to choose a spreadsheet. SwipeSort imports a copy of its rows.', points_list(pts))
@@ -955,10 +955,10 @@ def build_s15():
       <li><button class="flex min-h-14 w-full items-center gap-3 py-2 text-left" data-action="another-account"><span class="flex size-10 items-center justify-center rounded-full bg-secondary">{icon("user-plus")}</span><span class="text-body">Use another Google account</span></button></li>
       <li><button class="flex min-h-14 w-full items-center gap-3 py-2 text-left text-destructive" data-action="disconnect"><span class="flex size-10 items-center justify-center">{icon("unplug")}</span><span class="text-body">Disconnect Google Sheets</span></button></li>
     </ul>
-    <p class="mt-2 text-body-sm text-muted-foreground">Disconnecting doesn’t change your lists or your spreadsheets.</p>'''
+    <p class="mt-2 text-body-sm text-muted-foreground">Disconnecting doesn\'t change your lists or your spreadsheets.</p>'''
     p.frame('S15-account-switch', 'Already connected: switch account sheet', phone(sheets_screen(f'<ul class="divide-y">{lst}</ul>', fid='s15w') + sheet('s15sw', 'Google account', sw_body, '', '#S15-spreadsheets')))
 
-    p.section('Choose tabs and preview', 'One tab, or several with the same columns combined into one list. Combined tabs add a Tab field so items keep their origin. Empty tabs are listed but can’t be selected.')
+    p.section('Choose tabs and preview', 'One tab, or several with the same columns combined into one list. Combined tabs add a Tab field so items keep their origin. Empty tabs are listed but can\'t be selected.')
     tabs = [('Kadıköy', '4 rows. Address, Rent, Rooms, Size, Viewing, Link', True, False),
             ('Beşiktaş', '4 rows. Address, Rent, Rooms, Size, Viewing, Link', True, False),
             ('Archive 2025', '11 rows. Address, Rent, Rooms, Size, Link', False, False),
@@ -1008,12 +1008,12 @@ def build_s15():
     p.frame('S15-empty-tab', 'Empty tabs: nothing to import', phone(empty_tab))
 
     p.section('Errors and offline', 'Google connection failure (SRC-23), revoked access and no connection. Every state keeps a way to another source.')
-    p.frame('S15-error-connection', 'Google connection failure', phone(f'''{appbar()}{stepper(2)}{state("cloud-off", "Google Sheets didn’t respond", "Check your connection and try again. Nothing was imported.")}{bottom(btn("Try again", None, "retry"), another)}'''))
-    p.frame('S15-error-access', 'Access removed in the Google account', phone(f'''{appbar()}{stepper(2)}{state("unplug", "SwipeSort can’t see your spreadsheets", "Access to Google Sheets was removed from your Google account. Connect again to choose a sheet.")}{bottom(btn("Connect again", "#S15-default", "reconnect"), another)}'''))
+    p.frame('S15-error-connection', 'Google connection failure', phone(f'''{appbar()}{stepper(2)}{state("cloud-off", "Google Sheets didn\'t respond", "Check your connection and try again. Nothing was imported.")}{bottom(btn("Try again", None, "retry"), another)}'''))
+    p.frame('S15-error-access', 'Access removed in the Google account', phone(f'''{appbar()}{stepper(2)}{state("unplug", "SwipeSort can\'t see your spreadsheets", "Access to Google Sheets was removed from your Google account. Connect again to choose a sheet.")}{bottom(btn("Connect again", "#S15-default", "reconnect"), another)}'''))
     p.frame('S15-offline', 'Offline', phone(f'''{appbar()}{offline_banner("You're offline.")}<div class="h-3 shrink-0"></div>{stepper(2)}{state("wifi-off", "Google Sheets needs a connection", "Connect to the internet and try again, or import from another source. Contacts and files work offline.")}{bottom(btn("Try again", None, "retry"), another)}'''))
 
     p.section('Web and iOS', 'Desktop and mobile web use a Google popup (OAuth). iOS uses the system web sign-in sheet (out of scope), then the same screens in a page sheet.')
-    waiting = f'''{appbar()}{stepper(2)}{state("app-window", "Continue in the Google window", "Choose your account and allow read-only access. SwipeSort continues here when you’re done.")}{bottom(btn("Open the Google window again", None, "reopen-popup", "outline", size="md"), None)}'''
+    waiting = f'''{appbar()}{stepper(2)}{state("app-window", "Continue in the Google window", "Choose your account and allow read-only access. SwipeSort continues here when you\'re done.")}{bottom(btn("Open the Google window again", None, "reopen-popup", "outline", size="md"), None)}'''
     popup = f'''<div class="absolute right-10 top-24 z-20 flex h-96 w-96 flex-col overflow-hidden rounded-control border bg-card shadow-dialog" aria-hidden="true">
     <div class="flex h-9 shrink-0 items-center gap-2 border-b bg-secondary px-3 text-caption text-muted-foreground">{icon("lock", "size-3.5")}accounts.google.com</div>
     <div class="flex-1 space-y-3 p-6"><span class="block h-4 w-24 rounded-full bg-muted"></span><span class="block h-6 w-48 rounded-full bg-muted"></span><span class="block h-12 rounded-control bg-muted"></span><span class="block h-12 rounded-control bg-muted"></span><p class="pt-2 text-caption text-muted-foreground">Google sign-in (native, out of scope)</p></div>

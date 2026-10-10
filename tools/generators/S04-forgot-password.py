@@ -20,7 +20,7 @@ def request(fid, kind='android', value=EMAIL, state='default', err=None, busy=Fa
   {banner}
   <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
     <h1 class="text-title-1">Reset your password</h1>
-    <p class="mt-2 text-body-lg text-muted-foreground">Enter the email you use for SwipeSort. We’ll send a link to set a new password.</p>
+    <p class="mt-2 text-body-lg text-muted-foreground">Enter the email you use for SwipeSort. We\'ll send a link to set a new password.</p>
     {alert}
     <div class="mt-6">{field(fid, 'Email', value=value, type='email', state=state, error=err, autocomplete='email')}</div>
     <div class="mt-6">{submit}</div>
@@ -104,7 +104,7 @@ P.frame('S04-new-password-weak', 'Error: password misses a rule', phone(new_pass
 P.frame('S04-saving', 'Saving', phone(new_password('s04sv', busy=True, state='default', shown=False)))
 P.frame('S04-new-password-offline', 'Offline while setting a password', phone(new_password('s04npo', state='default', shown=False, offline=True)))
 P.frame('S04-success', 'Password changed', phone(message('circle-check', 'Password changed',
-    'Sign in with your new password. For your security, you’re signed out on your other devices.',
+    'Sign in with your new password. For your security, you\'re signed out on your other devices.',
     btn('Sign in', href=BACK, action='sign-in'), tone='secondary')))
 P.frame('S04-expired', 'Error: link expired or already used', phone(message('hourglass', 'This link has expired',
     'Reset links work for 1 hour and only once. Request a new link to set your password.',

@@ -276,7 +276,7 @@ F('S25-note', 'Note sheet (solo list)', phone(sorting(overlay=note_sheet)))
 mia_noted = person_body(PEOPLE['c077'], note=('Met her at the Stockholm offsite. Ask if she can travel in June.', False))
 F('S25-note-saved', 'Note saved and shown on the card', phone(sorting(body=mia_noted, overlay=snackbar('Note saved'))))
 menu = f'''<div class="absolute right-2 top-14 z-20 w-72 overflow-hidden rounded-control bg-popover py-1.5 shadow-overlay" role="menu" aria-label="Sorting options">
-    <a href="S22-template-library.html#S22-default" role="menuitem" class="flex h-12 items-center gap-3 px-4 text-body">{icon("layout-template", "size-5 text-muted-foreground")}Card template</a>
+    <a href="S22-template-library.html#S22-change" role="menuitem" class="flex h-12 items-center gap-3 px-4 text-body">{icon("layout-template", "size-5 text-muted-foreground")}Card template</a>
     <a href="#S25-coach-1" role="menuitem" class="flex h-12 items-center gap-3 px-4 text-body">{icon("graduation-cap", "size-5 text-muted-foreground")}Show the tutorial again</a>
     <a href="S26-item-detail.html#S26-default" role="menuitem" class="flex h-12 items-center gap-3 px-4 text-body">{icon("panel-bottom-open", "size-5 text-muted-foreground")}Open item details</a>
     <div class="my-1.5 h-px bg-border"></div>
@@ -295,7 +295,7 @@ others = f'''<div class="flex items-center -space-x-1.5" role="img" aria-label="
   </div>'''
 F('S25-shared-others', "Shared list, others' decisions shown on the card", phone(sorting(hdr=shared_hdr, prog=progress(76, 100, members), others=others)))
 shared_menu = menu.replace('<a href="S22-template-library.html#S22-default"', f'''<div role="menuitemcheckbox" aria-checked="true" class="flex min-h-12 items-center gap-3 px-4 py-2 text-body">{icon("eye", "size-5 shrink-0 text-muted-foreground")}<span class="flex-1">Show others' decisions</span><span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1" aria-hidden="true"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></div>
-    <a href="S22-template-library.html#S22-default"''', 1).replace('End round', 'End round (Owner)')
+    <a href="S22-template-library.html#S22-default"''', 1).replace('End round', 'End round (Owner)').replace('S40-global-patterns.html#S40-end-round"', 'S40-global-patterns.html#S40-end-round-shared"')
 F('S25-shared-menu', "Shared list menu with the others' decisions switch", phone(sorting(hdr=shared_hdr, prog=progress(76, 100, members), overlay=shared_menu)))
 F('S25-shared-conflict', 'After deciding: new conflict revealed', phone(sorting(body=annak, label='Anna-Katharina Rosenthal-Brückner', hdr=shared_hdr, prog=progress(77, 100, members), counts=(18, 11, 48),
     overlay=snackbar('Mert chose Maybe on Mia Andersson. This is now a conflict.', 'View', icon_name='git-compare-arrows'))))
@@ -303,7 +303,7 @@ F('S25-web-desktop-shared', 'placeholder', '')  # replaced below (kept for ID or
 frames.pop()
 
 # ----- Templates (any kind of list) -----
-frames.append(section('Any kind of list', 'The card follows the list’s card template. No domain words in the interface: the same screen sorts products, photos and candidates.'))
+frames.append(section('Any kind of list', 'The card follows the list\'s card template. No domain words in the interface: the same screen sorts products, photos and candidates.'))
 F('S25-product', 'Product template (Desk setup)', phone(sorting(body=product_body(), label='27-inch 4K USB-C monitor, Pixelhaus, 429 euros, rated 4.5', hdr=header('Desk setup', 'Round 1'), prog=progress(2, 20), counts=(0, 0, 2))))
 F('S25-photo', 'Photo template (March photos clean-up)', phone(sorting(body=photo_body(), label='Photo IMG_2053.JPG, taken Mar 7, 2026 in Alfama, Lisbon', hdr=header('March photos clean-up', 'Round 1'), prog=progress(12, 30), counts=(6, 1, 5))))
 F('S25-candidate', 'Custom template "Candidate, compact"', phone(sorting(body=candidate_body(), label='Lena Hoffmann, Berlin. 6 years of experience. Expected salary 78,000 euros.', hdr=header('Frontend hiring, Q4', 'Round 1'), prog=progress(0, 12), counts=(0, 0, 0), undo=False)))

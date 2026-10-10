@@ -157,7 +157,7 @@ P.frame('S03-ios', 'iOS: Apple first', phone(chooser('ios'), kind='ios'))
 P.frame('S03-ios-context-share', 'iOS: opened from Share', phone(chooser('ios', context='share'), kind='ios'))
 P.frame('S03-ios-email', 'iOS: sign in with email', phone(sign_in_form('s03ios', kind='ios'), kind='ios'))
 
-P.section('Web', 'Mobile browsers: the Android layout without Apple. Desktop browsers: the phone column, used by an invited member in prototype flow 3 (Mert opens Deniz’s link and signs in to join).')
+P.section('Web', 'Mobile browsers: the Android layout without Apple. Desktop browsers: the phone column, used by an invited member in prototype flow 3 (Mert opens Deniz\'s link and signs in to join).')
 P.frame('S03-web', 'Web, mobile browser', phone(chooser(), kind='web'))
 
 inviter = f'''<div class="mt-6 flex items-center gap-3 rounded-group bg-card p-4 dark:border">
@@ -173,7 +173,7 @@ web_desk = f'''<header class="flex h-app-bar shrink-0 items-center gap-2 px-gutt
       {google_btn(href='S33-join-list.html#S33-web-desktop', action='continue-google')}
       {email_btn(href='#S03-web-desktop-email')}
     </div>
-    <p class="mt-4 text-center text-body-sm text-muted-foreground">Next, you’ll see the list and your role before joining.</p>
+    <p class="mt-4 text-center text-body-sm text-muted-foreground">Next, you\'ll see the list and your role before joining.</p>
   </div>
   <div class="shrink-0 px-gutter pb-5 pt-3">{TERMS}</div>'''
 P.frame('S03-web-desktop', 'Web, desktop browser: invited member signs in to join', desktop(web_desk, 'swipesort.app/join/7Hq2xK'))

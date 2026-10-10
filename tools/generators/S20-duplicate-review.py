@@ -116,7 +116,7 @@ def head(title, body, reviewed, total, bulk=None):
     </div>'''
 
 
-INTRO = 'These items look alike. Merge them, keep both, or skip one. Anything you don’t review is kept.'
+INTRO = 'These items look alike. Merge them, keep both, or skip one. Anything you don\'t review is kept.'
 
 
 def screen(content, note='', label='Continue', href='S22-template-library.html#S22-import-pick', bar=None, step=(4, 5), overlay='', title='Import', close='S08-home.html#S08-default'):
@@ -136,12 +136,12 @@ P.section('Review', 'Four groups from the sample data (c001/c097, c093/c098, c00
 
 default_content = f'''{head("4 possible duplicates", INTRO, 2, 4)}
     <div class="space-y-3 px-gutter">{G1()}{G2()}</div>'''
-P.frame('S20-default', 'Default: 4 groups, 2 reviewed', phone(screen(default_content, note='2 not reviewed yet. They’ll be imported as separate items.')))
+P.frame('S20-default', 'Default: 4 groups, 2 reviewed', phone(screen(default_content, note='2 not reviewed yet. They\'ll be imported as separate items.')))
 
 scrolled = f'''<div class="space-y-3 px-gutter">{G3()}{G4()}</div>'''
-P.frame('S20-scrolled', 'Scrolled: groups 3 and 4 not reviewed yet', phone(screen(scrolled, note='2 not reviewed yet. They’ll be imported as separate items.')))
+P.frame('S20-scrolled', 'Scrolled: groups 3 and 4 not reviewed yet', phone(screen(scrolled, note='2 not reviewed yet. They\'ll be imported as separate items.')))
 
-g4_merged = f'''<div class="space-y-3 px-gutter">{G3("merge", 'One item with values from both. <a href="#S20-merge" class="text-primary underline underline-offset-4">Review merge</a>')}{G4("merge", "One item. Nothing differs, so there’s nothing to choose.")}</div>'''
+g4_merged = f'''<div class="space-y-3 px-gutter">{G3("merge", 'One item with values from both. <a href="#S20-merge" class="text-primary underline underline-offset-4">Review merge</a>')}{G4("merge", "One item. Nothing differs, so there\'s nothing to choose.")}</div>'''
 P.frame('S20-reviewed-all', 'All 4 reviewed (Merge all identical used)', phone(screen(g4_merged, note='All 4 reviewed.').replace('S20-merge" class', 'S20-merge" class', 1)))
 
 # merge detail sheet
@@ -187,12 +187,12 @@ P.section('No duplicates and loading', 'Detection runs after mapping, because ph
 none = f'''<div class="flex flex-1 flex-col items-center justify-center px-8 pb-16 text-center">
       {icon("copy-check", "size-8 text-muted-foreground")}
       <h2 class="mt-4 text-title-3">No duplicates found</h2>
-      <p class="mt-1 max-w-xs text-body text-muted-foreground">All 12 items are different, so there’s nothing to merge.</p>
+      <p class="mt-1 max-w-xs text-body text-muted-foreground">All 12 items are different, so there\'s nothing to merge.</p>
     </div>'''
 P.frame('S20-none', 'No duplicates found (candidates-q4.csv)', phone(f'''{modal_bar()}
   {stepper("Review duplicates", 4, 5)}
   {none}
-  {bottom("Continue", "S22-template-library.html#S22-import-pick", "continue")}'''))
+  {bottom("Continue", "S22-template-library.html#S22-import-pick-csv", "continue")}'''))
 
 sk = ''.join('''<div class="space-y-3 rounded-group bg-card p-4"><span class="block h-4 w-1/2 animate-pulse rounded-full bg-muted"></span><div class="grid grid-cols-2 gap-3"><div class="flex items-center gap-2"><span class="size-10 animate-pulse rounded-full bg-muted"></span><span class="h-3.5 flex-1 animate-pulse rounded-full bg-muted"></span></div><div class="flex items-center gap-2"><span class="size-10 animate-pulse rounded-full bg-muted"></span><span class="h-3.5 flex-1 animate-pulse rounded-full bg-muted"></span></div></div><span class="block h-3 w-full animate-pulse rounded-full bg-muted"></span><span class="block h-3 w-3/4 animate-pulse rounded-full bg-muted"></span></div>''' for _ in range(2))
 P.frame('S20-loading', 'Looking for duplicates', phone(f'''{modal_bar()}
@@ -216,7 +216,7 @@ E1 = group('e1', 'copy-check', 'Identical name, phone and email', '1 of 3',
            (ex_head('c003'), 'Zeynep Kaya'), (person_head('c003'), 'Zeynep Kaya in the file'),
            [('Name', 'Zeynep Kaya', 'Zeynep Kaya', 'same'), ('Phone', '+90 500 000 97 10', '+90 500 000 97 10', 'same'),
             ('Email', 'zeynep.kaya@example.com', 'zeynep.kaya@example.com', 'same')],
-           'skip', 'Zeynep Kaya stays as it is. The row isn’t added.', col_labels=('In the list', 'In mert-family.csv'))
+           'skip', 'Zeynep Kaya stays as it is. The row isn\'t added.', col_labels=('In the list', 'In mert-family.csv'))
 E2 = group('e2', 'phone', 'Same name and phone number', '2 of 3',
            (ex_head('c009'), 'Oğuz Kılıç'), (person_head('c009'), 'Oğuz Kılıç in the file'),
            [('Name', 'Oğuz Kılıç', 'Oğuz Kılıç', 'same'), ('Phone', '+90 500 000 62 86 <span class="text-muted-foreground">+1</span>', '+90 500 000 62 86', 'same'),
@@ -253,7 +253,7 @@ bulk = f'''<div class="flex flex-wrap gap-2">{btn("Merge all identical (26)", "s
 large_content = f'''{head("41 possible duplicates", "Your contacts have many repeated entries. Merge the identical ones in one step, then check the rest.", 1, 41, bulk='')}
     <div class="space-y-3 px-gutter">{bulk}{chips}</div>
     <div class="px-gutter"><ul class="divide-y overflow-hidden rounded-group bg-card">{lr}</ul></div>'''
-P.frame('S20-large', 'Many duplicates: bulk actions (1,204 contacts)', phone(screen(large_content, note='40 not reviewed yet. They’ll be imported as separate items.')))
+P.frame('S20-large', 'Many duplicates: bulk actions (1,204 contacts)', phone(screen(large_content, note='40 not reviewed yet. They\'ll be imported as separate items.')))
 
 # ------------------------------------------------------------------ accessibility
 P.section('Accessibility', 'At 200% text the two records no longer fit side by side: each field lists one value when both are the same, or both values numbered 1 and 2. Options stack as full-width buttons.')
@@ -286,7 +286,7 @@ P.frame('S20-large-text', 'Large text (200%)', phone(big))
 # ------------------------------------------------------------------ iOS
 P.section('iOS', 'Same review layout with the iOS bar (back chevron, edge swipe goes back to mapping). The merge detail is a page sheet with Cancel and Merge in its bar instead of bottom buttons.')
 ios_bar = modal_bar(ios=True, back=('Map fields', 'S19-field-mapping.html#S19-contacts'))
-P.frame('S20-ios', 'iOS', phone(screen(default_content, note='2 not reviewed yet. They’ll be imported as separate items.', bar=ios_bar), ios=True))
+P.frame('S20-ios', 'iOS', phone(screen(default_content, note='2 not reviewed yet. They\'ll be imported as separate items.', bar=ios_bar), ios=True))
 P.frame('S20-ios-merge', 'iOS: merge detail as a page sheet', phone(screen(scrolled, bar=ios_bar, overlay=ios_sheet('ims', 'Merge 2 records', merge_body.replace('mt-4 min-h-0', 'mt-3 min-h-0'), right='Merge')), ios=True))
 
 P.write('S20-duplicate-review.html')

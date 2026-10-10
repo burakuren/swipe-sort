@@ -11,7 +11,8 @@
     "a11y": "node tools/a11y.mjs",
     "flows": "node tools/flows.mjs",
     "lint": "node tools/lint-design.mjs",
-    "qa": "npm run build:css && npm run shots && npm run a11y && npm run flows && npm run lint"
+    "qa": "npm run build:css && npm run shots && npm run a11y && npm run flows && npm run lint",
+    "build:screens": "bash tools/generators/regen-all.sh"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",

@@ -30,7 +30,7 @@ DM-20, GOAL-03, GOAL-04, PLT-02, PLT-03, PLT-04, PLT-13–PLT-16, PLT-21, PLT-23
 | S36 `S36-default` | "Review 15 conflicts" (Decision Maker view) |
 | Member options sheet / menu / action sheet | Options button on a member row (Owner) |
 | Dialogs in S34 | Decision Maker change, remove, transfer, leave |
-| S08 `S08-default` | After leaving (snackbar "You left Wedding guests") |
+| S08 `S08-default` | After leaving (snackbar "You left “Wedding guests”") |
 | S09 `S09-shared` | Back |
 
 ## 3. Layout and components
@@ -86,6 +86,7 @@ Dialogs: AlertDialog (S40 pattern). Remove uses a RadioGroup inside the dialog (
 | `S34-leave-owner` | Owner taps Leave list: must choose a new Owner first |
 | `S34-transfer-pick` | "Choose new Owner" or "Transfer ownership": pick a member, then transfer and leave, or transfer and stay |
 | `S34-leave-dialog` | A Collaborator (Selin) leaves |
+| `S34-leave-decision-maker` | The Decision Maker (Mert) leaves: the role is left empty, open conflicts stay open |
 | `S34-collaborator` | Selin's read-only view |
 | `S34-decision-maker` | Mert's view: "You're the Decision Maker", "Review 15 conflicts" |
 | `S34-loading` | First load: skeleton |
@@ -116,9 +117,14 @@ Dialogs: AlertDialog (S40 pattern). Remove uses a RadioGroup inside the dialog (
   counts update ("2 members"), snackbar "Removed Selin" with Undo (6 s; Undo restores membership and
   decisions exactly). Discarded decisions recompute list statuses after the snackbar times out. Removing
   the Decision Maker leaves nobody in the role (the dialog adds a sentence, §6).
-- **Leave list**: Collaborator/Decision Maker → leave dialog → back to S08 with "You left Wedding guests".
+- **Leave list** (same behavior as S10): Collaborator/Decision Maker → leave dialog → back to S08 with
+  "You left “Wedding guests”" (`S10-left-snackbar`; no Undo, rejoining needs a new invite). The member's
+  decisions stay and keep counting; items they haven't decided stop waiting for them (Pending items may
+  become Agreed or Conflict); shared notes stay, private notes are deleted. A Decision Maker who leaves
+  leaves the role empty; open conflicts stay open until the Owner picks a Decision Maker. Others see "Selin
+  left" in Activity.
   Owner → "Choose a new Owner first" → transfer picker sheet → "Make Mert Owner and leave" (S08, snackbar
-  "You left Wedding guests") or "Make Mert Owner and stay" (`S34-transferred`).
+  "You left “Wedding guests”") or "Make Mert Owner and stay" (`S34-transferred`).
 - **Invite links / Invite people / Conflict rule**: navigate (S31 sheet over S34; S35 push).
 - **Live updates**: progress bars animate to new values (250 ms standard) as members sort; new members
   appear at the end of the group with a fade.
@@ -141,13 +147,14 @@ Dialogs: AlertDialog (S40 pattern). Remove uses a RadioGroup inside the dialog (
 | Move dialog | "Make Selin the Decision Maker?" / "Mert stops being the Decision Maker. Selin will resolve the 15 open conflicts and any new ones." / "Cancel", "Change Decision Maker" (rule Majority: "Selin will break ties from now on.") |
 | Self dialog | "Become the Decision Maker?" / "Mert stops being the Decision Maker. You'll resolve the 15 open conflicts and any new ones." / "Cancel", "Become Decision Maker" |
 | Off dialog | "Turn off the Decision Maker?" / "Under the rule Decision Maker decides, conflicts need a Decision Maker. Without one, they stay open until members change their decisions to match. You can turn it on again at any time." / "Cancel", "Turn off". Rule Majority: "Under the rule Majority decides, ties will stay as conflicts until members change their decisions. You can turn it on again at any time." |
-| Snackbars | "Selin is now the Decision Maker"; "Nobody is the Decision Maker now"; "Removed Selin" + "Undo"; "Mert is now the Owner"; "You left Wedding guests"; "Couldn't save the change. Check your connection and try again." |
+| Snackbars | "Selin is now the Decision Maker"; "Nobody is the Decision Maker now"; "Removed Selin" + "Undo"; "Mert is now the Owner"; "You left “Wedding guests”"; "Couldn't save the change. Check your connection and try again." |
 | Member sheet | "Selin Yılmaz"; "selin.yilmaz@example.com"; "Collaborator, joined Oct 2"; "Decision Maker" / "Resolves conflicts and breaks ties. Mert has this role now." (when nobody: "Resolves conflicts and breaks ties."); "Make Owner" / "Hand the list over. You become a Collaborator."; "Remove from list" |
-| Remove dialog | "Remove Selin from Wedding guests?" / "Selin can't open the list anymore. Choose what happens to Selin's 43 decisions." / "Keep Selin's decisions" — "They still count toward Agreed, Pending and Conflict." / "Discard Selin's decisions" — "Item statuses are recalculated without them." / "Cancel", "Remove Selin". Removing the Decision Maker adds: "Mert is the Decision Maker, so nobody will have this role." |
+| Remove dialog | "Remove Selin from “Wedding guests”?" / "Selin can't open the list anymore. Choose what happens to Selin's 43 decisions." / "Keep Selin's decisions" — "They still count toward Agreed, Pending and Conflict." / "Discard Selin's decisions" — "Item statuses are recalculated without them." / "Cancel", "Remove Selin". Removing the Decision Maker adds: "Mert is the Decision Maker, so nobody will have this role." |
 | Transfer dialog | "Make Mert the Owner?" / "Mert will manage members, rounds and the conflict rule, and can rename or delete the list. You'll stay on the list as a Collaborator." / "Cancel", "Make Mert Owner" |
-| Owner leave | "Choose a new Owner first" / "Wedding guests needs an Owner. Make another member the Owner, then you can leave. To remove the list for everyone, delete it instead." / "Cancel", "Choose new Owner" |
-| Transfer picker | "Choose the new Owner"; "Mert Aydın" / "Decision Maker"; "Selin Yılmaz" / "Collaborator"; "Mert will manage members, rounds and the conflict rule. You'll leave Wedding guests; your 76 decisions stay and still count." / "Make Mert Owner and leave", "Make Mert Owner and stay" |
-| Leave dialog | "Leave Wedding guests?" / "You won't see this list anymore. Your 43 decisions stay and still count toward the list status. To come back, ask Deniz for a new invite." / "Cancel", "Leave list" |
+| Owner leave | "Choose a new Owner first" / "“Wedding guests” needs an Owner. Make another member the Owner, then you can leave. To remove the list for everyone, delete it instead." / "Cancel", "Choose new Owner" |
+| Transfer picker | "Choose the new Owner"; "Mert Aydın" / "Decision Maker"; "Selin Yılmaz" / "Collaborator"; "Mert will manage members, rounds and the conflict rule. You'll leave “Wedding guests”: your 76 decisions stay and still count, items you haven't decided stop waiting for you, and your private notes are deleted." / "Make Mert Owner and leave", "Make Mert Owner and stay" |
+| Leave dialog (Collaborator) | "Leave “Wedding guests”?" / "You won't see this list anymore. Your 43 decisions stay and still count toward the list status. Items you haven't decided stop waiting for you, and your private notes are deleted. To come back, ask Deniz for a new invite." / "Cancel", "Leave list" (same strings as S10 `S10-leave`) |
+| Leave dialog (Decision Maker) | "Leave “Wedding guests”?" / "You won't see this list anymore. Your 85 decisions stay and still count toward the list status. You're the Decision Maker, so nobody will have this role until Deniz chooses someone. The 15 open conflicts stay open." / "Cancel", "Leave list" (same as S10 `S10-leave-decision-maker`) |
 | Loading | (skeleton) screen reader "Loading members" |
 | Error | "Members couldn't be loaded" / "SwipeSort didn't respond. Check your connection and try again." / "Try again" |
 | Offline | Banner "You're offline. Changes to members need a connection."; DM footer "Changes to members need a connection." |

@@ -212,7 +212,10 @@
         "image": "full",
         "title": "takenAt",
         "subtitle": "location",
-        "rows": [],
+        "rows": [
+          "fileName",
+          "sizeMB"
+        ],
         "tags": []
       }
     },
@@ -272,9 +275,7 @@
       "builtIn": false,
       "basedOn": "t-person",
       "createdAt": "2026-09-28T19:30:00Z",
-      "usedBy": [
-        "l-wedding"
-      ],
+      "usedBy": [],
       "layout": {
         "image": "avatar",
         "title": "name",

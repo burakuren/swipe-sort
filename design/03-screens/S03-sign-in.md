@@ -138,7 +138,7 @@ Auth modal (full-screen on Android and web, page sheet on iOS).
 | Web join title | "Sign in to join" |
 | Web join body | "No app needed. You can sort right here in your browser." |
 | Inviter card | "Deniz Yılmaz invited you to" / "Wedding guests" / "100 items" |
-| Web join note | "Next, you’ll see the list and your role before joining." |
+| Web join note | "Next, you'll see the list and your role before joining." |
 
 ## 7. Accessibility
 

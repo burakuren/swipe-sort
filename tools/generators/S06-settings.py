@@ -136,7 +136,7 @@ P.frame('S06-appearance', 'Appearance: theme', phone(sub('Appearance', radio_gro
     ('Light', None, False),
     ('Dark', None, False)], 'Theme') + '<p class="px-1 text-body-sm text-muted-foreground">Applies right away on this device.</p>')))
 
-lang = radio_group('lang', [('English', None, True)], 'Language') + alert_info('English only for now', 'More languages are coming, starting with Turkish. SwipeSort will switch automatically when your phone’s language is available.', icon_name='languages')
+lang = radio_group('lang', [('English', None, True)], 'Language') + alert_info('English only for now', 'More languages are coming, starting with Turkish. SwipeSort will switch automatically when your phone\'s language is available.', icon_name='languages')
 P.frame('S06-language', 'Language: English only for now', phone(sub('Language', lang)))
 
 
@@ -184,7 +184,7 @@ def backup_page(status, rows, action_html):
 
 
 P.frame('S06-backup', 'Backup: backed up', phone(backup_page(
-    status_block('cloud-check', 'ok', 'Backed up', 'Last backup today at 09:12. Lists back up automatically whenever you’re online.'),
+    status_block('cloud-check', 'ok', 'Backed up', 'Last backup today at 09:12. Lists back up automatically whenever you\'re online.'),
     acct_rows + [nav_row('Lists', href='S08-home.html#S08-default', icon_name='list-checks', value='4', trailing=''),
                  nav_row('Changes waiting', href='#S06-backup', icon_name='clock', value='None', trailing='')],
     btn('Back up now', 'secondary', size='md', action='back-up'))))
@@ -218,7 +218,7 @@ def prose(items):
 privacy = prose([
     ('What SwipeSort keeps', 'The lists you make: items, fields, decisions and notes. If you sign in, also your name, email and photo.'),
     ('Contacts and photos', 'SwipeSort reads only the contacts or photos you choose to import, and keeps only the fields you map.'),
-    ('Shared lists', 'Members of a shared list see its items, everyone’s decisions and notes. Notes marked private are visible only to you.'),
+    ('Shared lists', 'Members of a shared list see its items, everyone\'s decisions and notes. Notes marked private are visible only to you.'),
     ('Your original files', 'Imported files and Google Sheets are never changed unless you confirm an export to them.'),
 ]) + group([
     nav_row('Privacy policy', href='#S06-privacy', icon_name='shield-check', external=True),
@@ -234,7 +234,7 @@ def help_page(overlay=''):
         nav_row('Help center', href='#S06-help', icon_name='book-open', desc='Guides and answers', external=True),
     ]) + group([
         nav_row('Send feedback', href='#S06-feedback', icon_name='message-square-text', desc='Ideas and suggestions', action='send-feedback'),
-        nav_row('Report a problem', href='#S06-feedback', icon_name='bug', desc='Something isn’t working', action='report-problem'),
+        nav_row('Report a problem', href='#S06-feedback', icon_name='bug', desc='Something isn\'t working', action='report-problem'),
         nav_row('Email support', href='#S06-help', icon_name='mail', desc='support@swipesort.app', external=True),
     ], header='Contact us')) + overlay
 

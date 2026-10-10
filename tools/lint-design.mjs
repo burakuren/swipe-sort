@@ -87,6 +87,26 @@ for (const file of screenFiles) {
   checkTerms(file, visibleText(html));
 }
 
+// ---------- link integrity: every file.html#frame and #frame link resolves ----------
+{
+  const allFrames = new Map(); // file name -> Set(frame ids + element ids)
+  for (const f of listHtml(DESIGN)) {
+    const html = readFileSync(f, 'utf8');
+    allFrames.set(f, new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1])));
+  }
+  const linkFiles = [...screenFiles, ...listHtml(join(DESIGN, '04-prototype')).filter((f) => match(basename(f)))];
+  for (const file of linkFiles) {
+    const html = readFileSync(file, 'utf8');
+    for (const [, href] of html.matchAll(/href="([^"]+)"/g)) {
+      if (/^(https?:|mailto:|tel:|data:)/.test(href) || href.endsWith('.md') || href.endsWith('.css') || href.endsWith('.svg') || href === '#') continue;
+      const [path, hash] = href.split('#');
+      const target = path ? join(file, '..', path.split('?')[0]) : file;
+      if (!existsSync(target)) { errors.push(`${rel(file)}: broken link to ${href} (file missing)`); continue; }
+      if (hash && target.endsWith('.html') && !(allFrames.get(target) ?? new Set()).has(hash)) errors.push(`${rel(file)}: broken link to ${href} (no element #${hash})`);
+    }
+  }
+}
+
 // ---------- terminology in specs and other UI files ----------
 const mdFiles = existsSync(SCREENS) ? readdirSync(SCREENS).filter((f) => f.endsWith('.md') && match(f)).map((f) => join(SCREENS, f)) : [];
 for (const file of mdFiles) {

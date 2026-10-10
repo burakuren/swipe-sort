@@ -1,0 +1,977 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S39 Export flow</title>
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body class="mock-page">
+<header class="mock-doc">
+  <h1>S39 Export flow</h1>
+  <p>Export decisions to CSV, Excel or Google Sheets, or share a text summary. One short modal stack: choose items, columns and a format; Google Sheets adds a destination and an explicit write confirmation. Spec: <a href="S39-export.md">S39-export.md</a>. Entry points: S27 round summary, S28 results, S37 bulk resolve summary, S09 list overview.</p>
+</header>
+<h2 class="mock-section">Choose what to export</h2>
+<p>One screen sets everything a file needs: items (latest decision per item), columns, then the format. Tapping CSV or Excel exports at once; Google Sheets and Text summary open one more step.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S39-default" id="S39-default">
+  <figcaption class="frame-label">S39 · Default: Desk setup after Round 2, all items · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S28-results.html#S28-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close export" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export</h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <h2 class="px-1 pb-2  text-label text-muted-foreground">Items</h2>
+    <div class="flex flex-wrap gap-x-2" role="radiogroup" aria-label="Items to export"><button type="button" role="radio" aria-checked="true" aria-label="All items, 20 items" class="flex min-h-12 items-center" data-action="scope-all"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label bg-foreground text-background"><i class="i-lucide-layers size-4" aria-hidden="true"></i>All items<span class="tabular-nums ">20</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Rejected, 11 items" class="flex min-h-12 items-center" data-action="scope-reject"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-x size-4 text-reject-soft-foreground" aria-hidden="true"></i>Rejected<span class="tabular-nums text-muted-foreground">11</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Maybe, 1 item" class="flex min-h-12 items-center" data-action="scope-maybe"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-circle-help size-4 text-maybe-soft-foreground" aria-hidden="true"></i>Maybe<span class="tabular-nums text-muted-foreground">1</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Accepted, 8 items" class="flex min-h-12 items-center" data-action="scope-accept"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-check size-4 text-accept-soft-foreground" aria-hidden="true"></i>Accepted<span class="tabular-nums text-muted-foreground">8</span></span></button></div>
+    <p class="px-1 pt-1 text-body-sm text-muted-foreground">Each item has its latest decision from 2 rounds.</p>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Columns</h2>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><button type="button" role="switch" aria-checked="true" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Notes</span><span class="block text-body-sm text-muted-foreground">Adds a Notes column</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1" aria-hidden="true"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></button></li><li><button type="button" role="switch" aria-checked="false" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Each round's decision</span><span class="block text-body-sm text-muted-foreground">Adds Round 1 and Round 2 columns</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full border-2 border-input bg-muted p-1" aria-hidden="true"><span class="size-5 rounded-full bg-muted-foreground"></span></span></button></li></ul>
+    <p class="px-1 pt-2 text-body-sm text-muted-foreground">All fields and a Decision column are always included.</p>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Export as</h2>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><a href="#S39-file-exporting" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-csv"><i class="i-lucide-file-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">CSV file</span><span class="block text-body-sm text-muted-foreground">Opens in any spreadsheet app</span></span></a></li><li><a href="#S39-file-exporting" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-excel"><i class="i-lucide-file-spreadsheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Excel file</span><span class="block text-body-sm text-muted-foreground">For Excel and Numbers</span></span></a></li><li><a href="#S39-google-destination" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-google"><i class="i-lucide-sheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Google Sheets</span><span class="block text-body-sm text-muted-foreground">A new spreadsheet in Google Drive</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S39-text-summary" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-text"><i class="i-lucide-message-square-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Text summary</span><span class="block text-body-sm text-muted-foreground">Counts and accepted items as text</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li></ul>
+    <div class="pt-4"><p class="flex gap-2 px-1 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Exporting creates a copy. Nothing in Desk setup changes.</span></p></div>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-accepted" id="S39-accepted">
+  <figcaption class="frame-label">S39 · Accepted items chosen (8) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S28-results.html#S28-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close export" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export</h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <h2 class="px-1 pb-2  text-label text-muted-foreground">Items</h2>
+    <div class="flex flex-wrap gap-x-2" role="radiogroup" aria-label="Items to export"><button type="button" role="radio" aria-checked="false" aria-label="All items, 20 items" class="flex min-h-12 items-center" data-action="scope-all"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-layers size-4 text-muted-foreground" aria-hidden="true"></i>All items<span class="tabular-nums text-muted-foreground">20</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Rejected, 11 items" class="flex min-h-12 items-center" data-action="scope-reject"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-x size-4 text-reject-soft-foreground" aria-hidden="true"></i>Rejected<span class="tabular-nums text-muted-foreground">11</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Maybe, 1 item" class="flex min-h-12 items-center" data-action="scope-maybe"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-circle-help size-4 text-maybe-soft-foreground" aria-hidden="true"></i>Maybe<span class="tabular-nums text-muted-foreground">1</span></span></button><button type="button" role="radio" aria-checked="true" aria-label="Accepted, 8 items" class="flex min-h-12 items-center" data-action="scope-accept"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label bg-foreground text-background"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted<span class="tabular-nums ">8</span></span></button></div>
+    <p class="px-1 pt-1 text-body-sm text-muted-foreground">Each item has its latest decision from 2 rounds.</p>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Columns</h2>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><button type="button" role="switch" aria-checked="true" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Notes</span><span class="block text-body-sm text-muted-foreground">Adds a Notes column</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1" aria-hidden="true"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></button></li><li><button type="button" role="switch" aria-checked="false" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Each round's decision</span><span class="block text-body-sm text-muted-foreground">Adds Round 1 and Round 2 columns</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full border-2 border-input bg-muted p-1" aria-hidden="true"><span class="size-5 rounded-full bg-muted-foreground"></span></span></button></li></ul>
+    <p class="px-1 pt-2 text-body-sm text-muted-foreground">All fields and a Decision column are always included.</p>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Export as</h2>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><a href="#S39-file-exporting" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-csv"><i class="i-lucide-file-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">CSV file</span><span class="block text-body-sm text-muted-foreground">Opens in any spreadsheet app</span></span></a></li><li><a href="#S39-file-exporting" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-excel"><i class="i-lucide-file-spreadsheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Excel file</span><span class="block text-body-sm text-muted-foreground">For Excel and Numbers</span></span></a></li><li><a href="#S39-google-destination" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-google"><i class="i-lucide-sheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Google Sheets</span><span class="block text-body-sm text-muted-foreground">A new spreadsheet in Google Drive</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S39-text-summary" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-text"><i class="i-lucide-message-square-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Text summary</span><span class="block text-body-sm text-muted-foreground">Counts and accepted items as text</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li></ul>
+    <div class="pt-4"><p class="flex gap-2 px-1 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Exporting creates a copy. Nothing in Desk setup changes.</span></p></div>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-shared" id="S39-shared">
+  <figcaption class="frame-label">S39 · Shared list: Wedding guests, Mert exports after bulk resolve (Flow 3) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S37-bulk-resolve.html#S37-summary" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close export" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export</h1><p class="truncate text-caption text-muted-foreground">Wedding guests</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <h2 class="px-1 pb-2  text-label text-muted-foreground">Items</h2>
+    <div class="flex flex-wrap gap-x-2" role="radiogroup" aria-label="Items to export"><button type="button" role="radio" aria-checked="true" aria-label="All items, 100 items" class="flex min-h-12 items-center" data-action="scope-all"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label bg-foreground text-background"><i class="i-lucide-layers size-4" aria-hidden="true"></i>All items<span class="tabular-nums ">100</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Rejected, 10 items" class="flex min-h-12 items-center" data-action="scope-reject"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-x size-4 text-reject-soft-foreground" aria-hidden="true"></i>Rejected<span class="tabular-nums text-muted-foreground">10</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Maybe, 6 items" class="flex min-h-12 items-center" data-action="scope-maybe"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-circle-help size-4 text-maybe-soft-foreground" aria-hidden="true"></i>Maybe<span class="tabular-nums text-muted-foreground">6</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Accepted, 28 items" class="flex min-h-12 items-center" data-action="scope-accept"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-check size-4 text-accept-soft-foreground" aria-hidden="true"></i>Accepted<span class="tabular-nums text-muted-foreground">28</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Conflicts, 3 items" class="flex min-h-12 items-center" data-action="scope-conflict"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-git-compare-arrows size-4 text-muted-foreground" aria-hidden="true"></i>Conflicts<span class="tabular-nums text-muted-foreground">3</span></span></button></div>
+    <p class="px-1 pt-1 text-body-sm text-muted-foreground">Counts are final decisions. Pending items are only in All items.</p>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Columns</h2>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><button type="button" role="switch" aria-checked="true" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Each member's decision</span><span class="block text-body-sm text-muted-foreground">Adds a column for Deniz, Mert and Selin</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1" aria-hidden="true"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></button></li><li><button type="button" role="switch" aria-checked="true" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Notes</span><span class="block text-body-sm text-muted-foreground">Shared notes with their author</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1" aria-hidden="true"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></button></li></ul>
+    <p class="px-1 pt-2 text-body-sm text-muted-foreground">All fields and a Final decision column are always included. Private notes are never exported.</p>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Export as</h2>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><a href="#S39-file-exporting" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-csv"><i class="i-lucide-file-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">CSV file</span><span class="block text-body-sm text-muted-foreground">Opens in any spreadsheet app</span></span></a></li><li><a href="#S39-file-exporting" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-excel"><i class="i-lucide-file-spreadsheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Excel file</span><span class="block text-body-sm text-muted-foreground">For Excel and Numbers</span></span></a></li><li><a href="#S39-shared-google-destination" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-google"><i class="i-lucide-sheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Google Sheets</span><span class="block text-body-sm text-muted-foreground">A new spreadsheet in Google Drive</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S39-text-summary" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-text"><i class="i-lucide-message-square-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Text summary</span><span class="block text-body-sm text-muted-foreground">Counts and accepted items as text</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li></ul>
+    <div class="pt-4"><p class="flex gap-2 px-1 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Exporting creates a copy. Nothing in Wedding guests changes for anyone.</span></p></div>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-apartments" id="S39-apartments">
+  <figcaption class="frame-label">S39 · List imported from Google Sheets: Apartment viewings (archived) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close export" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export</h1><p class="truncate text-caption text-muted-foreground">Apartment viewings</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <h2 class="px-1 pb-2  text-label text-muted-foreground">Items</h2>
+    <div class="flex flex-wrap gap-x-2" role="radiogroup" aria-label="Items to export"><button type="button" role="radio" aria-checked="true" aria-label="All items, 8 items" class="flex min-h-12 items-center" data-action="scope-all"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label bg-foreground text-background"><i class="i-lucide-layers size-4" aria-hidden="true"></i>All items<span class="tabular-nums ">8</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Rejected, 4 items" class="flex min-h-12 items-center" data-action="scope-reject"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-x size-4 text-reject-soft-foreground" aria-hidden="true"></i>Rejected<span class="tabular-nums text-muted-foreground">4</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Maybe, 1 item" class="flex min-h-12 items-center" data-action="scope-maybe"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-circle-help size-4 text-maybe-soft-foreground" aria-hidden="true"></i>Maybe<span class="tabular-nums text-muted-foreground">1</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Accepted, 3 items" class="flex min-h-12 items-center" data-action="scope-accept"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-check size-4 text-accept-soft-foreground" aria-hidden="true"></i>Accepted<span class="tabular-nums text-muted-foreground">3</span></span></button></div>
+    <p class="px-1 pt-1 text-body-sm text-muted-foreground">Decisions from Round 1.</p>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Columns</h2>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><button type="button" role="switch" aria-checked="true" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Notes</span><span class="block text-body-sm text-muted-foreground">Adds a Notes column</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1" aria-hidden="true"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></button></li></ul>
+    <p class="px-1 pt-2 text-body-sm text-muted-foreground">All fields and a Decision column are always included.</p>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Export as</h2>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><a href="#S39-file-exporting" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-csv"><i class="i-lucide-file-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">CSV file</span><span class="block text-body-sm text-muted-foreground">Opens in any spreadsheet app</span></span></a></li><li><a href="#S39-file-exporting" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-excel"><i class="i-lucide-file-spreadsheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Excel file</span><span class="block text-body-sm text-muted-foreground">For Excel and Numbers</span></span></a></li><li><a href="#S39-apartments-destination" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-google"><i class="i-lucide-sheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Google Sheets</span><span class="block text-body-sm text-muted-foreground">Add to Flat hunt 2026, or a new spreadsheet</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S39-text-summary" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-text"><i class="i-lucide-message-square-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Text summary</span><span class="block text-body-sm text-muted-foreground">Counts and accepted items as text</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li></ul>
+    <div class="pt-4"><p class="flex gap-2 px-1 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Exporting creates a copy. Flat hunt 2026 changes only if you choose it and confirm.</span></p></div>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-empty-scope" id="S39-empty-scope">
+  <figcaption class="frame-label">S39 · Empty scope: Maybe has no items (Frontend hiring, Q4) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close export" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export</h1><p class="truncate text-caption text-muted-foreground">Frontend hiring, Q4</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <h2 class="px-1 pb-2  text-label text-muted-foreground">Items</h2>
+    <div class="flex flex-wrap gap-x-2" role="radiogroup" aria-label="Items to export"><button type="button" role="radio" aria-checked="false" aria-label="All items, 12 items" class="flex min-h-12 items-center" data-action="scope-all"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-layers size-4 text-muted-foreground" aria-hidden="true"></i>All items<span class="tabular-nums text-muted-foreground">12</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Rejected, 8 items" class="flex min-h-12 items-center" data-action="scope-reject"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-x size-4 text-reject-soft-foreground" aria-hidden="true"></i>Rejected<span class="tabular-nums text-muted-foreground">8</span></span></button><button type="button" role="radio" aria-checked="true" aria-label="Maybe, 0 items" class="flex min-h-12 items-center" data-action="scope-maybe"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label bg-foreground text-background"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe<span class="tabular-nums ">0</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Accepted, 4 items" class="flex min-h-12 items-center" data-action="scope-accept"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-check size-4 text-accept-soft-foreground" aria-hidden="true"></i>Accepted<span class="tabular-nums text-muted-foreground">4</span></span></button></div>
+    <p class="flex items-start gap-2 px-1 pt-1 text-body-sm" role="status"><i class="i-lucide-circle-dashed size-4 mt-0.5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span>No items in Maybe. Choose another group to export.</span></p>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Columns</h2>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><button type="button" role="switch" aria-checked="true" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Notes</span><span class="block text-body-sm text-muted-foreground">Adds a Notes column</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1" aria-hidden="true"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></button></li></ul>
+    <p class="px-1 pt-2 text-body-sm text-muted-foreground">All fields and a Decision column are always included.</p>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Export as</h2>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><div class="flex min-h-16 items-center gap-4 px-4 py-3" aria-disabled="true"><i class="i-lucide-file-text size-6 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body text-muted-foreground">CSV file</span><span class="block text-body-sm text-muted-foreground">Opens in any spreadsheet app</span></span></div></li><li><div class="flex min-h-16 items-center gap-4 px-4 py-3" aria-disabled="true"><i class="i-lucide-file-spreadsheet size-6 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body text-muted-foreground">Excel file</span><span class="block text-body-sm text-muted-foreground">For Excel and Numbers</span></span></div></li><li><div class="flex min-h-16 items-center gap-4 px-4 py-3" aria-disabled="true"><i class="i-lucide-sheet size-6 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body text-muted-foreground">Google Sheets</span><span class="block text-body-sm text-muted-foreground">A new spreadsheet in Google Drive</span></span></div></li><li><div class="flex min-h-16 items-center gap-4 px-4 py-3" aria-disabled="true"><i class="i-lucide-message-square-text size-6 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body text-muted-foreground">Text summary</span><span class="block text-body-sm text-muted-foreground">Counts and accepted items as text</span></span></div></li></ul>
+    <div class="pt-4"><p class="flex gap-2 px-1 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Exporting creates a copy. Nothing in Frontend hiring, Q4 changes.</span></p></div>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-offline" id="S39-offline">
+  <figcaption class="frame-label">S39 · Offline: files and text work, Google Sheets needs a connection · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S28-results.html#S28-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close export" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export</h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  <div class="flex shrink-0 items-center gap-2 bg-muted px-gutter py-2 text-body-sm" role="status"><i class="i-lucide-wifi-off size-4 shrink-0" aria-hidden="true"></i><span class="flex-1">You're offline. Files and text summaries still work.</span></div>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <h2 class="px-1 pb-2  text-label text-muted-foreground">Items</h2>
+    <div class="flex flex-wrap gap-x-2" role="radiogroup" aria-label="Items to export"><button type="button" role="radio" aria-checked="true" aria-label="All items, 20 items" class="flex min-h-12 items-center" data-action="scope-all"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label bg-foreground text-background"><i class="i-lucide-layers size-4" aria-hidden="true"></i>All items<span class="tabular-nums ">20</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Rejected, 11 items" class="flex min-h-12 items-center" data-action="scope-reject"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-x size-4 text-reject-soft-foreground" aria-hidden="true"></i>Rejected<span class="tabular-nums text-muted-foreground">11</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Maybe, 1 item" class="flex min-h-12 items-center" data-action="scope-maybe"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-circle-help size-4 text-maybe-soft-foreground" aria-hidden="true"></i>Maybe<span class="tabular-nums text-muted-foreground">1</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Accepted, 8 items" class="flex min-h-12 items-center" data-action="scope-accept"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-check size-4 text-accept-soft-foreground" aria-hidden="true"></i>Accepted<span class="tabular-nums text-muted-foreground">8</span></span></button></div>
+    <p class="px-1 pt-1 text-body-sm text-muted-foreground">Each item has its latest decision from 2 rounds.</p>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Columns</h2>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><button type="button" role="switch" aria-checked="true" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Notes</span><span class="block text-body-sm text-muted-foreground">Adds a Notes column</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1" aria-hidden="true"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></button></li><li><button type="button" role="switch" aria-checked="false" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Each round's decision</span><span class="block text-body-sm text-muted-foreground">Adds Round 1 and Round 2 columns</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full border-2 border-input bg-muted p-1" aria-hidden="true"><span class="size-5 rounded-full bg-muted-foreground"></span></span></button></li></ul>
+    <p class="px-1 pt-2 text-body-sm text-muted-foreground">All fields and a Decision column are always included.</p>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Export as</h2>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><a href="#S39-file-exporting" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-csv"><i class="i-lucide-file-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">CSV file</span><span class="block text-body-sm text-muted-foreground">Opens in any spreadsheet app</span></span></a></li><li><a href="#S39-file-exporting" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-excel"><i class="i-lucide-file-spreadsheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Excel file</span><span class="block text-body-sm text-muted-foreground">For Excel and Numbers</span></span></a></li><li><div class="flex min-h-16 items-center gap-4 px-4 py-3" aria-disabled="true"><i class="i-lucide-sheet size-6 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body text-muted-foreground">Google Sheets</span><span class="block text-body-sm text-muted-foreground">Needs a connection</span></span><i class="i-lucide-wifi-off size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></div></li><li><a href="#S39-text-summary" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-text"><i class="i-lucide-message-square-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Text summary</span><span class="block text-body-sm text-muted-foreground">Counts and accepted items as text</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li></ul>
+    <div class="pt-4"><p class="flex gap-2 px-1 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Exporting creates a copy. Nothing in Desk setup changes.</span></p></div>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-large-text" id="S39-large-text">
+  <figcaption class="frame-label">S39 · Large text (200%): chips and rows grow and wrap, the screen scrolls · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex min-h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S28-results.html#S28-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close export" data-action="close"><i class="i-lucide-x size-7" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="text-title-1">Export</h1><p class="text-title-3 font-normal text-muted-foreground">Desk setup</p></div>
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <h2 class="px-1 pb-2  text-title-3 text-muted-foreground">Items</h2>
+    <div class="flex flex-wrap gap-x-2" role="radiogroup" aria-label="Items to export"><button type="button" role="radio" aria-checked="true" aria-label="All items, 20 items" class="flex min-h-12 items-center" data-action="scope-all"><span class="inline-flex h-14 items-center gap-1.5 rounded-full px-3 text-title-3 bg-foreground text-background"><i class="i-lucide-layers size-6" aria-hidden="true"></i>All items<span class="tabular-nums ">20</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Rejected, 11 items" class="flex min-h-12 items-center" data-action="scope-reject"><span class="inline-flex h-14 items-center gap-1.5 rounded-full px-3 text-title-3 border border-input bg-card"><i class="i-lucide-x size-6 text-reject-soft-foreground" aria-hidden="true"></i>Rejected<span class="tabular-nums text-muted-foreground">11</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Maybe, 1 item" class="flex min-h-12 items-center" data-action="scope-maybe"><span class="inline-flex h-14 items-center gap-1.5 rounded-full px-3 text-title-3 border border-input bg-card"><i class="i-lucide-circle-help size-6 text-maybe-soft-foreground" aria-hidden="true"></i>Maybe<span class="tabular-nums text-muted-foreground">1</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Accepted, 8 items" class="flex min-h-12 items-center" data-action="scope-accept"><span class="inline-flex h-14 items-center gap-1.5 rounded-full px-3 text-title-3 border border-input bg-card"><i class="i-lucide-check size-6 text-accept-soft-foreground" aria-hidden="true"></i>Accepted<span class="tabular-nums text-muted-foreground">8</span></span></button></div>
+    <p class="px-1 pt-1 text-title-3 font-normal text-muted-foreground">Each item has its latest decision from 2 rounds.</p>
+    <h2 class="px-1 pb-2 pt-8 text-title-3 text-muted-foreground">Columns</h2>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><button type="button" role="switch" aria-checked="true" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-title-2 font-normal">Notes</span><span class="block text-title-3 font-normal text-muted-foreground">Adds a Notes column</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1" aria-hidden="true"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></button></li><li><button type="button" role="switch" aria-checked="false" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-title-2 font-normal">Each round's decision</span><span class="block text-title-3 font-normal text-muted-foreground">Adds Round 1 and Round 2 columns</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full border-2 border-input bg-muted p-1" aria-hidden="true"><span class="size-5 rounded-full bg-muted-foreground"></span></span></button></li></ul>
+    <p class="px-1 pt-2 text-title-3 font-normal text-muted-foreground">All fields and a Decision column are always included.</p>
+    <h2 class="px-1 pb-2 pt-8 text-title-3 text-muted-foreground">Export as</h2>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><a href="#S39-file-exporting" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-csv"><i class="i-lucide-file-text size-7 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-title-2 font-normal">CSV file</span><span class="block text-title-3 font-normal text-muted-foreground">Opens in any spreadsheet app</span></span></a></li><li><a href="#S39-file-exporting" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-excel"><i class="i-lucide-file-spreadsheet size-7 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-title-2 font-normal">Excel file</span><span class="block text-title-3 font-normal text-muted-foreground">For Excel and Numbers</span></span></a></li><li><a href="#S39-google-destination" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-google"><i class="i-lucide-sheet size-7 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-title-2 font-normal">Google Sheets</span><span class="block text-title-3 font-normal text-muted-foreground">A new spreadsheet in Google Drive</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S39-text-summary" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-text"><i class="i-lucide-message-square-text size-7 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-title-2 font-normal">Text summary</span><span class="block text-title-3 font-normal text-muted-foreground">Counts and accepted items as text</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li></ul>
+    <div class="pt-4"><p class="flex gap-2 px-1 text-title-3 font-normal text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Exporting creates a copy. Nothing in Desk setup changes.</span></p></div>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">File export (CSV and Excel)</h2>
+<p>Tap CSV or Excel: the file is written on the phone (Exporting…), then a sheet offers Share or Save to device. The system share sheet and save dialog are native (out of scope). Excel works the same with .xlsx.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S39-file-exporting" id="S39-file-exporting">
+  <figcaption class="frame-label">S39 · CSV: exporting (shown only after 300 ms) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <div class="flex min-h-0 flex-1 flex-col" aria-hidden="true"><header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <div class="flex size-12 shrink-0 items-center justify-center rounded-full "><i class="i-lucide-x size-6" aria-hidden="true"></i></div>
+    <div class="min-w-0 flex-1 px-1"><p class="truncate text-title-3">Export</p><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <p class="px-1 pb-2  text-label text-muted-foreground">Items</p>
+    <div class="flex flex-wrap gap-x-2"><div class="flex min-h-12 items-center"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-layers size-4 text-muted-foreground" aria-hidden="true"></i>All items<span class="tabular-nums text-muted-foreground">20</span></span></div><div class="flex min-h-12 items-center"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-x size-4 text-reject-soft-foreground" aria-hidden="true"></i>Rejected<span class="tabular-nums text-muted-foreground">11</span></span></div><div class="flex min-h-12 items-center"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-circle-help size-4 text-maybe-soft-foreground" aria-hidden="true"></i>Maybe<span class="tabular-nums text-muted-foreground">1</span></span></div><div class="flex min-h-12 items-center"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label bg-foreground text-background"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted<span class="tabular-nums ">8</span></span></div></div>
+    <p class="px-1 pt-1 text-body-sm text-muted-foreground">Each item has its latest decision from 2 rounds.</p>
+    <p class="px-1 pb-2 pt-6 text-label text-muted-foreground">Columns</p>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><div class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Notes</span><span class="block text-body-sm text-muted-foreground">Adds a Notes column</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1" aria-hidden="true"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></div></li><li><div class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Each round's decision</span><span class="block text-body-sm text-muted-foreground">Adds Round 1 and Round 2 columns</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full border-2 border-input bg-muted p-1" aria-hidden="true"><span class="size-5 rounded-full bg-muted-foreground"></span></span></div></li></ul>
+    <p class="px-1 pt-2 text-body-sm text-muted-foreground">All fields and a Decision column are always included.</p>
+    <p class="px-1 pb-2 pt-6 text-label text-muted-foreground">Export as</p>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><div class="flex min-h-16 items-center gap-4 px-4 py-3"><i class="i-lucide-file-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">CSV file</span><span class="block text-body-sm text-muted-foreground">Opens in any spreadsheet app</span></span></div></li><li><div class="flex min-h-16 items-center gap-4 px-4 py-3"><i class="i-lucide-file-spreadsheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Excel file</span><span class="block text-body-sm text-muted-foreground">For Excel and Numbers</span></span></div></li><li><div class="flex min-h-16 items-center gap-4 px-4 py-3"><i class="i-lucide-sheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Google Sheets</span><span class="block text-body-sm text-muted-foreground">A new spreadsheet in Google Drive</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></div></li><li><div class="flex min-h-16 items-center gap-4 px-4 py-3"><i class="i-lucide-message-square-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Text summary</span><span class="block text-body-sm text-muted-foreground">Counts and accepted items as text</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></div></li></ul>
+    <div class="pt-4"><p class="flex gap-2 px-1 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Exporting creates a copy. Nothing in Desk setup changes.</span></p></div>
+  </div>
+  </div><div class="absolute inset-0 z-10 bg-scrim/50"></div>
+  <div class="absolute inset-x-0 bottom-0 z-20 rounded-t-sheet bg-popover px-gutter pb-8 pt-2 shadow-sheet" role="dialog" aria-modal="true" aria-labelledby="s39fx">
+    <div class="flex justify-center py-1.5"><span class="h-1 w-8 rounded-full bg-muted-foreground/40"></span></div>
+    <div class="flex items-center gap-4 pt-4" role="status"><i class="i-lucide-loader-circle size-6 shrink-0 animate-spin text-primary" aria-hidden="true"></i><div><h2 id="s39fx" class="text-title-3">Exporting…</h2><p class="text-body-sm text-muted-foreground">8 items to desk-setup-accepted.csv</p></div></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-file-ready" id="S39-file-ready">
+  <figcaption class="frame-label">S39 · CSV: file ready, share or save · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <div class="flex min-h-0 flex-1 flex-col" aria-hidden="true"><header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <div class="flex size-12 shrink-0 items-center justify-center rounded-full "><i class="i-lucide-x size-6" aria-hidden="true"></i></div>
+    <div class="min-w-0 flex-1 px-1"><p class="truncate text-title-3">Export</p><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <p class="px-1 pb-2  text-label text-muted-foreground">Items</p>
+    <div class="flex flex-wrap gap-x-2"><div class="flex min-h-12 items-center"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-layers size-4 text-muted-foreground" aria-hidden="true"></i>All items<span class="tabular-nums text-muted-foreground">20</span></span></div><div class="flex min-h-12 items-center"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-x size-4 text-reject-soft-foreground" aria-hidden="true"></i>Rejected<span class="tabular-nums text-muted-foreground">11</span></span></div><div class="flex min-h-12 items-center"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-circle-help size-4 text-maybe-soft-foreground" aria-hidden="true"></i>Maybe<span class="tabular-nums text-muted-foreground">1</span></span></div><div class="flex min-h-12 items-center"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label bg-foreground text-background"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted<span class="tabular-nums ">8</span></span></div></div>
+    <p class="px-1 pt-1 text-body-sm text-muted-foreground">Each item has its latest decision from 2 rounds.</p>
+    <p class="px-1 pb-2 pt-6 text-label text-muted-foreground">Columns</p>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><div class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Notes</span><span class="block text-body-sm text-muted-foreground">Adds a Notes column</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1" aria-hidden="true"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></div></li><li><div class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Each round's decision</span><span class="block text-body-sm text-muted-foreground">Adds Round 1 and Round 2 columns</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full border-2 border-input bg-muted p-1" aria-hidden="true"><span class="size-5 rounded-full bg-muted-foreground"></span></span></div></li></ul>
+    <p class="px-1 pt-2 text-body-sm text-muted-foreground">All fields and a Decision column are always included.</p>
+    <p class="px-1 pb-2 pt-6 text-label text-muted-foreground">Export as</p>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><div class="flex min-h-16 items-center gap-4 px-4 py-3"><i class="i-lucide-file-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">CSV file</span><span class="block text-body-sm text-muted-foreground">Opens in any spreadsheet app</span></span></div></li><li><div class="flex min-h-16 items-center gap-4 px-4 py-3"><i class="i-lucide-file-spreadsheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Excel file</span><span class="block text-body-sm text-muted-foreground">For Excel and Numbers</span></span></div></li><li><div class="flex min-h-16 items-center gap-4 px-4 py-3"><i class="i-lucide-sheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Google Sheets</span><span class="block text-body-sm text-muted-foreground">A new spreadsheet in Google Drive</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></div></li><li><div class="flex min-h-16 items-center gap-4 px-4 py-3"><i class="i-lucide-message-square-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Text summary</span><span class="block text-body-sm text-muted-foreground">Counts and accepted items as text</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></div></li></ul>
+    <div class="pt-4"><p class="flex gap-2 px-1 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Exporting creates a copy. Nothing in Desk setup changes.</span></p></div>
+  </div>
+  </div><div class="absolute inset-0 z-10 bg-scrim/50"></div>
+  <div class="absolute inset-x-0 bottom-0 z-20 rounded-t-sheet bg-popover px-gutter pb-5 pt-2 shadow-sheet" role="dialog" aria-modal="true" aria-labelledby="s39fr">
+    <div class="flex justify-center py-1.5"><span class="h-1 w-8 rounded-full bg-muted-foreground/40"></span></div>
+    <div class="flex min-h-12 items-center justify-between gap-3 pt-1"><h2 id="s39fr" class="text-title-3">Your file is ready</h2><a href="#S39-accepted" class="flex size-12 shrink-0 items-center justify-center rounded-full -mr-3" aria-label="Close" data-action="close-sheet"><i class="i-lucide-x size-5" aria-hidden="true"></i></a></div>
+    <div class="mt-2"><div class="flex min-h-16 items-center gap-3 rounded-group bg-card px-4 py-2">
+      <span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-file-text size-5" aria-hidden="true"></i></span>
+      <div class="min-w-0 flex-1"><p class="truncate text-body">desk-setup-accepted.csv</p><p class="truncate text-body-sm text-muted-foreground">8 items, 1 KB</p></div>
+    </div></div>
+    <p class="mt-3 text-body-sm text-muted-foreground">Columns: Name, Price, Rating, Reviews, Store, Category, Link, Decision and Notes.</p>
+    <div class="mt-5 space-y-1"><a href="#S39-success-file" class="inline-flex h-14 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="share-file"><i class="i-lucide-share-2 size-5" aria-hidden="true"></i>Share file</a><a href="#S39-success-file" class="inline-flex h-12 min-w-touch w-full mt-2 items-center justify-center gap-2 rounded-control text-label-lg border border-input bg-card " data-action="save-file"><i class="i-lucide-download size-5" aria-hidden="true"></i>Save to device</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-success-file" id="S39-success-file">
+  <figcaption class="frame-label">S39 · CSV: exported (back from the share sheet) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S28-results.html#S28-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close export" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export</h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <h2 class="px-1 pb-2  text-label text-muted-foreground">Items</h2>
+    <div class="flex flex-wrap gap-x-2" role="radiogroup" aria-label="Items to export"><button type="button" role="radio" aria-checked="false" aria-label="All items, 20 items" class="flex min-h-12 items-center" data-action="scope-all"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-layers size-4 text-muted-foreground" aria-hidden="true"></i>All items<span class="tabular-nums text-muted-foreground">20</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Rejected, 11 items" class="flex min-h-12 items-center" data-action="scope-reject"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-x size-4 text-reject-soft-foreground" aria-hidden="true"></i>Rejected<span class="tabular-nums text-muted-foreground">11</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Maybe, 1 item" class="flex min-h-12 items-center" data-action="scope-maybe"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-circle-help size-4 text-maybe-soft-foreground" aria-hidden="true"></i>Maybe<span class="tabular-nums text-muted-foreground">1</span></span></button><button type="button" role="radio" aria-checked="true" aria-label="Accepted, 8 items" class="flex min-h-12 items-center" data-action="scope-accept"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label bg-foreground text-background"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted<span class="tabular-nums ">8</span></span></button></div>
+    <p class="px-1 pt-1 text-body-sm text-muted-foreground">Each item has its latest decision from 2 rounds.</p>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Columns</h2>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><button type="button" role="switch" aria-checked="true" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Notes</span><span class="block text-body-sm text-muted-foreground">Adds a Notes column</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1" aria-hidden="true"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></button></li><li><button type="button" role="switch" aria-checked="false" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Each round's decision</span><span class="block text-body-sm text-muted-foreground">Adds Round 1 and Round 2 columns</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full border-2 border-input bg-muted p-1" aria-hidden="true"><span class="size-5 rounded-full bg-muted-foreground"></span></span></button></li></ul>
+    <p class="px-1 pt-2 text-body-sm text-muted-foreground">All fields and a Decision column are always included.</p>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Export as</h2>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><a href="#S39-file-exporting" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-csv"><i class="i-lucide-file-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">CSV file</span><span class="block text-body-sm text-muted-foreground">Opens in any spreadsheet app</span></span></a></li><li><a href="#S39-file-exporting" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-excel"><i class="i-lucide-file-spreadsheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Excel file</span><span class="block text-body-sm text-muted-foreground">For Excel and Numbers</span></span></a></li><li><a href="#S39-google-destination" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-google"><i class="i-lucide-sheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Google Sheets</span><span class="block text-body-sm text-muted-foreground">A new spreadsheet in Google Drive</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S39-text-summary" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-text"><i class="i-lucide-message-square-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Text summary</span><span class="block text-body-sm text-muted-foreground">Counts and accepted items as text</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li></ul>
+    <div class="pt-4"><p class="flex gap-2 px-1 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Exporting creates a copy. Nothing in Desk setup changes.</span></p></div>
+  </div>
+  <div class="absolute inset-x-4 bottom-4 z-30 flex min-h-12 items-center gap-3 rounded-control bg-foreground px-4 py-3 text-background shadow-overlay" role="status"><i class="i-lucide-circle-check size-5 shrink-0" aria-hidden="true"></i><span class="flex-1 text-body-sm">Exported 8 items to desk-setup-accepted.csv</span></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-error-file" id="S39-error-file">
+  <figcaption class="frame-label">S39 · CSV: file could not be written (storage full) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <div class="flex min-h-0 flex-1 flex-col" aria-hidden="true"><header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <div class="flex size-12 shrink-0 items-center justify-center rounded-full "><i class="i-lucide-x size-6" aria-hidden="true"></i></div>
+    <div class="min-w-0 flex-1 px-1"><p class="truncate text-title-3">Export</p><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <p class="px-1 pb-2  text-label text-muted-foreground">Items</p>
+    <div class="flex flex-wrap gap-x-2"><div class="flex min-h-12 items-center"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-layers size-4 text-muted-foreground" aria-hidden="true"></i>All items<span class="tabular-nums text-muted-foreground">20</span></span></div><div class="flex min-h-12 items-center"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-x size-4 text-reject-soft-foreground" aria-hidden="true"></i>Rejected<span class="tabular-nums text-muted-foreground">11</span></span></div><div class="flex min-h-12 items-center"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-circle-help size-4 text-maybe-soft-foreground" aria-hidden="true"></i>Maybe<span class="tabular-nums text-muted-foreground">1</span></span></div><div class="flex min-h-12 items-center"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label bg-foreground text-background"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted<span class="tabular-nums ">8</span></span></div></div>
+    <p class="px-1 pt-1 text-body-sm text-muted-foreground">Each item has its latest decision from 2 rounds.</p>
+    <p class="px-1 pb-2 pt-6 text-label text-muted-foreground">Columns</p>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><div class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Notes</span><span class="block text-body-sm text-muted-foreground">Adds a Notes column</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1" aria-hidden="true"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></div></li><li><div class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Each round's decision</span><span class="block text-body-sm text-muted-foreground">Adds Round 1 and Round 2 columns</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full border-2 border-input bg-muted p-1" aria-hidden="true"><span class="size-5 rounded-full bg-muted-foreground"></span></span></div></li></ul>
+    <p class="px-1 pt-2 text-body-sm text-muted-foreground">All fields and a Decision column are always included.</p>
+    <p class="px-1 pb-2 pt-6 text-label text-muted-foreground">Export as</p>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><div class="flex min-h-16 items-center gap-4 px-4 py-3"><i class="i-lucide-file-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">CSV file</span><span class="block text-body-sm text-muted-foreground">Opens in any spreadsheet app</span></span></div></li><li><div class="flex min-h-16 items-center gap-4 px-4 py-3"><i class="i-lucide-file-spreadsheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Excel file</span><span class="block text-body-sm text-muted-foreground">For Excel and Numbers</span></span></div></li><li><div class="flex min-h-16 items-center gap-4 px-4 py-3"><i class="i-lucide-sheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Google Sheets</span><span class="block text-body-sm text-muted-foreground">A new spreadsheet in Google Drive</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></div></li><li><div class="flex min-h-16 items-center gap-4 px-4 py-3"><i class="i-lucide-message-square-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Text summary</span><span class="block text-body-sm text-muted-foreground">Counts and accepted items as text</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></div></li></ul>
+    <div class="pt-4"><p class="flex gap-2 px-1 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Exporting creates a copy. Nothing in Desk setup changes.</span></p></div>
+  </div>
+  </div><div class="absolute inset-0 z-10 bg-scrim/50"></div>
+  <div class="absolute inset-x-0 bottom-0 z-20 rounded-t-sheet bg-popover px-gutter pb-5 pt-2 shadow-sheet" role="dialog" aria-modal="true" aria-labelledby="s39fe">
+    <div class="flex justify-center py-1.5"><span class="h-1 w-8 rounded-full bg-muted-foreground/40"></span></div>
+    <div class="flex min-h-12 items-center justify-between gap-3 pt-1"><h2 id="s39fe" class="text-title-3">Couldn't export</h2><a href="#S39-accepted" class="flex size-12 shrink-0 items-center justify-center rounded-full -mr-3" aria-label="Close" data-action="close-sheet"><i class="i-lucide-x size-5" aria-hidden="true"></i></a></div>
+    <div class="mt-1 flex gap-3" role="alert"><i class="i-lucide-circle-alert size-5 mt-0.5 shrink-0 text-destructive" aria-hidden="true"></i><p class="text-body text-muted-foreground">This phone is out of storage. Free up some space and try again.</p></div>
+    <div class="mt-5 space-y-1"><a href="#S39-file-exporting" class="inline-flex h-14 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="retry">Try again</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Text summary</h2>
+<p>A readable summary to paste into a message: counts, then the accepted and Maybe items. Rejected items are counted but not listed, so a shared summary never lists who or what was turned down.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S39-text-summary" id="S39-text-summary">
+  <figcaption class="frame-label">S39 · Text summary preview · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S39-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to Export" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Text summary</h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pt-2">
+    <h2 class="px-1 pb-2 text-label text-muted-foreground">Preview</h2>
+    <div class="rounded-group bg-card p-4 text-body" aria-label="Summary text">
+      <p class="font-semibold">Desk setup</p>
+      <p>20 items after 2 rounds: 11 rejected, 1 maybe, 8 accepted.</p>
+      <p class="mt-4 font-semibold">Accepted (8)</p>
+      <ul><li>- Ergo Mesh task chair (€389)</li><li>- Walnut sit-stand desk, 140 × 70 cm (€649)</li><li>- 27-inch 4K USB-C monitor (€429)</li><li>- Low-profile mechanical keyboard (€129)</li><li>- Wool felt desk mat, large (€39)</li><li>- Monitor arm with gas spring, single (€99)</li><li>- Pothos plant in matte pot (€24)</li><li>- Pendant lamp, opal glass (€149)</li></ul>
+      <p class="mt-4 font-semibold">Maybe (1)</p>
+      <ul><li>- Bookshelf speakers, pair (€249)</li></ul>
+    </div>
+    <p class="px-1 pt-2 text-body-sm text-muted-foreground">Lists accepted and Maybe items. Rejected items are counted, not listed.</p>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <button type="button" class="inline-flex h-14 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="share-summary"><i class="i-lucide-share-2 size-5" aria-hidden="true"></i>Share summary</button><div class="mt-1"><a href="#S39-text-copied" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg border border-input bg-card " data-action="copy-text"><i class="i-lucide-copy size-5" aria-hidden="true"></i>Copy text</a></div>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-text-copied" id="S39-text-copied">
+  <figcaption class="frame-label">S39 · Text copied · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S39-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to Export" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Text summary</h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pt-2">
+    <h2 class="px-1 pb-2 text-label text-muted-foreground">Preview</h2>
+    <div class="rounded-group bg-card p-4 text-body" aria-label="Summary text">
+      <p class="font-semibold">Desk setup</p>
+      <p>20 items after 2 rounds: 11 rejected, 1 maybe, 8 accepted.</p>
+      <p class="mt-4 font-semibold">Accepted (8)</p>
+      <ul><li>- Ergo Mesh task chair (€389)</li><li>- Walnut sit-stand desk, 140 × 70 cm (€649)</li><li>- 27-inch 4K USB-C monitor (€429)</li><li>- Low-profile mechanical keyboard (€129)</li><li>- Wool felt desk mat, large (€39)</li><li>- Monitor arm with gas spring, single (€99)</li><li>- Pothos plant in matte pot (€24)</li><li>- Pendant lamp, opal glass (€149)</li></ul>
+      <p class="mt-4 font-semibold">Maybe (1)</p>
+      <ul><li>- Bookshelf speakers, pair (€249)</li></ul>
+    </div>
+    <p class="px-1 pt-2 text-body-sm text-muted-foreground">Lists accepted and Maybe items. Rejected items are counted, not listed.</p>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <button type="button" class="inline-flex h-14 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="share-summary"><i class="i-lucide-share-2 size-5" aria-hidden="true"></i>Share summary</button><div class="mt-1"><a href="#S39-text-copied" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg border border-input bg-card " data-action="copy-text"><i class="i-lucide-copy size-5" aria-hidden="true"></i>Copy text</a></div>
+  </div>
+  <div class="absolute inset-x-4 bottom-36 z-30 flex min-h-12 items-center gap-3 rounded-control bg-foreground px-4 py-3 text-background shadow-overlay" role="status"><i class="i-lucide-copy size-5 shrink-0" aria-hidden="true"></i><span class="flex-1 text-body-sm">Summary copied</span></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Google Sheets: new spreadsheet (Flows 2 and 3)</h2>
+<p>Flow 2 is Deniz exporting Desk setup; Flow 3 is Mert exporting Wedding guests with his own Google account. Neither list came from Google Sheets, so the only destination is a new spreadsheet. Two short steps: where to write (name, columns, account), then an explicit confirmation. Google asks for write permission only after the confirmation, and only for files SwipeSort creates.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S39-google-destination" id="S39-google-destination">
+  <figcaption class="frame-label">S39 · Google Sheets: where to write (new spreadsheet) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S39-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to Export" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export to Google Sheets</h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <h2 class="px-1 pb-2 text-label text-muted-foreground">New spreadsheet</h2>
+    <div><label class="text-label" for="s39-name">Name</label><input id="s39-name" class="mt-1.5 h-12 w-full rounded-control border border-input bg-card px-3.5 text-body" value="Desk setup decisions"></div>
+    <p class="px-1 pt-2 text-body-sm text-muted-foreground">Desk setup wasn't imported from Google Sheets, so SwipeSort creates a new spreadsheet.</p>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Google account</h2>
+    <div class="flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="truncate text-body">deniz.yilmaz@example.com</p><p class="text-body-sm text-muted-foreground">Google account, read-only</p></div><a href="S15-google-sheets.html#S15-account-switch" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="switch-account" aria-label="Switch Google account">Switch</a></div>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Columns</h2>
+    <div class="rounded-group bg-card p-4">
+      <p class="text-label">Your fields</p>
+      <ul class="mt-2 flex flex-wrap gap-1.5" aria-label="Your fields"><li class="inline-flex h-8 items-center rounded-sm border border-input px-2.5 text-body-sm">Name</li><li class="inline-flex h-8 items-center rounded-sm border border-input px-2.5 text-body-sm">Price</li><li class="inline-flex h-8 items-center rounded-sm border border-input px-2.5 text-body-sm">Rating</li><li class="inline-flex h-8 items-center rounded-sm border border-input px-2.5 text-body-sm">Reviews</li><li class="inline-flex h-8 items-center rounded-sm border border-input px-2.5 text-body-sm">Store</li><li class="inline-flex h-8 items-center rounded-sm border border-input px-2.5 text-body-sm">Category</li><li class="inline-flex h-8 items-center rounded-sm border border-input px-2.5 text-body-sm">Link</li></ul>
+      <p class="mt-4 text-label">Added by SwipeSort</p>
+      <ul class="mt-2 flex flex-wrap gap-1.5" aria-label="Added columns"><li class="inline-flex h-8 items-center gap-1 rounded-sm bg-primary-soft px-2.5 text-body-sm text-primary-soft-foreground"><i class="i-lucide-plus size-4" aria-hidden="true"></i>Decision</li><li class="inline-flex h-8 items-center gap-1 rounded-sm bg-primary-soft px-2.5 text-body-sm text-primary-soft-foreground"><i class="i-lucide-plus size-4" aria-hidden="true"></i>Notes</li></ul>
+      <p class="mt-4 text-body-sm text-muted-foreground">20 rows, one per item. Decision says Accepted, Rejected or Maybe.</p>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S39-google-confirm" class="inline-flex h-14 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="continue">Continue</a>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-google-confirm" id="S39-google-confirm">
+  <figcaption class="frame-label">S39 · Google Sheets: explicit confirmation before writing · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S39-google-destination" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to destination" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export to Google Sheets</h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <h2 class="text-title-2">Export 20 items to a new spreadsheet?</h2>
+    <p class="mt-2 text-body text-muted-foreground">Nothing is written until you confirm.</p>
+    <div class="mt-5"><ul class="divide-y overflow-hidden rounded-group bg-card"><li class="flex gap-4 px-4 py-3.5"><i class="i-lucide-file-plus-2 size-5 mt-0.5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Creates</p><p class="mt-0.5 text-body text-muted-foreground">Desk setup decisions, in the Google Drive of deniz.yilmaz@example.com</p></div></li><li class="flex gap-4 px-4 py-3.5"><i class="i-lucide-columns-3 size-5 mt-0.5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Writes</p><p class="mt-0.5 text-body text-muted-foreground">20 rows with your 7 fields, plus Decision and Notes</p></div></li><li class="flex gap-4 px-4 py-3.5"><i class="i-lucide-shield-check size-5 mt-0.5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Doesn't change</p><p class="mt-0.5 text-body text-muted-foreground">Desk setup in SwipeSort, or any of your other spreadsheets</p></div></li></ul></div>
+    <div class="mt-4"><div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground" role="note"><i class="i-lucide-shield-check size-5 shrink-0" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Google asks for permission next</p><p class="mt-0.5 text-body-sm">Allow SwipeSort to create this spreadsheet. It can open only the files it creates, not your other files.</p></div></div></div>
+    
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S39-success-google" class="inline-flex h-14 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="confirm-write">Export to Google Sheets</a><div class="mt-1"><a href="#S39-google-destination" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg  " data-action="back">Back</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-google-exporting" id="S39-google-exporting">
+  <figcaption class="frame-label">S39 · Google Sheets: exporting (after Google permission) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S28-results.html#S28-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close export" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export to Google Sheets</h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  <div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-8 text-center" role="status">
+    <span class="flex size-14 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-loader-circle size-7 animate-spin" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-title-2">Exporting…</h2>
+    <p class="mt-2 max-w-xs text-body text-muted-foreground">Writing 20 rows to Desk setup decisions. This takes a few seconds.</p>
+    
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-success-google" id="S39-success-google">
+  <figcaption class="frame-label">S39 · Google Sheets: exported · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center px-1"><a href="S28-results.html#S28-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close export" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a></header>
+  <div class="flex min-h-0 flex-1 flex-col items-center justify-center px-gutter pb-10 text-center">
+    <span class="flex size-14 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-circle-check size-7" aria-hidden="true"></i></span>
+    <h1 class="mt-5 text-title-1" role="status">Exported to Google Sheets</h1>
+    <p class="mt-2 max-w-xs text-body text-muted-foreground">Desk setup decisions now has 20 rows with Decision and Notes columns.</p>
+    <div class="mt-6 w-full text-left"><div class="flex min-h-16 items-center gap-3 rounded-group bg-card px-4 py-2">
+      <span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span>
+      <div class="min-w-0 flex-1"><p class="truncate text-body">Desk setup decisions</p><p class="truncate text-body-sm text-muted-foreground">deniz.yilmaz@example.com</p></div>
+    </div></div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <button type="button" class="inline-flex h-14 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="open-sheet"><i class="i-lucide-external-link size-5" aria-hidden="true"></i>Open in Google Sheets</button><div class="mt-1"><a href="S28-results.html#S28-default" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg  " data-action="done">Done</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-shared-google-destination" id="S39-shared-google-destination">
+  <figcaption class="frame-label">S39 · Shared list: where to write (Mert, new spreadsheet only) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S39-shared" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to Export" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export to Google Sheets</h1><p class="truncate text-caption text-muted-foreground">Wedding guests</p></div>
+    
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <h2 class="px-1 pb-2 text-label text-muted-foreground">New spreadsheet</h2>
+    <div><label class="text-label" for="s39-name-shared">Name</label><input id="s39-name-shared" class="mt-1.5 h-12 w-full rounded-control border border-input bg-card px-3.5 text-body" value="Wedding guests decisions"></div>
+    <p class="px-1 pt-2 text-body-sm text-muted-foreground">Wedding guests wasn't imported from Google Sheets, so SwipeSort creates a new spreadsheet.</p>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Google account</h2>
+    <div class="flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="truncate text-body">mert.aydin@example.com</p><p class="text-body-sm text-muted-foreground">You sign in to SwipeSort with this account</p></div><a href="S15-google-sheets.html#S15-account-switch" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="switch-account" aria-label="Switch Google account">Switch</a></div>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Columns</h2>
+    <div class="rounded-group bg-card p-4">
+      <p class="text-label">Your fields</p>
+      <ul class="mt-2 flex flex-wrap gap-1.5" aria-label="Your fields"><li class="inline-flex h-8 items-center rounded-sm border border-input px-2.5 text-body-sm">Name</li><li class="inline-flex h-8 items-center rounded-sm border border-input px-2.5 text-body-sm">Phone</li><li class="inline-flex h-8 items-center rounded-sm border border-input px-2.5 text-body-sm">Email</li><li class="inline-flex h-8 items-center rounded-sm border border-input px-2.5 text-body-sm">Side</li><li class="inline-flex h-8 items-center rounded-sm border border-input px-2.5 text-body-sm">Relationship</li><li class="inline-flex h-8 items-center rounded-sm border border-input px-2.5 text-body-sm">City</li></ul>
+      <p class="mt-4 text-label">Added by SwipeSort</p>
+      <ul class="mt-2 flex flex-wrap gap-1.5" aria-label="Added columns"><li class="inline-flex h-8 items-center gap-1 rounded-sm bg-primary-soft px-2.5 text-body-sm text-primary-soft-foreground"><i class="i-lucide-plus size-4" aria-hidden="true"></i>Final decision</li><li class="inline-flex h-8 items-center gap-1 rounded-sm bg-primary-soft px-2.5 text-body-sm text-primary-soft-foreground"><i class="i-lucide-plus size-4" aria-hidden="true"></i>Decision (Deniz Yılmaz)</li><li class="inline-flex h-8 items-center gap-1 rounded-sm bg-primary-soft px-2.5 text-body-sm text-primary-soft-foreground"><i class="i-lucide-plus size-4" aria-hidden="true"></i>Decision (Mert Aydın)</li><li class="inline-flex h-8 items-center gap-1 rounded-sm bg-primary-soft px-2.5 text-body-sm text-primary-soft-foreground"><i class="i-lucide-plus size-4" aria-hidden="true"></i>Decision (Selin Yılmaz)</li><li class="inline-flex h-8 items-center gap-1 rounded-sm bg-primary-soft px-2.5 text-body-sm text-primary-soft-foreground"><i class="i-lucide-plus size-4" aria-hidden="true"></i>Notes</li></ul>
+      <p class="mt-4 text-body-sm text-muted-foreground">100 rows, one per item. Final decision says Accepted, Rejected, Maybe, Conflict or Pending.</p>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S39-shared-google-confirm" class="inline-flex h-14 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="continue">Continue</a>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-shared-google-confirm" id="S39-shared-google-confirm">
+  <figcaption class="frame-label">S39 · Shared list: confirmation with member columns · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S39-shared-google-destination" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to destination" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export to Google Sheets</h1><p class="truncate text-caption text-muted-foreground">Wedding guests</p></div>
+    
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <h2 class="text-title-2">Export 100 items to a new spreadsheet?</h2>
+    <p class="mt-2 text-body text-muted-foreground">Nothing is written until you confirm.</p>
+    <div class="mt-5"><ul class="divide-y overflow-hidden rounded-group bg-card"><li class="flex gap-4 px-4 py-3.5"><i class="i-lucide-file-plus-2 size-5 mt-0.5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Creates</p><p class="mt-0.5 text-body text-muted-foreground">Wedding guests decisions, in the Google Drive of mert.aydin@example.com</p></div></li><li class="flex gap-4 px-4 py-3.5"><i class="i-lucide-columns-3 size-5 mt-0.5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Writes</p><p class="mt-0.5 text-body text-muted-foreground">100 rows: your 6 fields, Final decision, a column per member and shared notes. Private notes aren't exported.</p></div></li><li class="flex gap-4 px-4 py-3.5"><i class="i-lucide-users size-5 mt-0.5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Who sees it</p><p class="mt-0.5 text-body text-muted-foreground">Only people you share it with in Google Drive</p></div></li><li class="flex gap-4 px-4 py-3.5"><i class="i-lucide-shield-check size-5 mt-0.5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Doesn't change</p><p class="mt-0.5 text-body text-muted-foreground">Wedding guests in SwipeSort</p></div></li></ul></div>
+    <div class="mt-4"><div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground" role="note"><i class="i-lucide-shield-check size-5 shrink-0" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Google asks for permission next</p><p class="mt-0.5 text-body-sm">Allow SwipeSort to create this spreadsheet. It can open only the files it creates, not your other files.</p></div></div></div>
+    
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S39-success-shared" class="inline-flex h-14 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="confirm-write">Export to Google Sheets</a><div class="mt-1"><a href="#S39-shared-google-destination" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg  " data-action="back">Back</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-success-shared" id="S39-success-shared">
+  <figcaption class="frame-label">S39 · Shared list: exported to Google Sheets (Flow 3 end) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center px-1"><a href="S09-list-overview.html#S09-shared" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close export" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a></header>
+  <div class="flex min-h-0 flex-1 flex-col items-center justify-center px-gutter pb-10 text-center">
+    <span class="flex size-14 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-circle-check size-7" aria-hidden="true"></i></span>
+    <h1 class="mt-5 text-title-1" role="status">Exported to Google Sheets</h1>
+    <p class="mt-2 max-w-xs text-body text-muted-foreground">Wedding guests decisions now has 100 rows with the final decision, each member's decision and notes.</p>
+    <div class="mt-6 w-full text-left"><div class="flex min-h-16 items-center gap-3 rounded-group bg-card px-4 py-2">
+      <span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span>
+      <div class="min-w-0 flex-1"><p class="truncate text-body">Wedding guests decisions</p><p class="truncate text-body-sm text-muted-foreground">mert.aydin@example.com</p></div>
+    </div></div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <button type="button" class="inline-flex h-14 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="open-sheet"><i class="i-lucide-external-link size-5" aria-hidden="true"></i>Open in Google Sheets</button><div class="mt-1"><a href="S09-list-overview.html#S09-shared" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg  " data-action="done">Done</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Google Sheets: the original sheet</h2>
+<p>Lists imported from Google Sheets (Apartment viewings, from Flat hunt 2026) can also write to the original: a new tab (default, nothing existing moves) or new columns next to the rows. Existing cells are never overwritten.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S39-apartments-destination" id="S39-apartments-destination">
+  <figcaption class="frame-label">S39 · Original sheet: where to write (new tab selected) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S39-apartments" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to Export" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export to Google Sheets</h1><p class="truncate text-caption text-muted-foreground">Apartment viewings</p></div>
+    
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <h2 class="px-1 pb-2 text-label text-muted-foreground">Write to</h2>
+    <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Write to"><div><button type="button" role="radio" aria-checked="true" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left" data-action="destination"><span class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-primary" aria-hidden="true"><span class="size-3 rounded-full bg-primary"></span></span><span class="min-w-0 flex-1"><span class="block text-body">New tab in Flat hunt 2026</span><span class="block text-body-sm text-muted-foreground">All 8 items on their own tab. Your tabs don't change.</span></span></button><div class="px-4 pb-4 pl-14"><label class="text-label" for="s39-tab">Tab name</label><input id="s39-tab" class="mt-1.5 h-12 w-full rounded-control border border-input bg-card px-3.5 text-body" value="Decisions"></div></div><div><button type="button" role="radio" aria-checked="false" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left" data-action="destination"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body">New columns in Flat hunt 2026</span><span class="block text-body-sm text-muted-foreground">Decision and Notes next to your rows in Kadıköy and Beşiktaş</span></span></button></div><div><button type="button" role="radio" aria-checked="false" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left" data-action="destination"><span class="size-6 shrink-0 rounded-full border-2 border-input" aria-hidden="true"></span><span class="min-w-0 flex-1"><span class="block text-body">New spreadsheet</span><span class="block text-body-sm text-muted-foreground">A separate copy in your Google Drive</span></span></button></div></div>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Google account</h2>
+    <div class="flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="truncate text-body">deniz.yilmaz@example.com</p><p class="text-body-sm text-muted-foreground">Google account, read-only</p></div><a href="S15-google-sheets.html#S15-account-switch" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="switch-account" aria-label="Switch Google account">Switch</a></div>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Columns</h2>
+    <div class="rounded-group bg-card p-4">
+      <p class="text-label">Your fields</p>
+      <ul class="mt-2 flex flex-wrap gap-1.5" aria-label="Your fields"><li class="inline-flex h-8 items-center rounded-sm border border-input px-2.5 text-body-sm">Tab</li><li class="inline-flex h-8 items-center rounded-sm border border-input px-2.5 text-body-sm">Address</li><li class="inline-flex h-8 items-center rounded-sm border border-input px-2.5 text-body-sm">Rent</li><li class="inline-flex h-8 items-center rounded-sm border border-input px-2.5 text-body-sm">Rooms</li><li class="inline-flex h-8 items-center rounded-sm border border-input px-2.5 text-body-sm">Size</li><li class="inline-flex h-8 items-center rounded-sm border border-input px-2.5 text-body-sm">Viewing</li><li class="inline-flex h-8 items-center rounded-sm border border-input px-2.5 text-body-sm">Link</li></ul>
+      <p class="mt-4 text-label">Added by SwipeSort</p>
+      <ul class="mt-2 flex flex-wrap gap-1.5" aria-label="Added columns"><li class="inline-flex h-8 items-center gap-1 rounded-sm bg-primary-soft px-2.5 text-body-sm text-primary-soft-foreground"><i class="i-lucide-plus size-4" aria-hidden="true"></i>Decision</li><li class="inline-flex h-8 items-center gap-1 rounded-sm bg-primary-soft px-2.5 text-body-sm text-primary-soft-foreground"><i class="i-lucide-plus size-4" aria-hidden="true"></i>Notes</li></ul>
+      <p class="mt-4 text-body-sm text-muted-foreground">8 rows, one per item. The Tab column says which tab each item came from.</p>
+    </div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S39-apartments-confirm-tab" class="inline-flex h-14 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="continue">Continue</a>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-apartments-confirm-tab" id="S39-apartments-confirm-tab">
+  <figcaption class="frame-label">S39 · Original sheet: confirm a new tab · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S39-apartments-destination" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to destination" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export to Google Sheets</h1><p class="truncate text-caption text-muted-foreground">Apartment viewings</p></div>
+    
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <h2 class="text-title-2">Add a tab to Flat hunt 2026?</h2>
+    <p class="mt-2 text-body text-muted-foreground">Nothing is written until you confirm.</p>
+    <div class="mt-5"><ul class="divide-y overflow-hidden rounded-group bg-card"><li class="flex gap-4 px-4 py-3.5"><i class="i-lucide-file-plus-2 size-5 mt-0.5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Adds</p><p class="mt-0.5 text-body text-muted-foreground">A tab named Decisions with 8 rows: Tab, Address, Rent, Rooms, Size, Viewing, Link, Decision and Notes</p></div></li><li class="flex gap-4 px-4 py-3.5"><i class="i-lucide-shield-check size-5 mt-0.5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Doesn't change</p><p class="mt-0.5 text-body text-muted-foreground">The tabs Kadıköy, Beşiktaş, Archive 2025 and Notes</p></div></li></ul></div>
+    <div class="mt-4"><div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground" role="note"><i class="i-lucide-shield-check size-5 shrink-0" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Google asks for permission next</p><p class="mt-0.5 text-body-sm">Allow SwipeSort to edit your spreadsheets. It writes only what's listed here, and only when you confirm an export.</p></div></div></div>
+    
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S39-success-tab" class="inline-flex h-14 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="confirm-write">Export to Flat hunt 2026</a><div class="mt-1"><a href="#S39-apartments-destination" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg  " data-action="back">Back</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-success-tab" id="S39-success-tab">
+  <figcaption class="frame-label">S39 · Original sheet: exported to a new tab · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center px-1"><a href="S09-list-overview.html#S09-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close export" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a></header>
+  <div class="flex min-h-0 flex-1 flex-col items-center justify-center px-gutter pb-10 text-center">
+    <span class="flex size-14 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-circle-check size-7" aria-hidden="true"></i></span>
+    <h1 class="mt-5 text-title-1" role="status">Exported to Google Sheets</h1>
+    <p class="mt-2 max-w-xs text-body text-muted-foreground">Flat hunt 2026 has a new tab, Decisions, with 8 rows. Your other tabs didn't change.</p>
+    <div class="mt-6 w-full text-left"><div class="flex min-h-16 items-center gap-3 rounded-group bg-card px-4 py-2">
+      <span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-sheet size-5" aria-hidden="true"></i></span>
+      <div class="min-w-0 flex-1"><p class="truncate text-body">Flat hunt 2026</p><p class="truncate text-body-sm text-muted-foreground">Tab Decisions</p></div>
+    </div></div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <button type="button" class="inline-flex h-14 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="open-sheet"><i class="i-lucide-external-link size-5" aria-hidden="true"></i>Open in Google Sheets</button><div class="mt-1"><a href="S09-list-overview.html#S09-default" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg  " data-action="done">Done</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-apartments-confirm-columns" id="S39-apartments-confirm-columns">
+  <figcaption class="frame-label">S39 · Original sheet: confirm new columns (permission already given) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S39-apartments-destination" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to destination" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export to Google Sheets</h1><p class="truncate text-caption text-muted-foreground">Apartment viewings</p></div>
+    
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <h2 class="text-title-2">Add 2 columns to Flat hunt 2026?</h2>
+    <p class="mt-2 text-body text-muted-foreground">Nothing is written until you confirm. Existing cells are never overwritten.</p>
+    <div class="mt-5"><ul class="divide-y overflow-hidden rounded-group bg-card"><li class="flex gap-4 px-4 py-3.5"><i class="i-lucide-columns-3 size-5 mt-0.5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Kadıköy</p><p class="mt-0.5 text-body text-muted-foreground">Decision in column G and Notes in column H, rows 1 to 5</p></div></li><li class="flex gap-4 px-4 py-3.5"><i class="i-lucide-columns-3 size-5 mt-0.5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Beşiktaş</p><p class="mt-0.5 text-body text-muted-foreground">Decision in column G and Notes in column H, rows 1 to 5</p></div></li><li class="flex gap-4 px-4 py-3.5"><i class="i-lucide-shield-check size-5 mt-0.5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Doesn't change</p><p class="mt-0.5 text-body text-muted-foreground">Columns A to F, the tabs Archive 2025 and Notes, and formatting</p></div></li><li class="flex gap-4 px-4 py-3.5"><i class="i-lucide-scan-search size-5 mt-0.5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">Checked first</p><p class="mt-0.5 text-body text-muted-foreground">Each row still has the same address as when you imported it</p></div></li></ul></div>
+    
+    
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S39-error-partial" class="inline-flex h-14 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="confirm-write">Export to Flat hunt 2026</a><div class="mt-1"><a href="#S39-apartments-destination" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg  " data-action="back">Back</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Failures (EXP-09)</h2>
+<p>Every failure says what happened and how to fix it, and keeps a way out: export a file instead. Error haptic on Android and iOS. Nothing is half-written silently: partial writes say exactly which tab changed.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S39-google-not-connected" id="S39-google-not-connected">
+  <figcaption class="frame-label">S39 · Google Sheets not connected yet · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S39-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to Export" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export to Google Sheets</h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  <div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-3">
+    <span class="flex size-14 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-sheet size-7" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-title-2">Connect Google Sheets</h2>
+    <p class="mt-2 max-w-prose text-body-lg text-muted-foreground">Choose the Google account where SwipeSort creates the spreadsheet.</p>
+    <ul class="mt-7 space-y-5"><li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground"><i class="i-lucide-file-plus-2 size-6" aria-hidden="true"></i></span><div class="min-w-0"><p class="text-label-lg">Creates new spreadsheets</p><p class="mt-0.5 text-body-sm text-muted-foreground">SwipeSort can open only the files it creates. Your other files stay private.</p></div></li><li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground"><i class="i-lucide-user-round size-6" aria-hidden="true"></i></span><div class="min-w-0"><p class="text-label-lg">Doesn't sign you in</p><p class="mt-0.5 text-body-sm text-muted-foreground">Connecting Google Sheets doesn't sign you in to SwipeSort or change your account.</p></div></li><li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground"><i class="i-lucide-unplug size-6" aria-hidden="true"></i></span><div class="min-w-0"><p class="text-label-lg">Disconnect any time</p><p class="mt-0.5 text-body-sm text-muted-foreground">In Settings, under Connected accounts.</p></div></li></ul>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <p class="mb-3 text-body-sm text-muted-foreground">Next, Google asks you to choose an account and allow access.</p>
+    <a href="#S39-google-destination" class="inline-flex h-14 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="connect">Connect Google account</a><div class="mt-1"><a href="#S39-default" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg  " data-action="export-file">Export a file instead</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-error-permission" id="S39-error-permission">
+  <figcaption class="frame-label">S39 · Google permission not given · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S39-google-confirm" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to confirmation" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export to Google Sheets</h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  <div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-8 text-center" role="alert">
+    <span class="flex size-14 items-center justify-center rounded-full bg-muted text-destructive"><i class="i-lucide-shield-x size-7" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-title-2">SwipeSort can't write to Google Sheets</h2>
+    <p class="mt-2 max-w-xs text-body text-muted-foreground">Google didn't give SwipeSort permission to create the spreadsheet. Try again and choose Allow, or export a file instead.</p>
+    
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S39-google-confirm" class="inline-flex h-14 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="retry">Try again</a><div class="mt-1"><a href="#S39-default" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg  " data-action="export-file">Export a file instead</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-error-network" id="S39-error-network">
+  <figcaption class="frame-label">S39 · Google Sheets didn't respond · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S39-google-confirm" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to confirmation" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export to Google Sheets</h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  <div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-8 text-center" role="alert">
+    <span class="flex size-14 items-center justify-center rounded-full bg-muted text-destructive"><i class="i-lucide-cloud-off size-7" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-title-2">Couldn't export to Google Sheets</h2>
+    <p class="mt-2 max-w-xs text-body text-muted-foreground">Google Sheets didn't respond. Check your connection and try again. Nothing was written.</p>
+    
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S39-google-exporting" class="inline-flex h-14 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="retry">Try again</a><div class="mt-1"><a href="#S39-default" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg  " data-action="export-file">Export a file instead</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-error-sheet-missing" id="S39-error-sheet-missing">
+  <figcaption class="frame-label">S39 · Original sheet deleted, moved or no longer shared · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S39-apartments-destination" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to destination" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export to Google Sheets</h1><p class="truncate text-caption text-muted-foreground">Apartment viewings</p></div>
+    
+  </header>
+  <div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-8 text-center" role="alert">
+    <span class="flex size-14 items-center justify-center rounded-full bg-muted text-destructive"><i class="i-lucide-file-x-2 size-7" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-title-2">Flat hunt 2026 can't be found</h2>
+    <p class="mt-2 max-w-xs text-body text-muted-foreground">It was deleted, or you no longer have access. Export to a new spreadsheet instead, or ask its owner to share it again.</p>
+    
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S39-apartments-destination" class="inline-flex h-14 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="new-spreadsheet">Export to a new spreadsheet</a><div class="mt-1"><a href="#S39-default" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg  " data-action="export-file">Export a file instead</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-error-sheet-changed" id="S39-error-sheet-changed">
+  <figcaption class="frame-label">S39 · Original rows changed since import: columns can't be matched · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S39-apartments-destination" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to destination" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export to Google Sheets</h1><p class="truncate text-caption text-muted-foreground">Apartment viewings</p></div>
+    
+  </header>
+  <div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-8 text-center" role="alert">
+    <span class="flex size-14 items-center justify-center rounded-full bg-muted text-destructive"><i class="i-lucide-file-search size-7" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-title-2">Rows in Kadıköy have changed</h2>
+    <p class="mt-2 max-w-xs text-body text-muted-foreground">Rows were added, moved or deleted since you imported them, so SwipeSort can't match items to rows. Add a new tab instead. Nothing in Flat hunt 2026 was changed.</p>
+    
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S39-apartments-confirm-tab" class="inline-flex h-14 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="new-tab">Add a new tab instead</a><div class="mt-1"><a href="#S39-apartments-destination" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg  " data-action="back">Back</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-error-partial" id="S39-error-partial">
+  <figcaption class="frame-label">S39 · Write partly failed: one tab protected · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close export" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export to Google Sheets</h1><p class="truncate text-caption text-muted-foreground">Apartment viewings</p></div>
+    
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pt-6">
+    <span class="flex size-14 items-center justify-center rounded-full bg-muted text-destructive"><i class="i-lucide-triangle-alert size-7" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-title-2" role="alert">Exported 4 of 8 items</h2>
+    <p class="mt-2 text-body text-muted-foreground">Beşiktaş is protected in Google Sheets. Ask the owner of Flat hunt 2026 to let you edit it, then try again. Kadıköy keeps its new columns.</p>
+    <div class="mt-5"><ul class="divide-y overflow-hidden rounded-group bg-card text-left">
+      <li class="flex min-h-16 items-center gap-4 px-4 py-3"><i class="i-lucide-circle-check size-5 shrink-0 text-primary" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-body">Kadıköy</p><p class="text-body-sm text-muted-foreground">Decision and Notes added to 4 rows</p></div></li>
+      <li class="flex min-h-16 items-center gap-4 px-4 py-3"><i class="i-lucide-circle-alert size-5 shrink-0 text-destructive" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-body">Beşiktaş</p><p class="text-body-sm text-muted-foreground">Protected tab. Nothing was added.</p></div></li>
+    </ul></div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <a href="#S39-apartments-confirm-columns" class="inline-flex h-14 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="retry">Try Beşiktaş again</a>
+    <div class="mt-2"><button type="button" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg border border-input bg-card " data-action="open-sheet"><i class="i-lucide-external-link size-5" aria-hidden="true"></i>Open in Google Sheets</button></div>
+    <div class="mt-1"><a href="S09-list-overview.html#S09-default" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg  " data-action="done">Done</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">iOS and web</h2>
+<p>iOS: CSV and Excel go straight to the iOS share sheet, which already has Save to Files. Web: CSV and Excel download in the browser; Google permission opens in a popup window.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S39-ios" id="S39-ios">
+  <figcaption class="frame-label">S39 · iOS: Export as a page sheet · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="grid h-14 shrink-0 grid-cols-[1fr_auto_1fr] items-center gap-2 px-3">
+    <div class="justify-self-start"><a href="S28-results.html#S28-default" class="flex size-12 items-center justify-center rounded-full text-primary" aria-label="Close export" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a></div>
+    <div class="min-w-0 text-center"><h1 class="truncate text-body font-semibold">Export</h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    <div class="justify-self-end"></div>
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <h2 class="px-1 pb-2  text-label text-muted-foreground">Items</h2>
+    <div class="flex flex-wrap gap-x-2" role="radiogroup" aria-label="Items to export"><button type="button" role="radio" aria-checked="true" aria-label="All items, 20 items" class="flex min-h-12 items-center" data-action="scope-all"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label bg-foreground text-background"><i class="i-lucide-layers size-4" aria-hidden="true"></i>All items<span class="tabular-nums ">20</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Rejected, 11 items" class="flex min-h-12 items-center" data-action="scope-reject"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-x size-4 text-reject-soft-foreground" aria-hidden="true"></i>Rejected<span class="tabular-nums text-muted-foreground">11</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Maybe, 1 item" class="flex min-h-12 items-center" data-action="scope-maybe"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-circle-help size-4 text-maybe-soft-foreground" aria-hidden="true"></i>Maybe<span class="tabular-nums text-muted-foreground">1</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Accepted, 8 items" class="flex min-h-12 items-center" data-action="scope-accept"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-check size-4 text-accept-soft-foreground" aria-hidden="true"></i>Accepted<span class="tabular-nums text-muted-foreground">8</span></span></button></div>
+    <p class="px-1 pt-1 text-body-sm text-muted-foreground">Each item has its latest decision from 2 rounds.</p>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Columns</h2>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><button type="button" role="switch" aria-checked="true" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Notes</span><span class="block text-body-sm text-muted-foreground">Adds a Notes column</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1" aria-hidden="true"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></button></li><li><button type="button" role="switch" aria-checked="false" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Each round's decision</span><span class="block text-body-sm text-muted-foreground">Adds Round 1 and Round 2 columns</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full border-2 border-input bg-muted p-1" aria-hidden="true"><span class="size-5 rounded-full bg-muted-foreground"></span></span></button></li></ul>
+    <p class="px-1 pt-2 text-body-sm text-muted-foreground">All fields and a Decision column are always included.</p>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Export as</h2>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><a href="#S39-file-exporting" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-csv"><i class="i-lucide-file-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">CSV file</span><span class="block text-body-sm text-muted-foreground">Opens in any spreadsheet app</span></span></a></li><li><a href="#S39-file-exporting" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-excel"><i class="i-lucide-file-spreadsheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Excel file</span><span class="block text-body-sm text-muted-foreground">For Excel and Numbers</span></span></a></li><li><a href="#S39-google-destination" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-google"><i class="i-lucide-sheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Google Sheets</span><span class="block text-body-sm text-muted-foreground">A new spreadsheet in Google Drive</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S39-text-summary" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-text"><i class="i-lucide-message-square-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Text summary</span><span class="block text-body-sm text-muted-foreground">Counts and accepted items as text</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li></ul>
+    <div class="pt-4"><p class="flex gap-2 px-1 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Exporting creates a copy. Nothing in Desk setup changes.</span></p></div>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-ios-share" id="S39-ios-share">
+  <figcaption class="frame-label">S39 · iOS: CSV opens the share sheet directly (no file-ready step) · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <div class="flex min-h-0 flex-1 flex-col" aria-hidden="true"><header class="grid h-14 shrink-0 grid-cols-[1fr_auto_1fr] items-center gap-2 px-3">
+    <div class="justify-self-start"><div class="flex size-12 items-center justify-center rounded-full text-primary"><i class="i-lucide-x size-6" aria-hidden="true"></i></div></div>
+    <div class="min-w-0 text-center"><p class="truncate text-body font-semibold">Export</p><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    <div class="justify-self-end"></div>
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <p class="px-1 pb-2  text-label text-muted-foreground">Items</p>
+    <div class="flex flex-wrap gap-x-2"><div class="flex min-h-12 items-center"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-layers size-4 text-muted-foreground" aria-hidden="true"></i>All items<span class="tabular-nums text-muted-foreground">20</span></span></div><div class="flex min-h-12 items-center"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-x size-4 text-reject-soft-foreground" aria-hidden="true"></i>Rejected<span class="tabular-nums text-muted-foreground">11</span></span></div><div class="flex min-h-12 items-center"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-circle-help size-4 text-maybe-soft-foreground" aria-hidden="true"></i>Maybe<span class="tabular-nums text-muted-foreground">1</span></span></div><div class="flex min-h-12 items-center"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label bg-foreground text-background"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted<span class="tabular-nums ">8</span></span></div></div>
+    <p class="px-1 pt-1 text-body-sm text-muted-foreground">Each item has its latest decision from 2 rounds.</p>
+    <p class="px-1 pb-2 pt-6 text-label text-muted-foreground">Columns</p>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><div class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Notes</span><span class="block text-body-sm text-muted-foreground">Adds a Notes column</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1" aria-hidden="true"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></div></li><li><div class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Each round's decision</span><span class="block text-body-sm text-muted-foreground">Adds Round 1 and Round 2 columns</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full border-2 border-input bg-muted p-1" aria-hidden="true"><span class="size-5 rounded-full bg-muted-foreground"></span></span></div></li></ul>
+    <p class="px-1 pt-2 text-body-sm text-muted-foreground">All fields and a Decision column are always included.</p>
+    <p class="px-1 pb-2 pt-6 text-label text-muted-foreground">Export as</p>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><div class="flex min-h-16 items-center gap-4 px-4 py-3"><i class="i-lucide-file-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">CSV file</span><span class="block text-body-sm text-muted-foreground">Opens in any spreadsheet app</span></span></div></li><li><div class="flex min-h-16 items-center gap-4 px-4 py-3"><i class="i-lucide-file-spreadsheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Excel file</span><span class="block text-body-sm text-muted-foreground">For Excel and Numbers</span></span></div></li><li><div class="flex min-h-16 items-center gap-4 px-4 py-3"><i class="i-lucide-sheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Google Sheets</span><span class="block text-body-sm text-muted-foreground">A new spreadsheet in Google Drive</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></div></li><li><div class="flex min-h-16 items-center gap-4 px-4 py-3"><i class="i-lucide-message-square-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Text summary</span><span class="block text-body-sm text-muted-foreground">Counts and accepted items as text</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></div></li></ul>
+    <div class="pt-4"><p class="flex gap-2 px-1 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Exporting creates a copy. Nothing in Desk setup changes.</span></p></div>
+  </div>
+  </div><div class="absolute inset-0 z-10 bg-scrim/50"></div>
+  <div class="absolute inset-x-0 bottom-0 z-20 h-96 rounded-t-sheet bg-popover px-5 pt-5 shadow-sheet" aria-hidden="true">
+    <div class="flex items-center gap-3"><span class="flex size-10 items-center justify-center rounded-sm bg-muted text-muted-foreground"><i class="i-lucide-file-text size-5" aria-hidden="true"></i></span><div><p class="text-body">desk-setup-accepted.csv</p><p class="text-caption text-muted-foreground">CSV file, 1 KB</p></div></div>
+    <div class="mt-5 flex gap-4"><span class="size-14 rounded-full bg-muted"></span><span class="size-14 rounded-full bg-muted"></span><span class="size-14 rounded-full bg-muted"></span><span class="size-14 rounded-full bg-muted"></span></div>
+    <div class="mt-5 space-y-2"><span class="block h-11 rounded-control bg-muted"></span><span class="block h-11 rounded-control bg-muted"></span></div>
+    <p class="mt-4 text-caption text-muted-foreground">iOS share sheet (native, out of scope): AirDrop, Messages, Mail, Save to Files</p>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-ios-text" id="S39-ios-text">
+  <figcaption class="frame-label">S39 · iOS: text summary · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="grid h-14 shrink-0 grid-cols-[1fr_auto_1fr] items-center gap-2 px-3">
+    <div class="justify-self-start"><a href="#S39-ios" class="inline-flex h-12 items-center gap-0.5 pr-2 text-body text-primary" aria-label="Back to Export"><i class="i-lucide-chevron-left size-6" aria-hidden="true"></i>Back</a></div>
+    <div class="min-w-0 text-center"><h1 class="truncate text-body font-semibold">Text summary</h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    <div class="justify-self-end"></div>
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pt-2">
+    <h2 class="px-1 pb-2 text-label text-muted-foreground">Preview</h2>
+    <div class="rounded-group bg-card p-4 text-body" aria-label="Summary text">
+      <p class="font-semibold">Desk setup</p>
+      <p>20 items after 2 rounds: 11 rejected, 1 maybe, 8 accepted.</p>
+      <p class="mt-4 font-semibold">Accepted (8)</p>
+      <ul><li>- Ergo Mesh task chair (€389)</li><li>- Walnut sit-stand desk, 140 × 70 cm (€649)</li><li>- 27-inch 4K USB-C monitor (€429)</li><li>- Low-profile mechanical keyboard (€129)</li><li>- Wool felt desk mat, large (€39)</li><li>- Monitor arm with gas spring, single (€99)</li><li>- Pothos plant in matte pot (€24)</li><li>- Pendant lamp, opal glass (€149)</li></ul>
+      <p class="mt-4 font-semibold">Maybe (1)</p>
+      <ul><li>- Bookshelf speakers, pair (€249)</li></ul>
+    </div>
+    <p class="px-1 pt-2 text-body-sm text-muted-foreground">Lists accepted and Maybe items. Rejected items are counted, not listed.</p>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <button type="button" class="inline-flex h-14 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="share-summary"><i class="i-lucide-share-2 size-5" aria-hidden="true"></i>Share summary</button><div class="mt-1"><a href="#S39-text-copied" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg border border-input bg-card " data-action="copy-text"><i class="i-lucide-copy size-5" aria-hidden="true"></i>Copy text</a></div>
+  </div>
+  
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-web-desktop" id="S39-web-desktop">
+  <figcaption class="frame-label">S39 · Web, desktop: CSV downloaded · <span class="theme-name"></span></figcaption>
+  <div class="desktop">
+  <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/l/l-desk/export</span></div>
+  <div class="desktop-column">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S28-results.html#S28-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Close export" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export</h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
+    <h2 class="px-1 pb-2  text-label text-muted-foreground">Items</h2>
+    <div class="flex flex-wrap gap-x-2" role="radiogroup" aria-label="Items to export"><button type="button" role="radio" aria-checked="false" aria-label="All items, 20 items" class="flex min-h-12 items-center" data-action="scope-all"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-layers size-4 text-muted-foreground" aria-hidden="true"></i>All items<span class="tabular-nums text-muted-foreground">20</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Rejected, 11 items" class="flex min-h-12 items-center" data-action="scope-reject"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-x size-4 text-reject-soft-foreground" aria-hidden="true"></i>Rejected<span class="tabular-nums text-muted-foreground">11</span></span></button><button type="button" role="radio" aria-checked="false" aria-label="Maybe, 1 item" class="flex min-h-12 items-center" data-action="scope-maybe"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label border border-input bg-card"><i class="i-lucide-circle-help size-4 text-maybe-soft-foreground" aria-hidden="true"></i>Maybe<span class="tabular-nums text-muted-foreground">1</span></span></button><button type="button" role="radio" aria-checked="true" aria-label="Accepted, 8 items" class="flex min-h-12 items-center" data-action="scope-accept"><span class="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-label bg-foreground text-background"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted<span class="tabular-nums ">8</span></span></button></div>
+    <p class="px-1 pt-1 text-body-sm text-muted-foreground">Each item has its latest decision from 2 rounds.</p>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Columns</h2>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><button type="button" role="switch" aria-checked="true" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Notes</span><span class="block text-body-sm text-muted-foreground">Adds a Notes column</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1" aria-hidden="true"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></button></li><li><button type="button" role="switch" aria-checked="false" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left"><span class="min-w-0 flex-1"><span class="block text-body">Each round's decision</span><span class="block text-body-sm text-muted-foreground">Adds Round 1 and Round 2 columns</span></span><span class="flex h-8 w-13 shrink-0 items-center rounded-full border-2 border-input bg-muted p-1" aria-hidden="true"><span class="size-5 rounded-full bg-muted-foreground"></span></span></button></li></ul>
+    <p class="px-1 pt-2 text-body-sm text-muted-foreground">All fields and a Decision column are always included.</p>
+    <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Export as</h2>
+    <ul class="divide-y overflow-hidden rounded-group bg-card "><li><a href="#S39-web-desktop" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-csv"><i class="i-lucide-file-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">CSV file</span><span class="block text-body-sm text-muted-foreground">Downloads a .csv file</span></span></a></li><li><a href="#S39-web-desktop" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-excel"><i class="i-lucide-file-spreadsheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Excel file</span><span class="block text-body-sm text-muted-foreground">Downloads an .xlsx file</span></span></a></li><li><a href="#S39-google-destination" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-google"><i class="i-lucide-sheet size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Google Sheets</span><span class="block text-body-sm text-muted-foreground">A new spreadsheet in Google Drive</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li><li><a href="#S39-text-summary" class="flex min-h-16 items-center gap-4 px-4 py-3" data-action="format-text"><i class="i-lucide-message-square-text size-6 shrink-0 text-primary" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Text summary</span><span class="block text-body-sm text-muted-foreground">Counts and accepted items as text</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li></ul>
+    <div class="pt-4"><p class="flex gap-2 px-1 text-body-sm text-muted-foreground"><i class="i-lucide-shield-check size-4 mt-0.5 shrink-0" aria-hidden="true"></i><span>Exporting creates a copy. Nothing in Desk setup changes.</span></p></div>
+  </div>
+  <div class="absolute inset-x-4 bottom-4 z-30 flex min-h-12 items-center gap-3 rounded-control bg-foreground px-4 py-3 text-background shadow-overlay" role="status"><i class="i-lucide-circle-check size-5 shrink-0" aria-hidden="true"></i><span class="flex-1 text-body-sm">Exported 8 items to desk-setup-accepted.csv</span></div>
+  
+  </div>
+</div>
+</figure>
+<figure class="frame" data-frame="S39-web-google-popup" id="S39-web-google-popup">
+  <figcaption class="frame-label">S39 · Web, desktop: Google permission popup open · <span class="theme-name"></span></figcaption>
+  <div class="desktop">
+  <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/l/l-desk/export</span></div>
+  <div class="desktop-column">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S39-google-confirm" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to confirmation" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Export to Google Sheets</h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  <div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-8 text-center" role="status">
+    <span class="flex size-14 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground"><i class="i-lucide-app-window size-7" aria-hidden="true"></i></span>
+    <h2 class="mt-5 text-title-2">Continue in the Google window</h2>
+    <p class="mt-2 max-w-xs text-body text-muted-foreground">Allow SwipeSort to create the spreadsheet. The export continues here when you're done.</p>
+    
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
+    <button type="button" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg border border-input bg-card " data-action="reopen-popup">Open the Google window again</button><div class="mt-1"><a href="#S39-google-confirm" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg  " data-action="cancel">Cancel</a></div>
+  </div>
+  </div>
+  <div class="absolute right-10 top-24 z-20 flex h-96 w-96 flex-col overflow-hidden rounded-control border bg-card shadow-dialog" aria-hidden="true">
+    <div class="flex h-9 shrink-0 items-center gap-2 border-b bg-secondary px-3 text-caption text-muted-foreground"><i class="i-lucide-lock size-3.5" aria-hidden="true"></i>accounts.google.com</div>
+    <div class="flex-1 space-y-3 p-6"><span class="block h-4 w-24 rounded-full bg-muted"></span><span class="block h-6 w-48 rounded-full bg-muted"></span><span class="block h-12 rounded-control bg-muted"></span><span class="block h-12 rounded-control bg-muted"></span><p class="pt-2 text-caption text-muted-foreground">Google permission (native, out of scope)</p></div>
+  </div>
+</div>
+</figure>
+</main>
+</body>
+</html>

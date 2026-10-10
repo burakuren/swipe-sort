@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S30 Round history</title>
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body class="mock-page">
+<header class="mock-doc">
+  <h1>S30 Round history</h1>
+  <p>Each round of a list with its results: decision split, counts, what was included, card order, date and sorting time; round details; shared rounds in progress. Spec: <a href="S30-round-history.md">S30-round-history.md</a>. Opens <a href="S28-results.html#S28-round-1">S28</a> filtered to a round.</p>
+</header>
+<h2 class="mock-section">Round history</h2>
+<p>Every round of a list, newest first, with the decision split, counts, what was included, card order, date and sorting time. Tapping a round opens S28 with that round's results; the info button opens the round details. "Latest results" on top is what Results and Export use (A-33).</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S30-default" id="S30-default">
+  <figcaption class="frame-label">S30 · Default: Desk setup, two finished rounds · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-solo-round-done" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to Desk setup" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Round history</h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden pb-6"><div class="px-gutter pt-2">
+    <ul class="overflow-hidden rounded-group bg-card"><li><a href="S28-results.html#S28-default" class="flex items-center gap-4 px-4 py-4" data-action="latest-results">
+      <span class="min-w-0 flex-1 space-y-2"><span class="block text-title-3">Latest results</span><span class="block text-body-sm text-muted-foreground">The latest decision on each of the 20 items</span><div class="flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted" aria-hidden="true"><div class="w-[40%] bg-accept"></div><div class="w-[5%] bg-maybe"></div><div class="w-[55%] bg-reject"></div></div><span class="flex flex-wrap items-center gap-x-3 gap-y-1 text-caption"><span class="inline-flex items-center gap-1 text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i><span class="tabular-nums">8</span> accepted</span><span class="inline-flex items-center gap-1 text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i><span class="tabular-nums">1</span> maybe</span><span class="inline-flex items-center gap-1 text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i><span class="tabular-nums">11</span> rejected</span></span></span>
+      <i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li></ul>
+  </div><div class="px-gutter pt-8"><h2 class="px-1 pb-2 text-label text-muted-foreground ">Rounds, newest first</h2>
+    <ul class="overflow-hidden rounded-group bg-card" aria-label="Rounds">
+      <!-- Proposed component: RoundRow --><li class="flex items-stretch">
+      <a href="S28-results.html#S28-round-2" class="flex min-w-0 flex-1 flex-col gap-2 py-4 pl-4" data-action="open-round">
+        <span class="flex flex-wrap items-center gap-x-3 gap-y-1"><span class="text-title-3">Round 2</span></span>
+        <span class="text-body-sm text-muted-foreground">Oct 6, sorted in 2 min<br>Maybe pile from Round 1, 6 items, shuffled</span>
+        <div class="flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted" aria-hidden="true"><div class="w-[50%] bg-accept"></div><div class="w-[17%] bg-maybe"></div><div class="w-[33%] bg-reject"></div></div>
+        <span class="flex flex-wrap items-center gap-x-3 gap-y-1 text-caption"><span class="inline-flex items-center gap-1 text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i><span class="tabular-nums">3</span> accepted</span><span class="inline-flex items-center gap-1 text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i><span class="tabular-nums">1</span> maybe</span><span class="inline-flex items-center gap-1 text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i><span class="tabular-nums">2</span> rejected</span></span>
+        
+      </a><span class="flex shrink-0 items-start pr-1 pt-3"><a href="#S30-round-2-detail" class="flex size-12 shrink-0 items-center justify-center rounded-full text-muted-foreground" aria-label="Round 2 details" data-action="round-details"><i class="i-lucide-info size-5" aria-hidden="true"></i></a></span>
+    </li>
+      <!-- Proposed component: RoundRow --><li class="flex items-stretch">
+      <a href="S28-results.html#S28-round-1" class="flex min-w-0 flex-1 flex-col gap-2 py-4 pl-4" data-action="open-round">
+        <span class="flex flex-wrap items-center gap-x-3 gap-y-1"><span class="text-title-3">Round 1</span></span>
+        <span class="text-body-sm text-muted-foreground">Oct 4, sorted in 6 min<br>All 20 items, original order</span>
+        <div class="flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted" aria-hidden="true"><div class="w-[25%] bg-accept"></div><div class="w-[30%] bg-maybe"></div><div class="w-[45%] bg-reject"></div></div>
+        <span class="flex flex-wrap items-center gap-x-3 gap-y-1 text-caption"><span class="inline-flex items-center gap-1 text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i><span class="tabular-nums">5</span> accepted</span><span class="inline-flex items-center gap-1 text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i><span class="tabular-nums">6</span> maybe</span><span class="inline-flex items-center gap-1 text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i><span class="tabular-nums">9</span> rejected</span></span>
+        
+      </a><span class="flex shrink-0 items-start pr-1 pt-3"><a href="#S30-round-detail" class="flex size-12 shrink-0 items-center justify-center rounded-full text-muted-foreground" aria-label="Round 1 details" data-action="round-details"><i class="i-lucide-info size-5" aria-hidden="true"></i></a></span>
+    </li>
+    </ul>
+  </div></div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3"><a href="S24-start-round.html#S24-default" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="new-round">Start a new round</a></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S30-round-detail" id="S30-round-detail">
+  <figcaption class="frame-label">S30 · Round detail: included items, order, time, what changed later, items in card order · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S30-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to round history" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Round 1</h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden pb-6">
+    <div class="px-gutter pt-2"><div class="rounded-group bg-card p-4">
+      <p class="text-label text-muted-foreground">Result</p>
+      <div class="mt-3"><div class="flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted" aria-hidden="true"><div class="w-[25%] bg-accept"></div><div class="w-[30%] bg-maybe"></div><div class="w-[45%] bg-reject"></div></div></div>
+      <div class="mt-3 flex flex-wrap gap-2" role="img" aria-label="5 accepted, 6 maybe, 9 rejected"><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>5 accepted</span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>6 maybe</span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>9 rejected</span></div>
+    </div></div>
+    <div class="px-gutter pt-6"><h2 class="px-1 pb-2 text-label text-muted-foreground ">Details</h2><ul class="divide-y overflow-hidden rounded-group bg-card"><li class="flex min-h-12 items-start gap-4 px-4 py-3"><span class="w-28 shrink-0 text-body-sm text-muted-foreground">Items</span><span class="min-w-0 flex-1 text-body">All items (20)</span></li><li class="flex min-h-12 items-start gap-4 px-4 py-3"><span class="w-28 shrink-0 text-body-sm text-muted-foreground">Card order</span><span class="min-w-0 flex-1 text-body">Original order</span></li><li class="flex min-h-12 items-start gap-4 px-4 py-3"><span class="w-28 shrink-0 text-body-sm text-muted-foreground">Started</span><span class="min-w-0 flex-1 text-body">Oct 4, 10:00</span></li><li class="flex min-h-12 items-start gap-4 px-4 py-3"><span class="w-28 shrink-0 text-body-sm text-muted-foreground">Finished</span><span class="min-w-0 flex-1 text-body">Oct 4, 10:06</span></li><li class="flex min-h-12 items-start gap-4 px-4 py-3"><span class="w-28 shrink-0 text-body-sm text-muted-foreground">Sorting time</span><span class="min-w-0 flex-1 text-body">6 min</span></li></ul></div>
+    <div class="px-gutter pt-6"><h2 class="px-1 pb-2 text-label text-muted-foreground ">Changed in a later round</h2><a href="S28-results.html#S28-round-2" class="flex items-center gap-4 rounded-group bg-card px-4 py-3" data-action="round-2"><i class="i-lucide-history size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><span class="min-w-0 flex-1"><span class="block text-body">Round 2 sorted the 6 Maybe items again</span><span class="block text-body-sm text-muted-foreground">3 accepted, 2 rejected, 1 still Maybe</span></span><i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></div>
+    <div class="px-gutter pt-6"><h2 class="px-1 pb-2 text-label text-muted-foreground ">Items in card order</h2><ol class="divide-y overflow-hidden rounded-group bg-card" aria-label="Items in card order"><li class="flex min-h-14 items-center gap-3 px-4 py-2"><span class="w-5 shrink-0 text-right text-body-sm tabular-nums text-muted-foreground">1</span><img src="../02-data/images/products/p01.svg" alt="" class="size-10 shrink-0 rounded-sm bg-muted object-cover"><span class="min-w-0 flex-1 truncate text-body">Ergo Mesh task chair</span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted</span></li><li class="flex min-h-14 items-center gap-3 px-4 py-2"><span class="w-5 shrink-0 text-right text-body-sm tabular-nums text-muted-foreground">2</span><img src="../02-data/images/products/p02.svg" alt="" class="size-10 shrink-0 rounded-sm bg-muted object-cover"><span class="min-w-0 flex-1 truncate text-body">Walnut sit-stand desk, 140 × 70 cm</span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted</span></li><li class="flex min-h-14 items-center gap-3 px-4 py-2"><span class="w-5 shrink-0 text-right text-body-sm tabular-nums text-muted-foreground">3</span><img src="../02-data/images/products/p03.svg" alt="" class="size-10 shrink-0 rounded-sm bg-muted object-cover"><span class="min-w-0 flex-1 truncate text-body">27-inch 4K USB-C monitor</span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted</span></li><li class="flex min-h-14 items-center gap-3 px-4 py-2"><span class="w-5 shrink-0 text-right text-body-sm tabular-nums text-muted-foreground">4</span><img src="../02-data/images/products/p04.svg" alt="" class="size-10 shrink-0 rounded-sm bg-muted object-cover"><span class="min-w-0 flex-1 truncate text-body">Low-profile mechanical keyboard</span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe</span></li><li class="flex min-h-14 items-center gap-3 px-4 py-2"><span class="w-5 shrink-0 text-right text-body-sm tabular-nums text-muted-foreground">5</span><img src="../02-data/images/products/p05.svg" alt="" class="size-10 shrink-0 rounded-sm bg-muted object-cover"><span class="min-w-0 flex-1 truncate text-body">Ceramic desk lamp with dimmer</span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Rejected</span></li></ol>
+      <a href="S28-results.html#S28-round-1" class="mt-1 inline-flex h-12 items-center px-1 text-label-lg text-primary" data-action="round-results">See all 20 items</a></div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3"><a href="S28-results.html#S28-round-1" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="round-results">See Round 1 results</a></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S30-round-2-detail" id="S30-round-2-detail">
+  <figcaption class="frame-label">S30 · Round 2 detail: Maybe pile, shuffled order · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S30-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to round history" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Round 2</h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden pb-6">
+    <div class="px-gutter pt-2"><div class="rounded-group bg-card p-4">
+      <p class="text-label text-muted-foreground">Result</p>
+      <div class="mt-3"><div class="flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted" aria-hidden="true"><div class="w-[50%] bg-accept"></div><div class="w-[17%] bg-maybe"></div><div class="w-[33%] bg-reject"></div></div></div>
+      <div class="mt-3 flex flex-wrap gap-2" role="img" aria-label="3 accepted, 1 maybe, 2 rejected"><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>3 accepted</span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>1 maybe</span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>2 rejected</span></div>
+    </div></div>
+    <div class="px-gutter pt-6"><h2 class="px-1 pb-2 text-label text-muted-foreground ">Details</h2><ul class="divide-y overflow-hidden rounded-group bg-card"><li class="flex min-h-12 items-start gap-4 px-4 py-3"><span class="w-28 shrink-0 text-body-sm text-muted-foreground">Items</span><span class="min-w-0 flex-1 text-body">Maybe pile from Round 1 (6)</span></li><li class="flex min-h-12 items-start gap-4 px-4 py-3"><span class="w-28 shrink-0 text-body-sm text-muted-foreground">Card order</span><span class="min-w-0 flex-1 text-body">Shuffled</span></li><li class="flex min-h-12 items-start gap-4 px-4 py-3"><span class="w-28 shrink-0 text-body-sm text-muted-foreground">Started</span><span class="min-w-0 flex-1 text-body">Oct 6, 12:30</span></li><li class="flex min-h-12 items-start gap-4 px-4 py-3"><span class="w-28 shrink-0 text-body-sm text-muted-foreground">Finished</span><span class="min-w-0 flex-1 text-body">Oct 6, 12:33</span></li><li class="flex min-h-12 items-start gap-4 px-4 py-3"><span class="w-28 shrink-0 text-body-sm text-muted-foreground">Sorting time</span><span class="min-w-0 flex-1 text-body">2 min</span></li></ul></div>
+    
+    <div class="px-gutter pt-6"><h2 class="px-1 pb-2 text-label text-muted-foreground ">Items in card order</h2><ol class="divide-y overflow-hidden rounded-group bg-card" aria-label="Items in card order"><li class="flex min-h-14 items-center gap-3 px-4 py-2"><span class="w-5 shrink-0 text-right text-body-sm tabular-nums text-muted-foreground">1</span><img src="../02-data/images/products/p15.svg" alt="" class="size-10 shrink-0 rounded-sm bg-muted object-cover"><span class="min-w-0 flex-1 truncate text-body">Pendant lamp, opal glass</span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted</span></li><li class="flex min-h-14 items-center gap-3 px-4 py-2"><span class="w-5 shrink-0 text-right text-body-sm tabular-nums text-muted-foreground">2</span><img src="../02-data/images/products/p04.svg" alt="" class="size-10 shrink-0 rounded-sm bg-muted object-cover"><span class="min-w-0 flex-1 truncate text-body">Low-profile mechanical keyboard</span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted</span></li><li class="flex min-h-14 items-center gap-3 px-4 py-2"><span class="w-5 shrink-0 text-right text-body-sm tabular-nums text-muted-foreground">3</span><img src="../02-data/images/products/p18.svg" alt="" class="size-10 shrink-0 rounded-sm bg-muted object-cover"><span class="min-w-0 flex-1 truncate text-body">Bookshelf speakers, pair</span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe</span></li><li class="flex min-h-14 items-center gap-3 px-4 py-2"><span class="w-5 shrink-0 text-right text-body-sm tabular-nums text-muted-foreground">4</span><img src="../02-data/images/products/p13.svg" alt="" class="size-10 shrink-0 rounded-sm bg-muted object-cover"><span class="min-w-0 flex-1 truncate text-body">Oak monitor riser with drawer</span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Rejected</span></li><li class="flex min-h-14 items-center gap-3 px-4 py-2"><span class="w-5 shrink-0 text-right text-body-sm tabular-nums text-muted-foreground">5</span><img src="../02-data/images/products/p07.svg" alt="" class="size-10 shrink-0 rounded-sm bg-muted object-cover"><span class="min-w-0 flex-1 truncate text-body">Monitor arm with gas spring, single</span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accepted</span></li></ol>
+      <a href="S28-results.html#S28-round-2" class="mt-1 inline-flex h-12 items-center px-1 text-label-lg text-primary" data-action="round-results">See all 6 items</a></div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3"><a href="S28-results.html#S28-round-2" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="round-results">See Round 2 results</a></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Shared lists and rounds in progress</h2>
+<p>On shared lists a round belongs to everyone: the Owner starts it (DM-15), the split shows list status (Agreed, Pending, Conflict) while it runs, and the detail lists each member's results. Sorting time is not shown on shared lists (A-71).</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S30-in-progress" id="S30-in-progress">
+  <figcaption class="frame-label">S30 · In progress, shared (Wedding guests Round 1): list status and member progress · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-shared" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to Wedding guests" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Round history</h1><p class="truncate text-caption text-muted-foreground">Wedding guests</p></div>
+    
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden pb-6">
+    <div class="px-gutter pt-2"><h2 class="px-1 pb-2 text-label text-muted-foreground ">Rounds, newest first</h2><ul class="overflow-hidden rounded-group bg-card" aria-label="Rounds"><li class="flex items-stretch">
+      <a href="S28-results.html#S28-shared" class="flex min-w-0 flex-1 flex-col gap-2 py-4 pl-4" data-action="open-round">
+        <span class="flex flex-wrap items-center gap-x-3 gap-y-1"><span class="text-title-3">Round 1</span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-muted text-muted-foreground"><i class="i-lucide-hourglass size-4" aria-hidden="true"></i>In progress</span></span>
+        <span class="text-body-sm text-muted-foreground">All 100 items, original order. You started it on Sep 28.</span>
+        <span class="text-label">List status</span>
+        <div class="flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted" aria-hidden="true"><div class="w-[32%] bg-foreground"></div><div class="w-[15%] bg-foreground/50"></div></div>
+        <span class="flex flex-wrap gap-x-3 gap-y-1 text-caption"><span class="inline-flex items-center gap-1"><i class="i-lucide-check-check size-4" aria-hidden="true"></i><span class="tabular-nums">32</span> agreed</span><span class="inline-flex items-center gap-1"><i class="i-lucide-git-compare-arrows size-4" aria-hidden="true"></i><span class="tabular-nums">15</span> conflicts</span><span class="inline-flex items-center gap-1 text-muted-foreground"><i class="i-lucide-clock size-4" aria-hidden="true"></i><span class="tabular-nums">53</span> pending</span></span>
+        <span class="mt-2 text-label">Members</span>
+        <span class="mt-1 flex flex-col gap-2" role="img" aria-label="You 76 of 100 decided, Mert 85 of 100, Selin 43 of 100"><span class="flex items-center gap-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-6 shrink-0 rounded-full object-cover "><span class="w-12 shrink-0 text-body-sm">You</span><span class="h-1.5 flex-1 overflow-hidden rounded-full bg-muted"><span class="block h-full w-[76%] rounded-full bg-primary"></span></span><span class="w-16 shrink-0 text-right text-caption tabular-nums text-muted-foreground">76 / 100</span></span><span class="flex items-center gap-3"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-6 shrink-0 rounded-full object-cover "><span class="w-12 shrink-0 text-body-sm">Mert</span><span class="h-1.5 flex-1 overflow-hidden rounded-full bg-muted"><span class="block h-full w-[85%] rounded-full bg-primary"></span></span><span class="w-16 shrink-0 text-right text-caption tabular-nums text-muted-foreground">85 / 100</span></span><span class="flex items-center gap-3"><span class="flex size-6 shrink-0 items-center justify-center rounded-full bg-muted text-caption text-muted-foreground " aria-hidden="true">SY</span><span class="w-12 shrink-0 text-body-sm">Selin</span><span class="h-1.5 flex-1 overflow-hidden rounded-full bg-muted"><span class="block h-full w-[43%] rounded-full bg-primary"></span></span><span class="w-16 shrink-0 text-right text-caption tabular-nums text-muted-foreground">43 / 100</span></span></span>
+      </a><span class="flex shrink-0 items-start pr-1 pt-3"><a href="#S30-shared-detail" class="flex size-12 shrink-0 items-center justify-center rounded-full text-muted-foreground" aria-label="Round 1 details" data-action="round-details"><i class="i-lucide-info size-5" aria-hidden="true"></i></a></span>
+    </li></ul>
+    <p class="mt-3 px-1 text-body-sm text-muted-foreground">Finished rounds stay here with their results. As the Owner, you start new rounds for everyone.</p></div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3"><a href="S25-sorting.html#S25-shared" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="continue-sorting">Continue sorting</a></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S30-shared-detail" id="S30-shared-detail">
+  <figcaption class="frame-label">S30 · Shared round detail: who started it, rule, list status, per-member results · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="#S30-in-progress" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to round history" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Round 1</h1><p class="truncate text-caption text-muted-foreground">Wedding guests</p></div>
+    
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden pb-6">
+    <div class="px-gutter pt-2"><div class="rounded-group bg-card p-4">
+      <p class="flex items-center justify-between gap-3"><span class="text-label text-muted-foreground">List status</span><span class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption bg-muted text-muted-foreground"><i class="i-lucide-hourglass size-4" aria-hidden="true"></i>In progress</span></p>
+      <div class="mt-3"><div class="flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted" aria-hidden="true"><div class="w-[32%] bg-foreground"></div><div class="w-[15%] bg-foreground/50"></div></div></div>
+      <div class="mt-3"><span class="flex flex-wrap gap-x-3 gap-y-1 text-caption"><span class="inline-flex items-center gap-1"><i class="i-lucide-check-check size-4" aria-hidden="true"></i><span class="tabular-nums">32</span> agreed</span><span class="inline-flex items-center gap-1"><i class="i-lucide-git-compare-arrows size-4" aria-hidden="true"></i><span class="tabular-nums">15</span> conflicts</span><span class="inline-flex items-center gap-1 text-muted-foreground"><i class="i-lucide-clock size-4" aria-hidden="true"></i><span class="tabular-nums">53</span> pending</span></span></div>
+    </div></div>
+    <div class="px-gutter pt-6"><h2 class="px-1 pb-2 text-label text-muted-foreground ">Details</h2><ul class="divide-y overflow-hidden rounded-group bg-card"><li class="flex min-h-12 items-start gap-4 px-4 py-3"><span class="w-28 shrink-0 text-body-sm text-muted-foreground">Items</span><span class="min-w-0 flex-1 text-body">All items (100)</span></li><li class="flex min-h-12 items-start gap-4 px-4 py-3"><span class="w-28 shrink-0 text-body-sm text-muted-foreground">Card order</span><span class="min-w-0 flex-1 text-body">Original order</span></li><li class="flex min-h-12 items-start gap-4 px-4 py-3"><span class="w-28 shrink-0 text-body-sm text-muted-foreground">Started by</span><span class="min-w-0 flex-1 text-body">You, Sep 28, 19:05</span></li><li class="flex min-h-12 items-start gap-4 px-4 py-3"><span class="w-28 shrink-0 text-body-sm text-muted-foreground">Conflict rule</span><span class="min-w-0 flex-1 text-body">Decision Maker decides (Mert)</span></li></ul></div>
+    <div class="px-gutter pt-6"><h2 class="px-1 pb-2 text-label text-muted-foreground ">Members</h2><ul class="divide-y overflow-hidden rounded-group bg-card" aria-label="Results by member"><li class="flex items-start gap-3 px-4 py-3"><img src="../02-data/images/people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full object-cover "><div class="min-w-0 flex-1 space-y-2">
+        <p class="flex flex-wrap items-baseline justify-between gap-x-3"><span class="text-body">Deniz (you) <span class="text-body-sm text-muted-foreground">Owner</span></span><span class="text-body-sm tabular-nums text-muted-foreground">76 / 100 decided</span></p>
+        <div class="flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted" aria-hidden="true"><div class="w-[48%] bg-accept"></div><div class="w-[11%] bg-maybe"></div><div class="w-[17%] bg-reject"></div></div>
+        <span class="flex flex-wrap items-center gap-x-3 gap-y-1 text-caption"><span class="inline-flex items-center gap-1 text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i><span class="tabular-nums">48</span> accepted</span><span class="inline-flex items-center gap-1 text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i><span class="tabular-nums">11</span> maybe</span><span class="inline-flex items-center gap-1 text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i><span class="tabular-nums">17</span> rejected</span></span>
+      </div></li><li class="flex items-start gap-3 px-4 py-3"><img src="../02-data/images/people/u-mert.svg" alt="" class="size-10 shrink-0 rounded-full object-cover "><div class="min-w-0 flex-1 space-y-2">
+        <p class="flex flex-wrap items-baseline justify-between gap-x-3"><span class="text-body">Mert <span class="text-body-sm text-muted-foreground">Decision Maker</span></span><span class="text-body-sm tabular-nums text-muted-foreground">85 / 100 decided</span></p>
+        <div class="flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted" aria-hidden="true"><div class="w-[50%] bg-accept"></div><div class="w-[14%] bg-maybe"></div><div class="w-[21%] bg-reject"></div></div>
+        <span class="flex flex-wrap items-center gap-x-3 gap-y-1 text-caption"><span class="inline-flex items-center gap-1 text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i><span class="tabular-nums">50</span> accepted</span><span class="inline-flex items-center gap-1 text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i><span class="tabular-nums">14</span> maybe</span><span class="inline-flex items-center gap-1 text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i><span class="tabular-nums">21</span> rejected</span></span>
+      </div></li><li class="flex items-start gap-3 px-4 py-3"><span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-label text-muted-foreground " aria-hidden="true">SY</span><div class="min-w-0 flex-1 space-y-2">
+        <p class="flex flex-wrap items-baseline justify-between gap-x-3"><span class="text-body">Selin <span class="text-body-sm text-muted-foreground">Collaborator</span></span><span class="text-body-sm tabular-nums text-muted-foreground">43 / 100 decided</span></p>
+        <div class="flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted" aria-hidden="true"><div class="w-[25%] bg-accept"></div><div class="w-[10%] bg-maybe"></div><div class="w-[8%] bg-reject"></div></div>
+        <span class="flex flex-wrap items-center gap-x-3 gap-y-1 text-caption"><span class="inline-flex items-center gap-1 text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i><span class="tabular-nums">25</span> accepted</span><span class="inline-flex items-center gap-1 text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i><span class="tabular-nums">10</span> maybe</span><span class="inline-flex items-center gap-1 text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i><span class="tabular-nums">8</span> rejected</span></span>
+      </div></li></ul></div>
+  </div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3"><a href="S28-results.html#S28-shared" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="round-results">See Round 1 results</a></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">Single round, never sorted and loading</h2>
+<p>A list with one finished round (here archived, so read-only), a list that was never sorted (the empty state invites the first sort) and the loading skeleton.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S30-single-round" id="S30-single-round">
+  <figcaption class="frame-label">S30 · Single finished round (Apartment viewings, archived: read-only) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-archived" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to Apartment viewings" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Round history</h1><p class="truncate text-caption text-muted-foreground">Apartment viewings</p></div>
+    
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden pb-6">
+    <div class="mx-gutter mt-2 flex items-start gap-3 rounded-control border bg-card p-3" role="note"><i class="i-lucide-archive mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><p class="text-body-sm">Apartment viewings is archived. Restore it from the list to start a new round.</p></div>
+    <div class="px-gutter pt-6"><h2 class="px-1 pb-2 text-label text-muted-foreground ">Rounds</h2><ul class="overflow-hidden rounded-group bg-card" aria-label="Rounds">
+      <!-- Proposed component: RoundRow --><li class="flex items-stretch">
+      <a href="S28-results.html#S28-archived" class="flex min-w-0 flex-1 flex-col gap-2 py-4 pl-4 pr-4" data-action="open-round">
+        <span class="flex flex-wrap items-center gap-x-3 gap-y-1"><span class="text-title-3">Round 1</span></span>
+        <span class="text-body-sm text-muted-foreground">Jul 21<br>All 8 items, original order</span>
+        <div class="flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted" aria-hidden="true"><div class="w-[38%] bg-accept"></div><div class="w-[12%] bg-maybe"></div><div class="w-[50%] bg-reject"></div></div>
+        <span class="flex flex-wrap items-center gap-x-3 gap-y-1 text-caption"><span class="inline-flex items-center gap-1 text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i><span class="tabular-nums">3</span> accepted</span><span class="inline-flex items-center gap-1 text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i><span class="tabular-nums">1</span> maybe</span><span class="inline-flex items-center gap-1 text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i><span class="tabular-nums">4</span> rejected</span></span>
+        
+      </a>
+    </li>
+    </ul>
+    <p class="mt-3 px-1 text-body-sm text-muted-foreground">Each new round adds its results here. Earlier rounds never change.</p></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S30-never-sorted" id="S30-never-sorted">
+  <figcaption class="frame-label">S30 · Never sorted (Frontend hiring, Q4): empty state with Start sorting · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-default" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to Frontend hiring, Q4" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Round history</h1><p class="truncate text-caption text-muted-foreground">Frontend hiring, Q4</p></div>
+    
+  </header>
+  <div class="flex min-h-0 flex-1 flex-col items-center px-gutter pt-32 text-center">
+    <i class="i-lucide-history size-8 text-muted-foreground" aria-hidden="true"></i>
+    <h2 class="mt-3 text-title-3">No rounds yet</h2>
+    <p class="mt-1 max-w-xs text-body text-muted-foreground">Sort the list once and the results of each round will be kept here.</p>
+    <div class="mt-6 w-full max-w-xs"><a href="S25-sorting.html#S25-candidate" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="start-sorting">Start sorting</a></div>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S30-loading" id="S30-loading">
+  <figcaption class="frame-label">S30 · Loading: skeleton rounds · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-solo-round-done" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to Desk setup" data-action="back"><i class="i-lucide-arrow-left size-6" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="truncate text-title-3">Round history</h1><p class="truncate text-caption text-muted-foreground">Desk setup</p></div>
+    
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pt-2"><p class="sr-only" role="status">Loading rounds</p><ul class="divide-y overflow-hidden rounded-group bg-card" aria-hidden="true"><li class="space-y-3 px-4 py-4"><span class="block h-5 w-24 animate-pulse rounded-xs bg-muted"></span><span class="block h-4 w-56 animate-pulse rounded-xs bg-muted"></span><span class="block h-2 w-full animate-pulse rounded-full bg-muted"></span><span class="block h-4 w-48 animate-pulse rounded-xs bg-muted"></span></li><li class="space-y-3 px-4 py-4"><span class="block h-5 w-24 animate-pulse rounded-xs bg-muted"></span><span class="block h-4 w-56 animate-pulse rounded-xs bg-muted"></span><span class="block h-2 w-full animate-pulse rounded-full bg-muted"></span><span class="block h-4 w-48 animate-pulse rounded-xs bg-muted"></span></li></ul></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure></main>
+<h2 class="mock-section">iOS and large text</h2>
+<p>iOS: back chevron with the list name, inset grouped list, the info button is the native detail disclosure (separate tap target from the row). Large text: the split bar stays full width, legend items wrap one per line.</p>
+<main class="mock-canvas">
+<figure class="frame" data-frame="S30-ios" id="S30-ios">
+  <figcaption class="frame-label">S30 · iOS · <span class="theme-name"></span></figcaption>
+  <div class="phone-ios">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="grid h-14 shrink-0 grid-cols-[1fr_auto_1fr] items-center gap-2 px-3">
+    <div class="justify-self-start"><a href="S09-list-overview.html#S09-ios" class="-ml-2 inline-flex h-12 items-center text-body text-primary" data-action="back"><i class="i-lucide-chevron-left size-6" aria-hidden="true"></i>Desk setup</a></div>
+    <div class="min-w-0 text-center"><h1 class="truncate text-body font-semibold">Round history</h1></div>
+    <div class="justify-self-end"></div>
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden pb-6"><div class="px-gutter pt-2">
+    <ul class="overflow-hidden rounded-group bg-card"><li><a href="S28-results.html#S28-ios" class="flex items-center gap-4 px-4 py-4" data-action="latest-results">
+      <span class="min-w-0 flex-1 space-y-2"><span class="block text-title-3">Latest results</span><span class="block text-body-sm text-muted-foreground">The latest decision on each of the 20 items</span><div class="flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted" aria-hidden="true"><div class="w-[40%] bg-accept"></div><div class="w-[5%] bg-maybe"></div><div class="w-[55%] bg-reject"></div></div><span class="flex flex-wrap items-center gap-x-3 gap-y-1 text-caption"><span class="inline-flex items-center gap-1 text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i><span class="tabular-nums">8</span> accepted</span><span class="inline-flex items-center gap-1 text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i><span class="tabular-nums">1</span> maybe</span><span class="inline-flex items-center gap-1 text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i><span class="tabular-nums">11</span> rejected</span></span></span>
+      <i class="i-lucide-chevron-right size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i></a></li></ul>
+  </div><div class="px-gutter pt-8"><h2 class="px-1 pb-2 text-label text-muted-foreground ">Rounds, newest first</h2>
+    <ul class="overflow-hidden rounded-group bg-card" aria-label="Rounds">
+      <!-- Proposed component: RoundRow --><li class="flex items-stretch">
+      <a href="S28-results.html#S28-round-2" class="flex min-w-0 flex-1 flex-col gap-2 py-4 pl-4" data-action="open-round">
+        <span class="flex flex-wrap items-center gap-x-3 gap-y-1"><span class="text-title-3">Round 2</span></span>
+        <span class="text-body-sm text-muted-foreground">Oct 6, sorted in 2 min<br>Maybe pile from Round 1, 6 items, shuffled</span>
+        <div class="flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted" aria-hidden="true"><div class="w-[50%] bg-accept"></div><div class="w-[17%] bg-maybe"></div><div class="w-[33%] bg-reject"></div></div>
+        <span class="flex flex-wrap items-center gap-x-3 gap-y-1 text-caption"><span class="inline-flex items-center gap-1 text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i><span class="tabular-nums">3</span> accepted</span><span class="inline-flex items-center gap-1 text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i><span class="tabular-nums">1</span> maybe</span><span class="inline-flex items-center gap-1 text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i><span class="tabular-nums">2</span> rejected</span></span>
+        
+      </a><span class="flex shrink-0 items-start pr-1 pt-3"><a href="#S30-round-2-detail" class="flex size-12 shrink-0 items-center justify-center rounded-full text-primary" aria-label="Round 2 details" data-action="round-details"><i class="i-lucide-info size-5" aria-hidden="true"></i></a></span>
+    </li>
+      <!-- Proposed component: RoundRow --><li class="flex items-stretch">
+      <a href="S28-results.html#S28-round-1" class="flex min-w-0 flex-1 flex-col gap-2 py-4 pl-4" data-action="open-round">
+        <span class="flex flex-wrap items-center gap-x-3 gap-y-1"><span class="text-title-3">Round 1</span></span>
+        <span class="text-body-sm text-muted-foreground">Oct 4, sorted in 6 min<br>All 20 items, original order</span>
+        <div class="flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted" aria-hidden="true"><div class="w-[25%] bg-accept"></div><div class="w-[30%] bg-maybe"></div><div class="w-[45%] bg-reject"></div></div>
+        <span class="flex flex-wrap items-center gap-x-3 gap-y-1 text-caption"><span class="inline-flex items-center gap-1 text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i><span class="tabular-nums">5</span> accepted</span><span class="inline-flex items-center gap-1 text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i><span class="tabular-nums">6</span> maybe</span><span class="inline-flex items-center gap-1 text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i><span class="tabular-nums">9</span> rejected</span></span>
+        
+      </a><span class="flex shrink-0 items-start pr-1 pt-3"><a href="#S30-round-detail" class="flex size-12 shrink-0 items-center justify-center rounded-full text-primary" aria-label="Round 1 details" data-action="round-details"><i class="i-lucide-info size-5" aria-hidden="true"></i></a></span>
+    </li>
+    </ul></div></div>
+  <div class="shrink-0 px-gutter pb-2 pt-3"><a href="S24-start-round.html#S24-ios" class="inline-flex h-12 min-w-touch w-full items-center justify-center gap-2 rounded-control text-label-lg bg-primary text-primary-foreground " data-action="new-round">Start a new round</a></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+<figure class="frame" data-frame="S30-large-text" id="S30-large-text">
+  <figcaption class="frame-label">S30 · Large text (200%): one round per screen height, legend wraps · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen">
+  <header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
+    <a href="S09-list-overview.html#S09-solo-round-done" class="flex size-12 shrink-0 items-center justify-center rounded-full " aria-label="Back to Desk setup" data-action="back"><i class="i-lucide-arrow-left size-7" aria-hidden="true"></i></a>
+    <div class="min-w-0 flex-1 px-1"><h1 class="text-title-1">Round history</h1></div>
+  </header>
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2"><ul class="overflow-hidden rounded-group bg-card" aria-label="Rounds">
+    <!-- Proposed component: RoundRow --><li class="flex items-stretch">
+      <a href="S28-results.html#S28-round-2" class="flex min-w-0 flex-1 flex-col gap-2 py-4 pl-4" data-action="open-round">
+        <span class="flex flex-wrap items-center gap-x-3 gap-y-1"><span class="text-title-1">Round 2</span></span>
+        <span class="text-title-3 font-normal text-muted-foreground">Oct 6, sorted in 2 min<br>Maybe pile from Round 1, 6 items, shuffled</span>
+        <div class="flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted" aria-hidden="true"><div class="w-[50%] bg-accept"></div><div class="w-[17%] bg-maybe"></div><div class="w-[33%] bg-reject"></div></div>
+        <span class="flex flex-wrap items-center gap-x-3 gap-y-1 text-title-3 font-normal"><span class="inline-flex items-center gap-1 text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i><span class="tabular-nums">3</span> accepted</span><span class="inline-flex items-center gap-1 text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i><span class="tabular-nums">1</span> maybe</span><span class="inline-flex items-center gap-1 text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i><span class="tabular-nums">2</span> rejected</span></span>
+        
+      </a><span class="flex shrink-0 items-start pr-1 pt-3"><a href="#S30-round-2-detail" class="flex size-12 shrink-0 items-center justify-center rounded-full text-muted-foreground" aria-label="Round 2 details" data-action="round-details"><i class="i-lucide-info size-5" aria-hidden="true"></i></a></span>
+    </li>
+    <!-- Proposed component: RoundRow --><li class="flex items-stretch">
+      <a href="S28-results.html#S28-round-1" class="flex min-w-0 flex-1 flex-col gap-2 py-4 pl-4" data-action="open-round">
+        <span class="flex flex-wrap items-center gap-x-3 gap-y-1"><span class="text-title-1">Round 1</span></span>
+        <span class="text-title-3 font-normal text-muted-foreground">Oct 4, sorted in 6 min<br>All 20 items, original order</span>
+        <div class="flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted" aria-hidden="true"><div class="w-[25%] bg-accept"></div><div class="w-[30%] bg-maybe"></div><div class="w-[45%] bg-reject"></div></div>
+        <span class="flex flex-wrap items-center gap-x-3 gap-y-1 text-title-3 font-normal"><span class="inline-flex items-center gap-1 text-accept-soft-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i><span class="tabular-nums">5</span> accepted</span><span class="inline-flex items-center gap-1 text-maybe-soft-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i><span class="tabular-nums">6</span> maybe</span><span class="inline-flex items-center gap-1 text-reject-soft-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i><span class="tabular-nums">9</span> rejected</span></span>
+        
+      </a><span class="flex shrink-0 items-start pr-1 pt-3"><a href="#S30-round-detail" class="flex size-12 shrink-0 items-center justify-center rounded-full text-muted-foreground" aria-label="Round 1 details" data-action="round-details"><i class="i-lucide-info size-5" aria-hidden="true"></i></a></span>
+    </li>
+  </ul></div>
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3"><a href="S24-start-round.html#S24-large-text" class="inline-flex min-h-16 w-full items-center justify-center rounded-control bg-primary px-4 text-title-2 text-primary-foreground" data-action="new-round">Start a new round</a></div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
+</main>
+</body>
+</html>

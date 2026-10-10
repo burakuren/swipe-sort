@@ -77,7 +77,7 @@ VIS-11, VIS-12 (Send reset link → Sending… → sent; Save password → Savin
 | --- | --- |
 | Back / close labels | "Back to sign in"; "Close"; iOS back "Sign in", iOS "Cancel" |
 | Request title | "Reset your password" |
-| Request body | "Enter the email you use for SwipeSort. We’ll send a link to set a new password." |
+| Request body | "Enter the email you use for SwipeSort. We'll send a link to set a new password." |
 | Field | "Email" |
 | Button | "Send reset link" → "Sending…" |
 | Invalid email | "Enter a full email address, like name@example.com." |
@@ -97,10 +97,10 @@ VIS-11, VIS-12 (Send reset link → Sending… → sent; Save password → Savin
 | Weak error | "Use at least 8 characters, with a number or symbol." |
 | Button | "Save password" → "Saving…" |
 | Offline banner (new) | "You're offline. Saving a new password needs a connection." |
-| Success | "Password changed" / "Sign in with your new password. For your security, you’re signed out on your other devices." / "Sign in" |
+| Success | "Password changed" / "Sign in with your new password. For your security, you're signed out on your other devices." / "Sign in" |
 | Expired | "This link has expired" / "Reset links work for 1 hour and only once. Request a new link to set your password." / "Send a new link" / "Back to sign in" |
 | Web success body | "Sign in with your new password here, or in the SwipeSort app on your phone." |
-| Reset email (system) | Subject "Reset your SwipeSort password"; body "Use this link to set a new password for deniz.yilmaz@example.com. It works for 1 hour. If you didn’t ask for this, ignore this email; your password stays the same." Button "Set a new password" |
+| Reset email (system) | Subject "Reset your SwipeSort password"; body "Use this link to set a new password for deniz.yilmaz@example.com. It works for 1 hour. If you didn't ask for this, ignore this email; your password stays the same." Button "Set a new password" |
 | Google-only email (system) | Subject "Signing in to SwipeSort"; body "This address signs in with Google. Open SwipeSort and choose Continue with Google." |
 
 ## 7. Accessibility

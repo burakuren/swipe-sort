@@ -894,7 +894,7 @@ def build_s34():
         <button role="radio" aria-checked="true" class="flex w-full items-start gap-3 rounded-control py-2 text-left">{radio_dot(True)}<span><span class="block text-body">Keep Selin's decisions</span><span class="block text-body-sm text-muted-foreground">They still count toward Agreed, Pending and Conflict.</span></span></button>
         <button role="radio" aria-checked="false" class="flex w-full items-start gap-3 rounded-control py-2 text-left">{radio_dot(False)}<span><span class="block text-body">Discard Selin's decisions</span><span class="block text-body-sm text-muted-foreground">Item statuses are recalculated without them.</span></span></button>
       </div>'''
-    rem = dialog('Remove Selin from Wedding guests?', "Selin can't open the list anymore. Choose what happens to Selin's 43 decisions.",
+    rem = dialog('Remove Selin from “Wedding guests”?', "Selin can't open the list anymore. Choose what happens to Selin's 43 decisions.",
         dbtn('Cancel', href='#S34-default') + dbtn('Remove Selin', 'destructive', href='#S34-removed', action='confirm-remove'), extra_body=remove_extra)
     F('S34-remove-dialog', 'Remove member: keep or discard decisions (DM-17)', phone(members_screen(overlay=rem)))
     F('S34-removed', 'Member removed: snackbar with Undo', phone(members_screen(keys=('deniz', 'mert'), overlay=snackbar('Removed Selin', 'Undo', bottom='bottom-6')).replace('2 active, Collaborator', '1 active, Collaborator')))
@@ -905,19 +905,22 @@ def build_s34():
     F('S34-transferred', 'Ownership transferred: Deniz now sees the Collaborator view', phone(members_screen(roles=transferred_roles, overlay=snackbar('Mert is now the Owner', bottom='bottom-6', icon_name='crown')).replace('Only Deniz, the Owner, can change roles.', 'Only Mert, the Owner, can change roles.')))
 
     pg.section('Leaving', 'Members can leave at any time; their decisions stay. The Owner must hand the list over first.')
-    lo = dialog('Choose a new Owner first', 'Wedding guests needs an Owner. Make another member the Owner, then you can leave. To remove the list for everyone, delete it instead.',
+    lo = dialog('Choose a new Owner first', '“Wedding guests” needs an Owner. Make another member the Owner, then you can leave. To remove the list for everyone, delete it instead.',
         dbtn('Cancel', href='#S34-default') + dbtn('Choose new Owner', 'primary', href='#S34-transfer-pick'))
     F('S34-leave-owner', 'Owner tries to leave', phone(members_screen(overlay=lo)))
     pick_rows = f'''<div class="mt-3 space-y-1" role="radiogroup" aria-label="New Owner">
       <button role="radio" aria-checked="true" class="flex min-h-14 w-full items-center gap-3 py-2 text-left">{radio_dot(True)}{av("mert", "size-10")}<span class="min-w-0 flex-1"><span class="block text-body">Mert Aydın</span><span class="block text-body-sm text-muted-foreground">Decision Maker</span></span></button>
       <button role="radio" aria-checked="false" class="flex min-h-14 w-full items-center gap-3 py-2 text-left">{radio_dot(False)}{av("selin", "size-10")}<span class="min-w-0 flex-1"><span class="block text-body">Selin Yılmaz</span><span class="block text-body-sm text-muted-foreground">Collaborator</span></span></button>
     </div>
-    <p class="mt-3 text-body-sm text-muted-foreground">Mert will manage members, rounds and the conflict rule. You'll leave Wedding guests; your 76 decisions stay and still count.</p>
+    <p class="mt-3 text-body-sm text-muted-foreground">Mert will manage members, rounds and the conflict rule. You'll leave “Wedding guests”: your 76 decisions stay and still count, items you haven't decided stop waiting for you, and your private notes are deleted.</p>
     <div class="mt-5 space-y-2">{btn("Make Mert Owner and leave", "destructive", href="S08-home.html#S08-default")}{btn("Make Mert Owner and stay", "ghost", size="h-12", href="#S34-transferred")}</div>'''
     F('S34-transfer-pick', 'Choose the new Owner (from Leave list or Transfer ownership)', phone(members_screen(overlay=bottom_sheet('Choose the new Owner', pick_rows))))
-    lv = dialog('Leave Wedding guests?', "You won't see this list anymore. Your 43 decisions stay and still count toward the list status. To come back, ask Deniz for a new invite.",
-        dbtn('Cancel', href='#S34-collaborator') + dbtn('Leave list', 'destructive', href='S08-home.html#S08-default', action='confirm-leave'))
+    lv = dialog('Leave “Wedding guests”?', "You won't see this list anymore. Your 43 decisions stay and still count toward the list status. Items you haven't decided stop waiting for you, and your private notes are deleted. To come back, ask Deniz for a new invite.",
+        dbtn('Cancel', href='#S34-collaborator') + dbtn('Leave list', 'destructive', href='S10-list-management.html#S10-left-snackbar', action='confirm-leave'))
     F('S34-leave-dialog', 'Collaborator leaves (Selin)', phone(members_screen(viewer='selin', overlay=lv)))
+    lvd = dialog('Leave “Wedding guests”?', "You won't see this list anymore. Your 85 decisions stay and still count toward the list status. You're the Decision Maker, so nobody will have this role until Deniz chooses someone. The 15 open conflicts stay open.",
+        dbtn('Cancel', href='#S34-decision-maker') + dbtn('Leave list', 'destructive', href='S08-home.html#S08-default', action='confirm-leave'))
+    F('S34-leave-decision-maker', 'Decision Maker leaves (Mert): role left empty', phone(members_screen(viewer='mert', overlay=lvd)))
 
     pg.section('Other members\' views', 'Collaborators and the Decision Maker see the same screen read-only: no switches or member options. They can invite as Collaborator and leave.')
     F('S34-collaborator', 'Collaborator view (Selin)', phone(members_screen(viewer='selin')))

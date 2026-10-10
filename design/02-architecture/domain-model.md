@@ -234,6 +234,10 @@ earlier rounds stay in round history (S30); results show the latest decision per
 | conflictsResolved | "Mert resolved 12 conflicts" | S28 |
 | roundStarted | "Deniz started Round 2 (11 items)" | S25 |
 | roleChanged | "Deniz made you the Decision Maker" | S34 |
+| roundRequested | "Selin suggested Round 2: Maybe pile, 11 items" (Owner only) | S24 (options preselected) |
+| ruleChanged | "Deniz changed the conflict rule to Majority decides" (in-app only, no push) | S35 |
+| itemsAdded | "Deniz added 12 items from mert-family.csv" | S09 |
+| memberLeft | "Selin left Wedding guests" (in-app only) | S34 |
 
 Each event: `{ id, listId, type, actorId?, targetId?, count?, createdAt, read }`. Push on Android/iOS
 (with per-type preferences); in-app only on web.

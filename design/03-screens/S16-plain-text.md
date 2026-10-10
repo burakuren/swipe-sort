@@ -111,7 +111,7 @@ Offline: not applicable (paste and local files work offline). Web-unavailable: n
 | Limit button | "Continue with 5,000 items" |
 | Loading | "Reading book-club.txt…" |
 | Empty file | "reading-list.txt is empty" / "Choose another file or paste your list." |
-| Unreadable file | "book-club.docx can’t be read" / "Save it as plain text (.txt) and try again." |
+| Unreadable file | "book-club.docx can't be read" / "Save it as plain text (.txt) and try again." |
 | Error action | "Choose another file" |
 | Replace dialog | "Replace the text in the box?" / "The text you typed is replaced by book-club.txt." / "Cancel", "Replace" |
 | Primary | "Continue" |

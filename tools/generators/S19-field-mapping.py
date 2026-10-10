@@ -251,7 +251,7 @@ for name, ic, smp, warn, sel in title_opts:
         {icon(ic, "size-5 text-muted-foreground")}
         <span class="min-w-0 flex-1"><span class="block text-body">{name}</span><span class="block truncate text-body-sm text-muted-foreground">{smp}</span>{w}</span>
         {radio_dot(sel)}</button></div>'''
-title_sheet = sheet('tp1', 'Card title', f'<div class="mt-2 divide-y" role="radiogroup" aria-label="Title field">{to}</div><p class="mt-3 text-body-sm text-muted-foreground">Photo can’t be the title. Image fields show in the card’s image area.</p>',
+title_sheet = sheet('tp1', 'Card title', f'<div class="mt-2 divide-y" role="radiogroup" aria-label="Title field">{to}</div><p class="mt-3 text-body-sm text-muted-foreground">Photo can\'t be the title. Image fields show in the card\'s image area.</p>',
                     subtitle='Choose the field shown as the largest text on each card.')
 P.frame('S19-title-picker', 'Title field picker', phone(mapping_screen(
     CONTACT_FIELDS, '88 contacts with 7 fields. Rename fields, set their type and choose what shows on cards.',
@@ -259,7 +259,7 @@ P.frame('S19-title-picker', 'Title field picker', phone(mapping_screen(
 
 mv_opts = [
     ('All numbers in one field', 'Cards show the first number and how many more. Item details show all of them.', True, '+90 500 000 96 91 <span class="text-muted-foreground">+1</span>'),
-    ('First number only', 'Other numbers are left out of this list. Your contacts aren’t changed.', False, '+90 500 000 96 91'),
+    ('First number only', 'Other numbers are left out of this list. Your contacts aren\'t changed.', False, '+90 500 000 96 91'),
     ('One field per label', 'Creates Mobile, Home and Work fields, each with one number.', False, 'Mobile +90 500 000 96 91, Home +90 312 000 92 25'),
 ]
 mo = ''

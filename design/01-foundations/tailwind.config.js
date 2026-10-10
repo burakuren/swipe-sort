@@ -68,6 +68,7 @@ module.exports = {
       minHeight: { touch: px(tokens.spacing.touch) },
       minWidth: { touch: px(tokens.spacing.touch) },
       maxWidth: { card: px(tokens.size.cardMaxWidth), prose: '64ch' },
+      aspectRatio: { card: '3 / 5' }, // Android sort-card shape (used by scaled previews)
       transitionDuration: Object.fromEntries(Object.entries(tokens.motion.duration).map(([k, v]) => [k, `${v}ms`])),
       transitionTimingFunction: Object.fromEntries(
         Object.entries(tokens.motion.easing).map(([k, v]) => [k, `cubic-bezier(${v.join(', ')})`]),

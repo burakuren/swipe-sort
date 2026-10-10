@@ -99,20 +99,20 @@ color alone), VIS-12, VIS-13, VIS-14, PLT-01–PLT-03, PLT-13–PLT-16, PLT-21, 
 | --- | --- |
 | App bar | "Import" / "Add items"; close "Close import" / "Close adding items" |
 | Stepper | "Review duplicates"; "Step 4 of 5" |
-| Header | "4 possible duplicates"; "These items look alike. Merge them, keep both, or skip one. Anything you don’t review is kept."; "2 of 4 reviewed" |
+| Header | "4 possible duplicates"; "These items look alike. Merge them, keep both, or skip one. Anything you don't review is kept."; "2 of 4 reviewed" |
 | Bulk | "Merge all identical (1)"; snackbar "Merged 1 identical pair" + "Undo"; S21 "Skip all identical (1)" |
 | Reasons | "Same phone number, similar name"; "Same email, similar name"; "Same name"; "Identical name, phone and email"; S21 "Same name and phone number" |
 | Markers | "Same"; "Similar"; badge "Identical" |
 | Options | "Merge"; "Keep both"; "Skip"; group a11y "What to do with Ayşe Demir and Ayse Demir" |
-| Outcomes | "One item with values from both." + link "Review merge"; "Both are imported as separate items."; "Ayse Demir is left out."; "One item. Nothing differs, so there’s nothing to choose." |
-| Outcomes (S21) | "Zeynep Kaya stays as it is. The row isn’t added."; "Oğuz Kılıç gets the Address from the file. Decisions and notes stay."; "Added as a new item." |
-| Bottom note | "2 not reviewed yet. They’ll be imported as separate items."; "All 4 reviewed."; S21 "1 not reviewed yet. It will be added as a new item." |
+| Outcomes | "One item with values from both." + link "Review merge"; "Both are imported as separate items."; "Ayse Demir is left out."; "One item. Nothing differs, so there's nothing to choose." |
+| Outcomes (S21) | "Zeynep Kaya stays as it is. The row isn't added."; "Oğuz Kılıç gets the Address from the file. Decisions and notes stay."; "Added as a new item." |
+| Bottom note | "2 not reviewed yet. They'll be imported as separate items."; "All 4 reviewed."; S21 "1 not reviewed yet. It will be added as a new item." |
 | Merge sheet | "Merge 2 records"; "Choose which values to keep."; "Photo from the first record"; "Phone" / "Both numbers are kept. The first one shows on cards."; "Email" / "Choose one."; "Name, Side, Relationship and City are the same in both."; "Merge"; "Cancel" |
 | Summary | "All 4 reviewed"; "85 of 88 contacts will be imported: 3 pairs merged into one item each, 1 pair kept as two items."; "Merged"; "Kept both"; "Skipped"; "Change" (a11y "Change what happens to {name}") |
-| None | "No duplicates found"; "All 12 items are different, so there’s nothing to merge." |
+| None | "No duplicates found"; "All 12 items are different, so there's nothing to merge." |
 | Loading | "Looking for duplicates in 88 items…" |
 | S21 header | "3 already in Wedding guests"; "These rows in mert-family.csv match items in the list. Skip leaves the list as it is; Merge fills in new values and keeps decisions and notes."; column labels "In the list", "In mert-family.csv"; "Empty" |
-| Many | "41 possible duplicates"; "Your contacts have many repeated entries. Merge the identical ones in one step, then check the rest."; chips "All 41", "Identical 26", "Similar 15"; "Merge all identical (26)"; "Keep both for the rest"; row state "Not reviewed" / "Merge" / "Keep both" / "Skip"; "40 not reviewed yet. They’ll be imported as separate items." |
+| Many | "41 possible duplicates"; "Your contacts have many repeated entries. Merge the identical ones in one step, then check the rest."; chips "All 41", "Identical 26", "Similar 15"; "Merge all identical (26)"; "Keep both for the rest"; row state "Not reviewed" / "Merge" / "Keep both" / "Skip"; "40 not reviewed yet. They'll be imported as separate items." |
 | Continue | "Continue" |
 
 ## 7. Accessibility
