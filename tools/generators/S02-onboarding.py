@@ -21,7 +21,11 @@ def card_body(c, large=False):
         return f'''<div class="flex min-h-0 flex-1 flex-col px-6 pb-5 pt-6">
         <h2 class="line-clamp-4 text-title-1">{c["title"]}</h2>
         <p class="mt-2 text-title-3 font-normal text-muted-foreground">{c["sub"]}</p>
-        <p class="mt-auto text-title-1 tabular-nums">{c.get("price", "")}</p>
+        <dl class="mt-5 space-y-3">
+          <div><dt class="text-body-lg text-muted-foreground">Price</dt><dd class="text-title-1 tabular-nums">{c.get("price", "")}</dd></div>
+          <div><dt class="text-body-lg text-muted-foreground">Rating</dt><dd class="text-title-3 font-normal">{c.get("rating", "")} <span class="text-muted-foreground">({c.get("reviews", "")} reviews)</span></dd></div>
+          <div><dt class="text-body-lg text-muted-foreground">Category</dt><dd class="text-title-3 font-normal">{c.get("tag", "")}</dd></div>
+        </dl>
       </div>'''
     if c['kind'] == 'photo':
         return f'''<img src="{IMG}{c["img"]}" alt="" class="min-h-0 w-full flex-1 object-cover">
@@ -81,21 +85,25 @@ def stack(top_card, nxt=None, promote=False, hint=None):
   </div>'''
 
 
-def dbtn(kind, state='rest', large=False):
+def dbtn(kind, state='rest', large=False, href=None):
     ic = {'accept': 'check', 'reject': 'x', 'maybe': 'circle-help'}[kind]
     lab = {'accept': 'Accept', 'reject': 'Reject', 'maybe': 'Maybe'}[kind]
     cls = {'rest': f'bg-{kind}-soft text-{kind}-soft-foreground',
            'armed': f'bg-{kind} text-{kind}-foreground ring-4 ring-{kind}/25'}[state]
     if large:
         return f'<button type="button" class="flex min-h-16 flex-col items-center justify-center gap-1 rounded-control bg-{kind}-soft px-2 py-2 text-{kind}-soft-foreground" data-action="{kind}">{icon(ic, "size-7")}<span class="text-title-3">{lab}</span></button>'
-    return f'<button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="{kind}"><span class="flex size-16 items-center justify-center rounded-full {cls}">{icon(ic, "size-7")}</span><span class="text-caption">{lab}</span></button>'
+    inner = f'<span class="flex size-16 items-center justify-center rounded-full {cls}">{icon(ic, "size-7")}</span><span class="text-caption">{lab}</span>'
+    if href:
+        return f'<a href="{href}" class="flex min-w-touch flex-col items-center gap-1.5" data-action="{kind}">{inner}</a>'
+    return f'<button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="{kind}">{inner}</button>'
 
 
-def dbar(armed=None, large=False):
+def dbar(armed=None, large=False, links=None):
     st = lambda k: 'armed' if armed == k else 'rest'
+    lk = links or {}
     if large:
         return f'<div class="grid shrink-0 grid-cols-3 gap-2 px-4 pb-4 pt-3">{dbtn("reject", large=True)}{dbtn("maybe", large=True)}{dbtn("accept", large=True)}</div>'
-    return f'<div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3">{dbtn("reject", st("reject"))}{dbtn("maybe", st("maybe"))}{dbtn("accept", st("accept"))}</div>'
+    return f'<div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3">{dbtn("reject", st("reject"), href=lk.get("reject"))}{dbtn("maybe", st("maybe"), href=lk.get("maybe"))}{dbtn("accept", st("accept"), href=lk.get("accept"))}</div>'
 
 
 def tried(done=()):
@@ -119,20 +127,23 @@ def demo_bar(kind='android', back='#S02-welcome'):
     return appbar('', href=back, label='Back to welcome', actions=text_action('Skip', SKIP, 'skip'))
 
 
-SHORTCUT = '<a href="#S02-demo-done" class="sr-only focus:not-sr-only" data-action="next">Finish the demo (prototype shortcut: the app moves on after the third gesture)</a>'
+# Prototype affordance (QA-019): clicking the card finishes the demo; in the app it moves on after the
+# third gesture. The decision buttons step through the demo frames.
+SHORTCUT = '<a href="#S02-demo-done" class="absolute inset-x-8 bottom-4 top-0 z-20 rounded-hero" data-action="next" aria-label="Finish the demo (prototype: click the card; the app moves on after the third gesture)"></a>'
 
 
-def demo(title, body, top, nxt=None, drag=None, done=(), hint=None, kind='android', reduced=False, extra='', promote=None, shortcut=False):
-    tc = card(top, drag, reduced)
+def demo(title, body, top, nxt=None, drag=None, done=(), hint=None, kind='android', reduced=False, extra='', promote=None, shortcut=False, links=None, note=None):
+    tc = card(top, drag, reduced) + (SHORTCUT if shortcut else '')
+    sub = (f'<p class="mt-1 flex items-start gap-1.5 text-body text-foreground" role="status">{icon("info", "size-5 mt-0.5 shrink-0 text-primary")}<span>{note}</span></p>' if note
+           else f'<p class="mt-1 text-body text-muted-foreground">{body}</p>')
     return f'''{demo_bar(kind)}
   <div class="shrink-0 px-gutter">
     <h1 class="text-title-2">{title}</h1>
-    <p class="mt-1 text-body text-muted-foreground">{body}</p>
+    {sub}
     {tried(done)}
   </div>
   {stack(tc, nxt, promote if promote is not None else bool(drag), hint)}
-  {dbar(drag)}
-  {SHORTCUT if shortcut else ''}
+  {dbar(drag, links=links)}
   {extra}'''
 
 
@@ -149,7 +160,19 @@ def hero(size='h-96'):
     </div>'''
 
 
-def welcome(kind='android', web_note=False):
+def welcome(kind='android', web_note=False, replay=False):
+    if replay:
+        top = appbar('', back='x', href='S06-settings.html#S06-help', label='Close the introduction', action='close')
+        return f'''{top}
+  <div class="flex min-h-0 flex-1 flex-col justify-center">{hero()}</div>
+  <div class="shrink-0 px-gutter text-center">
+    <h1 class="text-balance text-title-1">Sort any list, one card at a time</h1>
+    <p class="mx-auto mt-2 max-w-prose text-body-lg text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, photos, things to buy and ideas, alone or with others.</p>
+  </div>
+  <div class="shrink-0 space-y-2 px-gutter pb-4 pt-6">
+    {btn("Try the gestures", href="#S02-demo", action="next")}
+    {btn("Done", "ghost", href="S06-settings.html#S06-help", action="done")}
+  </div>'''
     if kind == 'ios':
         top = ios_nav(trailing=ios_text_btn('Skip', SKIP, action='skip'))
     else:
@@ -163,7 +186,7 @@ def welcome(kind='android', web_note=False):
   <div class="flex min-h-0 flex-1 flex-col justify-center">{hero()}</div>
   <div class="shrink-0 px-gutter text-center">
     <h1 class="text-balance text-title-1">Sort any list, one card at a time</h1>
-    <p class="mx-auto mt-2 max-w-prose text-body-lg text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, products, photos and ideas, alone or with others.</p>
+    <p class="mx-auto mt-2 max-w-prose text-body-lg text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, photos, things to buy and ideas, alone or with others.</p>
   </div>
   <div class="shrink-0 space-y-2 px-gutter pb-4 pt-6">
     {btn("Get started", href="#S02-demo", action="next")}
@@ -173,23 +196,24 @@ def welcome(kind='android', web_note=False):
 
 
 P.section('Welcome', 'What SwipeSort does in one sentence, shown with real sample cards. "Get started" opens the demo; "I have an account" opens S03. Skip goes straight to an empty Lists screen (S08 first run).')
-P.frame('S02-welcome', 'Welcome', phone(welcome()))
+P.frame('S02-default', 'Default entry: replayed from Settings › Help (close instead of Skip)', phone(welcome(replay=True)))
+P.frame('S02-welcome', 'Welcome (first launch)', phone(welcome()))
 
 # ---------------------------------------------------------------- demo
 P.section('Gesture demo', 'A deck of four neutral sample cards (products and photos from sample data). The user tries all three gestures in any order; the checklist fills as each one is used, and the instruction always names the next untried gesture. Buttons count too. Nothing is saved. After the third gesture the recap opens automatically (700 ms after the commit).')
 P.frame('S02-demo', 'Demo, step 1: swipe right to accept', phone(demo(
-    'Swipe right to accept', 'Try it on these sample cards. Nothing is saved.', DESK, PHOTO, hint='accept', shortcut=True)))
+    'Swipe right to accept', 'Try it on these sample cards. Nothing is saved.', DESK, PHOTO, hint='accept', shortcut=True, links={'accept': '#S02-demo-step-2'})))
 P.frame('S02-demo-drag-accept', 'Dragging right, armed: tint, stamp, Accept button fills', phone(demo(
     'Swipe right to accept', 'Try it on these sample cards. Nothing is saved.', DESK, PHOTO, drag='accept')))
 P.frame('S02-demo-snap-back', 'Released too early: card snaps back, hint', phone(demo(
     'Swipe right to accept', 'Try it on these sample cards. Nothing is saved.', DESK, PHOTO,
-    extra=snackbar('Drag a little further to decide. Let go early to cancel.', bottom='bottom-32'))))
+    note='Drag a little further to decide. Let go early to cancel.')))
 P.frame('S02-demo-step-2', 'Demo, step 2: swipe left to reject', phone(demo(
-    'Swipe left to reject', 'Accepted. Now send this one the other way.', PHOTO, LAMP, done=('accept',), hint='reject')))
+    'Swipe left to reject', 'Accepted. Now send this one the other way.', PHOTO, LAMP, done=('accept',), hint='reject', links={'reject': '#S02-demo-step-3'})))
 P.frame('S02-demo-drag-reject', 'Dragging left, armed', phone(demo(
     'Swipe left to reject', 'Accepted. Now send this one the other way.', PHOTO, LAMP, drag='reject', done=('accept',))))
 P.frame('S02-demo-step-3', 'Demo, step 3: swipe up for maybe', phone(demo(
-    'Swipe up for maybe', 'Not sure? Maybe items wait in their own pile so you can sort them again later.', LAMP, CITY, done=('accept', 'reject'), hint='maybe')))
+    'Swipe up for maybe', 'Not sure? Maybe items wait in their own pile so you can sort them again later.', LAMP, CITY, done=('accept', 'reject'), hint='maybe', links={'maybe': '#S02-demo-done'})))
 P.frame('S02-demo-drag-maybe', 'Dragging up, armed', phone(demo(
     'Swipe up for maybe', 'Not sure? Maybe items wait in their own pile so you can sort them again later.', LAMP, CITY, drag='maybe', done=('accept', 'reject'))))
 P.frame('S02-demo-other-order', 'Any order works: left first, the hint moves on to the next untried gesture', phone(demo(
@@ -240,11 +264,12 @@ lt_welcome = f'''<header class="flex min-h-16 shrink-0 items-center justify-end 
   <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
     {mark("size-16")}
     <h1 class="mt-6 text-display">Sort any list, one card at a time</h1>
-    <p class="mt-3 text-title-3 font-normal text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, products, photos and ideas, alone or with others.</p>
+    <p class="mt-4 text-title-2 font-normal text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, photos, things to buy and ideas, alone or with others.</p>
   </div>
   <div class="shrink-0 space-y-2 px-gutter pb-4 pt-4">
     {btn("Get started", href="#S02-demo", extra="min-h-16 h-auto py-3 text-title-3")}
     {btn("I have an account", "ghost", href="S03-sign-in.html#S03-default", extra="min-h-16 h-auto py-3 text-title-3")}
+    <p class="flex items-start gap-2 pt-1 text-body-lg text-muted-foreground">{icon("smartphone", "size-6 mt-0.5 shrink-0")}No account needed. Lists stay on this phone.</p>
   </div>'''
 P.frame('S02-welcome-large-text', 'Large text (200%): illustration hidden, text wraps', phone(lt_welcome))
 

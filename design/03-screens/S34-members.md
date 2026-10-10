@@ -36,12 +36,12 @@ DM-20, GOAL-03, GOAL-04, PLT-02, PLT-03, PLT-04, PLT-13–PLT-16, PLT-21, PLT-23
 ## 3. Layout and components
 
 Stack screen inside `list/[listId]`, no bottom navigation. AppBar (small): back, "Members" with the list
-name as subtitle, trailing `user-plus` "Invite people". Content in the 16 dp inset, sections 24 apart:
+name as subtitle, trailing `user-plus` "Invite people". Content in the 20 dp `px-gutter`, sections 20 apart:
 
 1. **{n} members** ListGroup:
    - MemberRow per member: Avatar 40, name ("(you)" for the viewer), role text with icon (`crown` Owner,
-     `gavel` Decision Maker, plain "Collaborator") and the count "85 / 100 decided" on one line, Progress
-     bar (`h-1.5`) below, options IconButton (`ellipsis-vertical`, 48) for the Owner on other members' rows.
+     `gavel` Decision Maker, plain "Collaborator") on the second line, then the Progress bar (`h-1.5`) with
+     the count "85 / 100 decided" in a fixed, non-wrapping column on its right (rows keep one height), options IconButton (`ellipsis-vertical`, 48) for the Owner on other members' rows.
      Finished members show `circle-check` "Finished" after the name.
    - Owner: "Invite links" row (`link-2`, "2 active, Collaborator", chevron) → S31 pending.
    - "Invite people" row (`user-plus`, primary text).
@@ -74,9 +74,9 @@ Dialogs: AlertDialog (S40 pattern). Remove uses a RadioGroup inside the dialog (
 | `S34-scrolled` | Same, scrolled to Transfer ownership and Leave list |
 | `S34-finished` | A member decided every item of the round (Selin 100 / 100) |
 | `S34-empty` | Just shared, nobody joined yet: Owner is the only member and Decision Maker (A-26); invite empty state |
-| `S34-dm-confirm` | Owner turns on Selin's switch while Mert holds the role |
-| `S34-dm-changed` | Confirmed: Selin on, Mert off, snackbar |
-| `S34-dm-self-confirm` | Owner turns on their own switch (DM-10 "including themselves") |
+| `S34-dm-confirm` | Flow 3: Deniz (Owner and Decision Maker since sharing, A-26) turns on Mert's switch after he joined as Collaborator. Behind the dialog exactly one switch (Deniz) is still on |
+| `S34-dm-changed` | Flow 3 step (prototype index): confirmed, Mert is the Decision Maker, Deniz's switch is off, snackbar "Mert is now the Decision Maker" |
+| `S34-dm-self-confirm` | Owner turns on their own switch while Mert holds the role (DM-10 "including themselves") |
 | `S34-dm-off-confirm` | Owner turns off the only Decision Maker |
 | `S34-member-sheet` | Options for Selin (role change sheet) |
 | `S34-remove-dialog` | "Remove from list": keep (default) or discard Selin's decisions (DM-17) |
@@ -100,9 +100,9 @@ Dialogs: AlertDialog (S40 pattern). Remove uses a RadioGroup inside the dialog (
 
 - **Decision Maker switch** (Owner):
   - Nobody holds the role → on immediately; snackbar "Selin is now the Decision Maker".
-  - Someone else holds it → the tapped switch shows on, the dialog asks; Cancel turns it back off;
-    "Change Decision Maker" turns the previous holder's switch off (200 ms), updates the row labels and
-    shows the snackbar. Notifies both members (S38 roleChanged: "Deniz made you the Decision Maker",
+  - Someone else holds it → the dialog asks before anything changes (the switches keep showing the
+    current holder, so exactly one is ever on); "Change Decision Maker" moves the on state to the new
+    holder (200 ms), updates the row labels and shows the snackbar. Notifies both members (S38 roleChanged: "Deniz made you the Decision Maker",
     "Deniz made Selin the Decision Maker").
   - Owner's own switch → "Become the Decision Maker?" dialog when someone else holds it.
   - Turning off the current holder → "Turn off the Decision Maker?" dialog; copy depends on the rule (see
@@ -141,22 +141,22 @@ Dialogs: AlertDialog (S40 pattern). Remove uses a RadioGroup inside the dialog (
 | Invite rows | "Invite links" / "2 active, Collaborator"; "Invite people"; non-owner: "Invite people" / "As Collaborator" |
 | Empty | "1 member"; "Only you so far" / "Invite people to sort Wedding guests with you. Everyone decides on their own." / "Invite people"; DM footer "You're the Decision Maker until you give the role to someone who joins." |
 | Conflicts section | "Resolving conflicts"; "Conflict rule" / "Decision Maker decides" ("Majority decides", "Everyone must agree"); DM view: "Review 15 conflicts" / "You resolve them as Decision Maker" |
-| Decision Maker section | "Decision Maker"; switch labels "Decision Maker: Selin Yılmaz"; footer "Resolves conflicts and breaks ties. One member at a time." |
+| Decision Maker section | "Decision Maker"; switch labels "Decision Maker: Selin Yılmaz"; footer "Resolves conflicts and breaks ties. Only one member can have this role: turning it on for someone turns it off for the current one." |
 | Read-only | "Mert Aydın" / "Resolves conflicts and breaks ties."; "You're the Decision Maker" / "You resolve conflicts and break ties."; "Only Deniz, the Owner, can change roles." |
 | Ownership | "Transfer ownership" / "Make another member the Owner"; "Leave list" |
-| Move dialog | "Make Selin the Decision Maker?" / "Mert stops being the Decision Maker. Selin will resolve the 15 open conflicts and any new ones." / "Cancel", "Change Decision Maker" (rule Majority: "Selin will break ties from now on.") |
+| Move dialog | From the Owner: "Make Mert the Decision Maker?" / "You stop being the Decision Maker. Mert will resolve the 15 open conflicts and any new ones." From another member: "Make Selin the Decision Maker?" / "Mert stops being the Decision Maker. Selin will resolve the 15 open conflicts and any new ones." / "Cancel", "Change Decision Maker" (rule Majority: "… will break ties from now on.") |
 | Self dialog | "Become the Decision Maker?" / "Mert stops being the Decision Maker. You'll resolve the 15 open conflicts and any new ones." / "Cancel", "Become Decision Maker" |
 | Off dialog | "Turn off the Decision Maker?" / "Under the rule Decision Maker decides, conflicts need a Decision Maker. Without one, they stay open until members change their decisions to match. You can turn it on again at any time." / "Cancel", "Turn off". Rule Majority: "Under the rule Majority decides, ties will stay as conflicts until members change their decisions. You can turn it on again at any time." |
-| Snackbars | "Selin is now the Decision Maker"; "Nobody is the Decision Maker now"; "Removed Selin" + "Undo"; "Mert is now the Owner"; "You left “Wedding guests”"; "Couldn't save the change. Check your connection and try again." |
+| Snackbars | "Mert is now the Decision Maker"; "Nobody is the Decision Maker now"; "Removed Selin" + "Undo"; "Mert is now the Owner"; "You left “Wedding guests”"; "Couldn't save the change. Check your connection and try again." |
 | Member sheet | "Selin Yılmaz"; "selin.yilmaz@example.com"; "Collaborator, joined Oct 2"; "Decision Maker" / "Resolves conflicts and breaks ties. Mert has this role now." (when nobody: "Resolves conflicts and breaks ties."); "Make Owner" / "Hand the list over. You become a Collaborator."; "Remove from list" |
 | Remove dialog | "Remove Selin from “Wedding guests”?" / "Selin can't open the list anymore. Choose what happens to Selin's 43 decisions." / "Keep Selin's decisions" — "They still count toward Agreed, Pending and Conflict." / "Discard Selin's decisions" — "Item statuses are recalculated without them." / "Cancel", "Remove Selin". Removing the Decision Maker adds: "Mert is the Decision Maker, so nobody will have this role." |
-| Transfer dialog | "Make Mert the Owner?" / "Mert will manage members, rounds and the conflict rule, and can rename or delete the list. You'll stay on the list as a Collaborator." / "Cancel", "Make Mert Owner" |
+| Transfer dialog | "Make Mert the Owner?" / "Mert will manage members, rounds and the conflict rule, and can rename or delete the list." / "You'll stay on the list as a Collaborator. Only Mert can make you the Owner again." / "Cancel", "Make Mert Owner" (same as S40 `S40-transfer-ownership`) |
 | Owner leave | "Choose a new Owner first" / "“Wedding guests” needs an Owner. Make another member the Owner, then you can leave. To remove the list for everyone, delete it instead." / "Cancel", "Choose new Owner" |
 | Transfer picker | "Choose the new Owner"; "Mert Aydın" / "Decision Maker"; "Selin Yılmaz" / "Collaborator"; "Mert will manage members, rounds and the conflict rule. You'll leave “Wedding guests”: your 76 decisions stay and still count, items you haven't decided stop waiting for you, and your private notes are deleted." / "Make Mert Owner and leave", "Make Mert Owner and stay" |
 | Leave dialog (Collaborator) | "Leave “Wedding guests”?" / "You won't see this list anymore. Your 43 decisions stay and still count toward the list status. Items you haven't decided stop waiting for you, and your private notes are deleted. To come back, ask Deniz for a new invite." / "Cancel", "Leave list" (same strings as S10 `S10-leave`) |
 | Leave dialog (Decision Maker) | "Leave “Wedding guests”?" / "You won't see this list anymore. Your 85 decisions stay and still count toward the list status. You're the Decision Maker, so nobody will have this role until Deniz chooses someone. The 15 open conflicts stay open." / "Cancel", "Leave list" (same as S10 `S10-leave-decision-maker`) |
 | Loading | (skeleton) screen reader "Loading members" |
-| Error | "Members couldn't be loaded" / "SwipeSort didn't respond. Check your connection and try again." / "Try again" |
+| Error | S40 `S40-error` treatment: back only in the app bar; `cloud-alert`; "Members couldn't be loaded" / "SwipeSort didn't respond. Check your connection and try again." / "Your decisions are saved on this phone." / "Try again" (secondary), "Back to list" (ghost) |
 | Offline | Banner "You're offline. Changes to members need a connection."; DM footer "Changes to members need a connection." |
 | iOS action sheet | "Selin Yılmaz, Collaborator"; "Make Decision Maker" (or "Remove as Decision Maker"); "Make Owner"; "Remove from list"; "Cancel" |
 | Web menu | "Decision Maker" (switch item), "Make Owner", "Remove from list" |
@@ -207,6 +207,6 @@ Dialogs: AlertDialog (S40 pattern). Remove uses a RadioGroup inside the dialog (
   device resolve last-write-wins and the screen updates live.
 - **Many members** (10+): the group lists all members (the screen scrolls); the Decision Maker group lists
   everyone too; a search field is not needed at this size.
-- **Long names**: wrap to two lines; the count wraps under the role text.
+- **Long names**: wrap to two lines; the count never wraps (fixed column next to the bar).
 - **Progress after a new round**: bars reset to the new round's totals ("0 / 11 decided").
 - **Members screen on a solo list**: not reachable (S09 solo has no Members row).

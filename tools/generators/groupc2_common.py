@@ -324,7 +324,7 @@ def sheet(sid, title, body, actions='', top=None, close=True, subtitle=''):
     return f'''{scrim()}
   <div class="absolute inset-x-0 bottom-0 {pos}z-20 {flex}rounded-t-sheet bg-popover px-gutter pb-6 pt-2 shadow-sheet" role="dialog" aria-modal="true" aria-labelledby="{sid}">
     <div class="flex shrink-0 justify-center py-1.5"><span class="h-1 w-8 rounded-full bg-muted-foreground/40"></span></div>
-    <div class="flex shrink-0 items-start justify-between gap-2 pt-2"><div class="min-w-0"><h2 id="{sid}" class="text-title-3">{title}</h2>{sub}</div>{cl}</div>
+    <div class="flex shrink-0 {"items-start" if subtitle else "items-center"} justify-between gap-2 pt-2"><div class="min-w-0"><h2 id="{sid}" class="text-title-3">{title}</h2>{sub}</div>{cl}</div>
     {body}
     {act}
   </div>'''

@@ -30,8 +30,12 @@ def icon(name, size='size-5', extra=''):
 
 
 # ---------------------------------------------------------------- page, frames, devices
-def phone(content, kind='android', screen_cls=''):
-    """kind: android | ios | web (mobile browser, no system bars)."""
+def phone(content, kind='android', screen_cls='', overlay_full=False):
+    """kind: android | ios | web (mobile browser, no system bars).
+    overlay_full: the frame has a sheet or dialog; its scrim and sheet extend under the system bars
+    (the screen stops being the containing block and the bars draw on top)."""
+    if overlay_full and kind != 'web':
+        return phone(content, kind, (screen_cls + ' static').strip()).replace('class="sysbar-top"', 'class="sysbar-top relative z-50"').replace('class="sysbar-nav"', 'class="sysbar-nav relative z-50"')
     if kind == 'web':
         return f'''<div class="phone">
   <div class="screen {screen_cls}">
@@ -180,7 +184,7 @@ def bottom_nav(active='settings', badge=3):
         if key == active:
             out.append(f'<a href="{href}" class="flex flex-1 flex-col items-center justify-center gap-1 text-caption" aria-current="page"><span class="flex h-8 w-16 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground">{icon(ic, "size-6")}</span><span class="font-semibold">{label}</span></a>')
         elif key == 'activity' and badge:
-            out.append(f'<a href="{href}" class="flex flex-1 flex-col items-center justify-center gap-1 text-caption text-muted-foreground" aria-label="Activity, {badge} unread"><span class="relative flex h-8 w-16 items-center justify-center">{icon(ic, "size-6")}<span class="absolute right-3 top-0 flex h-5 min-w-5 items-center justify-center rounded-full bg-destructive px-1 text-caption leading-none text-destructive-foreground">{badge}</span></span>{label}</a>')
+            out.append(f'<a href="{href}" class="flex flex-1 flex-col items-center justify-center gap-1 text-caption text-muted-foreground" aria-label="Activity, {badge} unread"><span class="relative flex h-8 w-16 items-center justify-center">{icon(ic, "size-6")}<span class="absolute right-3 top-0 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-caption leading-none text-primary-foreground">{badge}</span></span>{label}</a>')
         else:
             out.append(f'<a href="{href}" class="flex flex-1 flex-col items-center justify-center gap-1 text-caption text-muted-foreground"><span class="flex h-8 w-16 items-center justify-center">{icon(ic, "size-6")}</span>{label}</a>')
     return f'<nav class="flex h-bottom-nav shrink-0 border-t bg-card" aria-label="Main">{"".join(out)}</nav>'
@@ -197,7 +201,7 @@ def ios_tab_bar(active='settings', badge=3):
         b = ''
         lab = ''
         if key == 'activity' and badge:
-            b = f'<span class="absolute -right-2.5 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-destructive px-1 text-caption leading-none text-destructive-foreground">{badge}</span>'
+            b = f'<span class="absolute -right-2.5 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-caption leading-none text-primary-foreground">{badge}</span>'
             lab = f' aria-label="Activity, {badge} unread"'
         out.append(f'<a href="{href}" class="flex flex-1 flex-col items-center justify-center gap-0.5 text-caption {col}"{cur}{lab}><span class="relative">{icon(ic, "size-6")}{b}</span>{label}</a>')
     return f'<nav class="flex h-14 shrink-0 border-t bg-card" aria-label="Main">{"".join(out)}</nav>'
@@ -412,7 +416,7 @@ def snackbar(text, action=None, bottom='bottom-6', role='status', icon_name=None
 
 
 def offline_banner(text="You're offline. Signing in needs a connection."):
-    return f'<div class="flex shrink-0 items-center gap-2 bg-muted px-gutter py-2 text-body-sm" role="status">{icon("wifi-off", "size-4 shrink-0")}<span class="flex-1">{text}</span></div>'
+    return f'<div class="mb-3 flex shrink-0 items-center gap-2 bg-muted px-gutter py-2 text-body-sm" role="status">{icon("wifi-off", "size-4 shrink-0")}<span class="flex-1">{text}</span></div>'
 
 
 def alert_error(title, body=None, action=None, extra=''):

@@ -288,10 +288,10 @@ in_progress = screen(
 )
 F.add('S24-round-in-progress', 'A round is in progress: inline warning before ending it', phone(in_progress))
 
-end_dialog = dialog('erd', 'End Round 1 for everyone?',
-                    '<p>Mert and Selin are still sorting. Decisions made so far are kept, and items nobody decided stay undecided.</p><p>Round 2 then starts for all 3 members with 11 items.</p>',
+end_dialog = dialog('erd', 'End Round 1 for everyone and start Round 2?',
+                    '<p>Mert and Selin are still sorting. Decisions made so far are kept, and items nobody decided stay undecided.</p><p>Round 2 starts for all 3 members with 11 items.</p>',
                     btn('Cancel', 'ghost', '#S24-round-in-progress', 'cancel', full=False) + btn('End Round 1 and start', 'primary', 'S25-sorting.html#S25-shared', 'confirm-end-round', full=False))
-F.add('S24-end-round-dialog', 'Confirm: end the open round, then start (S40 end-round pattern)', phone(in_progress.replace('data-action="start-round"', '') + scrim('bg-scrim/50', 'z-20') + end_dialog))
+F.add('S24-end-round-dialog', 'Confirm: end the open round for everyone, then start (shared variant of S40-new-round)', phone(in_progress.replace('data-action="start-round"', '') + scrim('bg-scrim/50', 'z-20') + end_dialog))
 
 collab_notice = f'''<div class="mb-4 flex items-start gap-3 rounded-control border bg-card p-4" role="note">
       {icon("lock", "size-5 mt-0.5 shrink-0 text-muted-foreground")}
@@ -307,7 +307,7 @@ F.add('S24-collaborator-asked', 'After asking: request sent to the Owner', phone
 
 F.add('S24-offline', 'Shared list offline: starting for everyone needs a connection', phone(screen(
     'Wedding guests', wedding_items(shared=True), 'maybe', 'original', close_href='S09-list-overview.html#S09-shared',
-    banner=offline_banner("You're offline. Starting a round for everyone needs a connection."),
+    banner=offline_banner("You're offline. Decisions are saved on this phone. Starting a round for everyone needs a connection."),
     items_trailing='<span class="text-caption text-muted-foreground">Based on final decisions</span>',
     bottom=summary_bar(11, 2, 'Maybe pile, in original order, for 3 members', start_btn(disabled=True),
                        '<p class="mt-2 text-center text-body-sm text-muted-foreground">Try again when you\'re online.</p>'),

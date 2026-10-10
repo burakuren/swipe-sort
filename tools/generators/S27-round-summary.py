@@ -7,6 +7,24 @@ from group_e_common import *  # noqa
 OUT = sys.argv[1]
 F = Frames('S27')
 
+# ---- Shared summary data (QA-003): Deniz (Owner, me) finishes Round 1. Her decisions on items she had not
+# decided (c077–c100) = Mert's decision where Mert decided, else Accept. List status recomputed from the
+# sample data with those decisions.
+import json
+_D = json.load(open(os.path.join(os.path.dirname(__file__), '../../design/02-data/sample-data.json')))
+_my = dict(_D['shared']['myDecisions'])
+for _it in _D['shared']['items']:
+    _my.setdefault(_it['itemId'], _it['decisions'].get('u-mert') or 'accept')
+DENIZ = {k: sum(1 for v in _my.values() if v == k) for k in ('reject', 'maybe', 'accept')}
+STATUS = {'agreed': 0, 'pending': 0, 'conflict': 0}
+for _it in _D['shared']['items']:
+    _ds = dict(_it['decisions'], **{'u-deniz': _my[_it['itemId']]})
+    _vals = [v for v in _ds.values() if v]
+    STATUS['conflict' if len(set(_vals)) > 1 else ('agreed' if len(_vals) == len(_ds) else 'pending')] += 1
+MERT_DONE = sum(1 for _it in _D['shared']['items'] if _it['decisions'].get('u-mert'))
+SELIN_DONE = sum(1 for _it in _D['shared']['items'] if _it['decisions'].get('u-selin'))
+assert sum(DENIZ.values()) == 100 and sum(STATUS.values()) == 100
+
 
 # ------------------------------------------------------------------ parts
 def hero(title, list_name, line, large=False, ic=True):
@@ -72,16 +90,26 @@ def summary_screen(body, primary, done_href='S09-list-overview.html#S09-default'
   {bottom(primary, done_href, extra_bottom)}'''
 
 
-def list_status(agreed=32, pending=53, conflict=15, trailing='', loading=False):
+def list_status(agreed=None, pending=None, conflict=None, trailing='', loading=False):
+    """Same bar mapping and legend as S09-shared: Agreed = bg-foreground, Conflict = bg-foreground/50,
+    Pending = muted track. Each legend row has a swatch matching its segment (QA-023)."""
+    agreed = STATUS['agreed'] if agreed is None else agreed
+    pending = STATUS['pending'] if pending is None else pending
+    conflict = STATUS['conflict'] if conflict is None else conflict
     if loading:
         return f'''<div class="px-gutter pt-8" aria-busy="true">{section_header("List status")}
-      <div class="rounded-group bg-card p-4" role="status" aria-label="Loading list status"><div class="h-2 animate-pulse rounded-full bg-muted"></div><div class="mt-4 flex gap-2"><span class="h-7 w-24 animate-pulse rounded-full bg-muted"></span><span class="h-7 w-28 animate-pulse rounded-full bg-muted"></span><span class="h-7 w-24 animate-pulse rounded-full bg-muted"></span></div></div></div>'''
+      <div class="rounded-group bg-card p-4" role="status" aria-label="Loading list status"><div class="h-2 animate-pulse rounded-full bg-muted"></div><div class="mt-4 space-y-3">{''.join('<div class="flex items-center gap-3"><span class="size-5 animate-pulse rounded-full bg-muted"></span><span class="h-4 flex-1 animate-pulse rounded-full bg-muted"></span><span class="h-5 w-8 animate-pulse rounded-full bg-muted"></span></div>' for _ in range(3))}</div></div></div>'''
     t = agreed + pending + conflict
-    return f'''<div class="px-gutter pt-8">{section_header("List status", "", trailing)}
+
+    def leg(sw, ic, label, desc, n):
+        return f'<li class="flex items-center gap-3 py-2"><span class="size-3 shrink-0 rounded-full {sw}" aria-hidden="true"></span>{icon(ic, "size-5 shrink-0")}<span class="min-w-0 flex-1"><span class="block text-body">{label}</span><span class="block text-body-sm text-muted-foreground">{desc}</span></span><span class="text-title-3 tabular-nums">{n}</span></li>'
+    legend = (leg('bg-foreground', 'check-check', 'Agreed', 'Everyone chose the same', agreed)
+              + leg('bg-foreground/50', 'git-compare-arrows', 'Conflict', 'Members chose differently', conflict)
+              + leg('border border-input bg-muted', 'clock', 'Pending', 'Not everyone has decided', pending))
+    return f'''<div class="px-gutter pt-8">{section_header("List status", "", trailing or '<span class="text-caption text-muted-foreground">All 3 members</span>')}
       <div class="rounded-group bg-card p-4">
-        <div class="flex h-2 gap-0.5 overflow-hidden rounded-full" role="img" aria-label="{agreed} agreed, {conflict} in conflict, {pending} pending"><div class="w-[{round(agreed * 100 / t)}%] bg-foreground"></div><div class="w-[{round(conflict * 100 / t)}%] bg-foreground/50"></div><div class="flex-1 bg-muted"></div></div>
-        <div class="mt-3 flex flex-wrap gap-2">{badge('agreed', f'{agreed} agreed')}{badge('conflict', f'{conflict} conflicts')}{badge('pending', f'{pending} pending')}</div>
-        <p class="mt-3 text-body-sm text-muted-foreground">Pending items wait for members who are still sorting.</p>
+        <div class="flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted" role="img" aria-label="{agreed} agreed, {conflict} in conflict, {pending} pending"><div class="w-[{round(agreed * 100 / t)}%] bg-foreground"></div><div class="w-[{round(conflict * 100 / t)}%] bg-foreground/50"></div></div>
+        <ul class="mt-2 divide-y">{legend}</ul>
       </div>
     </div>'''
 
@@ -120,10 +148,15 @@ default_body = f'''{hero('Round 1 complete', 'Wedding guests', '100 / 100 decide
     {actions(solo_rows(14))}'''
 F.add('S27-default', 'Default: Wedding guests, solo, Round 1 complete', phone(summary_screen(default_body, REVIEW(), extra_bottom=backup_line)))
 
-first_body = f'''{hero('Round 1 complete', 'Wedding guests', '100 / 100 decided in 38 min')}
-    {counts(9, 5, 23, 100, animating=True)}
-    {actions(solo_rows(14))}'''
-F.add('S27-first-round', 'First round ever: counts counting up (250 of 500 ms); reduced motion shows S27-default at once', phone(summary_screen(first_body, REVIEW(), extra_bottom=backup_line)))
+first_body = f'''{hero('Round 1 complete', 'Wedding guests', '85 / 85 decided in 31 min')}
+    {counts(20, 12, 53)}
+    {actions(solo_rows(12))}'''
+F.add('S27-first-round', 'First round ever (end of flow 1): 85 imported contacts, not signed in', phone(summary_screen(first_body, REVIEW(), extra_bottom=backup_line)))
+
+countup_body = f'''{hero('Round 1 complete', 'Wedding guests', '85 / 85 decided in 31 min')}
+    {counts(10, 6, 27, 85, animating=True)}
+    {actions(solo_rows(12))}'''
+F.add('S27-count-up', 'Entrance: counts counting up (250 of 500 ms); reduced motion shows the final numbers at once', phone(summary_screen(countup_body, REVIEW(), extra_bottom=backup_line)))
 
 desk_body = f'''{hero('Round 2 complete', 'Desk setup', '6 / 6 decided in 2 min')}
     {counts(2, 1, 3)}
@@ -152,41 +185,34 @@ F.add('S27-ended-early', 'Round ended early: 12 items not decided, option to con
 # ------------------------------------------------------------------ shared
 F.section('Shared list', "My round is finished; the list is not. The summary shows my counts, the list status (Agreed, Pending, Conflict) and who is still sorting. The Decision Maker sees Review conflicts as the main action; only the Owner starts rounds.")
 
-mert_rows = [arow('chart-no-axes-column', 'Review results', 'Final decisions and my decisions', 'S28-results.html#S28-shared', 'review-results'),
-             arow('file-down', 'Export', 'CSV, Excel, Google Sheets or a text summary', 'S39-export.html#S39-shared', 'export')]
-mert_body = f'''{hero('Your Round 1 is done', 'Wedding guests', '100 / 100 decided', ic=False)}
-    {counts(27, 15, 58, label_prefix='My decisions: ')}
-    {list_status()}
-    {still_sorting([('deniz', 'Deniz', 76, 'Owner'), ('selin', 'Selin', 43, '')])}
-    {actions(mert_rows)}
-    <p class="px-gutter pt-2 text-body-sm text-muted-foreground">Deniz, the Owner, starts new rounds.</p>'''
-REVIEW_CONFLICTS = btn('Review 15 conflicts', 'primary', 'S36-conflicts.html#S36-default', 'review-conflicts', ic='git-compare-arrows')
-F.add('S27-shared', 'Shared, Decision Maker (Mert): Review conflicts first', phone(summary_screen(mert_body, REVIEW_CONFLICTS, 'S09-list-overview.html#S09-shared')))
-
-owner_rows = [arow('git-compare-arrows', '15 conflicts', 'Mert resolves them as Decision Maker', 'S36-conflicts.html#S36-default', 'review-conflicts'),
-              arow('circle-help', 'Re-sort Maybe (14)', 'Ends Round 1 for everyone', 'S24-start-round.html#S24-round-in-progress', 'resort-maybe', icon_cls='text-maybe-soft-foreground'),
+DR, DM, DA = DENIZ['reject'], DENIZ['maybe'], DENIZ['accept']
+NC = STATUS['conflict']
+owner_rows = [arow('git-compare-arrows', f'{NC} conflicts', 'Mert resolves them as Decision Maker', 'S36-conflicts.html#S36-default', 'review-conflicts'),
+              arow('circle-help', f'Re-sort Maybe ({DM})', 'Ends Round 1 for everyone', 'S24-start-round.html#S24-round-in-progress', 'resort-maybe', icon_cls='text-maybe-soft-foreground'),
               arow('list-restart', 'Start a new round', 'Ends Round 1 for everyone', 'S24-start-round.html#S24-round-in-progress', 'new-round'),
               arow('file-down', 'Export', 'CSV, Excel, Google Sheets or a text summary', 'S39-export.html#S39-shared', 'export')]
+SORTING = [('mert', 'Mert', MERT_DONE, 'Decision Maker'), ('selin', 'Selin', SELIN_DONE, '')]
 owner_body = f'''{hero('Your Round 1 is done', 'Wedding guests', '100 / 100 decided', ic=False)}
-    {counts(24, 14, 62, label_prefix='My decisions: ')}
+    {counts(DR, DM, DA, label_prefix='My decisions: ')}
     {list_status()}
-    {still_sorting([('mert', 'Mert', 85, 'Decision Maker'), ('selin', 'Selin', 43, '')])}
+    {still_sorting(SORTING)}
     {actions(owner_rows)}'''
-F.add('S27-shared-owner', 'Shared, Owner (Deniz): new rounds end Round 1 for everyone', phone(summary_screen(owner_body, REVIEW('S28-results.html#S28-shared'), 'S09-list-overview.html#S09-shared')))
+OWNER_PRIMARY = REVIEW('S28-results.html#S28-shared')
+F.add('S27-shared', 'Shared, Owner (Deniz) finished; Mert and Selin still sorting', phone(summary_screen(owner_body, OWNER_PRIMARY, 'S09-list-overview.html#S09-shared')))
 
 loading_body = f'''{hero('Your Round 1 is done', 'Wedding guests', '100 / 100 decided', ic=False)}
-    {counts(27, 15, 58, label_prefix='My decisions: ')}
+    {counts(DR, DM, DA, label_prefix='My decisions: ')}
     {list_status(loading=True)}
     {still_sorting([1, 2], loading=True)}'''
-F.add('S27-shared-loading', 'Shared, loading the list status', phone(summary_screen(loading_body, btn('Review conflicts', 'primary', disabled=True, ic='git-compare-arrows'), 'S09-list-overview.html#S09-shared')))
+F.add('S27-shared-loading', 'Shared, loading the list status', phone(summary_screen(loading_body, OWNER_PRIMARY, 'S09-list-overview.html#S09-shared')))
 
 offline_body = f'''{hero('Your Round 1 is done', 'Wedding guests', '100 / 100 decided', ic=False)}
-    {counts(27, 15, 58, label_prefix='My decisions: ')}
+    {counts(DR, DM, DA, label_prefix='My decisions: ')}
     {list_status(trailing='<span class="text-caption text-muted-foreground">As of 12 min ago</span>')}
-    {actions(mert_rows)}'''
-F.add('S27-offline', 'Shared, offline: my decisions saved on this phone, status as of the last sync', phone(summary_screen(
-    offline_body, REVIEW_CONFLICTS, 'S09-list-overview.html#S09-shared',
-    banner=offline_banner("You're offline. 4 decisions are saved on this phone and will sync later."))))
+    {actions(owner_rows)}'''
+F.add('S27-offline', 'Shared, offline: decisions saved on this phone, status as of the last sync', phone(summary_screen(
+    offline_body, OWNER_PRIMARY, 'S09-list-overview.html#S09-shared',
+    banner=offline_banner("You're offline. Decisions are saved on this phone."))))
 
 # ------------------------------------------------------------------ accessibility
 F.section('Accessibility', 'At 200% text the counts become labeled rows and the title left-aligns. Screen readers hear one announcement: "Round 1 complete. 24 rejected, 14 maybe, 62 accepted." The count-up is not announced.')
@@ -206,7 +232,7 @@ ios = summary_screen(default_body, btn('Review results', 'primary', 'S28-results
 ios = ios.replace(btn("Done", "ghost", 'S09-list-overview.html#S09-default', "done"), '')
 F.add('S27-ios', 'iOS', phone(ios, ios=True))
 
-desk_mert = summary_screen(mert_body, REVIEW_CONFLICTS, 'S09-list-overview.html#S09-shared')
-F.add('S27-web-desktop', 'Web, desktop: Mert finished sorting in the browser', desktop(desk_mert, 'swipesort.app/l/7Hq2xK/summary', hints([('Enter', 'Review conflicts'), ('Esc', 'Done')])))
+desk_owner = summary_screen(owner_body, OWNER_PRIMARY, 'S09-list-overview.html#S09-shared')
+F.add('S27-web-desktop', 'Web, desktop: Deniz finished sorting in the browser', desktop(desk_owner, 'swipesort.app/l/7Hq2xK/summary', hints([('Enter', 'Review results'), ('Esc', 'Done')])))
 
 F.write(OUT, 'S27 Round summary', 'The end of a round: my counts, what happened to the list and the next actions (review results, re-sort Maybe, start a new round, export). Spec: <a href="S27-round-summary.md">S27-round-summary.md</a>.')

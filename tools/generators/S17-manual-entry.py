@@ -65,10 +65,10 @@ def item_rows(ids, large=False):
     for pid in ids:
         p = PROD[pid]
         if large:
-            out += f'''<li class="px-4 py-3"><div class="flex items-start gap-3"><img src="{IMG}products/{pid}.svg" alt="" class="size-14 shrink-0 rounded-sm object-cover"><div class="min-w-0 flex-1"><p class="text-title-3">{p["name"]}</p><p class="text-body-lg text-muted-foreground">{p["price"]}, {p["store"]}</p></div></div>
+            out += f'''<li class="px-4 py-3"><div class="flex items-start gap-3"><img src="{IMG}products/{pid}.svg" alt="" class="size-14 shrink-0 rounded-sm object-cover"><div class="min-w-0 flex-1"><p class="text-title-3">{p["name"]}</p><p class="text-body-lg text-muted-foreground">€{p["price"]}, {p["store"]}</p></div></div>
         <div class="mt-2 flex gap-2">{btn('Edit', 'outline', 'pencil', aria='Edit ' + p['name'], size='min-h-14', extra='flex-1 text-title-3 font-normal').replace(' text-label-lg ', ' ')}{btn('Delete', 'outline', 'trash-2', aria='Delete ' + p['name'], size='min-h-14', extra='flex-1 text-title-3 font-normal').replace(' text-label-lg ', ' ')}</div></li>'''
         else:
-            out += f'''<li class="flex min-h-16 items-center gap-3 py-2 pl-4 pr-1"><img src="{IMG}products/{pid}.svg" alt="" class="size-10 shrink-0 rounded-sm object-cover"><div class="min-w-0 flex-1"><p class="truncate text-body">{p["name"]}</p><p class="truncate text-body-sm text-muted-foreground">{p["price"]}, {p["store"]}</p></div>{icon_btn('pencil', 'Edit ' + p['name'], href='#S17-edit-item' if pid == 'p02' else None, extra='text-muted-foreground')}{icon_btn('trash-2', 'Delete ' + p['name'], href='#S17-deleted' if pid == 'p01' else None, extra='text-muted-foreground')}</li>'''
+            out += f'''<li class="flex min-h-16 items-center gap-3 py-2 pl-4 pr-1"><img src="{IMG}products/{pid}.svg" alt="" class="size-10 shrink-0 rounded-sm object-cover"><div class="min-w-0 flex-1"><p class="line-clamp-2 text-body">{p["name"]}</p><p class="truncate text-body-sm text-muted-foreground">€{p["price"]}, {p["store"]}</p></div>{icon_btn('pencil', 'Edit ' + p['name'], href='#S17-edit-item' if pid == 'p02' else None, extra='text-muted-foreground')}{icon_btn('trash-2', 'Delete ' + p['name'], href='#S17-deleted' if pid == 'p01' else None, extra='text-muted-foreground')}</li>'''
     return out
 
 

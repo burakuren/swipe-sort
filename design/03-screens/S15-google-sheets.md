@@ -12,7 +12,7 @@ rows, then map fields. Writing back to a sheet happens only at export, after an 
 (S39).
 
 Covers: SRC-01, SRC-07, SRC-18, SRC-23, SAFE-01, SAFE-06 (promise stated up front), GOAL-03, PLT-03, PLT-04,
-PLT-21, VIS-13, OUT-01, SCR-15.
+PLT-16, PLT-21, VIS-13, OUT-01, SCR-15.
 
 ## 2. Entry points and exits
 
@@ -73,6 +73,7 @@ Import modal: **AppBar (modal)** "Import" + **ImportStepper** "Select items, Ste
 | `S15-web-desktop` | Desktop browser: Google OAuth popup open, SwipeSort waits |
 | `S15-web-popup-blocked` | The browser blocked the popup |
 | `S15-ios` | iOS page sheet with the spreadsheet list |
+| `S15-tabs-large-text` | 200% font scale: tab rows grow, names and column lists wrap, the list scrolls under the pinned Continue |
 
 ## 5. Interactions
 
@@ -129,7 +130,7 @@ Import modal: **AppBar (modal)** "Import" + **ImportStepper** "Select items, Ste
 | Connection failure | "Google Sheets didn't respond" / "Check your connection and try again. Nothing was imported." / "Choose another source", "Try again" |
 | Access removed | "SwipeSort can't see your spreadsheets" / "Access to Google Sheets was removed from your Google account. Connect again to choose a sheet." / "Choose another source", "Connect again" |
 | File access lost (snackbar on tap) | "You no longer have access to Home office budget. Ask its owner to share it again." |
-| Offline | banner "You're offline." / "Google Sheets needs a connection" / "Connect to the internet and try again, or import from another source. Contacts and files work offline." / "Choose another source", "Try again" |
+| Offline | banner "You're offline. Changes are saved on this phone. Google Sheets needs a connection." / "Google Sheets needs a connection" / "Connect to the internet and try again, or import from another source. Contacts and files work offline." / "Choose another source", "Try again" |
 | Web popup waiting | "Continue in the Google window" / "Choose your account and allow read-only access. SwipeSort continues here when you're done." / "Open the Google window again" |
 | Popup blocked | "Your browser blocked the Google window" / "Allow pop-ups for swipesort.app in the address bar, then try again." / "Choose another source", "Try again" |
 
@@ -141,6 +142,8 @@ Import modal: **AppBar (modal)** "Import" + **ImportStepper** "Select items, Ste
   reason.
 - The combine Alert is `role="note"`; errors announce their title (`role="alert"`).
 - Preview table: same as S14 (caption, headers, focusable scroll region; record view at ≥ 150% text).
+- Large text (`S15-tabs-large-text`): tab rows grow to fit wrapped names and column lists; the spreadsheet
+  list rows grow the same way; nothing truncates except the file name in the file row.
 - Loading uses `role="status"` with the visible text; skeleton rows are hidden from assistive tech.
 - The web popup waiting state keeps focus on "Open the Google window again".
 

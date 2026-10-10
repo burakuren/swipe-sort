@@ -159,18 +159,18 @@ contain a `Sxx-default` frame plus the IDs listed for it here.
 | `S05-share` | Sign-in prompt for sharing; `S05-backup`, `S05-moving`, `S05-moved` |
 | `S06-default` | Settings root (signed in); `S06-guest` |
 | `S08-first-run` | Empty home with Try a sample list; `S08-default` (lists); `S08-guest` |
-| `S09-default` (solo list); `S09-solo-round-done` (Desk setup after round 1); `S09-shared` (Wedding guests); `S09-guest-wedding` (wedding list before sharing, not signed in) | List overview |
+| `S09-default` (solo list); `S09-solo-round-done` (Desk setup after round 1); `S09-shared` (Wedding guests); `S09-shared-decision-maker` (Mert's view, flow 3); `S09-guest-wedding` (wedding list before sharing, not signed in) | List overview |
 | `S11-default` | Source picker (Android); `S11-web` |
 | `S12-contacts` | Contacts explainer; `S12-photos`, `S12-notifications`, `S12-contacts-denied` |
 | `S13-select-default` | Contacts selection (88 selected) |
 | `S14-default` | File import start; `S14-csv-preview` (candidates-q4.csv loaded) |
 | `S19-contacts` | Field mapping for contacts; `S19-csv` (candidates) |
-| `S20-default` | Duplicate review (4 groups) ; `S20-none` |
+| `S20-default` | Duplicate review (4 groups, 2 reviewed); `S20-reviewed-all` (3 merged, 1 kept both: 85 items); `S20-none` |
 | `S22-import-pick` | Finish import: template + list name (contacts); `S22-import-pick-csv` (candidates CSV); `S22-import-pick-custom` (custom template selected); `S22-change` (change mode) |
 | `S23-default` | Template editor; `S23-save` |
 | `S24-maybe` | Start round with Maybe pile preselected; `S24-default` |
 | `S25-default` | Sorting (solo); `S25-shared`, `S25-web-desktop`, `S25-candidate`, `S25-coach-1` |
-| `S27-default` | Round summary (solo, Wedding guests round 1 complete); `S27-desk-round-2` (Maybe pile re-sorted); `S27-shared` |
+| `S27-default` | Round summary (solo, Wedding guests 100 items); `S27-first-round` (flow 1: first round of the 85 imported contacts); `S27-desk-round-2` (Maybe pile re-sorted); `S27-shared` (Deniz finished her round on the shared list) |
 | `S28-default` | Results (Desk setup, after Round 2); `S28-shared` (Wedding guests) |
 | `S31-default` | Invite; `S31-link-copied` |
 | `S32-web-desktop` | Invite link opened in desktop browser; `S32-app` |
@@ -187,8 +187,9 @@ contain a `Sxx-default` frame plus the IDs listed for it here.
 `S01-default` (auto) → `S02-welcome` [`data-action="next"`] → `S02-demo` [`next`] → `S02-demo-done`
 [`get-started`] → `S08-first-run` [`import-list`] → `S11-default` [`source-contacts`] → `S12-contacts`
 [`continue`] → `S13-select-default` [`continue`] → `S19-contacts` [`continue`] → `S20-default`
-[`continue`] → `S22-import-pick` [`start-sorting`] → `S25-coach-1` [`next`…`done`] → live sort in
-`04-prototype/swipe-demo.html?deck=wedding&count=6` → `S27-default`.
+[`review`] → `S20-reviewed-all` (3 merged, 1 kept both: 85 items) [`continue`] → `S22-import-pick` [`start-sorting`] →
+`S25-coach-1` [`next`…`done`] → live sort in `04-prototype/swipe-demo.html?deck=first&count=6` (the prototype
+shortens the 85-item round) → `S27-first-round`.
 
 **Flow 2: re-sort Maybe → results → Google Sheets**
 `S09-solo-round-done` [`resort-maybe`] → `S24-maybe` [`start-round`] → `swipe-demo.html?deck=desk-maybe`
@@ -199,7 +200,9 @@ contain a `Sxx-default` frame plus the IDs listed for it here.
 `S09-guest-wedding` [`share`] → `S05-share` [`continue-google`] → `S05-moving` → `S05-moved`
 [`continue`] → `S31-default` [`copy-link`] → `S31-link-copied` [`partner-opens-link`] →
 `S32-web-desktop` [`sign-in-to-join`] → `S03-web-desktop` [`continue-google`] → `S33-web-desktop`
-[`start-sorting`] → `S25-web-desktop` (keyboard sorting) [`finish`] → `S27-shared`
+[`start-sorting`] → `S25-web-desktop` (keyboard sorting; any decision opens the live demo
+`swipe-demo.html?deck=mert` with Mert's undecided items) [`finish` = close] → `S09-shared-decision-maker` (Mert at 85 / 100;
+meanwhile Deniz sorts on Android, `S25-shared`; earlier Deniz made Mert the Decision Maker, `S34-dm-changed`)
 [`review-conflicts`] → `S36-default` [`resolve-all`] → `S37-confirm` [`confirm-resolve`] →
 `S37-summary` [`export`] → `S39-shared` [`format-google`] → `S39-shared-google-destination` [`continue`] →
 `S39-shared-google-confirm` [`confirm-write`] → `S39-success-shared`.

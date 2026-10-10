@@ -6,6 +6,66 @@ from groupa_common import *
 
 F08, F09, F10 = 'S08-home.html', 'S09-list-overview.html', 'S10-list-management.html'
 
+# Overlays (scrims, dialogs, sheets) are marked and placed at device level so the scrim also covers the
+# placeholder system bars (QA-053) and, on desktop, the whole viewport (QA-065).
+OV0, OV1 = '<!--OV-->', '<!--/OV-->'
+
+
+def ov(x):
+    return OV0 + x + OV1
+
+
+_phone, _desktop = phone, desktop
+
+
+def _split_ov(content):
+    m = re.search(r'<!--OV-->(.*)<!--/OV-->', content, re.S)
+    if not m:
+        return content, ''
+    return content[:m.start()] + content[m.end():], m.group(1)
+
+
+def phone(content, kind='android', screen_cls=''):
+    inner, over = _split_ov(content)
+    if not over or kind == 'web':
+        return _phone(inner + over, kind, screen_cls)
+    out = _phone(inner, kind, screen_cls)
+    i = out.rstrip().rfind('</div>')
+    return out[:i] + over + '\n' + out[i:]
+
+
+def desktop(content, url='swipesort.app', column_cls=''):
+    inner, over = _split_ov(content)
+    if not over:
+        return _desktop(inner, url, column_cls)
+    over = over.replace('absolute inset-x-6 top-1/2', 'absolute left-1/2 top-1/2 w-full max-w-sm -translate-x-1/2')
+    out = _desktop(inner, url, column_cls).replace('<div class="desktop-column', '<div class="relative flex min-h-0 flex-1 flex-col"><div class="desktop-column', 1)
+    i = out.rstrip().rfind('</div>')
+    return out[:i] + over + '</div>\n' + out[i:]
+
+
+# Count badges use primary (QA-057).
+_bn, _itb, _nav_row = bottom_nav, ios_tab_bar, nav_row
+_BADGE_OLD = 'bg-destructive px-1 text-caption leading-none text-destructive-foreground'
+_BADGE_NEW = 'bg-primary px-1 text-caption leading-none text-primary-foreground'
+
+
+def bottom_nav(*a, **k):
+    return _bn(*a, **k).replace(_BADGE_OLD, _BADGE_NEW)
+
+
+def ios_tab_bar(*a, **k):
+    return _itb(*a, **k).replace(_BADGE_OLD, _BADGE_NEW)
+
+
+def nav_row(*a, **k):
+    """Value rows: the label keeps its width, the value truncates (QA-063)."""
+    out = _nav_row(*a, **k)
+    if k.get('value'):
+        out = out.replace('<span class="min-w-0 flex-1"><span class="block', '<span class="shrink-0"><span class="block', 1)
+        out = out.replace('<span class="shrink-0 text-body text-muted-foreground">', '<span class="min-w-0 flex-1 truncate text-right text-body text-muted-foreground">', 1)
+    return out
+
 
 def h08(f): return f'{F08}#{f}'
 def h09(f): return f'{F09}#{f}'
@@ -306,17 +366,18 @@ def members_link(text='You, Mert and Selin', href='S34-members.html#S34-default'
     return f'<!-- Proposed component: MembersLink (AvatarStack + names) --><a href="{href}" class="-my-2 inline-flex min-h-touch items-center gap-2 text-body-sm text-muted-foreground">{stack(ring="ring-background")}<span class="text-foreground underline underline-offset-4">{text}</span></a>'
 
 
-def ov_screen(bar, body, top='', overlay='', pad='pb-8', translate=''):
+def ov_screen(bar, body, top='', overlay='', pad='pb-8', translate='', clip=''):
+    pt = 'pt-4' if top else 'pt-1'
     return f'''{bar}
   {top}
-  <div class="min-h-0 flex-1 overflow-hidden px-4 {pad} pt-1"><div class="space-y-6 {translate}">{body}</div></div>
+  <div class="min-h-0 flex-1 overflow-hidden px-4 {pad} {pt} {clip}"><div class="space-y-6 {translate}">{body}</div></div>
   {overlay}'''
 
 
 SRC_PHOTOS = [('image', 'Photos', '30 items, imported Oct 8')]
 SRC_DESK = [('keyboard', 'Manual entry', '20 items, typed in Oct 4')]
 SRC_HIRING = [('file-spreadsheet', 'candidates-q4.csv', '12 items, imported Oct 8')]
-SRC_SAMPLE = [('flask-conical', 'Sample products', '20 items, added with the sample')]
+SRC_SAMPLE = [('flask-conical', 'Sample items', '20 items, added with the sample')]
 SRC_WED = [('contact', 'Contacts', '88 items, imported Sep 28'), ('file-spreadsheet', 'mert-family.csv', '12 items, added today')]
 SRC_WED_NEW = [('contact', 'Contacts', '88 items, imported Sep 28'), ('file-spreadsheet', 'mert-family.csv', '12 items, added just now', True)]
 SRC_APT = [('sheet', 'Flat hunt 2026', 'Google Sheets, Kadıköy and Beşiktaş tabs, 8 items, imported Jul 2')]
@@ -329,7 +390,7 @@ def sources_group(sources, add=True, add_desc='From any source', href=None):
         ic, label, desc = src[:3]
         new = len(src) > 3 and src[3]
         badge = chip('New', 'primary') if new else ''
-        rows.append(nav_row(label, href=href or h09('S09-source-details'), icon_name=ic, desc=desc, action='source',
+        rows.append(nav_row(label, href=href or h09('S09-source-details'), icon_name=ic, desc=desc, action='source', title_cls='text-body truncate',
                             trailing=badge + icon('chevron-right', 'size-5 shrink-0 text-muted-foreground'),
                             aria=f'{label}, {desc}' + (', new' if new else '')))
     if add:
@@ -375,11 +436,11 @@ def guest_backup_line(web=False):
             f'<span class="ml-1 text-label text-primary">Back up</span></a>')
 
 
-def ov_solo_default():
+def ov_solo_default(clip=''):
     body = (ov_header('March photos clean-up', [mi('image', '30 items'), mi('user', 'Solo list')])
             + progress_photos()
             + rows_solo(template='Photo', results_desc='12 decided so far', sources=SRC_PHOTOS))
-    return ov_screen(ov_bar(share=('S31-invite.html#S31-default', 'Share list', 'share')), body)
+    return ov_screen(ov_bar(share=('S31-invite.html#S31-default', 'Share list', 'share')), body, clip=clip)
 
 
 def ov_round_done(bar_menu=h10('S10-default')):
@@ -413,7 +474,7 @@ def ov_empty():
 
 
 def ov_sample():
-    banner = alert_info('This is a sample list', '20 desk products to practise on. Sort, change decisions, try Results. Delete it from the menu when you\'re done; nothing else changes.', icon_name='flask-conical')
+    banner = alert_info('This is a sample list', '20 sample items to practice on. Sort, change decisions, try Results. Delete it from the menu when you\'re done; nothing else changes.', icon_name='flask-conical')
     c = card(card_head('Not sorted yet', '20 items', 'sm-h', 'circle-dashed')
              + '<p class="mt-2 text-body text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Or use the buttons.</p>'
              + btn('Start sorting', href='S25-sorting.html#S25-product', action='start-sorting', size='md', icon_name='play', extra='mt-4'), label='sm-h')
@@ -494,7 +555,7 @@ def shared_header(who='You, Mert and Selin', role=('Owner', 'crown', 'secondary'
     return ov_header('Wedding guests', [members_link(who), mi('users', '100 items'), r])
 
 
-def ov_shared_owner(translate='', bar_title=None, top='', share_disabled=False, list_status_btn=None, status_right='All 3 members', added=False, overlay=''):
+def ov_shared_owner(translate='', bar_title=None, top='', share_disabled=False, list_status_btn=None, status_right='All 3 members', added=False, overlay='', clip=''):
     lsb = list_status_btn if list_status_btn is not None else btn('Review conflicts', 'outline', href='S36-conflicts.html#S36-default', action='review-conflicts', size='md', icon_name='git-compare-arrows', extra='mt-3')
     body = (shared_header()
             + my_progress(76, 100, 17, 11, 48, btn('Continue sorting', href='S25-sorting.html#S25-shared', action='continue-sorting', size='md', icon_name='play', extra='mt-4'))
@@ -503,19 +564,19 @@ def ov_shared_owner(translate='', bar_title=None, top='', share_disabled=False, 
             + activity_preview(ADDED_EVENTS if added else None)
             + rows_shared(sources=SRC_WED_NEW if added else SRC_WED))
     return ov_screen(ov_bar(menu=h10('S10-shared-owner-menu'), share=('S31-invite.html#S31-default', 'Invite', 'invite'), title=bar_title, share_disabled=share_disabled),
-                     body, top=top, translate=translate, overlay=overlay)
+                     body, top=top, translate=translate, overlay=overlay, clip=clip)
 
 
 def ov_shared_dm():
     callout = '<!-- Proposed component: DecisionMakerCallout -->' + card(f'''<div class="flex gap-3"><span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground">{icon("gavel")}</span>
       <div class="min-w-0 flex-1"><h2 id="dm-h" class="text-title-3">15 conflicts need your decision</h2>
       <p class="mt-1 text-body-sm text-muted-foreground">You're the Decision Maker, so your choice becomes the final decision.</p></div></div>
-      {btn("Resolve conflicts", href="S36-conflicts.html#S36-default", action="resolve-conflicts", size="md", icon_name="git-compare-arrows", extra="mt-4")}
+      {btn("Resolve conflicts", href="S36-conflicts.html#S36-default", action="review-conflicts", size="md", icon_name="git-compare-arrows", extra="mt-4")}
       <a href="S37-bulk-resolve.html#S37-confirm" class="mt-2 flex min-h-touch items-center justify-center rounded-control text-label-lg" data-action="resolve-all">Resolve all with my decisions</a>
       <p class="text-center text-body-sm text-muted-foreground">12 have your decision. 3 stay open until you decide them.</p>''', label='dm-h')
     body = (ov_header('Wedding guests', [members_link('Deniz, Selin and you'), mi('users', '100 items'), chip('Decision Maker', 'primary', 'gavel')])
             + callout
-            + my_progress(85, 100, 22, 14, 49, btn('Continue sorting', 'outline', href='S25-sorting.html#S25-shared', size='md', icon_name='play', extra='mt-4'), hid='mpd-h')
+            + my_progress(85, 100, 21, 14, 50, btn('Continue sorting', 'outline', href='S25-sorting.html#S25-shared', size='md', icon_name='play', extra='mt-4'), hid='mpd-h')
             + list_status_card('', hid='lsd-h', compact=True)
             + together_group(readonly_rule=True, rule_desc='Decision Maker decides. You resolve conflicts.', members_desc='3 members')
             + rows_shared(owner=False))
@@ -523,7 +584,7 @@ def ov_shared_dm():
 
 
 def ov_shared_collab(translate='', bar_title=None):
-    body = (ov_header('Wedding guests', [members_link('Deniz, Mert and you'), mi('users', '100 items'), chip('Collaborator', 'secondary')])
+    body = (ov_header('Wedding guests', [members_link('Deniz, Mert and you'), mi('users', '100 items'), chip('Collaborator', 'secondary', 'user')])
             + my_progress(43, 100, 8, 10, 25, btn('Continue sorting', href='S25-sorting.html#S25-shared', action='continue-sorting', size='md', icon_name='play', extra='mt-4'), hid='mpc-h')
             + list_status_card(btn('View conflicts', 'outline', href='S36-conflicts.html#S36-default', size='md', icon_name='git-compare-arrows', extra='mt-3'), hid='lsc-h', compact=True)
             + together_group(readonly_rule=True, rule_desc='Decision Maker decides. Mert resolves conflicts; Deniz sets the rule.', members_desc='3 members')
@@ -582,13 +643,13 @@ def dlg(did, title, actions, body=None, extra='', z='z-40', stacked=False, big=F
     desc = f' aria-describedby="{did}-d"' if body else ''
     acts = f'<div class="mt-6 flex flex-col gap-2">{actions}</div>' if stacked else f'<div class="mt-6 flex flex-wrap justify-end gap-2">{actions}</div>'
     t = 'text-title-2' if big else 'text-title-3'
-    return f'''{scrim('z-30')}
+    return ov(f'''{scrim('z-30')}
   <div class="absolute inset-x-6 top-1/2 {z} -translate-y-1/2 rounded-dialog bg-popover p-6 shadow-dialog" role="alertdialog" aria-modal="true" aria-labelledby="{did}-t"{desc}>
     {icon_html}<h2 id="{did}-t" class="{t}">{title}</h2>
     {b}
     {extra}
     {acts}
-  </div>'''
+  </div>''')
 
 
 def dbtn(label, kind='ghost', href=None, action=None, disabled=False, full=False):
@@ -636,14 +697,14 @@ def menu_sheet_rows(items):
 def ios_action_sheet(title, msg, items, cancel_href):
     rows = ''.join(f'<a href="{href}" class="flex min-h-14 items-center justify-center border-t px-4 text-title-3 font-normal {"text-destructive" if kind == "destructive" else "text-primary"}">{text}</a>' for text, href, kind in items)
     m = f'<p class="mt-0.5 text-body-sm text-muted-foreground">{msg}</p>' if msg else ''
-    return f'''{scrim('z-30')}
-  <div class="absolute inset-x-2 bottom-2 z-40 space-y-2" role="alertdialog" aria-modal="true" aria-labelledby="ias-t">
+    return ov(f'''{scrim('z-30')}
+  <div class="absolute inset-x-2 bottom-10 z-40 space-y-2" role="alertdialog" aria-modal="true" aria-labelledby="ias-t">
     <div class="overflow-hidden rounded-dialog bg-popover shadow-dialog">
       <div class="px-6 pb-3 pt-4 text-center"><p id="ias-t" class="text-body-sm font-semibold text-muted-foreground">{title}</p>{m}</div>
       {rows}
     </div>
     <a href="{cancel_href}" class="flex h-14 items-center justify-center rounded-dialog bg-popover text-title-3 text-primary shadow-dialog">Cancel</a>
-  </div>'''
+  </div>''')
 
 
 def archived_row(name, href, meta, counts, opt_href, idn, big=False):
@@ -729,7 +790,7 @@ P.frame('S08-search-empty', 'Search: no results', phone(f'''{search_bar("budget"
 
 P.section('States', 'Lists are stored on the device first, so Home opens instantly from local data. The skeleton only shows on a cold start of a large account. Offline, everything stays usable; changes sync later with a quiet notice under the title.')
 P.frame('S08-loading', 'Loading (skeleton)', phone(home(skeleton_rows(), fab_html='')))
-P.frame('S08-offline', 'Offline', phone(home_default(top=offline_banner("You're offline. Changes are saved on this phone and sync when you're back online."))))
+P.frame('S08-offline', 'Offline', phone(home_default(top=offline_banner("You're offline. Changes are saved on this phone."))))
 sync = f'<p class="mx-4 flex min-h-touch items-center gap-2 px-1 text-body-sm text-muted-foreground" role="status">{icon("refresh-cw", "size-4 shrink-0 animate-spin")}Syncing 12 decisions…</p>'
 P.frame('S08-syncing', 'Sync notice: back online, syncing', phone(home_default(top=sync)))
 sync_err = (f'<div class="mx-4 mb-1 flex items-center gap-2 rounded-control border border-destructive/40 bg-card py-1 pl-3 pr-1" role="alert">{icon("circle-alert", "size-4 shrink-0 text-destructive")}'
@@ -746,7 +807,7 @@ P.section('Accessibility', 'At 200% font size names wrap to 2 lines, meta wraps,
 lt_rows = rows_lists('signed', big=True)
 P.frame('S08-large-text', 'Large text (200%)', phone(f'''<header class="shrink-0"><div class="flex h-app-bar items-center justify-end gap-1 px-1">{search_btn()}</div><h1 class="px-gutter pb-2 text-display">Lists</h1></header>
   <div class="min-h-0 flex-1 overflow-hidden px-4 pb-28 pt-2">{lists_group(lt_rows)}</div>
-  {fab(big=True)}
+  {fab(collapsed=True)}
   {bottom_nav("lists", badge=3).replace("text-caption", "text-label-lg")}'''))
 
 P.section('iOS and web', 'iOS: large title with a search field below it, "+" in the navigation bar instead of a FAB, inset grouped rows, standard tab bar. Web: same layout as Android; lists made without an account are "in this browser only". Desktop shows the phone column centered.')
@@ -759,7 +820,8 @@ P.frame('S08-ios', 'iOS: large title, + in the bar, tab bar', phone(f'''{ios_nav
   {ios_tab_bar('lists', badge=3)}''', kind='ios'))
 P.frame('S08-ios-first-run', 'iOS: first run', phone(first_run('ios'), kind='ios'))
 P.frame('S08-web', 'Web, mobile browser: not signed in', phone(home_guest(web=True), kind='web'))
-P.frame('S08-web-desktop', 'Web, desktop browser', desktop(home_default(), 'swipesort.app/lists'))
+desk_new = f'<a href="{S11}" class="mr-2 inline-flex h-12 items-center gap-2 rounded-control bg-primary px-4 text-label-lg text-primary-foreground">{icon("plus")}New list</a>'
+P.frame('S08-web-desktop', 'Web, desktop browser: New list in the bar', desktop(home(lists_group(rows_lists('signed')) + archived_entry(), fab_html='', title=f'<header class="shrink-0"><div class="flex h-app-bar items-center justify-end gap-1 px-1">{search_btn()}{desk_new}</div><h1 class="px-gutter pb-2 text-title-1">Lists</h1></header>'), 'swipesort.app/lists'))
 P.write(F08)
 
 
@@ -779,16 +841,16 @@ P.frame('S09-guest-wedding', 'Not signed in: Wedding guests before sharing', pho
 P.section('Shared lists', 'Every member decides every item (DM-02). My progress is mine; list status is everyone\'s (DM-14). What changes by role: the Owner starts rounds and sets the conflict rule; the Decision Maker resolves conflicts; Collaborators sort, see conflicts and can leave.')
 P.frame('S09-shared', 'Shared, Owner view (Deniz)', phone(ov_shared_owner()))
 P.frame('S09-shared-scrolled', 'Shared, Owner view scrolled', phone(ov_shared_owner(translate='-translate-y-[47%]', bar_title='Wedding guests')))
-P.frame('S09-shared-added', 'Items added (from S21): new source and Undo', phone(ov_shared_owner(translate='-translate-y-[64%]', bar_title='Wedding guests', added=True,
+P.frame('S09-shared-added', 'Items added (from S21): new source and Undo', phone(ov_shared_owner(translate='-translate-y-[64%]', bar_title='Wedding guests', added=True, clip='mb-20',
         overlay=snackbar('Added 12 items', 'Undo', action_href=h09('S09-shared'), data_action='undo'))))
-src_sheet = sheet('sd', f'''<div class="flex items-center gap-3 pb-1 pt-1"><span class="flex size-10 shrink-0 items-center justify-center rounded-control bg-secondary text-muted-foreground">{icon("file-spreadsheet")}</span>
+src_sheet = ov(sheet('sd', f'''<div class="flex items-center gap-3 pb-1 pt-1"><span class="flex size-10 shrink-0 items-center justify-center rounded-control bg-secondary text-muted-foreground">{icon("file-spreadsheet")}</span>
       <div class="min-w-0 flex-1"><h2 id="sd-t" class="truncate text-title-3">mert-family.csv</h2><p class="text-body-sm text-muted-foreground">CSV file</p></div><a href="{h09('S09-shared')}" class="-mr-3 flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close">{icon("x")}</a></div>
     <dl class="mt-3 divide-y text-body">
       <div class="flex min-h-12 items-center justify-between gap-4 py-2"><dt class="text-muted-foreground">Items</dt><dd class="tabular-nums">12</dd></div>
       <div class="flex min-h-12 items-center justify-between gap-4 py-2"><dt class="text-muted-foreground">Added</dt><dd>Today by you</dd></div>
       <div class="flex min-h-12 items-center justify-between gap-4 py-2"><dt class="text-muted-foreground">Fields</dt><dd class="min-w-0 text-right">Name, Phone, Email, Side, Relationship</dd></div>
     </dl>
-    {alert_info("Your original is never changed", "Edits, notes and decisions stay in SwipeSort. Export when you want a file with them.", icon_name="shield-check", extra="mt-3")}''', title=None)
+    {alert_info("Your original is never changed", "Edits, notes and decisions stay in SwipeSort. Export when you want a file with them.", icon_name="shield-check", extra="mt-3")}''', title=None, pad='pb-12'))
 P.frame('S09-source-details', 'Source details sheet', phone(inert(ov_shared_owner(translate='-translate-y-[64%]', bar_title='Wedding guests')) + src_sheet))
 P.frame('S09-shared-decision-maker', 'Shared, Decision Maker view (Mert)', phone(ov_shared_dm()))
 P.frame('S09-shared-collaborator', 'Shared, Collaborator view (Selin)', phone(ov_shared_collab()))
@@ -807,7 +869,9 @@ lt = (ov_header('March photos clean-up', [mi('image', '30 items'), mi('user', 'S
              + f'<ul class="mt-3 space-y-2 text-body-lg">' + ''.join(f'<li class="flex items-center gap-2 text-{k}-soft-foreground">{icon(ic, "size-6")}<span class="tabular-nums">{n}</span> {lab}</li>' for (k, ic, lab), n in zip(DECISIONS, (6, 1, 5))) + '</ul>'
              + btn('Continue sorting', href='S25-sorting.html#S25-photo', size='lg', icon_name='play', extra='mt-4 min-h-16 h-auto py-3 text-title-3'), label='lt-h'))
 lt_rows = group([nav_row(t, href=h, icon_name=i, desc=d, title_cls='text-title-3 font-normal').replace('text-body-sm', 'text-body-lg') for t, h, i, d in (
-    ('Results', 'S28-results.html#S28-default', 'list-checks', '12 decided so far'), ('Start a new round', 'S24-start-round.html#S24-default', 'list-restart', 'Choose items and card order'))])
+    ('Results', 'S28-results.html#S28-default', 'list-checks', '12 decided so far'), ('Start a new round', 'S24-start-round.html#S24-default', 'list-restart', 'Choose items and card order'),
+    ('Rounds', 'S30-round-history.html#S30-default', 'history', '1 round'), ('Card template', 'S22-template-library.html#S22-default', 'layout-template', 'Photo'),
+    ('Export', 'S39-export.html#S39-default', 'file-down', 'CSV, Excel, Google Sheets or a text summary'))])
 P.frame('S09-large-text', 'Large text (200%)', phone(ov_screen(ov_bar(share=('S31-invite.html#S31-default', 'Share list', None)), lt + lt_rows)))
 
 P.section('iOS and web', 'iOS: back chevron with "Lists", Share and a "…" menu (opens an action sheet), inset grouped rows, edge-swipe back. Web: same as Android; without an account lists are "On this browser only". Desktop: the phone column, centered.')
@@ -869,13 +933,13 @@ P.section('Actions menu', 'The overflow menu on S09 (Android DropdownMenu, ancho
 P.frame('S10-default', 'Menu: solo list (Owner)', phone(BG_PHOTOS + dropdown_items(SOLO_MENU)))
 P.frame('S10-shared-owner-menu', 'Menu: shared list, Owner', phone(BG_SHARED + dropdown_items(OWNER_MENU)))
 P.frame('S10-collaborator-menu', 'Menu: shared list, Collaborator or Decision Maker', phone(BG_COLLAB + dropdown_items(COLLAB_MENU)))
-row_sheet = sheet('rs', f'''<div class="flex items-center gap-3 pb-2 pt-1"><div class="min-w-0 flex-1"><h2 id="rs-t" class="truncate text-title-3">Wedding guests</h2><p class="text-body-sm tabular-nums text-muted-foreground">76 / 100 decided, Round 1</p></div></div>
+row_sheet = ov(sheet('rs', f'''<div class="flex items-center gap-3 pb-2 pt-1"><div class="min-w-0 flex-1"><h2 id="rs-t" class="truncate text-title-3">Wedding guests</h2><p class="text-body-sm tabular-nums text-muted-foreground">76 / 100 decided, Round 1</p></div></div>
     {menu_sheet_rows([("Resume sorting", "play", "S25-sorting.html#S25-default", "n"), ("Share list", "user-plus", "S05-sign-in-prompt.html#S05-share", "n", "share"),
                       ("Rename", "pencil", h10("S10-rename"), "n"), ("Duplicate", "copy", h10("S10-duplicate"), "n"), ("Archive", "archive", h10("S10-archived-snackbar"), "n"),
-                      ("Delete list", "trash-2", h10("S10-delete"), "destructive")])}''')
+                      ("Delete list", "trash-2", h10("S10-delete"), "destructive")])}''', pad='pb-12'))
 P.frame('S10-row-sheet', 'Long press on a Home row (not signed in)', phone(inert(home_guest()) + row_sheet))
 P.frame('S10-ios-action-sheet', 'iOS: action sheet', phone(inert(ov_screen(ov_ios_bar(share=('S31-invite.html#S31-default', 'Share list')), ios_body)) + ios_action_sheet(
-    'March photos clean-up', None, [('Rename', h10('S10-ios-rename'), 'n'), ('Duplicate', h10('S10-duplicate'), 'n'), ('Archive', h10('S10-archived-snackbar'), 'n'), ('Delete list', h10('S10-delete'), 'destructive')],
+    'March photos clean-up', None, [('Rename', h10('S10-ios-rename'), 'n'), ('Duplicate', h10('S10-duplicate'), 'n'), ('Archive', h10('S10-archived-snackbar'), 'n'), ('Delete list', 'S40-global-patterns.html#S40-ios-delete-list', 'destructive')],
     h09('S09-ios')), kind='ios'))
 
 P.section('Rename', 'A dialog with the name selected. Names are 1 to 80 characters; Save stays disabled while the name is empty or too long, and the error says how to fix it. Duplicate names are allowed (lists have IDs).')
@@ -884,14 +948,14 @@ P.frame('S10-rename', 'Rename dialog', phone(BG_PHOTOS + dlg('rn', 'Rename list'
 P.frame('S10-rename-empty', 'Rename: empty name', phone(BG_PHOTOS + dlg('rne', 'Rename list', rn_actions(False), extra=name_input('rne-i', '', 0, 'error', 'Enter a name for the list.'))))
 too_long = 'March photos clean-up: Moda, Kapadokya and the Black Sea trip, keep only the best ones'
 P.frame('S10-rename-too-long', 'Rename: too long', phone(BG_PHOTOS + dlg('rnl', 'Rename list', rn_actions(False), extra=name_input('rnl-i', too_long, len(too_long), 'error', 'Use 80 characters or fewer.'))))
-renamed = inert(ov_solo_default().replace('March photos clean-up', 'March 2026 photos'))
+renamed = inert(ov_solo_default(clip='mb-20').replace('March photos clean-up', 'March 2026 photos'))
 P.frame('S10-renamed', 'Renamed: snackbar', phone(renamed + snackbar('List renamed')))
-ios_alert = f'''{scrim('z-30')}
+ios_alert = ov(f'''{scrim('z-30')}
   <div class="absolute inset-x-10 top-1/3 z-40 overflow-hidden rounded-dialog bg-popover text-center shadow-dialog" role="alertdialog" aria-modal="true" aria-labelledby="ira-t">
     <div class="px-4 pb-4 pt-5"><h2 id="ira-t" class="text-body font-semibold">Rename list</h2><p class="mt-1 text-body-sm text-muted-foreground">1 to 80 characters</p>
       <input type="text" value="March photos clean-up" aria-label="List name" class="mt-3 h-11 w-full rounded-xs border border-input bg-card px-2 text-body-sm"></div>
     <div class="grid grid-cols-2 border-t"><a href="{h09('S09-ios')}" class="flex h-12 items-center justify-center border-r text-body text-primary">Cancel</a><a href="{h10('S10-renamed')}" class="flex h-12 items-center justify-center text-body font-semibold text-primary">Save</a></div>
-  </div>'''
+  </div>''')
 P.frame('S10-ios-rename', 'iOS: rename alert', phone(inert(ov_screen(ov_ios_bar(share=('S31-invite.html#S31-default', 'Share list')), ios_body)) + ios_alert, kind='ios'))
 
 P.section('Duplicate', 'Duplicate makes a new list from the same items. Choose a fresh start (items only) or keep my decisions and notes. A shared list always duplicates into a new solo list owned by me; other members, their decisions and their notes stay in the shared list. The copy opens right away.')
@@ -906,24 +970,25 @@ dup_shared_note = f'<p class="mt-3 flex items-start gap-2 rounded-control bg-mut
 P.frame('S10-duplicate-shared', 'Duplicate a shared list: becomes a solo list', phone(BG_SHARED + dlg('dps', 'Duplicate “Wedding guests”', dbtn('Cancel', href=h09('S09-shared')) + dbtn('Duplicate', 'primary', href=h10('S10-duplicated')),
                                                                                        extra=name_input('dps-i', 'Wedding guests (copy)', 21, label='Name of the copy') + dup_shared_note + dup_shared_opts)))
 copy_view = ov_new_list('March photos clean-up (copy)', [mi('image', '30 items'), mi('user', 'Solo list')], 30, 'Photo', 'S25-sorting.html#S25-photo', [('copy', 'Copied from March photos clean-up', '30 items, today')])
-P.frame('S10-duplicated', 'Duplicated: the copy opens', phone(inert(copy_view) + snackbar('Duplicated as “March photos clean-up (copy)”')))
+P.frame('S10-duplicated', 'Duplicated: snackbar with Open', phone(inert(ov_solo_default(clip='mb-20')) + snackbar('Duplicated as “March photos clean-up (copy)”', 'Open', action_href=h10('S10-duplicate-opened'), data_action='open-copy')))
+P.frame('S10-duplicate-opened', 'The copy, opened from the snackbar', phone(copy_view))
 
 P.section('Archive', 'Archive hides a list from Lists without deleting anything. A solo list archives at once with Undo. Archiving a shared list affects every member, so the Owner confirms; members keep read-only access.')
 P.frame('S10-archived-snackbar', 'Archived: back on Home with Undo', phone(inert(home_default(drop=('photos',), archived=3, fab_bottom='bottom-40')) + snackbar('List archived', 'Undo', bottom='bottom-24', action_href=h08('S08-default'), data_action='undo')))
 P.frame('S10-archive-shared', 'Archive a shared list: confirm', phone(BG_SHARED + dlg('as', 'Archive “Wedding guests” for everyone?',
-                                                                                      dbtn('Cancel', href=h09('S09-shared')) + dbtn('Archive', 'primary', href=h10('S10-archived-snackbar'), action='confirm-archive'),
+                                                                                      dbtn('Cancel', href=h09('S09-shared')) + dbtn('Archive list', 'primary', href=h10('S10-archived-snackbar'), action='confirm-archive'),
                                                                                       body='Mert and Selin can still open it, but nobody can sort, add items or change decisions until you restore it. Nothing is deleted.')))
 
 P.section('Delete', 'Delete is Owner only and always confirms. The dialog names the list, says exactly what goes and what stays safe (sources are never touched). After deleting, Home shows "List deleted" with Undo for 6 seconds; the deletion is committed when the snackbar closes. Deleting a shared list deletes it for every member, with stronger copy and a specific button.')
 P.frame('S10-delete', 'Delete a solo list', phone(BG_PHOTOS + dlg('dl', 'Delete “March photos clean-up”?',
                                                                   dbtn('Cancel', href=h09('S09-default')) + dbtn('Delete list', 'destructive', href=h10('S10-deleted-snackbar'), action='confirm-delete'),
-                                                                  body='30 items, Round 1 and your decisions will be deleted from your account and this phone. Your photos stay in your gallery; nothing on your phone is deleted.')))
+                                                                  body='30 items, Round 1 and your decisions will be deleted from your account and this phone. The photos in your gallery aren\'t changed.')))
 ds_warn = f'<p class="mt-3 text-body-sm text-muted-foreground">To stop taking part without deleting it for others, <a href="S34-members.html#S34-default" class="text-primary underline underline-offset-4">make someone else the Owner</a> and leave.</p>'
 ds_icon = f'<span class="mb-4 flex size-12 items-center justify-center rounded-full bg-secondary text-destructive">{icon("triangle-alert", "size-6")}</span>'
 P.frame('S10-delete-shared', 'Delete a shared list: deletes for all members', phone(BG_SHARED + dlg('dls', 'Delete “Wedding guests” for everyone?',
                                                                                                     dbtn('Cancel', href=h09('S09-shared')) + dbtn('Delete for everyone', 'destructive', href=h10('S10-deleted-snackbar'), action='confirm-delete'),
                                                                                                     body='Mert and Selin lose access. All 100 items, every member\'s decisions and notes, and Round 1 are deleted for all 3 members. Your contacts and mert-family.csv aren\'t changed.',
-                                                                                                    extra=ds_warn, icon_html=ds_icon)))
+                                                                                                    extra=ds_warn)))
 P.frame('S10-deleted-snackbar', 'Deleted: back on Home with Undo', phone(inert(home_default(drop=('photos',), fab_bottom='bottom-40')) + snackbar('List deleted', 'Undo', bottom='bottom-24', action_href=h08('S08-default'), data_action='undo')))
 
 P.section('Leave', 'Members (Collaborator, Decision Maker) can leave a shared list. Their decisions stay and still count, so other members\' results don\'t shift unexpectedly; items they haven\'t decided stop waiting for them; their private notes are deleted. The Owner can\'t leave until someone else is the Owner.')
@@ -944,8 +1009,8 @@ P.frame('S10-left-snackbar', 'Left: Home (Selin has no other lists)', phone(iner
 
 P.section('Archived lists', 'Reached from the "Archived lists" row at the end of Home. Rows open the list read-only (S09-archived). Each row\'s menu: Open, Restore, Duplicate, Delete forever. Restoring puts the list back in Lists exactly as it was.')
 P.frame('S10-archived', 'Archived lists', phone(archived_screen()))
-arch_sheet = sheet('ams', f'''<div class="pb-2 pt-1"><h2 id="ams-t" class="truncate text-title-3">Book club picks</h2><p class="text-body-sm text-muted-foreground">Archived May 2, 12 items</p></div>
-    {menu_sheet_rows([("Open", "eye", h09("S09-archived"), "n"), ("Restore", "archive-restore", h10("S10-restored"), "n", "restore"), ("Duplicate", "copy", h10("S10-duplicate"), "n"), ("Delete forever", "trash-2", h10("S10-delete-forever"), "destructive", "delete-forever")])}''')
+arch_sheet = ov(sheet('ams', f'''<div class="pb-2 pt-1"><h2 id="ams-t" class="truncate text-title-3">Book club picks</h2><p class="text-body-sm text-muted-foreground">Archived May 2, 12 items</p></div>
+    {menu_sheet_rows([("Open", "eye", h09("S09-archived"), "n"), ("Restore", "archive-restore", h10("S10-restored"), "n", "restore"), ("Duplicate", "copy", h10("S10-duplicate"), "n"), ("Delete forever", "trash-2", h10("S10-delete-forever"), "destructive", "delete-forever")])}''', pad='pb-12'))
 P.frame('S10-archived-menu', 'Archived list actions', phone(inert(archived_screen()) + arch_sheet))
 P.frame('S10-restored', 'Restored: snackbar', phone(archived_screen(rows=ARCHIVED_ROWS()[:1], overlay=snackbar('List restored', 'View', action_href=h08('S08-default'), data_action='view'))))
 P.frame('S10-delete-forever', 'Delete an archived list forever', phone(inert(archived_screen()) + dlg('df', 'Delete “Book club picks” forever?',
@@ -963,11 +1028,11 @@ P.frame('S10-offline', 'Offline: shared list menu', phone(inert(ov_shared_owner(
 P.section('Accessibility, iOS and web', 'Large text: dialog buttons stack full width. iOS: rows in Archived lists use swipe actions (Restore, Delete) in addition to the menu. Web: menus and dialogs behave like Android; on desktop the dialog sits in the phone column.')
 P.frame('S10-delete-large-text', 'Large text (200%): delete dialog', phone(BG_PHOTOS + dlg('dlt', 'Delete “March photos clean-up”?',
                                                                                       dbtn('Delete list', 'destructive', href=h10('S10-deleted-snackbar'), full=True).replace('text-label-lg', 'text-title-3') + dbtn('Cancel', href=h09('S09-default'), full=True).replace('text-label-lg', 'text-title-3'),
-                                                                                      body='30 items, Round 1 and your decisions will be deleted from your account and this phone. Your photos stay in your gallery; nothing on your phone is deleted.', stacked=True, big=True)))
+                                                                                      body='30 items, Round 1 and your decisions will be deleted from your account and this phone. The photos in your gallery aren\'t changed.', stacked=True, big=True)))
 ios_arch_rows = f'''<!-- Proposed component: SwipeActions (iOS row) --><li class="relative overflow-hidden"><div class="absolute inset-y-0 right-0 flex" aria-hidden="false">
-      <a href="{h10('S10-restored')}" class="flex w-24 flex-col items-center justify-center gap-1 bg-primary text-caption text-primary-foreground">{icon('archive-restore')}Restore</a>
-      <a href="{h10('S10-delete-forever')}" class="flex w-24 flex-col items-center justify-center gap-1 bg-destructive text-caption text-destructive-foreground">{icon('trash-2')}Delete</a></div>
-    <div class="relative -translate-x-48 bg-card"><a href="{h09('S09-archived')}" class="flex flex-col gap-1 py-4 pl-4 pr-4"><span class="truncate text-title-3">Apartment viewings</span><span class="text-body-sm text-muted-foreground">Archived Jul 21, 8 items</span><span class="mt-1">{counts_inline(4, 1, 3)}</span></a></div></li>
+      <a href="{h10('S10-restored')}" class="flex w-20 flex-col items-center justify-center gap-1 bg-primary text-caption text-primary-foreground">{icon('archive-restore')}Restore</a>
+      <a href="{h10('S10-delete-forever')}" class="flex w-20 flex-col items-center justify-center gap-1 bg-destructive text-caption text-destructive-foreground">{icon('trash-2')}Delete</a></div>
+    <div class="relative mr-40 bg-card"><a href="{h09('S09-archived')}" class="flex min-w-0 flex-col gap-1 py-4 pl-4 pr-3"><span class="truncate text-title-3">Apartment viewings</span><span class="text-body-sm text-muted-foreground">Archived Jul 21, 8 items</span><span class="mt-1">{counts_inline(4, 1, 3)}</span></a></div></li>
     {archived_row('Book club picks', h09('S09-archived'), 'Archived May 2, 12 items', counts_inline(6, 2, 4), h10('S10-archived-menu'), 'books')}'''
 P.frame('S10-ios-archived', 'iOS: archived lists with swipe actions', phone(f'''{ios_nav('Archived lists', back_text='Lists', href=h08('S08-ios'))}
   <div class="min-h-0 flex-1 overflow-hidden px-4 pb-8 pt-2">

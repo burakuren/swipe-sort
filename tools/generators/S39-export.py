@@ -133,7 +133,7 @@ def formats(kind='desk', web=False, offline=False, empty=False, large=False, csv
 
 
 def step1(d, selected='all', shared=False, kind='desk', close_href=S28, banner='', web=False, offline=False,
-          empty_note='', large=False, ios=False, overlay='', csv_href='#S39-file-exporting'):
+          empty_note='', large=False, ios=False, overlay='', csv_href='#S39-file-exporting', safety_line=True):
     if shared:
         columns = [switch_row("Each member's decision", 'Adds a column for Deniz, Mert and Selin', True, large),
                    switch_row('Notes', 'Shared notes with their author', True, large)]
@@ -170,7 +170,7 @@ def step1(d, selected='all', shared=False, kind='desk', close_href=S28, banner='
     {footer(col_footer, large)}
     {head("Export as", large)}
     {formats(kind, web, offline, bool(empty_note), large, csv_href)}
-    <div class="pt-4">{safety(src, large)}</div>
+    {f'<div class="pt-4">{safety(src, large)}</div>' if safety_line else ''}
   </div>'''
     return f'{bar}\n  {banner}\n  {body}\n  {overlay}'
 
@@ -216,7 +216,7 @@ def O(text, href=None, action=None, ic=None):
     return btn(text, 'outline', href, action, ic)
 
 
-def account_row(email=ACCOUNT, photo='people/u-deniz.svg', sub='Google account, read-only', switch_href='S15-google-sheets.html#S15-account-switch'):
+def account_row(email=ACCOUNT, photo='people/u-deniz.svg', sub='Signed in with Google', switch_href='S15-google-sheets.html#S15-account-switch'):
     return f'''<div class="flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2"><img src="{IMG}{photo}" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="truncate text-body">{email}</p><p class="text-body-sm text-muted-foreground">{sub}</p></div><a href="{switch_href}" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="switch-account" aria-label="Switch Google account">Switch</a></div>'''
 
 
@@ -293,7 +293,7 @@ F.add('S39-apartments', 'List imported from Google Sheets: Apartment viewings (a
 F.add('S39-empty-scope', 'Empty scope: Maybe has no items (Frontend hiring, Q4)',
       phone(step1(HIRE, 'maybe', close_href=S09, empty_note='No items in Maybe. Choose another group to export.')))
 F.add('S39-offline', 'Offline: files and text work, Google Sheets needs a connection',
-      phone(step1(DESK, 'all', offline=True, banner=offline_banner("You're offline. Files and text summaries still work."))))
+      phone(step1(DESK, 'all', offline=True, safety_line=False, banner=offline_banner("You're offline. Decisions are saved on this phone. Google Sheets needs a connection."))))
 F.add('S39-large-text', 'Large text (200%): chips and rows grow and wrap, the screen scrolls',
       phone(step1(DESK, 'all', large=True)))
 
@@ -313,7 +313,7 @@ ready_inner = f'''<div class="mt-2">{file_card("desk-setup-accepted.csv", "8 ite
 ready_actions = P('Share file', '#S39-success-file', 'share-file', 'share-2') + O('Save to device', '#S39-success-file', 'save-file', 'download', ).replace('w-full', 'w-full mt-2')
 F.add('S39-file-ready', 'CSV: file ready, share or save', phone(bg_acc + bsheet('s39fr', 'Your file is ready', ready_inner, ready_actions)))
 F.add('S39-success-file', 'CSV: exported (back from the share sheet)',
-      phone(step1(DESK, 'accept', overlay=snackbar('Exported 8 items to desk-setup-accepted.csv', ic='circle-check', bottom='bottom-4'))))
+      phone(step1(DESK, 'accept', safety_line=False, overlay=snackbar('Exported 8 items to desk-setup-accepted.csv', ic='circle-check', bottom='bottom-4'))))
 F.add('S39-error-file', 'CSV: file could not be written (storage full)',
       phone(bg_acc + bsheet('s39fe', "Couldn't export", f'''<div class="mt-1 flex gap-3" role="alert">{icon("circle-alert", "size-5 mt-0.5 shrink-0 text-destructive")}<p class="text-body text-muted-foreground">This phone is out of storage. Free up some space and try again.</p></div>''',
                             P('Try again', '#S39-file-exporting', 'retry'))))
@@ -410,7 +410,7 @@ shared_dest = f'''{step_bar('Export to Google Sheets', 'Wedding guests', '#S39-s
     <div><label class="text-label" for="s39-name-shared">Name</label><input id="s39-name-shared" class="mt-1.5 h-12 w-full rounded-control border border-input bg-card px-3.5 text-body" value="Wedding guests decisions"></div>
     {footer("Wedding guests wasn't imported from Google Sheets, so SwipeSort creates a new spreadsheet.")}
     <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Google account</h2>
-    {account_row(MERT, 'people/u-mert.svg', 'You sign in to SwipeSort with this account')}
+    {account_row(MERT, 'people/u-mert.svg')}
     <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Columns</h2>
     {col_chips(WED_COLS, ["Final decision", "Decision (Deniz Yılmaz)", "Decision (Mert Aydın)", "Decision (Selin Yılmaz)", "Notes"], "100 rows, one per item. Final decision says Accepted, Rejected, Maybe, Conflict or Pending.")}
   </div>
@@ -552,18 +552,23 @@ F.section('iOS and web',
 F.add('S39-ios', 'iOS: Export as a page sheet', phone(step1(DESK, 'all', ios=True), ios=True))
 ios_bg = static(step1(DESK, 'accept', ios=True))
 share_ph = f'''{scrim()}
-  <div class="absolute inset-x-0 bottom-0 z-20 h-96 rounded-t-sheet bg-popover px-5 pt-5 shadow-sheet" aria-hidden="true">
-    <div class="flex items-center gap-3"><span class="flex size-10 items-center justify-center rounded-sm bg-muted text-muted-foreground">{icon("file-text")}</span><div><p class="text-body">desk-setup-accepted.csv</p><p class="text-caption text-muted-foreground">CSV file, 1 KB</p></div></div>
-    <div class="mt-5 flex gap-4"><span class="size-14 rounded-full bg-muted"></span><span class="size-14 rounded-full bg-muted"></span><span class="size-14 rounded-full bg-muted"></span><span class="size-14 rounded-full bg-muted"></span></div>
-    <div class="mt-5 space-y-2"><span class="block h-11 rounded-control bg-muted"></span><span class="block h-11 rounded-control bg-muted"></span></div>
-    <p class="mt-4 text-caption text-muted-foreground">iOS share sheet (native, out of scope): AirDrop, Messages, Mail, Save to Files</p>
+  <div class="absolute inset-x-0 bottom-0 z-20 rounded-t-sheet bg-popover px-5 pb-10 pt-5 shadow-sheet" aria-hidden="true">
+    <p class="text-caption text-muted-foreground">System share sheet (iOS, out of scope)</p>
+    <div class="mt-3 flex items-center gap-3"><span class="flex size-10 items-center justify-center rounded-sm bg-muted text-muted-foreground">{icon("file-text")}</span><div><p class="text-body">desk-setup-accepted.csv</p><p class="text-caption text-muted-foreground">CSV file, 1 KB</p></div></div>
+    <p class="mt-4 text-body-sm text-muted-foreground">AirDrop, Messages, Mail, Save to Files and other apps</p>
   </div>'''
 F.add('S39-ios-share', 'iOS: CSV opens the share sheet directly (no file-ready step)', phone(ios_bg + share_ph, ios=True))
 F.add('S39-ios-text', 'iOS: text summary', phone(text_screen(ios=True), ios=True))
 
-web_col = step1(DESK, 'accept', web=True, csv_href='#S39-web-desktop',
-                overlay=snackbar('Exported 8 items to desk-setup-accepted.csv', ic='circle-check', bottom='bottom-4'))
-F.add('S39-web-desktop', 'Web, desktop: CSV downloaded', desktop(web_col, 'swipesort.app/l/l-desk/export'))
+web_col = step1(DESK, 'accept', web=True, csv_href='#S39-web-desktop')
+toast = f'''<div class="absolute bottom-6 right-6 z-30 flex w-80 items-start gap-3 rounded-control bg-foreground px-4 py-3 text-background shadow-overlay" role="status">{icon("circle-check", "size-5 mt-0.5 shrink-0")}<span class="flex-1 text-body-sm">Exported 8 items to desk-setup-accepted.csv</span></div>'''
+F.add('S39-web-desktop', 'Web, desktop: CSV downloaded, toast bottom-right', f'''<div class="desktop">
+  <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/l/l-desk/export</span></div>
+  <div class="desktop-column">
+  {web_col}
+  </div>
+  {toast}
+</div>''')
 
 waiting = f'''{step_bar('Export to Google Sheets', 'Desk setup', '#S39-google-confirm', 'Back to confirmation')}
   {state("app-window", "Continue in the Google window", "Allow SwipeSort to create the spreadsheet. The export continues here when you're done.", "primary", role="status")}

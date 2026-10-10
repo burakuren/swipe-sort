@@ -67,7 +67,7 @@ Import modal. Top to bottom:
 | `S13-loading` | Reading the address book (large books take a moment): skeleton rows, "Reading contacts…", search and Continue disabled |
 | `S13-empty` | Address book has no contacts |
 | `S13-error` | The contacts API failed |
-| `S13-close-confirm` | Close or back with a selection: AlertDialog (S40 pattern) |
+| `S13-close-confirm` | Close or back with a selection: AlertDialog vertically centred (S40 `S40-discard-import`, A-112) |
 | `S13-large` | 2,140 contacts: sticky "M" header, fast-scroll index, letter bubble while scrubbing; the 43-character “Muhammed Abdurrahman Karaosmanoğlu Ertuğrul” truncates |
 | `S13-large-text` | 200% font scale: avatars hidden, names wrap, count shortened to "88 of 96" |
 | `S13-ios` | iOS page sheet, round selection marks |

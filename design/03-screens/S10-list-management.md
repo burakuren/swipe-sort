@@ -34,7 +34,7 @@ PLT-16, PLT-21, PLT-23, STK-06, STK-07.
 | Action | Leads to |
 | --- | --- |
 | Rename → Save | S09 with "List renamed" (`S10-renamed`) |
-| Duplicate → Duplicate | the new list's S09 with "Duplicated as “…”" (`S10-duplicated`) |
+| Duplicate → Duplicate | stays on the original S09 with "Duplicated as “…”" + Open (`S10-duplicated`); Open shows the copy (`S10-duplicate-opened`) |
 | Archive (solo) | S08 with "List archived" + Undo (`S10-archived-snackbar`) |
 | Archive (shared) → Archive | confirm (`S10-archive-shared`) → S08 with the same snackbar |
 | Delete list → Delete list / Delete for everyone | S08 with "List deleted" + Undo (`S10-deleted-snackbar`) |
@@ -79,11 +79,15 @@ PLT-16, PLT-21, PLT-23, STK-06, STK-07.
   only you can see. Mert and Selin aren't added."; RadioGroup "What to copy" with two options and
   descriptions; Cancel + Duplicate (primary).
 - **AlertDialogs** (title names the object, body states consequence and what stays safe, specific verb):
-  archive shared (primary "Archive"), delete solo ("Delete list", destructive), delete shared (a 48
-  `triangle-alert` circle on `secondary` above the title, "Delete for everyone", plus the alternative
-  "make someone else the Owner and leave" as a link to S34), leave (destructive "Leave list"), owner leave
+  archive shared (primary "Archive list"), delete solo ("Delete list", destructive), delete shared ("Delete
+  for everyone", plus the alternative "make someone else the Owner and leave" as a link to S34; no icon,
+  like every dialog, A-112), leave (destructive "Leave list"), owner leave
   (primary "Choose new Owner"), delete forever (destructive "Delete forever").
-- **Snackbar** (inverse, 12 above the bottom navigation; the ExtendedFab moves up above it).
+- **Snackbar** (inverse, 12 above the bottom navigation; the ExtendedFab moves up above it). Snackbars over S09
+  sit in a clear strip: the content above stops 80 above the bottom while the snackbar shows.
+- **Overlays**: dialog, sheet and action-sheet scrims cover the whole device including the system bars; bottom
+  sheets extend under the navigation bar (content padded above it). On desktop web the scrim covers the whole
+  viewport and the dialog stays centered (max width 384).
 - **Archived lists screen**: small AppBar "Archived lists" with back; one explanatory line; ListGroup of
   archived rows: name `text-title-3`, "Archived Jul 21, 8 items", the round's decision counts (Reject,
   Maybe, Accept with words), and a trailing options IconButton ("Options for Apartment viewings") opening the
@@ -105,7 +109,8 @@ PLT-16, PLT-21, PLT-23, STK-06, STK-07.
 | `S10-ios-rename` | iOS alert with a text field |
 | `S10-duplicate` | Duplicate a solo list: name + Items only (default) / Items with decisions and notes |
 | `S10-duplicate-shared` | Duplicate a shared list: becomes a solo list; "Items with my decisions and notes" |
-| `S10-duplicated` | The copy opens (never sorted, Items only) with snackbar |
+| `S10-duplicated` | Back on the original list with "Duplicated as “…”" + Open |
+| `S10-duplicate-opened` | The copy (never sorted, Items only), opened from the snackbar |
 | `S10-archived-snackbar` | Solo list archived: Home without it, Archived lists 3, snackbar with Undo |
 | `S10-archive-shared` | Owner archives a shared list: confirmation for everyone |
 | `S10-delete` | Owner deletes a solo list |
@@ -138,7 +143,8 @@ PLT-16, PLT-21, PLT-23, STK-06, STK-07.
   everywhere and shows "List renamed". On shared lists other members see the new name live and in
   Activity ("Deniz renamed the list to …").
 - **Duplicate**: creates the copy locally (instant for typical sizes; for 1,000+ items the button shows
-  "Duplicating…" with a spinner), then pushes the new list's S09 and shows "Duplicated as “…”". The copy is
+  "Duplicating…" with a spinner), keeps the person on the original list and shows "Duplicated as “…”" with
+  "Open" (S40 success-with-action pattern); Open pushes the copy's S09. The copy also appears on Home. The copy is
   always a solo list owned by me, stored like the original (account or this phone). Items only: same items,
   fields, sources, card template and field edits; no decisions, notes or rounds. Items with decisions and
   notes: also my latest decision per item (as the copy's Round 1, complete or in progress) and my notes
@@ -175,11 +181,11 @@ PLT-16, PLT-21, PLT-23, STK-06, STK-07.
 | Row sheet | "{list name}"; "76 / 100 decided, Round 1"; "Resume sorting", "Share list", "Rename", "Duplicate", "Archive", "Delete list" |
 | iOS action sheet | title "{list name}"; "Rename", "Duplicate", "Archive", "Delete list", "Cancel" |
 | Rename | "Rename list"; label "List name"; counter "21 / 80"; "Cancel", "Save"; errors "Enter a name for the list." / "Use 80 characters or fewer."; success "List renamed"; iOS subtitle "1 to 80 characters" |
-| Duplicate | "Duplicate “March photos clean-up”"; label "Name of the copy"; default "March photos clean-up (copy)"; group "What to copy"; "Items only" / "A fresh start: no decisions, notes or rounds. Edits to fields are kept."; "Items with decisions and notes" / "Keeps your decisions from the latest round, your notes and your edits."; "Cancel", "Duplicate"; progress "Duplicating…"; success "Duplicated as “March photos clean-up (copy)”" |
+| Duplicate | "Duplicate “March photos clean-up”"; label "Name of the copy"; default "March photos clean-up (copy)"; group "What to copy"; "Items only" / "A fresh start: no decisions, notes or rounds. Edits to fields are kept."; "Items with decisions and notes" / "Keeps your decisions from the latest round, your notes and your edits."; "Cancel", "Duplicate"; progress "Duplicating…"; success "Duplicated as “March photos clean-up (copy)”" + "Open" |
 | Duplicate shared | "Duplicate “Wedding guests”"; "The copy is a new solo list that only you can see. Mert and Selin aren't added."; "Items only" / "A fresh start: no decisions, notes or rounds."; "Items with my decisions and notes" / "Your 76 decisions from Round 1 and your notes. Other members' decisions and notes aren't copied." |
-| Archive | success "List archived" + "Undo"; undone "List restored" |
-| Archive shared | "Archive “Wedding guests” for everyone?" / "Mert and Selin can still open it, but nobody can sort, add items or change decisions until you restore it. Nothing is deleted." / "Cancel", "Archive" |
-| Delete solo (signed in) | "Delete “March photos clean-up”?" / "30 items, Round 1 and your decisions will be deleted from your account and this phone. Your photos stay in your gallery; nothing on your phone is deleted." / "Cancel", "Delete list" |
+| Archive | menu "Archive"; success "List archived" + "Undo"; undone "List restored" |
+| Archive shared | "Archive “Wedding guests” for everyone?" / "Mert and Selin can still open it, but nobody can sort, add items or change decisions until you restore it. Nothing is deleted." / "Cancel", "Archive list" |
+| Delete solo (signed in) | "Delete “March photos clean-up”?" / "30 items, Round 1 and your decisions will be deleted from your account and this phone. The photos in your gallery aren't changed." / "Cancel", "Delete list" |
 | Delete solo, other sources | contacts: "Your contacts aren't changed."; files: "The file you imported from isn't changed."; Google Sheets: "Your Google Sheet isn't changed."; not signed in: "…will be deleted from this phone." |
 | Delete web | "…deleted from your account and every device. The photos you uploaded stay on your computer." |
 | Delete shared | "Delete “Wedding guests” for everyone?" / "Mert and Selin lose access. All 100 items, every member's decisions and notes, and Round 1 are deleted for all 3 members. Your contacts and mert-family.csv aren't changed." / "To stop taking part without deleting it for others, make someone else the Owner and leave." / "Cancel", "Delete for everyone" |
@@ -219,9 +225,9 @@ PLT-16, PLT-21, PLT-23, STK-06, STK-07.
 ## 8. iOS and web differences
 
 - **iOS**: the overflow is an action sheet (`S10-ios-action-sheet`) or UIMenu; destructive confirmations
-  use the system alert with the same title, body and button words; Rename uses an alert with a text field
+  use the system alert with the same title, body and button words (Delete list → `S40-global-patterns.html#S40-ios-delete-list`); Rename uses an alert with a text field
   (`S10-ios-rename`); Duplicate opens as a page sheet with Cancel / Duplicate in the navigation bar (same
-  content as Android); Archived lists rows have swipe actions (`S10-ios-archived`); Home rows support swipe
+  content as Android); Archived lists rows have swipe actions (`S10-ios-archived`; the row content narrows so the name stays visible, truncated); Home rows support swipe
   to Archive and a context menu on long press.
 - **Web**: same as Android (menus as popovers, dialogs centered in the phone column on desktop,
   `S10-web-desktop`). Keyboard: Enter confirms only when focus is on the confirm button; Escape cancels.

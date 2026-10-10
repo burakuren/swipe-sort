@@ -21,6 +21,7 @@ PLT-13–PLT-19, SRT-02–SRT-05 (gesture model reused), SRT-07, SRT-14, SCR-36.
 | From | How |
 | --- | --- |
 | S09 `S09-shared` | "Review conflicts" (conflicts row) |
+| S09 `S09-shared-decision-maker` | Mert (Decision Maker, 85 / 100 decided) taps "Review 15 conflicts" (`data-action="review-conflicts"`); prototype flow 3 |
 | S27 `S27-shared` | "Review 15 conflicts" (`data-action="review-conflicts"`) |
 | S25 `S25-shared-conflict` | Snackbar "View" after a new conflict (opens on that item) |
 | S26 `S26-shared-conflict` | "Review conflicts" |
@@ -36,7 +37,7 @@ PLT-13–PLT-19, SRT-02–SRT-05 (gesture model reused), SRT-07, SRT-14, SCR-36.
 | Note sheet (in S36) | Note button, N on web |
 | S35 `S35-decision-maker` | Menu "Conflict rule" |
 | S28 `S28-shared`, S39 `S39-shared` | "See results", "Export" on `S36-all-resolved` |
-| S09 `S09-shared` | Back; "Back to list" |
+| S09 `S09-shared-decision-maker` (Decision Maker) / `S09-shared` (others) | Back; "Back to list" |
 | S25 `S25-shared` | "Continue sorting" on `S36-empty` |
 
 Route: `list/[listId]/conflicts` (stack screen, no bottom navigation). Query `?item=c020` opens on an item.
@@ -67,11 +68,13 @@ Same skeleton as S25 so the gestures feel identical:
 5. **DecisionBar** (same as S25, no counts): Undo 48 · Reject 64 · Maybe 64 · Accept 64 · Note 48.
    Decision Maker: buttons set the final decision. Members: the button matching **my decision** is solid
    (`aria-pressed`), tapping another changes my decision.
-6. Overlays: DecisionStamp "Final: Accept" + tint while dragging, Snackbar 176 dp above the bottom, note
+6. Overlays: DecisionStamp "Final: Accept" + tint while dragging, Snackbar `bottom-28` directly above the
+   decision buttons (it takes the caption's place; the caption is hidden while a snackbar shows, so no text
+   is half covered), note
    BottomSheet, DropdownMenu, sync sheet.
 
 **List view** (`S36-list`): sections "Open, 12" and "Resolved, 3" as ListGroups of ItemRows: avatar 40,
-name, MemberDecisions compact (24 avatars with 16 decision dots) as the meta line, chevron; resolved rows
+name, a text line spelling out who decided what ("You accepted, Deniz rejected, Selin hasn't decided", 2 lines max), chevron; resolved rows
 show "Resolved by you" / "Resolved by Mert" and the final DecisionBadge. Tapping a row opens the card deck at
 that item.
 
@@ -81,19 +84,19 @@ that item.
 | --- | --- |
 | `S36-default` | Mert (Decision Maker), rule Decision Maker decides, first conflict c002 Mehmet Yılmaz (Deniz Accept, Mert Reject, Selin Accept), 0 / 15 resolved, Undo disabled |
 | `S36-drag-accept`, `S36-drag-reject` | Dragging past the threshold: stamp "Final: Accept" / "Final: Reject", tint 24%, button armed |
-| `S36-resolved` | Released on Accept: next card c012 on top, 1 / 15, snackbar "Resolved: Accept for Mehmet Yılmaz" + Undo |
+| `S36-resolved` | Released on Accept: next card c012 on top with its "You haven't decided this item" notice, 1 / 15, snackbar "Resolved: Accept for Mehmet Yılmaz" + Undo |
 | `S36-dm-undecided` | c012 Gülşen Aydın: Mert has no decision (one of the 3 Resolve all skips); Selin's shared note "Haven't seen her in years, maybe skip?" |
 | `S36-progress` | 3 / 15 (c002 Accept, c012 Reject, c015 Reject resolved); c020 Merve Kurt, Selin not decided yet |
 | `S36-note`, `S36-note-saved` | Note sheet with "Only visible to me" on; the private note shows dashed with "Only you" |
 | `S36-menu` | Overflow: Skip for now, Open item details, Show as list, Conflict rule |
 | `S36-list` | List view at 3 / 15 |
-| `S36-remaining` | After Resolve all: the 3 items Mert never decided (c012, c034, c056); "Resolve all" leads to `S37-nothing` |
+| `S36-remaining` | After Resolve all: the 3 items Mert never decided (c012, c034, c056); "Resolve all" is hidden because it would skip all of them |
 | `S36-all-resolved` | Last conflict resolved |
 | `S36-non-dm` | Deniz under Decision Maker decides: info "Mert decides conflicts", own decision editable |
 | `S36-everyone` | Rule Everyone must agree, Deniz on c043 Sinan Karakaya (Deniz Maybe, Mert Accept, Selin Maybe) |
 | `S36-everyone-drag` | Deniz drags c043 right, armed: stamp "Accept" (no "Final:"), Accept button armed, caption "Release to change your decision to Accept." |
-| `S36-everyone-agreed` | Selin changes c029 Murat Ekinci from Maybe to Accept: all three Accept, status Agreed, snackbar |
-| `S36-majority` | Rule Majority decides, Deniz on c020 Merve Kurt: "Waiting for 1 member"; 7 open (8 became final) |
+| `S36-everyone-agreed` | Selin changes c029 Murat Ekinci from Maybe to Accept: all three Accept, Agreed chip with the final "Accepted" badge next to it, snackbar |
+| `S36-majority` | Rule Majority decides, Deniz on c020 Merve Kurt: Conflict chip with the hint "Waiting for 1 member: Selin. …" below it; 7 open (8 became final) |
 | `S36-majority-tie` | Same item after Selin chooses Maybe: Reject/Maybe/Accept tie goes to Mert |
 | `S36-empty` | No open conflicts |
 | `S36-loading` | Skeleton card, buttons disabled |
@@ -171,9 +174,9 @@ All gesture values are the S25 values (motion.md §2): thresholds `max(0.30 × W
 | List view | "Open, 12"; "Resolved, 3"; "Resolved by you" / "Resolved by Mert" |
 | All resolved | "All 15 conflicts resolved" / "Each one has a final decision. New conflicts show up here as Deniz and Selin keep sorting." / "See results", "Export", "Back to list" |
 | Remaining | progress "0 / 3 resolved" (rest as default) |
-| Empty | "No conflicts" / "When members decide an item differently, it shows up here. 24 items in Round 1 are still waiting for your decision." / "Continue sorting", "Back to list" (when I have decided everything: "When members decide an item differently, it shows up here." / "Back to list") |
+| Empty | "No conflicts" / "When members decide an item differently, it shows up here. 15 items in Round 1 are still waiting for your decision." (Mert, 85 / 100; Deniz sees 24) / "Continue sorting", "Back to list" (when I have decided everything: "When members decide an item differently, it shows up here." / "Back to list") |
 | Loading | (skeleton) screen reader "Loading conflicts" |
-| Error | "Conflicts couldn't be loaded" / "SwipeSort didn't respond. Check your connection and try again." / "Try again", "Back to list" |
+| Error (S40-error treatment, `cloud-alert`) | "Conflicts couldn't be loaded" / "SwipeSort didn't respond. Check your connection and try again." / "Your resolutions are saved on this phone." / "Try again", "Back to list" |
 | Offline | "You're offline. Resolutions are saved on this phone and sync when you're back online." |
 | Sync sheet | "Synced 2 resolutions" / "While you were offline, the conflicts changed." / "Sophie Laurent" — "Selin changed to Accept, so everyone agrees. No longer a conflict." / "2 new conflicts" — "Selin kept sorting. They're added to the end." / "Continue resolving". Agreement beat a resolution: "{Item} was agreed before your resolution synced, so it wasn't needed." |
 | Large text | "1 note in item details" |

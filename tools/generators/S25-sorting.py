@@ -42,7 +42,7 @@ def person_body(p, note=None, compact=False):
     tags = ''.join(f'<span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">{t}</span>' for t in p['tags'])
     return f'''{img}
       <div class="flex min-h-0 flex-1 flex-col px-6 pb-5 pt-5">
-        <h2 class="line-clamp-3 text-card-title">{p["name"]}</h2>
+        <h2 class="line-clamp-4 text-card-title">{p["name"]}</h2>
         <p class="mt-1 text-body-lg text-muted-foreground">{p["sub"]}</p>
         <dl class="mt-4 space-y-2 text-body">{rows}</dl>
         <div class="mt-auto space-y-3 pt-3">{note_html}<div class="flex gap-2">{tags}</div></div>
@@ -66,14 +66,18 @@ def photo_body():
       </div>'''
 
 def candidate_body():
+    # Sparse-card rule (S23 §3, D-S23-8): no image area -> title, subtitle and rows form one block,
+    # vertically centered above the pinned tags; templates with up to 3 rows use text-title-2 values.
     return f'''<div class="flex min-h-0 flex-1 flex-col px-6 pb-5 pt-7">
-        <h2 class="line-clamp-3 text-card-title">Lena Hoffmann</h2>
-        <p class="mt-1 text-body-lg text-muted-foreground">Berlin</p>
-        <dl class="mt-6 space-y-3 text-body">
-          <div class="flex flex-col"><dt class="text-body-sm text-muted-foreground">Years of experience</dt><dd class="text-title-3 tabular-nums">6</dd></div>
-          <div class="flex flex-col"><dt class="text-body-sm text-muted-foreground">Expected salary</dt><dd class="text-title-3 tabular-nums">€78,000</dd></div>
-        </dl>
-        <div class="mt-auto flex gap-2 pt-3"><span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">Referral</span></div>
+        <div class="my-auto">
+          <h2 class="line-clamp-3 text-card-title">Lena Hoffmann</h2>
+          <p class="mt-1 text-body-lg text-muted-foreground">Berlin</p>
+          <dl class="mt-6 space-y-5">
+            <div class="flex flex-col"><dt class="text-body-sm text-muted-foreground">Years of experience</dt><dd class="text-title-2 tabular-nums">6</dd></div>
+            <div class="flex flex-col"><dt class="text-body-sm text-muted-foreground">Expected salary</dt><dd class="text-title-2 tabular-nums">€78,000</dd></div>
+          </dl>
+        </div>
+        <div class="flex gap-2 pt-3"><span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">Referral</span></div>
       </div>'''
 
 STAMP = {
@@ -84,7 +88,7 @@ STAMP = {
 MOVE = {
     ('accept', 'half'): 'translate-x-12 rotate-3', ('accept', 'armed'): 'translate-x-28 rotate-6',
     ('reject', 'half'): '-translate-x-12 -rotate-3', ('reject', 'armed'): '-translate-x-28 -rotate-6',
-    ('maybe', 'half'): '-translate-y-8', ('maybe', 'armed'): '-translate-y-16',
+    ('maybe', 'half'): '-translate-y-5', ('maybe', 'armed'): '-translate-y-10',
 }
 
 def card(body, label, drag=None, level='armed', others=None, reduced=False):
@@ -99,7 +103,7 @@ def card(body, label, drag=None, level='armed', others=None, reduced=False):
       <div class="pointer-events-none absolute {pos} {sop} inline-flex h-11 items-center gap-2 rounded-full bg-{drag} px-4 text-label-lg text-{drag}-foreground shadow-overlay">{icon(ic, "size-6")}{txt}</div>'''
     oth = ''
     if others:
-        oth = f'<div class="absolute right-4 top-4 rounded-full bg-card/90 p-1 shadow-raised">{others}</div>'
+        oth = f'<div class="absolute right-4 top-4 w-48 rounded-control bg-card px-2.5 py-2 shadow-raised">{others}</div>'
     return f'''<article class="absolute inset-x-gutter bottom-5 top-0 flex origin-bottom flex-col overflow-hidden rounded-hero bg-card {shadow} {move}" aria-label="{label}" aria-roledescription="card" tabindex="0">
       {body}
       {oth}
@@ -201,12 +205,12 @@ annak = person_body(PEOPLE['c078'])
 NEXT_BODY = annak
 MIA_L = 'Mia Andersson, Colleague. Phone +46 8 0000 4021. Email mia.andersson@example.com. City Stockholm.'
 
-def sorting(body=MIA, label=MIA_L, drag=None, level='armed', counts=(17, 11, 48), done=76, others=None, extra_top='', overlay='', hdr=None, prog=None, promote=False, reduced=False, undo=True, nxt=True, barhtml=None):
+def sorting(body=MIA, label=MIA_L, drag=None, level='armed', counts=(17, 11, 48), done=76, others=None, extra_top='', overlay='', hdr=None, prog=None, promote=False, reduced=False, undo=True, nxt=True, barhtml=None, nxt_body=None, undo_label='Undo last decision (Accept on Ayşe Demir)'):
     return f'''{hdr or header()}
   {extra_top}
   {prog or progress(done)}
-  {stack(card(body, label, drag, level, others, reduced), nxt, promote)}
-  {barhtml or bar(counts, drag, level, undo)}
+  {stack(card(body, label, drag, level, others, reduced), nxt, promote, nxt_body=nxt_body)}
+  {barhtml or bar(counts, drag, level, undo, undo_label=undo_label)}
   {overlay}'''
 
 frames = []
@@ -236,7 +240,7 @@ F('S25-undo', 'Undo: last card returns, snackbar confirms', phone(sorting(overla
 frames.append(section('First-time coach marks', 'Shown on the first sort only. The card demonstrates each gesture (static arrows with reduced motion). Skip ends the tutorial; it can be replayed from the menu.'))
 def coach(step, title, body, ic, tone, drag, last=False):
     dots = ''.join(f'<span class="size-2 rounded-full {"bg-primary" if i == step else "bg-muted-foreground/30"}"></span>' for i in range(1, 5))
-    nxt_btn = (f'<a href="../04-prototype/swipe-demo.html?deck=wedding&amp;count=6&amp;next=S27-default" class="inline-flex h-12 items-center rounded-control bg-primary px-5 text-label-lg text-primary-foreground" data-action="done">Start sorting</a>' if last
+    nxt_btn = (f'<a href="../04-prototype/swipe-demo.html?deck=first&amp;count=6&amp;next=S27-first-round" class="inline-flex h-12 items-center rounded-control bg-primary px-5 text-label-lg text-primary-foreground" data-action="done">Start sorting</a>' if last
                else f'<a href="#S25-coach-{step + 1}" class="inline-flex h-12 items-center rounded-control bg-primary px-5 text-label-lg text-primary-foreground" data-action="next">Next</a>')
     skip = '' if last else '<a href="#S25-default" class="inline-flex h-12 items-center rounded-control px-4 text-label-lg" data-action="skip">Skip</a>'
     hand = ''
@@ -252,10 +256,10 @@ def coach(step, title, body, ic, tone, drag, last=False):
     </div>'''
     scrim = '<div class="absolute inset-0 z-10 bg-scrim/60"></div>'
     return phone(f'''{header()}
-  {progress(0, 100)}
+  {progress(0, 85)}
   {stack(card(MIA, MIA_L, drag, 'half' if drag else 'armed'), True, z='z-20')}
   {bar((0, 0, 0), drag, 'half', undo=False)}
-  {scrim}{hand}{bubble}''').replace('76 / 100', '0 / 100')
+  {scrim}{hand}{bubble}''')
 F('S25-coach-1', 'Coach mark 1 of 4: accept', coach(1, 'Swipe right to accept', 'Or tap the check button below the card.', 'arrow-right', 'accept', 'accept'))
 F('S25-coach-2', 'Coach mark 2 of 4: reject', coach(2, 'Swipe left to reject', 'Or tap the cross button.', 'arrow-left', 'reject', 'reject'))
 F('S25-coach-3', 'Coach mark 3 of 4: maybe', coach(3, 'Swipe up for maybe', 'Not sure yet? Maybe items wait in their own pile, so you can sort them again later.', 'arrow-up', 'maybe', 'maybe'))
@@ -289,15 +293,15 @@ frames.append(section('Shared list', "Every member decides independently. Others
 members = f'''<div class="flex -space-x-2" role="img" aria-label="3 members: Deniz, Mert, Selin"><img src="{IMG}people/u-deniz.svg" alt="" class="size-6 rounded-full ring-2 ring-background"><img src="{IMG}people/u-mert.svg" alt="" class="size-6 rounded-full ring-2 ring-background"><span class="flex size-6 items-center justify-center rounded-full bg-muted text-caption text-muted-foreground ring-2 ring-background">S</span></div>'''
 shared_hdr = header('Wedding guests', 'Round 1, shared')
 F('S25-shared', "Shared list, others' decisions hidden (default)", phone(sorting(hdr=shared_hdr, prog=progress(76, 100, members))))
-others = f'''<div class="flex items-center -space-x-1.5" role="img" aria-label="Mert: Maybe. Selin: not decided yet.">
-    <span class="relative"><img src="{IMG}people/u-mert.svg" alt="" class="size-8 rounded-full ring-2 ring-card"><span class="absolute -bottom-1 -right-1 flex size-5 items-center justify-center rounded-full bg-maybe text-maybe-foreground ring-2 ring-card">{icon("circle-help", "size-3")}</span></span>
-    <span class="relative"><span class="flex size-8 items-center justify-center rounded-full bg-muted text-caption text-muted-foreground ring-2 ring-card">SY</span><span class="absolute -bottom-1 -right-1 flex size-5 items-center justify-center rounded-full bg-card text-muted-foreground ring-2 ring-card">{icon("circle-dashed", "size-3")}</span></span>
+others = f'''<div class="space-y-1.5" role="img" aria-label="Mert: Maybe. Selin: not decided yet.">
+    <div class="flex items-center gap-2"><img src="{IMG}people/u-mert.svg" alt="" class="size-6 rounded-full"><span class="text-caption">Mert</span><span class="ml-auto inline-flex h-6 items-center gap-1 rounded-full bg-maybe-soft px-2 text-caption text-maybe-soft-foreground">{icon("circle-help", "size-3.5")}Maybe</span></div>
+    <div class="flex items-center gap-2"><span class="flex size-6 items-center justify-center rounded-full bg-muted text-caption text-muted-foreground">SY</span><span class="text-caption">Selin</span><span class="ml-auto inline-flex h-6 items-center gap-1 rounded-full bg-muted px-2 text-caption text-muted-foreground">{icon("circle-dashed", "size-3.5")}Not decided</span></div>
   </div>'''
 F('S25-shared-others', "Shared list, others' decisions shown on the card", phone(sorting(hdr=shared_hdr, prog=progress(76, 100, members), others=others)))
-shared_menu = menu.replace('<a href="S22-template-library.html#S22-default"', f'''<div role="menuitemcheckbox" aria-checked="true" class="flex min-h-12 items-center gap-3 px-4 py-2 text-body">{icon("eye", "size-5 shrink-0 text-muted-foreground")}<span class="flex-1">Show others' decisions</span><span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1" aria-hidden="true"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></div>
-    <a href="S22-template-library.html#S22-default"''', 1).replace('End round', 'End round (Owner)').replace('S40-global-patterns.html#S40-end-round"', 'S40-global-patterns.html#S40-end-round-shared"')
+shared_menu = menu.replace('<a href="S22-template-library.html#S22-change"', f'''<div role="menuitemcheckbox" aria-checked="true" class="flex min-h-12 items-center gap-3 px-4 py-2 text-body">{icon("eye", "size-5 shrink-0 text-muted-foreground")}<span class="flex-1">Show others' decisions</span><span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1" aria-hidden="true"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span></div>
+    <a href="S22-template-library.html#S22-change"''', 1).replace('S40-global-patterns.html#S40-end-round"', 'S40-global-patterns.html#S40-end-round-shared"')
 F('S25-shared-menu', "Shared list menu with the others' decisions switch", phone(sorting(hdr=shared_hdr, prog=progress(76, 100, members), overlay=shared_menu)))
-F('S25-shared-conflict', 'After deciding: new conflict revealed', phone(sorting(body=annak, label='Anna-Katharina Rosenthal-Brückner', hdr=shared_hdr, prog=progress(77, 100, members), counts=(18, 11, 48),
+F('S25-shared-conflict', 'After deciding: new conflict revealed', phone(sorting(body=annak, label='Anna-Katharina Rosenthal-Brückner', hdr=shared_hdr, prog=progress(77, 100, members), counts=(18, 11, 48), nxt_body=person_body(PEOPLE['c081']), undo_label='Undo last decision (Reject on Mia Andersson)',
     overlay=snackbar('Mert chose Maybe on Mia Andersson. This is now a conflict.', 'View', icon_name='git-compare-arrows'))))
 F('S25-web-desktop-shared', 'placeholder', '')  # replaced below (kept for ID order)
 frames.pop()
@@ -332,8 +336,8 @@ F('S25-syncing', 'Back online: syncing', phone(sorting(hdr=shared_hdr, prog=prog
 error = f'''{header()}
   <div class="flex flex-1 flex-col items-center justify-center px-8 text-center">
     {icon("triangle-alert", "size-8 text-muted-foreground")}
-    <h2 class="mt-4 text-title-3">This list couldn't be opened</h2>
-    <p class="mt-1 max-w-xs text-body text-muted-foreground">Your decisions are safe. Close the list and open it again. If it keeps happening, restart SwipeSort.</p>
+    <h2 class="mt-4 text-balance text-title-3">This list couldn't be opened</h2>
+    <p class="mt-1 max-w-xs text-balance text-body text-muted-foreground">Your decisions are safe. Close the list and open it again. If it keeps happening, restart SwipeSort.</p>
     <button class="mt-6 flex h-12 w-full max-w-xs items-center justify-center rounded-control bg-secondary text-label-lg text-secondary-foreground">Try again</button>
     <a href="S09-list-overview.html#S09-default" class="mt-2 flex h-12 w-full max-w-xs items-center justify-center rounded-control text-label-lg">Back to list</a>
   </div>'''
@@ -344,8 +348,8 @@ resume = f'''{header()}
   {progress(76)}
   <div class="flex flex-1 flex-col items-center justify-center px-8 text-center">
     <span class="flex size-14 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground">{icon("play", "size-6")}</span>
-    <h2 class="mt-4 text-title-2">Pick up where you left off</h2>
-    <p class="mt-1 max-w-xs text-body text-muted-foreground">76 of 100 decided. 24 items left in Round 1.</p>
+    <h2 class="mt-4 text-balance text-title-2">Pick up where you left off</h2>
+    <p class="mt-1 max-w-xs text-balance text-body text-muted-foreground">76 of 100 decided. 24 items left in Round 1.</p>
     <a href="#S25-default" class="mt-6 flex h-12 w-full max-w-xs items-center justify-center rounded-control bg-primary text-label-lg text-primary-foreground" data-action="continue">Continue sorting</a>
   </div>'''
 F('S25-resume', 'Resume prompt (only after an app update or a sync from another device)', phone(resume))
@@ -353,8 +357,8 @@ done_state = f'''{header()}
   {progress(100)}
   <div class="flex flex-1 flex-col items-center justify-center px-8 text-center">
     <span class="flex size-14 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground">{icon("check-check", "size-6")}</span>
-    <h2 class="mt-4 text-title-2">Every item is decided</h2>
-    <p class="mt-1 max-w-xs text-body text-muted-foreground">Round 1 is complete. See the summary or change any decision in Results.</p>
+    <h2 class="mt-4 text-balance text-title-2">Every item is decided</h2>
+    <p class="mt-1 max-w-xs text-balance text-body text-muted-foreground">Round 1 is complete. See the summary or change any decision in Results.</p>
     <a href="S27-round-summary.html#S27-default" class="mt-6 flex h-12 w-full max-w-xs items-center justify-center rounded-control bg-primary text-label-lg text-primary-foreground" data-action="summary">See summary</a>
   </div>'''
 F('S25-nothing-left', 'Opening a round with nothing left to sort', phone(done_state))
@@ -364,8 +368,8 @@ frames.append(section('Accessibility', 'Large text, reduced motion and screen-re
 big_body = f'''<div class="flex min-h-0 flex-1 flex-col px-6 pb-5 pt-6">
         <h2 class="line-clamp-4 text-display">Mia Andersson</h2>
         <p class="mt-2 text-title-2 font-normal text-muted-foreground">Colleague</p>
-        <dl class="mt-5 space-y-3 text-title-3 font-normal"><div><dt class="text-body-lg text-muted-foreground">Phone</dt><dd class="tabular-nums">+46 8 0000 4021</dd></div><div><dt class="text-body-lg text-muted-foreground">City</dt><dd>Stockholm</dd></div></dl>
-        <p class="mt-auto text-body-lg text-primary">2 more fields in details</p>
+        <dl class="mt-5 space-y-3 text-title-3 font-normal"><div><dt class="text-body-lg text-muted-foreground">Phone</dt><dd class="tabular-nums">+46 8 0000 4021</dd></div><div><dt class="text-body-lg text-muted-foreground">Email</dt><dd class="break-all">mia.andersson@example.com</dd></div><div><dt class="text-body-lg text-muted-foreground">City</dt><dd>Stockholm</dd></div></dl>
+        <p class="mt-auto text-body-lg text-primary">1 more field in details</p>
       </div>'''
 big_bar = f'''<div class="grid shrink-0 grid-cols-3 gap-2 px-4 pb-3 pt-2">
     <button class="flex min-h-16 flex-col items-center justify-center gap-1 rounded-control bg-reject-soft px-2 py-2 text-reject-soft-foreground" aria-label="Reject, 17 rejected" data-action="reject">{icon("x", "size-7")}<span class="text-title-3">Reject <span class="tabular-nums">17</span></span></button>
@@ -415,9 +419,13 @@ F('S25-ios-note', 'iOS note as a page sheet', phone(sorting(hdr=header(ios=True)
 F('S25-web', 'Web, mobile browser', web_phone(sorting(hdr=shared_hdr, prog=progress(76, 100, members))))
 kbd = lambda k, t: f'<span class="inline-flex items-center gap-1.5"><kbd class="inline-flex h-6 min-w-6 items-center justify-center rounded-sm border border-b-2 bg-card px-1.5 text-caption text-foreground">{k}</kbd>{t}</span>'
 hints = f'<div class="flex shrink-0 justify-center gap-4 pb-3 text-caption text-muted-foreground" aria-label="Keyboard shortcuts">{kbd("←", "Reject")}{kbd("↑", "Maybe")}{kbd("→", "Accept")}{kbd("Z", "Undo")}{kbd("N", "Note")}</div>'
-mert_hdr = header('Wedding guests', 'Round 1, shared').replace('S09-list-overview.html#S09-default', 'S09-list-overview.html#S09-shared')
-desk_screen = sorting(hdr=mert_hdr, prog=progress(85, 100, members), counts=(21, 14, 50), undo=True)
-finish = '<a href="S27-round-summary.html#S27-shared" class="sr-only focus:not-sr-only" data-action="finish">Finish sorting (prototype shortcut to the summary)</a>'
+mert_hdr = header('Wedding guests', 'Round 1, shared').replace('S09-list-overview.html#S09-default', 'S09-list-overview.html#S09-shared-decision-maker').replace('data-action="close"', 'data-action="finish"')
+LIVE = '../04-prototype/swipe-demo.html?deck=mert&amp;next=..%2F03-screens%2FS09-list-overview.html%23S09-shared-decision-maker'
+desk_screen = sorting(hdr=mert_hdr, prog=progress(85, 100, members), counts=(21, 14, 50), undo=True, undo_label='Undo last decision (Accept on Mehmet Yılmaz)')
+# Prototype: on the desktop frame the decision buttons open the live demo with Mert's undecided items.
+_bar_at = desk_screen.index('<div class="flex shrink-0 items-start justify-between px-5 pb-4 pt-2">')
+desk_screen = desk_screen[:_bar_at] + desk_screen[_bar_at:].replace('<button class="flex min-w-touch', f'<a href="{LIVE}" class="flex min-w-touch').replace('</span></button>', '</span></a>')
+finish = ''
 desktop = f'''<div class="desktop">
   <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/l/7Hq2xK/sort</span></div>
   <div class="desktop-column">

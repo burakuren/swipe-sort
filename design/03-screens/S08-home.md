@@ -2,7 +2,7 @@
 
 Frames: `S08-home.html`. Generator: `tools/generators/S08-S10-lists.py` (writes S08, S09 and S10).
 Components: AppBar (large title, small, search), ListGroup, ListRow, Badge (Conflict status chip, Sample),
-Progress, ExtendedFab, BottomNav, BackupIndicator, OfflineBanner, SyncNotice, Alert (error), EmptyState,
+Progress, ExtendedFab, BottomNav (count badge `bg-primary`), BackupIndicator, OfflineBanner, SyncNotice, Alert (error), EmptyState,
 Skeleton, Snackbar (S10 frames). iOS: large-title navigation bar, UISearchController field, tab bar.
 
 ## 1. Purpose and requirements
@@ -72,7 +72,7 @@ Top-level tab: bottom navigation visible (Lists active; Activity shows the unrea
 6. **ExtendedFab** "New list" (`bg-primary rounded-tile shadow-overlay`, 56 high, `plus` 24), 16 above the
    bottom navigation, right 16. Collapses to a 56 icon FAB while scrolling down; expands on scroll up. It
    moves up above a snackbar (M3).
-7. **BottomNav**: Lists, Activity (badge = unread events, `bg-destructive`), Settings.
+7. **BottomNav**: Lists, Activity (badge = unread events, `bg-primary text-primary-foreground`), Settings.
 
 First run (`S08-first-run`): EmptyState centered between title and navigation: `layers` 32 muted, "No lists
 yet" (`text-title-2`), one sentence, primary "Import a list" (`download` icon), ghost "Try a sample list",
@@ -119,7 +119,7 @@ Related frames in S10: `S10-row-sheet` (long press), `S10-archived-snackbar`, `S
   shows the pressed state (`bg-accent`) while held. Screen readers get the same actions as custom actions
   on the row ("Resume sorting", "Share list", "Rename", "Duplicate", "Archive", "Delete list").
 - **New list / Import a list / "+"**: opens the import modal at S11.
-- **Try a sample list**: creates "Desk setup (sample)" (a local copy of the 20 sample products, Product
+- **Try a sample list**: creates "Desk setup (sample)" (a local copy of the 20 sample items (products p01–p20), Product
   template, not sorted) and opens `S09-sample`. If a sample already exists it opens that one instead of
   creating a second.
 - **Back up**: opens the S05 sheet over Home; after moving lists, the indicator disappears.
@@ -155,7 +155,7 @@ Related frames in S10: `S10-row-sheet` (long press), `S10-archived-snackbar`, `S
 | FAB | "New list"; collapsed accessible name "New list" |
 | Search | field label "Search lists"; "Close search"; "Clear search"; result count "2 lists match" / "1 list matches"; group "Archived" |
 | Search empty | "No lists match “budget”" / "Check the spelling, or search for another word in the list name." / "Clear search" |
-| Offline | "You're offline. Changes are saved on this phone and sync when you're back online." |
+| Offline | "You're offline. Changes are saved on this phone." (S40 pattern) |
 | Syncing | "Syncing 12 decisions…" → "Synced" |
 | Sync error | "Couldn't sync 12 decisions. They're safe on this phone." / "Try again" |
 | Error | "Your lists couldn't be opened" / "They're still saved on this phone. Try again, or restart SwipeSort. If it keeps happening, contact us from Settings › Help." / "Try again" |
@@ -178,8 +178,8 @@ Related frames in S10: `S10-row-sheet` (long press), `S10-archived-snackbar`, `S
   equivalent.
 - Live regions: search result count (polite), sync notice (polite), sync error (`alert`).
 - Large text (`S08-large-text`): names `text-title-1` and wrap to 2 lines; status and counts wrap; the
-  progress fraction stays at the end of the bar; Resume moves below the row content (full label); FAB keeps
-  its label; bottom navigation labels grow. Rows grow, nothing truncates except the second line of names.
+  progress fraction stays at the end of the bar; Resume moves below the row content (full label); the FAB
+  collapses to the 56 icon FAB ("New list") so it never covers row content; bottom navigation labels grow. Rows grow, nothing truncates except the second line of names.
 - Touch targets ≥ 48: rows ≥ 72, Resume 48 high, icon buttons 48, FAB 56.
 - Reduced motion: no FAB collapse animation, no spinner rotation (static `refresh-cw`), push and modal
   transitions become 150 ms fades, skeleton pulse is static.
@@ -196,8 +196,9 @@ Related frames in S10: `S10-row-sheet` (long press), `S10-archived-snackbar`, `S
 - **Web, mobile** (`S08-web`): same as Android without system bars. Lists made without an account live in
   this browser: "Lists are in this browser only" (clearing site data removes them). Long press = context
   menu via a right click or a long touch; an overflow button appears on hover/focus on desktop.
-- **Web, desktop** (`S08-web-desktop`): the phone column centered; same layout; `/` focuses search.
-  No haptics.
+- **Web, desktop** (`S08-web-desktop`): the phone column centered; no FAB (a floating button reads oddly with a
+  pointer and would sit on the last row): a filled "New list" button (48 high, `plus`) sits in the bar next to
+  search. `/` focuses search. No haptics.
 
 ## 9. Edge cases
 

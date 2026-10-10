@@ -160,7 +160,7 @@ P.frame('S16-large-text', 'Large text (200%)', phone(f'''{large_bar}
     <div>{heading(True)}</div>
     {tabs(large=True)}
     <div>{textarea(BOOKS[:7], 7, large=True)}<div class="mt-2" role="status"><span class="text-title-2 tabular-nums">12 items</span></div></div>
-    {btn('Open a .txt file', 'outline', 'file-up', size='min-h-16', extra='w-full text-title-3 font-normal').replace(' text-label-lg ', ' ')}
+    {btn('Open a .txt file', 'outline', 'file-up', size='min-h-16', extra='w-full text-title-2 font-normal').replace(' text-label-lg ', ' ')}
     </div>
   </div>
   <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3"><a href="{NEXT}" class="flex min-h-16 w-full items-center justify-center rounded-control bg-primary px-6 text-title-3 text-primary-foreground" data-action="continue">Continue</a></div>'''))

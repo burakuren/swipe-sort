@@ -12,7 +12,7 @@ skipped, and duplicate review is skipped (two photos are never merged). The resu
 "March photos clean-up" (`l-photos`, sample `photos` ph01–ph30).
 
 Covers: SRC-01 (photos source), SRC-02, SRC-07 (select photos), SRC-24 (partial import: upload), PLT-02,
-PLT-03, PLT-04, PLT-08, PLT-11, PLT-13, PLT-14, PLT-15, PLT-21, PLT-23, GOAL-02, GOAL-05, VIS-13, VIS-14,
+PLT-03, PLT-04, PLT-08, PLT-11, PLT-13, PLT-14, PLT-15, PLT-16 (large text, described in §7), PLT-21, PLT-23, GOAL-02, GOAL-05, VIS-13, VIS-14,
 SMP-05, SCR-18.
 
 ## 2. Entry points and exits
@@ -42,8 +42,9 @@ Full-screen modal, no bottom navigation. Top to bottom:
 3. **Selection toolbar** (gallery): count ("30 selected" / "Select photos" / "Loading photos…", `text-label
    tabular-nums`, live region), album select chip ("All photos", `images` icon, opens the album sheet), text
    button "Clear" / "Select all". Hairline border below.
-4. **Grid** (gallery): sections per day, newest first. Day header (56 high): "Sunday, Mar 15" (`text-label`,
-   heading) + locations of that day (`text-caption muted`, "No location" when none) + day checkbox button
+4. **Grid** (gallery): sections per day, newest first; days with fewer than 4 photos merge into their week
+   (Monday to Sunday) so rows stay full ("Mar 9 to 15"). Header (56 high): "Sunday, Mar 15" or "Mar 9 to 15" (`text-label`,
+   heading) + locations in that group (`text-caption muted`, "No location" when none) + day checkbox button
    (48, checked / mixed / unchecked). Tiles: 4 columns, edge to edge, 2 dp gaps, square, `object-cover`.
    - **SelectableTile** (Proposed component): button `role="checkbox"`. Selected: 2 dp `ring-primary` inset
      ring + 24 check badge top-right (`bg-primary` + `check` icon, `ring-2 ring-card`). Unselected: 24 empty
@@ -51,7 +52,7 @@ Full-screen modal, no bottom navigation. Top to bottom:
 5. **Bottom action**: note "Each photo becomes one item." + primary "Continue" (h-14, full width).
 6. Web: **upload zone** (dashed `border-input`, `rounded-tile`, `bg-card`): `upload` icon, "Upload photos from
    this device", formats caption, outline button "Choose photos" (`image-plus`). Desktop while uploading: compact
-   zone "Drop more photos here" + "Choose photos". **File list** (ListGroup): 48 thumbnail (`rounded-sm`;
+   zone "Drop to add more" + ghost "Add photos". **File list** (ListGroup): 48 thumbnail (`rounded-sm`;
    `image-off` placeholder for non-images), file name + size on line 1, status on line 2 (Uploaded / Uploading…
    64% with a 80-wide bar / Waiting / Paused / error in `text-destructive` with `circle-alert`), remove icon
    button on errors. Overall status line + progress bar above the list.
@@ -128,7 +129,7 @@ web desktop before choosing = `S18-web` inside the desktop frame with the zone r
 | iOS limited | "SwipeSort can see 12 photos you chose" / "Select more photos" / "Allow access to all photos in Settings" |
 | Web unavailable | "Picking from your phone's gallery needs the Android or iOS app" / "You can upload photo files here instead." / "Get the app" |
 | Upload zone (mobile web) | "Upload photos from this device" / "JPG, PNG, HEIC or WebP, up to 25 MB each." / "Choose photos" |
-| Upload zone (desktop) | "Drop photos here" / "or" / "Choose photos" / formats caption; while uploading "Drop more photos here" + "Choose photos" |
+| Upload zone (desktop) | "Drop photos here" / "or" / "Choose photos" / formats caption; while uploading "Drop to add more" + "Add photos" |
 | Upload status | "Uploading 18 of 30 photos…"; "2 can't be added"; "Uploaded 30 photos" (all done); "Uploaded 12 of 30 photos. Paused." |
 | File states | "Uploaded"; "Uploading… 64%"; "Waiting"; "Paused" |
 | File errors | "Videos can't be imported."; "Too large. The limit is 25 MB."; other formats: "This file type can't be imported. Use JPG, PNG, HEIC or WebP."; unreadable: "This file can't be read. Choose it again." |

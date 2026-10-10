@@ -76,7 +76,7 @@ SCR-22.
    Demir for contacts, k01 Lena Hoffmann for the CSV, p01, ph01, the first book). It updates instantly when a
    tile is chosen (150 ms cross-fade).
 7. **Template carousel** (horizontal scroll, `role="radiogroup"`, gap 12, `px-gutter`): TemplateTile pick variant
-   (128 wide): schematic, name (`text-label`, wraps), caption "Recommended" / "Custom" / "Current";
+   (128 wide): schematic, name (`text-label`, wraps), caption "Recommended" / "Current" / "Custom" / "Built-in", bottom-aligned so captions line up when names wrap;
    selected = `border-2 border-primary` + `circle-check`. Order: the recommended template, then your templates
    (newest first), then the remaining built-ins. The order does not change while the screen is open.
 8. **Bottom action**: Button lg (h-14) full width "Start sorting" on `bg-background` with a top hairline.
@@ -98,22 +98,22 @@ applies it.
 | `S22-actions-built-in` | Long-press on a built-in tile: View layout, Duplicate, and why it can't be edited |
 | `S22-rename`, `S22-renamed` | Rename dialog (prefilled, focused, all selected) → snackbar "Template renamed" |
 | `S22-rename-error` | Name already used by another of your templates (case-insensitive) |
-| `S22-duplicated` | Duplicate → "Candidate, compact copy" appears first (newest first), snackbar with "Edit" |
+| `S22-duplicated` | Duplicate → "Candidate, compact (copy)" appears first (newest first), snackbar with "Edit"; content shown scrolled so the snackbar covers nothing |
 | `S22-delete` | Delete a template in use: the dialog asks for the replacement template of each list using it (default: the built-in it was based on) |
 | `S22-deleted` | Snackbar "Template deleted" + Undo (restores the template and every list's choice) |
 | `S22-new` | "New template" sheet: which list's fields to use (default: the most recently opened list) and which built-in to start from → S23 |
 | `S22-empty` | No templates of your own yet (empty state with "New template") |
 | `S22-loading` | First open after sign-in while synced templates load (skeleton tiles); local templates show immediately |
-| `S22-import-pick` | Pick mode, contacts (flow 1): "Wedding guests" typed, Person recommended, Ayşe Demir preview |
+| `S22-import-pick` | Pick mode, contacts (flow 1): 88 contacts selected, 3 duplicate pairs merged and 1 pair kept, so 85 items; "Wedding guests" typed, Person recommended, Ayşe Demir preview; Start sorting → `S25-coach-1` (0 / 85) |
 | `S22-import-pick-prefilled` | Arrival: name "Contacts" prefilled, focused and selected, helper explains it |
 | `S22-import-pick-csv` | CSV (flow 4 in the app): "Frontend hiring, Q4", Candidate recommended, "No duplicates found." Role is hidden (S19), so the built-in's subtitle is left out |
-| `S22-import-pick-custom` | Back from S23 after "Save": "Candidate, compact" selected (2nd tile), preview Lena Hoffmann compact, snackbar "Template saved" |
+| `S22-import-pick-custom` | Back from S23 after "Save": the screen returns scrolled so the carousel sits above the snackbar; "Candidate, compact" selected (2nd tile), preview Lena Hoffmann compact, snackbar "Template saved" |
 | `S22-import-pick-text` | Plain text, Step 4 of 4: one field, Generic recommended; the card is the title only |
 | `S22-import-pick-manual` | Manual entry (title "New list"), Step 4 of 4: Product recommended; p01 has no rating, so the rating is left out |
 | `S22-import-pick-photos` | Photos, Step 3 of 3: Photo recommended (ph01) |
 | `S22-import-pick-error` | Name cleared and "Start sorting" pressed: inline error, focus moves to the field |
 | `S22-import-pick-importing` | "Start sorting" pressed: button busy "Importing 85 items…" (copy into the working copy), then S25 |
-| `S22-import-pick-partial` | Some items could not be copied (photos deleted from the gallery meanwhile): error Alert + "Start sorting with 28 items" |
+| `S22-import-pick-partial` | Some items could not be copied (photos deleted from the gallery meanwhile): summary "28 of 30 photos copied.", error Alert + "Start sorting with 28 items" |
 | `S22-change` | Change mode, solo list (Desk setup): Product marked Current |
 | `S22-change-shared` | Change mode on a shared list: notice that it applies to every member |
 | `S22-change-applied` | Tapped "Guest with table side": applied at once, snackbar "Card template changed to Guest with table side" + Undo; header action becomes "Edit template" |
@@ -154,8 +154,8 @@ the real result before anything is applied.
 - **Start sorting**: validates the name; creates the list, copies items into the working copy ("Importing 85
   items…"), applies the template, closes the import modal and opens S25 (coach marks on the very first sort).
 - **Manage**: tile/row tap → S23; overflow (or long-press) → actions sheet (Android), action sheet (iOS),
-  menu (web). Rename: Dialog with the name selected; Enter = Rename. Duplicate: copy named "{name} copy" (then
-  "copy 2"…), not used by any list. Delete: AlertDialog; when lists use the template, a Select per list chooses
+  menu (web). Rename: Dialog with the name selected; Enter = Rename. Duplicate: copy named "{name} (copy)" (then
+  "(copy 2)"…, as S40/S10), not used by any list. Delete: AlertDialog; when lists use the template, a Select per list chooses
   its replacement (default: the built-in it was based on, else Generic).
 - **Back**: system back / edge swipe closes the topmost sheet or dialog first. In pick mode back returns to the
   previous import step with everything kept.
@@ -176,7 +176,7 @@ the real result before anything is applied.
 | Actions sheet (built-in) | "{template}", "Built-in template"; "View layout", "Duplicate"; "Built-in templates can't be changed or deleted. Duplicate one to make your own version." |
 | Rename dialog | "Rename template"; label "Template name"; "Cancel", "Rename"; success "Template renamed" |
 | Rename errors | "Enter a name for the template." / "You already have a template with this name. Choose another name." |
-| Duplicate | snackbar "Duplicated as “{name} copy”", action "Edit" |
+| Duplicate | copy named "{name} (copy)", then "(copy 2)"; snackbar "Duplicated as “{name} (copy)”", action "Edit" |
 | Delete dialog (in use) | "Delete “{template}”?"; "{List} uses this template. Its cards switch to the template you choose, for every member of the list." (solo list: without ", for every member of the list"); 2+ lists: "2 lists use this template. Choose a template for each."; Select label "Card template for {list}"; helper "{Built-in} is the template it was based on."; "Cancel", "Delete template" |
 | Delete dialog (unused) | "Delete “{template}”?"; "No list uses it."; "Cancel", "Delete template" |
 | Deleted | "Template deleted", action "Undo" |
@@ -185,10 +185,10 @@ the real result before anything is applied.
 | Loading | a11y "Loading templates" |
 | Pick: app bar, stepper | "Import" or "New list"; "Close import"; "Finish"; "Step 5 of 5" / "Step 4 of 4" / "Step 3 of 3" |
 | Pick: name | label "List name"; helper on arrival "Prefilled from the source. Type to rename it."; placeholder when empty "e.g. Desk setup"; error "Enter a name for the list."; over 80 characters "Use 80 characters or fewer." |
-| Pick: summary | "{n} items from Contacts. 3 duplicate pairs merged." / "12 items from candidates-q4.csv. No duplicates found." / "12 items from pasted text." / "3 items you added." / "30 items from Photos." / "8 items from Flat hunt 2026." |
-| Pick: template | "Card template"; "Customize"; tile captions "Recommended", "Custom" |
+| Pick: summary | "85 items from Contacts. 3 duplicate pairs merged, 1 pair kept as separate items." / "{n} items from Contacts. No duplicates found." / "12 items from candidates-q4.csv. No duplicates found." / "12 items from pasted text." / "3 items you added." / "30 items from Photos." / "8 items from Flat hunt 2026." |
+| Pick: template | "Card template"; "Customize"; tile captions "Recommended", "Current", "Custom", "Built-in" |
 | Pick: action | "Start sorting"; busy "Importing 85 items…"; after save "Template saved" |
-| Partial import | "2 photos couldn't be copied" / "IMG_2077.JPG and IMG_2088.JPG are no longer on this phone. The other 28 are ready." / "Start sorting with 28 items"; files: "2 rows couldn't be read" / "Rows 14 and 52 are empty in every column. The other 86 are ready." |
+| Partial import | summary "28 of 30 photos copied."; "2 photos couldn't be copied" / "IMG_2077.JPG and IMG_2088.JPG are no longer on this phone. The other 28 are ready." / "Start sorting with 28 items"; files: "2 rows couldn't be read" / "Rows 14 and 52 are empty in every column. The other 86 are ready." |
 | Import failed | "The list couldn't be created. Your phone is out of storage. Free up space and try again." / "Try again" |
 | Change mode | "Card template"; caption "{list}"; "Templates"; "Customize" / "Edit template"; caption "Current"; footer "Choosing a template changes the cards right away. Decisions, notes and fields stay as they are." |
 | Shared notice | "Shared list" / "A new template changes the cards for all 3 members." |
@@ -207,8 +207,9 @@ the real result before anything is applied.
 - Library tiles: label "{name}, built-in. {description}". Overflow buttons: "More options for {template}".
 - Focus order (pick): close, list name, Customize, preview, tiles, Start sorting. On error, focus moves to the
   name field and the error is announced (`aria-invalid` + described by the message).
-- Dialogs: focus starts in the input (rename) or on Cancel (delete); background is inert while a sheet or
-  dialog is open.
+- Dialogs follow S40 (A-112): vertically centered, max width 384, no icon; confirm is destructive when something is
+  deleted or discarded, primary otherwise (Rename, Save). Initial focus: the input (rename) or the dismiss button
+  (delete). Background is inert while a sheet or dialog is open.
 - Touch targets ≥ 48 (tiles 128 × ~140, overflow 48, text buttons 48 high). Selected tile = 2 dp primary border
   + check icon (not color alone).
 - Large text (`S22-large-text`): stepper and labels scale; the preview becomes a button; the carousel becomes a
@@ -237,7 +238,7 @@ the real result before anything is applied.
 - **Template used by many lists**: delete dialog lists each list with its own Select (scrolls inside the
   dialog after 3).
 - **Deleting the template the current list uses** from change mode is not possible (no delete there).
-- **Offline**: manage and change work offline (local first, synced later); pick mode works offline for every
+- **Offline**: banner under the app bar with 12 dp before the content (as S11-offline). Manage and change work offline (local first, synced later); pick mode works offline for every
   source already read.
 - **Guest user**: templates are stored on the device and move to the account with the lists (A-46).
 - **Shared lists**: anyone on the list can change the template (domain-model permissions); members see the new

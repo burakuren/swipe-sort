@@ -27,7 +27,7 @@ VIS-11–VIS-14, TERM-01, SCR-16.
 | S19 field mapping, single field | "Continue" (`S19-field-mapping.html#S19-text`, `data-action="continue"`) |
 | System file picker | "Open a .txt file" (Android Storage Access Framework, iOS Files app, browser file input); out of scope |
 | S11 | System back / iOS back chevron "Back" |
-| S08 home | Close (`x`). With text entered, the S40 "Discard import?" dialog asks first (`S40-global-patterns.html#S40-default`) |
+| S08 home | Close (`x`). With text entered, the S40 "Discard import?" dialog asks first (`S40-global-patterns.html#S40-discard-import`) |
 
 ## 3. Layout and components
 
@@ -116,7 +116,7 @@ Offline: not applicable (paste and local files work offline). Web-unavailable: n
 | Replace dialog | "Replace the text in the box?" / "The text you typed is replaced by book-club.txt." / "Cancel", "Replace" |
 | Primary | "Continue" |
 | Web drop zone | "Drop a .txt file here, or browse" / "Plain text, UTF-8, up to 5,000 lines" |
-| Discard dialog (S40) | "Discard import?" (copy owned by S40) |
+| Discard dialog (S40, `#S40-discard-import`) | "Discard import?" / "Your text will be lost. Nothing has been added to SwipeSort yet." / "Keep importing", "Discard import" |
 
 ## 7. Accessibility
 

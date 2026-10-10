@@ -31,7 +31,7 @@ VIS-02, VIS-05, VIS-11–VIS-14, TERM-01–TERM-03, PLT-01–PLT-04, PLT-13–PL
 | Save dialog | "Save template" (`data-action="save-template"`) → `S23-save` |
 | S22 pick mode | "Save" in the dialog (`data-action="confirm-save"`) → `S22-import-pick-custom` with the new template selected and snackbar "Template saved" |
 | S22 change / manage | Save (changes apply to every list that uses it) or back without changes |
-| Discard dialog | Back, close or edge swipe with unsaved changes → `S23-discard` |
+| Discard dialog | Back, close or edge swipe with unsaved changes → `S23-discard` (new template) or `S23-discard-changes` (saved template, = `S40-discard-template`) |
 | Full-size preview | expand button on the preview → `S23-preview-full` |
 | Field picker / image sheet | tap Title, Subtitle, "Add field row", "Add tag" → `S23-field-picker`; Image area → `S23-image-sheet` |
 | Delete | overflow "Delete template" → dialog → S22 manage with "Template deleted" + Undo |
@@ -81,6 +81,12 @@ Pushed screen (inside the import modal stack in pick mode, in the Settings or li
   above value `text-title-3`), as in `S25-candidate`. Values truncate to 1 line. Rows without a value are left out.
   Rows that don't fit the card's height are dropped from the bottom (the item detail shows everything).
 - **Tags**: secondary chips (`h-7`) pinned to the bottom; empty values left out.
+- **Sparse cards (image area None)**: the title, subtitle and rows form one block that is vertically centered
+  in the space above the tags (`my-auto`; when the block is taller than the space it starts at the top, 28 from
+  the card edge). Templates with up to 3 field rows use larger values (`text-title-2`, rows 20 apart); 4–6 rows
+  use `text-title-3`, 12 apart. A title-only card (no subtitle, no rows, e.g. plain text) uses `text-display` for
+  the title. The size depends on the template's row count, not on the item, so it never jumps between cards when
+  values are missing. Cards with an image are unchanged (the image takes the top 46%).
 - Built-in Product renders its price and rating rows as the price line (`text-title-1` price, star rating with
   review count), as in `S25-product`. Built-in Photo shows file name and size as the line under the location.
 
@@ -97,16 +103,17 @@ Pushed screen (inside the import modal stack in pick mode, in the Settings or li
 | `S23-preview-long` | Item 9, Carolina Mendes Albuquerque de Souza (k09): title wraps (3 lines max, then "…"); helper explains truncation (TPL-07) |
 | `S23-preview-full` | Expand: the card at full sort size (372 × 620) with previous/next; close returns |
 | `S23-loading` | Items for the preview are loading (large lists, first open): skeleton card, Save disabled |
-| `S23-field-picker` | "Add field row": available fields first with the preview item's values; fields already on the card show where they are (choosing one moves it); hidden fields disabled |
+| `S23-field-picker` | "Add field row" (the sheet hugs its content): available fields first with the preview item's values; fields already on the card show where they are (choosing one moves it); hidden fields disabled |
 | `S23-image-sheet` | Image area options; Image on top and Full image are unavailable because the list has no Image field |
 | `S23-reorder` | Dragging Expected salary to the top of 4 rows: lifted row (`bg-popover shadow-overlay`, primary ring, scale 1.02), dashed drop slot, the preview reorders live |
 | `S23-validation` | Name moved from Title into field rows, then Save: Title row error, the preview marks the empty title slot ("No title", only in the preview) |
-| `S23-discard` | Back with unsaved changes |
+| `S23-discard` | Back from a new template that was never saved (import Customize) |
+| `S23-discard-changes` | Back from a saved template with unsaved changes (same dialog as `S40-discard-template`) |
 | `S23-built-in` | Built-in Candidate from Settings: read-only slots, "Preview with" list, "Duplicate and edit" |
 | `S23-edit-saved` | Saved "Candidate, compact" from Settings or a list: used-by notice; Save disabled until something changes |
 | `S23-menu` | Overflow: Rename, Duplicate, Delete template |
 | `S23-rename` | Rename dialog → "Template renamed" |
-| `S23-duplicated` | Duplicate: the editor switches to the copy "Candidate, compact copy" (not used by any list); snackbar |
+| `S23-duplicated` | Duplicate: the editor switches to the copy "Candidate, compact (copy)" (not used by any list), scrolled to the field rows; snackbar |
 | `S23-delete` | Delete a template in use: choose the replacement for Frontend hiring, Q4 (default Candidate, the built-in it was based on) |
 | `S23-ios` | iOS: Cancel / Save in the navigation bar, no bottom button |
 | `S23-web-desktop` | Desktop browser: keyboard reorder hint, visible focus on "Move Expected salary up" |
@@ -138,9 +145,10 @@ empty (a list always has at least a title field).
 - **Save template**: new template → name dialog → Save → back to the origin (pick: `S22-import-pick-custom`,
   the new template selected; change: applied to the list; manage: listed first in Your templates). Snackbar
   "Template saved". Existing template → saves directly (no dialog), every list using it updates.
-- **Back / close / edge swipe** with unsaved changes → discard dialog ("Keep editing" / "Discard changes").
+- **Back / close / edge swipe** with unsaved changes → discard dialog: new template "Keep editing" / "Discard template";
+  saved template "Keep editing" / "Discard changes". Dialogs follow S40 (A-112): centered, initial focus on "Keep editing".
   Without changes → back immediately.
-- **Built-in**: "Duplicate and edit" creates "{name} copy" and opens it (`S23-start` state, caption "Copy of
+- **Built-in**: "Duplicate and edit" creates "{name} (copy)" and opens it (`S23-start` state, caption "Copy of
   Candidate").
 - **Overflow** (saved custom): Rename (Dialog), Duplicate (switches to the copy, snackbar "Duplicated as “…”"),
   Delete template (AlertDialog with replacement Select for each list using it → S22 manage, "Template deleted" +
@@ -165,11 +173,12 @@ empty (a list always has at least a title field).
 | Image sheet | "Image area"; "None" — "Text only. Rows get more room."; "Photo or initials" — "Shows the item's image, or initials when it has none." (no Image field: "Shows initials: this list has no Image field."); "Image on top" — "Shows the item's image above the title."; "Full image" — "The image fills the card, details below it."; unavailable: "Needs an Image field. This list has none." |
 | Validation | "Choose a title field. Every card needs one."; Title value "Not set" |
 | Save | "Save template"; dialog "Save template", "Template name", helper "You can use it on any list.", "Cancel", "Save"; errors "Enter a name for the template." / "You already have a template with this name. Choose another name."; success "Template saved" |
-| Discard | "Discard changes to this template?" / "Your layout changes will be lost. The list keeps the template selected in the finish step." (change/manage: "Your layout changes will be lost. Lists using it keep the saved version."); "Keep editing", "Discard changes" |
+| Discard (new template) | "Discard this new template?" / "It hasn't been saved. The list keeps the template selected in the finish step." (from Settings: "It hasn't been saved.") / "Keep editing", "Discard template" (destructive) |
+| Discard (saved template) | "Discard changes to “Candidate, compact”?" / "Your layout changes won't be saved. Frontend hiring, Q4 keeps the current layout." (2+ lists: "Lists using it keep the current layout.") / "Keep editing", "Discard changes" (destructive). Source of truth: `S40-discard-template` |
 | Built-in action | "Duplicate and edit" |
 | Overflow | "Rename", "Duplicate", "Delete template" |
 | Rename | "Rename template", "Template name", "Cancel", "Rename"; "Template renamed" |
-| Duplicate | "Duplicated as “Candidate, compact copy”" |
+| Duplicate | copy name "{name} (copy)"; "Duplicated as “Candidate, compact (copy)”" |
 | Delete | "Delete “Candidate, compact”?" / "Frontend hiring, Q4 uses this template. Its cards switch to the template you choose."; "Card template for Frontend hiring, Q4"; "Candidate is the template it was based on."; "Cancel", "Delete template"; result "Template deleted" + "Undo" |
 | Web hint | "Alt + ↑ ↓ moves the focused row" |
 | Large text | "See card preview" |
@@ -194,7 +203,7 @@ empty (a list always has at least a title field).
 
 ## 8. iOS and web differences
 
-- **iOS** (`S23-ios`): navigation bar with "Cancel" (left) and "Save" (right, semibold) instead of the back arrow
+- **iOS** (`S23-ios`): 12 dp between the navigation bar and the preview; navigation bar with "Cancel" (left) and "Save" (right, semibold) instead of the back arrow
   and the bottom button; Cancel with changes → native alert with the discard copy. Pickers are page sheets with a
   grabber and Cancel / Done. Overflow → action sheet. Reorder uses the same rows (handle + buttons); the system
   edit mode is not used so both platforms share one component.
@@ -233,5 +242,6 @@ empty (a list always has at least a title field).
 - **D-S23-5** New templates are named in a dialog at save time; saving an existing template needs no dialog.
 - **D-S23-6** `S23-default` shows the edited state so flow 4 can go straight to Save; the first-open state is
   `S23-start`.
+- **D-S23-8** Sparse cards are vertically balanced with larger values (rule in §3); S25-candidate follows the same rule.
 - **D-S23-7** The used-by notice is shown for a template used by one list in the frames (sample data has no
   template used by two lists); the 2-list and 3+ copy is specified above.

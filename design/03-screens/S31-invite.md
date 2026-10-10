@@ -51,7 +51,7 @@ Full-height BottomSheet (Proposed variant **FullHeightSheet**, see below) over t
 7. Sticky footer (`border-t bg-background`): "Copy link" (primary, lg 56, `copy` icon) and "Share…"
    (secondary, 48, `share-2` icon; iOS uses `share`). Content scrolls under the footer.
 
-Overlays: Snackbar 144 dp above the bottom (above the footer), AlertDialog (reset), loading spinner text.
+Overlays: Snackbar in a slot directly above the sticky footer (the scroll area ends above it, so it never covers a row), AlertDialog (reset), loading spinner text.
 
 **Link model** (refines A-36): every member who can invite has their **own** link (so S32 can say who
 invited you). The Owner's link can be switched to Decision Maker; a Decision Maker link works for one
@@ -117,7 +117,7 @@ Guests (no account) never see S31: Invite/Share routes to S05 `S05-share` (ACC-0
 | Role section | "Invite as" |
 | Collaborator | "Collaborator" / "Sorts every item and adds notes. Can invite others as Collaborator." |
 | Decision Maker (Owner is the Decision Maker) | "Decision Maker" / "Also resolves conflicts. There's one Decision Maker, so the role moves from you to them." |
-| Decision Maker (someone else is) | "Also resolves conflicts. There's one Decision Maker, so the role moves from Mert to them." |
+| Decision Maker (someone else is, e.g. `S31-pending`) | "Also resolves conflicts. There's one Decision Maker, so the role moves from Mert to them." |
 | Decision Maker (nobody is) | "Also resolves conflicts." |
 | Link label | "Invite link" |
 | Role line | "Anyone with the link can join as Collaborator." / Decision Maker: "The first person to join with this link becomes the Decision Maker. After that, the link invites as Collaborator." |

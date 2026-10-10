@@ -3,6 +3,11 @@
 import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 from group_e_common import *  # noqa
+import group_e_common as _c
+
+
+def section_header(*a, **k):  # S26 aligns every text edge to the gutter (QA-092)
+    return _c.section_header(*a, **k).replace('px-1 pb-2', 'pb-2')
 
 OUT = sys.argv[1]
 F = Frames('S26')
@@ -53,7 +58,7 @@ def fields_group(rows, edit=True, edit_href='#S26-edit', title='Fields'):
 
 
 def source_line(text):
-    return f'<p class="flex items-start gap-2 px-1 pt-3 text-body-sm text-muted-foreground">{icon("info", "size-4 mt-0.5 shrink-0")}<span>{text}</span></p>'
+    return f'<p class="flex items-start gap-2 pt-3 text-body-sm text-muted-foreground">{icon("info", "size-4 mt-0.5 shrink-0")}<span>{text}</span></p>'
 
 
 def my_decision(kind=None, label='My decision', trailing=''):
@@ -95,8 +100,8 @@ def note_card(text, who='you', when='Sep 28', private=False, actions=True, solo=
 
 def notes_section(cards='', add=True, shared=False, add_href='#S26-add-note', empty=True):
     add_btn = btn('Add note', 'outline', add_href, 'add-note', ic='sticky-note', extra='mt-1') if add else ''
-    empty_p = '<p class="px-1 pb-2 text-body-sm text-muted-foreground">No notes yet. Notes are visible to all members unless you make them private.</p>' if (empty and not cards and shared) else (
-        '<p class="px-1 pb-2 text-body-sm text-muted-foreground">No notes yet.</p>' if (empty and not cards) else '')
+    empty_p = '<p class="pb-2 text-body-sm text-muted-foreground">No notes yet. Notes are visible to all members unless you make them private.</p>' if (empty and not cards and shared) else (
+        '<p class="pb-2 text-body-sm text-muted-foreground">No notes yet.</p>' if (empty and not cards) else '')
     return f'''{section_header("Notes", "pt-6")}
     {empty_p}
     <div class="space-y-2">{cards}</div>
@@ -116,7 +121,8 @@ def who_decided(rows, status, final=None, foot=''):
 
 def item_head(title, sub, photo=None, initials='', image=None, size='size-16', h='text-title-2', image_h='h-44', alt=''):
     if image:
-        return f'''<img src="{IMG}{image}" alt="{alt}" class="{image_h} w-full rounded-group object-cover">
+        fit = 'bg-muted object-contain p-3' if image.startswith('products/') else 'object-cover'
+        return f'''<img src="{IMG}{image}" alt="{alt}" class="{image_h} w-full rounded-group {fit}">
     <div class="pt-4"><h2 class="break-words {h}">{title}</h2><p class="mt-0.5 text-body text-muted-foreground">{sub}</p></div>'''
     av = avatar((photo, initials), size)
     return f'''<div class="flex items-center gap-4">{av}<div class="min-w-0 flex-1"><h2 class="break-words {h}">{title}</h2><p class="mt-0.5 text-body text-muted-foreground">{sub}</p></div></div>'''
@@ -170,7 +176,7 @@ def photo_edit(photo, initials, label='Photo'):
 
 
 def edit_form(fields_html, title_note=''):
-    return f'''<p class="px-1 pb-4 pt-2 text-body-sm text-muted-foreground">{title_note or "Changes stay in SwipeSort. The source isn't changed."}</p>
+    return f'''<p class="pb-4 pt-2 text-body-sm text-muted-foreground">{title_note or "Changes stay in SwipeSort. The source isn't changed."}</p>
     <div class="space-y-5">{fields_html}</div>'''
 
 
@@ -268,8 +274,9 @@ c007_saved_fields = [
 c007_saved = f'''{item_head('Gökhan Doğan', 'Friend', None, 'GD')}
     {my_decision(None)}
     {fields_group(c007_saved_fields)}'''
+c007_saved_scrolled = f'<div class="-mt-16 pb-24">{c007_saved}</div>'
 F.add('S26-saved', 'Saved: the field is marked Edited and keeps its original', phone(over_sorting(
-    sheet_detail(c007_saved, 'se3', decide_bar()),
+    sheet_detail(c007_saved_scrolled, 'se3', decide_bar()),
     s25_background(s25_person('Gökhan Doğan', 'Friend', None, [('Phone', '+90 500 000 97 41', True)], ["Groom's"], 'GD'), done=6, counts=(1, 2, 3)),
     extra=snackbar('Changes saved', bottom='bottom-24'))))
 
@@ -291,7 +298,7 @@ F.add('S26-edit-multi', 'Multi-value field: two phone numbers (Mehmet Yılmaz c0
 p03_edit = f'''{back_bar('', 'S28-results.html#S28-default', 'Back to results')}
   <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6">
     <h1 class="text-title-2">Edit fields</h1>
-    {edit_form(f"""<div><p class="text-label">Photo</p><div class="mt-1.5 flex items-center gap-3"><img src="{IMG}products/p03.svg" alt="" class="size-16 rounded-control object-cover"><button type="button" class="inline-flex h-12 items-center gap-2 rounded-control border border-input bg-card px-4 text-label-lg">{icon("image")}Change image</button><button type="button" class="inline-flex h-12 items-center rounded-control px-3 text-label-lg">Remove</button></div></div>""" +
+    {edit_form(f"""<div><p class="text-label">Photo</p><div class="mt-1.5 flex items-center gap-3"><img src="{IMG}products/p03.svg" alt="" class="size-16 rounded-control bg-muted object-contain p-1"><button type="button" class="inline-flex h-12 items-center gap-2 rounded-control border border-input bg-card px-4 text-label-lg">{icon("image")}Change image</button><button type="button" class="inline-flex h-12 items-center rounded-control px-3 text-label-lg">Remove</button></div></div>""" +
               inp('p-name', 'Name', '27-inch 4K USB-C monitor') +
               inp('p-price', 'Price', '399', 'text', focus=True, suffix='EUR', mode='decimal', helper=f'{icon("pencil-line", "size-4 mt-0.5 shrink-0")}<span>Original: 429</span>') +
               '<div class="grid grid-cols-2 gap-3">' + inp('p-rating', 'Rating', '4.5', 'text', mode='decimal') + inp('p-reviews', 'Reviews', '2,870', 'text', mode='numeric') + '</div>' +
@@ -324,7 +331,7 @@ def c045(edited=True):
 F.add('S26-edited', 'Edited field with original value and Revert (Alper Turan c045, City)', phone(over_sorting(
     sheet_detail(c045(), 'sr1', decide_bar(), close_href='S25-sorting.html#S25-edited'), s25_background(c045_bg, done=44, counts=(8, 6, 30)))))
 rv = dialog('rvd', 'Revert City to the original?', '<p>City goes back to “İstanbul”, the value from Contacts. Your edit “Ankara” is removed.</p>',
-            btn('Cancel', 'ghost', '#S26-edited', 'cancel', full=False) + btn('Revert', 'primary', '#S26-reverted', 'confirm-revert', full=False))
+            btn('Cancel', 'ghost', '#S26-edited', 'cancel', full=False) + btn('Revert', 'destructive', '#S26-reverted', 'confirm-revert', full=False))
 F.add('S26-revert-confirm', 'Revert confirmation', phone(over_sorting(
     sheet_detail(c045(), 'sr2', decide_bar(), close_href='S25-sorting.html#S25-edited'), s25_background(c045_bg, done=44, counts=(8, 6, 30)), extra=scrim('bg-scrim/50', 'z-20') + rv)))
 F.add('S26-reverted', 'Reverted, with Undo', phone(over_sorting(
@@ -380,11 +387,11 @@ F.section("Shared lists: who decided what", "Every item shows each member's deci
 
 c002_rows = [frow('Name', 'Mehmet Yılmaz'), frow('Phone', multi=[('+90 500 000 96 91', 'Mobile'), ('+90 312 000 92 25', 'Home')], edit_href='#S26-edit-multi'),
              frow('Email', 'mehmet.yilmaz@example.com'), frow('Side', "Bride's"), frow('Relationship', 'Family'), frow('City', 'İstanbul')]
-conflict_foot = f'''<div class="flex flex-wrap items-center justify-between gap-x-3 px-1 pt-2"><p class="text-body-sm text-muted-foreground">Mert resolves conflicts as Decision Maker.</p><a href="S36-conflicts.html#S36-default" class="-mr-2 inline-flex h-12 items-center rounded-control px-2 text-label text-primary" data-action="review-conflicts">Review conflicts</a></div>'''
+conflict_foot = f'''<div class="flex flex-wrap items-center justify-between gap-x-3 pt-2"><p class="text-body-sm text-muted-foreground">Mert resolves conflicts as Decision Maker.</p><a href="S36-conflicts.html#S36-default" class="-mr-2 inline-flex h-12 items-center rounded-control px-2 text-label text-primary" data-action="review-conflicts">Review conflicts</a></div>'''
 c002 = f'''{back_bar('', 'S28-results.html#S28-shared', 'Back to results', trailing=icon_btn("ellipsis-vertical", "More options", None, "menu"))}
   <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6">
     {item_head('Mehmet Yılmaz', 'Family', 'people/c002.svg', 'MY', h='text-title-1')}
-    {decision_picker('accept', note='<p class="px-1 pt-2 text-body-sm text-muted-foreground">Changing your decision updates the list status for everyone.</p>')}
+    {decision_picker('accept', note='<p class="pt-2 text-body-sm text-muted-foreground">Changing your decision updates the list status for everyone.</p>')}
     {who_decided([('deniz', 'accept', ''), ('mert', 'reject', 'Decision Maker'), ('selin', 'accept', '')], 'conflict', None, conflict_foot)}
     {fields_group(c002_rows)}
     {notes_section(shared=True)}
@@ -416,7 +423,7 @@ def p03(selected='accept', snack=''):
     return f'''{back_bar('', 'S28-results.html#S28-default', 'Back to results', trailing=icon_btn("ellipsis-vertical", "More options", None, "menu"))}
   <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6">
     {item_head('27-inch 4K USB-C monitor', 'Pixelhaus', image='products/p03.svg', image_h='h-48', alt='27-inch 4K USB-C monitor', h='text-title-1')}
-    {decision_picker(selected, note='<p class="px-1 pt-2 text-body-sm text-muted-foreground">Decided in Round 1, Oct 4.</p>' if selected == 'accept' else '<p class="px-1 pt-2 text-body-sm text-muted-foreground">Changed just now. Round 1 history keeps the original decision.</p>')}
+    {decision_picker(selected, note='<p class="pt-2 text-body-sm text-muted-foreground">Decided in Round 1, Oct 4.</p>' if selected == 'accept' else '<p class="pt-2 text-body-sm text-muted-foreground">Changed just now. Round 1 history keeps the original decision.</p>')}
     {fields_group(rows, edit_href='#S26-edit-product')}
     {notes_section()}
     {source_line("Added by hand on Oct 4.")}
@@ -450,7 +457,7 @@ offline = f'''{back_bar('', 'S28-results.html#S28-shared', 'Back to results')}
 F.add('S26-offline-saved', 'Saving offline: kept on this phone, syncs later', phone(offline))
 
 nf = f'''{back_bar('', 'S28-results.html#S28-shared', 'Back to results')}
-  <div class="flex flex-1 flex-col items-center justify-center px-8 text-center">
+  <div class="flex flex-1 flex-col items-center justify-center px-8 pb-16 text-center">
     {icon("file-x", "size-8 text-muted-foreground")}
     <h1 class="mt-4 text-title-3">This item isn't in the list anymore</h1>
     <p class="mt-1 max-w-xs text-body text-muted-foreground">Mert removed it from Wedding guests. Its decisions and notes were removed with it.</p>
@@ -508,9 +515,9 @@ ios_edit_sheet = f'''<div class="absolute inset-x-0 bottom-0 top-3 z-20 flex fle
     {ios_bar(ios_text_btn("Cancel", href="#S26-ios", action="cancel-edit"), '<span id="ios2">Edit fields</span>', ios_text_btn("Save", True, "#S26-ios", "save-edit"))}
     <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6">{edit_form(photo_edit('people/c077.svg', 'MA') + inp('i-name', 'Name', 'Mia Andersson') + inp('i-phone', 'Phone', '+46 8 0000 4021', 'tel') + inp('i-email', 'Email', 'mia.andersson@example.com', 'email', focus=True) + inp('i-city', 'City', 'Stockholm'))}</div>
   </div>'''
-F.add('S26-ios-edit', 'iOS editing: Cancel and Save in the bar, sheet at the large detent', phone(s25_background(ios=True) + scrim('bg-scrim/40') + ios_edit_sheet, ios=True))
+F.add('S26-ios-edit', 'iOS editing: Cancel and Save in the bar, sheet at the large detent', phone('<div class="flex-1 bg-scrim/40" aria-hidden="true"></div>' + ios_edit_sheet, ios=True))
 
-web_sheet = sheet_detail(mia_content(), 'sw1', decide_bar() + hints([('Esc', 'Close'), ('E', 'Edit'), ('←', 'Reject'), ('↑', 'Maybe'), ('→', 'Accept')]), top='top-16', close_href='S25-sorting.html#S25-web-desktop')
+web_sheet = sheet_detail(mia_content(), 'sw1', decide_bar() + hints([('Esc', 'Close'), ('E', 'Edit'), ('← ↑ →', 'Decide')]), top='top-16', close_href='S25-sorting.html#S25-web-desktop')
 F.add('S26-web-desktop', 'Web, desktop: Enter on the card opens details; keyboard hints', desktop(over_sorting(web_sheet), 'swipesort.app/l/7Hq2xK/sort'))
 
 F.write(OUT, 'S26 Item detail, editing and notes', 'All fields of one item, my decision, who decided what on shared lists, notes, and editing in place with revert. Spec: <a href="S26-item-detail.md">S26-item-detail.md</a>. Opened from <a href="S25-sorting.html">S25</a> (sheet), S28 and S36 (pushed).')

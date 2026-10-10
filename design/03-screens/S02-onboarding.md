@@ -18,14 +18,14 @@ PLT-23, ACC-01, GOAL-01, GOAL-02, SUC-04, SUC-06, SUC-08, VIS-03, VIS-08, VIS-09
 | From | How |
 | --- | --- |
 | S01 | First launch on this device |
-| S06 › Help and feedback | "Replay the introduction" (opens `S02-welcome`; Skip and Get started return to Settings instead of Lists) |
+| S06 › Help and feedback | "Replay the introduction" (opens `S02-default`: the welcome with Close instead of Skip; "Try the gestures" opens the demo; Close and "Done" return to S06 › Help) |
 
 | To | How |
 | --- | --- |
 | `S02-demo` | "Get started" (`data-action="next"`) |
 | S03 `S03-default` | "I have an account" (`data-action="sign-in"`) on welcome and recap |
 | S08 `S08-first-run` | "Skip" (`data-action="skip"`) on welcome or demo; "Get started" on the recap (`data-action="get-started"`) |
-| `S02-demo-done` | Automatically 700 ms after the third different gesture (prototype: sr-only link `data-action="next"`) |
+| `S02-demo-done` | Automatically 700 ms after the third different gesture (prototype: clicking the card in `S02-demo` has `data-action="next"`; the decision buttons step through `S02-demo-step-2`, `-step-3` and the recap) |
 
 Onboarding is shown once per device. Completing or skipping it sets `onboardingDone`; S01 then routes to
 S08. Back on the demo returns to welcome; system back on welcome leaves the app (Android) as usual.
@@ -57,10 +57,11 @@ Demo deck (sample data): `p02` Walnut sit-stand desk, `ph09` Göreme photo, `p05
 
 | Frame | Trigger |
 | --- | --- |
-| `S02-welcome` | First launch, or replay from Settings |
+| `S02-default` | Replay from Settings › Help: the welcome with Close (no Skip, no "I have an account"), "Try the gestures" and "Done". Entry frame for links from other files |
+| `S02-welcome` | First launch (flow 1) |
 | `S02-demo` | "Get started". 0 of 3 tried; hint bubble on the right edge |
 | `S02-demo-drag-accept` | Dragging right past the threshold: tilt, 24% accept tint, Accept stamp, Accept button solid, next card promoting |
-| `S02-demo-snap-back` | Released below the threshold: card springs back; snackbar hint |
+| `S02-demo-snap-back` | Released below the threshold: card springs back; the subtitle becomes an inline hint |
 | `S02-demo-step-2` | After Accept: chip checked, instruction "Swipe left to reject", hint on the left |
 | `S02-demo-drag-reject` | Dragging left, armed |
 | `S02-demo-step-3` | After Reject: instruction "Swipe up for maybe", hint above the card |
@@ -87,7 +88,8 @@ Demo deck (sample data): `p02` Walnut sit-stand desk, `ph09` Göreme photo, `p05
 - Hint bubble: moves 24 dp toward its arrow and back, 800 ms ease-in-out, twice, then rests; it disappears
   as soon as a drag starts. Reduced motion: static.
 - Snap-back hint: shown after the second release below the threshold within one card (not on the first, to
-  avoid nagging); snackbar 4 s.
+  avoid nagging); it replaces the instruction's subtitle (info icon, `role=status`) until the next commit, so
+  it never covers the card.
 - After the third gesture: success haptic (`notificationAsync(Success)`), 700 ms pause, then the recap
   pushes in (shared axis X, 300 ms; reduced motion: 150 ms fade).
 - Skip is always available; it sets `onboardingDone` and opens S08 first run.
@@ -100,7 +102,7 @@ Demo deck (sample data): `p02` Walnut sit-stand desk, `ph09` Göreme photo, `p05
 | --- | --- |
 | Skip | "Skip" |
 | Welcome headline | "Sort any list, one card at a time" |
-| Welcome body | "Swipe right to accept, left to reject, up for maybe. Works for people, products, photos and ideas, alone or with others." |
+| Welcome body | "Swipe right to accept, left to reject, up for maybe. Works for people, photos, things to buy and ideas, alone or with others." |
 | Welcome buttons | "Get started", "I have an account" |
 | Reassurance | "No account needed. Lists stay on this phone." |
 | Hero stamp | "Accept" |
@@ -110,18 +112,19 @@ Demo deck (sample data): `p02` Walnut sit-stand desk, `ph09` Göreme photo, `p05
 | Other order (example) | "Swipe right to accept" / "Rejected. You can also accept: swipe right." (pattern: "{Past tense of last}. You can also {verb}: swipe {direction}.") |
 | Checklist | "Reject", "Maybe", "Accept"; counter "1 of 3"; screen reader suffix ", tried" / ", not tried yet" |
 | Stamps and buttons | "Accept", "Reject", "Maybe" |
-| Snap-back snackbar | "Drag a little further to decide. Let go early to cancel." |
+| Snap-back hint (inline) | "Drag a little further to decide. Let go early to cancel." |
+| Replay (`S02-default`) | Close label "Close the introduction"; buttons "Try the gestures", "Done" |
 | Recap title | "You know the three gestures" |
 | Recap body | "Right to accept, left to reject, up for maybe. Undo is always one tap away, and you can change any decision later." |
 | Recap rows | "Göreme, Cappadocia" / "Swiped left" / "Rejected"; "Ceramic desk lamp" / "Swiped up" / "Maybe"; "Walnut sit-stand desk" / "Swiped right" / "Accepted" |
 | Recap buttons | "Get started", "I have an account" |
-| Large-text demo | "Or use the buttons below."; "0 of 3 gestures tried" |
+| Large-text demo | "Or use the buttons below."; "0 of 3 gestures tried"; card rows "Price", "Rating" ("4.7 (532 reviews)"), "Category" |
 | Web note | "Using SwipeSort in your browser" / "Everything works here. Get the app to import phone contacts and photos from your gallery." / "Get the app" |
 | Desktop instruction | "Press → or drag right to accept" (steps 2–3: "Press ← or drag left to reject", "Press ↑ or drag up for maybe") |
 | Keyboard hints | "← Reject", "↑ Maybe", "→ Accept" |
 | Screen reader instruction | "Try the three decisions on these sample cards. Use the card's actions or the buttons below." |
 | Screen reader after action | "Accepted. 1 of 3 tried." |
-| Prototype-only link | "Finish the demo (prototype shortcut: the app moves on after the third gesture)" (not in the app) |
+| Prototype-only link | Card overlay labelled "Finish the demo (prototype: click the card; the app moves on after the third gesture)" (not in the app) |
 
 ## 7. Accessibility
 
@@ -131,8 +134,9 @@ Demo deck (sample data): `p02` Walnut sit-stand desk, `ph09` Göreme photo, `p05
   VoiceOver rotor). With a screen reader on, the instruction text changes to the screen-reader version.
 - Every gesture has a visible 64 dp button; the demo can be completed with buttons alone.
 - Decisions show icon + label + color on stamps, buttons, chips and recap badges.
-- Large text (`S02-*-large-text`): welcome hides the hero and keeps text left-aligned; the demo hides card
-  images and uses the S25 labeled button grid; buttons grow to two lines instead of truncating.
+- Large text (`S02-*-large-text`): welcome hides the hero, scales the body to `text-title-2` and keeps the
+  reassurance line; the demo hides card images, shows more fields (price, rating, category) and uses the S25
+  labeled button grid; buttons grow to two lines instead of truncating.
 - Reduced motion: drag without rotation or scale; commit cross-fades (150 ms); hint bubble static.
 - The hero is decorative (`aria-hidden`).
 
@@ -148,7 +152,8 @@ Demo deck (sample data): `p02` Walnut sit-stand desk, `ph09` Göreme photo, `p05
 
 ## 9. Edge cases
 
-- **Replay from Settings**: same steps; Skip and "Get started" return to S06 › Help instead of Lists.
+- **Replay from Settings** (`S02-default`): Close and "Done" return to S06 › Help; the demo and recap work as on first
+  launch, and the recap's "Get started" also returns to S06 › Help.
 - **Person opens the app from an invite link first**: onboarding is skipped (S01 → S32); after joining,
   S25 coach marks teach the gestures in context. S02 can still be replayed from Settings.
 - **Already signed in on another device** ("I have an account"): S03; after sign-in, S08 shows the

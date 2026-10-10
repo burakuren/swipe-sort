@@ -42,14 +42,25 @@ def skeleton_tile():
 
 
 def days(photos):
-    """Group photos by day, newest first."""
-    groups = {}
+    """Group photos by day, newest first. Days with fewer than 4 photos merge into their week (Monday to Sunday)."""
+    by_day = {}
     for p in photos:
-        groups.setdefault(dt(p).date(), []).append(p)
+        by_day.setdefault(dt(p).date(), []).append(p)
+    groups = {}
+    for d, ps in by_day.items():
+        key = ('day', d) if len(ps) >= 4 else ('week', d - datetime.timedelta(days=d.weekday()))
+        groups.setdefault(key, []).extend(ps)
     out = []
-    for d in sorted(groups, reverse=True):
-        ps = sorted(groups[d], key=dt, reverse=True)
-        out.append((d, ps))
+    for key in sorted(groups, key=lambda k: max(dt(p) for p in groups[k]), reverse=True):
+        ps = sorted(groups[key], key=dt, reverse=True)
+        first, last = dt(ps[-1]).date(), dt(ps[0]).date()
+        if first == last:
+            label, short = day_label(datetime.datetime.combine(first, datetime.time())), f'{first.strftime("%b")} {first.day}'
+        elif first.month == last.month:
+            label = short = f'{first.strftime("%b")} {first.day} to {last.day}'
+        else:
+            label = short = f'{first.strftime("%b")} {first.day} to {last.strftime("%b")} {last.day}'
+        out.append(((label, short), ps))
     return out
 
 
@@ -60,8 +71,7 @@ def day_section(d, ps, state='all', skeleton=False):
         if p['location'] and p['location'] not in locs:
             locs.append(p['location'])
     loc = f'<p class="truncate text-caption text-muted-foreground">{", ".join(locs)}</p>' if locs else '<p class="text-caption text-muted-foreground">No location</p>'
-    label = day_label(datetime.datetime.combine(d, datetime.time()))
-    short = f'{d.strftime("%b")} {d.day}'
+    label, short = d
     box = checkbox_box(True if state == 'all' else ('mixed' if state == 'some' else False))
     checked = {'all': 'true', 'none': 'false', 'some': 'mixed'}[state]
     if skeleton:
@@ -84,7 +94,7 @@ def toolbar(count_text, action='Clear', busy=False, album='All photos', status=T
     role = ' role="status"' if status else ''
     spin = icon('loader-circle', 'size-4 animate-spin text-primary') if busy else ''
     act = f'<button class="inline-flex h-12 items-center rounded-control px-3 text-label-lg text-primary"{" disabled" if busy else ""}>{action}</button>' if action else ''
-    return f'''<div class="flex shrink-0 items-center gap-2 border-b pb-1 pl-gutter pr-2">
+    return f'''<div class="flex shrink-0 flex-wrap items-center gap-x-2 border-b pb-1 pl-gutter {"pr-2" if action else "pr-gutter"}">
     <p class="inline-flex min-w-0 flex-1 items-center gap-2 text-label tabular-nums"{role}>{spin}{count_text}</p>
     {album_chip(album)}{act}
   </div>'''
@@ -109,7 +119,7 @@ def grid_screen(photos, states=None, count_text='30 selected', action='Clear', b
 
 
 # ------------------------------------------------------------------ gallery
-P.section('Gallery selection (Android, iOS)', 'After photo access is granted (S12-photos), SwipeSort shows its own selection grid: grouped by day, newest first, 4 columns. Tap a photo to select it; the day checkbox selects the whole day. Each photo becomes one item.')
+P.section('Gallery selection (Android, iOS)', 'After photo access is granted (S12-photos), SwipeSort shows its own selection grid: grouped by day, newest first, 4 columns; days with fewer than 4 photos merge into their week so rows stay full. Tap a photo to select it; the day checkbox selects the whole day. Each photo becomes one item.')
 
 P.frame('S18-default', 'Default: 30 photos selected', phone(grid_screen(PHOTOS)))
 
@@ -202,10 +212,10 @@ def file_row(ph, name, size, state, pct=None):
       </li>'''
 
 
-drop_compact = f'''<div class="flex items-center gap-3 rounded-tile border-2 border-dashed border-input bg-card px-4 py-3">
+drop_compact = f'''<div class="flex items-center gap-3 rounded-tile border-2 border-dashed border-input bg-card py-2 pl-4 pr-2">
       {icon("upload", "size-5 shrink-0 text-muted-foreground")}
-      <p class="min-w-0 flex-1 text-body-sm text-muted-foreground">Drop more photos here</p>
-      {btn("Choose photos", "outline", size="h-12", action="choose-photos")}
+      <p class="min-w-0 flex-1 text-body text-muted-foreground">Drop to add more</p>
+      {btn("Add photos", "ghost", size="h-12", extra="text-primary", action="choose-photos")}
     </div>'''
 up_rows = (file_row('ph30', 'IMG_2070.JPG', '4.7 MB', 'uploaded')
            + file_row('ph29', 'IMG_2069.JPG', '4.0 MB', 'uploaded')

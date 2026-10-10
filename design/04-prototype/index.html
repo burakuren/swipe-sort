@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SwipeSort prototype</title>
+<link rel="icon" href="../01-foundations/brand/favicon.svg">
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body class="mock-page">
+<header class="mock-doc">
+  <div class="flex items-center gap-3"><img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-10 dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-10 dark:block"><h1>SwipeSort prototype</h1></div>
+  <p>The four main flows, end to end. Each step opens one frame of the design. Inside a frame, use the buttons and links to move on, or come back here and pick the next step. Two steps are live: the swipe demo sorts real sample cards with touch, mouse or the keyboard (← Reject, ↑ Maybe, → Accept, Z Undo) and then continues to the round summary. To see a step in dark mode, set <code>data-theme="dark"</code> on the page, or add <code>&amp;theme=dark</code> to the swipe demo address. Everything else: <a href="../README.md">README</a>, <a href="../HANDOFF.md">handoff guide</a>, <a href="swipe-demo.html">swipe demo</a>.</p>
+</header>
+<main class="flex flex-col gap-section">
+
+  <section id="flow-1" class="w-full max-w-2xl" aria-labelledby="flow-1-title">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div class="max-w-prose"><h2 id="flow-1-title" class="text-title-2">First launch to the first decision, without an account</h2><p class="mt-1 text-body text-muted-foreground">A new person installs the app, learns the gestures, imports phone contacts and sorts. No account is created. Covers SUC-04: the first decision is about 10 taps after the welcome screen.</p></div>
+      <a href="../03-screens/S01-splash.html#S01-default" class="inline-flex h-12 items-center gap-2 rounded-control bg-primary px-5 text-label-lg text-primary-foreground" data-action="start-flow-1"><i class="i-lucide-play size-5" aria-hidden="true"></i>Start</a>
+    </div>
+    <ol class="mt-4 divide-y overflow-hidden rounded-group bg-card">
+        <li><a href="../03-screens/S01-splash.html#S01-default" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S01-default">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">1</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Splash</span><span class="block text-caption text-muted-foreground">S01-default</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S02-onboarding.html#S02-welcome" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S02-welcome">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">2</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Welcome</span><span class="block text-caption text-muted-foreground">S02-welcome</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S02-onboarding.html#S02-demo" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S02-demo">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">3</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Try the gestures</span><span class="block text-caption text-muted-foreground">S02-demo</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S02-onboarding.html#S02-demo-done" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S02-demo-done">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">4</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Gestures learned</span><span class="block text-caption text-muted-foreground">S02-demo-done</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S08-home.html#S08-first-run" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S08-first-run">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">5</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Empty home</span><span class="block text-caption text-muted-foreground">S08-first-run</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S11-source-picker.html#S11-default" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S11-default">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">6</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Choose a source</span><span class="block text-caption text-muted-foreground">S11-default</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S12-permissions.html#S12-contacts" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S12-contacts">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">7</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Why contacts access is needed</span><span class="block text-caption text-muted-foreground">S12-contacts</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S13-contacts-import.html#S13-select-default" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S13-select-default">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">8</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Select contacts</span><span class="block text-caption text-muted-foreground">S13-select-default</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S19-field-mapping.html#S19-contacts" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S19-contacts">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">9</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Map fields</span><span class="block text-caption text-muted-foreground">S19-contacts</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S20-duplicate-review.html#S20-default" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S20-default">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">10</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Review duplicates</span><span class="block text-caption text-muted-foreground">S20-default</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S20-duplicate-review.html#S20-reviewed-all" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S20-reviewed-all">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">11</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">3 merged, 1 kept: 85 items</span><span class="block text-caption text-muted-foreground">S20-reviewed-all</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S22-template-library.html#S22-import-pick" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S22-import-pick">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">12</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Name the list and pick a card template</span><span class="block text-caption text-muted-foreground">S22-import-pick</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S25-sorting.html#S25-coach-1" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S25-coach-1">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">13</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Coach marks</span><span class="block text-caption text-muted-foreground">S25-coach-1</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="swipe-demo.html?deck=first&count=6&next=S27-first-round" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="demo:deck=first&count=6&next=S27-first-round">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground text-caption tabular-nums" aria-hidden="true">14</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Sort (live; the prototype stops after 6 cards)</span><span class="block text-caption text-muted-foreground">Live swipe demo</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S27-round-summary.html#S27-first-round" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S27-first-round">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">15</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Round summary</span><span class="block text-caption text-muted-foreground">S27-first-round</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+    </ol>
+  </section>
+  <section id="flow-2" class="w-full max-w-2xl" aria-labelledby="flow-2-title">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div class="max-w-prose"><h2 id="flow-2-title" class="text-title-2">Re-sort the Maybe pile, review results, export to Google Sheets</h2><p class="mt-1 text-body text-muted-foreground">A product shortlist, with no domain wording anywhere: the Maybe pile gets a second round, then results go to a new Google spreadsheet after an explicit confirmation.</p></div>
+      <a href="../03-screens/S09-list-overview.html#S09-solo-round-done" class="inline-flex h-12 items-center gap-2 rounded-control bg-primary px-5 text-label-lg text-primary-foreground" data-action="start-flow-2"><i class="i-lucide-play size-5" aria-hidden="true"></i>Start</a>
+    </div>
+    <ol class="mt-4 divide-y overflow-hidden rounded-group bg-card">
+        <li><a href="../03-screens/S09-list-overview.html#S09-solo-round-done" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S09-solo-round-done">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">1</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Desk setup after Round 1</span><span class="block text-caption text-muted-foreground">S09-solo-round-done</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S24-start-round.html#S24-maybe" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S24-maybe">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">2</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Start a round with the Maybe pile</span><span class="block text-caption text-muted-foreground">S24-maybe</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="swipe-demo.html?deck=desk-maybe&next=S27-desk-round-2" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="demo:deck=desk-maybe&next=S27-desk-round-2">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground text-caption tabular-nums" aria-hidden="true">3</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Sort the Maybe pile (live)</span><span class="block text-caption text-muted-foreground">Live swipe demo</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S27-round-summary.html#S27-desk-round-2" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S27-desk-round-2">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">4</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Round 2 summary</span><span class="block text-caption text-muted-foreground">S27-desk-round-2</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S28-results.html#S28-default" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S28-default">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">5</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Results</span><span class="block text-caption text-muted-foreground">S28-default</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S39-export.html#S39-default" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S39-default">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">6</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Export: choose format</span><span class="block text-caption text-muted-foreground">S39-default</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S39-export.html#S39-google-destination" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S39-google-destination">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">7</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Choose where to write</span><span class="block text-caption text-muted-foreground">S39-google-destination</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S39-export.html#S39-google-confirm" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S39-google-confirm">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">8</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Confirm the write</span><span class="block text-caption text-muted-foreground">S39-google-confirm</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S39-export.html#S39-success-google" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S39-success-google">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">9</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Exported to Google Sheets</span><span class="block text-caption text-muted-foreground">S39-success-google</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+    </ol>
+  </section>
+  <section id="flow-3" class="w-full max-w-2xl" aria-labelledby="flow-3-title">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div class="max-w-prose"><h2 id="flow-3-title" class="text-title-2">Invite a partner who joins and sorts in a web browser</h2><p class="mt-1 text-body text-muted-foreground">Deniz shares a list made without an account: she signs in, her lists move to the account, and she invites Mert. Mert opens the link on a desktop browser, signs in, joins and sorts with the keyboard without installing anything (SUC-05). As the Decision Maker he resolves conflicts in bulk and exports.</p></div>
+      <a href="../03-screens/S09-list-overview.html#S09-guest-wedding" class="inline-flex h-12 items-center gap-2 rounded-control bg-primary px-5 text-label-lg text-primary-foreground" data-action="start-flow-3"><i class="i-lucide-play size-5" aria-hidden="true"></i>Start</a>
+    </div>
+    <ol class="mt-4 divide-y overflow-hidden rounded-group bg-card">
+        <li><a href="../03-screens/S09-list-overview.html#S09-guest-wedding" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S09-guest-wedding">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">1</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Deniz: list on this phone only</span><span class="block text-caption text-muted-foreground">S09-guest-wedding</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S05-sign-in-prompt.html#S05-share" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S05-share">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">2</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Sign in to share</span><span class="block text-caption text-muted-foreground">S05-share</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S05-sign-in-prompt.html#S05-moving" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S05-moving">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">3</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Moving lists to the account</span><span class="block text-caption text-muted-foreground">S05-moving</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S05-sign-in-prompt.html#S05-moved" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S05-moved">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">4</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Lists moved</span><span class="block text-caption text-muted-foreground">S05-moved</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S31-invite.html#S31-default" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S31-default">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">5</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Invite: copy the link</span><span class="block text-caption text-muted-foreground">S31-default</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S31-invite.html#S31-link-copied" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S31-link-copied">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">6</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Link copied</span><span class="block text-caption text-muted-foreground">S31-link-copied</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S32-invite-link.html#S32-web-desktop" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S32-web-desktop">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">7</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Mert opens the link in a browser</span><span class="block text-caption text-muted-foreground">S32-web-desktop</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S03-sign-in.html#S03-web-desktop" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S03-web-desktop">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">8</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Mert signs in on the web</span><span class="block text-caption text-muted-foreground">S03-web-desktop</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S33-join-list.html#S33-web-desktop" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S33-web-desktop">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">9</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Join the list</span><span class="block text-caption text-muted-foreground">S33-web-desktop</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S34-members.html#S34-dm-changed" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S34-dm-changed">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">10</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Deniz makes Mert the Decision Maker</span><span class="block text-caption text-muted-foreground">S34-dm-changed</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S25-sorting.html#S25-web-desktop" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S25-web-desktop">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">11</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Mert sorts on the web</span><span class="block text-caption text-muted-foreground">S25-web-desktop</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="swipe-demo.html?deck=mert&next=..%2F03-screens%2FS09-list-overview.html%23S09-shared-decision-maker" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="demo:deck=mert&next=..%2F03-screens%2FS09-list-overview.html%23S09-shared-decision-maker">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground text-caption tabular-nums" aria-hidden="true">12</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Mert sorts with the keyboard (live)</span><span class="block text-caption text-muted-foreground">Live swipe demo</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S25-sorting.html#S25-shared" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S25-shared">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">13</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Meanwhile, Deniz sorts on her phone</span><span class="block text-caption text-muted-foreground">S25-shared</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S09-list-overview.html#S09-shared-decision-maker" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S09-shared-decision-maker">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">14</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Mert sees 15 conflicts to resolve</span><span class="block text-caption text-muted-foreground">S09-shared-decision-maker</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S36-conflicts.html#S36-default" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S36-default">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">15</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Conflicts one by one</span><span class="block text-caption text-muted-foreground">S36-default</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S37-bulk-resolve.html#S37-confirm" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S37-confirm">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">16</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Resolve all with my decisions</span><span class="block text-caption text-muted-foreground">S37-confirm</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S37-bulk-resolve.html#S37-summary" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S37-summary">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">17</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Resolved 12, 3 still open</span><span class="block text-caption text-muted-foreground">S37-summary</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S39-export.html#S39-shared" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S39-shared">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">18</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Export the shared list</span><span class="block text-caption text-muted-foreground">S39-shared</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S39-export.html#S39-shared-google-destination" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S39-shared-google-destination">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">19</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">New spreadsheet</span><span class="block text-caption text-muted-foreground">S39-shared-google-destination</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S39-export.html#S39-shared-google-confirm" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S39-shared-google-confirm">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">20</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Confirm the write</span><span class="block text-caption text-muted-foreground">S39-shared-google-confirm</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S39-export.html#S39-success-shared" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S39-success-shared">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">21</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Exported to Google Sheets</span><span class="block text-caption text-muted-foreground">S39-success-shared</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+    </ol>
+  </section>
+  <section id="flow-4" class="w-full max-w-2xl" aria-labelledby="flow-4-title">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div class="max-w-prose"><h2 id="flow-4-title" class="text-title-2">Create a list from a CSV file with a custom card template</h2><p class="mt-1 text-body text-muted-foreground">A hiring shortlist from candidates-q4.csv: map the columns, skip the empty duplicate step, customize the Candidate template and start sorting with it.</p></div>
+      <a href="../03-screens/S08-home.html#S08-default" class="inline-flex h-12 items-center gap-2 rounded-control bg-primary px-5 text-label-lg text-primary-foreground" data-action="start-flow-4"><i class="i-lucide-play size-5" aria-hidden="true"></i>Start</a>
+    </div>
+    <ol class="mt-4 divide-y overflow-hidden rounded-group bg-card">
+        <li><a href="../03-screens/S08-home.html#S08-default" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S08-default">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">1</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Home</span><span class="block text-caption text-muted-foreground">S08-default</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S11-source-picker.html#S11-default" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S11-default">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">2</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Choose a source</span><span class="block text-caption text-muted-foreground">S11-default</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S14-file-import.html#S14-default" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S14-default">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">3</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Choose a file</span><span class="block text-caption text-muted-foreground">S14-default</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S14-file-import.html#S14-csv-preview" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S14-csv-preview">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">4</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Preview the CSV</span><span class="block text-caption text-muted-foreground">S14-csv-preview</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S19-field-mapping.html#S19-csv" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S19-csv">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">5</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Map fields</span><span class="block text-caption text-muted-foreground">S19-csv</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S20-duplicate-review.html#S20-none" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S20-none">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">6</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">No duplicates found</span><span class="block text-caption text-muted-foreground">S20-none</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S22-template-library.html#S22-import-pick-csv" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S22-import-pick-csv">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">7</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Name the list and pick a template</span><span class="block text-caption text-muted-foreground">S22-import-pick-csv</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S23-template-editor.html#S23-default" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S23-default">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">8</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Customize the card</span><span class="block text-caption text-muted-foreground">S23-default</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S23-template-editor.html#S23-save" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S23-save">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">9</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Save the template</span><span class="block text-caption text-muted-foreground">S23-save</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S22-template-library.html#S22-import-pick-custom" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S22-import-pick-custom">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">10</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Custom template selected</span><span class="block text-caption text-muted-foreground">S22-import-pick-custom</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S25-sorting.html#S25-candidate" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S25-candidate">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">11</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Sorting with the custom template</span><span class="block text-caption text-muted-foreground">S25-candidate</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+    </ol>
+  </section>
+</main>
+</body>
+</html>

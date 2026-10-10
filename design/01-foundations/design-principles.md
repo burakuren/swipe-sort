@@ -128,6 +128,7 @@ at the bottom-right; with a text alternative "Deniz: Accept, Mert: Reject, Selin
 
 ## 8. Icons and imagery
 
+- Keyboard hints (`kbd`) use Inter like all other text (no monospace).
 - Lucide only: `<i class="i-lucide-<name> size-5" aria-hidden="true"></i>`; 20 in rows and buttons, 24 in
   app bars and navigation, 16 inside chips. Stroke icons only; no filled icon sets.
 - Icon-only buttons always have `aria-label`.

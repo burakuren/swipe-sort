@@ -101,7 +101,7 @@ def nav(active='lists', badge=3, ios=False):
     out = []
     for key, ic, lab in items:
         on = key == active
-        b = f'<span class="absolute right-3 top-0 flex h-5 min-w-5 items-center justify-center rounded-full bg-destructive px-1 text-caption leading-none text-destructive-foreground">{badge}</span>' if key == 'activity' and badge else ''
+        b = f'<span class="absolute right-3 top-0 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-caption leading-none text-primary-foreground">{badge}</span>' if key == 'activity' and badge else ''
         if ios:
             col = 'text-primary' if on else 'text-muted-foreground'
             b = b.replace('right-3 top-0', '-right-2.5 -top-1')
@@ -180,24 +180,55 @@ def radio(on):
 
 
 # ================================================================ backgrounds (inert screens)
-def bg_s08(offline=False, ios=False, nav_on=True, rows_only=False, fab='bottom-24'):
-    rows = [
-        ('Wedding guests', chip('15 conflicts', 'git-compare-arrows', 'bg-conflict text-conflict-foreground'), 'users', 'Shared with 2', 76),
-        ('Frontend hiring, Q4', '', 'circle-dashed', 'Not sorted yet, 12 items', None),
-        ('March photos clean-up', '', 'circle-dot', 'Round 1 in progress', 40),
-        ('Desk setup', '', 'circle-check', 'Round 2 done', 100),
-    ]
+HOME_ROWS = [
+    # name, meta icon, meta, extra chip, progress (pct, label), resume, href
+    ('Wedding guests', 'users', 'Shared with 2', 'conflicts', (76, '76 / 100'), True, 'S09-list-overview.html#S09-shared'),
+    ('Frontend hiring, Q4', 'circle-dashed', 'Not sorted yet, 12 items', None, None, False, 'S09-list-overview.html#S09-new-list'),
+    ('March photos clean-up', 'circle-dot', 'Round 1 in progress', None, (40, '12 / 30'), True, 'S09-list-overview.html#S09-default'),
+    ('Desk setup', 'circle-check', 'Round 2 complete', 'counts', None, False, 'S09-list-overview.html#S09-solo-round-done'),
+]
+
+
+def home_rows(live=False, exclude=(), focus=False):
+    """The S08 Lists content (same rows as S08-default), as inert spans or real links."""
     lis = []
-    for name, extra, ic, meta, pct in rows:
-        prog = f'<span class="mt-2 flex items-center gap-3">{bar(pct)}<span class="shrink-0 text-caption tabular-nums text-muted-foreground">{ {76: "76 / 100", 40: "12 / 30", 100: "20 / 20"}[pct] }</span></span>' if pct else ''
-        lis.append(f'<li class="flex flex-col gap-1 px-4 py-4"><span class="truncate text-title-3">{name}</span><span class="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-body-sm text-muted-foreground"><span class="inline-flex items-center gap-1.5">{icon(ic, "size-4")}{meta}</span>{extra}</span>{prog}</li>')
-    lists = f'<ul class="divide-y overflow-hidden rounded-group bg-card dark:border">{"".join(lis)}</ul>'
-    if rows_only:
-        return lists
+    for name, ic, meta, extra, prog, resume, href in HOME_ROWS:
+        if name in exclude:
+            continue
+        x = chip('15 conflicts', 'git-compare-arrows', 'bg-conflict text-conflict-foreground') if extra == 'conflicts' else ''
+        under = ''
+        if prog:
+            under = f'<span class="mt-2 flex items-center gap-3">{bar(prog[0])}<span class="shrink-0 text-caption tabular-nums text-muted-foreground">{prog[1]}</span></span>'
+        elif extra == 'counts':
+            c = lambda cls, i, n, w: f'<span class="inline-flex items-center gap-1 {cls}">{icon(i, "size-4")}<span class="tabular-nums">{n}</span> {w}</span>'
+            under = f'<span class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-caption">{c("text-reject-soft-foreground", "x", 11, "rejected")}{c("text-maybe-soft-foreground", "circle-help", 1, "maybe")}{c("text-accept-soft-foreground", "check", 8, "accepted")}</span>'
+        inner = (f'<span class="truncate text-title-3">{name}</span><span class="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-body-sm text-muted-foreground">'
+                 f'<span class="inline-flex items-center gap-1.5">{icon(ic, "size-4")}{meta}</span>{x}</span>{under}')
+        pr = 'pr-2' if resume else 'pr-4'
+        pill = f'<span class="inline-flex h-9 items-center gap-1.5 rounded-full bg-secondary px-3.5 text-label text-secondary-foreground">{icon("play", "size-4")}Resume</span>'
+        if live:
+            f = ' rounded-control ring-2 ring-inset ring-ring' if focus and not lis else ''
+            main = f'<a href="{href}" class="flex min-w-0 flex-1 flex-col gap-1 py-4 pl-4 {pr}{f}" data-action="open-list">{inner}</a>'
+            res = f'<a href="S25-sorting.html#S25-web-desktop" class="mr-3 flex min-h-touch shrink-0 items-center" aria-label="Resume sorting {name}">{pill}</a>' if resume else ''
+        else:
+            main = f'<span class="flex min-w-0 flex-1 flex-col gap-1 py-4 pl-4 {pr}">{inner}</span>'
+            res = f'<span class="mr-3 flex min-h-touch shrink-0 items-center">{pill}</span>' if resume else ''
+        lis.append(f'<li class="flex items-center">{main}{res}</li>')
+    al = ' aria-label="Lists"' if live else ''
+    lists = f'<ul class="divide-y overflow-hidden rounded-group bg-card dark:border"{al}>{"".join(lis)}</ul>'
+    arch_inner = f'{icon("archive", "size-5", "shrink-0 text-muted-foreground")}<span class="shrink-0 text-body">Archived lists</span><span class="min-w-0 flex-1 text-right text-body text-muted-foreground">2</span>{icon("chevron-right", "size-5", "shrink-0 text-muted-foreground")}'
+    if live:
+        arch = f'<ul class="overflow-hidden rounded-group bg-card dark:border"><li><a href="S10-list-management.html#S10-archived" class="flex min-h-14 items-center gap-4 px-4 py-3" aria-label="Archived lists, 2">{arch_inner}</a></li></ul>'
+    else:
+        arch = f'<ul class="overflow-hidden rounded-group bg-card dark:border"><li class="flex min-h-14 items-center gap-4 px-4 py-3">{arch_inner}</li></ul>'
+    return f'<div class="space-y-4">{lists}{arch}</div>'
+
+
+def bg_s08(offline=False, ios=False, nav_on=True, fab='bottom-24', exclude=()):
     off = offline_banner("You're offline. Changes are saved on this phone.") if offline else ''
-    fab = '' if ios else f'<span class="absolute {fab} right-4 flex h-14 items-center gap-2 rounded-tile bg-primary-soft px-4 text-label-lg text-primary-soft-foreground shadow-overlay">{icon("plus", "size-6")}New list</span>'
+    fab_html = '' if (ios or not fab) else f'<span class="absolute {fab} right-4 inline-flex h-14 items-center gap-3 rounded-tile bg-primary pl-5 pr-6 text-label-lg text-primary-foreground shadow-overlay">{icon("plus", "size-6")}New list</span>'
     head = large_title('Lists', ('search',) if not ios else ('search', 'plus'))
-    return bg(head, off, f'<div class="relative min-h-0 flex-1 overflow-hidden px-4 pt-2">{lists}</div>', fab, nav('lists', ios=ios) if nav_on else '', cls='relative flex min-h-0 flex-1 flex-col')
+    return bg(head, off, f'<div class="relative min-h-0 flex-1 overflow-hidden px-4 pt-2">{home_rows(exclude=exclude)}</div>', fab_html, nav('lists', ios=ios) if nav_on else '', cls='relative flex min-h-0 flex-1 flex-col')
 
 
 def s09_header(name, meta_html, sync_html=''):
@@ -234,13 +265,15 @@ def bg_s09_shared(role='Owner', banner='', sync_html='', alert_html='', ios=Fals
     return bg(head, banner, body)
 
 
-def bg_s09_solo(name='March photos clean-up', items=30, decided=12, cnt=(5, 2, 5), src='Photos', ios=False):
-    pct = round(decided * 100 / items)
-    rows = [row('list-checks', 'Results', f'{decided} decided'), row('history', 'Rounds', 'Round 1 in progress'),
-            row('layout-template', 'Card template', 'Photo'), row('file-down', 'Export', 'CSV, Excel, Google Sheets or a text summary')]
+def bg_s09_solo(name='March photos clean-up', items=30, decided=12, cnt=(6, 1, 5), src='Photos', src_icon='image', ios=False,
+               round_label='Round 1', button=('Continue sorting', 'play'), rows=None, template='Photo', round_items=None):
+    round_items = round_items or items
+    pct = round(decided * 100 / round_items)
+    rows = rows or [row('list-checks', 'Results', f'{decided} decided'), row('history', 'Rounds', 'Round 1 in progress'),
+                    row('layout-template', 'Card template', template), row('file-down', 'Export', 'CSV, Excel, Google Sheets or a text summary')]
     body = f'''<div class="min-h-0 flex-1 overflow-hidden px-4 pt-1"><div class="space-y-6">
-      {s09_header(name, f'<span class="inline-flex items-center gap-1.5">{icon("lock", "size-4")}Only you</span><span class="inline-flex items-center gap-1.5">{icon("image", "size-4")}{items} items from {src}</span>')}
-      <div class="rounded-group bg-card p-4 dark:border"><div class="flex items-center justify-between gap-3"><span class="text-label">Progress</span><span class="text-caption text-muted-foreground">Round 1</span></div><p class="mt-3 text-title-3 tabular-nums">{decided} / {items} decided</p><span class="mt-2 flex">{bar(pct)}</span><span class="mt-3 block">{counts(*cnt)}</span>{fake_btn("Continue sorting", "primary", "play", "mt-4")}</div>
+      {s09_header(name, f'<span class="inline-flex items-center gap-1.5">{icon("lock", "size-4")}Only you</span><span class="inline-flex items-center gap-1.5">{icon(src_icon, "size-4")}{items} items from {src}</span>')}
+      <div class="rounded-group bg-card p-4 dark:border"><div class="flex items-center justify-between gap-3"><span class="text-label">Progress</span><span class="text-caption text-muted-foreground">{round_label}</span></div><p class="mt-3 text-title-3 tabular-nums">{decided} / {round_items} decided</p><span class="mt-2 flex">{bar(pct)}</span><span class="mt-3 block">{counts(*cnt)}</span>{fake_btn(button[0], "primary", button[1], "mt-4")}</div>
       {group(rows)}
     </div></div>'''
     head = ios_nav('Lists', '', trailing_icons=('ellipsis',)) if ios else top_bar('arrow-left', None, None, ('ellipsis-vertical',))
@@ -282,6 +315,11 @@ def card_inner(c):
             f'<span class="mt-4 flex flex-col gap-2 text-body">{dl}</span><span class="mt-auto pt-3">{chip(tag)}</span></span>')
 
 
+def photo_inner(img, date, place):
+    return (f'<img src="{IMG}photos/{img}.svg" alt="" class="min-h-0 w-full flex-1 object-cover">'
+            f'<span class="block shrink-0 px-6 pb-5 pt-4"><span class="block text-title-2">{date}</span><span class="mt-1 block text-body text-muted-foreground">{place}</span></span>')
+
+
 def dbutton(kind, ic, label, n):
     return (f'<span class="flex min-w-touch flex-col items-center gap-1.5"><span class="flex size-16 items-center justify-center rounded-full bg-{kind}-soft text-{kind}-soft-foreground">{icon(ic, "size-7")}</span>'
             f'<span class="text-center text-caption">{label} <span class="tabular-nums text-muted-foreground">{n}</span></span></span>')
@@ -292,21 +330,21 @@ def small_round(ic, label):
             f'<span class="text-caption text-muted-foreground">{label}</span></span>')
 
 
-def s25_body(shared=False, decided=76, cnt=(17, 11, 48), status_html='', kbd=False, ios=False, banner=''):
+def s25_body(shared=False, decided=76, cnt=(17, 11, 48), status_html='', kbd=False, ios=False, banner='', name='Wedding guests', total=100, photo=False):
     sub = 'Round 1, shared' if shared else 'Round 1'
     if ios:
-        head = f'<div class="grid h-14 shrink-0 grid-cols-3 items-center px-2"><span class="px-2 text-body text-primary">Close</span><span class="text-center"><span class="block truncate text-body font-semibold">Wedding guests</span><span class="block text-caption text-muted-foreground">{sub}</span></span><span class="flex justify-end">{ib("ellipsis", "size-6", "text-primary")}</span></div>'
+        head = f'<div class="grid h-14 shrink-0 grid-cols-3 items-center px-2"><span class="px-2 text-body text-primary">Close</span><span class="text-center"><span class="block truncate text-body font-semibold">{name}</span><span class="block text-caption text-muted-foreground">{sub}</span></span><span class="flex justify-end">{ib("ellipsis", "size-6", "text-primary")}</span></div>'
     else:
-        head = f'<div class="flex h-app-bar shrink-0 items-center gap-1 px-1">{ib("x")}<div class="min-w-0 flex-1 px-1"><p class="truncate text-title-3">Wedding guests</p><p class="text-caption text-muted-foreground">{sub}</p></div>{ib("ellipsis-vertical")}</div>'
+        head = f'<div class="flex h-app-bar shrink-0 items-center gap-1 px-1">{ib("x")}<div class="min-w-0 flex-1 px-1"><p class="truncate text-title-3">{name}</p><p class="text-caption text-muted-foreground">{sub}</p></div>{ib("ellipsis-vertical")}</div>'
     hints = ''
     if kbd:
         k = lambda key, lab: f'<span class="inline-flex items-center gap-1.5"><kbd class="inline-flex h-6 min-w-6 items-center justify-center rounded-sm border border-b-2 bg-card px-1.5 text-caption text-foreground">{key}</kbd>{lab}</span>'
         hints = f'<div class="flex shrink-0 flex-wrap items-center justify-center gap-x-4 gap-y-1 pb-4 text-caption text-muted-foreground">{k("←", "Reject")}{k("↑", "Maybe")}{k("→", "Accept")}{k("Z", "Undo")}{k("N", "Note")}</div>'
     return f'''{head}{banner}
-  <div class="shrink-0 px-gutter pb-1"><div class="flex items-center justify-between gap-3"><span class="text-label tabular-nums">{decided} / 100 decided</span>{status_html}</div><span class="mt-2 flex">{bar(decided)}</span></div>
+  <div class="shrink-0 px-gutter pb-1"><div class="flex items-center justify-between gap-3"><span class="text-label tabular-nums">{decided} / {total} decided</span>{status_html}</div><span class="mt-2 flex">{bar(round(decided * 100 / total))}</span></div>
   <div class="relative mt-2 min-h-0 flex-1">
-    <div class="absolute inset-x-gutter bottom-5 top-0 flex origin-top translate-y-10 scale-95 flex-col overflow-hidden rounded-hero border bg-card shadow-raised">{card_inner(CARD_NEXT)}</div>
-    <div class="absolute inset-x-gutter bottom-5 top-0 flex flex-col overflow-hidden rounded-hero bg-card shadow-hero">{card_inner(CARD_TOP)}</div>
+    <div class="absolute inset-x-gutter bottom-5 top-0 flex origin-top translate-y-10 scale-95 flex-col overflow-hidden rounded-hero border bg-card shadow-raised">{photo_inner('ph14', 'Mar 7, 2026, 10:31', 'Alfama, Lisbon') if photo else card_inner(CARD_NEXT)}</div>
+    <div class="absolute inset-x-gutter bottom-5 top-0 flex flex-col overflow-hidden rounded-hero bg-card shadow-hero">{photo_inner('ph13', 'Mar 7, 2026, 10:24', 'Alfama, Lisbon') if photo else card_inner(CARD_TOP)}</div>
   </div>
   <div class="flex shrink-0 items-start justify-between px-5 pb-4 pt-2">{small_round("undo-2", "Undo")}{dbutton("reject", "x", "Reject", cnt[0])}{dbutton("maybe", "circle-help", "Maybe", cnt[1])}{dbutton("accept", "check", "Accept", cnt[2])}{small_round("sticky-note", "Note")}</div>{hints}'''
 
@@ -315,12 +353,12 @@ def bg_s25(**kw):
     return bg(s25_body(**kw))
 
 
-def bg_s24():
+def bg_s24(shared=False):
     opts = [('All items', 'Every item in the list, decided or not', '100', False), ('Maybe pile', 'Items marked Maybe in Round 1', '11', True),
             ('Accepted items', 'Narrow down what you accepted', '48', False), ('Custom selection', 'Filter by a field or pick items by hand', '', False)]
     lis = ''.join(f'<li class="flex min-h-16 items-center gap-4 px-4 py-3">{radio(on)}<span class="min-w-0 flex-1"><span class="block text-body">{t}</span><span class="block text-body-sm text-muted-foreground">{d}</span></span>{chip(n) if n else ""}</li>' for t, d, n, on in opts)
     body = f'''<div class="min-h-0 flex-1 overflow-hidden px-4 pt-2"><div class="space-y-6">
-      <div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground">{icon("info", "size-5", "shrink-0")}<div><p class="text-label">Round 1 is still open</p><p class="mt-0.5 text-body-sm">76 of 100 decided. Starting Round 2 ends Round 1.</p></div></div>
+      <div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground">{icon("info", "size-5", "shrink-0")}<div><p class="text-label">Round 1 is still open</p><p class="mt-0.5 text-body-sm">{'Starting Round 2 ends Round 1 for everyone. Decisions made so far are kept.' if shared else '76 of 100 decided. Starting Round 2 ends Round 1.'}</p></div></div>
       <div><p class="px-1 pb-2 text-label text-muted-foreground">Items</p><ul class="divide-y overflow-hidden rounded-group bg-card dark:border">{lis}</ul></div>
     </div></div>
     <div class="shrink-0 border-t px-gutter pb-4 pt-3"><p class="pb-3 text-center text-body-sm text-muted-foreground">Round 2 will have 11 items</p>{fake_btn("Start round")}</div>'''
@@ -527,7 +565,7 @@ def dialog(title, body, cancel, confirm, variant='destructive', extra='', cancel
     if stacked:
         btns = f'<div class="mt-6 flex flex-col gap-2">{k.replace("inline-flex", "flex w-full")}{c.replace("inline-flex", "flex w-full")}</div>'
     else:
-        btns = f'<div class="mt-6 flex flex-wrap justify-end gap-2">{c}{k}</div>'
+        btns = f'<div class="mt-6 flex flex-wrap justify-end gap-3">{c}{k}</div>'
     return f'''{scrim()}
   <div class="absolute inset-0 z-40 flex items-center justify-center px-6">
     <div class="w-full max-w-sm rounded-dialog bg-popover p-6 shadow-dialog" role="alertdialog" aria-modal="true" aria-labelledby="{t}" aria-describedby="{d}">
@@ -631,7 +669,7 @@ P.add('S40-delete-list-shared', 'Delete list (shared): Delete for everyone', fra
     dialog('Delete “Wedding guests” for everyone?',
            "Mert and Selin lose access. All 100 items, every member's decisions and notes, and Round 1 are deleted for all 3 members. Your contacts and mert-family.csv aren't changed.",
            'Cancel', 'Delete for everyone', cancel_href='S09-list-overview.html#S09-shared', confirm_href='S10-list-management.html#S10-deleted-snackbar', act='confirm-delete',
-           note='To keep the list for the others, <a href="S34-members.html#S34-transfer-pick" class="text-primary underline underline-offset-4">make someone else the Owner</a> and leave instead.')),
+           note='To stop taking part without deleting it for others, <a href="S34-members.html#S34-transfer-pick" class="text-primary underline underline-offset-4">make someone else the Owner</a> and leave.')),
     'Delete list (shared)')
 
 P.add('S40-delete-archived', 'Delete an archived list', frame_android(
@@ -684,10 +722,10 @@ P.add('S40-transfer-ownership', 'Transfer ownership', frame_android(
     'Transfer ownership')
 
 P.add('S40-end-round', 'End round (solo), from the sorting menu', frame_android(
-    bg_s25(decided=88, cnt=(20, 13, 55)),
+    bg_s25(name='March photos clean-up', total=30, decided=12, cnt=(6, 1, 5), photo=True),
     dialog('End Round 1?',
-           "12 items aren't decided yet. Your 88 decisions are kept, and you can continue Round 1 from the summary until you start a new round.",
-           'Cancel', 'End Round 1', variant='primary', cancel_href='S25-sorting.html#S25-default', confirm_href='S27-round-summary.html#S27-ended-early', act='confirm-end-round')),
+           "18 items aren't decided yet. Your 12 decisions are kept, and you can continue Round 1 from the summary until you start a new round.",
+           'Cancel', 'End Round 1', variant='primary', cancel_href='S25-sorting.html#S25-photo', confirm_href='S27-round-summary.html#S27-ended-early', act='confirm-end-round')),
     'End round (solo)')
 
 P.add('S40-end-round-shared', 'End round (shared, Owner): for everyone', frame_android(
@@ -704,6 +742,14 @@ P.add('S40-new-round', 'Start a new round while one is open (A-34, solo)', frame
            "24 items in Round 1 aren't decided yet. Your decisions so far are kept. Round 2 starts with 11 items.",
            'Cancel', 'End Round 1 and start', variant='primary', cancel_href='S24-start-round.html#S24-maybe', confirm_href='S24-start-round.html#S24-started', act='confirm-end-round')),
     'New round while one is open')
+
+P.add('S40-new-round-shared', 'Start a new round while one is open (shared, Owner)', frame_android(
+    bg_s24(shared=True),
+    dialog('End Round 1 for everyone and start Round 2?',
+           ['Mert and Selin are still sorting. Decisions made so far are kept, and items nobody decided stay undecided.',
+            'Round 2 starts for all 3 members with 11 items.'],
+           'Cancel', 'End Round 1 and start', variant='primary', cancel_href='S24-start-round.html#S24-round-in-progress', confirm_href='S25-sorting.html#S25-shared', act='confirm-end-round')),
+    'New round while one is open (shared)')
 
 P.add('S40-discard-import', 'Discard import', frame_android(
     bg_s13(),
@@ -884,23 +930,26 @@ P.section('Snackbars',
           'Inverse surface, one line or two, one action at most. 16 above the bottom navigation on tab screens, 16 above the decision bar while sorting, 16 above a pinned bottom button elsewhere. 4 s without an action, 6 s with one, never under 10 s with a screen reader running. One at a time: a new snackbar replaces the current one.')
 
 P.add('S40-snackbar', 'Snackbar, plain, above the bottom navigation', frame_android(
-    bg_s08(fab='bottom-40'), snackbar('You left “Wedding guests”')), 'Plain')
+    bg_s06(), snackbar('Feedback sent. Thanks for helping improve SwipeSort.')), 'Plain')
 
 P.add('S40-snackbar-undo', 'Snackbar with Undo (commits when it closes)', frame_android(
-    bg_s08(fab='bottom-40'), snackbar('List deleted', 'Undo', 'S08-home.html#S08-default')), 'With Undo')
+    bg_s08(fab='bottom-40', exclude=('March photos clean-up',)), snackbar('List deleted', 'Undo', 'S08-home.html#S08-default')), 'With Undo')
 
 P.add('S40-snackbar-error', 'Snackbar, error with Try again', frame_android(
     bg_s08(fab='bottom-48'), snackbar("Couldn't archive “Wedding guests”. Check your connection and try again.", 'Try again', None, kind='alert', ic='circle-alert')), 'Error')
 
-P.add('S40-snackbar-success-action', 'Snackbar, success with an action', frame_android(
-    bg_s08(fab='bottom-40'), snackbar('Duplicated as “Desk setup (copy)”', 'Open', 'S09-list-overview.html#S09-default', ic='circle-check')), 'Success with action')
+P.add('S40-snackbar-success-action', 'Snackbar, success with an action (no bottom bar)', frame_android(
+    bg_s09_solo(name='Desk setup', items=20, round_items=6, decided=6, cnt=(2, 1, 3), src='manual entry', src_icon='pencil-line', round_label='Round 2 complete',
+                button=('Start a new round', 'play'), template='Product',
+                rows=[row('list-checks', 'Results', '8 accepted, 11 rejected, 1 maybe'), row('history', 'Rounds', '2 rounds'), row('layout-template', 'Card template', 'Product'), row('file-down', 'Export', 'CSV, Excel, Google Sheets or a text summary')]),
+    snackbar('Duplicated as “Desk setup (copy)”', 'Open', 'S09-list-overview.html#S09-default', ic='circle-check', pos='bottom-4')), 'Success with action')
 
 P.add('S40-snackbar-sorting', 'Snackbar above the decision bar (S25)', frame_android(
     bg_s25(shared=True, decided=77, cnt=(17, 12, 48)),
     snackbar('Mert chose Maybe on Mia Andersson. This is now a conflict.', 'View', 'S36-conflicts.html#S36-default', ic='git-compare-arrows', pos='bottom-32')), 'Above decision bar')
 
 P.add('S40-snackbar-large-text', 'Snackbar at large text: action below the text', frame_android(
-    bg_s08(fab='bottom-72'), snackbar("Couldn't archive “Wedding guests”. Check your connection and try again.", 'Try again', None, kind='alert', ic='circle-alert', large=True, two_line=True)), 'Large text')
+    bg_s08(fab=None), snackbar("Couldn't archive “Wedding guests”. Check your connection and try again.", 'Try again', None, kind='alert', ic='circle-alert', large=True, two_line=True)), 'Large text')
 
 # ================================================================ SECTION: banners and sync
 P.section('Offline banner and sync notice',
@@ -999,20 +1048,14 @@ def chrome(url):
     return f'<div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">{url}</span></div>'
 
 
-def home_live(focus=True, height_cls='min-h-0 flex-1'):
-    """Home with real links (for keyboard focus demo)."""
-    f = ' ring-2 ring-inset ring-ring' if focus else ''
-    first = (f'<li><a href="S09-list-overview.html#S09-shared" class="flex flex-col gap-1 rounded-t-group px-4 py-4{f}" data-action="open-list">'
-             f'<span class="truncate text-title-3">Wedding guests</span><span class="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-body-sm text-muted-foreground"><span class="inline-flex items-center gap-1.5">{icon("users", "size-4")}Shared with 2</span>{chip("15 conflicts", "git-compare-arrows", "bg-conflict text-conflict-foreground")}</span>'
-             f'<span class="mt-2 flex items-center gap-3">{bar(76)}<span class="shrink-0 text-caption tabular-nums text-muted-foreground">76 / 100</span></span></a></li>')
-    rest = ''.join(f'<li><a href="{h}" class="flex flex-col gap-1 px-4 py-4"><span class="truncate text-title-3">{n}</span><span class="inline-flex items-center gap-1.5 text-body-sm text-muted-foreground">{icon(ic, "size-4")}{m}</span></a></li>'
-                   for n, ic, m, h in [('Frontend hiring, Q4', 'circle-dashed', 'Not sorted yet, 12 items', 'S09-list-overview.html#S09-default'),
-                                       ('March photos clean-up', 'circle-dot', 'Round 1 in progress', 'S09-list-overview.html#S09-default'),
-                                       ('Desk setup', 'circle-check', 'Round 2 done', 'S09-list-overview.html#S09-solo-round-done'),
-                                       ('Apartment viewings', 'archive', 'Archived', 'S10-list-management.html#S10-archived')])
-    return f'''<header class="shrink-0"><div class="flex h-app-bar items-center justify-end gap-1 px-1"><a href="S08-home.html#S08-search" class="flex size-12 items-center justify-center rounded-full" aria-label="Search lists">{icon("search", "size-6")}</a></div><h1 class="px-gutter pb-2 text-title-1">Lists</h1></header>
-  <div class="{height_cls} overflow-hidden px-4 pt-2"><ul class="divide-y overflow-hidden rounded-group bg-card dark:border" aria-label="Lists">{first}{rest}</ul></div>
-  <a href="S11-source-picker.html#S11-web" class="absolute bottom-24 right-4 z-10 flex h-14 items-center gap-2 rounded-tile bg-primary-soft px-4 text-label-lg text-primary-soft-foreground shadow-overlay" data-action="new-list">{icon("plus", "size-6")}New list</a>
+NEW_LIST_BTN = f'<a href="S11-source-picker.html#S11-web-desktop" class="mr-2 inline-flex h-12 items-center gap-2 rounded-control bg-primary px-4 text-label-lg text-primary-foreground" data-action="new-list">{icon("plus", "size-5")}New list</a>'
+SEARCH_BTN = f'<a href="S08-home.html#S08-search" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Search lists" data-action="search">{icon("search", "size-6")}</a>'
+
+
+def home_live(focus=True):
+    """Web desktop Home (A-124: no FAB, New list in the app bar), same rows as S08."""
+    return f'''<header class="shrink-0"><div class="flex h-app-bar items-center justify-end gap-1 px-1">{SEARCH_BTN}{NEW_LIST_BTN}</div><h1 class="px-gutter pb-2 text-title-1">Lists</h1></header>
+  <div class="min-h-0 flex-1 overflow-hidden px-4 pt-2">{home_rows(live=True, focus=focus)}</div>
   {live_nav()}'''
 
 
@@ -1020,7 +1063,7 @@ def live_nav(active='lists', badge=3):
     out = []
     for key, ic, lab, href in [('lists', 'list-checks', 'Lists', 'S08-home.html#S08-default'), ('activity', 'activity', 'Activity', 'S38-activity.html#S38-default'), ('settings', 'settings', 'Settings', 'S06-settings.html#S06-default')]:
         on = key == active
-        b = f'<span class="absolute right-3 top-0 flex h-5 min-w-5 items-center justify-center rounded-full bg-destructive px-1 text-caption leading-none text-destructive-foreground">{badge}</span>' if key == 'activity' and badge else ''
+        b = f'<span class="absolute right-3 top-0 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-caption leading-none text-primary-foreground">{badge}</span>' if key == 'activity' and badge else ''
         pill = 'bg-primary-soft text-primary-soft-foreground' if on else ''
         cur = ' aria-current="page"' if on else ''
         al = f' aria-label="Activity, {badge} unread"' if key == 'activity' and badge else ''
@@ -1029,7 +1072,7 @@ def live_nav(active='lists', badge=3):
     return f'<nav class="flex h-bottom-nav shrink-0 border-t bg-card" aria-label="Main">{"".join(out)}</nav>'
 
 
-toast = f'''<div class="absolute bottom-40 right-4 z-40 flex w-80 items-start gap-3 rounded-control bg-popover p-3 shadow-overlay" role="status">
+toast = f'''<div class="absolute bottom-24 right-4 z-40 flex w-80 items-start gap-3 rounded-control bg-popover p-3 shadow-overlay" role="status">
     <span class="relative shrink-0">{avatar("selin")}<span class="absolute -bottom-1 -right-1 flex size-5 items-center justify-center rounded-full bg-secondary text-secondary-foreground ring-2 ring-popover">{icon("flag", "size-3")}</span></span>
     <a href="S09-list-overview.html#S09-shared" class="min-w-0 flex-1 py-1" data-action="open-notification"><span class="block text-label">Selin finished sorting</span><span class="block text-body-sm text-muted-foreground">Wedding guests, 100 / 100 decided</span></a>
     <button type="button" class="-m-1.5 flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Dismiss" data-action="dismiss">{icon("x", "size-4")}</button>
@@ -1072,9 +1115,8 @@ P.add('S40-desktop-wide', 'Very wide window (2,012 px): column stays 412', f'''<
   </div>
 </div>''', 'Very wide window')
 
-short_home = f'''<header class="shrink-0"><div class="flex h-app-bar items-center gap-1 pl-gutter pr-1"><h1 class="min-w-0 flex-1 text-title-3">Lists</h1><a href="S08-home.html#S08-search" class="flex size-12 items-center justify-center rounded-full" aria-label="Search lists">{icon("search", "size-6")}</a></div></header>
-  <div class="relative h-96 shrink-0 overflow-hidden px-4 pt-1"><div aria-hidden="true">{bg_s08(rows_only=True)}</div><span class="absolute inset-x-0 bottom-0 h-8 bg-background/80" aria-hidden="true"></span></div>
-  <a href="S11-source-picker.html#S11-web" class="absolute bottom-24 right-4 z-10 flex h-14 items-center gap-2 rounded-tile bg-primary-soft px-4 text-label-lg text-primary-soft-foreground shadow-overlay" data-action="new-list">{icon("plus", "size-6")}New list</a>
+short_home = f'''<header class="shrink-0"><div class="flex h-app-bar items-center gap-1 pl-gutter pr-1"><h1 class="min-w-0 flex-1 text-title-3">Lists</h1>{SEARCH_BTN}{NEW_LIST_BTN}</div></header>
+  <div class="relative h-96 shrink-0 overflow-hidden px-4 pt-1">{home_rows(live=True)}</div>
   {live_nav()}'''
 P.add('S40-desktop-short', 'Short window (568 px high): bars stay pinned', f'''<div class="desktop h-auto">
   {chrome("swipesort.app")}

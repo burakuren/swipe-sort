@@ -32,7 +32,7 @@ const visibleText = (html) =>
     .replace(/<h2 class="mock-section"[\s\S]*?<\/h2>(\s*<p>[\s\S]*?<\/p>)?/gi, ' ')
     .replace(/<[^>]+>/g, ' ');
 function checkTerms(file, text) {
-  let t = text;
+  let t = text.replace(/\bS\d\d-[a-z0-9-]+/g, ' '); // frame IDs are identifiers, not copy
   for (const re of ALLOWED_PHRASES) t = t.replace(re, ' ');
   for (const m of t.matchAll(FORBIDDEN)) {
     const at = Math.max(0, m.index - 40);

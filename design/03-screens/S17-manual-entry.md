@@ -25,7 +25,7 @@ delete), GOAL-05, PLT-01–PLT-04, PLT-13–PLT-16, PLT-21, PLT-23, VIS-11–VIS
 | --- | --- |
 | S22 template library, pick mode | "Continue" on Add items (`S22-template-library.html#S22-import-pick`, `data-action="continue"`) |
 | S11 | System back from Set up fields |
-| S08 home | Close (`x`). With fields changed or items added, the S40 "Discard import?" dialog asks first (`S40-global-patterns.html#S40-default`) |
+| S08 home | Close (`x`). With fields changed or items added, the S40 "Discard import?" dialog asks first (`S40-global-patterns.html#S40-discard-import`) |
 | System photo picker / camera | "Add photo" in the form (out of scope) |
 
 ## 3. Layout and components
@@ -52,7 +52,7 @@ types (icon + name), Button "Add field".
 2. Fields summary line "5 fields: Name, Price (€), Store, Photo, Link" + link "Edit fields" (back to Set up fields).
 3. Header row: "3 items" (`text-title-3`) + Button outline "Add item" (`plus`).
 4. ListGroup of ItemRows: 40 thumbnail (Image field; initials or `image-off` placeholder without one), title
-   (1 line, truncates), meta line (next two non-empty fields, comma separated), IconButtons Edit (`pencil`) and
+   (up to 2 lines, then truncates), meta line (next two non-empty fields, comma separated; numbers keep the unit from the field name, e.g. "€389, Nordhaus"), IconButtons Edit (`pencil`) and
    Delete (`trash-2`).
 5. Bottom: Button lg "Continue".
 
@@ -87,8 +87,8 @@ Photo field opens the browser file picker).
 
 - **Fields**: Name is always the title and always text (title can be renamed, not removed or retyped). Other
   fields: tap the chip to change type (same type sheet as S19), `x` removes (no confirmation while there are no
-  items; with items, S40 dialog "Remove Price?" "3 items have a value in Price. It will be removed from them." /
-  "Remove field" / "Cancel"). Max 50 fields (same limit as imports). Field names must be unique; duplicate name
+  items; with items, S40 dialog (`S40-global-patterns.html#S40-remove-field`) "Remove Price (€)?" / "3 items have a value in Price (€). The values are removed with the field." /
+  "Cancel", "Remove field"; after removing, snackbar "Removed Price (€)" with "Undo" restores the field and its values). Max 50 fields (same limit as imports). Field names must be unique; duplicate name
   error "A field with this name already exists."
 - **Suggestions** add a field in one tap with a guessed type (Rating → Number, Category → Text, Date → Date) and
   disappear from the suggestions.
@@ -101,12 +101,12 @@ Photo field opens the browser file picker).
 - **Validation** runs on submit, then live per field once shown. Errors: icon + text under the field, `border-2
   border-destructive`, focus moves to the first invalid field. Only Name is required.
 - **Edit**: Edit IconButton (or tap the row) opens the form filled; "Save changes" saves and closes; closing with
-  unsaved changes asks "Discard changes?" (S40) with "Keep editing" / "Discard changes".
+  unsaved changes asks "Discard changes to Walnut sit-stand desk, 140 × 70 cm?" (S40, `S40-global-patterns.html#S40-discard-edits`) with "Your edits won't be saved. The item keeps its current values." / "Keep editing", "Discard changes".
 - **Delete**: immediate, with snackbar "Deleted {title}" + "Undo" (6 s, motion.md §3). Undo restores the item at
   its position.
 - **Continue**: hands the list (fields + items) to S22 pick mode, where the card template is suggested from the
   field types (Image + Number → Product) and the list is named.
-- **Close**: S40 "Discard import?" when anything was entered.
+- **Close**: S40 "Discard import?" (`S40-global-patterns.html#S40-discard-import`) when anything was entered.
 
 ## 6. Copy
 
@@ -123,7 +123,7 @@ Photo field opens the browser file picker).
 | Suggestions | "Suggestions"; "Rating", "Category", "Date" (labels "Add field Rating") |
 | Field sheet | "Add field"; "Field name"; "Type"; types "Text", "Number", "Phone", "Email", "Date", "Link", "Image"; "Add field" |
 | Field errors | "Enter a field name." / "A field with this name already exists." / "Up to 50 fields." |
-| Remove field dialog | "Remove Price?" / "3 items have a value in Price. It will be removed from them." / "Cancel", "Remove field" |
+| Remove field dialog (`#S40-remove-field`) | "Remove Price (€)?" / "3 items have a value in Price (€). The values are removed with the field." / "Cancel", "Remove field"; snackbar "Removed Price (€)" + "Undo" |
 | Summary | "5 fields: Name, Price (€), Store, Photo, Link"; "Edit fields" |
 | Empty state | "No items yet" / "Add the first item. You can add more one after another." / "Add item" |
 | List header | "3 items" ("1 item") ; "Add item" |
@@ -134,7 +134,7 @@ Photo field opens the browser file picker).
 | Status after Add another | "Added Low-profile mechanical keyboard. 4 items." |
 | Validation | "Enter a name. Every item needs a title." / "Enter a number, like 389." / "Enter a full link, like oakline.example/p/1037." / "Enter a full email address, like name@example.com." / "Enter a date, like Oct 12, 2026." |
 | Snackbar | "Deleted Ergo Mesh task chair" + "Undo" |
-| Discard edit dialog | "Discard changes?" / "Your changes to this item aren't saved." / "Keep editing", "Discard changes" |
+| Discard edit dialog (`#S40-discard-edits`) | "Discard changes to {item name}?" / "Your edits won't be saved. The item keeps its current values." / "Keep editing", "Discard changes" |
 | Primary | "Continue" |
 | iOS sheet | "Cancel", "New item", "Add" |
 

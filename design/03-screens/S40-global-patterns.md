@@ -1,6 +1,6 @@
 # S40 Global patterns
 
-Frames: `S40-global-patterns.html` (57 frames). Generator: `tools/generators/S40-global-patterns.py`.
+Frames: `S40-global-patterns.html` (58 frames). Generator: `tools/generators/S40-global-patterns.py`.
 Components: `01-foundations/components.md` (AlertDialog, Snackbar, Alert/Banner, OfflineBanner, SyncNotice,
 ErrorState). Motion: `01-foundations/motion.md` §3–4.
 
@@ -58,7 +58,11 @@ invalid invite links → **S32** (`S32-invalid`, `S32-expired`, `S32-reset`, `S3
     fields, notes, edits, templates, typed text, an import in progress), removes someone's access (remove,
     leave, reset link, disconnect) or signs out.
   - `primary` (default) when the change is consequential but nothing is lost: end round, start a new round,
-    archive for everyone, transfer ownership, change conflict rule, change Decision Maker, undo Resolve all.
+    archive for everyone, transfer ownership, change conflict rule, change Decision Maker.
+  - Edge cases decided (QA-120): **Undo Resolve all is destructive** (it discards 12 final decisions; members'
+    own decisions are untouched but the resolutions are gone). **Transfer ownership stays primary**: the
+    Owner keeps their membership, decisions, notes and access; only the role moves, nothing is deleted, and
+    the body says how it is reversed ("Only Mert can make you the Owner again").
 - **Stacking**: when both labels don't fit on one row (long labels, translations, ≥ 150% text) the actions
   stack full width, confirm on top, dismiss below (`S40-dialog-large-text`).
 - One dialog at a time; dialogs never open on top of another dialog (a dialog that leads to a choice, like
@@ -86,8 +90,9 @@ invalid invite links → **S32** (`S32-invalid`, `S32-expired`, `S32-reset`, `S3
 `text-body-sm`, optional leading icon 20 (`circle-alert` for errors, `circle-check` for success with an
 action, context icons like `git-compare-arrows`), at most one action (`text-label text-primary-inverse`,
 48 high). Position: `bottom-24` (16 above the bottom navigation) on tab screens; `bottom-32` above the S25 /
-S36 decision bar; 16 above a pinned bottom button on other screens. A visible FAB moves up above the snackbar
-(M3 behavior). At large text or when the text needs three lines, the action moves under the text, right
+S36 decision bar; 16 above a pinned bottom button, or 16 above the bottom edge (`bottom-4`) on screens without a
+bottom bar. A visible FAB moves up above the snackbar (M3 behavior); when the snackbar is taller than two lines
+(large text) the FAB hides until the snackbar closes, so it never covers content. At large text or when the text needs three lines, the action moves under the text, right
 aligned (`S40-snackbar-large-text`).
 
 ### 3.4 OfflineBanner and SyncNotice
@@ -122,9 +127,11 @@ button that leaves. No illustrations, no error codes.
   width; sheets open from the bottom of the column.
 - Keyboard: every interactive element shows `ring-2 ring-ring` on `:focus-visible` (offset 2 on isolated
   controls; `ring-inset` on rows inside a group, so the ring isn't clipped). Mouse clicks never show it.
+- Web desktop Home has no FAB (A-124): a filled "New list" button sits in the app bar next to search; the
+  short-window frame collapses the large title into that bar.
 - In-app notification toast (push is unavailable on web, PLT-10): `bg-popover rounded-control
   shadow-overlay p-3`, 320 wide (`w-80`), bottom-right of the column, 16 from the right edge, above the
-  bottom navigation and above a FAB or snackbar. Content: actor avatar with event badge, title
+  bottom navigation (`bottom-24`) and above a snackbar when both show. Content: actor avatar with event badge, title
   `text-label`, detail `text-body-sm muted`, Dismiss (`x`, 48). Visible 6 s; hovering or focusing pauses
   the timer. On mobile web the same event appears as the S38 in-app banner (top, under the app bar).
 
@@ -142,14 +149,15 @@ button that leaves. No illustrations, no error codes.
 | Owner can't leave yet | `S40-leave-owner` | primary | Owner: “Leave list” | S10 shared Owner menu, S34 “Leave list” → S34 `S34-transfer-pick` |
 | Remove member (DM-17) | `S40-remove-member` | destructive | Owner: “Remove from list” | S34 member sheet `S34-member-sheet`, S34 iOS actions → `S40-ios-remove-member` |
 | Transfer ownership | `S40-transfer-ownership` | primary | Owner: “Make Owner” | S34 member sheet, S34 “Transfer ownership” (with “… and stay”) |
-| End round (solo) | `S40-end-round` | primary | “End round” before every item is decided | S25 menu `S25-menu` → S27 `S27-ended-early` |
+| End round (solo) | `S40-end-round` | primary | “End round” before every item is decided (drawn on the solo March photos clean-up, 12 / 30) | S25 menu `S25-menu` (any solo list, e.g. `S25-photo`) → S27 `S27-ended-early` |
 | End round (shared) | `S40-end-round-shared` | primary | Owner: “End round” on a shared list | S25 menu `S25-shared-menu`; iOS `S40-ios-end-round` |
-| New round while one is open (A-34) | `S40-new-round` (solo); shared: S24 `S24-end-round-dialog` | primary | “Start round” while the current round is open | S24, S27 “Start a new round”, S09 “Start a new round” |
+| New round while one is open, solo (A-34) | `S40-new-round` | primary | “Start round” while the current round is open | S24, S27 “Start a new round”, S09 “Start a new round” |
+| New round while one is open, shared (A-34, DM-15) | `S40-new-round-shared` (= S24 `S24-end-round-dialog`) | primary | Owner: “Start round” while the current shared round is open | S24 (`S24-round-in-progress`), S27 / S09 “Start a new round” on a shared list |
 | Discard import | `S40-discard-import` | destructive | Close (`x`) with anything chosen, typed or read in an import | S12–S20, S22 pick mode (all import steps, A-61); iOS `S40-ios-discard-import` |
 | Discard adding items | `S40-discard-add-items` | destructive | Close in Add items after a file or source was chosen | S21 |
 | Replace typed text | `S40-replace-text` | destructive | Choosing a .txt file while the text box has text | S16 |
 | Remove a field with values | `S40-remove-field` | destructive | Remove (`x`) on a field that has values (no dialog when no item has a value) | S17 |
-| Discard template changes | `S40-discard-template` | destructive | Close / back in the template editor with unsaved changes | S23 (edit mode and new template from import, `S23-discard`) |
+| Discard template changes | `S40-discard-template` | destructive | Close / back in the template editor with unsaved changes | S23 saved template (`S23-discard-changes`); new template from import uses the variant in §6.1 (`S23-discard`) |
 | Delete template | `S40-delete-template` | destructive | “Delete template” on a custom template | S22 actions (`S22-actions`, `S22-ios-actions`), S23 menu (`S23-delete`) |
 | Discard item edits | `S40-discard-edits` | destructive | Close / back in edit mode with changes | S26 edit (`S26-edit`), S17 edit item sheet (`S17-edit-item`) |
 | Revert edited field | `S40-revert-field` | destructive | “Revert to original” on an edited field | S26 (`S26-edited`) |
@@ -161,7 +169,7 @@ button that leaves. No illustrations, no error codes.
 | Sign out, unsynced | `S40-sign-out-unsynced` | destructive | “Sign out” with changes not backed up | S06; iOS `S40-ios-sign-out-unsynced` |
 | Delete account (final) | `S40-delete-account` | destructive | “Delete account” on the confirm step after typing “delete” (A-54) | S07 `S07-delete-confirm` |
 | Bulk resolve | link only: S37 `S37-confirm`, `S37-nothing`, `S37-offline` | primary | Decision Maker: “Resolve all with my decisions” | S36, S09, S27 |
-| Undo Resolve all | link only: S37 `S37-undo` | primary | “Undo” after Resolve all (after the snackbar closed: from S38 / S28) | S37 |
+| Undo Resolve all | link only: S37 `S37-undo` | destructive (QA-120) | “Undo” after Resolve all (after the snackbar closed: from S38 / S28) | S37 |
 | Change Decision Maker | link only: S34 `S34-dm-confirm`, `S34-dm-self-confirm`, `S34-dm-off-confirm` | primary | Owner moves or turns off the role | S34, S35 |
 | Google Sheets write | link only: S39 `S39-google-confirm` (a step, not a dialog) | primary | Export to Google Sheets | S39 |
 | Large text | `S40-dialog-large-text` | — | ≥ 150% font scale or labels that don't fit | any dialog |
@@ -186,12 +194,12 @@ read (S38), remove photo (S07). Deletes that were confirmed also get an Undo sna
 
 | Frame | Kind | Duration | Example (owner screen) |
 | --- | --- | --- | --- |
-| `S40-snackbar` | Plain | 4 s | “You left “Wedding guests”” (S10) |
-| `S40-snackbar-undo` | With Undo | 6 s; the action is committed when it closes | “List deleted” + Undo (S10) |
+| `S40-snackbar` | Plain, above the bottom navigation | 4 s | “Feedback sent. Thanks for helping improve SwipeSort.” on S06 Settings |
+| `S40-snackbar-undo` | With Undo | 6 s; the action is committed when it closes | “List deleted” + Undo on Home, March photos clean-up already gone from the list (S10, after `S40-default`) |
 | `S40-snackbar-error` | Error (`role="alert"`, `circle-alert`) with Try again | 6 s | “Couldn't archive “Wedding guests”. …” |
-| `S40-snackbar-success-action` | Success with an action (`circle-check`) | 6 s | “Duplicated as “Desk setup (copy)”” + Open |
+| `S40-snackbar-success-action` | Success with an action (`circle-check`), screen without a bottom bar | 6 s | “Duplicated as “Desk setup (copy)”” + Open on the original Desk setup overview (A-124: duplicating stays on the original list) |
 | `S40-snackbar-sorting` | Above the decision bar | 6 s | “Mert chose Maybe on Mia Andersson. This is now a conflict.” + View (S25) |
-| `S40-snackbar-large-text` | Action under the text | 6 s | same error at 200% |
+| `S40-snackbar-large-text` | Action under the text; FAB hidden | 6 s | same error at 200% |
 
 Durations come from motion.md §3: 4 s without an action, 6 s with one, never under 10 s while a screen
 reader is running. A new snackbar replaces the current one (the replaced Undo is committed). Errors that
@@ -271,7 +279,7 @@ sample data.
 | --- | --- | --- | --- |
 | Delete list (solo) | "Delete “{list}”?" | "{n} items, {rounds} and your decisions will be deleted from your account and this phone. {source line}" — not signed in: "…will be deleted from this phone." — web: "…from your account and every device." | "Cancel", "Delete list" |
 | Source line | — | Photos: "The photos in your gallery aren't changed." Contacts: "Your contacts aren't changed." File: "{file name} isn't changed." Google Sheets: "Your Google Sheet isn't changed." Manual entry or text: "Nothing outside SwipeSort is changed." Web uploads: "The photos you uploaded stay on your computer." Several sources: "Your contacts and mert-family.csv aren't changed." | — |
-| Delete list (shared) | "Delete “Wedding guests” for everyone?" | "Mert and Selin lose access. All 100 items, every member's decisions and notes, and Round 1 are deleted for all 3 members. Your contacts and mert-family.csv aren't changed." + "To keep the list for the others, make someone else the Owner and leave instead." (link: "make someone else the Owner") | "Cancel", "Delete for everyone" |
+| Delete list (shared) | "Delete “Wedding guests” for everyone?" | "Mert and Selin lose access. All 100 items, every member's decisions and notes, and Round 1 are deleted for all 3 members. Your contacts and mert-family.csv aren't changed." + "To stop taking part without deleting it for others, make someone else the Owner and leave." (link: "make someone else the Owner") | "Cancel", "Delete for everyone" |
 | Delete archived list | "Delete “Book club picks” forever?" | "12 items, Round 1 and your decisions will be deleted from your account. Nothing outside SwipeSort is changed." | "Cancel", "Delete forever" |
 | Archive shared list | "Archive “Wedding guests” for everyone?" | "Mert and Selin can still open it, but nobody can sort, add items or change decisions until you restore it. Nothing is deleted." | "Cancel", "Archive list" |
 | Leave list (Collaborator) | "Leave “Wedding guests”?" | "You won't see this list anymore. Your 43 decisions stay and still count toward the list status. Items you haven't decided stop waiting for you, and your private notes are deleted." + "To come back, ask Deniz for a new invite." | "Cancel", "Leave list" |
@@ -279,11 +287,11 @@ sample data.
 | Owner can't leave yet | "Choose a new Owner first" | "“Wedding guests” needs an Owner. Make another member the Owner, then you can leave. To remove the list for everyone, delete it instead." | "Cancel", "Choose new Owner" |
 | Remove member | "Remove Selin from “Wedding guests”?" | "Selin can't open the list anymore. Choose what happens to Selin's 43 decisions." Radio (default first): "Keep Selin's decisions" / "They still count toward Agreed, Pending and Conflict."; "Discard Selin's decisions" / "Item statuses are recalculated without them." Removing the Decision Maker adds: "Mert is the Decision Maker, so nobody will have this role." Member with no decisions: radio hidden, body "Selin can't open the list anymore. Selin hasn't decided any items yet." | "Cancel", "Remove Selin" |
 | Transfer ownership | "Make Mert the Owner?" | "Mert will manage members, rounds and the conflict rule, and can rename or delete the list." + "You'll stay on the list as a Collaborator. Only Mert can make you the Owner again." | "Cancel", "Make Mert Owner" |
-| End round (solo) | "End Round 1?" | "12 items aren't decided yet. Your 88 decisions are kept, and you can continue Round 1 from the summary until you start a new round." | "Cancel", "End Round 1" |
+| End round (solo) | "End Round 1?" | "18 items aren't decided yet. Your 12 decisions are kept, and you can continue Round 1 from the summary until you start a new round." | "Cancel", "End Round 1" |
 | End round (shared) | "End Round 1 for everyone?" | "Mert and Selin are still sorting. Decisions made so far are kept, and items nobody decided stay undecided." + "Everyone sees the round summary." (all finished except me: "Mert and Selin have finished. …") | "Cancel", "End Round 1" |
 | New round (solo) | "End Round 1 and start Round 2?" | "24 items in Round 1 aren't decided yet. Your decisions so far are kept. Round 2 starts with 11 items." | "Cancel", "End Round 1 and start" |
-| New round (shared) | "End Round 1 for everyone?" | "Mert and Selin are still sorting. Decisions made so far are kept, and items nobody decided stay undecided." + "Round 2 then starts for all 3 members with 11 items." | "Cancel", "End Round 1 and start" |
-| Discard import | "Discard import?" | Pattern "{What was chosen} will be lost. Nothing has been added to SwipeSort yet." Contacts: "Your selection of 88 contacts will be lost." File: "Your choices for candidates-q4.csv will be lost." Google Sheets: "Your choices for Flat hunt 2026 will be lost." Text: "The text you entered will be lost." Manual entry: "The 3 items you added will be lost." Photos: "Your selection of 30 photos will be lost." Finish step: "Your choices so far will be lost." | "Keep importing", "Discard import" |
+| New round (shared) | "End Round 1 for everyone and start Round 2?" | "Mert and Selin are still sorting. Decisions made so far are kept, and items nobody decided stay undecided." + "Round 2 starts for all 3 members with 11 items." | "Cancel", "End Round 1 and start" |
+| Discard import | "Discard import?" | Pattern "{What was chosen} will be lost. Nothing has been added to SwipeSort yet." Contacts: "Your selection of 88 contacts will be lost." File: "Your choices for candidates-q4.csv will be lost." Google Sheets: "Your choices for Flat hunt 2026 will be lost." Text: "Your text will be lost." Manual entry: "The 3 items you added will be lost." Photos: "Your selection of 30 photos will be lost." Finish step: "Your choices so far will be lost." | "Keep importing", "Discard import" |
 | Discard adding items | "Discard adding items?" | "Your choices for mert-family.csv will be lost. Nothing has been added to Wedding guests yet." | "Keep adding", "Discard" |
 | Replace typed text | "Replace the text in the box?" | "The 6 lines you typed are replaced by book-club.txt." | "Cancel", "Replace" |
 | Remove a field | "Remove Price (€)?" | "3 items have a value in Price (€). The values are removed with the field." | "Cancel", "Remove field" |
@@ -324,7 +332,7 @@ sample data.
 | Reset link | "Invite link reset" | — |
 | Change rule | "Switched to Majority decides. 8 conflicts are now final." | "Undo" |
 | Disconnect | "Google disconnected" | — |
-| Duplicate | "Duplicated as “Desk setup (copy)”" | "Open" |
+| Duplicate | "Duplicated as “Desk setup (copy)”" (shown on the original list) | "Open" |
 | Error example | "Couldn't archive “Wedding guests”. Check your connection and try again." | "Try again" |
 | Error pattern | "Couldn't {verb} {object}. {How to fix}." | "Try again" |
 | Web after deploy | "SwipeSort was updated." | "Reload" |
@@ -419,7 +427,8 @@ Pattern: "You're offline." + what is saved + (optional) what needs a connection.
   "Needs a connection" (A-88); if the connection drops after confirming, the dialog stays open with the
   inline failure line and Try again in place of the confirm label.
 - **Several snackbars** in a row (fast undo/redo): the newest replaces the previous; a replaced Undo commits.
-- **Snackbar + FAB / toast**: the FAB and the web toast move up above the snackbar; nothing overlaps.
+- **Snackbar + FAB / toast**: the FAB and the web toast move up above the snackbar; a snackbar taller than two
+  lines hides the FAB until it closes.
 - **Dialog opened while another member changes the same thing** (e.g. Selin leaves while the remove dialog is
   open): on confirm, the dialog closes and a snackbar explains ("Selin already left the list").
 - **List deleted while open on another device**: the open screen is replaced by `S40-not-found-deleted`;

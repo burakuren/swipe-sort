@@ -228,3 +228,14 @@ are merged here by the lead designer after each phase. IDs (A-nn) are referenced
 - **A-116** App update required exists: once per session below the minimum sync version; "Not now" keeps local use with a persistent "Update SwipeSort to sync your changes." banner; web gets a "SwipeSort was updated." + Reload snackbar.
 - **A-117** Not-found never reveals whether an inaccessible list exists. Desktop web: nothing in the muted margins; the column is the window height; minimum height 568 (below that the page scrolls); S25 below 680 hides the card image; web toast `w-80` bottom-right, 6 s, pauses on hover/focus.
 - **A-118** Copy uses straight apostrophes (') everywhere; curly double quotes (“ ”) only around object names in titles.
+
+## Phase 4: QA round 1 decisions
+
+- **A-119** Flow 1 imports 88 contacts; duplicate review merges 3 pairs and keeps 1 pair → 85 items. The first round is 0 / 85 (coach marks) and ends at `S27-first-round`; the prototype's live sort stops after 6 cards ("Done for now … The prototype skips the rest of the round").
+- **A-120** Flow 3: Mert sorts on the web at 85 / 100 (the desktop frame's decision buttons open the live demo with his 15 undecided items) and closes sorting to `S09-shared-decision-maker`, then resolves conflicts (12 resolved, 3 open because he never decided them). He is made Decision Maker by Deniz after joining (`S34-dm-changed`). `S27-shared` shows Deniz finishing her own round.
+- **A-121** Count badges (unread Activity) use `primary`, not `destructive`. Keyboard hints use Inter (no monospace). FilterChip and SegmentedControl segments specify `hitSlop` to reach 48.
+- **A-122** Others' decisions on a card (opt-in) are a small panel listing each member with avatar, name and a decision badge (icon + word), not overlapping avatar dots.
+- **A-123** Replaces A-72's Mert numbers: `S27-shared` shows Deniz finishing (18 rejected, 15 maybe, 67 accepted; her remaining decisions copy Mert's where he decided, else Accept); list status stays 32 / 53 / 15. `S27-first-round` = 85 / 85: 20 rejected, 12 maybe, 53 accepted. Frame `S27-shared-owner` was removed; `S27-count-up` added.
+- **A-124** Web desktop Home has no FAB: a filled "New list" button sits in the app bar next to search. Duplicating a list stays on the original list with "Duplicated as “…”" + Open.
+- **A-125** Sparse-card rule (image area None): content block vertically centered above pinned tags; ≤ 3 rows use text-title-2 values, 4–6 rows text-title-3; title-only uses text-display; decided by the template's row count. Duplicated templates are named "{name} (copy)".
+- **A-126** Extends A-112: "Undo Resolve all" is destructive (it discards final decisions); "Make Mert Owner" stays primary.

@@ -171,6 +171,8 @@ def btn(label, href=None, action=None, variant='primary', disabled=False, busy=F
         'destructive': 'bg-destructive text-destructive-foreground',
     }[variant]
     h = 'h-14 px-6' if size == 'lg' else 'h-12 px-5'
+    if ' px-' in ' ' + extra:
+        h = h.split()[0]
     w = 'flex w-full' if full else 'inline-flex'
     cls = f'{w} {h} items-center justify-center gap-2 rounded-control text-label-lg {base} {extra}'.strip()
     da = f' data-action="{action}"' if action else ''
@@ -194,7 +196,7 @@ def bottom(primary=None, secondary=None, note='', border=True, extra=''):
   </div>'''
 
 
-def offline_banner(text="You're offline. Google Sheets needs a connection; other sources work."):
+def offline_banner(text="You're offline. Changes are saved on this phone. Google Sheets needs a connection."):
     return f'<div class="flex shrink-0 items-center gap-2 bg-muted px-gutter py-2 text-body-sm" role="status">{icon("wifi-off", "size-4 shrink-0")}<span class="flex-1">{text}</span></div>'
 
 
@@ -218,11 +220,14 @@ def sheet(sid, title, body, actions='', close_href=None, z=''):
 
 
 def dialog(did, title, body, actions):
-    return f'''<div class="absolute inset-0 z-10 bg-scrim/50"></div>
-  <div class="absolute inset-x-6 top-1/3 z-20 rounded-dialog bg-popover p-6 shadow-dialog" role="alertdialog" aria-modal="true" aria-labelledby="{did}" aria-describedby="{did}d">
-    <h2 id="{did}" class="text-title-3">{title}</h2>
-    <p id="{did}d" class="mt-2 text-body text-muted-foreground">{body}</p>
-    <div class="mt-6 flex flex-wrap justify-end gap-2">{actions}</div>
+    """AlertDialog with the S40 wrapper: scrim + vertically centred dialog (A-112)."""
+    return f'''<div class="absolute inset-0 z-30 bg-scrim/50" aria-hidden="true"></div>
+  <div class="absolute inset-0 z-40 flex items-center justify-center px-6">
+    <div class="w-full max-w-sm rounded-dialog bg-popover p-6 shadow-dialog" role="alertdialog" aria-modal="true" aria-labelledby="{did}" aria-describedby="{did}d">
+      <h2 id="{did}" class="text-title-3">{title}</h2>
+      <div id="{did}d" class="mt-2 space-y-2 text-body text-muted-foreground"><p>{body}</p></div>
+      <div class="mt-6 flex flex-wrap justify-end gap-2">{actions}</div>
+    </div>
   </div>'''
 
 
@@ -350,12 +355,13 @@ def build_s11():
     p.section('Web', 'Contacts import is unavailable in browsers: the tile stays visible with its reason and opens a sheet with “Get the app” and a CSV alternative. Photos become “Upload photos” (file upload, S18 web).')
     web_over = {'photos': dict(name='Upload photos', icon='image-up', desc='Image files from this device', href='S18-photos-import.html#S18-default')}
     web_grid = tiles({'contacts': 'web'}, web_over)
-    p.frame('S11-web', 'Web, mobile browser', phone(f'{appbar()}{stepper(1)}{body(web_grid)}', 'web'))
+    get_line = f'<p class="mt-3 px-1 text-body-sm text-muted-foreground">Contacts import needs the Android or iOS app. <a href="{GET_APP}" class="text-primary underline underline-offset-4" data-action="get-app">Get the app</a></p>'
+    p.frame('S11-web', 'Web, mobile browser', phone(f'{appbar()}{stepper(1)}{body(web_grid, extra=get_line)}', 'web'))
     sheet_body = f'''<div class="mt-2 flex gap-3">{icon("monitor-smartphone", "size-5 mt-0.5 shrink-0 text-muted-foreground")}<p class="text-body text-muted-foreground">Browsers can't read your phone's contacts. Get SwipeSort for Android or iOS to import them, or export your contacts as a CSV file and import that here.</p></div>'''
     sheet_actions = btn('Get the app', GET_APP, 'get-app') + btn('Import a CSV instead', 'S14-file-import.html#S14-default', 'import-csv-instead', 'ghost', size='md')
     p.frame('S11-web-unavailable', 'Web: contacts tile tapped, unavailable sheet', phone(f'''{appbar()}{stepper(1)}{body(web_grid, note=False)}
   {sheet("s11wu", "Contacts import needs the app", sheet_body, sheet_actions, "#S11-web")}''', 'web'))
-    p.frame('S11-web-desktop', 'Web, desktop browser: phone layout centered', desktop(f'{appbar()}{stepper(1)}{body(web_grid)}'))
+    p.frame('S11-web-desktop', 'Web, desktop browser: phone layout centered', desktop(f'{appbar()}{stepper(1)}{body(web_grid, extra=get_line)}'))
 
     p.section('iOS', 'The import opens as a page sheet: Cancel top-left, centered title. Swipe-down dismisses only while nothing is selected yet (later steps ask first).')
     ios_grid = tiles(override={'photos': dict(desc='From your photo library')})
@@ -665,7 +671,7 @@ def build_s13():
     p.frame('S13-error', 'Error reading contacts', phone(err))
 
     dlg = dialog('s13x', 'Discard import?', 'Your selection of 88 contacts will be lost. Nothing has been added to SwipeSort yet.',
-                 btn('Keep importing', '#S13-select-default', 'keep', 'ghost', full=False, size='md', extra='px-4') + btn('Discard import', HOME, 'discard', 'destructive', full=False, size='md', extra='px-4'))
+                 btn('Keep importing', '#S13-select-default', 'cancel', 'ghost', full=False, size='md', extra='px-4') + btn('Discard import', HOME, 'discard', 'destructive', full=False, size='md', extra='px-4'))
     p.frame('S13-close-confirm', 'Close with a selection: discard dialog (S40 pattern)', phone(screen(sel88, '88 of 96 selected', 'mixed', cont(88), fid='s13c') + dlg))
 
     p.section('Very large address books', 'Thousands of contacts: sticky letter headers and a fast-scroll index on the right edge (Android and iOS). The list is virtualized; search stays the fastest route.')
@@ -679,7 +685,7 @@ def build_s13():
     p.frame('S13-large', '2,140 contacts: letter index while scrubbing', phone(screen(large, '2,140 of 2,140 selected', 'on', cont('2,140'), fid='s13g')))
 
     p.section('Accessibility', 'At 200% text, rows grow and names wrap instead of truncating; avatars hide to keep names readable.')
-    big_list = contact_sections(ADDRESS, lambda c: c['id'] not in UNSELECTED, limit=4, big=True)
+    big_list = contact_sections(ADDRESS, lambda c: c['id'] not in UNSELECTED, limit=6, big=True)
     p.frame('S13-large-text', 'Large text (200%)', phone(screen(big_list, '88 of 96', 'mixed', cont(88, big=True), fid='s13b', big=True)))
 
     p.section('iOS', 'Page sheet with Cancel; round selection marks (iOS convention). iOS 18 can limit contacts to a selection: the list shows only those, with a way to add more.')
@@ -712,12 +718,12 @@ def settings_group(header_on=True, sep='Comma', detected='Detected in candidates
     </ul>'''
 
 
-def table(cols, rows, caption, numbered=True, start=1, warn_rows=()):
+def table(cols, rows, caption, numbered=True, start=1, warn_rows=(), cellw='max-w-44'):
     th = ('<th scope="col" class="px-3 py-2.5 text-label text-muted-foreground"><span class="sr-only">Row</span></th>' if numbered else '') + ''.join(f'<th scope="col" class="whitespace-nowrap px-3 py-2.5 text-label text-muted-foreground">{c}</th>' for c in cols)
     trs = []
     for i, r in enumerate(rows):
         n = start + i
-        cells = ''.join(f'<td class="px-3 py-2.5"><span class="block max-w-44 truncate whitespace-nowrap text-body-sm{" text-muted-foreground" if v in ("", None) else ""}">{"—" if v in ("", None) else v}</span></td>' for v in r)
+        cells = ''.join(f'<td class="px-3 py-2.5"><span class="block {cellw} truncate whitespace-nowrap text-body-sm{" text-muted-foreground" if v in ("", None) else ""}">{"—" if v in ("", None) else v}</span></td>' for v in r)
         num = f'<td class="px-3 py-2.5 text-caption tabular-nums text-muted-foreground">{n}</td>' if numbered else ''
         trs.append(f'<tr>{num}{cells}</tr>')
     return f'''<div class="min-h-0 overflow-hidden rounded-group bg-card"><div class="overflow-x-auto" tabindex="0" role="region" aria-label="{caption}, scrolls sideways"><table class="w-max min-w-full text-left"><caption class="sr-only">{caption}</caption><thead class="bg-muted"><tr>{th}</tr></thead><tbody class="divide-y">{"".join(trs)}</tbody></table></div></div>'''
@@ -777,7 +783,7 @@ def build_s14():
     {file_row("candidates-q4.csv", "12 rows, 8 columns, 3 KB")}
     {settings_group()}
     <div class="mt-5 flex items-baseline justify-between px-1 pb-2"><h2 class="text-label text-muted-foreground">Preview</h2><span class="text-caption tabular-nums text-muted-foreground">12 rows</span></div>
-    {table(CAND_COLS, rows, "Preview of candidates-q4.csv")}
+    {table(CAND_COLS, rows, "Preview of candidates-q4.csv", cellw="max-w-36")}
   </div>
   {bottom(btn("Continue with 12 rows", S19, "continue"), border=True)}'''
     p.frame('S14-csv-preview', 'CSV loaded: candidates-q4.csv', phone(prev))
@@ -788,7 +794,7 @@ def build_s14():
     {file_row("candidates-q4.csv", "13 rows, 8 columns, 3 KB")}
     {settings_group(False, detected="Off: the first row is imported as an item")}
     <div class="mt-5 flex items-baseline justify-between px-1 pb-2"><h2 class="text-label text-muted-foreground">Preview</h2><span class="text-caption tabular-nums text-muted-foreground">13 rows</span></div>
-    {table(["Column A", "Column B", "Column C", "Column D", "Column E", "Column F", "Column G", "Column H"], nh_rows, "Preview without a header row")}
+    {table(["Column A", "Column B", "Column C", "Column D", "Column E", "Column F", "Column G", "Column H"], nh_rows, "Preview without a header row", cellw="max-w-36")}
   </div>
   {bottom(btn("Continue with 13 rows", S19), border=True)}'''
     p.frame('S14-no-header', 'Header row turned off: generic column names', phone(nh))
@@ -984,6 +990,24 @@ def build_s15():
   {bottom(btn("Continue with 8 rows", "#S15-preview", "continue"), border=True)}'''
     p.frame('S15-tabs', 'Tabs: Kadıköy and Beşiktaş combined', phone(tabs_html))
 
+    def tab_rows_big(tabs_):
+        out = ''
+        for n, d, on, dis in tabs_:
+            dis_attr = ' disabled' if dis else ''
+            tone = ' text-muted-foreground' if dis else ''
+            d2 = f'{d}, nothing to import' if dis else d
+            out += f'<li><button type="button" role="checkbox" aria-checked="{"true" if on else "false"}"{dis_attr} class="flex min-h-20 w-full items-center gap-4 px-4 py-3 text-left">{checkbox("on" if on else "off")}<span class="min-w-0 flex-1"><span class="block text-title-2 font-normal{tone}">{n}</span><span class="mt-0.5 block text-title-3 font-normal text-muted-foreground">{d2}</span></span></button></li>'
+        return out
+
+    tabs_big = f'''{appbar(big=True)}{stepper(2, big=True)}
+  <div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
+    {file_row("Flat hunt 2026", "4 tabs, edited Jul 21", "sheet", "#S15-spreadsheets", big=True)}
+    <h2 class="mt-5 text-title-1">Choose tabs</h2>
+    <ul class="mt-3 divide-y overflow-hidden rounded-group bg-card">{tab_rows_big(tabs)}</ul>
+  </div>
+  {bottom(btn("Continue with 8 rows", "#S15-preview", "continue", extra="min-h-16 text-title-3"), border=True)}'''
+    p.frame('S15-tabs-large-text', 'Large text (200%): tab rows wrap, list scrolls under the actions', phone(tabs_big))
+
     apts = DATA['apartments']
     arows = [[a['tab'], a['address'], f'{a["rent"]:,}', a['rooms'], a['sizeM2'], (a['viewing'] or ''), a['link'].replace('https://', '')] for a in apts]
     prev = f'''{appbar()}{stepper(2)}
@@ -1010,7 +1034,7 @@ def build_s15():
     p.section('Errors and offline', 'Google connection failure (SRC-23), revoked access and no connection. Every state keeps a way to another source.')
     p.frame('S15-error-connection', 'Google connection failure', phone(f'''{appbar()}{stepper(2)}{state("cloud-off", "Google Sheets didn\'t respond", "Check your connection and try again. Nothing was imported.")}{bottom(btn("Try again", None, "retry"), another)}'''))
     p.frame('S15-error-access', 'Access removed in the Google account', phone(f'''{appbar()}{stepper(2)}{state("unplug", "SwipeSort can\'t see your spreadsheets", "Access to Google Sheets was removed from your Google account. Connect again to choose a sheet.")}{bottom(btn("Connect again", "#S15-default", "reconnect"), another)}'''))
-    p.frame('S15-offline', 'Offline', phone(f'''{appbar()}{offline_banner("You're offline.")}<div class="h-3 shrink-0"></div>{stepper(2)}{state("wifi-off", "Google Sheets needs a connection", "Connect to the internet and try again, or import from another source. Contacts and files work offline.")}{bottom(btn("Try again", None, "retry"), another)}'''))
+    p.frame('S15-offline', 'Offline', phone(f'''{appbar()}{offline_banner()}<div class="h-3 shrink-0"></div>{stepper(2)}{state("wifi-off", "Google Sheets needs a connection", "Connect to the internet and try again, or import from another source. Contacts and files work offline.")}{bottom(btn("Try again", None, "retry"), another)}'''))
 
     p.section('Web and iOS', 'Desktop and mobile web use a Google popup (OAuth). iOS uses the system web sign-in sheet (out of scope), then the same screens in a page sheet.')
     waiting = f'''{appbar()}{stepper(2)}{state("app-window", "Continue in the Google window", "Choose your account and allow read-only access. SwipeSort continues here when you\'re done.")}{bottom(btn("Open the Google window again", None, "reopen-popup", "outline", size="md"), None)}'''

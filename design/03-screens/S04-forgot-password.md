@@ -64,7 +64,8 @@ VIS-11, VIS-12 (Send reset link → Sending… → sent; Save password → Savin
 - "Send reset link": validates format, then requests a link. The response is identical for known and
   unknown addresses (and for Google-only accounts, where the email explains to use Google), so the screen
   can't be used to find out who has an account.
-- Cooldown: "Send again in 0:42" counts down from 60 s (disabled control); then it becomes a link. Each
+- Cooldown: "Send again in 0:42" counts down from 60 s (disabled control in `muted-foreground`, readable in both
+  themes; not dimmed primary); then it becomes a primary link. Each
   new link invalidates the previous one.
 - "Open email app": Android `Intent.ACTION_MAIN` + `CATEGORY_APP_EMAIL`; iOS `message://`; hidden on web.
 - New password: rules live; Save validates; on success all other sessions are signed out; the person signs in

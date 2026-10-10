@@ -17,10 +17,10 @@ def bar(ios=False, back=None):
 
 SOURCES = [
     ('contact', 'Contacts', 'From this phone', 'S13-contacts-import.html#S13-select-default', 'source-contacts'),
-    ('file-spreadsheet', 'CSV or Excel', '.csv, .xlsx', '#S21-file', 'source-csv'),
-    ('sheet', 'Google Sheets', 'From your Google Drive', 'S15-google-sheets.html#S15-default', 'source-google'),
-    ('text', 'Plain text', 'Paste or open a .txt file', 'S16-plain-text.html#S16-empty', 'source-text'),
-    ('square-pen', 'Manual entry', 'Type items in', 'S17-manual-entry.html#S17-empty', 'source-manual'),
+    ('file-spreadsheet', 'CSV or Excel', 'A .csv or .xlsx file', '#S21-file', 'source-csv'),
+    ('sheet', 'Google Sheets', 'From Google Drive', 'S15-google-sheets.html#S15-default', 'source-google'),
+    ('text', 'Plain text', 'Paste a list or a .txt file', 'S16-plain-text.html#S16-empty', 'source-text'),
+    ('square-pen', 'Manual entry', 'Type items one by one', 'S17-manual-entry.html#S17-empty', 'source-manual'),
     ('images', 'Photos', 'From your gallery', 'S18-photos-import.html#S18-default', 'source-photos'),
 ]
 
@@ -240,8 +240,9 @@ P.frame('S21-partial', 'Partial: 10 of 12 added', phone(partial))
 
 off_tile = tile_off('sheet', 'Google Sheets', 'Needs a connection', 'wifi-off', 'Google Sheets, needs a connection')
 P.frame('S21-offline', 'Offline: local sources work, Google Sheets doesn\'t', phone(f'''{bar()}
+  {offline_banner("You\'re offline. Google Sheets needs a connection; other sources work. Items you add sync to Mert and Selin later.")}<div class="h-3 shrink-0"></div>
   {stepper("Choose source", 1, 5)}
-  {picker({"Google Sheets": off_tile}, banner=offline_banner("You're offline. Items you add sync to Mert and Selin later."))}'''))
+  {picker({"Google Sheets": off_tile})}'''))
 
 web_contacts = tile_off('contact', 'Contacts', 'Needs the Android or iOS app', 'monitor-smartphone', 'Contacts, needs the Android or iOS app')
 web_photos = tile('upload', 'Photos', 'Upload from this device', 'S18-photos-import.html#S18-web', 'source-photos')

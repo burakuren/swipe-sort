@@ -31,7 +31,7 @@ def sent(kind='android', large=False, snack='', cooldown=True):
     top = ios_nav(back_text='Sign in', href=BACK) if kind == 'ios' else appbar('', back='x', href=BACK, label='Close')
     t = 'text-display' if large else 'text-title-1'
     b = 'text-title-3 font-normal' if large else 'text-body-lg'
-    again = (f'<button type="button" class="inline-flex min-h-touch items-center text-label-lg text-primary opacity-50" disabled>Send again in <span class="ml-1 tabular-nums">0:42</span></button>'
+    again = (f'<button type="button" class="inline-flex min-h-touch items-center text-label-lg text-muted-foreground" disabled>Send again in <span class="ml-1 tabular-nums">0:42</span></button>'
              if cooldown else link('Send again', '#S04-resent', 'send-again'))
     return f'''{top}
   <div class="flex min-h-0 flex-1 flex-col px-gutter pt-6">

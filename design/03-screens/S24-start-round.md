@@ -26,7 +26,7 @@ PLT-13–PLT-16, PLT-21, PLT-23, STK-06, STK-07, VIS-09, VIS-12, VIS-14, TERM-01
 | To | How |
 | --- | --- |
 | S25 sorting | "Start round": the modal is replaced by S25 at the first card of the new round; snackbar "Round 2 started" (`S24-started`). Prototype: `S24-maybe` → `04-prototype/swipe-demo.html?deck=desk-maybe&next=S27-desk-round-2` |
-| End-round dialog (S40 pattern) | "Start round" while a round is still open on a shared list (`S24-end-round-dialog`) |
+| End-round dialog (shared variant of S40 `S40-new-round`) | "Start round" while a round is still open on a shared list (`S24-end-round-dialog`) |
 | Hand-pick screen (inside the modal) | "Pick items by hand instead" (`S24-custom-pick`), back returns with the selection |
 | S09 | Close (`x`), Android back, iOS Cancel; nothing is saved, no confirmation (the screen holds no user data) |
 
@@ -91,7 +91,7 @@ BottomSheet, SearchField, SelectableRow, DecisionBadge, Button, Snackbar, AlertD
 | `S24-loading` | Count skeletons, "Counting items…", Start round disabled | Counting (large lists, first open) |
 | `S24-shared-owner` | Notice "Starts Round 2 for Deniz, Mert and Selin"; piles from final decisions | Owner of a shared list |
 | `S24-round-in-progress` | Notice "Round 1 is still open" with each member's progress | Owner, shared list, current round not complete for everyone |
-| `S24-end-round-dialog` | "End Round 1 for everyone?" | Start round from the previous state |
+| `S24-end-round-dialog` | "End Round 1 for everyone and start Round 2?" | Start round from the previous state |
 | `S24-collaborator` | "Suggest a round": "Only Deniz can start rounds", options usable, primary "Ask Deniz" | Collaborator or Decision Maker (not Owner) opens Start new round |
 | `S24-collaborator-asked` | Snackbar "Asked Deniz to start Round 2" | "Ask Deniz" |
 | `S24-offline` | Offline banner, Start round disabled, "Try again when you're online." | Shared list without a connection |
@@ -153,10 +153,10 @@ the summary detail. Error state for counting is not needed: counts come from the
 | Button | "Start round"; progress "Starting…"; collaborator "Ask Deniz" |
 | Shared Owner notice | "Starts Round 2 for Deniz, Mert and Selin" / "Everyone sorts the same items from the start. Round 1 stays in round history." |
 | Round open notice | "Round 1 is still open" / "Starting Round 2 ends Round 1 for everyone. Decisions made so far are kept."; rows "You", "Mert", "Selin" with "76 / 100 decided" |
-| End-round dialog | Title "End Round 1 for everyone?"; body "Mert and Selin are still sorting. Decisions made so far are kept, and items nobody decided stay undecided." + "Round 2 then starts for all 3 members with 11 items."; buttons "Cancel", "End Round 1 and start" |
+| End-round dialog (shared variant of S40 `S40-new-round`) | Title "End Round 1 for everyone and start Round 2?"; body "Mert and Selin are still sorting. Decisions made so far are kept, and items nobody decided stay undecided." + "Round 2 starts for all 3 members with 11 items."; buttons "Cancel", "End Round 1 and start" |
 | Collaborator notice | "Only Deniz can start rounds" / "Rounds apply to every member, so the Owner starts them. Choose the items and order you'd like, then ask Deniz." |
 | Snackbars | "Round 2 started"; "Asked Deniz to start Round 2"; "Hand-picked items cleared" + "Undo"; error "Couldn't start Round 2. Check your connection and try again." + "Try again" |
-| Offline | Banner "You're offline. Starting a round for everyone needs a connection."; under the button "Try again when you're online." |
+| Offline | Banner "You're offline. Decisions are saved on this phone. Starting a round for everyone needs a connection." (S40 offline wording + what needs a connection); under the button "Try again when you're online." |
 | Keyboard hints (web desktop) | "Esc Close", "Enter Start round" |
 | Activity (S38, for the lead) | Owner receives "Selin suggested Round 2: Maybe pile, 11 items" with action "Review" |
 
@@ -201,7 +201,9 @@ the summary detail. Error state for counting is not needed: counts come from the
   Pending or in Conflict are in no pile; use Custom selection with List status = Conflict or Pending to
   include them. On "Everyone must agree" lists the Maybe pile therefore only holds agreed Maybe items.
 - **Round still open on a solo list**: the notice reads "Round 1 is still open. 76 of 100 decided. Starting
-  Round 2 ends Round 1." and the dialog (S40 `S40-end-round`) has no member names.
+  Round 2 ends Round 1." and Start round opens the solo dialog S40 `S40-new-round` ("End Round 1 and start
+  Round 2?" / "24 items in Round 1 aren't decided yet. Your decisions so far are kept. Round 2 starts with 11
+  items." / "Cancel", "End Round 1 and start").
 - **Round numbering**: always the next integer ("Round 3"), even if an earlier round was ended early.
 - **Very large lists** (5,000+): counts use thousands separators ("1,204 items"); counting runs in the
   background with the loading state; hand-pick list is virtualized and search filters as you type.

@@ -70,7 +70,7 @@ def root_groups(state='signed-in', haptics_web=False, notif_value='On', ios=Fals
         <h2 class="text-title-3">Sign in to back up and share</h2>
         <p class="mt-1 text-body-sm text-muted-foreground">Your 4 lists are on this phone only. With an account they're backed up, and you can decide together with others.</p>
       </div></div>
-      <div class="mt-4">{btn("Sign in", "primary", href="S05-sign-in-prompt.html#S05-backup", action="sign-in", size="md")}</div>
+      <div class="mt-4">{btn("Sign in", "primary", href="S05-sign-in-prompt.html#S05-default", action="sign-in", size="md")}</div>
     </section>''')
     else:
         g.append(profile_row(ios))
@@ -110,7 +110,7 @@ def root(state='signed-in', top='', haptics_web=False, notif_value='On', scrolle
     inner = f'<div class="space-y-6 {"-translate-y-96" if scrolled else ""}">{content}</div>'
     return f'''{head}
   {top}
-  <div class="min-h-0 flex-1 overflow-hidden px-4 pb-6 {"pt-0" if state == "offline" and not scrolled else "pt-2"}">{inner}</div>
+  <div class="min-h-0 flex-1 overflow-hidden px-4 pb-6 {"pt-5" if state == "offline" and not scrolled else "pt-2"}">{inner}</div>
   {bottom_nav('settings') if nav else ''}
   {overlay}'''
 
@@ -123,11 +123,11 @@ P.frame('S06-offline', 'Offline: backup waits, everything else works', phone(roo
 
 # sign-out dialogs over the scrolled root
 signout = dialog('so', 'Sign out?', f"Your lists are backed up to {ME['email']}. They'll be removed from this phone until you sign in again.",
-                 dlg_btn('Cancel', href='#S06-default-end', action='cancel') + dlg_btn('Sign out', 'primary', href='S08-home.html#S08-first-run', action='confirm-sign-out'))
-P.frame('S06-sign-out', 'Sign out: confirmation', phone(root(scrolled=True, overlay=signout)))
+                 dlg_btn('Cancel', href='#S06-default-end', action='cancel') + dlg_btn('Sign out', 'destructive', href='S08-home.html#S08-first-run', action='confirm-sign-out'))
+P.frame('S06-sign-out', 'Sign out: confirmation', phone(root(scrolled=True, overlay=signout), overlay_full=True))
 unsynced = dialog('su', 'Sign out without backing up?', "12 changes haven't been backed up because you're offline. Signing out now removes them from this phone, and they can't be recovered.",
                   dlg_btn('Cancel', href='#S06-offline', action='cancel') + dlg_btn('Sign out anyway', 'destructive', href='S08-home.html#S08-first-run', action='confirm-sign-out'))
-P.frame('S06-sign-out-unsynced', 'Sign out with changes not backed up', phone(root('offline', top=offline_banner("You're offline. Changes are saved on this phone."), scrolled=True, overlay=unsynced)))
+P.frame('S06-sign-out-unsynced', 'Sign out with changes not backed up', phone(root('offline', top=offline_banner("You're offline. Changes are saved on this phone."), scrolled=True, overlay=unsynced), overlay_full=True))
 
 # ---------------------------------------------------------------- appearance, language
 P.section('Preferences', 'Appearance (theme), notifications and language. Changes apply immediately; there is no Save button.')
@@ -204,7 +204,7 @@ P.frame('S06-backup-failed', 'Backup: paused (failed)', phone(backup_page(
 device_rows = [f'<li class="flex min-h-14 items-center gap-4 px-4 py-3">{icon(ic, "size-5 shrink-0 text-muted-foreground")}<span class="min-w-0 flex-1"><span class="block truncate text-body">{n}</span><span class="block text-body-sm text-muted-foreground">{c} items</span></span></li>' for n, c, ic in DEVICE_LISTS]
 P.frame('S06-backup-guest', 'Backup: not signed in (not backed up)', phone(sub('Backup',
     status_block('cloud-off', 'muted', 'Not backed up', 'Your 4 lists are saved on this phone only. Sign in to back them up and open them on other devices.')
-    + f'<div>{btn("Sign in to back up", "primary", href="S05-sign-in-prompt.html#S05-backup", action="sign-in")}</div>'
+    + f'<div>{btn("Sign in to back up", "primary", href="S05-sign-in-prompt.html#S05-default", action="sign-in")}</div>'
     + group(device_rows, header='On this phone only'))))
 
 # ---------------------------------------------------------------- privacy
@@ -230,7 +230,7 @@ P.frame('S06-privacy', 'Privacy', phone(sub('Privacy', privacy)))
 
 def help_page(overlay=''):
     return sub('Help and feedback', group([
-        nav_row('Replay the introduction', href='S02-onboarding.html#S02-welcome', icon_name='graduation-cap', desc='See the gesture demo again', action='replay-intro'),
+        nav_row('Replay the introduction', href='S02-onboarding.html#S02-default', icon_name='graduation-cap', desc='See the gesture demo again', action='replay-intro'),
         nav_row('Help center', href='#S06-help', icon_name='book-open', desc='Guides and answers', external=True),
     ]) + group([
         nav_row('Send feedback', href='#S06-feedback', icon_name='message-square-text', desc='Ideas and suggestions', action='send-feedback'),
@@ -300,11 +300,13 @@ big = f'''<header class="shrink-0"><div class="h-6"></div><h1 class="px-gutter p
     <section><h2 class="px-1 pb-2 text-title-3 text-muted-foreground">Preferences</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border">
       {big_row('Appearance', 'palette', 'System', '#S06-appearance')}
       {big_row('Haptics', 'vibrate', 'Vibrate when you decide', switch_on=True)}
+      {big_row('Notifications', 'bell', 'On', '#S06-notifications')}
+      {big_row('Language', 'languages', 'English', '#S06-language')}
     </ul></section>
   </div>
   <nav class="flex h-24 shrink-0 border-t bg-card" aria-label="Main">
     <a href="S08-home.html#S08-default" class="flex flex-1 flex-col items-center justify-center gap-1 text-label text-muted-foreground">{icon('list-checks', 'size-7')}Lists</a>
-    <a href="S38-activity.html#S38-default" class="flex flex-1 flex-col items-center justify-center gap-1 text-label text-muted-foreground" aria-label="Activity, 3 unread">{icon('activity', 'size-7')}Activity</a>
+    <a href="S38-activity.html#S38-default" class="flex flex-1 flex-col items-center justify-center gap-1 text-label text-muted-foreground" aria-label="Activity, 3 unread"><span class="relative">{icon('activity', 'size-7')}<span class="absolute -right-3 -top-1 flex h-6 min-w-6 items-center justify-center rounded-full bg-primary px-1 text-label leading-none text-primary-foreground">3</span></span>Activity</a>
     <a href="#S06-large-text" class="flex flex-1 flex-col items-center justify-center gap-1 text-label font-semibold" aria-current="page"><span class="flex h-9 w-16 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground">{icon('settings', 'size-7')}</span>Settings</a>
   </nav>'''
 P.frame('S06-large-text', 'Large text (200%)', phone(big))
@@ -328,14 +330,14 @@ P.frame('S06-ios-notifications', 'iOS sub-page: notifications', phone(f'''{ios_n
   <div class="min-h-0 flex-1 space-y-6 overflow-hidden px-4 pb-6 pt-2">{ios_notif}</div>''', kind='ios'))
 
 ios_sheet = f'''{scrim('z-30')}
-  <div class="absolute inset-x-2 bottom-2 z-40 space-y-2" role="alertdialog" aria-modal="true" aria-labelledby="ios-so-t">
+  <div class="absolute inset-x-2 bottom-10 z-40 space-y-2" role="alertdialog" aria-modal="true" aria-labelledby="ios-so-t">
     <div class="overflow-hidden rounded-dialog bg-popover shadow-dialog">
       <p id="ios-so-t" class="px-6 pb-3 pt-4 text-center text-body-sm text-muted-foreground">Your lists are backed up to {ME['email']}. They'll be removed from this iPhone until you sign in again.</p>
       <a href="S08-home.html#S08-first-run" class="flex h-14 items-center justify-center border-t text-title-3 font-normal text-destructive" data-action="confirm-sign-out">Sign out</a>
     </div>
     <a href="#S06-ios" class="flex h-14 items-center justify-center rounded-dialog bg-popover text-title-3 text-primary shadow-dialog" data-action="cancel">Cancel</a>
   </div>'''
-P.frame('S06-ios-sign-out', 'iOS sign out: action sheet', phone(ios_root(ios_sheet), kind='ios'))
+P.frame('S06-ios-sign-out', 'iOS sign out: action sheet', phone(ios_root(ios_sheet), kind='ios', overlay_full=True))
 
 # ---------------------------------------------------------------- web
 P.section('Web', 'Same layout in the browser. Haptics stay visible but unavailable, with the reason and Get the app. Notifications are in-app only. Desktop shows the phone layout centered.')

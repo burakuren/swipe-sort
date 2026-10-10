@@ -53,7 +53,7 @@ STK-07, DEL-23 (flow 2 start), DEL-24 (flow 3 start).
 | S05 `S05-backup` | "Back up" next to "On this phone only" | `back-up` |
 | S34 `S34-default` | members avatars and names; Members row | `members` |
 | S35 `S35-default` | Conflict rule row (Owner) | `conflict-rule` |
-| S36 `S36-default` | "Review conflicts" (Owner), "View conflicts" (Collaborator), "Resolve conflicts" (Decision Maker) | `review-conflicts`, `resolve-conflicts` |
+| S36 `S36-default` | "Review conflicts" (Owner), "View conflicts" (Collaborator), "Resolve conflicts" (Decision Maker) | `review-conflicts` (Owner and Decision Maker frames) |
 | S37 `S37-confirm` | "Resolve all with my decisions" (Decision Maker) | `resolve-all` |
 | S38 `S38-default` | "See all" on Recent activity | — |
 | S10 `S10-default`, `S10-shared-owner-menu`, `S10-collaborator-menu`, `S10-archived-menu`; iOS `S10-ios-action-sheet` | overflow "List options" | `menu` |
@@ -72,7 +72,7 @@ sections 24 apart).
    with icons: item count (+ source when it is a single file: "12 items from candidates-q4.csv"), "Solo
    list", and for shared lists the **MembersLink** (Proposed: AvatarStack 28 + "You, Mert and Selin",
    underlined, opens S34) and a role Badge: Owner (`crown`), Decision Maker (`gavel`, primary-soft),
-   Collaborator. Not signed in: `cloud-off` "On this phone only" + "Back up" (web "On this browser only").
+   Collaborator (`user`). Not signed in: `cloud-off` "On this phone only" + "Back up" (web "On this browser only").
 3. **Progress card** (`rounded-group bg-card p-4`, the only place with a filled primary button):
    - Solo in progress: "Round 1" + "Started Oct 8"; "12 / 30 decided" (`text-title-3 tabular-nums`) + bar;
      **DecisionCountChips** (Proposed; DecisionBadge style with counts: "6 rejected", "1 maybe",
@@ -117,7 +117,7 @@ sections 24 apart).
    and sample lists show their sources without Add items; an empty list shows none (Add items is in the
    card).
 10. **Source details sheet** (`S09-source-details`, BottomSheet): type icon tile 40 + source label
-   `text-title-3` + type ("CSV file"), Close button; a definition list (Items, Added, Fields); an info Alert
+   `text-title-3` + type ("CSV file"), Close button; the sheet and its scrim extend under the system bars; a definition list (Items, Added, Fields); an info Alert
    (`shield-check`) "Your original is never changed" + one sentence. Read-only: sources can't be removed
    one by one in this version (remove items in Results instead).
 11. **Share card** (not signed in, solo): `users` "Decide together", one sentence, outline "Share list".
@@ -141,7 +141,7 @@ sections 24 apart).
 | `S09-shared-scrolled` | Same, scrolled: Deciding together, Recent activity (`ev7`, `ev6`, `ev5`), actions, Sources |
 | `S09-shared-added` | Back from S21 "Add to list": scrolled to Sources, mert-family.csv row "12 items, added just now" with a New badge, snackbar "Added 12 items" + Undo; Recent activity starts with "You added 12 items from mert-family.csv" |
 | `S09-source-details` | A source row tapped: details sheet for mert-family.csv |
-| `S09-shared-decision-maker` | Shared, Decision Maker (Mert, 85 / 100: 22 / 14 / 49): resolve call to action |
+| `S09-shared-decision-maker` | Shared, Decision Maker (Mert, 85 / 100: 21 rejected, 14 maybe, 50 accepted): resolve call to action. Flow 3: Mert lands here after closing sorting on the web; "Resolve conflicts" carries `data-action="review-conflicts"` |
 | `S09-shared-collaborator` | Shared, Collaborator (Selin, 43 / 100: 8 / 10 / 25): no Start a new round, rule read-only |
 | `S09-shared-collaborator-scrolled` | Same, scrolled to the footer and Leave list |
 | `S09-shared-waiting` | I decided every item (100 / 100) while others are still sorting; member progress; "See results" |
@@ -191,7 +191,7 @@ The overflow menu and every list-management dialog are S10 frames.
 | Round complete | "Round 1 complete"; "Oct 4"; "20 / 20 decided"; "Re-sort Maybe (6)" |
 | Never sorted | "Not sorted yet"; "12 items"; "Every item is ready. Start sorting to make your first decisions; you can stop at any time and continue later."; "Start sorting" |
 | Empty list | "No items yet" / "Add items from contacts, a file, Google Sheets, text or photos, or type them yourself. Then start sorting." / "Add items" |
-| Sample | "Desk setup (sample)"; "This is a sample list" / "20 desk products to practise on. Sort, change decisions, try Results. Delete it from the menu when you're done; nothing else changes."; "Swipe right to accept, left to reject, up for maybe. Or use the buttons." |
+| Sample | "Desk setup (sample)"; "This is a sample list" / "20 sample items to practice on. Sort, change decisions, try Results. Delete it from the menu when you're done; nothing else changes."; "Swipe right to accept, left to reject, up for maybe. Or use the buttons." |
 | Share card | "Decide together" / "Share this list so others can sort it on their own devices. You'll see where you agree." / "Share list" |
 | Shared progress | "My progress"; "Round 1, shared"; "76 / 100 decided" |
 | List status | "List status"; "All 3 members" (offline "As of 9:24"); "Agreed" "Everyone chose the same"; "Conflict" "Members chose differently"; "Pending" "Not everyone has decided"; compact "32 agreed", "15 conflicts", "53 pending"; "Review conflicts" / "View conflicts" |
@@ -201,13 +201,13 @@ The overflow menu and every list-management dialog are S10 frames.
 | Activity | "Recent activity"; "See all"; "Mert resolved 3 conflicts" "Yesterday"; "15 new conflicts" "Oct 3"; "Selin joined the list" "Oct 2" |
 | Actions | "Results" + "12 decided so far" / "5 accepted, 9 rejected, 6 maybe" / "No decisions yet" / "Final decisions and my decisions" / archived "Read-only"; "Start a new round" + "Choose items and card order" / "Starts for all 3 members"; "Rounds" + count or "None yet"; "Card template" + name; "Add items" + "From any source" / "New items join Round 1 for everyone"; "Export" + "CSV, Excel, Google Sheets or a text summary" / "Includes each member's decision" |
 | Members footer | "Deniz, the Owner, starts new rounds for everyone." |
-| Sources | header "Sources"; "Contacts" / "88 items, imported Sep 28"; "mert-family.csv" / "12 items, added today" (just added: "12 items, added just now" + badge "New"); "Manual entry" / "20 items, typed in Oct 4"; "Photos" / "30 items, imported Oct 8"; "candidates-q4.csv" / "12 items, imported Oct 8"; "Flat hunt 2026" / "Google Sheets, Kadıköy and Beşiktaş tabs, 8 items, imported Jul 2"; "Sample products" / "20 items, added with the sample"; "Copied from March photos clean-up" / "30 items, today"; row accessible name "{label}, {description}" (+ ", new"); "Add items" + "From any source" / "New items join Round 1 for everyone" |
+| Sources | header "Sources"; "Contacts" / "88 items, imported Sep 28"; "mert-family.csv" / "12 items, added today" (just added: "12 items, added just now" + badge "New"); "Manual entry" / "20 items, typed in Oct 4"; "Photos" / "30 items, imported Oct 8"; "candidates-q4.csv" / "12 items, imported Oct 8"; "Flat hunt 2026" / "Google Sheets, Kadıköy and Beşiktaş tabs, 8 items, imported Jul 2"; "Sample items" / "20 items, added with the sample"; "Copied from March photos clean-up" / "30 items, today"; row accessible name "{label}, {description}" (+ ", new"); "Add items" + "From any source" / "New items join Round 1 for everyone" |
 | Source details | "mert-family.csv"; "CSV file" (others: "Phone contacts", "Excel file", "Google Sheets", "Plain text", "Manual entry", "Photos"); "Items" "12"; "Added" "Today by you"; "Fields" "Name, Phone, Email, Side, Relationship"; "Your original is never changed" / "Edits, notes and decisions stay in SwipeSort. Export when you want a file with them."; "Close" |
 | Added (from S21) | snackbar "Added 12 items" + "Undo"; activity "You added 12 items from mert-family.csv" "Just now" |
 | Leave | "Leave list" |
 | Waiting | "You decided every item"; "100 / 100 decided"; "The list status settles as the others finish. Conflicts can be resolved now."; member rows "Mert" "85 / 100", "Selin" "43 / 100"; "See results" |
 | Archived | "Archived Jul 21" / "This list is read-only. Restore it to sort, add items or change decisions." / "Restore list"; "8 items from Flat hunt 2026"; back "Back to archived lists" |
-| Offline | "You're offline. Decisions are saved on this phone. Inviting needs a connection." |
+| Offline | "You're offline. Decisions are saved on this phone. Inviting needs a connection." (S40-offline; 16 gap below the banner) |
 | Unavailable | "This list was deleted" / "Deniz deleted “Wedding guests” for everyone today. Its items, decisions and notes were deleted with it." / "Back to lists"; removed variant: "You were removed from “Wedding guests”" / "Deniz removed you from this list. Ask Deniz for a new invite if this was a mistake." |
 | Loading | screen reader "Loading list" |
 
@@ -243,6 +243,7 @@ The overflow menu and every list-management dialog are S10 frames.
 ## 9. Edge cases
 
 - **Long list names**: wrap in the header (no limit on lines); app bar title truncates when scrolled.
+- **Long source names and values**: value rows keep the label and truncate the value ("Candidate, comp…"); source titles truncate to one line.
 - **Very large lists**: counts with thousands separators ("1,204 / 5,000 decided"); chips wrap to 2 lines.
 - **Maybe pile empty after a round**: primary becomes "Start a new round"; no Re-sort Maybe.
 - **All decided on a shared list but conflicts open**: list status shows 0 pending; the Owner's primary is

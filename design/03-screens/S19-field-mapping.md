@@ -30,7 +30,7 @@ VIS-11, VIS-13, TERM-01, DEL-22 (flow 1), DEL-25 (flow 4), SCR-19.
 | S20 Duplicate review | "Continue" when duplicates are found (`S19-contacts` → `S20-default`; `S19-csv` → `S20-none` in prototype flow 4) |
 | S22 pick mode (Finish) | "Continue" when no duplicates are found (step 4 skipped automatically, A-23) |
 | Previous step | Android system back; iOS back chevron or edge swipe |
-| Close | `x` → "Discard import?" dialog (S40) when anything was selected; otherwise S08 |
+| Close | `x` → "Discard import?" dialog (`S40-global-patterns.html#S40-discard-import`) when anything was selected; otherwise S08 |
 
 Duplicate detection runs after mapping because phones and emails are compared in their mapped type
 (normalized numbers, lower-case emails).

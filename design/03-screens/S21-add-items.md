@@ -10,7 +10,7 @@ with list context: columns are matched to the list's existing fields, rows are c
 in the list, and the new items join the current round so every member sorts them. A list can combine any
 number of sources.
 
-Covers: SRC-18, SRC-19, SRC-03, SRC-04, SRC-07, SRC-08, SRC-14, SRC-15, SRC-23 (offline Google Sheets), SRC-24
+Covers: SRC-18, SRC-19, SRC-03, SRC-04, SRC-07, SRC-08, SRC-14, SRC-15, SRC-24
 (partial), PLT-07, PLT-08, PLT-11 (web), DM-02, DM-16 (new items join the current round), COL-16, GOAL-03,
 GOAL-04, GOAL-05, VIS-12, VIS-13, PLT-01–PLT-04, PLT-13–PLT-16, PLT-21, PLT-23, STK-07, TERM-01, SCR-21.
 
@@ -28,7 +28,7 @@ GOAL-04, GOAL-05, VIS-12, VIS-13, PLT-01–PLT-04, PLT-13–PLT-16, PLT-21, PLT-
 | Review duplicates | `S20-duplicate-review.html#S20-existing` |
 | Confirm | `S21-confirm` → Add to list → `S21-adding` → S09 with snackbar (`S21-success`) |
 | Partial | `S21-partial` → Done → S09 |
-| Close | `x` → back to S09; if a file was chosen, "Discard adding items?" dialog (S40) |
+| Close | `x` → back to S09; if a file was chosen, "Discard adding items?" dialog (`S40-global-patterns.html#S40-discard-add-items`) |
 
 ## 3. Layout and components
 
@@ -109,7 +109,7 @@ removed, e.g. manual entry: Choose source, Add items, Add to list).
 | App bar | "Add items"; close "Close adding items" |
 | Stepper | "Choose source", "Select items", "Map fields", "Review duplicates", "Add to list"; "Step 1 of 5" |
 | Choose source | "Add items to Wedding guests"; "New items join Round 1, so every member sorts them. Decisions already made stay as they are."; "In this list now"; "Contacts" / "88 items"; "Add from"; "A list can combine items from any of these sources." |
-| Tiles | "Contacts" / "From this phone"; "CSV or Excel" / ".csv, .xlsx"; "Google Sheets" / "From your Google Drive"; "Plain text" / "Paste or open a .txt file"; "Manual entry" / "Type items in"; "Photos" / "From your gallery" |
+| Tiles | "Contacts" / "From this phone"; "CSV or Excel" / "A .csv or .xlsx file"; "Google Sheets" / "From Google Drive"; "Plain text" / "Paste a list or a .txt file"; "Manual entry" / "Type items one by one"; "Photos" / "From your gallery" |
 | File | "mert-family.csv"; "15 rows, 7 columns"; "Change"; "First rows"; "Showing 4 of 15 rows. Every row is added; you can review matches in the next steps." |
 | Map fields | "Match the 7 columns in mert-family.csv to fields in Wedding guests."; "Column in the file"; "Field in the list"; badge "New"; target "New field"; "Items already in the list leave it empty."; "Photo has no column in this file. New items show initials instead."; select a11y "Address goes to: New field. Change" |
 | Target sheet | "Address goes to"; "Column in mert-family.csv"; "New field: Address" / "Added to every item; existing items leave it empty"; "Don't import" / "The column is left out"; "Name" / "Title. Already filled by Name"; "Already filled by {column}"; "No column yet"; swap note "Phone was already filled by Mobile. Mobile is now Don't import." |
@@ -119,9 +119,9 @@ removed, e.g. manual entry: Choose source, Add items, Add to list).
 | Buttons | "Continue"; "Add to list"; busy "Adding 12 items…"; "7 of 12 added. You can leave; adding continues." |
 | Success | Snackbar "Added 12 items" + "Undo"; undo result "Removed 12 items"; activity on S09 "You added 12 items from mert-family.csv" / "Just now"; source entry wherever sources are listed: "mert-family.csv" / "Added just now" / "12 items" |
 | Partial | "Added 10 of 12 items"; "2 rows in mert-family.csv couldn't be added. The other 10 are in Wedding guests and join Round 1."; "Not added"; "Row 9" / "Has 9 values but the file has 7 columns."; "Row 14" / "Has characters that can't be read. Save the file as UTF-8."; "Fix these rows in the file and add it again. Rows already in the list show up as duplicates, so nothing is added twice."; "Done"; "Add the file again" |
-| Offline | Banner "You're offline. Items you add sync to Mert and Selin later."; tile "Google Sheets" / "Needs a connection" |
+| Offline | Banner under the app bar (as in S11-offline) "You're offline. Google Sheets needs a connection; other sources work. Items you add sync to Mert and Selin later."; tile "Google Sheets" / "Needs a connection" |
 | Web | Tile "Contacts" / "Needs the Android or iOS app"; "Photos" / "Upload from this device"; "Contacts import needs the Android or iOS app." + "Get the app" |
-| Discard dialog (S40) | "Discard adding items?" / "Nothing is added to Wedding guests." / "Keep going" / "Discard" |
+| Discard dialog (`S40-global-patterns.html#S40-discard-add-items`) | "Discard adding items?" / "Your choices for mert-family.csv will be lost. Nothing has been added to Wedding guests yet." / "Keep adding", "Discard" |
 | Activity (S38) | "Deniz added 12 items to Wedding guests" |
 | Solo list confirm | the shared notice is omitted; "New items join Round 1" reads "You'll sort them in Round 1." |
 

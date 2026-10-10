@@ -51,8 +51,9 @@ def inline_row(label, value):
     return f'<div class="flex gap-3"><dt class="w-16 shrink-0 text-muted-foreground">{label}</dt><dd class="min-w-0 truncate tabular-nums">{value}</dd></div>'
 
 
-def stacked_row(label, value):
-    return f'<div class="flex flex-col"><dt class="text-body-sm text-muted-foreground">{label}</dt><dd class="truncate text-title-3 tabular-nums">{value}</dd></div>'
+def stacked_row(label, value, big=False):
+    vcls = 'text-title-2' if big else 'text-title-3'
+    return f'<div class="flex flex-col"><dt class="text-body-sm text-muted-foreground">{label}</dt><dd class="truncate {vcls} tabular-nums">{value}</dd></div>'
 
 
 def card_body(layout, vals, labels, photo=None, hidden=(), kind=None, no_title=False):
@@ -70,8 +71,13 @@ def card_body(layout, vals, labels, photo=None, hidden=(), kind=None, no_title=F
       <div class="px-6 pb-5 pt-4">
         <h2 class="text-title-2">{t}</h2>{sub_h}{meta_h}
       </div>'''
+    # Sparse rule (image area None): the title/subtitle/rows block is vertically centred above the tags;
+    # templates with up to 3 rows use larger values (title-2, 20 apart); a title-only card uses text-display.
+    sparse = image == 'none'
+    big = sparse and len(layout['rows']) <= 3
+    title_only = sparse and not sk and not layout['rows']
     if t:
-        title_h = f'<h2 class="line-clamp-3 text-card-title">{t}</h2>'
+        title_h = f'<h2 class="line-clamp-3 {"text-display" if title_only else "text-card-title"}">{t}</h2>'
     else:  # validation preview only: the slot is outlined, never shown on a real card
         title_h = f'<div class="flex h-12 items-center gap-2 rounded-control border-2 border-dashed border-destructive px-3 text-body-lg text-destructive">{icon("circle-alert", "size-5 shrink-0")}No title</div>'
     sub_h = f'<p class="mt-1 text-body-lg text-muted-foreground">{sub}</p>' if sub else ''
@@ -86,7 +92,8 @@ def card_body(layout, vals, labels, photo=None, hidden=(), kind=None, no_title=F
             body_rows = ''
         elif stacked:
             mt = 'mt-6' if image == 'none' else 'mt-4'
-            body_rows = f'<dl class="{mt} space-y-3 text-body">{"".join(stacked_row(l, v) for l, v in rows)}</dl>'
+            sp = 'space-y-5' if big else 'space-y-3'
+            body_rows = f'<dl class="{mt} {sp} text-body">{"".join(stacked_row(l, v, big) for l, v in rows)}</dl>'
         else:
             body_rows = f'<dl class="mt-4 space-y-2 text-body">{"".join(inline_row(l, v) for l, v in rows)}</dl>'
     tags_h = f'<div class="mt-auto flex flex-wrap gap-2 pt-3">{"".join(TAG.format(x) for x in tags)}</div>' if tags else ''
@@ -99,8 +106,12 @@ def card_body(layout, vals, labels, photo=None, hidden=(), kind=None, no_title=F
             top = f'<div class="flex h-[46%] w-full items-center justify-center bg-muted text-muted-foreground">{icon("image-off", "size-8")}</div>'
         pt = 'pt-5'
     else:
-        top = ''
-        pt = 'pt-7'
+        tg = tags_h.replace('mt-auto ', '')
+        return f'''<div class="flex min-h-0 flex-1 flex-col px-6 pb-5 pt-7">
+        <div class="my-auto">{title_h}{sub_h}
+        {body_rows}</div>
+        {tg}
+      </div>'''
     return f'''{top}
       <div class="flex min-h-0 flex-1 flex-col px-6 pb-5 {pt}">
         {title_h}{sub_h}
@@ -156,7 +167,7 @@ def pick_tile(name, image, caption='', selected=False, href=None, large=False):
     border = 'border-2 border-primary' if selected else 'border'
     pad = 'p-2.5' if selected else 'p-3'
     chk = icon('circle-check', 'size-5 shrink-0 text-primary') if selected else ''
-    cap = f'<span class="mt-0.5 block text-caption text-muted-foreground">{caption}</span>' if caption else ''
+    cap = f'<span class="mt-auto block pt-0.5 text-caption text-muted-foreground">{caption}</span>' if caption else ''
     inner = f'{schematic(image)}<span class="mt-2 flex items-start justify-between gap-1"><span class="text-label">{name}</span>{chk}</span>{cap}'
     cls = f'flex w-32 shrink-0 flex-col rounded-tile {border} bg-card {pad} text-left'
     aria = f'role="radio" aria-checked="{"true" if selected else "false"}"'
@@ -190,6 +201,8 @@ def tiles_for(recommended, selected=None, caption_sel='Recommended', current=Non
             cap = caption_sel
         elif n in dict(CUSTOM):
             cap = 'Custom'
+        else:
+            cap = 'Built-in'
         out.append(pick_tile(n, imgs[n], cap, n == selected, href=sel_href.get(n) if sel_href else None))
     return out
 
@@ -227,12 +240,15 @@ def overflow_btn(label='More options', href=None, action='menu'):
     return f'<button class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="{label}" data-action="{action}">{icon("ellipsis-vertical", "size-6")}</button>'
 
 
-def dlg(did, title, body, actions, role='alertdialog', top='top-1/3'):
+def dlg(did, title, body, actions, role='alertdialog', top=None):
+    """S40 dialog: vertically centred, max width 384, no icon (A-112)."""
     return f'''{scrim()}
-  <div class="absolute inset-x-6 {top} z-20 rounded-dialog bg-popover p-6 shadow-dialog" role="{role}" aria-modal="true" aria-labelledby="{did}">
-    <h2 id="{did}" class="text-title-3">{title}</h2>
-    {body}
-    <div class="mt-6 flex flex-wrap justify-end gap-2">{actions}</div>
+  <div class="absolute inset-0 z-20 flex items-center justify-center px-6">
+    <div class="w-full max-w-sm rounded-dialog bg-popover p-6 shadow-dialog" role="{role}" aria-modal="true" aria-labelledby="{did}">
+      <h2 id="{did}" class="text-title-3">{title}</h2>
+      {body}
+      <div class="mt-6 flex flex-wrap justify-end gap-2">{actions}</div>
+    </div>
   </div>'''
 
 
@@ -303,7 +319,7 @@ CUSTOM_ROWS = [
 ]
 
 
-def manage(custom_rows=CUSTOM_ROWS, empty=False, overlay='', bar=None, extra_rows=''):
+def manage(custom_rows=CUSTOM_ROWS, empty=False, overlay='', bar=None, extra_rows='', scroll=''):
     tiles = ''.join(lib_tile(n, im, 'S23-template-editor.html#S23-built-in' if n == 'Candidate' else None) for n, im in ALL)
     if empty:
         yours = f'''<div class="flex flex-col items-center rounded-group bg-card px-6 py-6 text-center dark:border">
@@ -318,7 +334,7 @@ def manage(custom_rows=CUSTOM_ROWS, empty=False, overlay='', bar=None, extra_row
       {btn("New template", "outline", "plus", href="#S22-new", extra="mt-3 w-full", action="new-template")}'''
     content = f'''{bar or back_bar("Card templates", "S06-settings.html#S06-default", "Back to Settings")}
   <div class="min-h-0 flex-1 overflow-y-auto px-gutter pb-6">
-    <p class="px-1 text-body-sm text-muted-foreground">Templates decide which fields show on a list's cards. Any list can switch templates at any time.</p>
+    <p class="px-1 text-body-sm text-muted-foreground {scroll}">Templates decide which fields show on a list's cards. Any list can switch templates at any time.</p>
     <div class="mt-5">{sec_head("Built-in")}<div class="grid grid-cols-2 gap-3">{tiles}</div></div>
     <div class="mt-6">{sec_head("Your templates")}{yours}</div>
   </div>'''
@@ -356,21 +372,21 @@ rename_body = f'''<div class="mt-4">{label_input("rn1", "Template name", value="
 P.frame('S22-rename', 'Rename dialog', phone(manage(overlay=dlg('rd1', 'Rename template', rename_body,
     dbtn('Cancel', href='#S22-default') + btn('Rename', 'primary', href='#S22-renamed', action='confirm-rename'), role='dialog'))))
 renamed_rows = [('Candidate, short', 'none', 'Used by Frontend hiring, Q4', 'S23-template-editor.html#S23-edit-saved'), CUSTOM_ROWS[1]]
-P.frame('S22-renamed', 'Renamed: snackbar confirms', phone(manage(custom_rows=renamed_rows, overlay=snackbar('Template renamed', bottom='bottom-3'))))
+P.frame('S22-renamed', 'Renamed: snackbar confirms', phone(manage(custom_rows=renamed_rows, scroll='-mt-24', overlay=snackbar('Template renamed', bottom='bottom-3'))))
 rename_err = f'''<div class="mt-4">{label_input("rn2", "Template name", value="Guest with table side", error="You already have a template with this name. Choose another name.")}</div>'''
 P.frame('S22-rename-error', 'Rename: name already used', phone(manage(overlay=dlg('rd2', 'Rename template', rename_err,
     dbtn('Cancel', href='#S22-default') + btn('Rename', 'primary'), role='dialog'))))
-dup_row = custom_row('Candidate, compact copy', 'none', 'Not used by any list', 'S23-template-editor.html#S23-duplicated')
+dup_row = custom_row('Candidate, compact (copy)', 'none', 'Not used by any list', 'S23-template-editor.html#S23-duplicated')
 P.frame('S22-duplicated', 'Duplicated: the copy appears first in Your templates (newest first)', phone(manage(
-    custom_rows=[], extra_rows=dup_row + ''.join(custom_row(*r) for r in CUSTOM_ROWS),
-    overlay=snackbar('Duplicated as “Candidate, compact copy”', 'Edit', bottom='bottom-3', action_href='S23-template-editor.html#S23-duplicated'))))
+    custom_rows=[], extra_rows=dup_row + ''.join(custom_row(*r) for r in CUSTOM_ROWS), scroll='-mt-40',
+    overlay=snackbar('Duplicated as “Candidate, compact (copy)”', 'Edit', bottom='bottom-3', action_href='S23-template-editor.html#S23-duplicated'))))
 
 del_body = f'''<p id="dd1-d" class="mt-2 text-body text-muted-foreground">Wedding guests uses this template. Its cards switch to the template you choose, for every member of the list.</p>
     <div class="mt-4"><p class="text-label" id="dd1-l">Card template for Wedding guests</p><div class="mt-1.5">{select_trigger("Person", "Card template for Wedding guests: Person")}</div><p class="mt-1.5 text-caption text-muted-foreground">Person is the template it was based on.</p></div>'''
 P.frame('S22-delete', 'Delete a template in use: choose a replacement', phone(manage(overlay=dlg('dd1', 'Delete “Guest with table side”?', del_body,
     dbtn('Cancel', href='#S22-default') + btn('Delete template', 'destructive', href='#S22-deleted', action='confirm-delete'), top='top-1/4'))))
 P.frame('S22-deleted', 'Deleted: Undo restores the template and the list\'s choice', phone(manage(
-    custom_rows=[CUSTOM_ROWS[0]], overlay=snackbar('Template deleted', 'Undo', bottom='bottom-3'))))
+    custom_rows=[CUSTOM_ROWS[0]], scroll='-mt-12', overlay=snackbar('Template deleted', 'Undo', bottom='bottom-3'))))
 
 new_body = f'''<div class="mt-4 space-y-5">
       <div><p class="text-label">Use fields from</p><div class="mt-1.5">{select_trigger("Frontend hiring, Q4", "Use fields from: Frontend hiring, Q4", ic="list-checks")}</div><p class="mt-1.5 text-caption text-muted-foreground">The preview shows this list's items. You can use the template on any list.</p></div>
@@ -394,6 +410,7 @@ loading = f'''{back_bar("Card templates", "S06-settings.html#S06-default", "Back
 P.frame('S22-loading', 'Loading (synced templates after sign-in)', phone(loading))
 
 # ------------------------------------------------------------------ pick mode
+SUM_CONTACTS = '85 items from Contacts. 3 duplicate pairs merged, 1 pair kept as separate items.'
 C001 = contact('c001')
 AYSE = card_body(PERSON, C001, PLABEL, photo='people/c001.svg')
 AYSE_L = card_label(PERSON, C001, PLABEL)
@@ -406,14 +423,14 @@ LENA_COMPACT_L = card_label(COMPACT, LENA, CLABEL)
 
 def pick(fid, name, summary, body, label, tiles, step=(5, 5), title='Import', customize='S23-template-editor.html#S23-default',
          start='S25-sorting.html#S25-coach-1', start_label='Start sorting', name_kw=None, overlay='', bottom_html=None,
-         sum_icon='list-checks', ios=False, back=None, start_action='start-sorting'):
+         sum_icon='list-checks', ios=False, back=None, start_action='start-sorting', scroll=''):
     kw = dict(value=name)
     kw.update(name_kw or {})
     bar = modal_bar(title, close_label='Close import', ios=ios, back=back)
     return bg(f'''{bar}
   {stepper("Finish", *step)}
   <div class="min-h-0 flex-1 overflow-y-auto">
-    <div class="px-gutter pt-1">
+    <div class="px-gutter pt-1 {scroll}">
       {label_input(fid + "-name", "List name", **kw)}
       <p class="mt-3 flex items-start gap-2 text-body-sm text-muted-foreground">{icon(sum_icon, "size-4 mt-0.5 shrink-0")}<span>{summary}</span></p>
     </div>
@@ -426,17 +443,17 @@ def pick(fid, name, summary, body, label, tiles, step=(5, 5), title='Import', cu
 
 P.section('Pick mode: the import finish step', 'The last import step (A-22): name the list, choose a card template and start sorting. The recommended template is preselected from the source and its fields; the preview is the first imported item on the real card. "Customize" opens the editor on a copy. When the duplicate step was skipped, the summary says "No duplicates found" (A-23).')
 P.frame('S22-import-pick', 'Pick mode: contacts, Person recommended (Step 5 of 5)', phone(pick(
-    'ip1', 'Wedding guests', '85 items from Contacts. 3 duplicate pairs merged.', AYSE, AYSE_L, tiles_for('Person'))))
+    'ip1', 'Wedding guests', SUM_CONTACTS, AYSE, AYSE_L, tiles_for('Person'))))
 P.frame('S22-import-pick-prefilled', 'Arriving: name prefilled from the source and selected', phone(pick(
-    'ip2', 'Contacts', '85 items from Contacts. 3 duplicate pairs merged.', AYSE, AYSE_L, tiles_for('Person'),
+    'ip2', 'Contacts', SUM_CONTACTS, AYSE, AYSE_L, tiles_for('Person'),
     name_kw=dict(focused=True, helper='Prefilled from the source. Type to rename it.'))))
 P.frame('S22-import-pick-csv', 'Pick mode: CSV, Candidate recommended (Role is hidden, so no subtitle)', phone(pick(
     'ip3', 'Frontend hiring, Q4', '12 items from candidates-q4.csv. No duplicates found.', LENA_CAND, LENA_CAND_L,
     tiles_for('Candidate'), sum_icon='copy-check', start='S25-sorting.html#S25-candidate')))
-P.frame('S22-import-pick-custom', 'Pick mode: just-saved custom template selected (flow 4)', phone(pick(
+P.frame('S22-import-pick-custom', 'Pick mode: back from Save, scrolled to the just-saved template (flow 4)', phone(pick(
     'ip4', 'Frontend hiring, Q4', '12 items from candidates-q4.csv. No duplicates found.', LENA_COMPACT, LENA_COMPACT_L,
     tiles_for('Candidate', selected='Candidate, compact', first_custom='Candidate, compact'), sum_icon='copy-check',
-    start='S25-sorting.html#S25-candidate', customize='S23-template-editor.html#S23-edit-saved',
+    start='S25-sorting.html#S25-candidate', customize='S23-template-editor.html#S23-edit-saved', scroll='-mt-36',
     overlay=snackbar('Template saved', bottom='bottom-28'))))
 
 BOOK = dict(book='The Remains of the Day')
@@ -459,17 +476,17 @@ P.frame('S22-import-pick-photos', 'Photos: Step 3 of 3, Photo recommended', phon
 
 P.section('Pick mode: states', 'Name validation, importing, a partial copy failure. Data was already read in the earlier steps, so this step works offline.')
 P.frame('S22-import-pick-error', 'List name cleared: error on Start sorting', phone(pick(
-    'ip8', '', '85 items from Contacts. 3 duplicate pairs merged.', AYSE, AYSE_L, tiles_for('Person'),
+    'ip8', '', SUM_CONTACTS, AYSE, AYSE_L, tiles_for('Person'),
     name_kw=dict(error='Enter a name for the list.', placeholder='e.g. Desk setup'))))
 P.frame('S22-import-pick-importing', 'Start sorting pressed: importing', phone(pick(
-    'ip9', 'Wedding guests', '85 items from Contacts. 3 duplicate pairs merged.', AYSE, AYSE_L, tiles_for('Person'),
+    'ip9', 'Wedding guests', SUM_CONTACTS, AYSE, AYSE_L, tiles_for('Person'),
     bottom_html=bottom('Importing 85 items…', busy=True))))
 partial = f'''<div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
     {alert("error", "2 photos couldn\'t be copied", "IMG_2077.JPG and IMG_2088.JPG are no longer on this phone. The other 28 are ready.", ic="circle-alert")}
     <a href="S25-sorting.html#S25-photo" class="{PRIMARY} mt-3" data-action="start-sorting">Start sorting with 28 items</a>
   </div>'''
 P.frame('S22-import-pick-partial', 'Partial import: 28 of 30 photos copied', phone(pick(
-    'ip10', 'March photos clean-up', '30 items from Photos.', PH_BODY, 'Photo IMG_2041.JPG, taken Mar 1, 2026 in Moda, İstanbul.',
+    'ip10', 'March photos clean-up', '28 of 30 photos copied.', PH_BODY, 'Photo IMG_2041.JPG, taken Mar 1, 2026 in Moda, İstanbul.',
     tiles_for('Photo'), step=(3, 3), sum_icon='images', bottom_html=partial)))
 
 # ------------------------------------------------------------------ change mode
@@ -510,6 +527,7 @@ P.frame('S22-change-shared', 'Change mode, shared list (Wedding guests): applies
     'Wedding guests', 'S09-list-overview.html#S09-shared', AYSE, AYSE_L, tiles_for('Person', caption_sel='Current'), notice=shared_notice)))
 cur_tiles = tiles_for('Person', selected='Guest with table side', caption_sel='')
 cur_tiles[1] = cur_tiles[1].replace('>Custom</span>', '>Current</span>')
+cur_tiles[0] = cur_tiles[0].replace('<span class="text-label">Person</span></span>', '<span class="text-label">Person</span></span><span class="mt-auto block pt-0.5 text-caption text-muted-foreground">Built-in</span>')
 P.frame('S22-change-applied', 'Applied immediately: snackbar with Undo', phone(change(
     'Wedding guests', 'S09-list-overview.html#S09-shared', AYSE_TABLE, AYSE_TABLE_L, cur_tiles, notice=shared_notice,
     edit_label='Edit template', edit_href='S23-template-editor.html#S23-edit-saved',
@@ -517,7 +535,7 @@ P.frame('S22-change-applied', 'Applied immediately: snackbar with Undo', phone(c
 off_bar = back_bar('Card template', 'S09-list-overview.html#S09-shared', 'Back to Wedding guests', caption='Wedding guests')
 P.frame('S22-change-offline', 'Offline on a shared list: applied here, syncs later', phone(change(
     'Wedding guests', 'S09-list-overview.html#S09-shared', AYSE_TABLE, AYSE_TABLE_L, cur_tiles,
-    bar=off_bar + offline_banner("You're offline. Changes are saved on this phone."),
+    bar=off_bar + offline_banner("You're offline. Changes are saved on this phone.") + '<div class="h-3 shrink-0"></div>',
     edit_label='Edit template', edit_href='S23-template-editor.html#S23-edit-saved',
     overlay=snackbar('Card template changed. Members see it when you\'re back online.', 'Undo', bottom='bottom-3'))))
 
@@ -538,7 +556,7 @@ ios_as = f'''{scrim(op='bg-scrim/40')}
   </div>'''
 P.frame('S22-ios-actions', 'iOS: template actions as an action sheet', phone(manage(bar=ios_manage_bar, overlay=ios_as), ios=True))
 P.frame('S22-import-pick-ios', 'iOS: import finish step', phone(pick(
-    'ip11', 'Wedding guests', '85 items from Contacts. 3 duplicate pairs merged.', AYSE, AYSE_L, tiles_for('Person'),
+    'ip11', 'Wedding guests', SUM_CONTACTS, AYSE, AYSE_L, tiles_for('Person'),
     ios=True, back=('Review duplicates', 'S20-duplicate-review.html#S20-default')), ios=True))
 web_menu = menu([('pencil', 'Edit', 'S23-template-editor.html#S23-edit-saved', False), ('text-cursor-input', 'Rename', '#S22-rename', False),
                  ('copy', 'Duplicate', '#S22-duplicated', False), '-', ('trash-2', 'Delete template', '#S22-delete', True)], top='top-1/2')
@@ -562,7 +580,7 @@ def big_pick():
   <div class="min-h-0 flex-1 overflow-y-auto px-gutter">
     <label for="lt1" class="text-title-3">List name</label>
     <input id="lt1" class="mt-2 h-16 w-full rounded-control border border-input bg-card px-4 text-title-3 font-normal" value="Wedding guests">
-    <p class="mt-3 text-body-lg text-muted-foreground">85 items from Contacts. 3 duplicate pairs merged.</p>
+    <p class="mt-3 text-body-lg text-muted-foreground">85 items from Contacts. 3 duplicate pairs merged, 1 pair kept as separate items.</p>
     <h2 class="mt-6 text-title-2">Card template</h2>
     <div class="mt-3 flex flex-col gap-2">
       <button class="flex min-h-16 items-center justify-center gap-3 rounded-control border border-input bg-card px-4 text-title-3 font-normal" aria-haspopup="dialog" data-action="preview-full">{icon("eye", "size-6")}See card preview</button>
@@ -603,9 +621,9 @@ def reorder_row(key, idx, n, vals, kind='row', focus_up=False, readonly=False):
     noun = 'field rows' if kind == 'row' else 'tags'
     if readonly:
         return f'<li class="flex min-h-14 items-center gap-4 px-4 py-2"><span class="min-w-0 flex-1"><span class="block text-body">{name}</span>{sample_line(vals.get(key), item)}</span></li>'
-    return f'''<li class="flex min-h-14 items-center gap-1 py-1 pl-1 pr-1">
-        <span class="flex h-12 w-9 shrink-0 cursor-grab items-center justify-center text-muted-foreground" aria-hidden="true">{icon("grip-vertical")}</span>
-        <span class="min-w-0 flex-1"><span class="block text-body">{name}</span>{sample_line(vals.get(key), item)}</span>
+    return f'''<li class="flex min-h-14 items-center py-1 pl-1 pr-0.5">
+        <span class="flex h-12 w-7 shrink-0 cursor-grab items-center justify-center text-muted-foreground" aria-hidden="true">{icon("grip-vertical")}</span>
+        <span class="min-w-0 flex-1 pl-1"><span class="block text-body">{name}</span>{sample_line(vals.get(key), item)}</span>
         {ibtn("arrow-up", f"Move {name} up", idx == 0, "move-up", focus_up)}{ibtn("arrow-down", f"Move {name} down", idx == n - 1, "move-down")}{ibtn("x", f"Remove {name} from {noun}", action="remove")}
       </li>'''
 
@@ -689,7 +707,7 @@ def editor(layout, vals, idx, title='New template', caption='Copy of Candidate, 
     nt = f'<div class="px-gutter pb-3">{notice}</div>' if notice else ''
     prev = f'''<div class="shrink-0 border-b bg-background">
     {nt}{pw}
-    {stage(body, label, prevnext=True, expand_href="#S23-preview-full")}
+    {stage(body, label, prevnext=True, expand_href="#S23-preview-full", extra_cls="mt-3" if ios else "")}
     <p class="pb-2 pt-1 text-center text-caption tabular-nums text-muted-foreground" aria-live="polite">Item {idx} of 12</p>
     {hp}
   </div>'''
@@ -761,7 +779,7 @@ def picker_sheet():
       <p class="pb-1 pt-4 text-label text-muted-foreground">On the card already: choosing one moves it here</p>
       <ul class="divide-y">{opt("name", "Title")}{opt("location", "Subtitle")}{opt("yearsExperience", "Field row")}{opt("source", "Tag")}{opt("role", disabled=True)}</ul>
     </div>'''
-    return sheet('fp1', 'Add field row', body, subtitle='Values from Lena Hoffmann', top='top-24')
+    return sheet('fp1', 'Add field row', body, subtitle='Values from Lena Hoffmann')
 
 
 E.frame('S23-field-picker', 'Field picker sheet (Add field row)', phone(editor(COMPACT, L01, 1, part='rows', overlay=picker_sheet())))
@@ -817,9 +835,14 @@ E.frame('S23-reorder', 'Reorder in progress: dragging Expected salary to the top
 E.frame('S23-validation', 'Validation: Name moved to field rows, title is empty', phone(editor(
     dict(COMPACT, title=None, rows=['name', 'yearsExperience', 'expectedSalary']),
     L01, 1, title_error=True, no_title=True, label_override='No title. Berlin. Name Lena Hoffmann. Years of experience 6. Expected salary €78,000. Tag Referral.')))
-discard = dlg('dc1', 'Discard changes to this template?', '<p id="dc1-d" class="mt-2 text-body text-muted-foreground">Your layout changes will be lost. The list keeps the template selected in the finish step.</p>',
-              btn('Keep editing', 'ghost', href='#S23-default') + btn('Discard changes', 'destructive', href='S22-template-library.html#S22-import-pick-csv', action='discard'))
-E.frame('S23-discard', 'Back with unsaved changes: discard dialog', phone(editor(COMPACT, L01, 1, overlay=discard)))
+discard = dlg('dc1', 'Discard this new template?', '<p class="mt-2 text-body text-muted-foreground">It hasn\'t been saved. The list keeps the template selected in the finish step.</p>',
+              btn('Keep editing', 'ghost', href='#S23-default', action='cancel') + btn('Discard template', 'destructive', href='S22-template-library.html#S22-import-pick-csv', action='discard'))
+E.frame('S23-discard', 'Back from a new, unsaved template: discard dialog', phone(editor(COMPACT, L01, 1, overlay=discard)))
+discard2 = dlg('dc2', 'Discard changes to “Candidate, compact”?', '<p class="mt-2 text-body text-muted-foreground">Your layout changes won\'t be saved. Frontend hiring, Q4 keeps the current layout.</p>',
+               btn('Keep editing', 'ghost', href='#S23-edit-saved', action='cancel') + btn('Discard changes', 'destructive', href='S22-template-library.html#S22-default', action='discard'))
+E.frame('S23-discard-changes', 'Back from a saved template with unsaved changes (same as S40-discard-template)', phone(editor(
+    COMPACT_PLUS, L01, 1, title='Candidate, compact', caption='Custom template, unsaved changes', back='#S23-discard-changes', back_label='Back to Card templates',
+    trailing=overflow_btn(href='#S23-menu'), notice=alert('info', 'Used by Frontend hiring, Q4', 'Changes apply to that list too.', ic='layers'), overlay=discard2)))
 
 E.section('Built-in and saved templates', 'Built-ins are read-only: duplicate first. A saved template opened from Settings or a list shows which lists use it; changes apply to all of them. Rename, Duplicate and Delete live in the overflow menu.')
 bi_notice = alert('info', 'Built-in templates can\'t be changed', 'Duplicate this one to choose your own fields.', ic='lock')
@@ -842,9 +865,9 @@ E.frame('S23-rename', 'Rename dialog', phone(editor(
     bottom_html=bottom('Save template', disabled=True),
     overlay=dlg('rd3', 'Rename template', rn, dbtn('Cancel', href='#S23-edit-saved') + btn('Rename', 'primary', href='#S23-edit-saved', action='confirm-rename'), role='dialog'))))
 E.frame('S23-duplicated', 'Duplicated: now editing the copy', phone(editor(
-    COMPACT, L01, 1, title='Candidate, compact copy', caption='Custom template, not used by any list', back='S22-template-library.html#S22-duplicated',
-    back_label='Back to Card templates', trailing=saved_trailing, bottom_html=bottom('Save template', disabled=True),
-    overlay=snackbar('Duplicated as “Candidate, compact copy”', bottom='bottom-28'))))
+    COMPACT, L01, 1, title='Candidate, compact (copy)', caption='Custom template, not used by any list', back='S22-template-library.html#S22-duplicated',
+    back_label='Back to Card templates', trailing=saved_trailing, bottom_html=bottom('Save template', disabled=True), part='rows',
+    overlay=snackbar('Duplicated as “Candidate, compact (copy)”', bottom='bottom-28'))))
 del_body2 = f'''<p class="mt-2 text-body text-muted-foreground">Frontend hiring, Q4 uses this template. Its cards switch to the template you choose.</p>
     <div class="mt-4"><p class="text-label">Card template for Frontend hiring, Q4</p><div class="mt-1.5">{select_trigger("Candidate", "Card template for Frontend hiring, Q4: Candidate")}</div><p class="mt-1.5 text-caption text-muted-foreground">Candidate is the template it was based on.</p></div>'''
 E.frame('S23-delete', 'Delete from the editor: choose a replacement', phone(editor(
@@ -858,7 +881,7 @@ ios_ed_bar = f'''<header class="grid h-11 shrink-0 grid-cols-[1fr_auto_1fr] item
     <div class="min-w-0 text-center"><h1 class="truncate text-body font-semibold">New template</h1><p class="text-caption text-muted-foreground">Copy of Candidate</p></div>
     <a href="#S23-save" class="inline-flex h-12 items-center justify-self-end px-2 text-body font-semibold text-primary" data-action="save-template">Save</a>
   </header>'''
-E.frame('S23-ios', 'iOS: Cancel and Save in the navigation bar', phone(editor(COMPACT, L01, 1, bar=ios_ed_bar, bottom_html=''), ios=True))
+E.frame('S23-ios', 'iOS: Cancel and Save in the navigation bar', phone(editor(COMPACT, L01, 1, bar=ios_ed_bar, bottom_html='', ios=True), ios=True))
 kb = lambda k: f'<kbd class="inline-flex h-6 min-w-6 items-center justify-center rounded-sm border border-b-2 bg-card px-1.5 text-caption text-foreground">{k}</kbd>'
 web_hint = f'<div class="flex shrink-0 flex-wrap items-center justify-center gap-x-1.5 gap-y-1 border-t bg-background px-gutter py-2 text-caption text-muted-foreground" aria-label="Keyboard shortcuts">{kb("Alt")}+{kb("↑")}{kb("↓")}<span>moves the focused row</span></div>'
 web_ed = editor(COMPACT, L01, 1, part='rows', focus_up_row='expectedSalary').replace('<div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">', web_hint + '<div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">', 1)

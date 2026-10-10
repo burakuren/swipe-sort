@@ -1,6 +1,17 @@
 # Usage: python3 tools/generators/S07-profile.py  → design/03-screens/S07-profile.html
 from groupa_common import *
 
+_phone = phone
+
+
+def phone(content, kind='android', screen_cls='', overlay_full=None):
+    """Frames with a dialog or sheet: scrim and sheet run under the system bars (QA-053)."""
+    if overlay_full is None:
+        overlay_full = 'role="alertdialog"' in content or ('role="dialog"' in content and 'bg-scrim' in content)
+    if overlay_full and kind != 'web':
+        content = content.replace('rounded-t-sheet bg-popover px-gutter pb-6 pt-2', 'rounded-t-sheet bg-popover px-gutter pb-12 pt-2')
+    return _phone(content, kind, screen_cls, overlay_full)
+
 P = Page('S07', 'Profile, connected accounts and account deletion',
          'Pushed from Settings (S06) in the Settings tab stack. Edit name and photo, manage sign-in methods (Google, Apple on iOS, email and password) and delete the account with a clear account of what is deleted and what stays.',
          'S07-profile.md')
@@ -28,7 +39,7 @@ def static_row(icon_name, title, desc=None, trailing=''):
     return f'<li class="flex min-h-14 items-center gap-4 px-4 py-3">{icon(icon_name, "size-5 shrink-0 text-muted-foreground")}<span class="min-w-0 flex-1"><span class="block text-body">{title}</span>{d}</span>{trailing}</li>'
 
 
-G_LEAD = '<span class="flex size-6 shrink-0 items-center justify-center rounded-full border border-input bg-card text-label font-bold leading-none text-foreground" aria-hidden="true">G</span>'
+G_LEAD = '<span class="flex size-5 shrink-0 items-center justify-center rounded-full border border-input bg-card text-caption font-bold leading-none text-foreground" aria-hidden="true">G</span>'
 APPLE_LEAD = icon('apple', 'size-5 shrink-0')
 MAIL_LEAD = icon('key-round', 'size-5 shrink-0 text-muted-foreground')
 
@@ -40,7 +51,7 @@ def photo_block(photo=True, uploading=False, offline=False, href='#S07-change-ph
         av = avatar(initials='DY', size='size-24', text='text-title-1', alt='Deniz Yılmaz, no profile photo')
     over = ''
     if uploading:
-        over = f'<span class="absolute inset-0 flex items-center justify-center rounded-full bg-scrim/50 text-primary-foreground" aria-hidden="true">{icon("loader-circle", "size-7 animate-spin")}</span>'
+        over = f'<span class="absolute inset-0 flex items-center justify-center rounded-full bg-scrim/50 text-primary-foreground dark:text-foreground" aria-hidden="true">{icon("loader-circle", "size-7 animate-spin")}</span>'
     if uploading:
         b = f'<p class="mt-2 flex h-12 items-center text-body-sm text-muted-foreground" role="status">Uploading photo…</p>'
     elif offline:
@@ -102,8 +113,8 @@ def page_sub(title, body, footer, back='#S07-default', label='Back to Profile', 
   {overlay}'''
 
 
-RULES_OK = [('At least 8 characters', 'met'), ('A number or a symbol', 'met')]
-RULES_HALF = [('At least 8 characters', 'met'), ('A number or a symbol', 'todo')]
+RULES_OK = [('At least 8 characters', 'met'), ('A number or symbol', 'met')]
+RULES_HALF = [('At least 8 characters', 'met'), ('A number or symbol', 'todo')]
 
 # ================================================================ Profile
 P.section('Profile', 'Name and photo are what other members see. Email is the sign-in address and is read-only. Sign-in methods list every way into the account.')
@@ -253,11 +264,11 @@ P.frame('S07-delete-dialog', 'Final confirmation dialog', phone(page_sub('Confir
     overlay=dialog('s07fd', 'Delete your account?', "This can't be undone. Wedding guests moves to Mert Aydın. Your other 3 lists, your decisions and your notes are deleted.",
                    dlg_btn('Cancel', href='#S07-delete-confirm') + dlg_btn('Delete account', 'destructive', href='#S07-deleting', action='confirm-delete')))))
 
-deleting = f'''<div class="flex flex-1 flex-col items-center justify-center px-8 text-center" role="status" aria-live="polite">
+deleting = f'''<div class="relative flex flex-1 flex-col items-center justify-center px-8 text-center" role="status" aria-live="polite">
     {icon("loader-circle", "size-8 animate-spin text-primary")}
     <h1 class="mt-6 text-title-2">Deleting your account…</h1>
     <p class="mt-2 max-w-xs text-body text-muted-foreground">Keep SwipeSort open. This takes a few seconds.</p>
-    <a href="#S07-deleted" class="sr-only focus:not-sr-only" data-action="next">Show the result (prototype shortcut)</a>
+    <a href="#S07-deleted" class="absolute inset-0" data-action="next" aria-label="Show the result (prototype: click anywhere; the app moves on by itself)"></a>
   </div>'''
 P.frame('S07-deleting', 'Deleting (no way back, no close button)', phone(deleting))
 
@@ -317,6 +328,7 @@ big = f'''<header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
         <li class="px-4 py-4"><span class="block text-title-2 font-normal">Google</span><span class="block break-all text-body-lg text-muted-foreground">{ME["email"]}</span><a href="#S07-disconnect-confirm" class="mt-1 inline-flex min-h-touch items-center text-title-3 text-primary" aria-label="Disconnect Google">Disconnect</a></li>
         <li class="px-4 py-4"><span class="block text-title-2 font-normal">Email and password</span><span class="block text-body-lg text-muted-foreground">Password set</span><a href="#S07-change-password" class="mt-1 inline-flex min-h-touch items-center text-title-3 text-primary" aria-label="Change password">Change</a></li>
       </ul></section>
+    <section><ul class="overflow-hidden rounded-group bg-card dark:border"><li><a href="#S07-delete" class="flex min-h-16 items-center gap-4 px-4 py-4 text-destructive" data-action="delete-account">{icon("trash-2", "size-7 shrink-0")}<span class="text-title-2 font-normal">Delete account</span></a></li></ul></section>
   </div>'''
 P.frame('S07-large-text', 'Large text (200%): rows stack, actions move below', phone(big))
 

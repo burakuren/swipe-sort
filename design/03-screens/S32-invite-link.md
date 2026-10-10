@@ -18,6 +18,7 @@ SCR-32, SUC-05, DEL-24 (flow 3).
 
 | From | How |
 | --- | --- |
+| Invite link tapped on Android with the app installed, not signed in | Android App Link → app → `S32-default` (in-app invite preview) |
 | Invite link tapped on Android with the app installed | Android App Link → app → `S32-app` |
 | Invite link on iPhone with the app installed | Universal Link → app → `S32-app` (same screen) |
 | Link opened in a mobile browser without the app | `S32-web` |
@@ -51,8 +52,10 @@ layout (centered 412 dp column on desktop, PLT-04).
 "Sort with swipes in the app", outline "Get the app". On iOS Safari the native Smart App Banner
 (`apple-itunes-app` meta tag) replaces it.
 
-**Get the app dialog** (desktop): AlertDialog-styled Dialog with a QR code (160 dp, points to
-`swipesort.app/get`, which redirects to the right store), the URL as text, and "Close".
+**Get the app dialog** (desktop): AlertDialog-styled Dialog with a real QR code (version 2-L, 160 dp,
+encodes `https://swipesort.app/get`, which redirects to the right store), the URL as text, and "Close".
+The QR tile stays dark-on-light in both themes (`bg-card text-foreground`, dark: `bg-foreground
+text-background`) because cameras often fail on inverted codes.
 
 **App opening** (`S32-app`): centered logo mark 64, spinner + "Opening {list}…", "Invite from {name}".
 
@@ -63,6 +66,7 @@ icon circle, `text-title-2` title, one sentence, one action.
 
 | Frame | Trigger |
 | --- | --- |
+| `S32-default` | App installed, nobody signed in (new install or guest): the invite preview inside the app with "Sign in to join" → S03 `S03-default` → S33. Note: "Lists on this phone move to your account when you sign in." |
 | `S32-web-desktop` | Valid link, desktop browser, not signed in (flow 3) |
 | `S32-web` | Valid link, mobile browser without the app, not signed in |
 | `S32-get-app` | "Get the app" on desktop |
@@ -111,7 +115,7 @@ move to the account at that point (S05 moving step, ACC-05).
 | Role changed note | "This invite was for the Decision Maker role. Mert Aydın joined in that role first, so you'll join as Collaborator." Owner-changed variant: "Deniz changed this invite to Collaborator, so you'll join as Collaborator." |
 | Members | "Members (1)"; role words "Owner, Decision Maker" / "Owner" / "Decision Maker" / "Collaborator" |
 | Primary | "Sign in to join" |
-| Reassurance | "No download needed. Sort right here in your browser." |
+| Reassurance | "No download needed. Sort right here in your browser."; in-app (`S32-default`): "Lists on this phone move to your account when you sign in." |
 | Desktop app prompt | "Prefer the app? It works the same, with haptics and push notifications." / "Get the app" |
 | App banner | "SwipeSort" / "Sort with swipes in the app" / "Get the app"; close label "Close banner" |
 | Get the app dialog | "Get SwipeSort on your phone" / "Scan the code with your phone's camera, or search for SwipeSort in Google Play or the App Store. Your invite works in the app too." / "swipesort.app/get" / "Close"; QR label "QR code for swipesort.app/get" |
@@ -138,6 +142,8 @@ move to the account at that point (S05 moving step, ACC-05).
 - Skeleton and app loading are `role="status"` with `aria-busy`; status pages use a heading and a single
   action.
 - Avatars next to names are decorative (`alt=""`); the inviter's name is in the text.
+- Centered status text uses `text-wrap: balance`, and names ("Wedding guests", "Deniz Yılmaz") never break
+  across lines.
 - Contrast: all text on `background`/`card` uses foreground or muted-foreground tokens (AA in both themes).
 - Large text: the preview is a single column; titles wrap; buttons grow in height. The desktop column keeps
   412 dp and scrolls.

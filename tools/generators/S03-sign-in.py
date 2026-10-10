@@ -47,7 +47,7 @@ def chooser(kind='android', context=None, state=None, large=False):
         buttons = [b.replace('h-14', 'min-h-16 h-auto py-3').replace('text-label-lg', 'text-title-3') for b in buttons]
     note = ("Your lists stay on this phone. Try again when you're online." if off
             else 'Signing in is optional. Without an account, lists stay on this phone.')
-    snack = snackbar('Google sign-in cancelled. Choose a way to continue.') if state == 'cancelled' else ''
+    snack = snackbar('Google sign-in cancelled. Choose a way to continue.', bottom='bottom-24') if state == 'cancelled' else ''
     m = '' if large else mark('size-14')
     return f'''{top}
   {banner}
@@ -71,9 +71,18 @@ def form_top(kind, back):
 
 
 def sign_in_form(fid, kind='android', email='deniz.yilmaz@example.com', password='••••••••••', email_state='default',
-                 email_err=None, pw_state='default', pw_err=None, alert='', busy=False, offline=False):
+                 email_err=None, pw_state='default', pw_err=None, alert='', busy=False, offline=False, mode='default'):
+    """mode: default | locked (Sign in disabled, no duplicate reset link) | google (account uses Google: Google is the main action)."""
     pw_val = password
-    submit = btn('Signing in…', busy=True) if busy else btn('Sign in', href='S08-home.html#S08-default', action='sign-in', disabled=offline)
+    submit = btn('Signing in…', busy=True) if busy else btn('Sign in', href='S08-home.html#S08-default', action='sign-in', disabled=offline or mode == 'locked')
+    forgot = '' if mode == 'locked' else f'<div class="mt-1 flex justify-end">{link("Forgot password?", "S04-forgot-password.html#S04-default", "forgot-password")}</div>'
+    pw_block = f'''<div>
+        {password_field(fid + '-pw', value=pw_val, state=pw_state, error=pw_err)}
+        {forgot}
+      </div>'''
+    if mode == 'google':
+        pw_block = ''
+        submit = google_btn(href='#S03-google-busy')
     banner = offline_banner() if offline else ''
     return f'''{form_top(kind, '#S03-default' if kind != 'ios' else '#S03-ios')}
   {banner}
@@ -82,10 +91,7 @@ def sign_in_form(fid, kind='android', email='deniz.yilmaz@example.com', password
     {alert}
     <div class="mt-6 space-y-5">
       {field(fid + '-email', 'Email', value=email, type='email', state=email_state, error=email_err, autocomplete='email')}
-      <div>
-        {password_field(fid + '-pw', value=pw_val, state=pw_state, error=pw_err)}
-        <div class="mt-1 flex justify-end">{link('Forgot password?', 'S04-forgot-password.html#S04-default', 'forgot-password')}</div>
-      </div>
+      {pw_block}
     </div>
     <div class="mt-4">{submit}</div>
     <p class="mt-6 text-center text-body text-muted-foreground">New to SwipeSort? <a href="#S03-sign-up" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4">Create an account</a></p>
@@ -134,10 +140,10 @@ P.frame('S03-error-wrong-password', 'Error: wrong password', phone(sign_in_form(
 P.frame('S03-error-invalid-email', 'Error: invalid email', phone(sign_in_form('s03ie', email='deniz.yilmaz@example', email_state='error', email_err='Enter a full email address, like name@example.com.', password='')))
 P.frame('S03-error-account-exists', 'Error: account already exists (create account)', phone(sign_up_form('s03ae', pw='sortitout26', rules=RULES_MET, pw_state='default', shown=False,
     alert='<div class="mt-4">' + alert_error('An account with this email already exists', 'Sign in instead. If you forgot the password, you can reset it.', btn('Sign in instead', 'secondary', href='#S03-email', size='md', full=False, action='sign-in-instead')) + '</div>')))
-P.frame('S03-error-uses-google', 'Error: this email signs in with Google', phone(sign_in_form('s03ug', password='',
-    alert='<div class="mt-4">' + alert_neutral('This email signs in with Google', 'Continue with Google to open your account. You can add a password later in Profile.', icon_name='info', action=google_btn(size='md', href='#S03-google-busy')) + '</div>')))
+P.frame('S03-error-uses-google', 'Error: this email signs in with Google', phone(sign_in_form('s03ug', password='', mode='google',
+    alert='<div class="mt-4">' + alert_neutral('This email signs in with Google', 'Continue with Google to open your account. You can add a password later in Profile.', icon_name='info') + '</div>')))
 P.frame('S03-error-weak-password', 'Error on submit: password misses a rule', phone(sign_up_form('s03wk', pw='sortitout', rules=RULES_FAIL, pw_state='error', pw_err='Add a number or symbol to your password.')))
-P.frame('S03-error-locked', 'Error: too many attempts', phone(sign_in_form('s03lk',
+P.frame('S03-error-locked', 'Error: too many attempts', phone(sign_in_form('s03lk', mode='locked',
     alert='<div class="mt-4">' + alert_error('Too many attempts', 'For your security, sign-in is paused for 15 minutes. You can reset your password now.', btn('Reset password', 'secondary', href='S04-forgot-password.html#S04-default', size='md', full=False)) + '</div>')))
 P.frame('S03-error-no-connection', 'Error: connection lost while signing in', phone(sign_in_form('s03nc',
     alert='<div class="mt-4">' + alert_error("Couldn't sign in", 'No connection. Check your connection and try again. Your lists stay on this phone.') + '</div>')))

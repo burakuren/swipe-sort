@@ -1,8 +1,8 @@
 # Design lint report
 
-Generated 2026-10-10T01:09:42.144Z by `npm run lint`.
+Generated 2026-10-10T03:05:48.610Z by `npm run lint`.
 
-**0 error(s), 296 touch-target warning(s)** across 40 screen file(s) and 40 spec(s).
+**0 error(s), 291 touch-target warning(s)** across 40 screen file(s) and 40 spec(s).
 
 ## Errors
 
@@ -10,16 +10,12 @@ None.
 
 ## Touch targets under 48×48 (review: acceptable only when a larger parent row is the target)
 
-- S02-demo: target 1×1 "Finish the demo (prototype shortcut: the"
-- S05-moving: target 1×1 "Finish moving (prototype shortcut: the s"
-- S05-web-moving: target 1×1 "Finish moving (prototype shortcut: the s"
 - S06-feedback: target 124×40 "Idea"
 - S06-feedback: target 124×40 "Problem"
 - S06-feedback: target 124×40 "Other"
 - S06-feedback-error: target 124×40 "Idea"
 - S06-feedback-error: target 124×40 "Problem"
 - S06-feedback-error: target 124×40 "Other"
-- S07-deleting: target 1×1 "Show the result (prototype shortcut)"
 - S24-sorted-by: target 146×40 "A to Z"
 - S24-sorted-by: target 146×40 "Z to A"
 - S24-sort-field-sheet: target 146×40 "A to Z"
@@ -31,7 +27,6 @@ None.
 - S24-add-filter: target 117×36 "Colleague 28"
 - S24-web-desktop: target 145×40 "A to Z"
 - S24-web-desktop: target 145×40 "Z to A"
-- S25-web-desktop: target 1×1 "Finish sorting (prototype shortcut to th"
 - S26-add-note: target 52×32 "Only visible to me"
 - S28-default: target 109×40 "Accept 8"
 - S28-default: target 107×40 "Maybe 1"

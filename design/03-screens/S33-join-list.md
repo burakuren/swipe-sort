@@ -44,8 +44,8 @@ Full-screen modal (app) or the web page (web). Top to bottom:
    - role: `user-round` Collaborator / `gavel` Decision Maker, with what the role can do;
    - `list-checks` "All 100 items of Round 1" (DM-16);
    - `eye-off` "Others' decisions are hidden" (SRT-12 default).
-5. **Members ({n})** ListGroup of MemberRows: avatar 40, name, role text with icon (`crown` Owner, `gavel`
-   Decision Maker) and "76 / 100 decided" on one line, Progress bar below. Progress is shown, decisions
+5. **Members ({n})** ListGroup of MemberRows (same layout as S34): avatar 40, name, role text with icon
+   (`crown` Owner, `gavel` Decision Maker), then the Progress bar with "76 / 100 decided" in a fixed column. Progress is shown, decisions
    are not.
 6. Sticky footer: primary "Join and start sorting" (lg 56) + "Joining as {name}." (+ "Switch account" link
    on web).
@@ -97,8 +97,8 @@ again." with "Try again"; the button returns to its rest state.
 | Hero | "Deniz Yılmaz invited you"; "Wedding guests"; "100 items, Round 1 in progress" (no round: "100 items, no round in progress") |
 | Section | "Your role" |
 | Collaborator row | "Collaborator" / "You sort every item and add notes. You can invite others as Collaborator." |
-| Decision Maker row | "Decision Maker" / "You sort every item and resolve conflicts. Under the current rule, Decision Maker decides, your choice on a conflict is final." (rule Majority: "…and break ties when the majority is split."; rule Everyone must agree: "…Conflicts stay open until everyone agrees; you can review them like everyone else.") |
-| Round row | "All 100 items of Round 1" / "Everyone sorts every item of the round." |
+| Decision Maker row | "Decision Maker" / "You sort every item and resolve conflicts. Under the current rule (Decision Maker decides), your choice on a conflict is final." (rule Majority: "…and break ties when the majority is split."; rule Everyone must agree: "…Conflicts stay open until everyone agrees; you can review them like everyone else.") |
+| Round row | "All 100 items of Round 1" / "Everyone sorts every item of the round."; no round: "Every item of the next round" / "You'll sort every item when Deniz starts Round 2." |
 | Hidden row | "Others' decisions are hidden" / "While you sort, so nobody sways you." |
 | Decision Maker note | "Deniz is the Decision Maker now. The role moves to you when you join." |
 | Members | "Members (2)"; "Owner", "Decision Maker", "Collaborator"; "76 / 100 decided" |

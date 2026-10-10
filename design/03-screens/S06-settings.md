@@ -12,7 +12,7 @@ safe about their data (backup status, sign-out consequences, privacy in plain wo
 Covers: SET-01 (entry to profile), SET-02 (entry to connected accounts via S07), SET-03, SET-04, SET-05,
 SET-06, SET-07, SET-08, SET-09, SET-10, SET-11, SET-12 (entry: Privacy › Delete account → S07),
 COL-23, ACC-01, ACC-02, ACC-03, ACC-04 (backup prompt entry), PLT-09, PLT-10, PLT-11, PLT-14, PLT-16,
-PLT-21, PLT-23, STK-06, STK-07, GOAL-03, VIS-11, VIS-12, VIS-13, TERM-02, SCR-06.
+PLT-20 (Language sub-page: English is the only language for now), PLT-21, PLT-23, STK-06, STK-07, GOAL-03, VIS-11, VIS-12, VIS-13, TERM-02, SCR-06.
 
 ## 2. Entry points and exits
 
@@ -26,11 +26,11 @@ PLT-21, PLT-23, STK-06, STK-07, GOAL-03, VIS-11, VIS-12, VIS-13, TERM-02, SCR-06
 | To | How |
 | --- | --- |
 | S07 Profile (`S07-profile.html#S07-default`) | Profile row (signed in); Backup › Account row; Privacy › Delete account |
-| S05 backup prompt (`S05-sign-in-prompt.html#S05-backup`) | Not signed in: "Sign in" card on the root; Backup › "Sign in to back up" |
+| S05 backup prompt (`S05-sign-in-prompt.html#S05-default`, the backup prompt over Settings) | Not signed in: "Sign in" card on the root; Backup › "Sign in to back up" |
 | S22 Template library, manage mode (`S22-template-library.html#S22-default`) | Card templates row |
 | S12 notifications explainer (`S12-permissions.html#S12-notifications`) | Notifications › "Turn on notifications" (permission never asked) |
 | Android/iOS system settings | Notifications › "Open phone settings" (permission denied) |
-| S02 Onboarding (`S02-onboarding.html#S02-welcome`) | Help › Replay the introduction |
+| S02 Onboarding (`S02-onboarding.html#S02-default`, the replay entry with Close instead of Skip) | Help › Replay the introduction |
 | S08 Home first run (`S08-home.html#S08-first-run`) | After Sign out |
 | In-app browser (external) | Help center, Privacy policy, Terms of service, Email support (mail app), Rate SwipeSort (store) |
 | App stores | Web: "Get the app" sheet |
@@ -126,7 +126,7 @@ Backup counts refresh in place.
 - **Backup**: automatic whenever online; "Back up now" starts an upload immediately (button turns into
   "Backing up…", busy) and ends in `S06-backup`. Failure → `S06-backup-failed`; "Try again" retries; the
   app also retries with backoff.
-- **Sign out**: dialog. If every change is backed up → "Sign out" signs out, removes account lists from
+- **Sign out**: dialog with a destructive "Sign out" button (as S40-sign-out; it removes data from this phone). If every change is backed up → "Sign out" signs out, removes account lists from
   this phone and opens `S08-first-run`. If changes are waiting → the unsynced dialog: "Sign out anyway"
   (destructive) discards them. Cancel returns to Settings.
 - **Send feedback**: Send is disabled until the message has at least 1 non-space character. On success

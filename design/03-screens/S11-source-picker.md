@@ -84,7 +84,7 @@ remote source list is not planned; if one is added later, render the static tile
 | `S11-offline-tapped` | Offline tile tapped: snackbar, no navigation |
 | `S11-large-text` | Font scale ≥ 150%: one tile per row, icon left, title and description wrap; the grid scrolls |
 | `S11-new-source` | Annotation: a seventh tile from a new Source definition |
-| `S11-web` | Web (mobile browser): Contacts tile is the web-unavailable variant; Photos becomes "Upload photos" |
+| `S11-web` | Web (mobile browser): Contacts tile is the web-unavailable variant with a visible "Get the app" line under the grid (same as S21-web); Photos becomes "Upload photos" |
 | `S11-web-unavailable` | Web: Contacts tile tapped → bottom sheet with reason, "Get the app" and "Import a CSV instead" |
 | `S11-web-desktop` | Desktop browser: same column centered (PLT-04) |
 | `S11-ios` | iOS page sheet: `x` top-left (first step), centered "Import"; Photos description "From your photo library" |
@@ -116,8 +116,9 @@ Not applicable: empty (there is always at least one source), loading (static), e
 | Tiles | "Contacts" / "From this phone"; "CSV or Excel" / "A .csv or .xlsx file"; "Google Sheets" / "From Google Drive"; "Plain text" / "Paste a list or a .txt file"; "Manual entry" / "Type items one by one"; "Photos" / "From your gallery" (iOS: "From your photo library") |
 | Web photos tile | "Upload photos" / "Image files from this device" |
 | Web-unavailable tile | "Contacts" / "Needs the Android or iOS app" |
+| Web footer line | "Contacts import needs the Android or iOS app." + link "Get the app" |
 | Offline tile | "Google Sheets" / "Needs a connection" |
-| Offline banner | "You're offline. Google Sheets needs a connection; other sources work." |
+| Offline banner | "You're offline. Changes are saved on this phone. Google Sheets needs a connection." (S40 pattern) |
 | Offline snackbar | "Google Sheets needs a connection. Try again when you're online." |
 | Safety note | "SwipeSort imports a copy. Your contacts, files and sheets are never changed." |
 | List context group | "Already in Wedding guests"; rows "Contacts" / "88 items, added Sep 27", "mert-family.csv" / "12 items, added Sep 28" |

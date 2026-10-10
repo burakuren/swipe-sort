@@ -6,7 +6,7 @@ Frames: `S25-sorting.html`. Live interaction: `04-prototype/swipe-demo.html`. Mo
 
 The heart of the product: decide one item at a time with gestures or buttons, fast, calm and safe.
 
-Covers: SRT-01–SRT-17, DM-01, DM-02, DM-13, DM-16, DM-18, DM-19, PLT-05, PLT-06, PLT-09, PLT-14–PLT-19,
+Covers: SRT-01–SRT-17, VIS-01–VIS-07 (no decorative gradients anywhere on the screen), DM-01, DM-02, DM-13, DM-16, DM-18, DM-19, PLT-05, PLT-06, PLT-09, PLT-14–PLT-19,
 PLT-21, PLT-23, VIS-03, VIS-05, VIS-08–VIS-10, GOAL-01, GOAL-02, SAFE-03, COL-16, SUC-06, SUC-07, SUC-08,
 SCR-25.
 
@@ -59,11 +59,11 @@ list), Product (Desk setup), Photo (March photos clean-up) and the custom "Candi
 | `S25-drag-accept`, `-reject`, `-maybe` | Past the threshold (armed): full stamp, tint 24%, button solid, next card promoting |
 | `S25-commit` | Released: card exits, next card (c078) is on top, progress 77, Accept count ticks to 49 |
 | `S25-undo` | Undo pressed: card returns, snackbar "Undid Accept on Mia Andersson" |
-| `S25-coach-1…4` | First sort ever (per account or device). Each step demonstrates one gesture |
+| `S25-coach-1…4` | First sort ever (per account or device), here the 85 contacts just imported (0 / 85). Each step demonstrates one gesture |
 | `S25-note`, `S25-note-saved` | Note button → sheet; saved note shows on the card with a `sticky-note` line |
 | `S25-menu` | Overflow menu on a solo list |
 | `S25-shared` | Shared list, others' decisions hidden (default, SRT-12) |
-| `S25-shared-others` | "Show others' decisions" on: avatars with decision dots top-right of the card |
+| `S25-shared-others` | "Show others' decisions" on: a small panel top-right of the card lists each other member with avatar, name and decision badge (icon + word) |
 | `S25-shared-menu` | Shared list menu with the switch |
 | `S25-shared-conflict` | After my decision differs from someone's: snackbar reveals the conflict, "View" opens S36 |
 | `S25-product`, `S25-photo`, `S25-candidate` | Other templates (any kind of list) |
@@ -135,7 +135,7 @@ All values in `motion.md §2`. Summary:
 | Error | "This list couldn't be opened" / "Your decisions are safe. Close the list and open it again. If it keeps happening, restart SwipeSort." / "Try again" / "Back to list" |
 | Resume | "Pick up where you left off" / "76 of 100 decided. 24 items left in Round 1." / "Continue sorting" |
 | Nothing left | "Every item is decided" / "Round 1 is complete. See the summary or change any decision in Results." / "See summary" |
-| Large text | "2 more fields in details" |
+| Large text | "1 more field in details" |
 | Keyboard hints (web desktop) | "← Reject", "↑ Maybe", "→ Accept", "Z Undo", "N Note" |
 | Screen reader after action | "Accepted Mia Andersson. 77 of 100 decided." |
 | Card hint | "Swipe right to accept, left to reject, up for maybe, or use the buttons." |
@@ -162,7 +162,7 @@ All values in `motion.md §2`. Summary:
   (`S25-ios-note`); overflow menu is a UIMenu; haptics via Taptic Engine (same mapping).
 - **Web, mobile** (`S25-web`): same layout without system bars; no haptics (silently ignored); browser back =
   close.
-- **Web, desktop** (`S25-web-desktop`): phone layout centered; keyboard hints under the decision bar (web
+- **Web, desktop** (`S25-web-desktop`, Mert at 85 / 100 in flow 3): phone layout centered; in the prototype the decision buttons open the live demo with Mert's undecided items, and Close returns to `S09-shared-decision-maker`; keyboard hints under the decision bar (web
   only); arrow keys and Z work; Enter opens details, N opens the note; mouse drag works like touch.
 
 ## 9. Edge cases

@@ -83,7 +83,7 @@ Route: `(tabs)/activity`. Feed covers every shared list the user is a member of 
 | `S38-push-content` | Annotation: title and body of every push, per event (system UI not designed) |
 | `S38-in-app-banner` | An event arrives while SwipeSort is open on another screen |
 | `S38-web` | Web, mobile: push unavailable, in-app only, Get the app |
-| `S38-web-desktop` | Web, desktop: toast for a new event |
+| `S38-web-desktop` | Web, desktop: toast for a new event while another screen is open (Deniz on Conflicts, empty). No toast for events already visible in an open Activity feed |
 | `S38-large-text` | 200% font scale |
 | `S38-ios` | iOS large title and tab bar |
 
@@ -116,7 +116,7 @@ Maker invite link renders "Mert joined Wedding guests as Decision Maker" (G1, S3
   down below the app bar (250 ms), stays 4 s, swipe up to dismiss, tap opens the target. While sorting, only
   the badge updates.
 - **Web**: no push. New events appear in the feed live, raise the badge and show a toast for 6 s
-  (bottom-right of the phone column on desktop) while the tab is open; the browser tab title gets the count
+  (bottom-right of the phone column on desktop) while the tab is open, but only when the Activity feed is not on screen; the browser tab title gets the count
   ("(3) SwipeSort").
 - Reduced motion: banners and toasts fade (150 ms); new rows appear without sliding; skeleton is static.
 
@@ -136,12 +136,12 @@ Maker invite link renders "Mert joined Wedding guests as Decision Maker" (G1, S3
 | Permission prompt | "Get notified about shared lists" / "Know when someone finishes sorting or a conflict needs a decision, without opening SwipeSort." / "Not now", "Turn on notifications" |
 | Notifications off | "Notifications are off" / "SwipeSort can't send push notifications on this phone. New events still appear here." / "Turn on in Settings" |
 | Push (title = list name) | "Selin joined the list."; "Mert joined as Decision Maker."; "Selin finished sorting. 100 / 100 decided."; "3 new conflicts. Mert decides them."; "3 new conflicts need your decision."; "Mert resolved 12 conflicts. 3 are still open."; "Deniz started Round 2 with 11 items."; "Deniz made you the Decision Maker." |
-| In-app banner | "Mert resolved 12 conflicts in Wedding guests" / "3 are still open." / "now" |
+| In-app banner | "Selin finished sorting Wedding guests" / "100 / 100 decided" / "now" (any event uses the same pattern) |
 | Web alert | "Push notifications need the app" / "In the browser, new events show up here and as a badge while SwipeSort is open. To get notified on your phone, get SwipeSort for Android or iOS." / "Get the app" |
 | Web toast | "Selin finished sorting Wedding guests" / "100 / 100 decided"; "Dismiss" |
 | Empty | "No activity yet" / "When you share a list, you'll see here when people join, finish sorting or disagree." / "Go to your lists"; filtered: "No conflict activity yet.", "No member activity yet." |
 | Loading | (skeleton) screen reader "Loading activity" |
-| Error | "Activity couldn't be loaded" / "SwipeSort didn't respond. Check your connection and try again." / "Try again" |
+| Error (S40-error treatment) | "Activity couldn't be loaded" / "SwipeSort didn't respond. Check your connection and try again." / "Your lists and decisions are saved on this phone." / "Try again" |
 | Offline | "You're offline. Showing activity from your last sync, Oct 10 at 9:30 AM." |
 | Bottom nav | "Lists", "Activity", "Settings"; badge label "Activity, 3 unread" |
 

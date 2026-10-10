@@ -110,6 +110,8 @@ list's card template.
 | Photo | Image fills the card; caption panel at the bottom on `bg-card` with date (title) and location (subtitle); no overlays on the photo |
 | Candidate / Task / Generic | No image (or avatar); title, subtitle, rows, tags; rows can go up to 6 |
 
+Sparse cards (image area None): title, subtitle and rows form one block vertically centered above the pinned tags (`my-auto`); templates with up to 3 rows use `text-title-2` values with `space-y-5`, 4–6 rows `text-title-3` with `space-y-3`; title-only cards use `text-display`. The template's row count decides, never the item's values.
+
 Missing values: rows with no value are omitted; missing image → initials (person) or `image-off`
 placeholder (product, photo). Long text: title clamps at 3 lines, rows at 1 line with ellipsis. Edited
 fields show a 14 `pencil-line` after the value. A note on the card shows a `sticky-note` line at the
@@ -164,9 +166,9 @@ Radio 24 circle. All live inside a row whose whole area is the target. Labels ar
 
 ## SegmentedControl · FilterChip · DecisionSegments · Select
 
-SegmentedControl: `rounded-full bg-secondary p-1`, segments 40 high, selected `bg-card shadow-raised`.
+SegmentedControl: `rounded-full bg-secondary p-1`, segments 40 high (`hitSlop` 4 so each reaches 48), selected `bg-card shadow-raised`.
 Use for 2–3 mutually exclusive options (theme, final/my decisions, card order). FilterChip: 36 high
-(`h-9`) in a 48 row, selected `border-primary bg-primary-soft` with leading check. DecisionSegments
+(`h-9`) in a 48 row with `hitSlop` 6 (keep ≥ 6 dp free above and below the chip row), selected `border-primary bg-primary-soft` with leading check. DecisionSegments
 (Results): chip tabs with icon + label + count; selected `bg-foreground text-background`. Select: trigger
 like Input with `chevron-down`; opens a bottom sheet list on Android/iOS and a popover on web.
 
@@ -197,7 +199,7 @@ back button label "Back to {previous}".
 
 expo-router Tabs with a custom bar: 80 high, `bg-card border-t`, 3 items Lists (`list-checks`), Activity
 (`activity`), Settings (`settings`). Active: `primary-soft` pill 64×32 behind the icon and semibold label.
-Activity badge: unread count on `bg-destructive` (`text-caption`). iOS: standard tab bar height, active tint
+Activity badge: unread count on `bg-primary text-primary-foreground` (`text-caption`); `destructive` is reserved for delete, remove and errors. iOS: standard tab bar height, active tint
 only. Hidden inside list stacks, sorting and modals.
 
 ## ImportStepper (Custom)

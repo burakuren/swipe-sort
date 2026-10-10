@@ -11,8 +11,8 @@ Lets a signed-in user see and change what other members see (name, photo), manag
 delete their account with a clear, honest account of what is deleted and what stays (required by Google Play and
 the App Store).
 
-Covers: SET-01, SET-02, SET-12, ACC-06, ACC-07, ACC-08, GOAL-03, DM-15 (ownership hand-over keeps the shared list
-running), COL-11 (transfer ownership during deletion), PLT-02, PLT-03, PLT-13–PLT-16, PLT-21, PLT-23, VIS-11–VIS-13,
+Covers: SET-01, SET-02, SET-12, ACC-06, ACC-07, ACC-08, GOAL-03, COL-11 (transfer ownership during deletion; the
+hand-over keeps the shared list running), PLT-02, PLT-03, PLT-13–PLT-16, PLT-21, PLT-23, VIS-11–VIS-13,
 TERM-01, TERM-02, SCR-07.
 
 ## 2. Entry points and exits

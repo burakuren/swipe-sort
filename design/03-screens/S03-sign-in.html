@@ -304,15 +304,12 @@
   
   <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
     <h1 class="text-title-1">Sign in with email</h1>
-    <div class="mt-4"><div class="flex gap-3 rounded-control border bg-card p-4 " role="note"><i class="i-lucide-info size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">This email signs in with Google</p><p class="mt-0.5 text-body-sm text-muted-foreground">Continue with Google to open your account. You can add a password later in Profile.</p><div class="mt-1"><a href="#S03-google-busy" class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" data-action="continue-google"><span class="flex size-6 items-center justify-center rounded-full border border-input bg-card text-label font-bold leading-none text-foreground" aria-hidden="true">G</span>Continue with Google</a></div></div></div></div>
+    <div class="mt-4"><div class="flex gap-3 rounded-control border bg-card p-4 " role="note"><i class="i-lucide-info size-5 shrink-0 text-muted-foreground" aria-hidden="true"></i><div class="min-w-0 flex-1"><p class="text-label">This email signs in with Google</p><p class="mt-0.5 text-body-sm text-muted-foreground">Continue with Google to open your account. You can add a password later in Profile.</p></div></div></div>
     <div class="mt-6 space-y-5">
       <div><label for="s03ug-email" class="text-label ">Email</label><input id="s03ug-email" type="email" class="mt-1.5 h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input" value="deniz.yilmaz@example.com" autocomplete="email"></div>
-      <div>
-        <div><label for="s03ug-pw" class="text-label ">Password</label><div class="relative mt-1.5"><input id="s03ug-pw" type="password" class="h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input pr-12" autocomplete="current-password"><button type="button" class="absolute right-0 top-0 flex size-12 items-center justify-center rounded-full text-muted-foreground" aria-label="Show password"><i class="i-lucide-eye size-5" aria-hidden="true"></i></button></div></div>
-        <div class="mt-1 flex justify-end"><a href="S04-forgot-password.html#S04-default" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4 " data-action="forgot-password">Forgot password?</a></div>
-      </div>
+      
     </div>
-    <div class="mt-4"><a href="S08-home.html#S08-default" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="sign-in">Sign in</a></div>
+    <div class="mt-4"><a href="#S03-google-busy" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg border border-input bg-card" data-action="continue-google"><span class="flex size-6 items-center justify-center rounded-full border border-input bg-card text-label font-bold leading-none text-foreground" aria-hidden="true">G</span>Continue with Google</a></div>
     <p class="mt-6 text-center text-body text-muted-foreground">New to SwipeSort? <a href="#S03-sign-up" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4">Create an account</a></p>
   </div>
   </div>
@@ -365,10 +362,10 @@
       <div><label for="s03lk-email" class="text-label ">Email</label><input id="s03lk-email" type="email" class="mt-1.5 h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input" value="deniz.yilmaz@example.com" autocomplete="email"></div>
       <div>
         <div><label for="s03lk-pw" class="text-label ">Password</label><div class="relative mt-1.5"><input id="s03lk-pw" type="password" class="h-12 w-full rounded-control bg-card px-3.5 text-body placeholder:text-muted-foreground border border-input pr-12" value="••••••••••" autocomplete="current-password"><button type="button" class="absolute right-0 top-0 flex size-12 items-center justify-center rounded-full text-muted-foreground" aria-label="Show password"><i class="i-lucide-eye size-5" aria-hidden="true"></i></button></div></div>
-        <div class="mt-1 flex justify-end"><a href="S04-forgot-password.html#S04-default" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4 " data-action="forgot-password">Forgot password?</a></div>
+        
       </div>
     </div>
-    <div class="mt-4"><a href="S08-home.html#S08-default" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="sign-in">Sign in</a></div>
+    <div class="mt-4"><button type="button" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground opacity-50" disabled>Sign in</button></div>
     <p class="mt-6 text-center text-body text-muted-foreground">New to SwipeSort? <a href="#S03-sign-up" class="inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4">Create an account</a></p>
   </div>
   </div>
@@ -451,7 +448,7 @@
     <p class="mt-4 text-center text-body-sm text-muted-foreground">Signing in is optional. Without an account, lists stay on this phone.</p>
   </div>
   <div class="shrink-0 px-gutter pb-5 pt-3"><p class="text-center text-body-sm text-muted-foreground">By continuing, you agree to the <a href="https://swipesort.app/terms" class="text-primary underline underline-offset-4">Terms of Service</a> and <a href="https://swipesort.app/privacy" class="text-primary underline underline-offset-4">Privacy Policy</a>.</p></div>
-  <div class="absolute inset-x-4 bottom-6 z-40 flex min-h-12 items-center gap-3 rounded-control bg-foreground px-4 py-3 text-background shadow-overlay" role="status"><span class="flex-1 text-body-sm">Google sign-in cancelled. Choose a way to continue.</span></div>
+  <div class="absolute inset-x-4 bottom-24 z-40 flex min-h-12 items-center gap-3 rounded-control bg-foreground px-4 py-3 text-background shadow-overlay" role="status"><span class="flex-1 text-body-sm">Google sign-in cancelled. Choose a way to continue.</span></div>
   </div>
   <div class="sysbar-nav" aria-hidden="true"></div>
 </div>
@@ -494,7 +491,7 @@
     <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
     
   </header>
-  <div class="flex shrink-0 items-center gap-2 bg-muted px-gutter py-2 text-body-sm" role="status"><i class="i-lucide-wifi-off size-4 shrink-0" aria-hidden="true"></i><span class="flex-1">You're offline. Signing in needs a connection.</span></div>
+  <div class="mb-3 flex shrink-0 items-center gap-2 bg-muted px-gutter py-2 text-body-sm" role="status"><i class="i-lucide-wifi-off size-4 shrink-0" aria-hidden="true"></i><span class="flex-1">You're offline. Signing in needs a connection.</span></div>
   <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
     <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-14  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-14  dark:block">
     <h1 class="mt-6 text-title-1">Sign in to SwipeSort</h1><p class="mt-2 text-body-lg text-muted-foreground">Back up your lists, use them on other devices and decide together with others.</p>
@@ -519,7 +516,7 @@
     <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
     
   </header>
-  <div class="flex shrink-0 items-center gap-2 bg-muted px-gutter py-2 text-body-sm" role="status"><i class="i-lucide-wifi-off size-4 shrink-0" aria-hidden="true"></i><span class="flex-1">You're offline. Signing in needs a connection.</span></div>
+  <div class="mb-3 flex shrink-0 items-center gap-2 bg-muted px-gutter py-2 text-body-sm" role="status"><i class="i-lucide-wifi-off size-4 shrink-0" aria-hidden="true"></i><span class="flex-1">You're offline. Signing in needs a connection.</span></div>
   <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
     <h1 class="text-title-1">Sign in with email</h1>
     

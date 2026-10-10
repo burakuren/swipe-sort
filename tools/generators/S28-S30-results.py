@@ -254,8 +254,8 @@ def toolbar(placeholder, query=None, filter_href='S29-filter-sort.html#S29-produ
         fc = tool_chip('Filter', 'sliders-horizontal', filter_href, 'filter', active=n_filters > 0, count=n_filters or None)
         sc = tool_chip(sort_label, 'arrow-up-down', sort_href, 'sort', trailing='chevron-down')
         ap = ''.join(applied_chip(t, a) for t, a in applied)
-        wrap = ' flex-wrap gap-y-2' if ap else ''
-        chip_row = f'<div class="overflow-hidden"><div class="flex gap-2 px-gutter pb-2 pt-3{wrap}">{fc}{sc}{ap}</div></div>'
+        wrap = ' flex-wrap gap-y-3' if ap else ''
+        chip_row = f'<div class="overflow-hidden"><div class="flex gap-2 px-gutter pb-3 pt-3{wrap}">{fc}{sc}{ap}</div></div>'
     return f'''<div class="shrink-0 pt-2">
     <div class="px-gutter">{search_field(placeholder, query, label, focused, clear_href=clear_href)}</div>
     {chip_row}
@@ -339,9 +339,13 @@ def screen(*parts, body='', overlay=''):
 
 
 def strip(html):
-    html = _strip_interactive(html)
+    """Inert backdrop copy: same layout classes, no interactive elements, no ids."""
+    html = re.sub(r'<(a|button)\b', '<span', html)
+    html = re.sub(r'</(a|button)>', '</span>', html)
     html = re.sub(r'<input\b[^>]*class="([^"]*)"[^>]*>', r'<span class="block \1"></span>', html)
-    html = re.sub(r' (id|aria-[a-z]+)="[^"]*"', '', html)
+    html = re.sub(r' (id|href|type|disabled|data-action|role|tabindex|aria-[a-z]+)(="[^"]*")?(?=[\s>])', '', html)
+    html = re.sub(r'<h([12]) ', r'<p ', html)
+    html = re.sub(r'</h[12]>', '</p>', html)
     return f'<div class="flex min-h-0 flex-1 flex-col" aria-hidden="true">{html}</div>'
 
 
@@ -435,13 +439,13 @@ F.add('S28-change-decision', 'Change decision sheet (RES-06): tap a decision to 
 
 SEGS_AFTER = [('accept', 'Accept', 9), ('maybe', 'Maybe', 0), ('reject', 'Reject', 11)]
 F.add('S28-changed', 'Changed to Accept: row stays with its new badge until the snackbar closes', phone(screen(
-    desk_bar(), seg_bar(SEGS_AFTER, 'maybe', links={'accept': '#S28-default', 'maybe': '#S28-empty-segment'}), toolbar('Search 1 item in Maybe', label='Search in Maybe'),
+    desk_bar(), seg_bar(SEGS_AFTER, 'maybe', links={'accept': '#S28-default', 'maybe': '#S28-empty-segment'}), toolbar('Search in Maybe', label='Search in Maybe'),
     body=rows(desk_rows(DESK_MAY, badge_for={'p18': 'accept'}, bg_for={'p18': 'bg-accent'})),
     overlay=snackbar('Changed to Accept', 'Undo', 'bottom-4', href='#S28-maybe'),
 )))
 
 F.add('S28-empty-segment', 'Empty segment: nothing in Maybe', phone(screen(
-    desk_bar(), seg_bar(SEGS_AFTER, 'maybe', links={'accept': '#S28-default'}), toolbar('Search 0 items in Maybe', label='Search in Maybe', chips=False),
+    desk_bar(), seg_bar(SEGS_AFTER, 'maybe', links={'accept': '#S28-default'}),
     body=f'''<div class="flex h-full flex-col items-center px-gutter pt-20 text-center">
       {icon("circle-help", "size-8 text-muted-foreground")}
       <h2 class="mt-3 text-title-3">Nothing in Maybe</h2>
@@ -579,7 +583,7 @@ F.add('S28-shared-change', 'Change my decision on a shared list: others stay vis
     toolbar('Search 15 conflicts', label='Search in Conflicts'),
     body=conf_note + rows([conf_row(k) for k in CONF[:7]]),
     overlay=scrim() + change_sheet(C[k69]['name'], cav(k69), cmeta(k69), 'accept',
-                                   'Changing your decision updates the list status for everyone. Choosing Reject makes this item Agreed.',
+                                   'Changing your decision updates the list status for everyone. Choosing Reject keeps this item in Conflict: Selin chose Accept.',
                                    '#S28-shared', links={'reject': '#S28-shared', 'maybe': '#S28-shared'}, heading='Change my decision', extra=who69),
 )))
 
@@ -593,7 +597,7 @@ def resolved_row(k, last=False):
     else:
         others = [(n, SI[k]['decisions'][m]) for m, _, n in MEMBERS[1:] if SI[k]['decisions'][m] and SI[k]['decisions'][m] != final]
         meta = parts_html([(DEC[v][0], f'text-{v}-soft-foreground', f'{n} chose {DEC[v][1]}') for n, v in others])
-    return row(cav(k), C[k]['name'], meta, badge('resolved'), 'S26-item-detail.html#S26-shared-conflict', '#S28-shared-change', last, meta_cls='block')
+    return row(cav(k), C[k]['name'], meta, badge('resolved', 'Resolved'), 'S26-item-detail.html#S26-shared-conflict', '#S28-shared-change', last, meta_cls='block')
 
 
 RES_SEGS = [('accept', 'Accept', 28), ('maybe', 'Maybe', 6), ('reject', 'Reject', 10), ('conflict', 'Conflicts', 3), ('pending', 'Pending', 53)]
@@ -675,11 +679,11 @@ F.add('S28-offline', 'Offline (shared): everything works on the phone; statuses 
 
 F.add('S28-error', 'Error: the working copy could not be read', phone(screen(
     desk_bar(export=False, history=False),
-    body=f'''<div class="flex flex-col items-center px-gutter pt-28 text-center">
-      {icon("circle-alert", "size-8 text-muted-foreground")}
-      <h2 class="mt-3 text-title-3">Results couldn't be opened</h2>
+    body=f'''<div class="flex h-full flex-col items-center justify-center px-8 pb-16 text-center">
+      {icon("triangle-alert", "size-8 text-muted-foreground")}
+      <h2 class="mt-4 text-title-3">Results couldn't be opened</h2>
       <p class="mt-1 max-w-xs text-body text-muted-foreground">Your decisions are safe. Try again, or go back and open Results from the list.</p>
-      <div class="mt-6 w-full max-w-xs space-y-2">{btn("Try again", "primary", "#S28-default", "retry")}{btn("Back to list", "ghost", "S09-list-overview.html#S09-solo-round-done", "back")}</div>
+      <a href="#S28-default" class="mt-6 flex h-12 w-full max-w-xs items-center justify-center rounded-control bg-secondary text-label-lg text-secondary-foreground" data-action="try-again">Try again</a><a href="S09-list-overview.html#S09-solo-round-done" class="mt-2 flex h-12 w-full max-w-xs items-center justify-center rounded-control text-label-lg" data-action="back">Back to list</a>
     </div>''',
 )))
 
@@ -688,7 +692,7 @@ mi = next(i for i, k in enumerate(az) if C[k]['name'].startswith('M'))
 long_rows = rows([mine_row(k) for k in az[mi - 1:mi + 11]])
 fast = '''<!-- Proposed component: FastScroller -->
     <div class="absolute inset-y-2 right-0 z-10 w-6" role="scrollbar" aria-orientation="vertical" aria-controls="ll" aria-valuenow="58" aria-valuemin="0" aria-valuemax="100" aria-label="Fast scroll" tabindex="-1"><span class="absolute right-1 top-[52%] h-12 w-1.5 rounded-full bg-muted-foreground"></span></div>
-    <span class="absolute right-8 top-[48%] z-10 flex size-14 items-center justify-center rounded-full bg-primary text-title-2 text-primary-foreground shadow-overlay" aria-hidden="true">M</span>'''
+    <span class="absolute right-40 top-[48%] z-10 flex size-14 items-center justify-center rounded-full bg-primary text-title-2 text-primary-foreground shadow-overlay" aria-hidden="true">M</span>'''
 F.add('S28-large-list', 'Long list scrolled: segments pinned under the bar, fast scroll with letter (Name, A to Z)', phone(screen(
     wed_bar(), seg_bar(MINE_SEGS, 'accept', pinned=True),
     body=long_rows.replace('<ul ', '<ul id="ll" ', 1).replace('<ul id="ll" aria-label="Items">', '<ul id="ll" aria-label="Items" class="-mt-6">', 1) + fast,
@@ -724,7 +728,7 @@ F.add('S28-web-desktop', 'Web, desktop: row menu as a popover, keyboard hints', 
 
 lt_rows = []
 for i, pid in enumerate(DESK_ACC[:4]):
-    lt_rows.append(row(thumb(pid, 'size-14'), P[pid]['name'], pmeta(pid), badge('accept'), 'S26-item-detail.html#S26-product', '#S28-row-menu', large=True))
+    lt_rows.append(row(thumb(pid, 'size-14'), P[pid]['name'], pmeta(pid), badge('accept').replace('h-7', 'min-h-10 py-1').replace('px-2.5 text-caption', 'px-3.5 text-title-3 font-normal').replace('size-4', 'size-5'), 'S26-item-detail.html#S26-product', '#S28-row-menu', large=True))
 lt_bar = f'''<header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
     {icon_btn("arrow-left", "Back to Desk setup", "S09-list-overview.html#S09-solo-round-done", "back", "", "size-7")}
     <div class="min-w-0 flex-1 px-1"><h1 class="text-title-1">Results</h1></div>
@@ -781,7 +785,7 @@ def fgroup(label, chips, trailing='', note='', large=False, role='group'):
     tl = 'text-title-2' if large else 'text-label'
     return f'''<div role="{role}" aria-labelledby="{gid}">
         <div class="flex min-h-6 items-center justify-between gap-3"><h3 id="{gid}" class="{tl}">{label}</h3>{trailing}</div>{nt}
-        <div class="mt-2 flex flex-wrap gap-2">{chips}</div>
+        <div class="mt-2 flex flex-wrap gap-x-2 gap-y-3">{chips}</div>
       </div>'''
 
 
@@ -885,7 +889,7 @@ def picker_head(hid):
 
 G.add('S29-value-picker', 'Field with many values: search and multi-select chips (City)', phone(wed_bg + scrim() + fs_sheet(WSUB,
     f'''{search_field(f"Search {len(cities)} cities", label="Search cities")}
-      <div role="group" aria-label="Cities"><p class="text-body-sm text-muted-foreground">Choose one or more. Values that would leave no items are dimmed.</p><div class="mt-3 flex flex-wrap gap-2">{picker_chips}</div></div>''',
+      <div role="group" aria-label="Cities"><p class="text-body-sm text-muted-foreground">Choose one or more. Values that would leave no items are dimmed.</p><div class="mt-3 flex flex-wrap gap-x-2 gap-y-3">{picker_chips}</div></div>''',
     footer(n_city), head=picker_head)))
 
 # -------- Desk setup (products), Accept (8)
@@ -1040,13 +1044,13 @@ def split(a, m, r, total=None, label=None):
 
     def w(n):
         return f'w-[{round(n * 100 / total)}%]'
-    parts = ''.join(f'<div class="{w(n)} bg-{k}"></div>' for k, n in (('accept', a), ('maybe', m), ('reject', r)) if n)
+    parts = ''.join(f'<div class="{w(n)} bg-{k}"></div>' for k, n in (('reject', r), ('maybe', m), ('accept', a)) if n)
     return f'<div class="flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted" aria-hidden="true">{parts}</div>'
 
 
 def legend(a, m, r, trailing='', large=False):
     t = 'text-title-3 font-normal' if large else 'text-caption'
-    items = ''.join(f'<span class="inline-flex items-center gap-1 text-{k}-soft-foreground">{icon(DEC[k][0], "size-4")}<span class="tabular-nums">{n}</span> {DEC[k][3]}</span>' for k, n in (('accept', a), ('maybe', m), ('reject', r)))
+    items = ''.join(f'<span class="inline-flex items-center gap-1 text-{k}-soft-foreground">{icon(DEC[k][0], "size-4")}<span class="tabular-nums">{n}</span> {DEC[k][3]}</span>' for k, n in (('reject', r), ('maybe', m), ('accept', a)))
     return f'<span class="flex flex-wrap items-center gap-x-3 gap-y-1 {t}">{items}{trailing}</span>'
 
 
@@ -1099,7 +1103,7 @@ def detail_rows(pairs):
 
 
 def items_in_order(ids, decs, total, href):
-    li = ''.join(f'<li class="flex min-h-14 items-center gap-3 px-4 py-2"><span class="w-5 shrink-0 text-right text-body-sm tabular-nums text-muted-foreground">{i + 1}</span>{thumb(k, "size-10")}<span class="min-w-0 flex-1 truncate text-body">{P[k]["name"]}</span>{badge(decs[k])}</li>' for i, k in enumerate(ids))
+    li = ''.join(f'<li class="flex min-h-14 items-center gap-3 px-4 py-2"><span class="w-5 shrink-0 text-right text-body-sm tabular-nums text-muted-foreground">{i + 1}</span>{thumb(k, "size-10")}<span class="line-clamp-2 min-w-0 flex-1 text-body">{P[k]["name"]}</span>{badge(decs[k])}</li>' for i, k in enumerate(ids))
     return f'''<ol class="divide-y overflow-hidden rounded-group bg-card" aria-label="Items in card order">{li}</ol>
       <a href="{href}" class="mt-1 inline-flex h-12 items-center px-1 text-label-lg text-primary" data-action="round-results">See all {total} items</a>'''
 
@@ -1110,7 +1114,7 @@ def round_detail(title, back, include, order, started, finished, duration, a, m,
     <div class="px-gutter pt-2"><div class="rounded-group bg-card p-4">
       <p class="text-label text-muted-foreground">Result</p>
       <div class="mt-3">{split(a, m, r)}</div>
-      <div class="mt-3 flex flex-wrap gap-2" role="img" aria-label="{a} accepted, {m} maybe, {r} rejected">{badge("accept", f"{a} accepted")}{badge("maybe", f"{m} maybe")}{badge("reject", f"{r} rejected")}</div>
+      <div class="mt-3 flex flex-wrap gap-2" role="img" aria-label="{r} rejected, {m} maybe, {a} accepted">{badge("reject", f"{r} rejected")}{badge("maybe", f"{m} maybe")}{badge("accept", f"{a} accepted")}</div>
     </div></div>
     <div class="px-gutter pt-6">{section_header("Details")}<ul class="divide-y overflow-hidden rounded-group bg-card">{detail_rows([("Items", include), ("Card order", order), ("Started", started), ("Finished", finished), ("Sorting time", duration)])}</ul></div>
     {later}
@@ -1137,7 +1141,19 @@ def status_split(ag, co, pe):
     return f'<div class="flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted" aria-hidden="true"><div class="w-[{round(ag * 100 / t)}%] bg-foreground"></div><div class="w-[{round(co * 100 / t)}%] bg-foreground/50"></div></div>'
 
 
-def status_legend(ag, co, pe):
+SW = {'agreed': 'bg-foreground', 'conflict': 'bg-foreground/50', 'pending': 'border border-input bg-muted'}
+
+
+def status_legend(ag, co, pe, full=False):
+    """Legend with a swatch per bar segment (same mapping as S09-shared) plus the status icon."""
+    items = (('agreed', 'check-check', 'Agreed', 'Everyone chose the same', ag), ('conflict', 'git-compare-arrows', 'Conflict', 'Members chose differently', co), ('pending', 'clock', 'Pending', 'Not everyone has decided', pe))
+    if full:
+        li = ''.join(f'<li class="flex items-center gap-3 py-2"><span class="size-3 shrink-0 rounded-xs {SW[k]}" aria-hidden="true"></span>{icon(ic, "size-5 shrink-0")}<span class="min-w-0 flex-1"><span class="block text-body">{lab}</span><span class="block text-body-sm text-muted-foreground">{desc}</span></span><span class="text-title-3 tabular-nums">{n}</span></li>' for k, ic, lab, desc, n in items)
+        return f'<!-- Proposed component: ListStatusLegend (S09) --><ul class="divide-y">{li}</ul>'
+    return f'<span class="flex flex-wrap gap-x-3 gap-y-1 text-caption">' + ''.join(f'<span class="inline-flex items-center gap-1.5"><span class="size-2.5 shrink-0 rounded-xs {SW[k]}" aria-hidden="true"></span>{icon(ic, "size-4")}<span class="tabular-nums">{n}</span> {lab.lower() if k != "conflict" else ("conflicts" if n != 1 else "conflict")}</span>' for k, ic, lab, desc, n in items) + '</span>'
+
+
+def _old_status_legend(ag, co, pe):
     return f'<span class="flex flex-wrap gap-x-3 gap-y-1 text-caption"><span class="inline-flex items-center gap-1">{icon("check-check", "size-4")}<span class="tabular-nums">{ag}</span> agreed</span><span class="inline-flex items-center gap-1">{icon("git-compare-arrows", "size-4")}<span class="tabular-nums">{co}</span> conflicts</span><span class="inline-flex items-center gap-1 text-muted-foreground">{icon("clock", "size-4")}<span class="tabular-nums">{pe}</span> pending</span></span>'
 
 
@@ -1179,7 +1195,7 @@ H.add('S30-shared-detail', 'Shared round detail: who started it, rule, list stat
     <div class="px-gutter pt-2"><div class="rounded-group bg-card p-4">
       <p class="flex items-center justify-between gap-3"><span class="text-label text-muted-foreground">List status</span>{progress_badge}</p>
       <div class="mt-3">{status_split(32, 15, 53)}</div>
-      <div class="mt-3">{status_legend(32, 15, 53)}</div>
+      <div class="mt-2">{status_legend(32, 15, 53, full=True)}</div>
     </div></div>
     <div class="px-gutter pt-6">{section_header("Details")}<ul class="divide-y overflow-hidden rounded-group bg-card">{detail_rows([("Items", "All items (100)"), ("Card order", "Original order"), ("Started by", "You, Sep 28, 19:05"), ("Conflict rule", "Decision Maker decides (Mert)")])}</ul></div>
     <div class="px-gutter pt-6">{section_header("Members")}<ul class="divide-y overflow-hidden rounded-group bg-card" aria-label="Results by member">{mrows}</ul></div>

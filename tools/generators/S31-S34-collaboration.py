@@ -4,15 +4,105 @@
 # Structure follows tools/generators/S25-sorting.py (the quality reference).
 import os
 import itertools
+import re
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 SCREENS = os.path.join(ROOT, 'design', '03-screens')
 IMG = '../02-data/images/'
 BRAND = '../01-foundations/brand/'
 
+# ---- QR code (verified against segno 1.6.6: same modules apart from the optional pad byte) ----
+# Minimal QR encoder: version 2, EC level L, byte mode, mask 0 (enough for short URLs, <= 32 bytes).
+def _gmul(x, y):
+    z = 0
+    for i in range(7, -1, -1):
+        z = (z << 1) ^ ((z >> 7) * 0x11D)
+        z ^= ((y >> i) & 1) * x
+    return z & 0xFF
+
+def _rs_divisor(deg):
+    r = [0] * (deg - 1) + [1]; root = 1
+    for _ in range(deg):
+        for j in range(len(r)):
+            r[j] = _gmul(r[j], root)
+            if j + 1 < len(r): r[j] ^= r[j + 1]
+        root = _gmul(root, 2)
+    return r
+
+def _rs_rem(data, div):
+    r = [0] * len(div)
+    for b in data:
+        f = b ^ r.pop(0); r.append(0)
+        for i, c in enumerate(div): r[i] ^= _gmul(c, f)
+    return r
+
+def qr_matrix(text):
+    size, ndata, nec = 25, 34, 10
+    data = text.encode()
+    assert len(data) <= 32
+    bits = [0, 1, 0, 0] + [(len(data) >> i) & 1 for i in range(7, -1, -1)]
+    for b in data: bits += [(b >> i) & 1 for i in range(7, -1, -1)]
+    bits += [0] * min(4, ndata * 8 - len(bits))
+    bits += [0] * (-len(bits) % 8)
+    cw = [int(''.join(map(str, bits[i:i + 8])), 2) for i in range(0, len(bits), 8)]
+    pad = [0xEC, 0x11]; i = 0
+    while len(cw) < ndata: cw.append(pad[i % 2]); i += 1
+    cw += _rs_rem(cw, _rs_divisor(nec))
+    M = [[False] * size for _ in range(size)]; F = [[False] * size for _ in range(size)]
+    def setf(x, y, d): M[y][x] = d; F[y][x] = True
+    for i in range(size): setf(6, i, i % 2 == 0); setf(i, 6, i % 2 == 0)
+    for cx, cy in ((3, 3), (size - 4, 3), (3, size - 4)):
+        for dy in range(-4, 5):
+            for dx in range(-4, 5):
+                x, y = cx + dx, cy + dy
+                if 0 <= x < size and 0 <= y < size:
+                    setf(x, y, max(abs(dx), abs(dy)) not in (2, 4))
+    for dy in range(-2, 3):
+        for dx in range(-2, 3): setf(18 + dx, 18 + dy, max(abs(dx), abs(dy)) != 1)
+    def fmt(mask):
+        d = (1 << 3) | mask; r = d
+        for _ in range(10): r = (r << 1) ^ ((r >> 9) * 0x537)
+        b = ((d << 10) | r) ^ 0x5412
+        g = lambda i: (b >> i) & 1 == 1
+        for i in range(6): setf(8, i, g(i))
+        setf(8, 7, g(6)); setf(8, 8, g(7)); setf(7, 8, g(8))
+        for i in range(9, 15): setf(14 - i, 8, g(i))
+        for i in range(8): setf(size - 1 - i, 8, g(i))
+        for i in range(8, 15): setf(8, size - 15 + i, g(i))
+        setf(8, size - 8, True)
+    fmt(0)
+    i = 0; right = size - 1
+    while right >= 1:
+        if right == 6: right = 5
+        for vert in range(size):
+            for j in range(2):
+                x = right - j
+                up = ((right + 1) & 2) == 0
+                y = size - 1 - vert if up else vert
+                if not F[y][x] and i < len(cw) * 8:
+                    M[y][x] = (cw[i >> 3] >> (7 - (i & 7))) & 1 == 1; i += 1
+        right -= 2
+    for y in range(size):
+        for x in range(size):
+            if not F[y][x] and (x + y) % 2 == 0: M[y][x] = not M[y][x]
+    fmt(0)
+    return M
+
+def qr_svg(text, cls='size-40', label=''):
+    M = qr_matrix(text); n = len(M); q = 4
+    d = ''.join(f'M{x + q} {y + q}h1v1h-1z' for y in range(n) for x in range(n) if M[y][x])
+    return f'<svg viewBox="0 0 {n + 2 * q} {n + 2 * q}" class="{cls}" role="img" aria-label="{label}" shape-rendering="crispEdges"><path d="{d}" fill="currentColor"/></svg>'
+
 _ids = itertools.count(1)
 def uid(prefix='g'):
     return f'{prefix}{next(_ids)}'
+
+NAMES = ['Wedding guests', 'Deniz Yılmaz', 'Mert Aydın', 'Selin Yılmaz']
+def keep(text):
+    """Keep names on one line in centered text (QA-091)."""
+    for n in NAMES:
+        text = text.replace(n, f'<span class="whitespace-nowrap">{n}</span>')
+    return text
 
 def icon(name, size='size-5', extra=''):
     return f'<i class="i-lucide-{name} {size} {extra}" aria-hidden="true"></i>'.replace('  ', ' ').replace(' "', '"')
@@ -80,7 +170,8 @@ def member_block(k, roles, you=False, large=False, done=None):
     bar = f'<div class="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="{d}" aria-valuemin="0" aria-valuemax="100" aria-label="{p["first"]}: {d} of 100 decided"><div class="h-full {pct} rounded-full bg-primary"></div></div>'
     if large:
         return f'<div class="min-w-0 flex-1"><p class="{t_cls}">{p["name"]}{y}{fin}</p>{role_line(roles, True)}{bar}<p class="mt-1 text-body-lg tabular-nums text-muted-foreground">{d} / 100 decided</p></div>'
-    return f'<div class="min-w-0 flex-1"><p class="{t_cls}">{p["name"]}{y}{fin}</p><div class="mt-0.5 flex flex-wrap items-center justify-between gap-x-3">{role_line(roles)}{cnt}</div>{bar}</div>'
+    bar_row = f'<div class="mt-1.5 flex items-center gap-3"><div class="min-w-0 flex-1">{bar.replace("mt-2 ", "")}</div>{cnt.replace("shrink-0", "shrink-0 whitespace-nowrap")}</div>'
+    return f'<div class="min-w-0 flex-1"><p class="{t_cls}">{p["name"]}{y}{fin}</p><div class="mt-0.5">{role_line(roles)}</div>{bar_row}</div>'
 
 def progress(done, total=100, who='', large=False):
     pct = 'w-full' if done >= total else ('w-0' if done == 0 else f'w-[{round(done * 100 / total)}%]')
@@ -148,6 +239,10 @@ def btn(text, kind='primary', href=None, action=None, ic=None, size='h-14', full
         return f'<a href="{href}" class="{c}"{act}{al}>{ico}{text}</a>'
     return f'<button class="{c}"{act}{bz}{al}{" disabled" if disabled else ""}>{ico}{text}</button>'
 
+def snack_static(text, action=None, icon_name=None):
+    """Snackbar rendered in a reserved slot (content above it is cut cleanly, QA-096)."""
+    return snackbar(text, action, icon_name=icon_name).replace('absolute inset-x-4 bottom-6 z-40 ', '')
+
 def snackbar(text, action=None, bottom='bottom-6', role='status', icon_name=None, href=None):
     if action:
         a = f'<a href="{href}" class="-my-1 inline-flex h-12 items-center rounded-sm px-3 text-label text-primary-inverse">{action}</a>' if href else f'<button class="-my-1 inline-flex h-12 items-center rounded-sm px-3 text-label text-primary-inverse">{action}</button>'
@@ -187,7 +282,7 @@ def dialog(title, body, actions, extra_body='', z='z-50'):
   <div class="absolute inset-0 {z} flex items-center justify-center px-6">
     <div class="w-full rounded-dialog bg-popover p-6 shadow-dialog" role="alertdialog" aria-modal="true" aria-labelledby="{t}" aria-describedby="{d}">
       <h2 id="{t}" class="text-title-3">{title}</h2>
-      <p id="{d}" class="mt-2 text-body text-muted-foreground">{body}</p>
+      <div id="{d}" class="mt-2 space-y-2 text-body text-muted-foreground">{"".join(f"<p>{x}</p>" for x in body.split(chr(10)))}</div>
       {extra_body}
       <div class="mt-6 flex flex-wrap justify-end gap-2">{actions}</div>
     </div>
@@ -239,6 +334,11 @@ def desktop(url, content):
   {content}
   </div>
 </div>'''
+
+def scale_large(html):
+    """At 200% font scale small text grows too (QA-100): caption, label and body-sm become body-lg."""
+    html = re.sub(r'\btext-(caption|body-sm)\b', 'text-body-lg', html)
+    return re.sub(r'\btext-label\b(?!-)', 'text-body-lg', html)
 
 class Page:
     def __init__(self, sid, title, desc):
@@ -365,9 +465,10 @@ def members_so_far(rows, note=None, count=None):
 FIRST_MEMBERS = members_so_far(member_mini('deniz', ['owner', 'dm'], True), "Nobody else has joined yet. People show up here as soon as they join.", 1)
 ALL_MEMBERS = members_so_far(member_mini('deniz', ['owner'], True) + member_mini('mert', ['dm']) + member_mini('selin', []), None, 3)
 
-def sheet_footer(copy_href=None, copy_action=None, share=True, disabled=False, share_icon='share-2', copy_label='Copy link'):
+def sheet_footer(copy_href=None, copy_action=None, share=True, disabled=False, share_icon='share-2', copy_label='Copy link', snack=''):
     sh = btn('Share…', 'secondary', ic=share_icon, size='h-12', disabled=disabled, action='share' if not disabled else None) if share else ''
-    return f'''<div class="shrink-0 space-y-2 border-t bg-background px-gutter pb-4 pt-3">
+    slot = f'<div class="shrink-0 px-4 pb-3 pt-2">{snack}</div>' if snack else ''
+    return f'''{slot}<div class="shrink-0 space-y-2 border-t bg-background px-gutter pb-4 pt-3">
       {btn(copy_label, 'primary', href=copy_href, action=copy_action, ic='copy', disabled=disabled)}
       {sh}
     </div>'''
@@ -400,10 +501,10 @@ def full_sheet(title, body, footer='', top='top-4', ios=False, overlay='', intro
 
 INTRO = 'People you invite sort the same 100 items on their own. The list then shows where you agree.'
 
-def s31_body(role='collab', state='ok', token=TOKEN, members=FIRST_MEMBERS, choice=True, reset=True, extra_top='', large=False, choice_disabled=False):
+def s31_body(role='collab', state='ok', token=TOKEN, members=FIRST_MEMBERS, choice=True, reset=True, extra_top='', large=False, choice_disabled=False, dm_note=None):
     parts = [extra_top]
     if choice:
-        parts.append(role_choice(role, choice_disabled, large))
+        parts.append(role_choice(role, choice_disabled, large, **({'dm_note': dm_note} if dm_note else {})))
     if state in ('ok',):
         parts.append(f'<div>{link_field(token, large=large)}{link_meta(role, reset=reset, large=large)}</div>')
     elif state == 'loading':
@@ -424,8 +525,8 @@ def build_s31():
     pg.section('Inviting (Owner)', 'First invite for Wedding guests: nobody has joined yet, Deniz is Owner and, by default, Decision Maker (A-26). Collaborator is preselected; the link always reflects the selected role.')
     F('S31-default', 'Default: first invite, Collaborator', phone(full_sheet('Invite to Wedding guests', s31_body(), sheet_footer('#S31-link-copied', 'copy-link'), intro=INTRO)))
     proto = '<!-- Prototype-only control (not part of the app UI): jumps to the partner side of flow 3 -->\n  <a href="S32-invite-link.html#S32-web-desktop" class="absolute inset-x-4 top-2 z-50 flex min-h-12 items-center justify-center gap-2 rounded-control border-2 border-dashed border-primary bg-card px-4 text-label text-primary" data-action="partner-opens-link">' + icon('monitor', 'size-5') + 'Prototype: Mert opens the link on a computer</a>'
-    F('S31-link-copied', 'Link copied (snackbar)', phone(full_sheet('Invite to Wedding guests', s31_body(), sheet_footer(), top='top-16', intro=INTRO,
-        overlay=proto + snackbar('Invite link copied', bottom='bottom-36', icon_name='copy-check'))))
+    F('S31-link-copied', 'Link copied (snackbar)', phone(full_sheet('Invite to Wedding guests', s31_body(), sheet_footer(snack=snack_static('Invite link copied', icon_name='copy-check')), top='top-16', intro=INTRO,
+        overlay=proto)))
     dm_body = s31_body('dm', token='Dm6xW3nB')
     F('S31-role-dm', 'Inviting a Decision Maker', phone(full_sheet('Invite to Wedding guests', dm_body, sheet_footer(), intro=INTRO)))
 
@@ -434,14 +535,14 @@ def build_s31():
       {group(f"""<li class="flex min-h-16 items-center gap-3 px-4 py-3">{av("deniz", "size-8")}<span class="min-w-0 flex-1"><span class="block text-body">Your link</span><span class="block text-body-sm text-muted-foreground">Collaborator, expires Oct 24. 2 people joined.</span></span></li>
         <li class="flex min-h-16 items-center gap-3 py-3 pl-4 pr-2">{av("selin", "size-8")}<span class="min-w-0 flex-1"><span class="block text-body">Selin's link</span><span class="block text-body-sm text-muted-foreground">Collaborator, expires Oct 21. Nobody joined yet.</span></span><button class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label text-primary" aria-label="Turn off Selin's link">Turn off</button></li>""")}
       <p class="mt-2 px-1 text-body-sm text-muted-foreground">A link stops working when it expires, is reset or is turned off. Members who joined stay.</p></div>'''
-    F('S31-pending', 'Active links and members (opened from S34)', phone(full_sheet('Invite to Wedding guests', s31_body(members=links + ALL_MEMBERS), sheet_footer(), intro=None)))
+    F('S31-pending', 'Active links and members (opened from S34)', phone(full_sheet('Invite to Wedding guests', s31_body(members=links + ALL_MEMBERS, dm_note="There's one Decision Maker, so the role moves from Mert to them."), sheet_footer(), intro=None)))
 
     pg.section('Reset link', 'Resetting revokes the current link (anyone holding it can no longer join) and creates a new one. Members who already joined are not affected. The same dialog pattern is listed in S40.')
     reset_dialog = dialog('Reset the invite link?', "The current link stops working right away. Members who already joined stay. Share the new link with anyone who hasn't joined yet.",
         dbtn('Cancel', href='#S31-default') + dbtn('Reset link', 'destructive', href='#S31-reset-done', action='confirm-reset'))
     F('S31-reset-confirm', 'Reset link: confirmation', phone(full_sheet('Invite to Wedding guests', s31_body(), sheet_footer(), intro=INTRO, overlay=reset_dialog)))
     reset_body = s31_body(token=TOKEN_NEW)
-    F('S31-reset-done', 'Link reset: new link, snackbar', phone(full_sheet('Invite to Wedding guests', reset_body, sheet_footer(), intro=INTRO, overlay=snackbar('Invite link reset', bottom='bottom-36', icon_name='refresh-cw'))))
+    F('S31-reset-done', 'Link reset: new link, snackbar', phone(full_sheet('Invite to Wedding guests', reset_body, sheet_footer(snack=snack_static('Invite link reset', icon_name='refresh-cw')), intro=INTRO)))
 
     pg.section('States', 'Creating the link, offline, errors, an expired link and a signed-out session.')
     F('S31-loading', 'Creating the link', phone(full_sheet('Invite to Wedding guests', s31_body(state='loading'), sheet_footer(disabled=True), intro=INTRO)))
@@ -450,8 +551,8 @@ def build_s31():
     F('S31-expired', 'Link expired (14 days)', phone(full_sheet('Invite to Wedding guests', s31_body(state='expired'), sheet_footer(disabled=True), intro=INTRO)))
     signed_out = f'''<div class="flex h-full flex-col items-center justify-center px-4 pb-16 text-center">
         <span class="flex size-14 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground">{icon("log-in", "size-6")}</span>
-        <h3 class="mt-4 text-title-2">Sign in to invite people</h3>
-        <p class="mt-2 max-w-xs text-body text-muted-foreground">Sharing needs an account, so everyone sorts the same list. Your lists stay on this phone and move to your account when you sign in.</p>
+        <h3 class="mt-4 text-balance text-title-2">Sign in to invite people</h3>
+        <p class="mt-2 max-w-xs text-balance text-body text-muted-foreground">Sharing needs an account, so everyone sorts the same list. Your lists stay on this phone and move to your account when you sign in.</p>
         {btn("Sign in", "primary", href="S05-sign-in-prompt.html#S05-share", action="sign-in", extra="mt-6 max-w-xs")}
       </div>'''
     F('S31-signed-out', 'Not signed in: routes to the sign-in prompt (S05)', phone(full_sheet('Invite to Wedding guests', signed_out, '', intro=None)))
@@ -468,7 +569,7 @@ def build_s31():
       <button class="flex min-h-14 w-full items-center justify-center gap-2 rounded-control bg-primary px-5 py-2 text-title-3 text-primary-foreground">{icon("copy", "size-6")}Copy link</button>
       <button class="flex min-h-14 w-full items-center justify-center gap-2 rounded-control bg-secondary px-5 py-2 text-title-3 text-secondary-foreground">{icon("share-2", "size-6")}Share…</button>
     </div>'''
-    F('S31-large-text', 'Large text (200%)', phone(full_sheet('Invite to Wedding guests', lt_body, lt_footer, large=True, intro=None)))
+    F('S31-large-text', 'Large text (200%)', phone(scale_large(full_sheet('Invite to Wedding guests', lt_body, lt_footer, large=True, intro=None))))
 
     pg.section('iOS and web', 'iOS: a page sheet with grabber and Done, roles as a checkmark list, the iOS share icon. Web: Copy link always; Share… only where the browser supports the Web Share API (mobile browsers); desktop shows Copy link only.')
     def ios_role_row(on, title, desc, href=None):
@@ -522,15 +623,15 @@ def invite_members(keys_roles):
     rows = ''.join(f'<li class="flex min-h-14 items-center gap-3 px-4 py-2.5">{av(k, "size-8")}<span class="min-w-0 flex-1"><span class="block truncate text-body">{P[k]["name"]}</span><span class="block text-body-sm text-muted-foreground">{role_words(r)}</span></span></li>' for k, r in keys_roles)
     return f'<div>{section_label(f"Members ({len(keys_roles)})")}{group(rows)}</div>'
 
-def s32_preview(cta, members, role='collab', changed=False, banner='', get_app=True, brand=None, large=False):
+def s32_preview(cta, members, role='collab', changed=False, banner='', get_app=True, brand=None, large=False, note='No download needed. Sort right here in your browser.', hdr=''):
     brand = (not banner) if brand is None else brand
     ga = f'''<div class="mt-6 flex items-center justify-between gap-3 border-t pt-4"><p class="text-body-sm text-muted-foreground">Prefer the app? It works the same, with haptics and push notifications.</p>{btn("Get the app", "outline", href="#S32-get-app", size="h-12", full=False, extra="shrink-0", action="get-app")}</div>''' if get_app else ''
-    return f'''{banner}{web_brand() if brand else ''}
-  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 {'pt-2' if brand else 'pt-6'}">
+    return f'''{hdr}{banner}{web_brand() if brand else ''}
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 {'pt-2' if (brand or hdr) else 'pt-6'}">
     {invite_hero(large=large)}
     <div class="mt-6 space-y-6">{role_card(role, changed, large)}{invite_members(members)}</div>
     <div class="mt-6">{cta}
-    <p class="mt-3 text-center text-body-sm text-muted-foreground">No download needed. Sort right here in your browser.</p></div>
+    <p class="mt-3 text-balance text-center text-body-sm text-muted-foreground">{note}</p></div>
     {ga}
   </div>'''
 
@@ -548,8 +649,8 @@ def status_page(ic, title, body, actions='', brand=True, tone='muted'):
     return f'''{web_brand() if brand else ''}
   <div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-16 text-center">
     <span class="flex size-14 items-center justify-center rounded-full {tone_cls}">{icon(ic, "size-6")}</span>
-    <h1 class="mt-4 text-title-2">{title}</h1>
-    <p class="mt-2 max-w-xs text-body text-muted-foreground">{body}</p>
+    <h1 class="mt-4 text-balance text-title-2">{keep(title)}</h1>
+    <p class="mt-2 max-w-xs text-balance text-body text-muted-foreground">{keep(body)}</p>
     {actions}
   </div>'''
 
@@ -562,15 +663,16 @@ def build_s32():
     F('S32-web-desktop', 'Web, desktop browser: invite preview', desktop(f'swipesort.app/join/{TOKEN}', s32_preview(cta_desk, m1)))
     cta_m = btn('Sign in to join', 'primary', href='S03-sign-in.html#S03-web-desktop')
     F('S32-web', 'Web, mobile browser with the app banner', web_phone(s32_preview(cta_m, m1, banner=smart_banner(), get_app=False)))
-    qr = f'<div class="mx-auto mt-5 flex size-40 items-center justify-center rounded-control border bg-card" role="img" aria-label="QR code for swipesort.app/get">{icon("qr-code", "size-32 text-foreground")}</div>'
+    # QR tile stays dark-on-light in both themes (cameras fail on inverted codes): card/foreground in light, foreground/background in dark.
+    qr = f'<div class="mx-auto mt-5 flex size-44 items-center justify-center rounded-control border bg-card text-foreground dark:bg-foreground dark:text-background">{qr_svg("https://swipesort.app/get", "size-40", "QR code for swipesort.app/get")}</div>'
     get_app = dialog('Get SwipeSort on your phone', "Scan the code with your phone's camera, or search for SwipeSort in Google Play or the App Store. Your invite works in the app too.",
         dbtn('Close', href='#S32-web-desktop'), extra_body=qr + '<p class="mt-3 text-center text-body-sm text-muted-foreground">swipesort.app/get</p>')
     F('S32-get-app', 'Web, desktop: Get the app', desktop(f'swipesort.app/join/{TOKEN}', s32_preview(cta_m, m1) + get_app))
     signed_in = f'''{web_brand(account_chip("mert"))}
   <div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-16 text-center" role="status">
     {icon("loader-circle", "size-8 animate-spin text-primary")}
-    <p class="mt-4 text-title-3">Opening Wedding guests…</p>
-    <p class="mt-1 text-body-sm text-muted-foreground">Signed in as Mert Aydın</p>
+    <p class="mt-4 text-balance text-title-3">Opening {keep("Wedding guests")}…</p>
+    <p class="mt-1 text-body-sm text-muted-foreground">Signed in as {keep("Mert Aydın")}</p>
     <a href="S33-join-list.html#S33-web-desktop" class="sr-only focus:not-sr-only">Continue to the join screen (prototype)</a>
   </div>'''
     F('S32-web-signed-in', 'Web, already signed in: skips sign-in, opens Join', desktop(f'swipesort.app/join/{TOKEN}', signed_in))
@@ -585,19 +687,24 @@ def build_s32():
   </div>'''
     F('S32-loading', 'Web: loading the invite', web_phone(loading))
 
+    pg.section('Default: app installed, not signed in', 'The link opens the app. Without an account (or as a guest) the app shows the same invite preview as the web page; "Sign in to join" opens S03 and returns to S33. Device lists move to the account on sign-in (S05 moving step).')
+    m1d = [('deniz', ['owner', 'dm'])]
+    cta_app = btn('Sign in to join', 'primary', href='S03-sign-in.html#S03-default', action='sign-in')
+    F('S32-default', 'Default: app, not signed in (invite preview)', phone(s32_preview(cta_app, m1d, get_app=False, brand=False, hdr=appbar('Invite', 'close', 'S08-home.html#S08-default'),
+        note='Lists on this phone move to your account when you sign in.')))
     pg.section('App installed', 'The link opens SwipeSort directly. A short loading state names the list, then the join screen (S33) replaces it. iOS behaves the same with a Universal Link (no separate frame).')
     app_open = f'''<div class="flex flex-1 flex-col items-center justify-center px-8 pb-16 text-center" role="status">
     {logo("size-16")}
-    <div class="mt-8 flex items-center gap-3">{icon("loader-circle", "size-6 animate-spin text-primary")}<p class="text-title-3">Opening Wedding guests…</p></div>
-    <p class="mt-2 text-body-sm text-muted-foreground">Invite from Deniz Yılmaz</p>
+    <div class="mt-8 flex items-center gap-3">{icon("loader-circle", "size-6 animate-spin text-primary")}<p class="text-balance text-title-3">Opening {keep("Wedding guests")}…</p></div>
+    <p class="mt-2 text-body-sm text-muted-foreground">Invite from {keep("Deniz Yılmaz")}</p>
     <a href="S33-join-list.html#S33-default" class="sr-only focus:not-sr-only" data-action="continue">Continue to the join screen (prototype)</a>
   </div>'''
     F('S32-app', 'App: opening the invite', phone(app_open))
     member_page = f'''{appbar("Invite", "close", "S08-home.html#S08-default")}
   <div class="flex flex-1 flex-col items-center justify-center px-8 pb-16 text-center">
     {avatar_stack(["deniz", "mert", "selin"], "size-12")}
-    <h2 class="mt-5 text-title-2">You're already in Wedding guests</h2>
-    <p class="mt-2 max-w-xs text-body text-muted-foreground">You joined on Sep 28. You're the Decision Maker.</p>
+    <h2 class="mt-5 text-balance text-title-2">You're already in {keep("Wedding guests")}</h2>
+    <p class="mt-2 max-w-xs text-balance text-body text-muted-foreground">You joined on Sep 28. You're the Decision Maker.</p>
     {btn("Open list", "primary", href="S09-list-overview.html#S09-shared", extra="mt-6 max-w-xs", action="open-list")}
   </div>'''
     F('S32-already-member', 'Already a member', phone(member_page))
@@ -605,8 +712,8 @@ def build_s32():
   {offline_banner("You're offline.")}
   <div class="flex flex-1 flex-col items-center justify-center px-8 pb-16 text-center">
     <span class="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground">{icon("wifi-off", "size-6")}</span>
-    <h2 class="mt-4 text-title-2">Connect to open this invite</h2>
-    <p class="mt-2 max-w-xs text-body text-muted-foreground">Joining a list needs a connection. The link keeps working until it expires, so you can try again later.</p>
+    <h2 class="mt-4 text-balance text-title-2">Connect to open this invite</h2>
+    <p class="mt-2 max-w-xs text-balance text-body text-muted-foreground">Joining a list needs a connection. The link keeps working until it expires, so you can try again later.</p>
     {btn("Try again", "secondary", extra="mt-6 max-w-xs", ic="refresh-cw")}
   </div>'''
     F('S32-offline', 'App: offline', phone(offline))
@@ -627,17 +734,17 @@ def build_s32():
 # =====================================================================================
 # S33 JOIN A LIST
 # =====================================================================================
-def join_facts(role='collab', large=False):
+def join_facts(role='collab', large=False, no_round=False):
     # Proposed component: InfoRow list (icon + title + description, non-interactive ListGroup rows)
     t_cls = 'text-title-3 font-normal' if large else 'text-body'
     d_cls = 'text-body-lg' if large else 'text-body-sm'
     def row(ic, title, desc):
         return f'<li class="flex items-start gap-4 px-4 py-3">{icon(ic, "size-5 shrink-0 text-muted-foreground mt-0.5")}<span class="min-w-0 flex-1"><span class="block {t_cls}">{title}</span><span class="mt-0.5 block {d_cls} text-muted-foreground">{desc}</span></span></li>'
     if role == 'dm':
-        r1 = row('gavel', 'Decision Maker', 'You sort every item and resolve conflicts. Under the current rule, Decision Maker decides, your choice on a conflict is final.')
+        r1 = row('gavel', 'Decision Maker', 'You sort every item and resolve conflicts. Under the current rule (Decision Maker decides), your choice on a conflict is final.')
     else:
         r1 = row('user-round', 'Collaborator', 'You sort every item and add notes. You can invite others as Collaborator.')
-    r2 = row('list-checks', 'All 100 items of Round 1', 'Everyone sorts every item of the round.')
+    r2 = row('list-checks', 'Every item of the next round', 'You\'ll sort every item when Deniz starts <span class="whitespace-nowrap">Round 2.</span>') if no_round else row('list-checks', 'All 100 items of Round 1', 'Everyone sorts every item of the round.')
     r3 = row('eye-off', "Others' decisions are hidden", 'While you sort, so nobody sways you.')
     return f'<div>{section_label("Your role")}{group(r1 + r2 + r3)}</div>'
 
@@ -666,7 +773,7 @@ def join_footer(joiner='selin', href=None, action=None, busy=False, disabled=Fal
     who = f'<p class="flex flex-wrap items-center justify-center gap-x-1 text-center {"text-body-lg" if large else "text-body-sm"} text-muted-foreground">Joining as {p["name"]}.{sw}</p>'
     return f'''<div class="shrink-0 space-y-2 border-t bg-background px-gutter pb-4 pt-3">{n}{b}{who}{ga}</div>'''
 
-def join_screen(joiner='selin', role='collab', members=None, footer=None, top='', web=False, overlay='', large=False, dm_note=False, hdr=None, extra=''):
+def join_screen(joiner='selin', role='collab', members=None, footer=None, top='', web=False, overlay='', large=False, dm_note=False, hdr=None, extra='', no_round=False):
     members = members or [('deniz', ['owner']), ('mert', ['dm'])]
     dn = ''
     if dm_note:
@@ -676,7 +783,7 @@ def join_screen(joiner='selin', role='collab', members=None, footer=None, top=''
   {top}
   <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-4 pt-2">
     {join_hero(large=large)}
-    <div class="mt-5 space-y-5">{extra}{dn}{join_facts(role, large)}{join_members(members, large)}</div>
+    <div class="mt-5 space-y-5">{extra}{dn}{join_facts(role, large, no_round)}{join_members(members, large)}</div>
   </div>
   {footer or join_footer(joiner)}
   {overlay}'''
@@ -713,7 +820,7 @@ def sorting_after_join():
     {dbtn_("accept", "check", "Accept", "accepted")}
     <button class="flex min-w-touch flex-col items-center gap-1.5" aria-label="Add note"><span class="flex size-12 items-center justify-center rounded-full border border-input bg-card">{icon("sticky-note")}</span><span class="text-caption text-muted-foreground">Note</span></button>
   </div>
-  {snackbar("You joined Wedding guests", bottom="bottom-32", icon_name="circle-check")}'''
+  {snackbar("You joined Wedding guests", bottom="bottom-44", icon_name="circle-check")}'''
 
 def build_s33():
     pg = Page('S33', 'Join a list', 'The signed-in invited person sees who invited them, the list, their role and what it means, the members and their progress, then joins and starts sorting every item of the current round (DM-16). Spec: <a href="S33-join-list.md">S33-join-list.md</a>.')
@@ -749,11 +856,11 @@ def build_s33():
     F('S33-error-link-reset', 'Error: link reset while joining', phone(join_screen(extra=err, footer=err_footer)))
     no_round = f'''<div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground" role="note">{icon("info", "size-5 shrink-0")}<p class="text-body-sm">Round 1 is complete. You can see the results now. When Deniz starts the next round, you'll sort it with everyone.</p></div>'''
     nr_footer = f'''<div class="shrink-0 space-y-2 border-t bg-background px-gutter pb-4 pt-3">{btn("Join list", "primary", href="S09-list-overview.html#S09-shared")}<p class="text-center text-body-sm text-muted-foreground">Joining as Selin Yılmaz.</p></div>'''
-    nr = join_screen(extra=no_round, footer=nr_footer).replace('100 items, Round 1 in progress', '100 items, no round in progress')
+    nr = join_screen(extra=no_round, footer=nr_footer, no_round=True).replace('100 items, Round 1 in progress', '100 items, no round in progress')
     F('S33-no-round', 'No round in progress', phone(nr))
 
     pg.section('Accessibility and iOS', 'Large text: the role rows grow, progress counts move below their bars, the action stays pinned. iOS: full-screen modal with Cancel in the navigation bar.')
-    F('S33-large-text', 'Large text (200%)', phone(join_screen(large=True, hdr=appbar('Join a list', 'close', 'S08-home.html#S08-default', large=True), footer=f'''<div class="shrink-0 space-y-2 border-t bg-background px-gutter pb-4 pt-3"><a href="S25-sorting.html#S25-shared" class="flex min-h-14 w-full items-center justify-center rounded-control bg-primary px-5 py-2 text-center text-title-3 text-primary-foreground">Join and start sorting</a></div>''')))
+    F('S33-large-text', 'Large text (200%)', phone(scale_large(join_screen(large=True, hdr=appbar('Join a list', 'close', 'S08-home.html#S08-default', large=True), footer=f'''<div class="shrink-0 space-y-2 border-t bg-background px-gutter pb-4 pt-3"><a href="S25-sorting.html#S25-shared" class="flex min-h-14 w-full items-center justify-center rounded-control bg-primary px-5 py-2 text-center text-title-3 text-primary-foreground">Join and start sorting</a></div>'''))))
     ios_hdr = ios_bar(None, 'Join a list', '').replace('<span></span>', '<a href="S08-home.html#S08-default" class="inline-flex h-12 items-center justify-self-start px-2 text-body text-primary">Cancel</a>', 1)
     F('S33-ios', 'iOS', phone(join_screen(hdr=ios_hdr, footer=join_footer('selin', href='S25-sorting.html#S25-shared')), ios=True))
     pg.write('S33-join-list.html')
@@ -791,7 +898,7 @@ def dm_switch_row(k, on, viewer='deniz', disabled=False, ios=False, large=False)
     return f'<li class="flex min-h-14 items-center gap-3 px-4 py-2">{av(k, "size-8")}<span class="min-w-0 flex-1 {t_cls}">{p["name"]}{you}</span>{switch(on, "Decision Maker: " + p["name"], disabled, ios, href=href)}</li>'
 
 def members_screen(viewer='deniz', dm='mert', roles=None, done=None, offline=False, overlay='', ios=False, large=False,
-                   scrolled=False, keys=('deniz', 'mert', 'selin'), dm_pending=None, top_extra='', hdr=None, after_members=''):
+                   scrolled=False, keys=('deniz', 'mert', 'selin'), dm_pending=None, top_extra='', hdr=None, after_members='', snack=''):
     roles = roles or {k: (['owner'] if k == 'deniz' else []) + (['dm'] if k == dm else []) for k in keys}
     done = done or {}
     owner = 'owner' in roles.get(viewer, [])
@@ -814,7 +921,7 @@ def members_screen(viewer='deniz', dm='mert', roles=None, done=None, offline=Fal
     if owner:
         on_set = {dm} if dm_pending is None else ({dm, dm_pending} if dm_pending != 'none' else set())
         sw = ''.join(dm_switch_row(k, k in on_set, viewer, dis, ios, large) for k in keys)
-        foot = 'Resolves conflicts and breaks ties. One member at a time.' if not dis else 'Changes to members need a connection.'
+        foot = 'Resolves conflicts and breaks ties. Only one member can have this role: turning it on for someone turns it off for the current one.' if not dis else 'Changes to members need a connection.'
         dmg = f'<section>{section_label("Decision Maker")}{group(sw)}<p class="mt-2 px-1 {"text-body-lg" if large else "text-body-sm"} text-muted-foreground">{foot}</p></section>'
     else:
         if dm == viewer:
@@ -839,7 +946,8 @@ def members_screen(viewer='deniz', dm='mert', roles=None, done=None, offline=Fal
     off = offline_banner("You're offline. Changes to members need a connection.") if offline else ''
     return f'''{h}
   {off}{top_extra}
-  <div class="min-h-0 flex-1 overflow-hidden"><div class="space-y-6 px-4 pb-6 pt-2 {scroll}">{body}</div></div>
+  <div class="min-h-0 flex-1 overflow-hidden"><div class="space-y-5 px-gutter pb-6 pt-2 {scroll}">{body}</div></div>
+  {f'<div class="shrink-0 px-4 pb-4 pt-2">{snack}</div>' if snack else ''}
   {overlay}'''
 
 def member_sheet(k='selin', ios=False):
@@ -866,25 +974,25 @@ def build_s34():
     F('S34-finished', 'A member finished sorting (Selin 100 / 100)', phone(members_screen(done={'selin': 100})))
     empty_after = ''
     empty_members = f'''<section>{section_label("1 member")}{group(member_row("deniz", ["owner", "dm"], "deniz"))}
-      <div class="mt-3 flex flex-col items-center rounded-group bg-card px-6 py-8 text-center dark:border">{icon("users", "size-8 text-muted-foreground")}<p class="mt-3 text-title-3">Only you so far</p><p class="mt-1 max-w-xs text-body text-muted-foreground">Invite people to sort Wedding guests with you. Everyone decides on their own.</p>{btn("Invite people", "primary", href="S31-invite.html#S31-default", size="h-12", extra="mt-5 max-w-xs")}</div></section>'''
+      <div class="mt-3 flex flex-col items-center rounded-group bg-card px-6 py-8 text-center dark:border">{icon("users", "size-8 text-muted-foreground")}<p class="mt-3 text-balance text-title-3">Only you so far</p><p class="mt-1 max-w-xs text-balance text-body text-muted-foreground">Invite people to sort {keep("Wedding guests")} with you. Everyone decides on their own.</p>{btn("Invite people", "primary", href="S31-invite.html#S31-default", size="h-12", extra="mt-5 max-w-xs")}</div></section>'''
     empty = f'''{appbar('Members', 'back', 'S09-list-overview.html#S09-shared', sub='Wedding guests', actions=icon_action('user-plus', 'Invite people', 'S31-invite.html#S31-default'), lead_label='Back to Wedding guests')}
-  <div class="min-h-0 flex-1 overflow-hidden"><div class="space-y-6 px-4 pb-6 pt-2">{empty_members}
+  <div class="min-h-0 flex-1 overflow-hidden"><div class="space-y-5 px-gutter pb-6 pt-2">{empty_members}
     <section>{section_label("Resolving conflicts")}{group(nav_row('git-compare-arrows', 'Conflict rule', 'Decision Maker decides', href='S35-conflict-rule.html#S35-default'))}</section>
     <section>{section_label("Decision Maker")}{group(dm_switch_row('deniz', True))}<p class="mt-2 px-1 text-body-sm text-muted-foreground">You're the Decision Maker until you give the role to someone who joins.</p></section>
   </div></div>'''
     F('S34-empty', 'Only the Owner (nobody joined yet)', phone(empty))
 
     pg.section('Decision Maker switch (DM-10)', 'One tap on a member\'s switch. Moving the role from one member to another asks once, because it changes who resolves the open conflicts. Turning it on when nobody has the role applies immediately.')
-    dm_dialog = dialog('Make Selin the Decision Maker?', 'Mert stops being the Decision Maker. Selin will resolve the 15 open conflicts and any new ones.',
+    dm_dialog = dialog('Make Mert the Decision Maker?', "You stop being the Decision Maker. Mert will resolve the 15 open conflicts and any new ones.",
         dbtn('Cancel', href='#S34-default') + dbtn('Change Decision Maker', 'primary', href='#S34-dm-changed', action='confirm-dm'))
-    F('S34-dm-confirm', 'Moving the role: confirmation', phone(members_screen(dm_pending='selin', overlay=dm_dialog)))
-    F('S34-dm-changed', 'Role moved: snackbar (scrolled to the switches)', phone(members_screen(dm='selin', scrolled=True, overlay=snackbar('Selin is now the Decision Maker', bottom='bottom-6', icon_name='gavel'))))
+    F('S34-dm-confirm', 'Moving the role from Deniz to Mert: confirmation (flow 3)', phone(members_screen(dm='deniz', overlay=dm_dialog)))
+    F('S34-dm-changed', 'Role moved: Mert is now the Decision Maker (flow 3)', phone(members_screen(dm='mert', snack=snack_static('Mert is now the Decision Maker', icon_name='gavel'))))
     self_dialog = dialog('Become the Decision Maker?', "Mert stops being the Decision Maker. You'll resolve the 15 open conflicts and any new ones.",
         dbtn('Cancel', href='#S34-default') + dbtn('Become Decision Maker', 'primary'))
-    F('S34-dm-self-confirm', 'Owner takes the role themselves', phone(members_screen(dm_pending='deniz', overlay=self_dialog)))
+    F('S34-dm-self-confirm', 'Owner takes the role themselves', phone(members_screen(overlay=self_dialog)))
     off_dialog = dialog('Turn off the Decision Maker?', "Under the rule Decision Maker decides, conflicts need a Decision Maker. Without one, they stay open until members change their decisions to match. You can turn it on again at any time.",
         dbtn('Cancel', href='#S34-default') + dbtn('Turn off', 'primary'))
-    F('S34-dm-off-confirm', 'Turning the role off: confirmation', phone(members_screen(dm_pending='none', overlay=off_dialog)))
+    F('S34-dm-off-confirm', 'Turning the role off: confirmation', phone(members_screen(overlay=off_dialog)))
 
     pg.section('Member options', 'Tap a member\'s options button (or the row). The sheet repeats the Decision Maker switch (same state as the group), and holds Make Owner and Remove from list.')
     F('S34-member-sheet', 'Member options sheet: role change (Selin)', phone(members_screen(overlay=member_sheet('selin'))))
@@ -897,12 +1005,12 @@ def build_s34():
     rem = dialog('Remove Selin from “Wedding guests”?', "Selin can't open the list anymore. Choose what happens to Selin's 43 decisions.",
         dbtn('Cancel', href='#S34-default') + dbtn('Remove Selin', 'destructive', href='#S34-removed', action='confirm-remove'), extra_body=remove_extra)
     F('S34-remove-dialog', 'Remove member: keep or discard decisions (DM-17)', phone(members_screen(overlay=rem)))
-    F('S34-removed', 'Member removed: snackbar with Undo', phone(members_screen(keys=('deniz', 'mert'), overlay=snackbar('Removed Selin', 'Undo', bottom='bottom-6')).replace('2 active, Collaborator', '1 active, Collaborator')))
-    tr = dialog('Make Mert the Owner?', "Mert will manage members, rounds and the conflict rule, and can rename or delete the list. You'll stay on the list as a Collaborator.",
+    F('S34-removed', 'Member removed: snackbar with Undo', phone(members_screen(keys=('deniz', 'mert'), snack=snack_static('Removed Selin', 'Undo')).replace('2 active, Collaborator', '1 active, Collaborator')))
+    tr = dialog('Make Mert the Owner?', "Mert will manage members, rounds and the conflict rule, and can rename or delete the list.\nYou'll stay on the list as a Collaborator. Only Mert can make you the Owner again.",
         dbtn('Cancel', href='#S34-default') + dbtn('Make Mert Owner', 'primary', href='#S34-transferred', action='confirm-transfer'))
     F('S34-transfer-dialog', 'Transfer ownership: confirmation', phone(members_screen(overlay=tr)))
     transferred_roles = {'deniz': [], 'mert': ['owner', 'dm'], 'selin': []}
-    F('S34-transferred', 'Ownership transferred: Deniz now sees the Collaborator view', phone(members_screen(roles=transferred_roles, overlay=snackbar('Mert is now the Owner', bottom='bottom-6', icon_name='crown')).replace('Only Deniz, the Owner, can change roles.', 'Only Mert, the Owner, can change roles.')))
+    F('S34-transferred', 'Ownership transferred: Deniz now sees the Collaborator view', phone(members_screen(roles=transferred_roles, snack=snack_static('Mert is now the Owner', icon_name='crown')).replace('Only Deniz, the Owner, can change roles.', 'Only Mert, the Owner, can change roles.')))
 
     pg.section('Leaving', 'Members can leave at any time; their decisions stay. The Owner must hand the list over first.')
     lo = dialog('Choose a new Owner first', '“Wedding guests” needs an Owner. Make another member the Owner, then you can leave. To remove the list for everyone, delete it instead.',
@@ -935,18 +1043,20 @@ def build_s34():
     <div class="h-40 animate-pulse rounded-group bg-muted"></div>
   </div>'''
     F('S34-loading', 'Loading', phone(load))
-    err = f'''{appbar('Members', 'back', 'S09-list-overview.html#S09-shared', sub='Wedding guests', lead_label='Back to Wedding guests')}
+    err = f'''<header class="flex h-app-bar shrink-0 items-center gap-1 px-1"><a href="S09-list-overview.html#S09-shared" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Back to Wedding guests">{icon("arrow-left", "size-6")}</a><span class="flex-1"></span></header>
   <div class="flex flex-1 flex-col items-center justify-center px-8 pb-16 text-center">
-    {icon("triangle-alert", "size-8 text-muted-foreground")}
-    <h2 class="mt-4 text-title-3">Members couldn't be loaded</h2>
-    <p class="mt-1 max-w-xs text-body text-muted-foreground">SwipeSort didn't respond. Check your connection and try again.</p>
-    {btn("Try again", "secondary", size="h-12", extra="mt-6 max-w-xs", ic="refresh-cw")}
+    {icon("cloud-alert", "size-8 text-muted-foreground")}
+    <h1 class="mt-4 text-balance text-title-3">Members couldn't be loaded</h1>
+    <p class="mt-1 max-w-xs text-balance text-body text-muted-foreground">SwipeSort didn't respond. Check your connection and try again.</p>
+    <p class="mt-3 max-w-xs text-balance text-body-sm text-muted-foreground">Your decisions are saved on this phone.</p>
+    {btn("Try again", "secondary", size="h-12", extra="mt-6 max-w-xs")}
+    {btn("Back to list", "ghost", href="S09-list-overview.html#S09-shared", size="h-12", extra="mt-2 max-w-xs")}
   </div>'''
     F('S34-error', 'Error', phone(err))
     F('S34-offline', 'Offline: changes need a connection', phone(members_screen(offline=True)))
 
     pg.section('Accessibility', 'Large text: names and role badges wrap, counts move under the progress bars, the switch rows grow.')
-    F('S34-large-text', 'Large text (200%)', phone(members_screen(large=True)))
+    F('S34-large-text', 'Large text (200%)', phone(scale_large(members_screen(large=True))))
 
     pg.section('iOS and web', 'iOS: back chevron with the list name, inset grouped sections, iOS switches, member options as an action sheet. Web desktop: the phone layout centered; member options open as a dropdown menu next to the button.')
     F('S34-ios', 'iOS', phone(members_screen(ios=True), ios=True))

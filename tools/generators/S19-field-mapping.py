@@ -354,7 +354,7 @@ large = f'''<header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
     <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="3" aria-valuemin="1" aria-valuemax="5" aria-label="Step 3 of 5, Map fields"><span class="h-1.5 flex-1 rounded-full bg-primary"></span><span class="h-1.5 flex-1 rounded-full bg-primary"></span><span class="h-1.5 flex-1 rounded-full bg-primary"></span><span class="h-1.5 flex-1 rounded-full bg-muted"></span><span class="h-1.5 flex-1 rounded-full bg-muted"></span></div></div>
   <div class="min-h-0 flex-1 overflow-hidden">
     <div class="space-y-5 pb-6 pt-1">
-    {fields_group(CONTACT_FIELDS[:2], "7 fields", large=True).replace('text-label text-muted-foreground">7 fields', 'text-title-3 font-normal text-muted-foreground">7 fields')}
+    {fields_group(CONTACT_FIELDS[:4], "7 fields", large=True).replace('text-label text-muted-foreground">7 fields', 'text-title-3 font-normal text-muted-foreground">7 fields')}
     </div>
   </div>
   <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3"><a href="S20-duplicate-review.html#S20-default" class="flex min-h-16 w-full items-center justify-center rounded-control bg-primary px-6 text-title-3 text-primary-foreground" data-action="continue">Continue</a></div>'''
@@ -390,8 +390,8 @@ for t, name, ex, warn in type_rows:
     sel = t == 'link'
     desc = 'Example: lenahoffmann.example' if t == 'link' else ("Doesn't fit 10 values" if t not in ('text',) else 'Example: https://lenahoffmann.example')
     pop_items += f'<button role="option" aria-selected="{"true" if sel else "false"}" class="flex min-h-12 w-full items-center gap-3 px-3 py-1.5 text-left {"bg-accent" if sel else ""}">{icon(TYPES[t][0], "size-5 text-muted-foreground")}<span class="min-w-0 flex-1"><span class="block text-body">{name}</span><span class="block text-caption text-muted-foreground">{desc}</span></span>{icon("check", "size-5 text-primary") if sel else ""}</button>'
-popover = f'<div class="absolute bottom-[40%] left-9 z-20 w-64 overflow-hidden rounded-control bg-popover py-1 shadow-overlay" role="listbox" aria-label="Type of Portfolio">{pop_items}</div>'
-web_screen = mapping_screen(CSV_FIELDS[2:], '', scrolled=True, count_label='8 fields, 1 hidden by SwipeSort',
+popover = f'<div class="absolute left-9 top-60 z-20 w-64 overflow-hidden rounded-control bg-popover py-1 shadow-overlay" role="listbox" aria-label="Type of Portfolio">{pop_items}</div>'
+web_screen = mapping_screen(CSV_FIELDS[4:], '', scrolled=True, count_label='8 fields, 1 hidden by SwipeSort',
                             continue_href='S20-duplicate-review.html#S20-none', overlay=popover)
 P.frame('S19-web-desktop', 'Web, desktop: type select as a popover', desktop(web_screen, 'swipesort.app/import/fields'))
 

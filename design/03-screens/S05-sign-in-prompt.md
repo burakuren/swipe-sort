@@ -18,7 +18,7 @@ VIS-13, SUC-05, DEL-24 (flow 3).
 | --- | --- | --- |
 | S09 list overview (`S09-guest-wedding`) | Share / Invite | `S05-share` |
 | S10 list management | Share | `S05-share` |
-| S06 Settings › Backup (`S06-backup-guest`), sign-in card | "Sign in" / "Back up" | `S05-backup` |
+| S06 Settings › Backup (`S06-backup-guest`), sign-in card | "Sign in" / "Sign in to back up" | `S05-default` (backup prompt over Settings) |
 | S08 not-backed-up indicator (`S08-guest`) | "Back up" | `S05-backup` |
 
 | To | How |
@@ -26,14 +26,16 @@ VIS-13, SUC-05, DEL-24 (flow 3).
 | Origin, unchanged | "Not now", scrim tap, system back, drag down |
 | Google / Apple native sheet (out of scope) | "Continue with Google" (`data-action="continue-google"`), "Continue with Apple" |
 | S03 `S03-context-share` / `S03-context-backup` | "Continue with email"; after sign-in S03 returns to `S05-moving` |
-| `S05-moving` → `S05-moved` | Automatic after sign-in (prototype: sr-only link `data-action="next"`) |
+| `S05-moving` → `S05-moved` | Automatic after sign-in (prototype: clicking the progress area has `data-action="next"`) |
 | S31 `S31-default` | "Share list" on `S05-moved` (`data-action="continue"`) |
 | S06 `S06-backup` | "Done" on `S05-moved-backup` |
 
 ## 3. Layout and components
 
-- **Background**: the origin screen stays in place under a `bg-scrim/50` scrim (frames use simplified,
-  inert copies of S09 and S08).
+- **Background**: the origin screen stays in place under a `bg-scrim/50` scrim that also covers the status and
+  navigation bars (frames use inert copies of S09-guest-wedding, S08-guest and S06-guest, generated from their
+  generators). The sheet runs under the gesture bar with extra bottom padding (24 Android, 34 iOS). After
+  the move, the host already shows the backed-up state.
 - **BottomSheet** (M3; `bg-popover rounded-t-sheet shadow-sheet`, handle): status icon (48 circle,
   `primary-soft`), `text-title-2` title, `text-body` reason, a short **reason list** (2 rows, icon 20 +
   text) explaining what happens to the lists, then the button stack: iOS Apple, Google (outline), email
@@ -50,12 +52,13 @@ VIS-13, SUC-05, DEL-24 (flow 3).
 
 | Frame | Trigger |
 | --- | --- |
+| `S05-default` | Back up from Settings while not signed in (host: S06-guest). Entry frame for links from other files |
 | `S05-share` | Share or Invite on a list while not signed in |
 | `S05-backup` | Back up while not signed in |
 | `S05-signing-in` | Returned from the Google chooser; exchanging the token |
 | `S05-offline` | Prompt opened while offline: reason shown, sign-in buttons disabled, "Not now" enabled |
 | `S05-moving` | Signed in; device lists are being moved (one at a time) |
-| `S05-moved` | All lists moved; origin was Share |
+| `S05-moved` | All lists moved; origin was Share. The host screen already shows the backed-up state (no not-backed-up indicator; "Backed up" on the list) |
 | `S05-moved-backup` | All lists moved; origin was Back up |
 | `S05-moved-merge` | The account already had lists; device lists were added next to them |
 | `S05-move-partial` | Some lists moved, at least one failed |
@@ -116,7 +119,7 @@ VIS-13, SUC-05, DEL-24 (flow 3).
 | Failed actions | "Try again", "Later" |
 | Web wording | "On this browser only"; "Lists are in this browser only"; "Your 4 lists in this browser move to your account and are backed up."; backup body "Your lists are saved in this browser only. If you clear its data, they're gone. An account keeps them safe and on every device."; moving body "Keep SwipeSort open. Each list stays on this browser until it's safely in your account." |
 | Singular forms | "1 list moved to your account"; "Your list on this phone moves to your account." |
-| Prototype-only link | "Finish moving (prototype shortcut: the sheet moves on by itself)" |
+| Prototype-only link | Progress-area overlay labelled "Finish moving (prototype: click the progress; the sheet moves on by itself)" |
 
 ## 7. Accessibility
 

@@ -50,10 +50,11 @@ Same content in both presentations; only the container and the bottom bar differ
   when expanded from S25, overflow menu when pushed). Pushed screens have no decide bar; My decision is a
   control instead (below).
 
-**Content, top to bottom**
+**Content, top to bottom** (every text edge on the 20 dp gutter; section headers are not inset)
 1. **Header**: person and generic templates show Avatar 64 (photo or initials) + title (`text-title-2`, wraps
    fully, never truncates) + subtitle field (`text-body muted`). Product and photo templates show the image
-   first (`rounded-group`, 176–240 high, `object-cover`), then title and subtitle. Expanded person items show
+   first (`rounded-group`, 176–240 high; photos `object-cover`, products `object-contain` on `bg-muted` so
+   the product is never cropped), then title and subtitle. Expanded person items show
    the photo as a 224-high image.
 2. **My decision**: from S25, a row "My decision" + DecisionBadge ("Not decided yet" with `circle-dashed`).
    From Results / Conflicts, a **decision control**: three equal Buttons in a `radiogroup`, Reject / Maybe /
@@ -127,7 +128,7 @@ AlertDialog, Alert, Skeleton, OfflineBanner, Kbd.
 | `S26-decision-changed` | Maybe selected, snackbar "Changed to Maybe" + Undo | Tap another decision |
 | `S26-loading` | Skeleton for image, title, control and fields | Pushed screen while loading |
 | `S26-offline-saved` | Offline banner; snackbar "Saved on this phone. It will sync when you're back online." | Save while offline (shared list) |
-| `S26-not-found` | "This item isn't in the list anymore" | Item removed by another member |
+| `S26-not-found` | "This item isn't in the list anymore" (S40 error treatment) | Item removed by another member |
 | `S26-read-only` | Archived Apartment viewings (a07): notice with Restore list, no Edit, Viewing "—", Final decision | Archived list |
 | `S26-large-text` | 200%: labels above values, decide buttons as labeled tiles | Font scale ≥ 150% |
 | `S26-ios`, `S26-ios-edit` | Page sheet with Edit / Done; editing with Cancel / Save | iOS |
@@ -144,11 +145,11 @@ AlertDialog, Alert, Skeleton, OfflineBanner, Kbd.
   same while focus is not in a text field.
 - **Edit**: "Edit" turns every field into an input in place (150 ms cross-fade); tapping a single field does
   the same and focuses that field. The decide bar is replaced by Cancel / Save changes. Unsaved changes +
-  close or back ask "Discard changes?" (S40 discard dialog: "Keep editing" / "Discard changes").
+  close or back ask "Discard changes to Gökhan Doğan?" (S40 `S40-discard-edits`: "Keep editing" / "Discard changes").
 - **Save changes**: validates; on error the first invalid field gets focus and its message (no snackbar);
   on success the form returns to read mode, changed fields get the Edited badge, snackbar "Changes saved".
   Clearing a field that had an original value is an edit (original shown); the card updates immediately.
-- **Revert to original**: AlertDialog; confirm restores the original value, removes the Edited badge, and
+- **Revert to original**: AlertDialog (S40 `S40-revert-field`, destructive "Revert"); confirm restores the original value, removes the Edited badge, and
   shows "City reverted to İstanbul" with Undo (6 s). Undo restores the edit.
 - **Multi-value**: the first value shows on the card ("+1" for more); the label Select offers Mobile, Home,
   Work, Other; removing the last value leaves the field empty ("Add phone").
@@ -182,19 +183,19 @@ AlertDialog, Alert, Skeleton, OfflineBanner, Kbd.
 | Hidden decisions | "Others' decisions stay hidden until you decide, so they don't sway you." / "To see them while sorting, turn on Show others' decisions in the sorting menu." |
 | Fields | "Fields"; "Edit"; empty field "Add phone", "Add email" ("Add {field name in lowercase}"); read-only "—" |
 | Edited | Badge "Edited" / "Edited by Mert"; "Original: İstanbul"; "Revert to original" |
-| Revert dialog | Title "Revert City to the original?"; body "City goes back to “İstanbul”, the value from Contacts. Your edit “Ankara” is removed."; buttons "Cancel", "Revert"; snackbar "City reverted to İstanbul" + "Undo" |
+| Revert dialog | Title "Revert City to the original?"; body "City goes back to “İstanbul”, the value from Contacts. Your edit “Ankara” is removed."; buttons "Cancel", "Revert" (destructive variant: the edit is discarded; same as S40 `S40-revert-field`); snackbar "City reverted to İstanbul" + "Undo" |
 | Source lines | "From Contacts on this phone. Edits stay in SwipeSort; your contacts aren't changed."; "From Photos on this phone. Edits stay in SwipeSort; your photos aren't changed."; "From mert-family.csv. Edits stay in SwipeSort; the file isn't changed."; "From Google Sheets: Flat hunt 2026, tab Beşiktaş."; "Added by hand on Oct 4." |
 | Edit mode | Helper "Changes stay in SwipeSort. The source isn't changed."; "Photo"; "Change photo", "Add photo", "Change image", "Remove"; "Add another phone"; "The first number shows on the card."; phone labels "Mobile", "Home", "Work", "Other"; "Remove this number"; "Choose date and time"; "Opens the date and time picker of your phone."; "Open link"; buttons "Cancel", "Save changes" |
 | Validation | Email: "Enter a full email address, like name@example.com."; phone: "Enter a phone number with digits only, spaces allowed."; number: "Enter a number, like 429 or 4.5."; link: "Enter a full link, like https://example.com."; date: "Choose a date." |
-| Discard dialog (S40) | "Discard changes?" / "Your edits to Gökhan Doğan won't be saved." / "Keep editing", "Discard changes" |
+| Discard dialog (S40 `S40-discard-edits`) | Title "Discard changes to {title}?" ("Discard changes to Gökhan Doğan?"); body "Your edits won't be saved. The item keeps its current values."; buttons "Keep editing", "Discard changes" (destructive) |
 | Snackbars | "Changes saved"; "Saved on this phone. It will sync when you're back online."; "Note saved"; "Note deleted" + "Undo"; "Changed to Maybe" + "Undo"; "Copied" |
 | Notes | "Notes"; "No notes yet."; shared "No notes yet. Notes are visible to all members unless you make them private."; "Add note"; "My note" (solo); "You"; "Only you"; "Edit", "Delete"; composer label "Your note"; counter "37 / 1,000"; "Only visible to me"; "Mert and Selin won't see this note."; "Cancel", "Save note" |
 | Delete note dialog | Title "Delete your note?"; body "“Flying in from Berlin. Ask about dates first.” will be deleted from this item."; buttons "Cancel", "Delete note" |
 | Offline | Banner "You're offline. Changes are saved on this phone." |
-| Not found | "This item isn't in the list anymore" / "Mert removed it from Wedding guests. Its decisions and notes were removed with it." / "Back to results" |
+| Not found (S40 `S40-item-gone` treatment) | "This item isn't in the list anymore" / "Mert removed it from Wedding guests. Its decisions and notes were removed with it." / "Back to results" |
 | Archived | "Apartment viewings is archived" / "Restore the list to edit fields, change decisions or add notes." / "Restore list" |
 | Loading | Screen reader: "Loading item" |
-| Keyboard hints (desktop) | "Esc Close", "E Edit", "← Reject", "↑ Maybe", "→ Accept" |
+| Keyboard hints (desktop) | "Esc Close", "E Edit", "← ↑ → Decide" (one row) |
 | Screen reader, field row | "City: Ankara, edited. Edit" |
 
 ## 7. Accessibility

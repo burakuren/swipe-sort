@@ -26,7 +26,7 @@ c049 Yiğit Oral, c059 Sophie Laurent, c071 Freya Nielsen). **3 stay open** beca
 | --- | --- |
 | S36 `S36-default` (any card frame) | "Resolve all" (`data-action="resolve-all"`) → `S37-confirm` sheet |
 | S09 `S09-shared` | Conflicts row, Decision Maker only → `S37-default` |
-| S36 `S36-remaining` | "Resolve all" when only undecided items are left → `S37-nothing` |
+| S09 conflicts row / stale confirm | Bulk resolve opened when every open conflict is one Mert never decided → `S37-nothing` (S36 hides "Resolve all" in that case, `S36-remaining`) |
 
 | To | How |
 | --- | --- |
@@ -34,7 +34,7 @@ c049 Yiğit Oral, c059 Sophie Laurent, c071 Freya Nielsen). **3 stay open** beca
 | S36 `S36-default` | Cancel; "Resolve one by one" |
 | S36 `S36-remaining` | "Review 3 open conflicts" (`data-action="review-open"`) |
 | S39 `S39-shared` | "Export" (`data-action="export"`) |
-| S09 `S09-shared` | "Done"; close (`x`) |
+| S09 `S09-shared-decision-maker` | "Done"; close (`x`); back from `S37-default` |
 
 ## 3. Layout and components
 
@@ -44,13 +44,13 @@ c049 Yiğit Oral, c059 Sophie Laurent, c071 Freya Nielsen). **3 stay open** beca
   separated "Not decided 3". Then a ListGroup with two choices: "Resolve one by one" (`layers`) → S36,
   "Resolve all with my decisions" (`gavel`) → confirmation. Footer: decisions stay editable in Results.
 - **`S37-confirm`**: BottomSheet (`rounded-t-sheet`, top 40 dp, scrim over S36). Title as a question
-  (`text-title-2`), consequence sentence, Group "12 will be resolved" with the split by decision (order
+  (`text-title-2`), consequence sentence, bordered Groups (hairline in light and dark) "12 will be resolved" with the split by decision (order
   Reject, Maybe, Accept; zero counts shown muted), Group "3 stay open" with ItemRows (avatar 40, name,
   subtitle, DecisionBadge "Not decided"), then the actions pinned at the bottom: primary "Resolve 12
   conflicts" (56 high, `data-action="confirm-resolve"`) and ghost "Cancel". The sheet body scrolls; the
   actions stay visible.
-- **`S37-resolving`**: primary shows spinner + "Resolving…" (`aria-busy`), status line "Resolving 12
-  conflicts…"; scrim taps and back are ignored until done (≤ 2 s typical).
+- **`S37-resolving`**: primary shows spinner + "Resolving…" (`aria-busy`; the count is announced to screen
+  readers only, no second visible line); scrim taps and back are ignored until done (≤ 2 s typical).
 - **`S37-summary`**: full-screen result (replaces the sheet; centered single-purpose moment). App bar: close
   `x` and text Button "Undo". Icon 56 (`gavel` on `secondary`), "Resolved 12 conflicts" (`text-title-1`),
   one sentence, Group with the split, section "3 still open" with the same ItemRows, bottom actions:
@@ -106,14 +106,14 @@ c049 Yiğit Oral, c059 Sophie Laurent, c071 Freya Nielsen). **3 stay open** beca
 | Element | String |
 | --- | --- |
 | Entry | App bar "Resolve conflicts" / "Wedding guests, Round 1"; "15 conflicts need your decision" / "You're the Decision Maker, so you choose the final decision when members disagree."; "Your earlier decisions on these items"; "Reject", "Maybe", "Accept", "Not decided" with counts; "Resolve one by one" / "See every member's decision and notes, then choose the final decision for each item."; "Resolve all with my decisions" / "Your decision from sorting becomes final on the 12 items you decided. 3 stay open."; "Either way, you can change a final decision later in Results." |
-| Confirm | "Resolve 15 conflicts with your decisions?" / "You decided 12 of them while sorting. Your decision becomes the final decision. Members see "Resolved by Mert"." / "12 will be resolved" / "3 stay open" — "You haven't decided these items. Decide them one by one afterwards." / badge "Not decided" / "Resolve 12 conflicts", "Cancel" |
+| Confirm | "Resolve 12 conflicts with your decisions?" / "15 conflicts are open. You decided 12 of them while sorting; your decision becomes the final decision. Members see "Resolved by Mert"." / "12 will be resolved" / "3 stay open" — "You haven't decided these items. Decide them one by one afterwards." / badge "Not decided" / "Resolve 12 conflicts", "Cancel" |
 | Confirm (1 conflict) | "Resolve 1 conflict with your decision?" / "Resolve 1 conflict" |
-| Resolving | "Resolving…"; "Resolving 12 conflicts…" |
+| Resolving | Button "Resolving…" only (screen reader status "Resolving 12 conflicts") |
 | Summary | "Resolved 12 conflicts" / "Your decisions are now final. Deniz and Selin are notified." / "3 still open" / "Review 3 open conflicts", "Export", "Done"; app bar "Undo", close label "Close" |
 | Summary, nothing left open | "Resolved 15 conflicts" / "Every conflict in Round 1 has a final decision. Deniz and Selin are notified." / "Export" (primary), "Done" |
 | Nothing to resolve | "Nothing to resolve with your decisions" / "You haven't decided any of the 3 open conflicts, so there's no decision of yours to apply. Decide them one by one." / "Review 3 open conflicts", "Cancel" |
 | Partial failure | "Resolved 9 of 12 conflicts" / "Deniz and Selin are notified." / "3 conflicts couldn't be resolved" — "The connection dropped while saving. Your decisions on them are safe. Try again to resolve them." / "Try again" / "Review 6 open conflicts" |
-| Undo dialog | "Undo Resolve all?" / "The 12 conflicts open again with every member's decision as it was. Deniz and Selin are notified." / "Cancel", "Undo Resolve all" |
+| Undo dialog | "Undo Resolve all?" / "The 12 conflicts open again with every member's decision as it was. Deniz and Selin are notified." / "Cancel", "Undo Resolve all" (destructive: it discards 12 final decisions, A-112) |
 | Undone snackbar | "Undid Resolve all. 12 conflicts are open again." |
 | Offline | Banner "You're offline. Resolutions are saved on this phone and sync when you're back online."; "Resolve all needs a connection" — "It uses everyone's latest decisions, so it can't run offline. You can still resolve conflicts one by one; they sync later."; "Resolve 12 conflicts" (disabled), "Resolve one by one" |
 | Not allowed | "Only Mert can resolve all conflicts" / "Mert is the Decision Maker. You can review the conflicts and change your own decisions." / "Review conflicts", "Back to list". Rule Everyone must agree: "Resolve all isn't used with Everyone must agree" / "Conflicts close when members change their decisions to match." |

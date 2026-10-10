@@ -48,10 +48,13 @@ Pushed screen, no bottom navigation.
      who started it instead, A-71), then what was included and the card order: "Maybe pile from Round 1, 6
      items, shuffled", "All 20 items, original order", "Accepted items, 48 items, sorted by City from A to Z",
      "Custom selection, 12 items, original order".
-   - Decision split bar (h-2, `bg-accept | bg-maybe | bg-reject` with 2 dp gaps, as components.md Progress;
-     Accept first like Results) and the legend with icon + count + word ("3 accepted", "1 maybe", "2 rejected").
-   - Shared rounds in progress: "List status" split (`bg-foreground` Agreed, `bg-foreground/50` Conflict,
-     `bg-muted` Pending) + legend, and "Members" mini rows (Avatar 24, name, progress bar, "76 / 100").
+   - Decision split bar (h-2, `bg-reject | bg-maybe | bg-accept` with 2 dp gaps) and the legend with icon +
+     count + word ("2 rejected", "1 maybe", "3 accepted"), in the decision order Reject, Maybe, Accept like S27
+     (only the Results segments lead with Accept, A-107).
+   - Shared rounds in progress: "List status" split with the S09-shared mapping (`bg-foreground` Agreed,
+     `bg-foreground/50` Conflict, `bg-muted` Pending) + a legend where every item starts with a swatch of its
+     bar color, then the status icon and count (the round detail uses the S09 list legend: swatch, icon,
+     label, description, count), and "Members" mini rows (Avatar 24, name, progress bar, "76 / 100").
    - Trailing info IconButton (48, `info`) "Round 2 details". The row itself is one link to S28 round mode.
 4. **Footnote** (`text-body-sm muted`): what history keeps, or who can start rounds on shared lists.
 5. **Bottom bar** (pinned, `border-t`): primary "Start a new round" (solo, Owner) or "Continue sorting"
@@ -62,7 +65,7 @@ counts; shared in-progress: List status card); **Details** ListGroup of label/va
 Started, Finished, Sorting time (solo) or Started by, Conflict rule (shared); **Changed in a later round**
 row (solo, when a later round re-decided items) → the later round's results; **Members** (shared): one row per
 member with avatar, name, role caption, "85 / 100 decided", own split bar and legend; **Items in card order**:
-numbered rows (position, thumbnail/avatar, title, DecisionBadge from that round), first 5 + "See all 20
+numbered rows (position, thumbnail/avatar, title wrapping to 2 lines, DecisionBadge from that round), first 5 + "See all 20
 items"; pinned primary "See Round 1 results".
 
 Components: AppBar, ListGroup, RoundRow (Proposed), Progress (decision split, list status), Badge,
@@ -72,8 +75,8 @@ DecisionBadge, Avatar, IconButton, Button, Alert (neutral, archived), EmptyState
 
 | Frame | What it shows | Trigger |
 | --- | --- | --- |
-| `S30-default` | Desk setup: Latest results (8 / 1 / 11); Round 2 (Oct 6, 2 min, Maybe pile from Round 1, 6 items, shuffled, 3 / 1 / 2); Round 1 (Oct 4, 6 min, All 20 items, original order, 5 / 6 / 9); Start a new round | S09 Rounds, S28 Round history |
-| `S30-round-detail` | Round 1 detail: 5 accepted, 6 maybe, 9 rejected; Items All items (20), Original order, Oct 4 10:00–10:06, 6 min; "Round 2 sorted the 6 Maybe items again"; items in card order p01–p05 | Info on Round 1 |
+| `S30-default` | Desk setup: Latest results (11 rejected / 1 maybe / 8 accepted); Round 2 (Oct 6, 2 min, Maybe pile from Round 1, 6 items, shuffled, 2 / 1 / 3); Round 1 (Oct 4, 6 min, All 20 items, original order, 9 / 6 / 5); Start a new round | S09 Rounds, S28 Round history |
+| `S30-round-detail` | Round 1 detail: 9 rejected, 6 maybe, 5 accepted; Items All items (20), Original order, Oct 4 10:00–10:06, 6 min; "Round 2 sorted the 6 Maybe items again"; items in card order p01–p05 | Info on Round 1 |
 | `S30-round-2-detail` | Round 2 detail: Maybe pile from Round 1 (6), Shuffled, Oct 6 12:30–12:33, 2 min; card order p15, p04, p18, p13, p07 | Info on Round 2 |
 | `S30-in-progress` | Wedding guests (shared), Round 1 in progress: "You started it on Sep 28", List status 32 agreed / 15 conflicts / 53 pending, members You 76, Mert 85, Selin 43 of 100; Continue sorting | Shared list with a round running |
 | `S30-shared-detail` | Round 1 detail (shared): List status card, Started by You Sep 28 19:05, Conflict rule Decision Maker decides (Mert), members with their own splits (48/11/17, 50/14/21, 25/10/8) | Info on a shared round |
@@ -107,15 +110,15 @@ Owner arrive with sync like any other change. No error state beyond the S40 gene
 | App bar | "Round history"; caption "{List name}"; back label "Back to {list}" |
 | Latest results | "Latest results" / "The latest decision on each of the 20 items" |
 | Section | "Rounds, newest first"; single round "Rounds" |
-| Round row | "Round 2"; "Oct 6, sorted in 2 min"; "Maybe pile from Round 1, 6 items, shuffled"; "All 20 items, original order"; "Accepted items, 48 items, sorted by City from A to Z"; "Custom selection, 12 items, original order"; legend "3 accepted", "1 maybe", "2 rejected"; badge "In progress"; "Ended early" (round ended before everyone finished); info label "Round 2 details" |
+| Round row | "Round 2"; "Oct 6, sorted in 2 min"; "Maybe pile from Round 1, 6 items, shuffled"; "All 20 items, original order"; "Accepted items, 48 items, sorted by City from A to Z"; "Custom selection, 12 items, original order"; legend "2 rejected", "1 maybe", "3 accepted"; badge "In progress"; "Ended early" (round ended before everyone finished); info label "Round 2 details" |
 | Shared round | "All 100 items, original order. You started it on Sep 28." (others: "Deniz started it on Sep 28."); "List status"; "32 agreed", "15 conflicts", "53 pending"; "Members"; "You", "Mert", "Selin"; "76 / 100" |
 | Footnotes | Solo: none; shared Owner: "Finished rounds stay here with their results. As the Owner, you start new rounds for everyone."; shared member: "Finished rounds stay here with their results. Only Deniz, the Owner, starts new rounds."; single round: "Each new round adds its results here. Earlier rounds never change." |
 | Archived notice | "Apartment viewings is archived. Restore it from the list to start a new round." |
 | Buttons | "Start a new round"; "Continue sorting"; "Start sorting"; "See Round 1 results"; "See all 20 items" |
-| Round detail | Title "Round 1"; "Result"; badges "5 accepted", "6 maybe", "9 rejected"; "Details"; labels "Items", "Card order", "Started", "Finished", "Sorting time", "Started by", "Conflict rule"; values "All items (20)", "Maybe pile from Round 1 (6)", "Original order", "Shuffled", "Sorted by City, A to Z", "Oct 4, 10:00", "Oct 4, 10:06", "6 min", "You, Sep 28, 19:05", "Decision Maker decides (Mert)", "Everyone must agree", "Majority decides"; "Changed in a later round"; "Round 2 sorted the 6 Maybe items again" / "3 accepted, 2 rejected, 1 still Maybe"; "Items in card order"; shared "List status", "In progress", "Members", "Deniz (you)", roles "Owner", "Decision Maker", "Collaborator", "76 / 100 decided" |
+| Round detail | Title "Round 1"; "Result"; badges "9 rejected", "6 maybe", "5 accepted"; "Details"; labels "Items", "Card order", "Started", "Finished", "Sorting time", "Started by", "Conflict rule"; values "All items (20)", "Maybe pile from Round 1 (6)", "Original order", "Shuffled", "Sorted by City, A to Z", list status legend "Agreed" / "Everyone chose the same", "Conflict" / "Members chose differently", "Pending" / "Not everyone has decided", "Oct 4, 10:00", "Oct 4, 10:06", "6 min", "You, Sep 28, 19:05", "Decision Maker decides (Mert)", "Everyone must agree", "Majority decides"; "Changed in a later round"; "Round 2 sorted the 6 Maybe items again" / "3 accepted, 2 rejected, 1 still Maybe"; "Items in card order"; shared "List status", "In progress", "Members", "Deniz (you)", roles "Owner", "Decision Maker", "Collaborator", "76 / 100 decided" |
 | Empty | "No rounds yet" / "Sort the list once and the results of each round will be kept here." / "Start sorting" |
 | Loading | Screen reader "Loading rounds" |
-| Screen reader, round row | "Round 2, Oct 6, sorted in 2 minutes. Maybe pile from Round 1, 6 items, shuffled. 3 accepted, 1 maybe, 2 rejected. Opens Round 2 results." |
+| Screen reader, round row | "Round 2, Oct 6, sorted in 2 minutes. Maybe pile from Round 1, 6 items, shuffled. 2 rejected, 1 maybe, 3 accepted. Opens Round 2 results." |
 
 ## 7. Accessibility
 

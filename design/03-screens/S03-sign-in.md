@@ -65,9 +65,9 @@ Auth modal (full-screen on Android and web, page sheet on iOS).
 | `S03-error-wrong-password` | Server: wrong password |
 | `S03-error-invalid-email` | Client validation on submit (not while typing) |
 | `S03-error-account-exists` | Create account with an email that has an account |
-| `S03-error-uses-google` | Email sign-in for an account that only has Google (no password) |
+| `S03-error-uses-google` | Email sign-in for an account that only has Google (no password): the password field hides and "Continue with Google" becomes the main action |
 | `S03-error-weak-password` | Create account submitted with an unmet rule |
-| `S03-error-locked` | 5 wrong passwords within 15 minutes |
+| `S03-error-locked` | 5 wrong passwords within 15 minutes: "Sign in" disabled until the pause ends; the notice's "Reset password" replaces "Forgot password?" |
 | `S03-error-no-connection` | Request failed: no network |
 | `S03-google-busy` | Returned from the Google chooser, exchanging the token |
 | `S03-google-cancelled` | Person closed the Google chooser |
@@ -89,12 +89,13 @@ Auth modal (full-screen on Android and web, page sheet on iOS).
 - Password rules (sign-up and S04): at least 8 characters; at least one number or symbol. Rules turn
   checked live; unmet rules turn into errors only on submit.
 - Account exists → "Sign in instead" opens `S03-email` with the email prefilled.
-- Uses Google → the inline Google button starts Google sign-in.
-- Locked → "Reset password" opens S04; sign-in re-enables after 15 minutes.
+- Uses Google → the password field and "Forgot password?" hide; the main button becomes "Continue with Google".
+- Locked → "Sign in" is disabled and "Forgot password?" hidden (the notice's "Reset password" opens S04); both
+  return after 15 minutes.
 - Success: success haptic; the modal closes (or hands off to S05 moving / S33 join). On Android the
   password manager (Autofill / Credential Manager) is offered to save the new credentials.
 - Push transitions inside the auth stack: shared axis X 300 ms; reduced motion: fade 150 ms.
-- Snackbar on cancel: 4 s, polite.
+- Snackbar on cancel: 4 s, polite, placed above the terms line.
 
 ## 6. Copy
 
@@ -160,7 +161,8 @@ Auth modal (full-screen on Android and web, page sheet on iOS).
 - **Web**: Google uses the Google Identity Services popup; no Apple button (Apple is iOS-only by brief).
   Mobile browsers use the Android layout without system bars. Desktop browsers show the phone column;
   in flow 3 the invited member signs in here and goes straight to S33.
-- **Provider marks**: the mockups use stand-ins (a "G" in a circle, Lucide `apple`). Implementation must use
+- **Provider marks** (A-51): the "Continue with Apple" button in `S03-ios` and `S03-ios-context-share` is drawn with
+  the Lucide `apple` icon only as a stand-in; the app always renders the native Sign in with Apple button. The mockups use stand-ins (a "G" in a circle, Lucide `apple`). Implementation must use
   the official multicolor Google "G" per Google Identity branding guidelines and the native Apple button;
   these brand assets are the only allowed non-token colors.
 

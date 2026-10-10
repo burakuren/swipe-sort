@@ -28,13 +28,13 @@ VIS-12, SUC-07, SCR-27.
 | `S24-start-round.html#S24-maybe` | "Re-sort Maybe (14)" | `resort-maybe` |
 | `S24-start-round.html#S24-default` | "Start a new round" | `new-round` |
 | `S39-export.html#S39-default` / `#S39-shared` | "Export" | `export` |
-| `S36-conflicts.html#S36-default` | "Review 15 conflicts" (Decision Maker, primary) or the conflicts row | `review-conflicts` |
+| `S36-conflicts.html#S36-default` | The conflicts row ("15 conflicts", Mert resolves them); a Decision Maker finishing sees "Review 15 conflicts" as the primary | `review-conflicts` |
 | `S25-sorting.html#S25-default` | "Continue Round 1" (ended early) | `continue-round` |
 | `S05-sign-in-prompt.html#S05-backup` | "Back up" (guest lists) | `back-up` |
 | `S09-list-overview.html#S09-default` (solo) / `#S09-shared` / `#S09-solo-round-done` | "Done", close `x`, Android back, iOS "Done" | `done`, `close` |
 
-Prototype flows: Flow 1 ends at `S27-default`; Flow 2 `S27-desk-round-2` [`review-results`] → `S28-default`;
-Flow 3 `S27-shared` [`review-conflicts`] → `S36-default`.
+Prototype flows: Flow 1 ends at `S27-first-round` (85 imported contacts); Flow 2 `S27-desk-round-2` [`review-results`] → `S28-default`.
+Flow 3 no longer passes through S27 (Mert stops at 85 / 100 and goes to S09-shared-decision-maker → S36).
 
 ## 3. Layout and components
 
@@ -57,13 +57,14 @@ part is centered (design-principles §6); actions are left-aligned rows.
    - **List totals after N rounds** (solo, from Round 2 on): split bar + DecisionBadges with counts across
      the list (latest decision per item, A-33).
    - **List status** (shared): segmented bar (agreed `foreground`, conflict `foreground/50`, pending
-     `muted`) + StatusBadges with counts ("32 agreed", "15 conflicts", "53 pending") + one explanatory line.
-   - **Still sorting** (shared): MemberRows (Avatar 32, name, role, progress bar, "76 / 100").
+     `muted` track; same mapping as S09-shared) + a legend: one row per status with a swatch matching its
+     segment, the status icon, label, description and count (Agreed 32, Conflict 15, Pending 53).
+   - **Still sorting** (shared): MemberRows (Avatar 32, name, role, progress bar, "85 / 100").
 5. **Next** (section header): ListGroup of action rows (icon 20, title, description, chevron). Solo:
    Re-sort Maybe (n) with the Maybe icon in `maybe-soft-foreground`, Start a new round (`list-restart`),
-   Export (`file-down`). Shared Decision Maker / Collaborator: Review results, Export, and the line "Deniz,
-   the Owner, starts new rounds." Shared Owner: conflicts row, Re-sort Maybe, Start a new round (both "Ends
-   Round 1 for everyone" while others sort), Export.
+   Export (`file-down`). Shared Owner (`S27-shared`): conflicts row, Re-sort Maybe, Start a new round (both
+   "Ends Round 1 for everyone" while others sort), Export. Shared Decision Maker / Collaborator (spec only, no
+   frame): Review results, Export, and the line "Deniz, the Owner, starts new rounds."
 6. **Bottom bar** (pinned, `border-t`): optional backup line for guest lists (`cloud-off` "Saved on this
    phone only" + "Back up"), the primary Button ("Review results", or "Review 15 conflicts" with
    `git-compare-arrows` for the Decision Maker when conflicts exist), ghost "Done".
@@ -75,18 +76,18 @@ MemberRow, Alert, BackupIndicator, Button, OfflineBanner, Skeleton, Kbd.
 
 | Frame | What it shows | Trigger |
 | --- | --- | --- |
-| `S27-default` | Wedding guests, solo (guest), Round 1 complete: 100 / 100 in 38 min; 24 rejected, 14 maybe, 62 accepted; Re-sort Maybe (14), Start a new round, Export; backup line | Last decision of Round 1 (Flow 1 end) |
-| `S27-first-round` | Same, counts mid count-up (9 / 5 / 23 at 250 ms) | First round ever on this device or account (the count-up plays on every completion; first-round adds nothing louder) |
+| `S27-default` | Wedding guests, solo, Round 1 complete on the full 100-item list: 100 / 100 in 38 min; 24 rejected, 14 maybe, 62 accepted; Re-sort Maybe (14), Start a new round, Export; backup line | Last decision of Round 1 on the full list (a later moment than flow 1) |
+| `S27-first-round` | First round ever, end of flow 1: Wedding guests with the 85 imported contacts, not signed in: 85 / 85 in 31 min; 20 rejected, 12 maybe, 53 accepted; Re-sort Maybe (12), Start a new round, Export; backup line | First round after the first import (Flow 1) |
+| `S27-count-up` | Entrance mid-animation: 10 / 6 / 27 at 250 of 500 ms (reduced motion: final numbers at once) | Every round completion |
 | `S27-desk-round-2` | Desk setup Round 2 (Maybe pile, 6 items, 2 min): 2 rejected, 1 maybe, 3 accepted; List totals after 2 rounds: 11 rejected, 1 maybe, 8 accepted | Re-sorted Maybe pile finished (Flow 2) |
 | `S27-no-maybe` | Frontend hiring, Q4: 8 / 0 / 4; Re-sort Maybe disabled with "Nothing in Maybe this round" | Maybe count 0 |
 | `S27-ended-early` | "Round 1 ended", 88 / 100; "12 items not decided" + Continue Round 1 | End round before finishing |
-| `S27-shared` | Mert (Decision Maker) finished: 27 / 15 / 58; list status 32 / 53 / 15; Deniz 76 and Selin 43 still sorting; primary "Review 15 conflicts" | Member finishes on a shared list (Flow 3) |
-| `S27-shared-owner` | Deniz (Owner) finished: 24 / 14 / 62; conflicts row (Mert resolves), new-round actions that end Round 1 for everyone | Owner finishes |
-| `S27-shared-loading` | Status and member progress skeletons; primary disabled | List status not yet fetched |
-| `S27-offline` | Offline banner "4 decisions are saved on this phone…", status "As of 12 min ago" | Finished offline |
+| `S27-shared` | Deniz (Owner, me) finished: 18 rejected, 15 maybe, 67 accepted (her open items c077–c100 decided like Mert where he decided, else Accept; computed in the generator from sample-data.json); list status recomputed: 32 agreed, 15 conflicts, 53 pending; Mert 85 / 100 and Selin 43 / 100 still sorting; conflicts row (Mert resolves), Re-sort Maybe (15) and Start a new round ("Ends Round 1 for everyone"), Export; primary "Review results" | Owner finishes on a shared list |
+| `S27-shared-loading` | Status legend and member progress skeletons; Review results stays available | List status not yet fetched |
+| `S27-offline` | Offline banner "You're offline. Decisions are saved on this phone.", status "As of 12 min ago" | Finished offline |
 | `S27-large-text` | 200%: counts as labeled rows, left-aligned title | Font scale ≥ 150% |
 | `S27-ios` | "Done" in the navigation bar, no ghost Done | iOS |
-| `S27-web-desktop` | Mert's shared summary in the desktop column, keyboard hints | Desktop browser |
+| `S27-web-desktop` | Deniz's shared summary in the desktop column, keyboard hints (Enter Review results, Esc Done) | Desktop browser |
 
 There is no error state: the summary is computed from local data. If the list status cannot be fetched, the
 offline variant is shown.
@@ -120,18 +121,18 @@ offline variant is shown.
 | Count labels | "Rejected", "Maybe", "Accepted" |
 | List totals | "List totals after 2 rounds"; badges "11 rejected", "1 maybe", "8 accepted" |
 | Not decided | "12 items not decided" (1: "1 item not decided") / "They aren't in any pile. Continue Round 1 to decide them, or include them in a new round." / "Continue Round 1" |
-| List status | "List status"; "32 agreed", "15 conflicts" (1: "1 conflict"), "53 pending"; "Pending items wait for members who are still sorting."; offline "As of 12 min ago" |
-| Still sorting | "Still sorting"; "Deniz Owner", "Mert Decision Maker" (role in muted); "76 / 100" |
+| List status | "List status"; "All 3 members"; legend "Agreed" / "Everyone chose the same", "Conflict" / "Members chose differently", "Pending" / "Not everyone has decided" with counts; offline "As of 12 min ago" |
+| Still sorting | "Still sorting"; "Mert Decision Maker" (role in muted), "Selin"; "85 / 100", "43 / 100" |
 | Section | "Next" |
 | Rows | "Re-sort Maybe (14)" / "Sort the 14 Maybe items again in a new round" (1: "Sort the 1 Maybe item again in a new round"); disabled "Re-sort Maybe" / "Nothing in Maybe this round"; "Start a new round" / "Choose items and card order"; shared Owner "Ends Round 1 for everyone"; "Export" / "CSV, Excel, Google Sheets or a text summary"; "Review results" / "Final decisions and my decisions"; Owner conflicts row "15 conflicts" / "Mert resolves them as Decision Maker" (Everyone must agree: "Members change their decisions until they match"; Majority: "The majority decides when everyone has sorted") |
 | Shared note | "Deniz, the Owner, starts new rounds." |
 | Buttons | "Review results"; "Review 15 conflicts" (no conflicts: "Review results"); "Done" |
 | Backup line (guest) | "Saved on this phone only" + "Back up" |
-| Offline banner | "You're offline. 4 decisions are saved on this phone and will sync later." |
+| Offline banner | "You're offline. Decisions are saved on this phone." (S40 wording) |
 | Loading | Screen reader "Loading list status" |
 | Keyboard hints | "Enter Review conflicts" / "Enter Review results", "Esc Done" |
-| Screen reader on entry | "Round 1 complete. 24 rejected, 14 maybe, 62 accepted." (shared: "Your Round 1 is done. My decisions: 27 rejected, 15 maybe, 58 accepted. 15 conflicts.") |
-| Activity (S38) | Others see "Mert finished sorting" (COL-18) |
+| Screen reader on entry | "Round 1 complete. 24 rejected, 14 maybe, 62 accepted." (shared: "Your Round 1 is done. My decisions: 18 rejected, 15 maybe, 67 accepted. 15 conflicts.") |
+| Activity (S38) | Others see "Deniz finished sorting" (COL-18) |
 
 ## 7. Accessibility
 
@@ -156,8 +157,8 @@ offline variant is shown.
   modal flow; Done is explicit). Success haptic via Taptic Engine.
 - **Android**: system back = Done.
 - **Web, mobile**: Android layout without system bars; no haptics.
-- **Web, desktop** (`S27-web-desktop`): centered column with keyboard hints (Enter, Esc); Flow 3 shows Mert
-  finishing in the browser.
+- **Web, desktop** (`S27-web-desktop`): centered column with keyboard hints (Enter, Esc); shows Deniz
+  finishing her round in the browser.
 - Export on web: Google Sheets and file download work; "share a plain-text summary" copies to the clipboard
   instead of the system share sheet (S39 owns the details).
 
@@ -172,8 +173,10 @@ offline variant is shown.
 - **Shared, no conflicts**: primary is "Review results" for everyone; the conflicts row is hidden.
 - **Shared, everyone finished**: "Still sorting" is replaced by "Everyone has sorted Round 1" with the
   member AvatarStack; Owner rows lose the "Ends Round 1 for everyone" descriptions.
-- **Collaborator** (Selin): same as `S27-shared` with "Review results" as primary (no conflict resolution
-  role) and the conflicts row describing who resolves them.
+- **Decision Maker** (Mert, when he finishes): primary "Review 15 conflicts" (`git-compare-arrows`) → S36;
+  rows Review results and Export; the line "Deniz, the Owner, starts new rounds."; no round actions.
+- **Collaborator** (Selin): like the Decision Maker variant with "Review results" as primary (no conflict
+  resolution role) and a conflicts row describing who resolves them.
 - **Round ended by the Owner while I was sorting** (shared): S25 shows the "Deniz ended Round 1" sheet;
   "See summary" opens `S27-ended-early` with "Deniz ended Round 1" as the title, and no Continue action
   (only the Owner can reopen).

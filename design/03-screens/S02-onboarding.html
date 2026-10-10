@@ -14,8 +14,39 @@
 <h2 class="mock-section">Welcome</h2>
 <p>What SwipeSort does in one sentence, shown with real sample cards. "Get started" opens the demo; "I have an account" opens S03. Skip goes straight to an empty Lists screen (S08 first run).</p>
 <main class="mock-canvas">
+<figure class="frame" data-frame="S02-default" id="S02-default">
+  <figcaption class="frame-label">S02 · Default entry: replayed from Settings › Help (close instead of Skip) · <span class="theme-name"></span></figcaption>
+  <div class="phone">
+  <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
+  <div class="screen ">
+  <header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
+    <a href="S06-settings.html#S06-help" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Close the introduction" data-action="close"><i class="i-lucide-x size-6" aria-hidden="true"></i></a>
+    <h1 class="min-w-0 flex-1 truncate px-1 text-title-3"></h1>
+    
+  </header>
+  <div class="flex min-h-0 flex-1 flex-col justify-center"><div class="relative mx-auto h-96 w-72 shrink-0" aria-hidden="true">
+      <div class="absolute left-0 top-8 h-72 w-52 origin-bottom -rotate-6 overflow-hidden rounded-hero border bg-card shadow-raised"><img src="../02-data/images/photos/ph09.svg" alt="" class="h-full w-full object-cover"></div>
+      <div class="absolute right-0 top-8 h-72 w-52 origin-bottom rotate-6 overflow-hidden rounded-hero border bg-card shadow-raised"><img src="../02-data/images/products/p05.svg" alt="" class="h-1/2 w-full object-cover"></div>
+      <div class="absolute left-1/2 top-2 flex h-80 w-56 -translate-x-1/2 rotate-3 flex-col overflow-hidden rounded-hero bg-card shadow-hero">
+        <img src="../02-data/images/products/p02.svg" alt="" class="h-[52%] w-full object-cover">
+        <div class="px-4 pt-3"><p class="line-clamp-2 text-title-3">Walnut sit-stand desk</p><p class="text-body-sm text-muted-foreground">Oakline</p><p class="mt-2 text-title-3 tabular-nums">€649</p></div>
+        <div class="absolute left-3 top-3 inline-flex h-9 -rotate-6 items-center gap-1.5 rounded-full bg-accept px-3 text-label text-accept-foreground shadow-overlay"><i class="i-lucide-check size-5" aria-hidden="true"></i>Accept</div>
+      </div>
+    </div></div>
+  <div class="shrink-0 px-gutter text-center">
+    <h1 class="text-balance text-title-1">Sort any list, one card at a time</h1>
+    <p class="mx-auto mt-2 max-w-prose text-body-lg text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, photos, things to buy and ideas, alone or with others.</p>
+  </div>
+  <div class="shrink-0 space-y-2 px-gutter pb-4 pt-6">
+    <a href="#S02-demo" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="next">Try the gestures</a>
+    <a href="S06-settings.html#S06-help" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg" data-action="done">Done</a>
+  </div>
+  </div>
+  <div class="sysbar-nav" aria-hidden="true"></div>
+</div>
+</figure>
 <figure class="frame" data-frame="S02-welcome" id="S02-welcome">
-  <figcaption class="frame-label">S02 · Welcome · <span class="theme-name"></span></figcaption>
+  <figcaption class="frame-label">S02 · Welcome (first launch) · <span class="theme-name"></span></figcaption>
   <div class="phone">
   <div class="sysbar-top" aria-hidden="true"><span>9:41</span><span class="sysbar-icons"></span></div>
   <div class="screen ">
@@ -32,7 +63,7 @@
     </div></div>
   <div class="shrink-0 px-gutter text-center">
     <h1 class="text-balance text-title-1">Sort any list, one card at a time</h1>
-    <p class="mx-auto mt-2 max-w-prose text-body-lg text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, products, photos and ideas, alone or with others.</p>
+    <p class="mx-auto mt-2 max-w-prose text-body-lg text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, photos, things to buy and ideas, alone or with others.</p>
   </div>
   <div class="shrink-0 space-y-2 px-gutter pb-4 pt-6">
     <a href="#S02-demo" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="next">Get started</a>
@@ -79,11 +110,10 @@
         <div class="mt-auto flex gap-2 pt-3"><span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">Desk</span></div>
       </div>
       
-    </article>
+    </article><a href="#S02-demo-done" class="absolute inset-x-8 bottom-4 top-0 z-20 rounded-hero" data-action="next" aria-label="Finish the demo (prototype: click the card; the app moves on after the third gesture)"></a>
     <div class="pointer-events-none absolute right-3 top-[28%] z-10 flex size-14 items-center justify-center rounded-full bg-popover text-foreground shadow-overlay" aria-hidden="true"><i class="i-lucide-arrow-right size-7" aria-hidden="true"></i></div>
   </div>
-  <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
-  <a href="#S02-demo-done" class="sr-only focus:not-sr-only" data-action="next">Finish the demo (prototype shortcut: the app moves on after the third gesture)</a>
+  <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><a href="#S02-demo-step-2" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></a></div>
   
   </div>
   <div class="sysbar-nav" aria-hidden="true"></div>
@@ -128,7 +158,6 @@
   </div>
   <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept text-accept-foreground ring-4 ring-accept/25"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
   
-  
   </div>
   <div class="sysbar-nav" aria-hidden="true"></div>
 </div>
@@ -145,7 +174,7 @@
   </header>
   <div class="shrink-0 px-gutter">
     <h1 class="text-title-2">Swipe right to accept</h1>
-    <p class="mt-1 text-body text-muted-foreground">Try it on these sample cards. Nothing is saved.</p>
+    <p class="mt-1 flex items-start gap-1.5 text-body text-foreground" role="status"><i class="i-lucide-info size-5 mt-0.5 shrink-0 text-primary" aria-hidden="true"></i><span>Drag a little further to decide. Let go early to cancel.</span></p>
     <div class="mt-3 flex items-center justify-between gap-3">
       <ul class="flex flex-wrap gap-2" aria-label="Gestures tried"><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-x size-4" aria-hidden="true"></i>Reject<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-circle-help size-4" aria-hidden="true"></i>Maybe<span class="sr-only">, not tried yet</span></li><li class="inline-flex h-8 items-center gap-1.5 rounded-full border border-dashed border-input px-3 text-caption text-muted-foreground"><i class="i-lucide-check size-4" aria-hidden="true"></i>Accept<span class="sr-only">, not tried yet</span></li></ul>
       <span class="shrink-0 text-caption tabular-nums text-muted-foreground">0 of 3</span>
@@ -171,7 +200,6 @@
   </div>
   <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
   
-  <div class="absolute inset-x-4 bottom-32 z-40 flex min-h-12 items-center gap-3 rounded-control bg-foreground px-4 py-3 text-background shadow-overlay" role="status"><span class="flex-1 text-body-sm">Drag a little further to decide. Let go early to cancel.</span></div>
   </div>
   <div class="sysbar-nav" aria-hidden="true"></div>
 </div>
@@ -212,8 +240,7 @@
     </article>
     <div class="pointer-events-none absolute left-3 top-[28%] z-10 flex size-14 items-center justify-center rounded-full bg-popover text-foreground shadow-overlay" aria-hidden="true"><i class="i-lucide-arrow-left size-7" aria-hidden="true"></i></div>
   </div>
-  <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
-  
+  <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><a href="#S02-demo-step-3" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></a><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
   
   </div>
   <div class="sysbar-nav" aria-hidden="true"></div>
@@ -258,7 +285,6 @@
   </div>
   <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject text-reject-foreground ring-4 ring-reject/25"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
   
-  
   </div>
   <div class="sysbar-nav" aria-hidden="true"></div>
 </div>
@@ -299,8 +325,7 @@
     </article>
     <div class="pointer-events-none absolute left-1/2 -top-1 -translate-x-1/2 z-10 flex size-14 items-center justify-center rounded-full bg-popover text-foreground shadow-overlay" aria-hidden="true"><i class="i-lucide-arrow-up size-7" aria-hidden="true"></i></div>
   </div>
-  <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
-  
+  <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><a href="#S02-demo-done" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></a><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
   
   </div>
   <div class="sysbar-nav" aria-hidden="true"></div>
@@ -345,7 +370,6 @@
   </div>
   <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe text-maybe-foreground ring-4 ring-maybe/25"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
   
-  
   </div>
   <div class="sysbar-nav" aria-hidden="true"></div>
 </div>
@@ -387,7 +411,6 @@
     <div class="pointer-events-none absolute right-3 top-[28%] z-10 flex size-14 items-center justify-center rounded-full bg-popover text-foreground shadow-overlay" aria-hidden="true"><i class="i-lucide-arrow-right size-7" aria-hidden="true"></i></div>
   </div>
   <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
-  
   
   </div>
   <div class="sysbar-nav" aria-hidden="true"></div>
@@ -462,7 +485,6 @@
   </div>
   <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept text-accept-foreground ring-4 ring-accept/25"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
   
-  
   </div>
   <div class="sysbar-nav" aria-hidden="true"></div>
 </div>
@@ -476,11 +498,12 @@
   <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
     <img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-16  dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-16  dark:block">
     <h1 class="mt-6 text-display">Sort any list, one card at a time</h1>
-    <p class="mt-3 text-title-3 font-normal text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, products, photos and ideas, alone or with others.</p>
+    <p class="mt-4 text-title-2 font-normal text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, photos, things to buy and ideas, alone or with others.</p>
   </div>
   <div class="shrink-0 space-y-2 px-gutter pb-4 pt-4">
     <a href="#S02-demo" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground min-h-16 h-auto py-3 text-title-3">Get started</a>
     <a href="S03-sign-in.html#S03-default" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg min-h-16 h-auto py-3 text-title-3">I have an account</a>
+    <p class="flex items-start gap-2 pt-1 text-body-lg text-muted-foreground"><i class="i-lucide-smartphone size-6 mt-0.5 shrink-0" aria-hidden="true"></i>No account needed. Lists stay on this phone.</p>
   </div>
   </div>
   <div class="sysbar-nav" aria-hidden="true"></div>
@@ -511,7 +534,11 @@
       <div class="flex min-h-0 flex-1 flex-col px-6 pb-5 pt-6">
         <h2 class="line-clamp-4 text-title-1">Walnut sit-stand desk, 140 × 70 cm</h2>
         <p class="mt-2 text-title-3 font-normal text-muted-foreground">Oakline</p>
-        <p class="mt-auto text-title-1 tabular-nums">€649</p>
+        <dl class="mt-5 space-y-3">
+          <div><dt class="text-body-lg text-muted-foreground">Price</dt><dd class="text-title-1 tabular-nums">€649</dd></div>
+          <div><dt class="text-body-lg text-muted-foreground">Rating</dt><dd class="text-title-3 font-normal">4.7 <span class="text-muted-foreground">(532 reviews)</span></dd></div>
+          <div><dt class="text-body-lg text-muted-foreground">Category</dt><dd class="text-title-3 font-normal">Desk</dd></div>
+        </dl>
       </div>
       
     </article>
@@ -559,7 +586,6 @@
     
   </div>
   <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
-  
   <div class="absolute inset-0 z-20 bg-scrim/50" aria-hidden="true"></div>
   <div class="absolute inset-x-6 top-1/3 z-30 rounded-dialog bg-popover p-5 shadow-dialog" role="dialog" aria-labelledby="s02sr">
     <p class="text-caption text-muted-foreground">Screen reader (TalkBack actions menu, VoiceOver rotor)</p>
@@ -603,7 +629,7 @@
     </div></div>
   <div class="shrink-0 px-gutter text-center">
     <h1 class="text-balance text-title-1">Sort any list, one card at a time</h1>
-    <p class="mx-auto mt-2 max-w-prose text-body-lg text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, products, photos and ideas, alone or with others.</p>
+    <p class="mx-auto mt-2 max-w-prose text-body-lg text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, photos, things to buy and ideas, alone or with others.</p>
   </div>
   <div class="shrink-0 space-y-2 px-gutter pb-4 pt-6">
     <a href="#S02-demo" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="next">Get started</a>
@@ -655,7 +681,6 @@
   </div>
   <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
   
-  
   </div>
   <div class="sysbar-nav" aria-hidden="true"></div>
 </div>
@@ -677,7 +702,7 @@
     </div></div>
   <div class="shrink-0 px-gutter text-center">
     <h1 class="text-balance text-title-1">Sort any list, one card at a time</h1>
-    <p class="mx-auto mt-2 max-w-prose text-body-lg text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, products, photos and ideas, alone or with others.</p>
+    <p class="mx-auto mt-2 max-w-prose text-body-lg text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, photos, things to buy and ideas, alone or with others.</p>
   </div>
   <div class="shrink-0 space-y-2 px-gutter pb-4 pt-6">
     <a href="#S02-demo" class="inline-flex h-14 w-full items-center justify-center gap-2 rounded-control px-5 text-label-lg bg-primary text-primary-foreground" data-action="next">Get started</a>
@@ -724,7 +749,6 @@
     <div class="pointer-events-none absolute right-3 top-[28%] z-10 flex size-14 items-center justify-center rounded-full bg-popover text-foreground shadow-overlay" aria-hidden="true"><i class="i-lucide-arrow-right size-7" aria-hidden="true"></i></div>
   </div>
   <div class="flex shrink-0 items-start justify-center gap-10 px-5 pb-5 pt-3"><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="reject"><span class="flex size-16 items-center justify-center rounded-full bg-reject-soft text-reject-soft-foreground"><i class="i-lucide-x size-7" aria-hidden="true"></i></span><span class="text-caption">Reject</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="maybe"><span class="flex size-16 items-center justify-center rounded-full bg-maybe-soft text-maybe-soft-foreground"><i class="i-lucide-circle-help size-7" aria-hidden="true"></i></span><span class="text-caption">Maybe</span></button><button type="button" class="flex min-w-touch flex-col items-center gap-1.5" data-action="accept"><span class="flex size-16 items-center justify-center rounded-full bg-accept-soft text-accept-soft-foreground"><i class="i-lucide-check size-7" aria-hidden="true"></i></span><span class="text-caption">Accept</span></button></div>
-  
   <div class="flex shrink-0 justify-center gap-4 pb-4 text-caption text-muted-foreground" aria-label="Keyboard shortcuts"><span class="inline-flex items-center gap-1.5"><kbd class="inline-flex h-6 min-w-6 items-center justify-center rounded-sm border border-b-2 bg-card px-1.5 text-caption text-foreground">←</kbd>Reject</span><span class="inline-flex items-center gap-1.5"><kbd class="inline-flex h-6 min-w-6 items-center justify-center rounded-sm border border-b-2 bg-card px-1.5 text-caption text-foreground">↑</kbd>Maybe</span><span class="inline-flex items-center gap-1.5"><kbd class="inline-flex h-6 min-w-6 items-center justify-center rounded-sm border border-b-2 bg-card px-1.5 text-caption text-foreground">→</kbd>Accept</span></div>
   </div>
 </div>

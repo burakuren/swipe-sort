@@ -44,7 +44,8 @@ BottomSheet (`bg-popover rounded-t-sheet shadow-sheet`, scrim 50%), opens at 92%
    Z to A", number "Low to high / High to low", date "Oldest first / Newest first", decision time "Newest
    first / Oldest first". Original order has no direction.
 3. **Filters** heading + "Items must match every filter. Counts update as you choose."
-4. **Field groups**, one per filterable field, each a `group` with a label and FilterChips (36 in a 48 row):
+4. **Field groups**, one per filterable field, each a `group` with a label and FilterChips (36 high; 12 dp
+   between wrapped lines so each chip reaches a 48 hit area):
    - **Text fields with ≤ 8 values** (Side, Relationship, Store, Category): all values as chips with counts.
    - **Text fields with more values** (City: 14): the 6 most common values + "Show all 14" → **value picker
      page** (`S29-value-picker`): SearchField "Search 14 cities", all values as chips sorted by count then

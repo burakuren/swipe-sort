@@ -85,8 +85,8 @@ Pushed screen in the list stack, no bottom navigation. Top to bottom:
      (MemberDecisionsText): `check` "You and Selin accepted", `x` "Mert rejected", `circle-dashed` "Selin
      hasn't decided", `clock` "Waiting for you and Selin". Each part has the decision icon in its soft decision color plus the
      decision word.
-   - Trailing: DecisionBadge (solo and round mode), StatusBadge (shared: Agreed, Pending, Conflict, Resolved by
-     Mert), nothing in Conflicts/Pending (the meta says it all).
+   - Trailing: DecisionBadge (solo and round mode), StatusBadge (shared: Agreed, Pending, Conflict,
+     Resolved), nothing in Conflicts/Pending (the meta says it all).
    - Overflow IconButton (`ellipsis-vertical`, 48) → DropdownMenu. Read-only lists have none.
    - The whole row except the overflow button is one link to S26.
 8. **Bottom action** (shared, Conflicts segment only): pinned primary "Review 15 conflicts" → S36.
@@ -112,7 +112,7 @@ ErrorState, Skeleton, FastScroller (Proposed), RowSwipeActions (Proposed, iOS), 
 | `S28-row-menu` | DropdownMenu: Open details, Change decision, Add note | Row overflow button |
 | `S28-change-decision` | Sheet for p18, Maybe selected | Menu "Change decision", long-press |
 | `S28-changed` | p18 now Accepted, row highlighted in place, counts Accept 9 / Maybe 0, snackbar "Changed to Accept" + Undo | Tap Accept in the sheet |
-| `S28-empty-segment` | "Nothing in Maybe" empty state + "Start a new round" | Segment with 0 items (after the snackbar closes) |
+| `S28-empty-segment` | "Nothing in Maybe" empty state + "Start a new round"; search and chips are hidden on an empty segment | Segment with 0 items (after the snackbar closes) |
 | `S28-add-note` | Note sheet "Note on Bookshelf speakers, pair" | Menu "Add note" |
 | `S28-search` | "lamp" in Accept: 1 of 8 (p15, match in bold) + "1 match in Reject" with Show | Typing in search |
 | `S28-search-none` | "headphones": "No matches in Accept", "Show 1 match in Reject", "Clear search" | Search with no match in the segment |
@@ -122,14 +122,14 @@ ErrorState, Skeleton, FastScroller (Proposed), RowSwipeActions (Proposed, iOS), 
 | `S28-shared-accept` | Final decisions, Accept 22: Agreed items, field summary, Agreed badge | Tap Accept / Final decisions |
 | `S28-shared-pending` | Pending 53: "Not final yet" explainer with per-member counts and Continue sorting; rows waiting for me first | Tap Pending |
 | `S28-shared-mine` | My decisions, Accept 48 / Maybe 11 / Reject 17 / Not decided 24; every row has its list status; conflict rows say who chose differently | Tap My decisions |
-| `S28-shared-change` | "Change my decision" for Isabella Rossi (c069): Accept selected, Mert Rejected, Selin Accepted, consequence "Choosing Reject makes this item Agreed." | Row menu on a shared row |
-| `S28-shared-resolved` | After Mert's bulk resolve (S37): Final Accept 28, Reject 10, Conflicts 3; resolved rows show "Resolved by Mert" and where my decision differs (`x` "You chose Reject") | Activity "Mert resolved 12 conflicts", or opening Results after S37 |
+| `S28-shared-change` | "Change my decision" for Isabella Rossi (c069): Accept selected, Mert Rejected, Selin Accepted, consequence "Choosing Reject keeps this item in Conflict: Selin chose Accept." | Row menu on a shared row |
+| `S28-shared-resolved` | After Mert's bulk resolve (S37): Final Accept 28, Reject 10, Conflicts 3; resolved rows show the badge "Resolved" (gavel; who resolved it is in the notice and in S26) and where my decision differs (`x` "You chose Reject") | Activity "Mert resolved 12 conflicts", or opening Results after S37 |
 | `S28-round-1` | Round mode: "Round 1 results", banner, Accept 5 / Maybe 6 / Reject 9; Maybe rows say what Round 2 did ("Changed to Accept in Round 2", "Still Maybe in Round 2") | S30 tap Round 1 |
 | `S28-round-2` | Round mode for Round 2: Accept 3 / Maybe 1 / Reject 2 | S30 tap Round 2 |
 | `S28-archived` | Apartment viewings (archived): notice, read-only rows (no menu), Export still available | S30-single-round, S09-archived |
 | `S28-loading` | Skeleton segments, search and rows; Export hidden until counts exist | Opening a very large list |
 | `S28-offline` | Offline banner + "List statuses from 12 min ago…"; everything else works | No connection (shared) |
-| `S28-error` | "Results couldn't be opened" + Try again / Back to list | Working copy unreadable |
+| `S28-error` | S40-error treatment: `triangle-alert`, "Results couldn't be opened", secondary "Try again", ghost "Back to list", centered | Working copy unreadable |
 | `S28-large-list` | Scrolled: segments pinned under the app bar with a divider; FastScroller with letter bubble "M" (sorted by Name) | Scrolling a long segment |
 | `S28-ios` | iOS nav bar; row swiped left: Maybe and Reject swipe actions | iOS |
 | `S28-web-desktop` | Desktop column, row hovered, menu as a popover, keyboard hints | Desktop browser |
@@ -174,7 +174,8 @@ ErrorState, Skeleton, FastScroller (Proposed), RowSwipeActions (Proposed, iOS), 
 - **Pending explainer**: "Continue sorting" opens S25 at my next undecided item of the current round.
 - **Large lists**: rows are virtualized; the segment bar pins under the app bar (with a divider) while the
   toggle, search and chips scroll away and come back on any upward scroll (quick return). A FastScroller
-  appears on the right edge after 3 screens of rows; dragging it shows a 56 bubble with the current letter
+  appears on the right edge after 3 screens of rows; dragging it shows a 56 bubble (placed left of the
+  status column so it never covers badges) with the current letter
   (text sorts) or value (number/date sorts); released, it fades after 1.5 s.
 - **Pull to refresh** (shared lists, online): re-syncs statuses; spinner under the app bar.
 - **Export** opens the S39 modal with the current view's scope preselected (segment = scope, e.g. Accept →
@@ -188,15 +189,15 @@ ErrorState, Skeleton, FastScroller (Proposed), RowSwipeActions (Proposed, iOS), 
 | Back labels | "Back to Desk setup" ("Back to {list}"); round mode "Back to round history" |
 | View toggle | "Final decisions", "My decisions" (group label "Show decisions") |
 | Segments | "Accept 8", "Maybe 1", "Reject 11", "Conflicts 15", "Pending 53", "Not decided 24" (tablist label "Decisions"; tab names read "Accept, 8 items") |
-| Search placeholder | "Search 8 items in Accept"; "Search 1 item in Maybe"; "Search 15 conflicts"; "Search 53 pending items"; label "Search in Accept" |
+| Search placeholder | "Search 8 items in Accept" (the count is the segment count; while a just-changed row is still shown, "Search in Maybe"); "Search 1 item in Maybe"; "Search 15 conflicts"; "Search 53 pending items"; label "Search in Accept" |
 | Chips | "Filter" (+ count "2"); sort labels "Recently decided", "Original order", "Name, A to Z", "Name, Z to A", "Price, low to high", "Price, high to low", "Waiting for you first"; applied "Side: Groom's", "Relationship: Friend", "Relationship: Friend or Family", "Price: €50 to €500"; remove label "Remove filter: Side is Groom's" |
 | Count line | "12 of 48 items"; "1 of 8 items" |
 | Search, other segments | "In other segments"; "1 match in Reject"; "3 matches in Reject"; "Show" |
 | Search, none | "No matches in Accept" / "Nothing in Accept matches “headphones”. It matches 1 item in Reject." / "Show 1 match in Reject" / "Clear search"; nowhere: "No matches" / "Nothing in Desk setup matches “standing”. Check the spelling or try another word." |
 | Row meta (shared) | "You and Selin accepted", "Mert rejected", "Selin chose Maybe", "Selin hasn't decided", "You haven't decided", "Waiting for Selin", "Waiting for you and Selin", "Waiting for you, Mert and Selin", "You chose Reject" |
-| Badges | "Accepted", "Maybe", "Rejected", "Not decided"; "Agreed", "Pending", "Conflict", "Resolved by Mert", "Resolved by majority" |
+| Badges | "Accepted", "Maybe", "Rejected", "Not decided"; "Agreed", "Pending", "Conflict"; resolved rows "Resolved" (S26 detail: "Resolved by Mert", "Resolved by majority") |
 | Row menu | "Open details", "Change decision" (shared: "Change my decision"), "Add note" ("Edit note" when I have one), shared conflicts also "Review in Conflicts"; overflow label "More options for {title}" |
-| Change sheet | Title "Change decision" / "Change my decision"; group label "Decision for {title}"; buttons "Reject", "Maybe", "Accept"; lines: "Maybe in Round 1 and Round 2. The change applies at once and round history keeps both rounds as they were."; "Decided in Round 1, Oct 4."; round mode "Your Round 1 decision stays in round history."; shared "Changing your decision updates the list status for everyone. Choosing Reject makes this item Agreed." / "… Choosing Accept keeps this item in Conflict." |
+| Change sheet | Title "Change decision" / "Change my decision"; group label "Decision for {title}"; buttons "Reject", "Maybe", "Accept"; lines: "Maybe in Round 1 and Round 2. The change applies at once and round history keeps both rounds as they were."; "Decided in Round 1, Oct 4."; round mode "Your Round 1 decision stays in round history."; shared "Changing your decision updates the list status for everyone." + the computed consequence of the other choices: "Choosing Reject keeps this item in Conflict: Selin chose Accept." (c069: Mert Reject, Selin Accept); "Choosing Accept makes this item Agreed." only when every other member already chose Accept (e.g. Selin's view of c059 Sophie Laurent) |
 | Snackbars | "Changed to Accept" / "Changed to Maybe" / "Changed to Reject" + "Undo"; "Filter removed" + "Undo"; "Note saved"; "Saved on this phone. It will sync when you're back online." (first change offline); error "Couldn't change the decision. Try again." + "Try again" |
 | Maybe segment | "Still undecided after Round 2. Sort it again with a fresh look." / "Re-sort Maybe (1)" |
 | Empty segments | Maybe: "Nothing in Maybe" / "Items you swipe up will wait here." / "Start a new round"; Accept: "Nothing accepted yet" / "Items you swipe right will show up here."; Reject: "Nothing rejected" / "Items you swipe left will show up here."; Conflicts: "No conflicts" / "Everyone who decided an item chose the same."; Pending: "Nothing pending" / "Every member has decided every item."; Not decided: "You've decided every item" |
@@ -230,9 +231,10 @@ ErrorState, Skeleton, FastScroller (Proposed), RowSwipeActions (Proposed, iOS), 
   current decision checked; after a change focus returns to the row and the snackbar is announced.
 - Snackbars stay at least 10 s while a screen reader runs.
 - Touch targets: rows ≥ 64, icon buttons 48, Export 48 high; segment tabs (40) and chips (36) sit in 48
-  rows with hit slop (same as FilterChip in components.md).
-- Large text (`S28-large-text`): titles `text-title-2`, meta `text-title-3`, the badge moves under the
-  meta, thumbnails top-align, the app bar keeps Back + title + one overflow button (Export, Round history),
+  rows with hit slop (same as FilterChip in components.md); the chip row has 12 dp above and below (12 dp
+  between wrapped lines) so every chip reaches a 48 hit area.
+- Large text (`S28-large-text`): titles `text-title-2`, meta `text-title-3`, the badge scales with the text
+  (`text-title-3`, 40 high) and moves under the meta, thumbnails top-align, the app bar keeps Back + title + one overflow button (Export, Round history),
   chips grow to 48.
 - Reduced motion: no row collapse animation, no count tick, sheet fades 150 ms.
 
@@ -260,8 +262,8 @@ ErrorState, Skeleton, FastScroller (Proposed), RowSwipeActions (Proposed, iOS), 
   latest decision; round mode shows the past.
 - **Items never decided** (added mid-round, or round ended early): solo lists show a fourth segment "Not
   decided" after Reject when it has items; shared lists show them under Pending.
-- **Resolved conflicts**: shown in Accept/Maybe/Reject of Final decisions with "Resolved by Mert" (or
-  "Resolved by majority"); when my decision differs, the meta says "You chose Reject".
+- **Resolved conflicts**: shown in Accept/Maybe/Reject of Final decisions with the "Resolved" badge (who
+  resolved it is named in S26); when my decision differs, the meta says "You chose Reject".
 - **Others' private notes** are never searched, counted or shown.
 - **Very large lists** (5,000+): counts use thousands separators ("1,204"); search runs on the local copy and
   stays under 100 ms; the FastScroller appears; filters/sorts never block the UI.

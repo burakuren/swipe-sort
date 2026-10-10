@@ -88,7 +88,7 @@ bottom bar with primary "Share summary" and outline "Copy text".
   footer explaining why it's the only destination.
 - Lists from Google Sheets: "Write to" radiogroup in a group: New tab in {spreadsheet} (default, with a
   nested "Tab name" input, default "Decisions"), New columns in {spreadsheet}, New spreadsheet.
-- **Google account** row (avatar 40, email, "Google account, read-only", "Switch" → S15 account sheet).
+- **Google account** row (avatar 40, email, "Signed in with Google", "Switch" → S15 account sheet).
 - **Columns** preview (Proposed component: ColumnPreview): "Your fields" as outline chips (`rounded-sm`),
   "Added by SwipeSort" as `primary-soft` chips with `plus`, plus one line on rows and values.
 - Bottom bar: primary "Continue".
@@ -162,9 +162,9 @@ the list (31 characters max), header row bold and frozen. Google Sheets values a
 | `S39-error-sheet-changed` | "Rows in Kadıköy have changed" | Row check fails before writing new columns (rows added, moved, deleted or tab renamed) |
 | `S39-error-partial` | "Exported 4 of 8 items": Kadıköy done, Beşiktaş protected | One tab's write fails after another succeeded |
 | `S39-ios` | iOS page sheet, `x` and centered title | iOS |
-| `S39-ios-share` | CSV goes straight to the iOS share sheet (placeholder) | iOS, CSV/Excel tapped |
+| `S39-ios-share` | CSV goes straight to the iOS share sheet; drawn only as a labeled system-UI placeholder (out of scope) | iOS, CSV/Excel tapped |
 | `S39-ios-text` | iOS text summary with "Back" | iOS |
-| `S39-web-desktop` | Desktop: formats say "Downloads…"; snackbar after download | Desktop browser |
+| `S39-web-desktop` | Desktop: formats say "Downloads…"; toast bottom-right (`w-80`, 6 s, pauses on hover/focus, A-117) after download | Desktop browser |
 | `S39-web-google-popup` | Waiting for the Google permission popup | Desktop browser, Google write permission needed |
 
 Not separate frames (spec only): Excel uses the CSV frames with `.xlsx`; the solo Google not-yet-granted
@@ -201,7 +201,7 @@ lead-in on the shared confirmation; the token-expired case (silent refresh; fail
      Alert says which. Granted scopes are remembered; the Alert then disappears
      (`S39-apartments-confirm-columns`).
   - When the user signed in to SwipeSort with Google (Mert, Flow 3) but never connected Google Sheets, the
-    destination preselects that sign-in account ("You sign in to SwipeSort with this account") and the
+    destination preselects that sign-in account ("Signed in with Google") and the
     connect explainer is skipped: the only grant needed is `drive.file`, asked at the confirmation with
     the account preselected (`login_hint`). Users without a Google sign-in or connection get
     `S39-google-not-connected`.
@@ -233,7 +233,7 @@ lead-in on the shared confirmation; the token-expired case (silent refresh; fail
 | Columns footer | Solo "All fields and a Decision column are always included."; shared "All fields and a Final decision column are always included. Private notes are never exported." |
 | Export as header | "Export as" |
 | Format rows | "CSV file" / "Opens in any spreadsheet app" (web "Downloads a .csv file"); "Excel file" / "For Excel and Numbers" (web "Downloads an .xlsx file"); "Google Sheets" / "A new spreadsheet in Google Drive" (from Google Sheets: "Add to Flat hunt 2026, or a new spreadsheet"); "Text summary" / "Counts and accepted items as text" |
-| Offline | Banner "You're offline. Files and text summaries still work."; Google row "Needs a connection" |
+| Offline | Banner "You're offline. Decisions are saved on this phone. Google Sheets needs a connection." (A-115; files and text summaries keep working); Google row "Needs a connection" |
 | Safety line | "Exporting creates a copy. Nothing in Desk setup changes."; Google source "Exporting creates a copy. Flat hunt 2026 changes only if you choose it and confirm."; shared "Exporting creates a copy. Nothing in Wedding guests changes for anyone." |
 | File exporting | "Exporting…" / "8 items to desk-setup-accepted.csv" |
 | File ready | "Your file is ready"; file meta "8 items, 1 KB"; "Columns: Name, Price, Rating, Reviews, Store, Category, Link, Decision and Notes."; "Share file"; "Save to device"; close label "Close" |
@@ -243,7 +243,7 @@ lead-in on the shared confirmation; the token-expired case (silent refresh; fail
 | Summary text (sample) | "Desk setup" / "20 items after 2 rounds: 11 rejected, 1 maybe, 8 accepted." / "Accepted (8)" / "- Ergo Mesh task chair (€389)" … / "Maybe (1)" / "- Bookshelf speakers, pair (€249)". Item line = title + the card template's price or subtitle in parentheses. Shared lists use final decisions and add "3 conflicts and 53 pending items aren't listed." |
 | Destination (new) | Title "Export to Google Sheets"; "New spreadsheet"; label "Name", default "Desk setup decisions"; footer "Desk setup wasn't imported from Google Sheets, so SwipeSort creates a new spreadsheet." |
 | Destination (source) | "Write to"; "New tab in Flat hunt 2026" / "All 8 items on their own tab. Your tabs don't change."; label "Tab name", default "Decisions"; "New columns in Flat hunt 2026" / "Decision and Notes next to your rows in Kadıköy and Beşiktaş"; "New spreadsheet" / "A separate copy in your Google Drive" |
-| Account | "Google account"; "deniz.yilmaz@example.com" / "Google account, read-only" / "Switch" (label "Switch Google account"); signed in with Google, Sheets not yet connected: "mert.aydin@example.com" / "You sign in to SwipeSort with this account" |
+| Account | "Google account"; "deniz.yilmaz@example.com" / "Signed in with Google" / "Switch" (label "Switch Google account"); shared: "mert.aydin@example.com" / "Signed in with Google". One sublabel everywhere; it never says read-only on a step that writes |
 | Destination (shared) | "New spreadsheet"; label "Name", default "Wedding guests decisions"; footer "Wedding guests wasn't imported from Google Sheets, so SwipeSort creates a new spreadsheet."; added columns "Final decision", "Decision (Deniz Yılmaz)", "Decision (Mert Aydın)", "Decision (Selin Yılmaz)", "Notes"; "100 rows, one per item. Final decision says Accepted, Rejected, Maybe, Conflict or Pending." |
 | Column preview | "Columns"; "Your fields"; "Added by SwipeSort"; "Decision", "Notes" (shared "Final decision", "Decision (Deniz Yılmaz)"…); "20 rows, one per item. Decision says Accepted, Rejected or Maybe."; source "8 rows, one per item. The Tab column says which tab each item came from." |
 | Continue | "Continue" |
@@ -299,7 +299,7 @@ lead-in on the shared confirmation; the token-expired case (silent refresh; fail
 - **Android** (reference): file-ready sheet with Share file and Save to device; Google Identity Services
   consent sheet; predictive back.
 - **Web, desktop** (`S39-web-desktop`, `S39-web-google-popup`): CSV/Excel download directly (no sheet);
-  the snackbar confirms. Google consent opens in a popup on the button click; the column shows a waiting
+  a toast at the bottom right of the window confirms (A-117). Google consent opens in a popup on the button click; the column shows a waiting
   state; a blocked popup shows the S15 blocked pattern with S39 copy. Text summary: "Copy text" is primary
   when the Web Share API is missing. Keyboard: Enter on a focused row exports, Esc closes.
 - **Web, mobile**: like desktop, but Google consent uses the redirect flow (new tab →

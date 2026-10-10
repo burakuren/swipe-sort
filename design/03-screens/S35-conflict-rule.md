@@ -66,16 +66,16 @@ MemberDecisions, Button, Switch, AlertDialog, Snackbar, Alert, OfflineBanner, Sk
 | --- | --- |
 | `S35-default` | Owner (Deniz), rule Decision Maker decides (sample `l-wedding.conflictRule`), Mert is Decision Maker, 15 open conflicts |
 | `S35-confirm-majority` | Owner taps Majority decides. Recalculation: 8 of 15 become final (1 Reject, 1 Maybe, 6 Accept), 7 stay open waiting for the last member |
-| `S35-switched` | Confirmed: Majority selected, consequence line updated, snackbar with Undo |
+| `S35-switched` | Confirmed: Majority selected, consequence line updated, snackbar with Undo (shown scrolled to the Majority card so the snackbar sits over empty space) |
 | `S35-confirm-dm` | Rule is Majority decides and Mert is Decision Maker; the Owner taps Decision Maker decides: Mert takes the 7 open conflicts, the 8 already final stay final |
 | `S35-confirm-everyone` | Owner taps Everyone must agree: all 15 stay open; Mert can no longer resolve them |
 | `S35-majority-no-dm` | Rule Majority decides and nobody holds the Decision Maker role (after S34 "Turn off"): inline explanation of ties + "Assign a Decision Maker" |
-| `S35-dm-none` | From that state the Owner taps Decision Maker decides: the card shows "Choose the Decision Maker first" with one Switch per member; the rule is not applied yet (Majority stays "Current rule") |
+| `S35-dm-none` | From that state the Owner taps Decision Maker decides: the card shows "Choose the Decision Maker first" with one Switch per member; the rule is not applied yet (Majority stays "Current rule"). With nobody in the role the example reads "The Decision Maker chooses the final decision." |
 | `S35-dm-none-confirm` | A switch turned on (Mert): one dialog confirms role and rule together |
 | `S35-collaborator` | Selin (Collaborator): read-only, what it means for her |
 | `S35-decision-maker` | Mert (Decision Maker): read-only, "Review 15 conflicts" |
 | `S35-loading` | First load: skeleton |
-| `S35-offline` | No connection: rule visible, radios and "Change" disabled, banner |
+| `S35-offline` | No connection: rule visible; option tiles shown unavailable (dashed border, no fill, muted titles, dimmed radios, `aria-disabled`), "Change" disabled; the banner gives the reason at full contrast |
 | `S35-error` | Switching failed: inline error alert at the top, rule unchanged, "Try again" |
 | `S35-large-text` | 200% font scale |
 | `S35-ios`, `S35-ios-confirm` | iOS pushed screen; native alert for the confirmation |
@@ -121,7 +121,7 @@ c060 c064 c069 c071):
 | Example | "Example: Deniz and Selin accept Mehmet Yılmaz, Mert rejects." |
 | Everyone must agree | Title "Everyone must agree"; "Final only when every member chooses the same. Members can change their decision to match."; "Example: Stays a conflict until all three match." |
 | Majority decides | Title "Majority decides"; "Once everyone has decided, the most chosen decision is final. Ties go to the Decision Maker."; "Example: Accept is final, 2 of 3 chose it." |
-| Decision Maker decides | Title "Decision Maker decides"; "The Decision Maker chooses the final decision for each conflict."; "Example: Mert chooses the final decision." |
+| Decision Maker decides | Title "Decision Maker decides"; "The Decision Maker chooses the final decision for each conflict."; "Example: Mert chooses the final decision." (no Decision Maker: "Example: The Decision Maker chooses the final decision.") |
 | Consequences | "Current rule. Mert has 15 conflicts to resolve."; "Current rule. 8 conflicts became final. 7 wait for the last member."; "Current rule. 15 conflicts wait for members to match."; "If you switch: all 15 conflicts stay open."; "If you switch: 8 of 15 conflicts become final now."; "If you switch: Mert resolves the 7 open conflicts." |
 | Decision Maker row | "Mert Aydın"; "Decision Maker"; "Change" (label "Change Decision Maker") |
 | Majority without Decision Maker | "No Decision Maker, so ties stay open" / "A tie is when no decision has the most votes. With 3 members, that's when all three choose differently. Ties stay conflicts until someone changes their decision." / "Assign a Decision Maker" |

@@ -13,5 +13,6 @@
     @apply bg-background text-foreground font-sans antialiased;
     font-feature-settings: "cv11", "ss01";
   }
+  kbd { font-family: inherit; } /* keyboard hints use Inter, not monospace */
   :focus-visible { @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background; }
 }
