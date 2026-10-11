@@ -1,8 +1,8 @@
 # Design lint report
 
-Generated 2026-10-10T08:03:11.567Z by `npm run lint`.
+Generated 2026-10-11T16:09:18.600Z by `npm run lint`.
 
-**0 error(s), 289 touch-target warning(s)** across 40 screen file(s) and 40 spec(s).
+**0 error(s), 299 touch-target warning(s)** across 40 screen file(s) and 40 spec(s).
 
 ## Errors
 
@@ -16,6 +16,16 @@ None.
 - S06-feedback-error: target 124×40 "Idea"
 - S06-feedback-error: target 124×40 "Problem"
 - S06-feedback-error: target 124×40 "Other"
+- S09-default: target 52×32 "Back up this list"
+- S09-solo-round-done: target 52×32 "Back up this list"
+- S09-new-list: target 52×32 "Back up this list"
+- S09-empty: target 52×32 "Back up this list"
+- S09-device-only: target 52×32 "Back up this list"
+- S09-backed-up: target 52×32 "Back up this list"
+- S09-backup-large-text: target 64×40 "Back up this list"
+- S09-ios: target 52×32 "Back up this list"
+- S10-duplicate-opened: target 52×32 "Back up this list"
+- S10-backup-off-done: target 52×32 "Back up this list"
 - S24-sorted-by: target 146×40 "A to Z"
 - S24-sorted-by: target 146×40 "Z to A"
 - S24-sort-field-sheet: target 146×40 "A to Z"
