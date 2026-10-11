@@ -240,3 +240,81 @@ are merged here by the lead designer after each phase. IDs (A-nn) are referenced
 - **A-125** Sparse-card rule (image area None): content block vertically centered above pinned tags; ≤ 3 rows use text-title-2 values, 4–6 rows text-title-3; title-only uses text-display; decided by the template's row count. Duplicated templates are named "{name} (copy)".
 - **A-126** Extends A-112: "Undo Resolve all" is destructive (it discards final decisions); "Make Mert Owner" stays primary.
 - **A-127** The committed screenshots are rendered at scale 1 (92 MB for 1,686 PNGs); scale 2 would add ~300 MB to the repository. `npm run shots` regenerates them at scale 2 on demand.
+
+## Design update after build planning (2026-10-11)
+
+Applies the design update register in `docs/build-decisions.md` §7. For this update the build decisions
+(D-xx) override the brief and earlier assumptions wherever the register says so. Lead decisions first
+(A-128–A-139), then group decisions.
+
+- **A-128** D-02 is skipped: `docs/build-decisions.md` names no final product name yet ("Open, process
+  decided"). "SwipeSort" and `swipesort.app` stay in every string, A-54, A-56 and navigation-map §4 until the
+  founder picks a name; then one find-and-replace pass covers the brand assets and the S07, S32, S39 copy.
+- **A-129** D-32 (Photos out of scope): the Photos tile and the web "Upload photos" tile leave S11 entirely
+  (no "later" tile: `S11-new-source` already shows how a future source appears, with Calendar). The photos
+  explainer, denied and limited-access frames leave S12. S18 stays as a retired file marked "Out of scope
+  (D-32)" in its HTML header, spec and coverage; nothing links to it and no flow passes through it. Contact
+  photos and image fields stay. Supersedes the photo parts of A-24, A-56, A-57, A-62 and A-66.
+- **A-130** D-32: the sample list "March photos clean-up" (Photos source) is replaced everywhere by
+  **"Trip ideas"**: 30 places from `trip-ideas.csv` (fields Photo (image link), Place (title), Country, Best
+  time, Budget (EUR)), Photo card template, solo, Round 1 in progress at 12 / 30 (6 rejected, 1 maybe, 5
+  accepted), same position and dates in the sample world. It is image-led, so the Photo template keeps a real
+  example, and unrelated to weddings, so the samples still show that any list works (GOAL-02). In the
+  signed-in sample world it is backed up; in the guest world it is one of the 4 device lists.
+- **A-131** D-32: the built-in **Photo** card template stays. Spreadsheets and CSVs often carry image links
+  (trips, listings, products, portfolios) and Photo is the only built-in that leads with a full image. Its
+  sample rows are no longer gallery metadata (File name, Size) but the example list's own fields (Best time,
+  Budget). It is recommended when a source has an Image field and at most three other fields. Supersedes
+  A-106's Photo rows.
+- **A-132** D-33 Q1 (where and what): a signed-in Owner of a **solo** list controls backup per list with a
+  **Switch row "Back up this list"** in S09 (list overview, its own "Backup" group under Sources). On: the list
+  is in the account ("Backed up to deniz.yilmaz@example.com"). Off: the list is **on this phone only**. Turning
+  it on needs no confirmation (nothing is lost): the row shows "Backing up…" and a snackbar says "“{name}” is
+  backed up". New lists made while signed in get the same switch, on by default, at the import finish step
+  (S22 pick mode), so a private list never has to touch the server. Not shown to people without an account
+  (their lists are all on this phone, A-35/A-81) or on the sample list. S06 › Backup lists the lists that are
+  on this phone only, each with "Back up". The domain keeps a per-list storage mode: `backedUp` or
+  `deviceOnly` (domain-model › List).
+- **A-133** D-33 Q2 (sharing): sharing needs backup. Share or Invite on a list that is on this phone only
+  opens a sheet "Back up this list to share it" ("Members sort a shared list on their own devices, so it needs
+  to be in your account.") with "Back up and share" and "Not now"; the list backs up (one ListMoveRow with
+  progress), then S31 opens. Offline, the sheet says sharing needs a connection. A shared list can't be on
+  this phone only.
+- **A-134** D-33 Q3 (turning backup off): turning the switch off asks first, because it deletes the account
+  copy: "Keep “{name}” on this phone only?" / "The copy in your account is deleted and the list leaves your
+  other devices. If you lose this phone or move to a new one, the list can't be recovered." / "Cancel" /
+  "Keep on this phone only" (destructive, A-112). It needs a connection (it deletes account data; D-05 T3).
+  Done: snackbar "“{name}” is on this phone only" with Undo (backs it up again). Shared lists can't turn backup
+  off: the switch is disabled with "Shared lists are always backed up." Once the Owner has removed every
+  member and turned off every invite link, the list is solo again and the switch works. Members who don't own
+  a list never see the switch (they can Duplicate it and keep the copy on this phone only). Other devices of
+  the same account remove the list on their next sync and say so once (S40 snackbar).
+- **A-135** D-33 Q4 (sign-in): lists on this phone still move to the account by default, but the S05 prompt
+  offers "Choose lists" (a checklist, all on). The list being shared is locked on ("Needed to share"); the
+  sample never moves (D-10, A-139). Lists left unchecked stay on this phone only and now belong to the
+  account. The result says "3 lists moved to your account. 1 stays on this phone only." Supersedes A-46's
+  "every list moves".
+- **A-136** D-33 Q5 (sign-out and other accounts): signing out removes backed-up lists from the phone
+  (A-52). Lists on this phone only stay on the phone, **hidden while signed out**, and come back when the same
+  account signs in on this phone again. Another account signing in on the same phone never sees them; nor
+  does anyone using the app without an account. The sign-out dialog names them when they exist: "“Frontend
+  hiring, Q4” stays on this phone, hidden until you sign in again." Removing the app deletes them like any
+  data on the phone. Extends A-52.
+- **A-137** D-33 Q6 (labels): for signed-in users, a list on this phone only carries a per-list label
+  "On this phone only" (`cloud-off` 16, muted) on its Home row and in its S09 header meta, because it is the
+  exception; backed-up lists show nothing (A-81). On the web the label reads "On this browser only" and S09
+  adds the D-08 line "Browsers can clear lists you haven't opened for a while. Back it up to keep it." People
+  without an account keep the single Home indicator line (A-81, copy updated for D-08). Mobile copy says
+  "phone" on iOS too. Supersedes A-35 and the "always backed up" sentence of A-81.
+- **A-138** D-33 Q7 (account deletion, new phone): lists on this phone only are not in the account, so
+  deleting the account does not delete them: S07's deletion summary says "“Frontend hiring, Q4” is on this
+  phone only. It stays on this phone, without an account." Afterwards they behave like lists made without an
+  account (every device does the same at its next start). A new phone never receives them; the turn-off
+  confirmation (A-134) and the S06 › Backup footer say so ("Lists on this phone only don't move to a new
+  phone. Back them up first.").
+- **A-139** D-10 and D-33 details: the sample list stays on the device at sign-in, is never moved or backed
+  up, has no backup switch and stays visible whatever the account state until deleted (supersedes A-79's and
+  S08's "signing in moves it like any list"). A list on this phone only never shows sync states (A-115), and
+  everything on it works offline except Share and turning backup off (turning it on queues until a connection returns); Duplicate keeps the original's storage mode; Add
+  items, Export, rounds and templates work as on any solo list. In the signed-in sample world, "Frontend
+  hiring, Q4" (candidate CVs, the privacy case D-33 names) is on this phone only.
