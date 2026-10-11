@@ -12,7 +12,7 @@ CONTEXT = {
 }
 
 
-def chooser(kind='android', context=None, state=None, large=False):
+def chooser(kind='android', context=None, state=None, large=False, web=False):
     """state: None | 'offline' | 'google-busy' | 'google-failed' | 'cancelled'."""
     off = state == 'offline'
     busy = state == 'google-busy'
@@ -35,13 +35,16 @@ def chooser(kind='android', context=None, state=None, large=False):
         err = '<div class="mt-6">' + alert_error("Google sign-in didn't work", 'Check your connection and try again, or continue with email.') + '</div>'
     bsize = 'lg'
     xtra = ' min-h-16 h-auto py-3 text-title-3' if large else ''
+    # Apple links where Google does (Android/web: the busy pattern Apple shares, spec §4; iOS: the sheet itself)
     buttons = provider_buttons(kind, google_href='#S03-google-busy' if kind != 'ios' else '#S03-ios',
+                               apple_href='#S03-google-busy' if kind != 'ios' else '#S03-ios',
                                email_href='#S03-email' if kind != 'ios' else '#S03-ios-email', off=off,
                                busy='google' if busy else None)
     if large:
         buttons = [b.replace('h-14', 'min-h-16 h-auto py-3').replace('text-label-lg', 'text-title-3') for b in buttons]
     note = ("Your lists stay on this phone. Try again when you're online." if off
-            else 'Signing in is optional. Without an account, lists stay on this phone.')
+            else ("Signing in is optional. Without an account, lists stay in this browser, and browsers can clear lists you haven't opened for a while." if web
+                  else 'Signing in is optional. Without an account, lists stay on this phone.'))
     snack = snackbar('Google sign-in cancelled. Choose a way to continue.', bottom='bottom-24') if state == 'cancelled' else ''
     m = '' if large else mark('size-14')
     return f'''{top}
@@ -159,7 +162,7 @@ P.frame('S03-ios-context-share', 'iOS: opened from Share', phone(chooser('ios', 
 P.frame('S03-ios-email', 'iOS: sign in with email', phone(sign_in_form('s03ios', kind='ios'), kind='ios'))
 
 P.section('Web', 'Mobile browsers: the Android layout, Apple included (Apple\'s sign-in page opens in a popup on desktop, a redirect on phones). Desktop browsers: the phone column, used by an invited member in prototype flow 3 (Mert opens Deniz\'s link and signs in to join).')
-P.frame('S03-web', 'Web, mobile browser', phone(chooser(), kind='web'))
+P.frame('S03-web', 'Web, mobile browser', phone(chooser(web=True), kind='web'))
 
 inviter = f'''<div class="mt-6 flex items-center gap-3 rounded-group bg-card p-4 dark:border">
       {avatar(ME['avatar'], size='size-12')}
@@ -171,7 +174,7 @@ web_desk = f'''<header class="flex h-app-bar shrink-0 items-center gap-2 px-gutt
     <p class="mt-2 text-body-lg text-muted-foreground">No app needed. You can sort right here in your browser.</p>
     {inviter}
     <div class="mt-8 space-y-3">
-      {"".join(provider_buttons('web', google_href='S33-join-list.html#S33-web-desktop', email_href='#S03-web-desktop-email'))}
+      {"".join(provider_buttons('web', google_href='S33-join-list.html#S33-web-desktop', apple_href='S33-join-list.html#S33-web-desktop', email_href='#S03-web-desktop-email'))}
     </div>
     <p class="mt-4 text-center text-body-sm text-muted-foreground">Next, you\'ll see the list and your role before joining.</p>
   </div>

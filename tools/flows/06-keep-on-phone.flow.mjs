@@ -21,7 +21,7 @@ export default {
     await run([['S09-default', 'toggle-backup'], ['S10-backup-off', 'confirm-backup-off']], 'S10-backup-off-done');
     assert.match(await page.locator('[data-frame="S10-backup-off-done"]').innerText(), /is on this phone only/);
     // Sharing a list kept on this phone only backs it up first, then opens Invite.
-    await run([['S09-device-only', 'share'], ['S10-share-backup', 'back-up-and-share']], 'S31-default');
+    await run([['S09-device-only', 'share'], ['S10-share-backup', 'back-up-and-share'], ['S10-share-backing-up', 'next']], 'S31-default');
     // Sign-in with "Choose lists": one list stays on this phone.
     await run([['S05-share', 'choose-lists'], ['S05-choose-lists', 'done'], ['S05-share-chosen', 'continue-google'],
       ['S05-moving-some-kept', 'next'], ['S05-moved-some-kept', 'continue']], 'S31-default');

@@ -26,15 +26,14 @@ TERM-01, TERM-02, SCR-07.
 | To | How |
 | --- | --- |
 | S06 Settings | Back (app bar arrow, system back, iOS edge swipe) |
-| Edit name dialog, photo sheet | Pencil button; "Change photo" / "Add photo" |
-| System camera / photo picker / browser file picker | Photo sheet (out of scope, OUT-01) |
+| Edit name dialog, photo sheet | Pencil button; tapping the photo opens the photo sheet (`S07-change-photo`); "Remove photo" → `S07-no-photo`; "Use Google photo" → `S07-photo-uploading` |
 | Google account chooser (native) | "Connect" on the Google row |
 | Apple sign-in (out of scope) | "Connect" on the Apple row: native sheet on iOS; Apple's sign-in page in a Custom Tab (Android) or popup/redirect (web), D-13; returns to `S07-apple-connected` |
 | `S07-add-password`, `S07-change-password` | "Add" / "Change" on the Email and password row |
 | S04 Forgot password (`S04-default`) | "Forgot your current password?" |
 | S39 Export (`S39-default`) | "Export a list" on the delete page |
 | `S07-delete` → `S07-reauth` (when needed) → `S07-delete-confirm` → `S07-delete-dialog` → `S07-deleting` → `S07-deleted` | Delete flow |
-| S08 Home (`S08-guest`) | "Done" after deletion: signed out; lists that were on this phone only remain as lists without an account (`S08-first-run` when there are none) |
+| S08 Home (`S08-guest`) | "Done" after deletion: signed out; lists that were on this phone only remain as lists without an account (`S08-first-run` when there are none). Prototype gap: `S08-guest` shows 4 lists, while only "Frontend hiring, Q4" would remain (no S08 frame with just that list yet) |
 
 Pushed in the Settings tab stack (bottom navigation hidden on S07 and its sub-pages, as in every pushed stack
 screen). Change password, Add a password, Delete account and Confirm deletion are pushed screens; Edit name and the
@@ -44,8 +43,11 @@ final confirmation are dialogs; photo, new Owner and re-authentication are botto
 
 **Profile (`S07-default`)**: AppBar small ("Profile", back). Scrolling column, gutter 20, sections 24 apart:
 
-1. **Photo block** (centered, the only centered element): Avatar 96 (photo or initials "DY" on `muted`) + ghost text
-   button with `camera` icon "Change photo" ("Add photo" without a photo).
+1. **Photo block** (centered, the only centered element): Avatar 96 (the Google account photo, or initials "DY" on
+   `muted`) + ghost text button: "Remove photo" (`image-off`) while the Google photo shows; "Use Google photo"
+   (`refresh-cw`) after it was removed; no button and the line "Connect Google to use its photo." when the account
+   has no photo source. SwipeSort never opens the camera or the photo library and has no upload (D-32, A-188).
+   Tapping the photo opens a small sheet that says where it comes from, with "Remove photo".
 2. **ListGroup "Personal info"**: Name row (label above value, trailing pencil IconButton 48) and Email row
    (read-only, no trailing control). Footer: "Members of shared lists see your name and photo."
 3. **ListGroup "Sign-in methods"** (connected accounts): one row per method with a provider mark, the method name,
@@ -88,9 +90,9 @@ S03) + sticky bottom "Save password".
 | `S07-default` | Signed in with Google and a password |
 | `S07-edit-name` | Pencil on the Name row: dialog with the current name selected |
 | `S07-edit-name-error` | Name emptied (only spaces counts as empty): inline error, Save disabled |
-| `S07-change-photo` | "Change photo": sheet with Take photo, Choose from gallery, Remove photo |
-| `S07-photo-uploading` | Photo chosen: scrim + spinner over the avatar, "Uploading photo…" |
-| `S07-no-photo` | Photo removed: initials, "Add photo", snackbar "Photo removed" with Undo |
+| `S07-change-photo` | Photo tapped: sheet "Profile photo" explains the photo comes from Google, with "Remove photo" |
+| `S07-photo-uploading` | "Use Google photo" pressed: scrim + spinner over the avatar, "Getting your Google photo…" |
+| `S07-no-photo` | Photo removed: initials, "Use Google photo", snackbar "Photo removed" with Undo |
 | `S07-google-not-connected` | Account created with email (no Google): Google row "Not connected" + "Connect" |
 | `S07-disconnect-confirm` | "Disconnect" on Google while another method exists |
 | `S07-google-disconnected` | Confirmed: row switches to Connect, snackbar "Google disconnected" |
@@ -117,17 +119,19 @@ S03) + sticky bottom "Save password".
 | `S07-offline` | No connection: offline banner; photo, name, method and delete actions disabled with reason |
 | `S07-ios` | iOS: Apple (connected) + Google + password, Apple first, grouped inset lists, back chevron "Settings" |
 | `S07-ios-delete-alert` | iOS final confirmation as a native alert |
-| `S07-web-change-photo` | Web: sheet offers "Upload photo" (file input) and Remove photo |
+| `S07-web-change-photo` | Web: the same photo sheet (no upload) |
 | `S07-large-text` | 200% text: rows stack, trailing actions move below the row text |
 
 ## 5. Interactions, gestures and transitions
 
 - **Edit name**: dialog (scale 0.96 → 1 + fade 250 ms; reduced motion: fade 150 ms). Save trims the value
   (1–60 characters); the new name syncs to every shared list. Save is disabled while empty. Offline: pencil disabled.
-- **Photo**: Take photo / Choose from gallery open the system camera or picker (permission prompts are system UI);
-  the image is center-cropped square, resized to 512 px and uploaded; the avatar shows a spinner overlay. Remove
-  photo is instant with an Undo snackbar (6 s). Upload failure: snackbar "Photo didn't upload. Check your connection
-  and try again." with "Try again"; the previous photo stays.
+- **Photo** (A-188, D-32: no camera, photo library or upload on any platform): the profile photo is the Google
+  account's photo, copied at sign-in and refreshed at each sign-in; Apple shares no photo, so Apple-only and
+  email accounts show initials. "Remove photo" (block button or sheet) is instant with an Undo snackbar (6 s) and
+  stays removed across sign-ins; "Use Google photo" brings it back (spinner overlay, then the photo). Failure:
+  snackbar "Couldn't get your Google photo. Check your connection and try again." with "Try again". Disconnecting
+  Google keeps the current photo until it is removed. To change the photo, people change it in Google.
 - **Connect Google**: opens the native Google account chooser. If the Google account is already used by another
   SwipeSort account: snackbar error "This Google account is already linked to another SwipeSort account." If the
   user cancels the chooser: nothing changes, no message.
@@ -159,15 +163,15 @@ S03) + sticky bottom "Save password".
 | Element | String |
 | --- | --- |
 | App bar | "Profile"; back label "Back to Settings" |
-| Photo | "Change photo"; "Add photo"; alt "Profile photo of Deniz Yılmaz"; no photo label "Deniz Yılmaz, no profile photo"; "Uploading photo…" |
-| Photo sheet | "Profile photo"; "Take photo"; "Choose from gallery"; "Remove photo"; web: "Upload photo", "JPG or PNG, up to 10 MB" |
-| Photo snackbars | "Photo removed" + "Undo"; "Photo didn't upload. Check your connection and try again." + "Try again" |
+| Photo | "Remove photo"; "Use Google photo"; "Connect Google to use its photo."; photo link label "Profile photo of Deniz Yılmaz, from Google. Options"; no photo label "Deniz Yılmaz, no profile photo"; "Getting your Google photo…" |
+| Photo sheet | "Profile photo"; "Your photo comes from your Google account. To change it, change it in Google; SwipeSort uses the new one the next time you sign in."; "Remove photo"; "Close" |
+| Photo snackbars | "Photo removed" + "Undo"; "Couldn't get your Google photo. Check your connection and try again." + "Try again" |
 | Personal info | Header "Personal info"; "Name"; "Email"; edit button label "Edit name"; footer "Members of shared lists see your name and photo." |
 | Edit name dialog | "Edit name"; "Use the name your partner, family or team will recognize."; field "Name"; helper "Members of shared lists see this name."; error "Enter a name. Members see it on shared lists."; "Cancel"; "Save" |
 | Sign-in methods | Header "Sign-in methods"; "Google"; "Apple"; "Email and password"; "Not connected"; "Password set"; "No password yet"; actions "Connect", "Disconnect", "Change", "Add"; accessible names "Connect Google", "Disconnect Google", "Connect Apple", "Disconnect Apple", "Change password", "Add a password"; footer "Sign in with any of these. Keep at least one." |
 | Disconnect dialog | "Disconnect Google?"; "You'll sign in with deniz.yilmaz@example.com and your password instead. Your lists aren't affected."; "Cancel"; "Disconnect". Apple: "Disconnect Apple?"; "You'll sign in with Google or with deniz.yilmaz@example.com and your password instead. Your lists aren't affected." (names the methods that remain) |
 | Connected / disconnected | "Apple connected"; "Google disconnected"; "Apple disconnected" |
-| Blocked dialog | "Add a password first"; "Google is your only way to sign in. Add a password or connect Apple first, so you can still sign in after disconnecting Google."; "Cancel"; "Add a password" (Apple-only account: "Apple is your only way to sign in. Add a password or connect Google first, so you can still sign in after disconnecting Apple.") |
+| Blocked dialog | "Add a password first"; "Google is your only way to sign in. Add a password so you can still sign in after disconnecting Google."; "Cancel"; "Add a password" (Apple-only account: "Apple is your only way to sign in. Add a password so you can still sign in after disconnecting Apple."). Connecting the other provider also unblocks Disconnect; the dialog keeps the one action that always works |
 | Connect error | "This Google account is already linked to another SwipeSort account."; "This Apple ID is already linked to another SwipeSort account." |
 | Add a password | Title "Add a password"; "Add a password to sign in with your email address as well as with Google."; "Email"; "New password"; rules "At least 8 characters", "A number or a symbol"; "Save password" |
 | Change password | Title "Change password"; "Current password"; "Forgot your current password?"; "New password"; rules as above; "After you change it, other phones and browsers signed in to your account are signed out."; "Save password"; "Saving…"; error "That password isn't right. Try again or reset it." |
@@ -175,28 +179,28 @@ S03) + sticky bottom "Save password".
 | Password changed | "Password changed. Other devices were signed out." |
 | Delete row | "Delete account"; "Delete your account, your backed-up lists and your notes"; offline: "Connect to the internet to delete your account." |
 | Delete step 1 | Title "Delete account"; "Deleting your account can't be undone. Here's what happens."; "Shared list you own"; "{List name}"; "100 items, 3 members"; "Transfer ownership"; "Mert and Selin keep the list. Your decisions and notes on it are removed."; new Owner trigger label "New Owner: Mert Aydın. Change"; "Delete for everyone"; "Mert and Selin lose access to the list." |
-| Deleted for good | Header "Deleted for good"; "Your profile and sign-in methods"; "4 lists only you use"; "Desk setup, Trip ideas, and 2 archived: Apartment viewings, Book club picks"; "Your decisions and notes"; "Including those on lists other people share with you" |
+| Deleted for good | Header "Deleted for good"; "Your profile and sign-in methods"; "4 lists only you use"; "Desk setup, Trip ideas and 2 archived: Apartment viewings, Book club picks"; "Your decisions and notes"; "Including those on lists other people share with you" |
 | Not changed | Header "Not changed"; "Frontend hiring, Q4" / "On this phone only. It stays on this phone, without an account."; "Files and Google Sheets you imported from"; "SwipeSort never changed them"; "Files you exported" |
 | Export hint | "Want a copy first? Export a list before you delete your account."; link "Export a list" |
 | Step 1 actions | "Continue"; "Keep my account" |
 | New Owner sheet | "New Owner of Wedding guests"; "The new Owner can start rounds, manage members and change the conflict rule."; "Mert Aydın", "Decision Maker, 85 / 100 decided"; "Selin Yılmaz", "Collaborator, 43 / 100 decided"; "Choose Mert Aydın" |
 | Re-authentication | "Confirm it's you"; "For your security, sign in again before you delete your account." (Change password / disconnect: "…before you change your password." / "…before you disconnect Google."); "Continue with Google"; "or"; "Password"; placeholder "Your SwipeSort password"; "Confirm"; error "That password isn't right. Try again or reset it." |
 | Confirm deletion | Title "Confirm deletion"; "This is the last step. After this, your account can't be restored."; "“Wedding guests” moves to Mert Aydın"; "Desk setup, Trip ideas and 2 archived lists (Apartment viewings, Book club picks) are deleted"; "Your profile, decisions and notes are deleted"; "“Frontend hiring, Q4” stays on this phone, without an account" (iOS "this iPhone"); field "To confirm, type delete"; helper "Lowercase is fine."; "Delete account"; "Keep my account" (with Delete for everyone: "Wedding guests is deleted for all 3 members") |
-| Final dialog | "Delete your account?"; "This can't be undone. “Wedding guests” moves to Mert Aydın. 4 lists (2 of them archived), your decisions and your notes are deleted. “Frontend hiring, Q4” stays on this phone." (iOS "this iPhone"; without lists on this phone only the last sentence is left out); "Cancel"; "Delete account" |
+| Final dialog | "Delete your account?"; "This can't be undone. “Wedding guests” moves to Mert Aydın. Your other 4 lists (2 of them archived), your decisions and your notes are deleted. “Frontend hiring, Q4” is on this phone only. It stays on this phone, without an account." (S40 §6.1 is the source; iOS "this iPhone" in both places; without lists on this phone only the last two sentences are left out); "Cancel"; "Delete account" |
 | Deleting | "Deleting your account…"; "Keep SwipeSort open. This takes a few seconds." |
-| Deleted | "Your account is deleted"; "Mert Aydın now owns Wedding guests. “Frontend hiring, Q4” is still on this phone. You can keep using SwipeSort without an account."; "Done" (without lists on this phone only the middle sentence is left out; without a transfer: "Your lists and notes are gone from SwipeSort. You can keep using SwipeSort without an account.") |
+| Deleted | "Your account is deleted"; "Mert Aydın now owns Wedding guests. “Frontend hiring, Q4” stays on this phone. You can keep using SwipeSort without an account."; "Done" (without lists on this phone only the middle sentence is left out; without a transfer: "Your lists and notes are gone from SwipeSort. You can keep using SwipeSort without an account.") |
 | Delete failed | "Couldn't delete your account"; "Nothing was deleted. Check your connection and try again."; "Try again"; "Keep my account" |
 | Offline | "You're offline. Profile changes need a connection." |
 | Large text | Same strings |
 
 ## 7. Accessibility
 
-- Focus order: Back, photo, Change photo, Name (Edit name), Email, each sign-in method and its action, Delete
+- Focus order: Back, photo (opens the photo sheet), Remove photo / Use Google photo, Name (Edit name), Email, each sign-in method and its action, Delete
   account. Section headers are headings (`h2`).
 - Trailing text buttons carry full accessible names ("Disconnect Google", "Change password") because "Change" alone
   is ambiguous. The pencil button is "Edit name".
 - Avatar: photo alt "Profile photo of Deniz Yılmaz"; initials fallback is an image with "Deniz Yılmaz, no profile
-  photo". Uploading announces "Uploading photo…" (polite).
+  photo". Restoring announces "Getting your Google photo…" (polite).
 - Dialogs: `alertdialog` for Disconnect, blocked and final delete; `dialog` for Edit name. Focus moves to the dialog;
   initial focus on Cancel for destructive dialogs (never on the destructive button).
 - Delete step 1 options are a radiogroup with consequences in the option description; the new Owner trigger reads
@@ -216,15 +220,15 @@ S03) + sticky bottom "Save password".
   iOS connects with the native sheet; Android and web with Apple's sign-in page in the browser (out of scope to
   draw). Apple accounts may show a Hide My Email relay address.
 - **iOS** (`S07-ios`, `S07-ios-delete-alert`): back chevron with "Settings" and edge-swipe back; grouped inset lists
-  (12 radius) without group footers to keep the compact rhythm; Apple is the first sign-in method. Photo sheet becomes an action sheet with
-  the same items. Final confirmation is a native alert with the same copy; "Delete account" is the destructive
+  (12 radius) without group footers to keep the compact rhythm; Apple is the first sign-in method. The photo sheet becomes an action sheet with
+  the same message and "Remove photo". Disconnect Google or Apple confirms with an action sheet (S40 §3.2) using the
+  dialog's strings (no separate frame; `S07-ios` links to the Android dialog frame). Final confirmation is a native alert with the same copy; "Delete account" is the destructive
   action, "Cancel" the bold default. **Account deletion must revoke the Sign in with Apple token** (Apple REST
   `auth/revoke`) as App Store guideline 5.1.1(v) requires; the server does this during `S07-deleting`.
 - **Android**: Material 3 dialogs and bottom sheets as shown; system back closes sheet/dialog first. Google Play
   also requires a web route to request deletion: the same flow is reachable on the web at
   `swipesort.app/account/delete` after sign-in.
-- **Web** (`S07-web-change-photo`): photo uses a file input ("Upload photo", JPG or PNG up to 10 MB); no camera or
-  gallery items. Apple connects and disconnects like on Android (popup on desktop, redirect on phones).
+- **Web** (`S07-web-change-photo`): the same photo sheet as the app; no upload (A-188). Apple connects and disconnects like on Android (popup on desktop, redirect on phones).
   Desktop uses the centered phone column (S40) with no other changes. Everything else is identical.
 
 ## 9. Edge cases

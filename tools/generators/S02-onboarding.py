@@ -182,6 +182,8 @@ def welcome(kind='android', web_note=False, replay=False):
     else:
         top = f'<header class="flex h-app-bar shrink-0 items-center justify-end px-1">{text_action("Skip", SKIP, "skip")}</header>'
     note = ''
+    # web: lists live in the browser (D-08); the risk line is in S03-web and the S08 indicator
+    reassure = (icon("globe", "size-4") + 'No account needed. Lists stay in this browser.') if web_note else (icon("smartphone", "size-4") + 'No account needed. Lists stay on this phone.')
     if web_note:
         note = f'<div class="shrink-0 px-gutter pb-2 pt-4">{alert_neutral("Using SwipeSort in your browser", "Everything works here. Get the app to import your phone contacts.", action=link("Get the app", "https://swipesort.app/get"))}</div>'
         top = ''
@@ -195,7 +197,7 @@ def welcome(kind='android', web_note=False, replay=False):
   <div class="shrink-0 space-y-2 px-gutter pb-4 pt-6">
     {btn("Get started", href="#S02-demo", action="next")}
     {btn("I have an account", "ghost", href="S03-sign-in.html#S03-default", action="sign-in")}
-    <p class="flex items-center justify-center gap-1.5 pt-1 text-body-sm text-muted-foreground">{icon("smartphone", "size-4")}No account needed. Lists stay on this phone.</p>
+    <p class="flex items-center justify-center gap-1.5 pt-1 text-body-sm text-muted-foreground">{reassure}</p>
   </div>'''
 
 

@@ -89,7 +89,7 @@ bottom bar with primary "Share summary" and outline "Copy text".
   footer explaining why it's the only destination.
 - Lists from Google Sheets: "Write to" radiogroup in a group: New tab in {spreadsheet} (default, with a
   nested "Tab name" input, default "Decisions"), New columns in {spreadsheet}, New spreadsheet.
-- **Google account** row (avatar 40, email, "Signed in with Google", "Switch" → S15 account sheet).
+- **Google account** row (avatar 40, email, "Google account", "Switch" → S15 account sheet).
 - **Columns** preview (Proposed component: ColumnPreview): "Your fields" as outline chips (`rounded-sm`),
   "Added by SwipeSort" as `primary-soft` chips with `plus`, plus one line on rows and values.
 - Bottom bar: primary "Continue".
@@ -213,7 +213,7 @@ lead-in (as on the shared confirmation); a different file chosen in the re-pick 
      yet (Mert, who signed in with Google but never connected Google Sheets); the lead-in Alert says so. Once
      granted, the Alert never shows again.
   - When the user signed in to SwipeSort with Google (Mert, Flow 3) but never connected Google Sheets, the
-    destination preselects that sign-in account ("Signed in with Google") and the
+    destination preselects that Google account (row label "Google account") and the
     connect explainer is skipped: the only grant needed is `drive.file`, asked once at the confirmation with
     the account preselected (`login_hint`). Users without a Google sign-in or connection get
     `S39-google-not-connected`.
@@ -255,7 +255,7 @@ lead-in (as on the shared confirmation); a different file chosen in the re-pick 
 | Summary text (sample) | "Desk setup" / "20 items after 2 rounds: 11 rejected, 1 maybe, 8 accepted." / "Accepted (8)" / "- Ergo Mesh task chair (€389)" … / "Maybe (1)" / "- Bookshelf speakers, pair (€249)". Item line = title + the card template's price or subtitle in parentheses. Shared lists use final decisions and add "3 conflicts and 53 pending items aren't listed." |
 | Destination (new) | Title "Export to Google Sheets"; "New spreadsheet"; label "Name", default "Desk setup decisions"; footer "Desk setup wasn't imported from Google Sheets, so SwipeSort creates a new spreadsheet." |
 | Destination (source) | "Write to"; "New tab in Flat hunt 2026" / "All 8 items on their own tab. Your tabs don't change."; label "Tab name", default "Decisions"; "New columns in Flat hunt 2026" / "Decision and Notes next to your rows in Kadıköy and Beşiktaş"; "New spreadsheet" / "A separate copy in your Google Drive" |
-| Account | "Google account"; "deniz.yilmaz@example.com" / "Signed in with Google" / "Switch" (label "Switch Google account"); shared: "mert.aydin@example.com" / "Signed in with Google". One sublabel everywhere; it never says read-only on a step that writes |
+| Account | "Google account"; "deniz.yilmaz@example.com" / "Google account" / "Switch" (label "Switch Google account"); shared: "mert.aydin@example.com" / "Google account". One sublabel everywhere, the same as S15's account row; it never says read-only or "signed in" (connecting Google Sheets isn't a SwipeSort sign-in, A-151) |
 | Destination (shared) | "New spreadsheet"; label "Name", default "Wedding guests decisions"; footer "Wedding guests wasn't imported from Google Sheets, so SwipeSort creates a new spreadsheet."; added columns "Final decision", "Decision (Deniz Yılmaz)", "Decision (Mert Aydın)", "Decision (Selin Yılmaz)", "Notes"; "100 rows, one per item. Final decision says Accepted, Rejected, Maybe, Conflict or Pending." |
 | Column preview | "Columns"; "Your fields"; "Added by SwipeSort"; "Decision", "Notes" (shared "Final decision", "Decision (Deniz Yılmaz)"…); "20 rows, one per item. Decision says Accepted, Rejected or Maybe."; source "8 rows, one per item. The Tab column says which tab each item came from." |
 | Continue | "Continue" |

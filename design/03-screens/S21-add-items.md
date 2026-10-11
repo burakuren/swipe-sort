@@ -51,9 +51,11 @@ removed, e.g. manual entry: Choose source, Add items, Add to list).
 5. **Adding** (`S21-adding`): same layout, primary button busy "Adding 12 items…", determinate progress
    "7 of 12 added".
 6. **Success**: the real S09-shared screen (embedded from `S09-list-overview.html`) with Snackbar "Added 12 items"
-   + Undo; S09's Recent activity gets "You added 12 items from mert-family.csv". S09 has no sources section, so the
-   new source ("mert-family.csv, 12 items, added just now") is listed in S10 › list details / S09 overflow "Sources"
-   (Group B to confirm); the item count in the S09 header reads 100 items.
+   + Undo; S09's Recent activity gets "You added 12 items from mert-family.csv"; the new source ("mert-family.csv, 12
+   items, added just now") appears in S09's Sources group; the item count in the S09 header reads 100 items.
+   Offline (`S21-offline-success`): the embedded `S09-offline` also shows the S40 SyncNotice "Saved on this
+   phone" (`cloud-off` 16) under the header meta, so the 12 queued items stay visible after the snackbar; it
+   changes to "Syncing…" and "Synced" when the connection returns.
 7. **Partial** (`S21-partial`): result screen with error icon, title, list of rows not added with reasons,
    primary "Done", ghost "Add the file again".
 
@@ -74,7 +76,7 @@ removed, e.g. manual entry: Choose source, Add items, Add to list).
 | `S21-partial` | 2 rows couldn't be read: "Added 10 of 12 items" |
 | `S21-offline` | No connection: Google Sheets tile unavailable; local sources work; banner says added items are saved on this phone |
 | `S21-offline-confirm` | Offline, shared list: confirm step with the offline banner; the shared notice says members see the items when the connection is back; "Add to list" works (queued, D-05) |
-| `S21-offline-success` | Offline, shared list: back on S09 (`S09-offline`), snackbar "Added 12 items. Members see them when you're back online." with Undo |
+| `S21-offline-success` | Offline, shared list: back on S09 (`S09-offline`) with the SyncNotice "Saved on this phone" under the header meta, snackbar "Added 12 items. Members see them when you're back online." with Undo |
 | `S21-web` | Web: Contacts tile unavailable with "Get the app" |
 | `S21-ios`, `S21-ios-confirm` | iOS bar and back chevron |
 | `S21-large-text` | 200% font scale on the confirm step |
@@ -117,7 +119,7 @@ removed, e.g. manual entry: Choose source, Add items, Add to list).
 | App bar | "Add items"; close "Close adding items" |
 | Stepper | "Choose source", "Select items", "Map fields", "Review duplicates", "Add to list"; "Step 1 of 5" |
 | Choose source | "Add items to Wedding guests"; "New items join Round 1, so every member sorts them. Decisions already made stay as they are."; "In this list now"; "Contacts" / "88 items"; "Add from"; "A list can combine items from any of these sources." |
-| Tiles | "Contacts" / "From this phone"; "CSV or Excel" / "A .csv or .xlsx file"; "Google Sheets" / "From Google Drive"; "Plain text" / "Paste a list or a .txt file"; "Manual entry" / "Type items one by one" |
+| Tiles | "Contacts" / "From this phone" (iOS "From this iPhone"); "CSV or Excel" / "A .csv or .xlsx file"; "Google Sheets" / "From Google Drive"; "Plain text" / "Paste a list or a .txt file"; "Manual entry" / "Type items one by one" |
 | File | "mert-family.csv"; "15 rows, 7 columns"; "Change"; "First rows"; "Showing 4 of 15 rows. Every row is added; you can review matches in the next steps." |
 | Map fields | "Match the 7 columns in mert-family.csv to fields in Wedding guests."; "Column in the file"; "Field in the list"; badge "New"; target "New field"; "Items already in the list leave it empty."; "Photo has no column in this file. New items show initials instead."; select a11y "Address goes to: New field. Change" |
 | Target sheet | "Address goes to"; "Column in mert-family.csv"; "New field: Address" / "Added to every item; existing items leave it empty"; "Don't import" / "The column is left out"; "Name" / "Title. Already filled by Name"; "Already filled by {column}"; "No column yet"; swap note "Phone was already filled by Mobile. Mobile is now Don't import." |

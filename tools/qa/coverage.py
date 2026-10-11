@@ -8,7 +8,20 @@ status = sys.argv[1] if len(sys.argv) > 1 else 'Done'
 NAMES = {}
 for line in open(os.path.join(ROOT, 'design', '00-brief', 'requirements.md')):
     m = re.match(r'- \*\*SCR-(\d\d)\*\* S\d\d (.+)', line)
-    if m: NAMES[m.group(1)] = re.sub(r'\s*_(Changed by|Out of scope)[^_]*_\s*$', '', m.group(2)).strip()
+    if m:
+        name = m.group(2).strip()
+        note = re.search(r'\s*_(Changed by|Out of scope)([^_]*)_\s*$', name)
+        if note:
+            ds = ', '.join(dict.fromkeys(re.findall(r'D-\d\d', note.group(0))))
+            name = name[:note.start()].strip() + (f' (changed by {ds}; see requirements.md)' if note.group(1) == 'Changed by' else '')
+        NAMES[m.group(1)] = name
+# Current titles where a build decision changed the brief's screen name (requirements.md keeps the original).
+NAMES.update({
+    '03': 'Sign up / sign in (Google, Apple, email; changed by D-13)',
+    '12': 'Pre-permission explainers (contacts on Android 16 and lower, notifications) and permission-denied recovery (changed by D-18, D-32)',
+    '13': 'Contacts import (system picker on Android 17+ and iOS; full list on Android 16 and lower; changed by D-18)',
+    '15': "Google Sheets: choose a spreadsheet in Google's Picker, then its tabs (changed by D-17)",
+})
 # Screens kept for reference only (not part of the current design).
 RETIRED = {'S18': 'Out of scope (D-32): retired, kept for reference'}
 rows, total = [], 0

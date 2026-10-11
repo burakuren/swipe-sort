@@ -13,7 +13,7 @@ def phone(content, kind='android', screen_cls='', overlay_full=None):
     return _phone(content, kind, screen_cls, overlay_full)
 
 P = Page('S07', 'Profile, connected accounts and account deletion',
-         'Pushed from Settings (S06) in the Settings tab stack. Edit name and photo, manage sign-in methods (Google, Apple and email and password on every platform, D-13) and delete the account with a clear account of what is deleted and what stays (lists on this phone only stay, A-138).',
+         'Pushed from Settings (S06) in the Settings tab stack. Edit the name, remove or restore the Google profile photo, manage sign-in methods (Google, Apple and email and password on every platform, D-13) and delete the account with a clear account of what is deleted and what stays (lists on this phone only stay, A-138).',
          'S07-profile.md')
 
 BACK = 'S06-settings.html#S06-default'
@@ -44,20 +44,28 @@ APPLE_LEAD = icon('apple', 'size-5 shrink-0')
 MAIL_LEAD = icon('key-round', 'size-5 shrink-0 text-muted-foreground')
 
 
-def photo_block(photo=True, uploading=False, offline=False, href='#S07-change-photo', label='Change photo', size='size-24'):
-    if photo:
-        av = f'<img src="{ME["avatar"]}" alt="Profile photo of Deniz Yılmaz" class="{size} rounded-full object-cover">'
+def photo_block(state='photo', offline=False, size='size-24'):
+    """Profile photo (A-188, D-32): no camera, gallery or upload. The photo comes from the Google account
+    (Apple shares none), else initials. state: photo | removed (account has a photo, the person removed it) |
+    loading (Use Google photo pressed) | none (no account photo: initials only)."""
+    if state in ('photo', 'loading'):
+        av = f'<a href="#S07-change-photo" class="block rounded-full" aria-label="Profile photo of Deniz Yılmaz, from Google. Options" data-action="photo-options"><img src="{ME["avatar"]}" alt="" class="{size} rounded-full object-cover"></a>'
     else:
-        av = avatar(initials='DY', size='size-24', text='text-title-1', alt='Deniz Yılmaz, no profile photo')
+        av = avatar(initials='DY', size=size, text='text-title-1', alt='Deniz Yılmaz, no profile photo')
     over = ''
-    if uploading:
+    if state == 'loading':
         over = f'<span class="absolute inset-0 flex items-center justify-center rounded-full bg-scrim/50 text-primary-foreground dark:text-foreground" aria-hidden="true">{icon("loader-circle", "size-7 animate-spin")}</span>'
-    if uploading:
-        b = f'<p class="mt-2 flex h-12 items-center text-body-sm text-muted-foreground" role="status">Uploading photo…</p>'
-    elif offline:
-        b = f'<button type="button" class="mt-2 inline-flex h-12 items-center rounded-control px-4 text-label-lg text-primary opacity-50" disabled>{label}</button>'
+    if state == 'loading':
+        b = '<p class="mt-2 flex h-12 items-center text-body-sm text-muted-foreground" role="status">Getting your Google photo…</p>'
+    elif state == 'none':
+        b = '<p class="mt-2 flex min-h-12 items-center text-center text-body-sm text-muted-foreground">Connect Google to use its photo.</p>'
     else:
-        b = f'<a href="{href}" class="mt-2 inline-flex h-12 items-center gap-2 rounded-control px-4 text-label-lg text-primary" data-action="change-photo">{icon("camera")}{label}</a>'
+        label, ic, href, act = (('Remove photo', 'image-off', '#S07-no-photo', 'remove-photo') if state == 'photo'
+                                else ('Use Google photo', 'refresh-cw', '#S07-photo-uploading', 'use-google-photo'))
+        if offline:
+            b = f'<button type="button" class="mt-2 inline-flex h-12 items-center gap-2 rounded-control px-4 text-label-lg text-primary opacity-50" disabled>{icon(ic)}{label}</button>'
+        else:
+            b = f'<a href="{href}" class="mt-2 inline-flex h-12 items-center gap-2 rounded-control px-4 text-label-lg text-primary" data-action="{act}">{icon(ic)}{label}</a>'
     return f'<div class="flex flex-col items-center pb-2 pt-2"><span class="relative">{av}{over}</span>{b}</div>'
 
 
@@ -102,11 +110,11 @@ def profile_groups(google='connected', password='set', offline=False, apple='not
     return personal + signin + danger
 
 
-def profile(google='connected', password='set', photo=True, uploading=False, offline=False, overlay='', banner='', apple='not'):
+def profile(google='connected', password='set', photo='photo', uploading=False, offline=False, overlay='', banner='', apple='not'):
     return f'''{appbar('Profile', href=BACK, label='Back to Settings', action='back')}
   {banner}
   <div class="min-h-0 flex-1 space-y-6 overflow-hidden px-gutter pb-6">
-    {photo_block(photo, uploading, offline, label='Change photo' if photo else 'Add photo')}
+    {photo_block('loading' if uploading else ('photo' if photo is True else photo), offline)}
     {profile_groups(google, password, offline, apple=apple)}
   </div>
   {overlay}'''
@@ -127,7 +135,7 @@ RULES_OK = [('At least 8 characters', 'met'), ('A number or symbol', 'met')]
 RULES_HALF = [('At least 8 characters', 'met'), ('A number or symbol', 'todo')]
 
 # ================================================================ Profile
-P.section('Profile', 'Name and photo are what other members see. Email is the sign-in address and is read-only. Sign-in methods list every way into the account.')
+P.section('Profile', 'Name and photo are what other members see. The photo comes from the Google account, else initials; SwipeSort never opens the camera or photo library (D-32, A-188), so the only photo action is Remove photo (and Use Google photo to bring it back). Email is the sign-in address and is read-only. Sign-in methods list every way into the account.')
 P.frame('S07-default', 'Default (Google and password connected)', phone(profile()))
 
 name_field = field('s07-name', 'Name', value='Deniz Yılmaz', state='focused', autocomplete='name', helper='Members of shared lists see this name.')
@@ -139,25 +147,25 @@ P.frame('S07-edit-name-error', 'Edit name: empty name', phone(profile(overlay=di
     dlg_btn('Cancel', href='#S07-default') + dlg_btn('Save', 'primary', disabled=True), role='dialog',
     extra_body=f'<div class="mt-4">{name_err}</div>'))))
 
-photo_sheet = sheet('s07ph', f'''<ul class="mt-2 divide-y">
-      <li><a href="#S07-photo-uploading" class="flex min-h-14 items-center gap-4 py-3">{icon("camera", "size-5 text-muted-foreground")}<span class="text-body">Take photo</span></a></li>
-      <li><a href="#S07-photo-uploading" class="flex min-h-14 items-center gap-4 py-3">{icon("images", "size-5 text-muted-foreground")}<span class="text-body">Choose from gallery</span></a></li>
-      <li><a href="#S07-no-photo" class="flex min-h-14 items-center gap-4 py-3 text-destructive">{icon("trash-2", "size-5")}<span class="text-body">Remove photo</span></a></li>
-    </ul>''', title='Profile photo', close_href='#S07-default')
-P.frame('S07-change-photo', 'Change photo (bottom sheet)', phone(profile(overlay=photo_sheet)))
-P.frame('S07-photo-uploading', 'Photo uploading', phone(profile(uploading=True)))
-P.frame('S07-no-photo', 'No photo: initials, Add photo', phone(profile(photo=False, overlay=snackbar('Photo removed', 'Undo', action_href='#S07-default'))))
+PHOTO_SHEET_BODY = f'''<p class="mt-1 text-body text-muted-foreground">Your photo comes from your Google account. To change it, change it in Google; SwipeSort uses the new one the next time you sign in.</p>
+    <ul class="mt-3 divide-y">
+      <li><a href="#S07-no-photo" class="flex min-h-14 items-center gap-4 py-3 text-destructive" data-action="remove-photo">{icon("image-off", "size-5")}<span class="text-body">Remove photo</span></a></li>
+    </ul>'''
+photo_sheet = sheet('s07ph', PHOTO_SHEET_BODY, title='Profile photo', close_href='#S07-default')
+P.frame('S07-change-photo', 'Photo options sheet (tap the photo)', phone(profile(overlay=photo_sheet)))
+P.frame('S07-photo-uploading', 'Use Google photo: getting the account photo', phone(profile(uploading=True)))
+P.frame('S07-no-photo', 'Photo removed: initials, Use Google photo', phone(profile(photo='removed', overlay=snackbar('Photo removed', 'Undo', action_href='#S07-default'))))
 
 # ================================================================ Sign-in methods
 P.section('Sign-in methods', 'Connect or disconnect Google and Apple on every platform (D-13; on Android and web Apple opens its sign-in page in the browser); add or change the password. A method can be disconnected only while another one remains (A-53).')
-P.frame('S07-google-not-connected', 'Google not connected (email account): Connect', phone(profile(google='not', photo=False)))
+P.frame('S07-google-not-connected', 'Google not connected (email account): Connect', phone(profile(google='not', photo='none')))
 P.frame('S07-disconnect-confirm', 'Disconnect Google: confirmation', phone(profile(overlay=dialog('s07dc', 'Disconnect Google?',
     f'You\'ll sign in with {ME["email"]} and your password instead. Your lists aren\'t affected.',
     dlg_btn('Cancel', href='#S07-default') + dlg_btn('Disconnect', 'destructive', href='#S07-google-disconnected', action='confirm-disconnect')))))
 P.frame('S07-google-disconnected', 'Google disconnected (snackbar)', phone(profile(google='not', overlay=snackbar('Google disconnected'))))
 P.frame('S07-google-only', 'Google is the only method (no password yet)', phone(profile(google='only', password='none')))
 P.frame('S07-disconnect-blocked', 'Disconnect blocked: add a password first', phone(profile(google='only', password='none', overlay=dialog('s07db', 'Add a password first',
-    'Google is your only way to sign in. Add a password or connect Apple first, so you can still sign in after disconnecting Google.',
+    'Google is your only way to sign in. Add a password so you can still sign in after disconnecting Google.',
     dlg_btn('Cancel', href='#S07-google-only') + dlg_btn('Add a password', 'primary', href='#S07-add-password', action='add-password')))))
 
 P.frame('S07-apple-connected', 'Apple connected (back from Apple\'s sign-in page)', phone(profile(apple='connected', overlay=snackbar('Apple connected'))))
@@ -223,7 +231,7 @@ def delete_body(choice='transfer', owner='Mert Aydın', offline=False, scrolled=
     </section>'''
     deleted = group([
         static_row('user-round', 'Your profile and sign-in methods'),
-        static_row('list-checks', '4 lists only you use', 'Desk setup, Trip ideas, and 2 archived: Apartment viewings, Book club picks'),
+        static_row('list-checks', '4 lists only you use', 'Desk setup, Trip ideas and 2 archived: Apartment viewings, Book club picks'),
         static_row('sticky-note', 'Your decisions and notes', 'Including those on lists other people share with you'),
     ], header='Deleted for good')
     kept = group([
@@ -278,7 +286,7 @@ P.frame('S07-delete-confirm', 'Step 2: type delete to confirm', phone(page_sub('
 P.frame('S07-delete-confirm-empty', 'Step 2: nothing typed yet (button disabled)', phone(page_sub('Confirm deletion', confirm_body(value=''),
     btn('Delete account', 'destructive', disabled=True) + btn('Keep my account', 'ghost', size='md', href='#S07-default'), back='#S07-delete', label='Back')))
 P.frame('S07-delete-dialog', 'Final confirmation dialog', phone(page_sub('Confirm deletion', confirm_body(), confirm_footer, back='#S07-delete', label='Back',
-    overlay=dialog('s07fd', 'Delete your account?', "This can't be undone. “Wedding guests” moves to Mert Aydın. 4 lists (2 of them archived), your decisions and your notes are deleted. “Frontend hiring, Q4” stays on this phone.",
+    overlay=dialog('s07fd', 'Delete your account?', "This can't be undone. “Wedding guests” moves to Mert Aydın. Your other 4 lists (2 of them archived), your decisions and your notes are deleted. “Frontend hiring, Q4” is on this phone only. It stays on this phone, without an account.",
                    dlg_btn('Cancel', href='#S07-delete-confirm') + dlg_btn('Delete account', 'destructive', href='#S07-deleting', action='confirm-delete')))))
 
 deleting = f'''<div class="relative flex flex-1 flex-col items-center justify-center px-8 text-center" role="status" aria-live="polite">
@@ -292,7 +300,7 @@ P.frame('S07-deleting', 'Deleting (no way back, no close button)', phone(deletin
 deleted = f'''<div class="flex flex-1 flex-col items-center justify-center px-8 text-center">
     <span class="flex size-14 items-center justify-center rounded-full bg-muted text-foreground">{icon("check", "size-7")}</span>
     <h1 class="mt-6 text-title-2">Your account is deleted</h1>
-    <p class="mt-2 max-w-xs text-body text-muted-foreground">Mert Aydın now owns Wedding guests. “Frontend hiring, Q4” is still on this phone. You can keep using SwipeSort without an account.</p>
+    <p class="mt-2 max-w-xs text-body text-muted-foreground">Mert Aydın now owns Wedding guests. “Frontend hiring, Q4” stays on this phone. You can keep using SwipeSort without an account.</p>
   </div>
   <div class="shrink-0 px-gutter pb-4">{btn('Done', href='S08-home.html#S08-guest', action='done')}</div>'''
 P.frame('S07-deleted', 'Deleted: signed out; the list on this phone only stays', phone(deleted))
@@ -302,18 +310,18 @@ P.frame('S07-delete-failed', 'Deletion failed: nothing deleted, try again', phon
     btn('Try again', 'destructive', href='#S07-deleting', action='retry') + btn('Keep my account', 'ghost', size='md', href='#S07-default'), back='#S07-delete', label='Back')))
 
 # ================================================================ Offline, iOS, web, large text
-P.section('Offline, iOS, web and large text', 'Offline: everything is readable, changes are disabled with the reason. iOS lists Apple first among sign-in methods (native Sign in with Apple) and uses grouped inset lists with a back chevron. Web uploads a photo file instead of camera or gallery; Apple connects through Apple\'s sign-in page.')
+P.section('Offline, iOS, web and large text', 'Offline: everything is readable, changes are disabled with the reason. iOS lists Apple first among sign-in methods (native Sign in with Apple) and uses grouped inset lists with a back chevron. The profile photo comes from the Google account on every platform (no camera, gallery or upload, A-188); Apple connects through Apple\'s sign-in page.')
 P.frame('S07-offline', 'Offline: changes disabled with the reason', phone(profile(offline=True, banner=offline_banner("You're offline. Profile changes need a connection."))))
 
 ios_body = f'''{ios_nav('Profile', back_text='Settings', href=BACK, action='back')}
   <div class="min-h-0 flex-1 space-y-6 overflow-hidden px-4 pb-6">
-    {photo_block(True, size='size-20')}
+    {photo_block('photo', size='size-20')}
     {profile_groups(apple='connected', ios=True)}
   </div>'''
 P.frame('S07-ios', 'iOS: Apple, Google and password; grouped inset lists', phone(ios_body, kind='ios'))
 ios_alert = f'''{scrim('z-30', 'bg-scrim/40')}
   <div class="absolute inset-x-12 top-1/2 z-40 -translate-y-1/2 overflow-hidden rounded-dialog bg-popover text-center shadow-dialog" role="alertdialog" aria-modal="true" aria-labelledby="s07ia-t" aria-describedby="s07ia-d">
-    <div class="px-4 pb-4 pt-5"><h2 id="s07ia-t" class="text-body font-semibold">Delete your account?</h2><p id="s07ia-d" class="mt-1 text-body-sm text-muted-foreground">This can't be undone. “Wedding guests” moves to Mert Aydın. 4 lists (2 of them archived), your decisions and your notes are deleted. “Frontend hiring, Q4” stays on this phone.</p></div>
+    <div class="px-4 pb-4 pt-5"><h2 id="s07ia-t" class="text-body font-semibold">Delete your account?</h2><p id="s07ia-d" class="mt-1 text-body-sm text-muted-foreground">This can't be undone. “Wedding guests” moves to Mert Aydın. Your other 4 lists (2 of them archived), your decisions and your notes are deleted. “Frontend hiring, Q4” is on this phone only. It stays on this phone, without an account.</p></div>
     <a href="#S07-deleting" class="flex h-12 items-center justify-center border-t text-body text-destructive">Delete account</a>
     <a href="#S07-delete-confirm" class="flex h-12 items-center justify-center border-t text-body font-semibold text-primary">Cancel</a>
   </div>'''
@@ -321,20 +329,17 @@ ios_confirm = f'''{ios_nav('Confirm deletion', back_text='Back', href='#S07-dele
   <div class="min-h-0 flex-1 overflow-hidden px-4 pb-6 pt-2">{confirm_body()}</div>
   <div class="shrink-0 space-y-2 px-4 pb-2 pt-3">{btn('Delete account', 'destructive')}</div>
   {ios_alert}'''
-P.frame('S07-ios-delete-alert', 'iOS: final confirmation as a system alert', phone(ios_confirm.replace('stays on this phone', 'stays on this iPhone'), kind='ios'))
+P.frame('S07-ios-delete-alert', 'iOS: final confirmation as a system alert', phone(ios_confirm.replace('on this phone', 'on this iPhone'), kind='ios'))
 
-web_sheet = sheet('s07wp', f'''<ul class="mt-2 divide-y">
-      <li><a href="#S07-photo-uploading" class="flex min-h-14 items-center gap-4 py-3">{icon("upload", "size-5 text-muted-foreground")}<span class="min-w-0 flex-1"><span class="block text-body">Upload photo</span><span class="block text-body-sm text-muted-foreground">JPG or PNG, up to 10 MB</span></span></a></li>
-      <li><a href="#S07-no-photo" class="flex min-h-14 items-center gap-4 py-3 text-destructive">{icon("trash-2", "size-5")}<span class="text-body">Remove photo</span></a></li>
-    </ul>''', title='Profile photo', close_href='#S07-default')
-P.frame('S07-web-change-photo', 'Web: upload a photo file', phone(profile(overlay=web_sheet), kind='web'))
+web_sheet = sheet('s07wp', PHOTO_SHEET_BODY, title='Profile photo', close_href='#S07-default')
+P.frame('S07-web-change-photo', 'Web: photo options (no upload, same as the app)', phone(profile(overlay=web_sheet), kind='web'))
 
 big = f'''<header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
     <a href="{BACK}" class="flex size-12 items-center justify-center rounded-full" aria-label="Back to Settings">{icon("arrow-left", "size-7")}</a>
     <h1 class="min-w-0 flex-1 truncate px-1 text-title-2">Profile</h1>
   </header>
   <div class="min-h-0 flex-1 space-y-6 overflow-hidden px-gutter pb-6">
-    <div class="flex items-center gap-4"><img src="{ME["avatar"]}" alt="Profile photo of Deniz Yılmaz" class="size-20 rounded-full"><a href="#S07-change-photo" class="inline-flex min-h-touch items-center text-title-3 text-primary">Change photo</a></div>
+    <div class="flex items-center gap-4"><img src="{ME["avatar"]}" alt="Profile photo of Deniz Yılmaz" class="size-20 rounded-full"><a href="#S07-no-photo" class="inline-flex min-h-touch items-center text-title-3 text-primary" data-action="remove-photo">Remove photo</a></div>
     <section><h2 class="px-1 pb-2 text-body-lg text-muted-foreground">Personal info</h2>
       <ul class="divide-y overflow-hidden rounded-group bg-card dark:border">
         <li class="flex items-center gap-3 px-4 py-4"><span class="min-w-0 flex-1"><span class="block text-body-lg text-muted-foreground">Name</span><span class="block text-title-2 font-normal">Deniz Yılmaz</span></span><a href="#S07-edit-name" class="flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Edit name">{icon("pencil", "size-7")}</a></li>

@@ -27,7 +27,7 @@ PLT-23, STK-07, VIS-11, VIS-12, VIS-13, GOAL-03, DEL-24 (flow 3).
 | `S03-sign-up` ↔ `S03-email` | "Create an account" / "Sign in" links |
 | S04 `S04-default` | "Forgot password?" (email prefilled) |
 | Google account chooser | Native, out of scope; returns to `S03-google-busy` |
-| Apple | iOS: native Sign in with Apple sheet. Android: Apple's sign-in page in a Custom Tab; web: a popup on desktop, a redirect on phones (Supabase OAuth, D-12/D-13). Out of scope to draw; returns (Android by deep link) to the busy state of the Apple button, same pattern as `S03-google-busy` |
+| Apple | iOS: native Sign in with Apple sheet. Android: Apple's sign-in page in a Custom Tab; web: a popup on desktop, a redirect on phones (Supabase OAuth, D-12/D-13). Out of scope to draw; returns (Android by deep link) to the busy state of the Apple button, same pattern as `S03-google-busy` (the prototype links Apple there; iOS Apple links to `S03-ios`; desktop web to S33 like Google) |
 | After success, no lists on this device | Back to the origin (S08, S06) signed in; snackbar "Signed in as deniz.yilmaz@example.com" on the origin |
 | After success, lists on this device | S05 `S05-moving` (lists move to the account), then the origin action continues |
 | After success from an invite (web) | S33 `S33-web-desktop` (`data-action="continue-google"`) |
@@ -112,10 +112,10 @@ Auth modal (full-screen on Android and web, page sheet on iOS).
 | Chooser title | "Sign in to SwipeSort" |
 | Chooser body | "Back up your lists, use them on other devices and decide together with others." |
 | Context heading | "Sign in or create an account" |
-| Context share | "Sign in to share “Wedding guests”" / "Members sort the same list on their own phones. Your 4 lists on this phone move to your account." (pattern: list name and count are live) |
+| Context share | "Sign in to share “Wedding guests”" / "Members sort the same list on their own phones. Your 4 lists on this phone move to your account." (pattern: list name and count are live; after Choose lists in S05 the second sentence counts what moves: "3 of your 4 lists on this phone move to your account. 1 stays on this phone only.") |
 | Context backup | "Sign in to back up your lists" / "Your 4 lists move to your account, so they are safe if you lose this phone." |
 | Buttons | "Continue with Apple", "Continue with Google", "Continue with email" |
-| Note | "Signing in is optional. Without an account, lists stay on this phone." |
+| Note | "Signing in is optional. Without an account, lists stay on this phone." (web, D-08: "Signing in is optional. Without an account, lists stay in this browser, and browsers can clear lists you haven't opened for a while.") |
 | Offline banner | "You're offline. Signing in needs a connection." |
 | Offline note | "Your lists stay on this phone. Try again when you're online." |
 | Terms | "By continuing, you agree to the Terms of Service and Privacy Policy." |

@@ -1,6 +1,6 @@
 # S40 Global patterns
 
-Frames: `S40-global-patterns.html` (66 frames). Generator: `tools/generators/S40-global-patterns.py`.
+Frames: `S40-global-patterns.html` (67 frames). Generator: `tools/generators/S40-global-patterns.py`.
 Components: `01-foundations/components.md` (AlertDialog, Snackbar, Alert/Banner, OfflineBanner, SyncNotice,
 ErrorState). Motion: `01-foundations/motion.md` §3–4.
 
@@ -84,8 +84,11 @@ invalid invite links → **S32** (`S32-invalid`, `S32-expired`, `S32-reset`, `S3
 - Dialogs with an embedded control (remove member radio, template replacement select) become an action
   sheet with one destructive action per option (remove member) or a page sheet with the same content
   (template replacement).
-- Same strings as Android, with “this phone” → “this iPhone”, except the per-list backup strings (D-33): the
-  label is “On this phone only” on iOS too (A-137), so its dialog and snackbars keep “phone”.
+- Same strings as Android, with “this phone” → “this iPhone” in running sentences. Fixed terms keep “phone” on
+  iOS (A-137): the label “On this phone only” and the action “Keep on this phone only”, including where they appear
+  inside a title or snackbar (“Keep “Trip ideas” on this phone only?”, “"Trip ideas" is on this phone only”).
+  Sentences around them say “this iPhone” (“If you lose this iPhone or move to a new one…”, ““Frontend hiring, Q4”
+  stays on this iPhone, hidden until you sign in again.”).
 - Turning backup off is an **alert** (stacked), not an action sheet: the person must read that the list can't
   be recovered before choosing (`S40-ios-backup-off`).
 
@@ -122,7 +125,7 @@ follows one rule:
 - **The person's own work was not applied** → an **inline outcome alert** at the top of the screen where the work
   would have been (Home when the list itself left this phone): `bg-card border rounded-control`, a context icon
   20 muted, title `text-label` (what happened), body `text-body-sm muted` (what wasn't applied, what still
-  stands, what to do), Dismiss (`x`, 48, "Dismiss"). It stays until dismissed or the screen is left twice; it
+  stands, what to do), Dismiss (`x`, 48, "Dismiss"). It stays until dismissed; it
   pushes content down. `role="status"`.
 - **Never a dialog**: there is nothing to confirm, and a dialog would interrupt a person who may be sorting.
 - One message per outcome row; several rows of the same kind merge into one message with a count ("5
@@ -188,8 +191,9 @@ button that leaves. No illustrations, no error codes.
 | Delete note | `S40-delete-note` | destructive | “Delete” on my note | S26 notes (`S26-long-text`, `S26-note-edit`) |
 | Reset invite link | `S40-reset-invite-link` | destructive | “Reset link” | S31 (`S31-default`, `S31-collaborator`) |
 | Change conflict rule | `S40-change-conflict-rule` | primary | Owner picks another rule | S35 (all rule dialogs follow it: `S35-confirm-majority`, `S35-confirm-everyone`, `S35-confirm-dm`, `S35-dm-none-confirm`) |
+| Disconnect Apple | link only: S07 `S07-disconnect-apple` (same dialog, Apple strings in §6.1) | destructive | “Disconnect” on Apple in Sign-in methods | S07 |
 | Disconnect Google | `S40-disconnect-google` | destructive | “Disconnect” on Google in Sign-in methods | S07; blocked variant S07 `S07-disconnect-blocked` (“Add a password first”, primary) |
-| Sign out | `S40-sign-out` | destructive | “Sign out” with everything backed up (names lists on this phone only, A-136) | S06; iOS `S40-ios-sign-out` |
+| Sign out | `S40-sign-out` | destructive | “Sign out” with nothing waiting to sync; drawn with a list on this phone only, which the body names (A-136) | S06; iOS `S40-ios-sign-out` |
 | Turn backup off for one list (D-33, A-134) | `S40-backup-off` (= S10 `S10-backup-off`) | destructive | Owner turns “Back up this list” off on a backed-up solo list (needs a connection) | S09 Backup group; iOS `S40-ios-backup-off` |
 | Back up a list to share it (A-133) | link only: S10 `S10-share-backup`, `S10-share-backing-up`, `S10-share-backup-offline` (a sheet, not a dialog) | primary | Share / Invite on a list on this phone only | S09, S08 row sheet |
 | Sign out, unsynced | `S40-sign-out-unsynced` | destructive | “Sign out” with changes not backed up | S06; iOS `S40-ios-sign-out-unsynced` |
@@ -216,7 +220,7 @@ snackbar (A-86).
 | `S40-ios-sign-out-unsynced` | Alert, stacked | `S40-sign-out-unsynced` |
 | `S40-ios-end-round` | Alert, side by side | `S40-end-round-shared` |
 | `S40-ios-discard-import` | Action sheet; Cancel button reads “Keep importing” | `S40-discard-import` |
-| `S40-ios-backup-off` | Alert, stacked (read first; “phone” kept, A-137) | `S40-backup-off` |
+| `S40-ios-backup-off` | Alert, stacked (read first); title and action keep the fixed term “on this phone only”, the body says “this iPhone” (A-137) | `S40-backup-off` |
 
 ### 4.3 Snackbars
 
@@ -249,8 +253,8 @@ errors).
 | Frame | D-09 row | Form | Where it appears | Shows |
 | --- | --- | --- | --- | --- |
 | `S40-outcome-edit-replaced` | 1: my field edit was overwritten by a later one | Snackbar + View (6 s) | Any screen except the item itself (there S26 shows the inline “Keep mine / Use Mert's” choice at once, A-70) | Deniz on S09 Wedding guests; View → S26 on Alper Turan, where the inline choice waits until answered |
-| `S40-outcome-late-round` | 2: Round 1 decisions synced after Round 2 started | Snackbar + Open (6 s) | Home or S09 of that list (in S25 the existing “Deniz ended Round 1” sheet carries the line instead) | Selin on Home; Open → S09 |
-| `S40-outcome-removed` | 4: removed while offline, queued work rejected | Inline outcome alert on Home | Home (the list and its data left this phone; S38 keeps the event). If the list was open: `S40-not-found-removed` + the line about unsaved decisions, then Home | Selin, 6 decisions since 9:24 not saved |
+| `S40-outcome-late-round` | 2: Round 1 decisions synced after Round 2 started | Snackbar + Open (6 s) | Home or S09 of that list (in S25 the existing “Deniz ended Round 1” sheet carries the line instead) | Selin on Home; Open → S09 (illustrative: links to `S09-shared-collaborator`, the closest Wedding guests frame; the real screen shows Round 2) |
+| `S40-outcome-removed` | 4: removed while offline, queued work rejected | Inline outcome alert on Home | Home (the list and its data left this phone; S38 keeps the event). If the list was open: `S40-not-found-removed-unsynced` first, then Home | Selin, 6 decisions since 9:24 not saved |
 | — (no frame) | 4, nothing queued | Snackbar (4 s) | Home | “Deniz removed you from “Wedding guests”.” |
 | `S40-outcome-already-agreed` | 5: resolutions dropped, members had agreed | Snackbar + View (6 s) | S36 (above the bar, `bottom-32`) or S09 | Mert on S09; View → S36 list view (Resolved group) |
 | `S40-outcome-dm-role-lost` | 6: role moved, resolutions rejected | Inline outcome alert | S09 of the list (replaces the Decision Maker callout) and S36 (which switches to the read-only `S36-non-dm` view) | Mert, now Collaborator; 5 resolutions not applied |
@@ -279,6 +283,7 @@ pattern “Couldn't {verb} {object}. {How to fix}.” with the rolled-back value
 | `S40-not-found` | List link the account can't open (not a member, or it doesn't exist; the two are not distinguished, for privacy) | `swipesort.app/l/<id>` from someone else |
 | `S40-not-found-deleted` | A member opens a list the Owner deleted (activity row, notification, recent link) | Selin after Deniz deleted Wedding guests (same strings as `S09-unavailable`) |
 | `S40-not-found-removed` | A removed member opens the list (activity row, notification) | Selin after removal (S38 edge case) |
+| `S40-not-found-removed-unsynced` | The list was open when a removal that rejected queued work arrived (D-09 row 4); Back to lists → Home with `S40-outcome-removed` | Selin, 6 decisions since 9:24 not saved |
 | `S40-item-gone` | An item opened from Activity, a notification or Results was removed | Same strings as `S26-not-found` |
 | `S40-update-required` | The server reports the app is below the minimum sync version | After S01, once per session |
 | `S40-web-not-found` | Unknown web address | Mistyped URL |
@@ -359,7 +364,9 @@ sample data.
 | Reset invite link | "Reset the invite link?" | "The current link stops working right away. Members who already joined stay. Share the new link with anyone who hasn't joined yet." | "Cancel", "Reset link" |
 | Change conflict rule | "Switch to Majority decides?" | "8 of 15 conflicts get a final decision right away. Members are notified." Panel: "8 become final now" + "Reject 1", "Maybe 1", "Accept 6"; "7 stay open" / "They wait for the last member to decide. Ties go to Mert." Other rules: exact strings in S35 §6. | "Cancel", "Switch to Majority" |
 | Disconnect Google | "Disconnect Google?" | "You'll sign in with deniz.yilmaz@example.com and your password instead. Your lists aren't affected." | "Cancel", "Disconnect" |
-| Disconnect blocked | "Add a password first" | "Google is your only way to sign in. Add a password so you can still sign in after disconnecting Google." | "Cancel", "Add a password" |
+| Disconnect Apple | "Disconnect Apple?" | "You'll sign in with Google or with deniz.yilmaz@example.com and your password instead. Your lists aren't affected." (names the methods that remain; S07 `S07-disconnect-apple`) | "Cancel", "Disconnect" |
+| Disconnect blocked | "Add a password first" | "Google is your only way to sign in. Add a password so you can still sign in after disconnecting Google." (S07 `S07-disconnect-blocked`; connecting the other provider also unblocks Disconnect, but the dialog keeps the one action that always works) | "Cancel", "Add a password" |
+| Disconnect blocked, Apple-only account | "Add a password first" | "Apple is your only way to sign in. Add a password so you can still sign in after disconnecting Apple." (spec only) | "Cancel", "Add a password" |
 | Sign out | "Sign out?" | "Lists backed up to deniz.yilmaz@example.com are removed from this phone until you sign in again." + (when lists on this phone only exist, A-136) "“Frontend hiring, Q4” stays on this phone, hidden until you sign in again." (several: "3 lists on this phone only stay here, hidden until you sign in again.") Without such lists: "Your lists are backed up to deniz.yilmaz@example.com. They'll be removed from this phone until you sign in again." | "Cancel", "Sign out" |
 | Sign out, unsynced | "Sign out without backing up?" | "12 changes haven't been backed up because you're offline. Signing out now removes them from this phone, and they can't be recovered." | "Cancel", "Sign out anyway" |
 | Delete account | "Delete your account?" | "This can't be undone. “Wedding guests” moves to Mert Aydın. Your other 4 lists (2 of them archived), your decisions and your notes are deleted." + (A-138) "“Frontend hiring, Q4” is on this phone only. It stays on this phone, without an account." (archived lists are counted; without archived lists the parenthesis is left out) (delete for everyone: "Wedding guests is deleted for all 3 members.") | "Cancel", "Delete account" |
@@ -386,7 +393,8 @@ sample data.
 | Delete note | "Note deleted" | "Undo" |
 | Reset link | "Invite link reset" | — |
 | Change rule | "Switched to Majority decides. 8 conflicts are now final." | "Undo" |
-| Disconnect | "Google disconnected" | — |
+| Disconnect | "Google disconnected" / "Apple disconnected" | — |
+| Connect Apple (S07) | "Apple connected" | — |
 | Duplicate | "Duplicated as “Desk setup (copy)”" (shown on the original list) | "Open" |
 | Error example | "Couldn't archive “Wedding guests”. Check your connection and try again." | "Try again" |
 | Error pattern | "Couldn't {verb} {object}. {How to fix}." | "Try again" |
@@ -408,8 +416,9 @@ sample data.
 | Decision Maker role moved (D-09 row 6) | "You're no longer the Decision Maker" | "Deniz made Selin the Decision Maker while you were offline, so your 5 resolutions weren't applied. Those conflicts are still open." (role turned off: "Deniz turned off the Decision Maker role while you were offline, so…") |
 | Dismiss | — | accessible name "Dismiss" |
 
-On `S40-not-found-removed` (the list was open), the screen adds under its body: "The 6 decisions you made since
-9:24 couldn't be saved." (same pattern as the deleted case, §9).
+When the list was open, the not-found screen adds under its body: "The 6 decisions you made since 9:24 couldn't
+be saved." (`S40-not-found-removed-unsynced`; same pattern as the deleted case, §9). The removed state has one
+title everywhere: "You were removed from “Wedding guests”" (alert, not-found screen, `S09-unavailable`).
 
 ### 6.3 Offline banner
 
@@ -443,7 +452,7 @@ Pattern: "You're offline." + what is saved + (optional) what needs a connection.
 | `S40-error-unknown` | "This screen couldn't be opened" | "Your lists and decisions are safe. Try again. If it keeps happening, restart SwipeSort or send us a report." | "Try again", "Send a report" (→ S06 Help and feedback, prefilled with technical details) |
 | `S40-not-found` | "This list isn't available" | "It may have been deleted, or it's shared with a different account. You're signed in as deniz.yilmaz@example.com." (signed out: "Sign in with the account it was shared with.") | "Back to lists", "Switch account" (signed out: "Sign in") |
 | `S40-not-found-deleted` | "This list was deleted" | "Deniz deleted “Wedding guests” for everyone today. Its items, decisions and notes were deleted with it." | "Back to lists" |
-| `S40-not-found-removed` | "You're no longer on Wedding guests" | "Deniz removed you from the list, so you can't open it anymore. To join again, ask Deniz for a new invite." (left by yourself: "You left this list. To join again, ask Deniz for a new invite.") | "Back to lists" |
+| `S40-not-found-removed` | "You were removed from “Wedding guests”" (left by yourself: "You left “Wedding guests”") | "Deniz removed you from the list, so you can't open it anymore. To join again, ask Deniz for a new invite." (left by yourself: "You left this list. To join again, ask Deniz for a new invite."); `S40-not-found-removed-unsynced` adds "The 6 decisions you made since 9:24 couldn't be saved." | "Back to lists" |
 | `S40-item-gone` | "This item isn't in the list anymore" | "Mert removed it from Wedding guests. Its decisions and notes were removed with it." (unknown remover: "It was removed from Wedding guests. Its decisions and notes were removed with it.") | "Open Wedding guests" (from Results: "Back to results") |
 | `S40-update-required` | "Update SwipeSort to keep syncing" | "This version can't sync with your account anymore. Your lists and decisions are saved on this phone and sync after you update." + "Until then you can keep sorting. Shared lists and backup wait for the update." | "Update on Google Play" (iOS "Update on the App Store"), "Not now" |
 | `S40-web-not-found` | "This page doesn't exist" | "Check the address, or go to your lists." | "Go to your lists" |
@@ -517,8 +526,11 @@ Pattern: "You're offline." + what is saved + (optional) what needs a connection.
   "Couldn't sync Wedding guests. Your changes are safe on this phone." + "Try again".
 - **Desktop window narrower than 412**: behaves like mobile web (the column fills the width).
 - **Very short desktop windows (< 568)**: the column keeps 568 high and the page scrolls (§3.6).
-- **Several sync outcomes at once** (a long offline period): alerts stack (newest first, at most 2 visible, then
-  "and 1 more" opens S38); snackbars queue one after another, never on top of an alert about the same list.
+- **Several sync outcomes at once** (a long offline period): outcomes of the same kind on the same list merge into
+  one message with a count (A-179). Different alerts stack in the slot, newest first, each with its own Dismiss
+  (there are only two alert kinds per list, so the stack stays short and scrolls with the page). Snackbars queue
+  and show one after another (each its full duration); none is dropped and none points to S38, because outcomes
+  are not Activity events.
 - **Outcome for a list that no longer exists here** (deleted, removed, kept on another device only): the
   message names the list; its View / Open action is left out.
 - **Turn backup off while offline**: the switch is disabled with "Turning backup off needs a connection."

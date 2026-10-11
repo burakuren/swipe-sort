@@ -136,7 +136,10 @@ sections 24 apart).
 14. **Sample banner**: Alert info (`flask-conical`) "This is a sample list" + one sentence.
 15. **Backup group** (D-33, A-132; header "Backup", the last group, under Sources): one **BackupSwitchRow**
    (Proposed; a ListGroup row with a Switch, min-h-16): state icon 20 muted, title "Back up this list", the state
-   as description, Switch (52×32, accessible name "Back up this list"). Shown only to a **signed-in Owner**; not
+   as description, a visual Switch (52×32, decorative). **The whole row is the switch** (as the S14/S15 switch
+   rows): one `role="switch"` control, ≥ 64 high, named "Back up this list", `aria-checked`, and
+   `aria-describedby` → the state line and the group footer (the disabled reason). Prototype:
+   `data-action="toggle-backup"` on the row (on → `S10-backup-off`, off → `S09-backing-up`). Shown only to a **signed-in Owner**; not
    without an account (every list is on this phone, A-81), not on the sample (A-139), not to members who don't own
    the list, not on archived lists (restore first). States:
 
@@ -173,24 +176,24 @@ sections 24 apart).
 | `S09-shared-waiting` | I decided every item (100 / 100: 18 rejected, 15 maybe, 67 accepted, A-123) while others are still sorting; member progress; "See results" |
 | `S09-archived` | Archived list opened from Archived lists: read-only (Apartment viewings, `l-apartments`) |
 | `S09-loading` | List not on the device yet (opened from a link or notification on a new device) |
-| `S09-offline` | Offline on a shared list: banner, Invite disabled, list status timestamped "As of 9:24" |
+| `S09-offline` | Offline on a shared list with changes waiting: banner, the S40 sync notice "Saved on this phone" under the header meta (`cloud-off`; screen reader "Saved on this phone, 4 changes not synced yet"; A-115), Invite disabled, list status timestamped "As of 9:24"; below the fold Conflict rule and Start a new round are disabled with "Needs a connection" (A-186) |
 | `S09-unavailable` | The Owner deleted the list (or I was removed): what happened + Back to lists |
 | `S09-device-only` | Frontend hiring, Q4 scrolled to the end: Backup group, switch off, "On this phone only" + footer (A-132) |
-| `S09-backing-up` | Switch turned on: "Backing up…", switch disabled until done |
+| `S09-backing-up` | Switch turned on: "Backing up…", switch disabled until done; Share opens the share sheet's busy state (`S10-share-backing-up`) |
 | `S09-backed-up` | Done: "Backed up to deniz.yilmaz@example.com"; the header label is gone; snackbar "“Frontend hiring, Q4” is backed up" (4 s) |
-| `S09-backup-queued` | Switch turned on while offline: "Backs up when you're online"; Share disabled ("needs a connection") |
+| `S09-backup-queued` | Switch turned on while offline: "Backs up when you're online"; Share disabled ("needs a connection"); banner "You're offline. Changes are saved on this phone. Backing up and sharing need a connection." |
 | `S09-shared-backup` | Shared list, Owner, scrolled to the end: switch on and disabled, footer "Shared lists are always backed up." (A-134) |
-| `S09-backup-large-text` | 200%: header label wraps onto its own line; the row grows, the email wraps, the switch scales (64×40) |
+| `S09-backup-large-text` | 200%, scrolled to the end (title in the app bar): Sources and the Backup row grow; the visual switch scales to 64×40. In the header (not drawn) the meta pieces wrap and "On this phone only" keeps its icon |
 | `S09-web-device-only` | Web, signed in: the same state for a list kept in this browser only: "On this browser only" + the D-08 note line (illustrative: Frontend hiring, Q4 as if made in the browser) |
-
-Turning backup **off** (confirmation, offline, Undo snackbar) and the "Back up this list to share it" sheet are S10
-frames: `S10-backup-off`, `S10-ios-backup-off`, `S10-backup-off-offline`, `S10-backup-off-done`, `S10-share-backup`,
-`S10-share-backing-up`, `S10-share-backup-offline`.
 | `S09-large-text` | Font scale 200% |
 | `S09-ios`, `S09-ios-shared` | iOS |
 | `S09-web`, `S09-web-desktop` | Web mobile (not signed in, "On this browser only" + the D-08 note line); desktop (shared, Owner) |
 
 The overflow menu and every list-management dialog are S10 frames.
+
+Turning backup **off** (confirmation, offline, Undo snackbar) and the "Back up this list to share it" sheet are S10
+frames: `S10-backup-off`, `S10-ios-backup-off`, `S10-backup-off-offline`, `S10-backup-off-done`, `S10-share-backup`,
+`S10-share-backing-up`, `S10-share-backup-offline`.
 
 ## 5. Interactions, gestures and transitions
 
@@ -255,7 +258,7 @@ The overflow menu and every list-management dialog are S10 frames.
 | Leave | "Leave list" |
 | Waiting | "You decided every item"; "100 / 100 decided"; "The list status settles as the others finish. Conflicts can be resolved now."; member rows "Mert" "85 / 100", "Selin" "43 / 100"; "See results" |
 | Archived | "Archived Jul 21" / "This list is read-only. Restore it to sort, add items or change decisions." / "Restore list"; "8 items from Flat hunt 2026"; back "Back to archived lists" |
-| Offline | "You're offline. Decisions are saved on this phone. Inviting needs a connection." (S40-offline; 16 gap below the banner) |
+| Offline | "You're offline. Decisions are saved on this phone. Inviting needs a connection." (S40-offline; 16 gap below the banner); sync notice "Saved on this phone" (S40 §6.4) while changes wait, then "Syncing 4 changes…" / "Synced" when back online |
 | Unavailable | "This list was deleted" / "Deniz deleted “Wedding guests” for everyone today. Its items, decisions and notes were deleted with it." / "Back to lists"; removed variant: "You were removed from “Wedding guests”" / "Deniz removed you from this list. Ask Deniz for a new invite if this was a mistake." |
 | Loading | screen reader "Loading list" |
 
@@ -277,12 +280,13 @@ The overflow menu and every list-management dialog are S10 frames.
 - Reduced motion: no number ticks or bar width animation; transitions become fades.
 - Screen-reader announcement when live data changes while focused: "List status updated: 16 conflicts."
   (polite, at most every 10 s).
-- Backup switch: `role="switch"` named "Back up this list"; its description (state) and the group footer are
-  part of its accessible description ("Back up this list, switch, off. On this phone only. Lists on this phone
+- Backup switch: the whole row is one `role="switch"` control (touch target the full row, ≥ 64) named "Back up
+  this list"; its description (state) and the group footer are its accessible description (`aria-describedby`) ("Back up this list, switch, off. On this phone only. Lists on this phone
   only don't move to a new phone."). "Backing up…" and "Backs up when you're online" are polite live regions.
-  Disabled (shared, offline) is announced with its reason ("dimmed. Shared lists are always backed up.").
-  Large text (`S09-backup-large-text`): the row grows, the description wraps (the email may break), the switch
-  scales to 64×40 and stays at the trailing edge.
+  Disabled (shared, offline, backing up) uses `aria-disabled` on the row and is announced with its reason
+  ("dimmed. Shared lists are always backed up."). Large text (`S09-backup-large-text`, drawn scrolled to the end
+  of the page): the row grows, the description wraps (the email may break), the visual switch scales to 64×40 and
+  stays at the trailing edge.
 
 ## 8. iOS and web differences
 
@@ -322,8 +326,8 @@ The overflow menu and every list-management dialog are S10 frames.
   updated. On a list on this phone only, everything works offline except Share and turning backup off (A-139).
 - **List on this phone only** (signed in, A-132–A-139): it exists on this phone only, so the person's other devices
   and the web app never list it; it shows no sync notice (A-115); Duplicate keeps its storage mode; Delete says
-  "…deleted from this phone." (S10). Turning backup on while another backup or a move is running waits its turn
-  ("Backs up when you're online" changes to "Backing up…").
+  "…deleted from this phone." (S10). Turning backup on while another backup or a move is running waits its turn:
+  the row says "Waiting to back up…", then "Backing up…".
 - **Another device turned backup off** for a list that is open here: the screen is replaced by S08 with the S40
   snackbar `S40-outcome-device-only-elsewhere` ("You kept “Trip ideas” on another device only. It's no longer on
   this one."); unsynced changes made here are discarded with the list.

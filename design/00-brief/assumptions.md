@@ -342,8 +342,7 @@ Applies the design update register in `docs/build-decisions.md` §7. For this up
   The browser page is out of scope to draw, like the native sheets. Busy, cancelled and failed states reuse
   the Google pattern, on the Apple button. The name Apple returns on first sign-in is saved. Every platform
   can connect and disconnect Apple in S07 (the sample account has Apple "Not connected" on Android and
-  connected on iOS). Disconnect follows A-53. The blocked dialog offers "Add a password or connect Apple
-  first". New error: "This Apple ID is already linked to another SwipeSort account." Supersedes the
+  connected on iOS). Disconnect follows A-53. The blocked dialog keeps "Add a password first" with its original body; when Apple is the only method it reads "Apple is your only way to sign in. Add a password so you can still sign in after disconnecting Apple." New error: "This Apple ID is already linked to another SwipeSort account." Supersedes the
   "Apple on iOS" parts of A-51 and A-53.
 - **A-142** D-33 (Choose lists pattern, A-135). The S05 prompt's first reason ends with a text link "Choose
   lists" (48 high).
@@ -390,23 +389,23 @@ Applies the design update register in `docs/build-decisions.md` §7. For this up
     list with "Back up" (no confirmation; the row shows "Backing up…", then the snackbar "“{name}” is backed
     up"; offline "Backs up when you're online"). The group footer reads "Lists on this phone only don't move
     to a new phone. Back them up first." Web says "On this browser only" plus the D-08 line.
-  - Sign-out dialog with such lists: "Your lists backed up to {email} leave this phone and come back when you
-    sign in. “Frontend hiring, Q4” stays on this phone, hidden until you sign in again."
+  - Sign-out dialog with such lists (same copy as S40, A-187): "Lists backed up to {email} are removed from this
+    phone until you sign in again. “Frontend hiring, Q4” stays on this phone, hidden until you sign in again."
   - The iOS action sheet uses "iPhone" in these sentences, per S40 §3.2. The label term stays "On this phone
     only" (A-137).
   - Supersedes A-52's "Sign out removes backed-up lists" wording only where device-only lists exist.
 - **A-148** D-33 / D-19: account deletion with lists on this phone only (A-138).
   - "Deleted for good" counts only backed-up lists ("4 lists only you use").
   - Each device-only list is a row under "Not changed".
-  - The confirm summary, the final dialog and the deleted screen say "“Frontend hiring, Q4” stays on this
-    phone".
+  - The confirm summary, the final dialog and the deleted screen say "“Frontend hiring, Q4” is on this phone
+    only. It stays on this phone, without an account." (same copy as S40, A-187).
   - After deletion, "Done" opens Home with those lists as lists without an account (`S08-guest`), or
     `S08-first-run` when there are none.
   - If the account is signed in on other devices, "Not changed" adds the footer "Lists kept on your other
     devices only stay on those devices." (spec only, not drawn).
   - Updates A-54.
 - **A-149** D-32 in onboarding: the S02 demo deck keeps its images, but the two gallery photos become place
-  cards on the Photo template (place as title, "Turkey, best in spring/autumn"), like Trip ideas. The welcome
+  cards on the Photo template (place as title, "Türkiye, best in spring/autumn"), like Trip ideas. The welcome
   says "people, places, things to buy and ideas", and the web note mentions only phone contacts. Supersedes
   A-48's "photo" cards (same IDs p02, ph09, p05, ph05).
 
@@ -521,17 +520,23 @@ Applies the design update register in `docs/build-decisions.md` §7. For this up
   Starting a source that needs a connection (Google Sheets) still needs one. Extends A-88.
 - **A-160** D-32. There is no photo-library access at all for now (D-32: no Photo Picker path), so manual
   entry's Image field (Desk setup's "Photo") takes an **image link** instead of a photo picker or camera. It
-  works like CSV image links (A-131):
-  - The input has a `link` icon, the placeholder "Image link" and the helper "Paste a link to an image. Cards
-    show the picture from this link."
-  - A 36 thumbnail appears at the right end of the input once the link loads.
-  - A link that doesn't load shows "This link doesn't open an image. Check it, or leave the field empty.", and
-    the item can still be saved.
+  works like CSV image links (A-131), and it is the same control as S26's image-link edit.
+  - **Control**: a `link` icon leads in every state, then the URL input, then a 36 slot at the end. The helper
+    line is `text-body-sm`: "Paste a link to an image. Cards show the picture from this link."
+  - **Loading** (`S17-image-link-loading`): the slot shows a spinner and the helper reads "Loading the
+    picture…".
+  - **Loaded**: the slot shows the thumbnail.
+  - **Offline** (`S17-image-link-offline`): no error. The link is kept, the slot shows `image-off`, the helper
+    reads "You're offline. The link is saved, and the picture loads when you're back online.", and the item
+    saves. The image downloads when online, like A-167; until then the card shows the `image-off`
+    placeholder.
+  - **Error** (online only, `S17-validation`): "This link doesn't open an image. Check it, or leave the field
+    empty." It doesn't block saving: the item saves without a picture.
 
-  The frames are the same (`S17-add-item`, `S17-add-another`, `S17-edit-item`, `S17-validation`,
-  `S17-ios-add-item`); only the field changed. I chose this over removing the Image type from manual entry:
-  that would drop the sample Desk setup product images, and with them the Product and Photo templates'
-  examples, in screens other groups own. No other photo-picker or camera entry exists in S11–S21 or S39.
+  Two frames were added (`S17-image-link-loading`, `S17-image-link-offline`) and the error is drawn in
+  `S17-validation`. I chose this over removing the Image type from manual entry: that would drop the sample
+  Desk setup product images, and with them the Product and Photo templates' examples, in screens other groups
+  own. No other photo-picker or camera entry exists in S11–S21 or S39.
 
 ### Group B2: sample data, templates, sorting (S22–S26)
 
@@ -553,8 +558,8 @@ Applies the design update register in `docs/build-decisions.md` §7. For this up
   - Photo puts a caption panel under the full image: title, subtitle, then its rows as compact label/value pairs
     (as in `S25-photo` and `S40-end-round`).
   - A number field whose name ends in a currency code in parentheses shows on cards under its name without the
-    code and with the currency symbol ("Budget €900"). Item details and edit mode keep the full name and show the
-    code as the input suffix.
+    code and with the currency symbol ("Budget €900"). Item details keep the full name; edit mode labels the input "Budget" with the code
+    as its suffix.
   - Recommendation order at import finish: Person (contacts, or phone/email + name) → Product (image + a
     price-like number) → Photo → Candidate → Task → Generic.
   - Photo is recommended for an Image field, the title and at most three other fields. A-131's "at most three
@@ -629,6 +634,8 @@ Applies the design update register in `docs/build-decisions.md` §7. For this up
   - In the header, the signed-in label "On this phone only" is plain muted text, not a link. The person chose it,
     so the header doesn't nag; the switch is the one control.
   - Extends A-132 and A-137.
+  - QA round: the whole row is the switch (at least 64 high, the state line and footer or disabled reason as its
+    accessible description); disabled states use `aria-disabled` with the reason.
 - **A-176** D-33 (turning backup off; menus).
   - Android and web use the A-134 destructive dialog. **iOS uses an alert with stacked buttons, not an action
     sheet**, because the consequence ("can't be recovered") must be read first (A-113).
@@ -670,6 +677,8 @@ Applies the design update register in `docs/build-decisions.md` §7. For this up
   - Rows of the same kind merge into one message with a count. A screen the outcome invalidates changes first
     (not-found, Collaborator view); then the message shows.
   - Outcome messages are not Activity events of their own.
+  - QA round: different outcomes arriving together never point to Activity: inline alerts stack, each with its
+    own Dismiss, and snackbars show one after another.
 - **A-180** D-09 row 1 (overwritten edit).
   - Snackbar: "Mert changed City on Alper Turan after you, so your edit was replaced." + "View" (6 s), on any
     screen except that item. The plural form is "…changed 2 fields…".
@@ -693,6 +702,8 @@ Applies the design update register in `docs/build-decisions.md` §7. For this up
   - Role moved while resolving offline: "You're no longer the Decision Maker" / "Deniz made Selin the Decision
     Maker while you were offline, so your 5 resolutions weren't applied. Those conflicts are still open." It is an
     inline alert on S09, which switches to the Collaborator view, and on S36, which switches to the member view.
+  - QA round: the removed state has one title everywhere, "You were removed from “{list}”"; with unsynced
+    decisions the not-found screen adds the lost-decisions line (`S40-not-found-removed-unsynced`).
 - **A-183** D-08 (web indicator and S09 line).
   - People without an account on the web see, under the "Lists" title: `cloud-off` "Browsers can clear lists you
     haven't opened for a while." + "Back up" (→ `S05-web-backup`, which says that signing in keeps them).
@@ -736,3 +747,11 @@ Applies the design update register in `docs/build-decisions.md` §7. For this up
   - `S40-delete-account` counts "Your other 4 lists (2 of them archived)" and adds "“Frontend hiring, Q4” is on
     this phone only. It stays on this phone, without an account.".
   - Implements A-136 and A-138 in the catalog.
+
+### Lead decisions from QA
+
+- **A-188** D-32 (no photo-library or camera access, extended to the profile): S07 no longer offers "Take
+  photo", "Choose from gallery" or web "Upload photo". The profile photo comes from the Google or Apple account
+  that signed in, otherwise initials; S07 offers "Remove photo", then "Use Google photo" to bring it back ("Connect Google to use its photo." when no account photo exists); frame IDs `S07-change-photo`, `S07-photo-uploading`, `S07-no-photo`, `S07-web-change-photo` are kept and relabeled. Supersedes the photo
+  actions in A-53's profile. Reason: D-32 says "no photo-library access at all for now", and a camera or
+  gallery path would add a permission and a Data safety entry for a cosmetic feature.

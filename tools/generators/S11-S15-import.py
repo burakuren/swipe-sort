@@ -341,7 +341,7 @@ def build_s11():
       <li class="flex min-h-14 items-center gap-4 px-4 py-3">{icon("file-spreadsheet", "size-5 shrink-0 text-muted-foreground")}<span class="min-w-0 flex-1"><span class="block truncate text-body">mert-family.csv</span><span class="block text-body-sm text-muted-foreground">12 items, added today</span></span></li>
     </ul>
     <p class="mt-2 flex gap-2 px-1 text-body-sm text-muted-foreground">{icon("combine", "size-4 mt-0.5 shrink-0")}<span>A list can combine any sources. New items are checked for duplicates before they're added.</span></p>'''
-    p.frame('S11-existing-list', 'Adding items to an existing list (from S21)', phone(f'''{appbar("Add items", WEDDING, "Close, back to Wedding guests")}{stepper(1)}{body(tiles(), "Add items to Wedding guests", "Choose where the new items come from. They join the current round.", existing, note=False)}'''))
+    p.frame('S11-existing-list', 'Superseded by S21-default (S21 has its own list-context grid); kept for reference', phone(f'''{appbar("Add items", WEDDING, "Close, back to Wedding guests")}{stepper(1)}{body(tiles(), "Add items to Wedding guests", "Choose where the new items come from. They join the current round.", existing, note=False)}'''))
 
     p.frame('S11-offline', 'Offline: Google Sheets unavailable, other sources work', phone(f'''{appbar()}{offline_banner()}<div class="h-3 shrink-0"></div>{stepper(1)}{body(tiles({"google": "offline"}))}'''))
     p.frame('S11-offline-tapped', 'Offline: Google Sheets tile tapped', phone(f'''{appbar()}{offline_banner()}<div class="h-3 shrink-0"></div>{stepper(1)}{body(tiles({"google": "offline"}), note=False)}
@@ -370,7 +370,7 @@ def build_s11():
     p.frame('S11-web-desktop', 'Web, desktop browser: phone layout centered', desktop(f'{appbar()}{stepper(1)}{body(web_grid, extra=get_line)}'))
 
     p.section('iOS', 'The import opens as a page sheet: close top-left, centered title. Swipe-down dismisses only while nothing is selected yet (later steps ask first). Contacts opens the contact picker intro (no permission on iOS).')
-    ios_grid = tiles(override={'contacts': dict(href=CONTACTS_PICKER_IOS)})
+    ios_grid = tiles(override={'contacts': dict(href=CONTACTS_PICKER_IOS, desc='From this iPhone')})
     p.frame('S11-ios', 'iOS: page sheet', phone(f'{iosbar(back=None)}{stepper(1)}{body(ios_grid)}', 'ios'))
     return p
 
@@ -405,6 +405,7 @@ CONTACT_POINTS = [
     ('smartphone', 'Stays with your list', 'SwipeSort keeps only the contacts you import. They leave this phone only when the list is backed up or shared.'),
     ('shield-check', "Your address book isn't changed", 'SwipeSort never edits, adds or deletes contacts. Decisions only change SwipeSort\'s copy.'),
 ]
+CONTACT_POINTS_IOS = [(i, a, b.replace('this phone', 'this iPhone')) for i, a, b in CONTACT_POINTS]
 NOTIF_EVENTS = [
     ('user-plus', 'Someone joins a list'),
     ('flag', 'A member finishes sorting'),
@@ -481,7 +482,7 @@ def build_s12():
     big = explainer('contact', 'Allow access to your contacts', 'SwipeSort reads your contacts so you can pick the ones to sort.', points_list(CONTACT_POINTS, big=True), big=True)
     p.frame('S12-contacts-large-text', 'Large text (200%): contacts explainer (Android 16 and lower)', phone(f'''{appbar(big=True)}{stepper(2, big=True)}{big}<div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">{btn("Continue", S13, "continue", extra="min-h-16 text-title-3")}<div class="mt-1">{btn("Not now", S11, "not-now", "ghost", size="md", extra="text-title-3")}</div></div>'''))
     p.section('Fallback, not in the current design: iOS full contacts access (D-18)', 'Kept for reference only. iOS picks contacts in the system contact picker, which needs no permission (S13 picker path). These frames apply only if SwipeSort ever asks iOS for full contacts access; nothing links here today. iOS asks only once, so iOS recovery never offers “Allow access”.')
-    cios = explainer('contact', 'Allow access to your contacts', 'SwipeSort reads your contacts so you can pick the ones to sort. Here\'s how they\'re handled.', points_list(CONTACT_POINTS))
+    cios = explainer('contact', 'Allow access to your contacts', 'SwipeSort reads your contacts so you can pick the ones to sort. Here\'s how they\'re handled.', points_list(CONTACT_POINTS_IOS))
     p.frame('S12-contacts-ios', 'Fallback only (D-18): iOS contacts explainer', phone(f'''{iosbar()}{stepper(2)}{cios}{bottom(btn("Continue", 'S13-contacts-import.html#S13-ios', "continue"), btn("Not now", S11, "not-now", "ghost", size="md"), note="Next, iOS asks once. Allow full access, or choose contacts to share.")}''', 'ios'))
     dios = explainer('contact', 'Contacts access is off', 'iOS asks only once, so access has to be turned on in Settings. When you come back, your contacts are ready to choose.',
                      steps_list(['Tap Open Settings', 'Tap Contacts', 'Choose Full Access']), tone='muted')
@@ -708,7 +709,10 @@ def build_s13():
         note = ('No permission needed. Next, the iOS contact picker opens: select contacts, then tap Done.' if ios
                 else 'No permission needed. Next, Android\'s contact picker opens: select as many contacts as you like.')
         target = '#S13-picked-ios' if ios else '#S13-picked'
-        return f'''{hdr}{stepper(2)}{explainer('contact', 'Choose contacts', LEAD, points_list(PICK_POINTS))}{bottom(btn('Choose contacts', target, 'open-picker'), btn('Choose another source', S11P, 'another-source', 'ghost', size='md'), note=note)}'''
+        pts = [(i, a, b.replace('this phone', 'this iPhone')) for i, a, b in PICK_POINTS] if ios else PICK_POINTS
+        lead = LEAD.replace("your phone's", "your iPhone's") if ios else LEAD
+        back = 'S11-source-picker.html#S11-ios' if ios else S11P
+        return f'''{hdr}{stepper(2)}{explainer('contact', 'Choose contacts', lead, points_list(pts))}{bottom(btn('Choose contacts', target, 'open-picker'), btn('Choose another source', back, 'another-source', 'ghost', size='md'), note=note)}'''
 
     p.frame('S13-picker-intro', 'Picker path (Android 17 and later): intro, no permission', phone(intro()))
 
@@ -1086,6 +1090,7 @@ def build_s15():
   <div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
     {file_row("Flat hunt 2026", "4 tabs, edited Jul 21", "sheet", PICKER, big=True)}
     <h2 class="mt-5 text-title-1">Choose tabs</h2>
+    <p class="mt-1 text-body-lg text-muted-foreground">Pick one tab, or several with the same columns to combine them.</p>
     <ul class="mt-3 divide-y overflow-hidden rounded-group bg-card">{tab_rows_big(tabs)}</ul>
   </div>
   {bottom(btn("Continue with 8 rows", "#S15-preview", "continue", extra="min-h-16 text-title-3"), border=True)}'''
@@ -1131,7 +1136,7 @@ def build_s15():
     p.section('Errors and offline', 'Picked file isn\'t a Google Sheets file, Google connection failure (SRC-23), access removed in the Google account, access blocked by an organization, and no connection. Every state keeps a way to another source.')
     p.frame('S15-error-unsupported', 'Picked file isn\'t a Google Sheets file', phone(f'''{appbar()}{stepper(2)}{state("file-x", "This file isn\'t a Google Sheets spreadsheet", "Office budget 2025.xlsx is an Excel file in Google Drive. Choose a spreadsheet made in Google Sheets, or download the file and import it as a CSV or Excel file.")}{bottom(btn("Choose another spreadsheet", PICKER, "choose-sheet"), btn("Import a CSV or Excel file", "S14-file-import.html#S14-default", "import-file", "ghost", size="md"))}'''))
     p.frame('S15-error-connection', 'Google connection failure', phone(f'''{appbar()}{stepper(2)}{state("cloud-off", "Google Sheets didn\'t respond", "Check your connection and try again. Nothing was imported.")}{bottom(btn("Try again", None, "retry"), another)}'''))
-    p.frame('S15-error-access', 'Access removed in the Google account', phone(f'''{appbar()}{stepper(2)}{state("unplug", "SwipeSort can\'t open Flat hunt 2026", "Access was removed in your Google account. Choose the spreadsheet again to give SwipeSort access.")}{bottom(btn("Choose spreadsheet again", "#S15-default", "choose-sheet"), another)}'''))
+    p.frame('S15-error-access', 'Access removed in the Google account', phone(f'''{appbar()}{stepper(2)}{state("unplug", "SwipeSort can\'t open Flat hunt 2026", "Access was removed in your Google account. Choose the spreadsheet again to give SwipeSort access.")}{bottom(btn("Choose spreadsheet again", PICKER, "choose-sheet"), another)}'''))
     p.frame('S15-error-admin', 'Blocked by an organization\'s Google Workspace admin', phone(f'''{appbar()}{stepper(2)}{state("building-2", "Your organization doesn\'t allow SwipeSort", "The admin of your Google Workspace account blocks SwipeSort from opening files. Ask your admin, or download the sheet as a CSV file and import that.")}{bottom(btn("Import a CSV instead", "S14-file-import.html#S14-default", "import-csv-instead"), btn("Use another Google account", "#S15-account-switch", "switch-account", "ghost", size="md"))}'''))
     p.frame('S15-offline', 'Offline', phone(f'''{appbar()}{offline_banner()}<div class="h-3 shrink-0"></div>{stepper(2)}{state("wifi-off", "Google Sheets needs a connection", "Connect to the internet and try again, or import from another source. Contacts and files work offline.")}{bottom(btn("Try again", None, "retry"), another)}'''))
 

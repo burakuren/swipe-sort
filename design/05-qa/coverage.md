@@ -14,19 +14,19 @@ where none is needed).
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | S01 | Splash | 9 | error | yes | yes | — | yes | Designed, pending QA |
 | S02 | Onboarding with an interactive gesture demo | 19 | — | yes | yes | yes | yes | Designed, pending QA |
-| S03 | Sign up / sign in (Google, email; Apple on iOS) | 26 | empty, error, offline | yes | yes | yes | yes | Designed, pending QA |
+| S03 | Sign up / sign in (Google, Apple, email; changed by D-13) | 26 | empty, error, offline | yes | yes | yes | yes | Designed, pending QA |
 | S04 | Forgot password | 18 | error, offline | yes | yes | yes | yes | Designed, pending QA |
-| S05 | Sign-in prompt from guest mode (sharing or backup) and moving lists to the account | 25 | error, offline | yes | yes | yes | yes | Designed, pending QA |
+| S05 | Sign-in prompt from guest mode (sharing or backup) and moving lists to the account (changed by D-33, D-10; see requirements.md) | 25 | error, offline | yes | yes | yes | yes | Designed, pending QA |
 | S06 | Settings and all its sub-pages | 35 | error, offline | yes | yes | yes | yes | Designed, pending QA |
 | S07 | Profile, connected accounts and account deletion | 34 | empty, loading, error, offline | yes | yes | yes | yes | Designed, pending QA |
 | S08 | Home (first-run empty state with a sample-list option, not-backed-up indicator) | 20 | empty, loading, error, offline | yes | yes | yes | yes | Designed, pending QA |
 | S09 | List overview (solo and shared variants) | 30 | empty, loading, offline | yes | yes | yes | yes | Designed, pending QA |
 | S10 | List management: rename, duplicate, archive, delete, leave; archived lists | 40 | empty, loading, offline | yes | yes | yes | yes | Designed, pending QA |
 | S11 | Source picker (including web-unavailable tiles) | 10 | offline | yes | yes | yes | yes | Designed, pending QA |
-| S12 | Pre-permission explainers (contacts, photos, notifications) and permission-denied recovery | 11 | error | yes | yes | yes | yes | Designed, pending QA |
-| S13 | Contacts import | 23 | empty, loading, error | yes | — | yes | yes | Designed, pending QA |
+| S12 | Pre-permission explainers (contacts on Android 16 and lower, notifications) and permission-denied recovery (changed by D-18, D-32) | 11 | error | yes | yes | yes | yes | Designed, pending QA |
+| S13 | Contacts import (system picker on Android 17+ and iOS; full list on Android 16 and lower; changed by D-18) | 23 | empty, loading, error | yes | — | yes | yes | Designed, pending QA |
 | S14 | File import (CSV and Excel) | 18 | empty, loading, error | yes | yes | yes | yes | Designed, pending QA |
-| S15 | Google Sheets connection and sheet/tab selection | 18 | empty, loading, error, offline | yes | yes | yes | yes | Designed, pending QA |
+| S15 | Google Sheets: choose a spreadsheet in Google's Picker, then its tabs (changed by D-17) | 18 | empty, loading, error, offline | yes | yes | yes | yes | Designed, pending QA |
 | S16 | Plain-text import | 12 | empty, loading, error | yes | yes | yes | yes | Designed, pending QA |
 | S17 | Manual entry | 11 | empty | yes | — | yes | yes | Designed, pending QA |
 | S18 | Photos import (gallery on mobile, file upload on web) | 12 | empty, loading, offline | yes | yes | — | yes | Out of scope (D-32): retired, kept for reference |

@@ -109,7 +109,7 @@ Web contacts: never reaches S12. The S11 contacts tile is the unavailable varian
 | Stepper | "Select items", "Step 2 of 5" |
 | Contacts title | "Allow access to your contacts" |
 | Contacts lead | "SwipeSort reads your contacts so you can pick the ones to sort. Here's how they're handled." (large text: "SwipeSort reads your contacts so you can pick the ones to sort.") |
-| Contacts points | "Only the contacts you pick" / "You choose on the next screen. Nothing else is imported."; "Stays with your list" / "SwipeSort keeps only the contacts you import. They leave this phone only when the list is backed up or shared."; "Your address book isn't changed" / "SwipeSort never edits, adds or deletes contacts. Decisions only change SwipeSort's copy." |
+| Contacts points | "Only the contacts you pick" / "You choose on the next screen. Nothing else is imported."; "Stays with your list" / "SwipeSort keeps only the contacts you import. They leave this phone only when the list is backed up or shared." (iOS fallback: "…leave this iPhone only…", A-137); "Your address book isn't changed" / "SwipeSort never edits, adds or deletes contacts. Decisions only change SwipeSort's copy." |
 | Contacts note | Android 16 and lower "Next, Android asks you to allow access."; iOS fallback "Next, iOS asks once. Allow full access, or choose contacts to share." |
 | Contacts buttons | "Not now", "Continue" |
 | Denied once | "SwipeSort can't see your contacts" / "You chose Don't allow. To pick contacts, allow access. Or use a CSV file: most contacts apps can export one." / note "Access only lets SwipeSort read contacts. It never changes your address book." / "Import a CSV instead", "Allow access" |

@@ -216,7 +216,7 @@ def O(text, href=None, action=None, ic=None):
     return btn(text, 'outline', href, action, ic)
 
 
-def account_row(email=ACCOUNT, photo='people/u-deniz.svg', sub='Signed in with Google', switch_href='S15-google-sheets.html#S15-account-switch'):
+def account_row(email=ACCOUNT, photo='people/u-deniz.svg', sub='Google account', switch_href='S15-google-sheets.html#S15-account-switch'):
     return f'''<div class="flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2"><img src="{IMG}{photo}" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="truncate text-body">{email}</p><p class="text-body-sm text-muted-foreground">{sub}</p></div><a href="{switch_href}" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="switch-account" aria-label="Switch Google account">Switch</a></div>'''
 
 

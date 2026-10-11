@@ -53,7 +53,7 @@ BottomSheet (`bg-popover rounded-t-sheet shadow-sheet`, scrim 50%), opens at 92%
    - **Number fields** (Price): two Inputs "From" / "To" with the unit suffix (EUR), placeholders = min and
      max in the segment, helper "Prices in Accept go from €24 to €649." Rating uses single-choice chips "Any",
      "4 and up", "4.5 and up" (`star`) with the note about items without a rating.
-   - **Date fields** (photos "Taken"): "From" / "To" date inputs (system date picker) + chips "Last 7 days",
+   - **Date fields** (e.g. Apartment viewings "Viewing"): "From" / "To" date inputs (system date picker) + chips "Last 7 days",
      "Last 30 days".
    - **Pseudo-fields**: shared lists: **List status** (Agreed `check-check`, Pending `clock`, Conflict
      `git-compare-arrows`, Resolved `gavel` when any) and **Decided by a member** (member Select, default

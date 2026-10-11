@@ -202,4 +202,6 @@ offline variant is shown.
 - **Signed-in list on this phone only**: no backup line and no nudge (the person chose it, A-137); sync notices
   never appear for it (A-139).
 - **Round 2 started by the Owner while my Round 1 was offline** (shared): my late Round 1 decisions are saved in
-  Round 1; S27 isn't shown for them; the S40 snackbar `S40-outcome-late-round` says so (D-09 row 2).
+  Round 1. S27 is not opened automatically for them (the round already ended); the S40 snackbar
+  `S40-outcome-late-round` says so (D-09 row 2). If I open the summary myself from S25's "Deniz ended Round 1"
+  sheet ("See summary"), `S27-ended-early` shows Round 1 with those decisions counted.

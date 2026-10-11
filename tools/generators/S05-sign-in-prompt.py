@@ -58,11 +58,15 @@ def round_icon(name, tone='primary'):
     return f'<span class="flex size-12 shrink-0 items-center justify-center rounded-full {cls}">{icon(name, "size-6")}</span>'
 
 
-def choose_link(kind='android', web=False, purpose='share'):
-    if purpose == 'backup':
-        href = '#S05-backup-choose-lists'
+def choose_link(kind='android', web=False, purpose='share', disabled=False):
+    if disabled:  # while a sign-in is in progress the selection can't change (QA r1)
+        return '<span class="-my-1 inline-flex min-h-touch items-center text-label-lg text-muted-foreground underline underline-offset-4" role="link" aria-disabled="true">Choose lists</span>'
+    if kind == 'ios':
+        href = '#S05-ios-choose-lists'
+    elif web:
+        href = '#S05-web-choose-lists'
     else:
-        href = '#S05-ios-choose-lists' if kind == 'ios' else ('#S05-web-choose-lists' if web else '#S05-choose-lists')
+        href = '#S05-backup-choose-lists' if purpose == 'backup' else '#S05-choose-lists'
     return f'<a href="{href}" class="-my-1 inline-flex min-h-touch items-center text-label-lg text-primary underline underline-offset-4" data-action="choose-lists">Choose lists</a>'
 
 
@@ -77,7 +81,7 @@ def prompt(sid, purpose='share', kind='android', state=None, large=False, web=Fa
         move_line = f'Your 4 lists {where} move to your account and are backed up.'
     else:
         move_line = f'Your 4 lists {where} move to your account.'
-    move_point = f'<span class="block">{move_line}</span>{choose_link(kind, web, purpose)}'
+    move_point = f'<span class="block">{move_line}</span>{choose_link(kind, web, purpose, disabled=busy)}'
     if purpose == 'share':
         ic, title = 'users', 'Sign in to share this list'
         body = 'Sharing needs an account, so members can sort “Wedding guests” on their own devices and see where you agree.'
@@ -90,7 +94,7 @@ def prompt(sid, purpose='share', kind='android', state=None, large=False, web=Fa
         body = ('Your lists are saved in this browser only. Browsers can clear lists you haven\'t opened for a while. Signing in keeps them safe and on every device.' if web else
                 'Your lists are saved on this phone only. If you lose it or remove the app, they\'re gone. An account keeps them safe and on every device.')
         points = [('cloud-upload', move_point),
-                  ('smartphone', 'Open them on other phones and in the browser.')]
+                  ('smartphone', 'Open them on your phone and in other browsers.' if web else 'Open them on other phones and in the browser.')]
         not_now = ORIGIN_BACKUP
         email_href = 'S03-sign-in.html#S03-context-backup'
     nxt = '#S05-moving-some-kept' if chosen else '#S05-moving'
@@ -228,7 +232,7 @@ def moving(sid, web=False, kept=False):
     nxt = '#S05-moved-some-kept' if kept else '#S05-moved'
     return f'''{signed_in_as()}
     <h2 id="{sid}-t" class="mt-5 text-title-2">Moving your lists to your account</h2>
-    <p class="mt-2 text-body text-muted-foreground">Keep SwipeSort open. Each list stays on {where} until it\'s safely in your account.</p>
+    <p class="mt-2 text-body text-muted-foreground">Keep SwipeSort open. Each list stays {"in" if web else "on"} {where} until it\'s safely in your account.</p>
     <div class="relative">
     <div class="mt-5" role="status">
       <div class="flex items-baseline justify-between"><span class="text-label tabular-nums">2 of {total} moved</span></div>
@@ -292,6 +296,8 @@ def backed_up(bg):
     """Host screen after the move (QA-054): lists are backed up, the not-backed-up indicator is gone."""
     bg = re.sub(r'<span class="mx-4 flex min-h-touch[^"]*">(?:(?!</span>).)*</i><span class="flex-1">Lists are on this phone only</span><span class="text-label text-primary">Back up</span></span>', '', bg)
     bg = re.sub(r'<span class="(ml-1 )?text-label text-primary">Back up</span>', '', bg)
+    # S09 header meta: backed-up lists show no label (A-137), so the "On this phone only" meta goes away
+    bg = re.sub(r'<span class="-my-2 inline-flex min-h-touch items-center gap-1.5"><i class="i-lucide-cloud-off[^"]*"[^>]*></i>On this (?:phone|browser) only</span>', '', bg)
     bg = bg.replace('i-lucide-cloud-off', 'i-lucide-cloud-check')
     return bg.replace('Lists are on this phone only', 'Lists are backed up').replace('On this phone only', 'Backed up')
 

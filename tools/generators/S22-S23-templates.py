@@ -456,20 +456,28 @@ BACKUP_DESC = {
 }
 
 
-def backup_row(state):
+def backup_row(state, href=None):
     """Import finish, signed in only (D-33, A-132, A-168): BackupSwitchRow, on by default. Same row as S09's Backup group."""
     ic, desc = BACKUP_DESC[state]
     on = state in ('on', 'web-on')
     return (f'<!-- Proposed component: BackupSwitchRow (same as S09) --><div class="mt-3 flex min-h-16 items-center gap-4 rounded-group bg-card px-4 py-3 dark:border">'
             f'{icon(ic, "size-5 shrink-0 text-muted-foreground")}'
             f'<span class="min-w-0 flex-1"><span class="block text-body">Back up this list</span><span class="block break-words text-body-sm text-muted-foreground" aria-live="polite">{desc}</span></span>'
-            f'{switch(on, "Back up this list").replace('<button role="switch"', '<button role="switch" data-action="toggle-backup"', 1)}</div>')
+            f'{_backup_switch(on, href)}</div>')
+
+
+def _backup_switch(on, href=None):
+    """The Switch; in the prototype it is a link to the other state's frame (flow 4: csv <-> device-only)."""
+    sw = switch(on, "Back up this list").replace('<button role="switch"', '<button role="switch" data-action="toggle-backup"', 1)
+    if href:
+        sw = sw.replace('<button role="switch"', f'<a href="{href}" role="switch"', 1).replace('</button>', '</a>').replace(' disabled', '')
+    return sw
 
 
 def pick(fid, name, summary, body, label, tiles, step=(5, 5), title='Import', customize='S23-template-editor.html#S23-default',
          start='S25-sorting.html#S25-coach-1', start_label='Start sorting', name_kw=None, overlay='', bottom_html=None,
          sum_icon='list-checks', ios=False, back=None, start_action='start-sorting', scroll='', stage_h='h-72', stage_scale='scale-[.46]',
-         backup=None):
+         backup=None, backup_href=None):
     kw = dict(value=name)
     kw.update(name_kw or {})
     if backup and stage_h == 'h-72':  # the switch row takes ~88 dp: a smaller preview keeps the template row in view
@@ -481,7 +489,7 @@ def pick(fid, name, summary, body, label, tiles, step=(5, 5), title='Import', cu
     <div class="px-gutter pt-1 {scroll}">
       {label_input(fid + "-name", "List name", **kw)}
       <p class="mt-3 flex items-start gap-2 text-body-sm text-muted-foreground">{icon(sum_icon, "size-4 mt-0.5 shrink-0")}<span>{summary}</span></p>
-      {backup_row(backup) if backup else ''}
+      {backup_row(backup, backup_href) if backup else ''}
     </div>
     <div class="mt-4 flex items-center justify-between gap-2 pl-gutter pr-2"><h2 class="text-title-3">Card template</h2><a href="{customize}" class="inline-flex h-12 items-center gap-2 rounded-control px-3 text-label-lg text-primary" data-action="customize-template">{icon("pencil")}Customize</a></div>
     {stage(body, label, h=stage_h, scale=stage_scale)}
@@ -499,10 +507,10 @@ P.frame('S22-import-pick-prefilled', 'Arriving: name prefilled from the source a
 SUM_CSV = '12 items from candidates-q4.csv. No duplicates found.'
 P.frame('S22-import-pick-csv', 'Pick mode: CSV, signed in: Candidate recommended, "Back up this list" on (default)', phone(pick(
     'ip3', 'Frontend hiring, Q4', SUM_CSV, LENA_CAND, LENA_CAND_L,
-    tiles_for('Candidate'), sum_icon='copy-check', start='S25-sorting.html#S25-candidate', backup='on')))
+    tiles_for('Candidate'), sum_icon='copy-check', start='S25-sorting.html#S25-candidate', backup='on', backup_href='#S22-import-pick-device-only')))
 P.frame('S22-import-pick-device-only', 'Signed in: "Back up this list" turned off, the list stays on this phone only', phone(pick(
     'ip12', 'Frontend hiring, Q4', SUM_CSV, LENA_CAND, LENA_CAND_L,
-    tiles_for('Candidate'), sum_icon='copy-check', start='S25-sorting.html#S25-candidate', backup='off')))
+    tiles_for('Candidate'), sum_icon='copy-check', start='S25-sorting.html#S25-candidate', backup='off', backup_href='#S22-import-pick-csv')))
 P.frame('S22-import-pick-custom', 'Pick mode: back from Save, scrolled to the just-saved template (flow 4)', phone(pick(
     'ip4', 'Frontend hiring, Q4', SUM_CSV, LENA_COMPACT, LENA_COMPACT_L,
     tiles_for('Candidate', selected='Candidate, compact', first_custom='Candidate, compact'), sum_icon='copy-check',

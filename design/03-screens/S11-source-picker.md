@@ -20,7 +20,7 @@ PLT-16, PLT-21, PLT-23, GOAL-02, GOAL-03, GOAL-05, SUC-09, SCR-11. PLT-08 (web p
 | From | How |
 | --- | --- |
 | S08 Home | "Import a list" (first run, `S08-first-run`) or the New list FAB (`S08-default`) |
-| S21 Add items | "Add items" on S09 opens S11 in list context (`S11-existing-list`) |
+| S21 Add items | Not used: S21 shows its own list-context grid (`S21-default`). `S11-existing-list` is superseded by it and kept for reference only |
 | S12, S13, S14, S15 | "Choose another source" / "Not now" return here |
 
 | To | Trigger |
@@ -86,7 +86,7 @@ grid fills two full rows again).
 | Frame | Trigger |
 | --- | --- |
 | `S11-default` | New list, Android, online. Five tiles: Manual entry spans both columns |
-| `S11-existing-list` | Opened from S21 / S09 "Add items" for Wedding guests (l-wedding: 88 from contacts, 12 from mert-family.csv); app bar "Add items", heading "Add items to Wedding guests" |
+| `S11-existing-list` | **Superseded by `S21-default`** (reference only, nothing links here). Was: opened from S09 "Add items" for Wedding guests (l-wedding: 88 from contacts, 12 from mert-family.csv); app bar "Add items", heading "Add items to Wedding guests" |
 | `S11-offline` | No connection: OfflineBanner under the app bar; Google Sheets tile becomes the offline variant (dashed border, `wifi-off` 16, "Needs a connection"); other sources work offline |
 | `S11-offline-tapped` | Offline tile tapped: snackbar, no navigation |
 | `S11-large-text` | Font scale ≥ 150%: one tile per row, icon left, title and description wrap; the grid scrolls |
@@ -120,7 +120,7 @@ Not applicable: empty (there is always at least one source), loading (static), e
 | Stepper | "Choose source", "Step 1 of 5" |
 | Heading | "Where are your items?"; list context "Add items to Wedding guests" (`Add items to {list name}`) |
 | Sub line | "Choose a source. You can add items from other sources later."; list context "Choose where the new items come from. They join the current round." |
-| Tiles | "Contacts" / "From this phone"; "CSV or Excel" / "A .csv or .xlsx file"; "Google Sheets" / "From Google Drive"; "Plain text" / "Paste a list or a .txt file"; "Manual entry" / "Type items one by one" |
+| Tiles | "Contacts" / "From this phone" (iOS "From this iPhone", A-137); "CSV or Excel" / "A .csv or .xlsx file"; "Google Sheets" / "From Google Drive"; "Plain text" / "Paste a list or a .txt file"; "Manual entry" / "Type items one by one" |
 | Web-unavailable tile | "Contacts" / "Needs the Android or iOS app" |
 | Web footer line | "Contacts import needs the Android or iOS app." + link "Get the app" |
 | Offline tile | "Google Sheets" / "Needs a connection" |

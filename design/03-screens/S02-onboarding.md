@@ -52,7 +52,7 @@ like welcome.
 
 Demo deck (sample data): `p02` Walnut sit-stand desk, Göreme, Cappadocia (image `ph09`), `p05` Ceramic desk
 lamp, Kadıköy, İstanbul (image `ph05`). Product and Photo card templates, so no domain words appear. The two
-place cards use the Photo template the way the "Trip ideas" sample does (image link, place as title, "Turkey,
+place cards use the Photo template the way the "Trip ideas" sample does (image link, place as title, "Türkiye,
 best in spring" / "best in autumn" as the second line); they no longer show gallery file names and dates
 (D-32, A-131).
 
@@ -107,7 +107,7 @@ best in spring" / "best in autumn" as the second line); they no longer show gall
 | Welcome headline | "Sort any list, one card at a time" |
 | Welcome body | "Swipe right to accept, left to reject, up for maybe. Works for people, places, things to buy and ideas, alone or with others." (D-32: "photos" became "places") |
 | Welcome buttons | "Get started", "I have an account" |
-| Reassurance | "No account needed. Lists stay on this phone." |
+| Reassurance | "No account needed. Lists stay on this phone." (web `S02-web`, icon `globe`: "No account needed. Lists stay in this browser.", D-08) |
 | Hero stamp | "Accept" |
 | Demo step 1 | "Swipe right to accept" / "Try it on these sample cards. Nothing is saved." |
 | Demo step 2 | "Swipe left to reject" / "Accepted. Now send this one the other way." |

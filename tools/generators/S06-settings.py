@@ -61,7 +61,7 @@ EVENTS = [
 ]
 
 
-def root_groups(state='signed-in', haptics_web=False, notif_value='On', ios=False, end=False):
+def root_groups(state='signed-in', haptics_web=False, notif_value='On', ios=False, end=False, device_only=True):
     """state: signed-in | offline | guest"""
     g = []
     if state == 'guest':
@@ -78,7 +78,7 @@ def root_groups(state='signed-in', haptics_web=False, notif_value='On', ios=Fals
         backup = nav_row('Backup', href='#S06-backup-guest', icon_name='cloud-off', desc='Not backed up. Lists are on this phone only.', action='backup')
     elif state == 'offline':
         backup = nav_row('Backup', href='#S06-backup-failed', icon_name='cloud-off', desc='Paused while offline', action='backup')
-    elif haptics_web:
+    elif haptics_web or not device_only:
         # web: lists on this phone only stay on Deniz's phone; this browser has none (A-137)
         backup = nav_row('Backup', href='#S06-backup', icon_name='cloud-check', desc='Backed up today at 09:12', action='backup')
     else:
@@ -106,9 +106,9 @@ def root_groups(state='signed-in', haptics_web=False, notif_value='On', ios=Fals
     return ''.join(g)
 
 
-def root(state='signed-in', top='', haptics_web=False, notif_value='On', scrolled=False, nav=True, overlay=''):
+def root(state='signed-in', top='', haptics_web=False, notif_value='On', scrolled=False, nav=True, overlay='', device_only=True):
     head = large_title('Settings') if not scrolled else appbar('Settings', back=None)
-    content = root_groups(state, haptics_web, notif_value)
+    content = root_groups(state, haptics_web, notif_value, device_only=device_only)
     # scrolled: content translated up to show the end of the page
     inner = f'<div class="space-y-6 {"-translate-y-96" if scrolled else ""}">{content}</div>'
     return f'''{head}
@@ -127,10 +127,10 @@ P.frame('S06-offline', 'Offline: backup waits, everything else works', phone(roo
 # sign-out dialogs over the scrolled root
 signout = dialog('so', 'Sign out?', f"Your lists are backed up to {ME['email']}. They'll be removed from this phone until you sign in again.",
                  dlg_btn('Cancel', href='#S06-default-end', action='cancel') + dlg_btn('Sign out', 'destructive', href='S08-home.html#S08-first-run', action='confirm-sign-out'))
-P.frame('S06-sign-out', 'Sign out: confirmation', phone(root(scrolled=True, overlay=signout), overlay_full=True))
+P.frame('S06-sign-out', 'Sign out: confirmation (no list on this phone only)', phone(root(scrolled=True, overlay=signout, device_only=False), overlay_full=True))
 unsynced = dialog('su', 'Sign out without backing up?', "12 changes haven't been backed up because you're offline. Signing out now removes them from this phone, and they can't be recovered.",
                   dlg_btn('Cancel', href='#S06-offline', action='cancel') + dlg_btn('Sign out anyway', 'destructive', href='S08-home.html#S08-first-run', action='confirm-sign-out'))
-signout_do = dialog('sod', 'Sign out?', f"Your lists backed up to {ME['email']} leave this phone and come back when you sign in. “Frontend hiring, Q4” stays on this phone, hidden until you sign in again.",
+signout_do = dialog('sod', 'Sign out?', f"Lists backed up to {ME['email']} are removed from this phone until you sign in again. “Frontend hiring, Q4” stays on this phone, hidden until you sign in again.",
                     dlg_btn('Cancel', href='#S06-default-end', action='cancel') + dlg_btn('Sign out', 'destructive', href='S08-home.html#S08-first-run', action='confirm-sign-out'))
 P.frame('S06-sign-out-device-only', 'Sign out with a list on this phone only', phone(root(scrolled=True, overlay=signout_do), overlay_full=True))
 P.frame('S06-sign-out-unsynced', 'Sign out with changes not backed up', phone(root('offline', top=offline_banner("You're offline. Changes are saved on this phone."), scrolled=True, overlay=unsynced), overlay_full=True))
@@ -352,8 +352,8 @@ P.frame('S06-large-text', 'Large text (200%)', phone(big))
 P.section('iOS', 'Inset grouped lists, a large title that collapses on scroll, the iOS tab bar, and back chevrons with the previous title (edge swipe goes back). Sign out confirms with an action sheet.')
 
 
-def ios_root(overlay=''):
-    content = root_groups(ios=True).replace('Rate SwipeSort', 'Rate SwipeSort')
+def ios_root(overlay='', device_only=True):
+    content = root_groups(ios=True, device_only=device_only).replace('Rate SwipeSort', 'Rate SwipeSort')
     return f'''{ios_nav(large='Settings')}
   <div class="min-h-0 flex-1 space-y-6 overflow-hidden px-4 pb-6 pt-2">{content}</div>
   {ios_tab_bar('settings')}
@@ -374,9 +374,9 @@ ios_sheet = f'''{scrim('z-30')}
     </div>
     <a href="#S06-ios" class="flex h-14 items-center justify-center rounded-dialog bg-popover text-title-3 text-primary shadow-dialog" data-action="cancel">Cancel</a>
   </div>'''
-P.frame('S06-ios-sign-out', 'iOS sign out: action sheet', phone(ios_root(ios_sheet), kind='ios', overlay_full=True))
+P.frame('S06-ios-sign-out', 'iOS sign out: action sheet (no list on this phone only)', phone(ios_root(ios_sheet, device_only=False), kind='ios', overlay_full=True))
 ios_sheet_do = ios_sheet.replace(f"Your lists are backed up to {ME['email']}. They'll be removed from this iPhone until you sign in again.",
-                                 f"Your lists backed up to {ME['email']} leave this iPhone and come back when you sign in. “Frontend hiring, Q4” stays on this iPhone, hidden until you sign in again.")
+                                 f"Lists backed up to {ME['email']} are removed from this iPhone until you sign in again. “Frontend hiring, Q4” stays on this iPhone, hidden until you sign in again.")
 P.frame('S06-ios-sign-out-device-only', 'iOS sign out with a list on this phone only', phone(ios_root(ios_sheet_do), kind='ios', overlay_full=True))
 
 # ---------------------------------------------------------------- web

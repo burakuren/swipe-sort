@@ -257,7 +257,19 @@ P.frame('S21-offline', 'Offline: local sources work, Google Sheets doesn\'t', ph
   {picker({"Google Sheets": off_tile})}'''))
 
 P.frame('S21-offline-confirm', 'Offline, shared list: Add to list still works (queued)', phone(confirm(offline=True)))
-P.frame('S21-offline-success', 'Offline, shared list: added and saved on this phone', phone(s09_screen('S09-offline', 's21o') + snackbar("Added 12 items. Members see them when you're back online.", 'Undo', bottom='bottom-2')))
+# S40 SyncNotice under the S09 header meta: the 12 queued items stay visible after the snackbar (A-159)
+SYNC_NOTICE = f'<p class="mt-3 inline-flex items-center gap-1.5 text-body-sm text-muted-foreground" role="status">{icon("cloud-off", "size-4 shrink-0")}Saved on this phone<span class="sr-only">, 12 new items not synced yet</span></p>'
+
+
+def with_sync_notice(html):
+    if 'Saved on this phone' in html:  # S09-offline draws the S40 sync notice itself (group C, QA round)
+        return html
+    anchor = 'Owner</span></div></div>'
+    assert html.count(anchor) >= 1, 'S09-offline header meta changed'
+    return html.replace(anchor, 'Owner</span></div>' + SYNC_NOTICE + '</div>', 1)
+
+
+P.frame('S21-offline-success', 'Offline, shared list: added and saved on this phone (sync notice stays after the snackbar)', phone(with_sync_notice(s09_screen('S09-offline', 's21o')) + snackbar("Added 12 items. Members see them when you're back online.", 'Undo', bottom='bottom-2')))
 
 web_contacts = tile_off('contact', 'Contacts', 'Needs the Android or iOS app', 'monitor-smartphone', 'Contacts, needs the Android or iOS app')
 web_note = ' Contacts import needs the Android or iOS app. <a href="https://swipesort.app/get" class="text-primary underline underline-offset-4">Get the app</a>'
@@ -267,7 +279,7 @@ P.frame('S21-web', 'Web: contacts unavailable', web_phone(f'''{bar()}
 
 P.frame('S21-ios', 'iOS: choose a source', phone(f'''{bar(ios=True)}
   {stepper("Choose source", 1, 5)}
-  {picker({"Contacts": tile('contact', 'Contacts', 'From this phone', 'S13-contacts-import.html#S13-picker-intro-ios', 'source-contacts')})}''', ios=True))
+  {picker({"Contacts": tile('contact', 'Contacts', 'From this iPhone', 'S13-contacts-import.html#S13-picker-intro-ios', 'source-contacts')})}''', ios=True))
 P.frame('S21-ios-confirm', 'iOS: confirm', phone(confirm(ios=True), ios=True))
 
 big = f'''<header class="flex min-h-16 shrink-0 items-center gap-1 px-1">

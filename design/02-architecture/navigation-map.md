@@ -214,7 +214,7 @@ meanwhile Deniz sorts on Android, `S25-shared`; earlier Deniz made Mert the Deci
 **Flow 4: list from CSV with a custom template**
 `S08-default` [`new-list`] → `S11-default` [`source-csv`] → `S14-default` [`choose-file`] →
 `S14-csv-preview` [`continue`] → `S19-csv` [`continue`] → `S20-none` [`continue`] → `S22-import-pick-csv`
-[`customize-template`] → `S23-default` [`save-template`] → `S23-save` [`confirm-save`] →
+[`toggle-backup`] → `S22-import-pick-device-only` [`customize-template`] → `S23-default` [`save-template`] → `S23-save` [`confirm-save`] →
 `S22-import-pick-custom` [`start-sorting`] → `S25-candidate`.
 
 **Flow 6 (design update, D-33): keep a list on this phone only** (`tools/flows/06-keep-on-phone.flow.mjs`;

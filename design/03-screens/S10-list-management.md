@@ -50,7 +50,7 @@ PLT-16, PLT-21, PLT-23, STK-06, STK-07. D-33 (A-133, A-134), D-05 (offline rules
 | Archived row › Delete forever | `S10-delete-forever` → `S10-archived-empty` when it was the last one |
 | Turn backup off → Keep on this phone only | S09 with the switch off and "“Trip ideas” is on this phone only" + Undo (`S10-backup-off-done`) |
 | Turn backup off → Cancel | S09, switch back on (unchanged) |
-| Back up this list to share it → Back up and share | `S10-share-backing-up` → S31 `S31-default` (the list is backed up; S31 shows "“Frontend hiring, Q4” is backed up") |
+| Back up this list to share it → Back up and share | `S10-share-backing-up` (`back-up-and-share`) → S31 `S31-default` when the backup is confirmed (prototype: click the list row, `next`; S31 shows "“Frontend hiring, Q4” is backed up") |
 | Back up this list to share it → Not now | S09 `S09-new-list`, unchanged (during backup: the backup finishes in the background, S31 doesn't open) |
 
 `data-action` values: `rename`, `duplicate`, `archive`, `delete`, `leave` (menu items); `save`,
@@ -157,7 +157,7 @@ PLT-16, PLT-21, PLT-23, STK-06, STK-07. D-33 (A-133, A-134), D-05 (offline rules
 | `S10-backup-off-done` | Confirmed: switch off, "On this phone only" + footer; snackbar "“Trip ideas” is on this phone only" + Undo (6 s) |
 | `S10-share-backup` | Share on Frontend hiring, Q4 (on this phone only): "Back up this list to share it" (A-133) |
 | `S10-share-backing-up` | "Back up and share" tapped: Backing up…, then S31 opens |
-| `S10-share-backup-offline` | The connection dropped while the sheet was open: sharing needs a connection, primary disabled |
+| `S10-share-backup-offline` | The connection dropped while the sheet was open, before "Back up and share" was tapped: the row still reads "On this phone only", primary disabled. If it drops during the backup, the row reads "Backup paused" (as the S09 row) and the backup continues by itself |
 
 ## 5. Interactions, gestures and transitions
 
@@ -279,8 +279,10 @@ PLT-16, PLT-21, PLT-23, STK-06, STK-07. D-33 (A-133, A-134), D-05 (offline rules
 - **Web**: same as Android (menus as popovers, dialogs centered in the phone column on desktop,
   `S10-web-desktop`). Keyboard: Enter confirms only when focus is on the confirm button; Escape cancels.
   Without an account, "this phone" becomes "this browser"; the same for a signed-in list kept in this browser only
-  (the turn-off dialog, the snackbar and the S09 row say "in this browser only"). iOS keeps "phone" in the D-33
-  strings (A-137).
+  (the turn-off dialog, the snackbar and the S09 row say "in this browser only"). iOS (A-137): the fixed terms
+  "On this phone only" and "Keep on this phone only" keep "phone", also inside the dialog title and the snackbar;
+  running sentences say "this iPhone" ("If you lose this iPhone or move to a new one, the list can't be
+  recovered.").
 
 ## 9. Edge cases
 

@@ -93,7 +93,7 @@ up".
 | `S06-default-end` | Root scrolled to the end: Support group, Sign out, version |
 | `S06-guest` | Not signed in (no account): sign-in card, Backup "Not backed up", no Sign out |
 | `S06-offline` | No connection: offline banner; Backup "Paused while offline"; everything else works |
-| `S06-sign-out` | Sign out tapped, all changes backed up, no list on this phone only |
+| `S06-sign-out` | Sign out tapped, all changes backed up, no list on this phone only (the host Backup row reads "Backed up today at 09:12"; same for `S06-ios-sign-out`) |
 | `S06-sign-out-device-only` | Sign out tapped with a list on this phone only: the dialog names it (A-136) |
 | `S06-sign-out-unsynced` | Sign out tapped while changes are not backed up (offline or backup failing) |
 | `S06-appearance` | Appearance row |
@@ -142,14 +142,15 @@ Backup counts refresh in place.
 - **Back up a list on this phone only** (S06 › Backup): "Back up" needs no confirmation (nothing is lost,
   A-132); the row shows "Backing up…", the list moves to the account like at sign-in, then the row leaves the
   group and the snackbar says "“Frontend hiring, Q4” is backed up" (4 s). Offline it queues: the row says
-  "Backs up when you're online" (A-139). Turning backup off is done in S09 (A-134), not here.
+  "Backs up when you're online" (A-139). While backup is paused (`S06-backup-failed`, server unreachable) the
+  button stays enabled: tapping queues the list and the row says "Waiting to back up" until backup works again. Turning backup off is done in S09 (A-134), not here.
 - **Backup**: automatic whenever online; "Back up now" starts an upload immediately (button turns into
   "Backing up…", busy) and ends in `S06-backup`. Failure → `S06-backup-failed`; "Try again" retries; the
   app also retries with backoff.
 - **Sign out**: dialog with a destructive "Sign out" button (as S40-sign-out; it removes data from this phone). If every change is backed up → "Sign out" signs out, removes backed-up lists from
   this phone and opens `S08-first-run`. Lists on this phone only stay on the phone, **hidden** until the same
   account signs in here again (A-136); the dialog names them (`S06-sign-out-device-only`; two or more: "2
-  lists on this phone only stay here, hidden until you sign in again."). Another account or no account never
+  lists on this phone only stay here, hidden until you sign in again.", S40 §6.1). Another account or no account never
   sees them. The sample list stays visible (A-139). If changes are waiting → the unsynced dialog: "Sign out anyway"
   (destructive) discards them. Cancel returns to Settings.
 - **Send feedback**: Send is disabled until the message has at least 1 non-space character. On success
@@ -178,8 +179,8 @@ Backup counts refresh in place.
 | Offline banner | "You're offline. Changes are saved on this phone." |
 | Sign out dialog | "Sign out?" / "Your lists are backed up to deniz.yilmaz@example.com. They'll be removed from this phone until you sign in again." / "Cancel" / "Sign out" |
 | Unsynced dialog | "Sign out without backing up?" / "12 changes haven't been backed up because you're offline. Signing out now removes them from this phone, and they can't be recovered." / "Cancel" / "Sign out anyway" |
-| Sign out, list on this phone only | "Sign out?" / "Your lists backed up to deniz.yilmaz@example.com leave this phone and come back when you sign in. “Frontend hiring, Q4” stays on this phone, hidden until you sign in again." / "Cancel" / "Sign out" (web: "this browser") |
-| iOS action sheet | "Your lists are backed up to deniz.yilmaz@example.com. They'll be removed from this iPhone until you sign in again." / "Sign out" / "Cancel"; with a list on this phone only: "Your lists backed up to deniz.yilmaz@example.com leave this iPhone and come back when you sign in. “Frontend hiring, Q4” stays on this iPhone, hidden until you sign in again." |
+| Sign out, list on this phone only | "Sign out?" / "Lists backed up to deniz.yilmaz@example.com are removed from this phone until you sign in again. “Frontend hiring, Q4” stays on this phone, hidden until you sign in again." (several: "3 lists on this phone only stay here, hidden until you sign in again.") / "Cancel" / "Sign out" (web: "this browser"; S40 §6.1 is the source) |
+| iOS action sheet | "Your lists are backed up to deniz.yilmaz@example.com. They'll be removed from this iPhone until you sign in again." / "Sign out" / "Cancel"; with a list on this phone only: "Lists backed up to deniz.yilmaz@example.com are removed from this iPhone until you sign in again. “Frontend hiring, Q4” stays on this iPhone, hidden until you sign in again." |
 | Appearance | "Appearance"; "System", "Match your phone's light or dark setting"; "Light"; "Dark"; "Applies right away on this device." |
 | Language | "Language"; "English"; "English only for now" / "More languages are coming, starting with Turkish. SwipeSort will switch automatically when your phone's language is available." |
 | Notifications | "Notifications"; "Push notifications", "On this phone" (iOS "On this iPhone"); header "Notify me when"; "Someone joins a list", "Someone finishes sorting", "New conflicts", "Conflicts resolved", "A new round starts", "Your role changes"; footer "Activity always shows every event, whatever you choose here." |

@@ -28,7 +28,7 @@ VIS-13, SUC-05, DEL-24 (flow 3).
 | Origin, unchanged | "Not now", scrim tap, system back, drag down |
 | Google chooser / Apple sign-in (out of scope) | "Continue with Google" (`data-action="continue-google"`), "Continue with Apple" (`continue-apple`; iOS native sheet, Android and web Apple's sign-in page in the browser, D-13) |
 | `S05-choose-lists` (share), `S05-backup-choose-lists` (backup), `S05-ios-choose-lists`, `S05-web-choose-lists` | "Choose lists" under the first reason (`data-action="choose-lists"`) |
-| Prompt (`S05-share-chosen` after a change) | Choose lists › "Done" (`done`); back arrow / iOS "Back" returns without changes |
+| Prompt (`S05-share-chosen` after a change) | Choose lists › "Done" (`done`); back arrow / iOS "Back" returns without changes. Prototype simplification: only Android share has a "chosen" prompt frame; Done on `S05-ios-choose-lists`, `S05-web-choose-lists` and `S05-backup-choose-lists` returns to `S05-ios`, `S05-web` and `S05-backup`, which show the unchosen reason. iOS and web backup prompts open their platform's checklist frame (drawn from Share, so it shows the locked row) |
 | `S05-moving-some-kept` → `S05-moved-some-kept` | Sign-in after unchecking lists; "Share list" (`continue`) opens S31 |
 | S03 `S03-context-share` / `S03-context-backup` | "Continue with email"; after sign-in S03 returns to `S05-moving` |
 | `S05-moving` → `S05-moved` | Automatic after sign-in (prototype: clicking the progress area has `data-action="next"`) |
@@ -76,7 +76,7 @@ VIS-13, SUC-05, DEL-24 (flow 3).
 | `S05-backup-choose-lists` | "Choose lists" on a backup prompt: nothing is locked |
 | `S05-choose-lists-large-text` | Choose lists at 200%: text scrolls above the pinned summary and Done |
 | `S05-moving` | Signed in; device lists are being moved (one at a time) |
-| `S05-moved` | All lists moved; origin was Share. The host screen already shows the backed-up state (no not-backed-up indicator; "Backed up" on the list) |
+| `S05-moved` | All lists moved; origin was Share. The host screen already shows the backed-up state: no not-backed-up indicator and no label in the list header (backed-up lists show nothing, A-137) |
 | `S05-moved-backup` | All lists moved; origin was Back up |
 | `S05-moved-merge` | The account already had lists; device lists were added next to them |
 | `S05-moving-some-kept` | Moving after Choose lists: "2 of 3 moved"; the unchecked list shows "On this phone only" |
@@ -95,7 +95,8 @@ VIS-13, SUC-05, DEL-24 (flow 3).
 - After sign-in the sheet content cross-fades (150 ms) to the moving step; height animates 250 ms.
 - **Choose lists** (D-33, A-135): the link swaps the sheet content to the checklist (cross-fade 150 ms, height
   250 ms; reduced motion: instant). Every list starts checked. Tapping a row toggles it; the summary updates
-  ("3 of 4 lists move"). The list being shared can't be unchecked ("Needed to share"; tapping it does
+  ("3 of 4 lists move"). While a sign-in is in progress (`S05-signing-in`) the "Choose lists" link is disabled
+  (muted, `aria-disabled`) like the other buttons. The list being shared can't be unchecked ("Needed to share"; tapping it does
   nothing). "Done" returns to the prompt, whose first reason now reads "3 of your 4 lists on this phone move
   to your account. 1 stays on this phone only."; back or system back returns without changes. The choice
   lives until the sheet closes ("Not now" forgets it). Choosing doesn't sign in; the provider buttons do.
@@ -153,7 +154,7 @@ VIS-13, SUC-05, DEL-24 (flow 3).
 | Failed title | "Your lists didn't move" |
 | Failed body | "The connection dropped. You're signed in, and all 4 lists are safe on this phone. They move automatically when you're back online, or try again now." |
 | Failed actions | "Try again", "Later" |
-| Web wording | "On this browser only"; "Your 4 lists in this browser move to your account and are backed up."; backup body (D-08) "Your lists are saved in this browser only. Browsers can clear lists you haven't opened for a while. Signing in keeps them safe and on every device."; moving body "Keep SwipeSort open. Each list stays on this browser until it's safely in your account." |
+| Web wording | "On this browser only"; "Your 4 lists in this browser move to your account and are backed up."; backup body (D-08) "Your lists are saved in this browser only. Browsers can clear lists you haven't opened for a while. Signing in keeps them safe and on every device."; moving body "Keep SwipeSort open. Each list stays in this browser until it's safely in your account."; backup reason "Open them on your phone and in other browsers." |
 | Singular forms | "1 list moved to your account"; "Your list on this phone moves to your account." |
 | Prototype-only link | Progress-area overlay labelled "Finish moving (prototype: click the progress; the sheet moves on by itself)" |
 

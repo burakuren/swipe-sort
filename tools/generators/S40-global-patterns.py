@@ -514,7 +514,7 @@ def bg_s35():
 
 
 def bg_s06(offline=False, paused=False, ios=False):
-    backup = row('cloud-alert' if paused else 'cloud-check', 'Backup', 'Backup paused. 12 changes waiting' if paused else 'Backed up today at 09:12')
+    backup = row('cloud-alert' if paused else 'cloud-check', 'Backup', 'Backup paused. 12 changes waiting' if paused else 'Backed up. 1 list on this phone only')
     groups = [
         group([row(None, 'Deniz Yılmaz', 'deniz.yilmaz@example.com', lead_html=avatar('deniz')), backup], 'Account'),
         group([row('sun-moon', 'Appearance', None, value='System'), row('vibrate', 'Haptics', None, trailing=None, value='On'), row('bell', 'Notifications', None, value='On'), row('layout-template', 'Card templates')], 'Preferences'),
@@ -605,10 +605,11 @@ def dialog(title, body, cancel, confirm, variant='destructive', extra='', cancel
 def ios_sheet(title, message, actions_, cancel='Cancel', cancel_href=None):
     """iOS action sheet. actions_ = [(label, destructive, href, act)]"""
     t = uid('t')
+    m = uid('m')
     head = ''
     if title or message:
         tt = f'<p id="{t}" class="text-body-sm font-semibold text-muted-foreground">{title}</p>' if title else ''
-        mm = f'<p class="mt-1 text-body-sm text-muted-foreground">{message}</p>' if message else ''
+        mm = f'<p id="{m}" class="mt-1 text-body-sm text-muted-foreground">{message}</p>' if message else ''
         head = f'<div class="px-6 pb-3 pt-4 text-center">{tt}{mm}</div>'
     acts = ''
     for lab, destr, href, act in actions_:
@@ -618,7 +619,7 @@ def ios_sheet(title, message, actions_, cancel='Cancel', cancel_href=None):
         acts += f'{tag_open} class="flex min-h-14 w-full items-center justify-center border-t px-4 text-center text-title-3 font-normal {col}" data-action="{act}">{lab}{tag_close}'
     ch = f'<a href="{cancel_href}"' if cancel_href else '<button type="button"'
     cc = '</a>' if cancel_href else '</button>'
-    lab = f' aria-labelledby="{t}"' if title else f' aria-label="{message[:60]}"'
+    lab = f' aria-labelledby="{t}"' if title else f' aria-describedby="{m}"'
     return f'''{scrim()}
   <div class="absolute inset-x-2 bottom-2 z-40 space-y-2" role="alertdialog" aria-modal="true"{lab}>
     <div class="overflow-hidden rounded-dialog bg-popover shadow-dialog">{head}{acts}</div>
@@ -882,7 +883,7 @@ P.add('S40-disconnect-google', 'Disconnect Google', frame_android(
            'Cancel', 'Disconnect', cancel_href='S07-profile.html#S07-default', confirm_href='S07-profile.html#S07-google-disconnected', act='confirm-disconnect')),
     'Disconnect Google')
 
-P.add('S40-sign-out', 'Sign out (everything backed up)', frame_android(
+P.add('S40-sign-out', 'Sign out (with a list on this phone only)', frame_android(
     bg_s06(),
     dialog('Sign out?',
            ["Lists backed up to deniz.yilmaz@example.com are removed from this phone until you sign in again.",
@@ -1005,33 +1006,47 @@ P.add('S40-offline-sorting', 'Offline while sorting: banner + compact count', fr
            status_html=f'<span class="inline-flex items-center gap-1.5 text-caption text-muted-foreground">{icon("cloud-off", "size-4")}4 not synced</span>')),
     'Offline, sorting')
 
+# ================================================================ real S09 markup (backgrounds)
+# The S09 drawn behind the D-33 and D-09 frames is the S08-S10 generator's own markup (helpers above its first
+# `P = Page(`), so there is one design of S09.
+_B = {}
+_lsrc = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'S08-S10-lists.py')).read()
+exec(_lsrc[:_lsrc.index("\nP = Page('S08'")], _B)
+TRIP_SCROLL = dict(translate='-translate-y-[36%]', bar_title='Trip ideas')
+
+
+def s09_ios_trip():
+    body = (_B['ov_header']('Trip ideas', _B['TRIP_META']) + _B['progress_photos']()
+            + _B['rows_solo'](template='Photo', results_desc='12 decided so far', sources=_B['SRC_TRIP'], backup='on').replace('rounded-group', 'rounded-control'))
+    return _B['ov_screen'](_B['ov_ios_bar'](share=('S31-invite.html#S31-default', 'Share list')), body, translate='-translate-y-[36%]')
+
+
+def s09_mert_collaborator(alert):
+    """Mert after losing the Decision Maker role: the S09 Collaborator view (as S09-shared-collaborator), with the alert."""
+    B = _B
+    body = (B['ov_header']('Wedding guests', [B['members_link']('Deniz, Selin and you'), B['mi']('users', '100 items'), B['chip']('Collaborator', 'secondary', 'user')])
+            + alert
+            + B['my_progress'](85, 100, 21, 14, 50, B['btn']('Continue sorting', href='S25-sorting.html#S25-shared', action='continue-sorting', size='md', icon_name='play', extra='mt-4'), hid='mpm-h')
+            + B['list_status_card'](B['btn']('View conflicts', 'outline', href='S36-conflicts.html#S36-non-dm', size='md', icon_name='git-compare-arrows', extra='mt-3'), hid='lsm-h', compact=True)
+            + B['together_group'](readonly_rule=True, rule_desc='Decision Maker decides. Selin resolves conflicts; Deniz sets the rule.', members_desc='3 members')
+            + B['rows_shared'](owner=False))
+    return B['ov_screen'](B['ov_bar'](menu='S10-list-management.html#S10-collaborator-menu', share=('S31-invite.html#S31-collaborator', 'Invite', None)), body)
+
+
 # ================================================================ SECTION: backup per list (D-33)
 P.section('Backup per list',
           'A signed-in Owner can keep a solo list on this phone only (A-132). Turning backup off deletes the copy in the account, so it is confirmed with a destructive dialog and needs a connection (A-134); on iOS it is an alert, because the person must read the consequence first. Turning it back on is never confirmed. Other devices of the same account remove the list at their next sync and say so once.')
 
 
-def switch_html(on=True, disabled=False):
-    op = ' opacity-50' if disabled else ''
-    if on:
-        return f'<span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1{op}"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span>'
-    return f'<span class="flex h-8 w-13 shrink-0 items-center rounded-full border-2 border-input bg-muted p-1{op}"><span class="size-5 rounded-full bg-muted-foreground"></span></span>'
-
-
-def backup_group_bg(on=True):
-    desc = 'Backed up to deniz.yilmaz@example.com' if on else 'On this phone only'
-    ic = 'cloud-check' if on else 'cloud-off'
-    return group([f'<li class="flex min-h-16 items-center gap-4 px-4 py-3">{icon(ic, "size-5", "shrink-0 text-muted-foreground")}<span class="min-w-0 flex-1"><span class="block text-body">Back up this list</span><span class="block text-body-sm text-muted-foreground">{desc}</span></span>{switch_html(on)}</li>'], 'Backup')
-
-
 BACKUP_OFF_BODY = "The copy in your account is deleted and the list leaves your other devices. If you lose this phone or move to a new one, the list can't be recovered."
 P.add('S40-backup-off', 'Turn backup off for one list (A-134)', frame_android(
-    bg_s09_solo(extra=backup_group_bg(True), shift='-translate-y-40'),
+    _B['inert'](_B['ov_solo_default'](**TRIP_SCROLL)),
     dialog('Keep “Trip ideas” on this phone only?', BACKUP_OFF_BODY,
            'Cancel', 'Keep on this phone only', cancel_href='S09-list-overview.html#S09-default', confirm_href='S10-list-management.html#S10-backup-off-done', act='confirm-backup-off')),
     'Turn backup off')
 
 P.add('S40-ios-backup-off', 'iOS: turn backup off (alert, stacked)', frame_ios(
-    bg_s09_solo(ios=True, extra=backup_group_bg(True), shift='-translate-y-40'),
+    _B['inert'](s09_ios_trip()),
     ios_alert('Keep “Trip ideas” on this phone only?', BACKUP_OFF_BODY.replace('this phone or', 'this iPhone or'),
               [('Keep on this phone only', 'destructive', 'S10-list-management.html#S10-backup-off-done', 'confirm-backup-off'), ('Cancel', 'cancel', None, 'cancel')], vertical=True)),
     'iOS: turn backup off')
@@ -1053,7 +1068,7 @@ def outcome_alert(ic, title, body, extra=''):
 
 
 P.add('S40-outcome-edit-replaced', 'A later edit by another member replaced mine (D-09 row 1)', frame_android(
-    bg_s09_shared(),
+    _B['inert'](_B['ov_shared_owner'](clip='mb-20')),
     snackbar("Mert changed City on Alper Turan after you, so your edit was replaced.", 'View', 'S26-item-detail.html#S26-edit-replaced', ic='pencil-line', pos='bottom-4')),
     'Edit replaced')
 
@@ -1074,13 +1089,13 @@ removed_home = f'''<div class="shrink-0"><div class="flex h-app-bar items-center
 P.add('S40-outcome-removed', 'Removed from a list while offline: lands on Home (D-09 row 4)', frame_android(removed_home), 'Removed while offline')
 
 P.add('S40-outcome-already-agreed', 'Resolutions dropped: members agreed first (D-09 row 5)', frame_android(
-    bg_s09_shared(role='Decision Maker'),
+    _B['inert'](_B['ov_shared_dm']()),
     snackbar('Members agreed on 2 conflicts before your resolutions synced. Their agreement is final.', 'View', 'S36-conflicts.html#S36-list', ic='check-check', pos='bottom-4')),
     'Already agreed')
 
 role_alert = outcome_alert('gavel', "You're no longer the Decision Maker", "Deniz made Selin the Decision Maker while you were offline, so your 5 resolutions weren't applied. Those conflicts are still open.")
 P.add('S40-outcome-dm-role-lost', 'Resolutions rejected: the Decision Maker role moved (D-09 row 6)', frame_android(
-    bg_s09_shared(role='Collaborator', who='mert', alert_html=role_alert, as_html=True)),
+    s09_mert_collaborator(role_alert)),
     'Role moved')
 
 # ================================================================ SECTION: errors and not found
@@ -1126,8 +1141,13 @@ P.add('S40-not-found-deleted', 'Not found: list was deleted (seen by a member)',
     'Back to lists', None, 'S08-home.html#S08-default', None, real_bar(), p_act='back')), 'List deleted')
 
 P.add('S40-not-found-removed', 'Not found: you were removed from the list', frame_android(state_screen(
-    'user-x', 'You\'re no longer on Wedding guests', 'Deniz removed you from the list, so you can\'t open it anymore. To join again, ask Deniz for a new invite.',
+    'user-x', 'You were removed from “Wedding guests”', 'Deniz removed you from the list, so you can\'t open it anymore. To join again, ask Deniz for a new invite.',
     'Back to lists', None, 'S08-home.html#S08-default', None, real_bar(), p_act='back')), 'Removed from list')
+
+P.add('S40-not-found-removed-unsynced', 'Not found: removed while offline, with decisions that couldn\'t be saved (D-09 row 4)', frame_android(state_screen(
+    'user-x', 'You were removed from “Wedding guests”', 'Deniz removed you from the list, so you can\'t open it anymore. To join again, ask Deniz for a new invite.',
+    'Back to lists', None, 'S40-global-patterns.html#S40-outcome-removed', None, real_bar('arrow-left', 'Back to lists', 'S40-global-patterns.html#S40-outcome-removed'), p_act='back',
+    body2='The 6 decisions you made since 9:24 couldn\'t be saved.')), 'Removed, unsaved decisions')
 
 P.add('S40-item-gone', 'Not found: item no longer exists', frame_android(state_screen(
     'file-x', 'This item isn\'t in the list anymore', 'Mert removed it from Wedding guests. Its decisions and notes were removed with it.',

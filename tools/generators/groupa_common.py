@@ -273,7 +273,8 @@ def apple_btn(href='#', action='continue-apple', label='Continue with Apple', di
     if busy:
         return btn('Signing in…', 'outline', busy=True, size=size, extra=APPLE_OUTLINE if style == 'outline' else '')
     if style == 'outline':
-        return btn(label, 'outline', href=href, action=action, lead=APPLE_MARK, disabled=disabled, size=size, extra=APPLE_OUTLINE)
+        # disabled: drop the dark-mode white fill so it fades like the Google and email buttons (QA r1)
+        return btn(label, 'outline', href=href, action=action, lead=APPLE_MARK, disabled=disabled, size=size, extra='' if disabled else APPLE_OUTLINE)
     return btn(label, 'foreground', href=href, action=action, lead=APPLE_MARK, disabled=disabled, size=size)
 
 

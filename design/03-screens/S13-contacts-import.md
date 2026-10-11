@@ -114,7 +114,7 @@ items, Step 2 of 5" on every frame of both paths.
 | `S13-picked-many` | Many picked (312): sticky "M" header and fast-scroll index (above 200, as A-58) |
 | `S13-picked-missing` | Fields missing: 5 picked contacts have no phone number (c014, c032, c044, c059, c072); the note filters to them |
 | `S13-picked-large-text` | 200% font scale: avatars hidden, names wrap, summary shortened to "88 picked" |
-| `S13-picker-intro-ios` | iOS intro: "Next, the iOS contact picker opens: select contacts, then tap Done." |
+| `S13-picker-intro-ios` | iOS intro: "Next, the iOS contact picker opens: select contacts, then tap Done."; "Choose another source" → `S11-ios` |
 | `S13-picked-ios` | iOS review list: page sheet, round selection marks |
 
 **Fallback frames, not in the current design (D-18, A-156)**: `S13-ios` (iOS full contacts access list) and
@@ -176,7 +176,7 @@ behaves identically without a connection, so there is no offline frame.
 | Empty | "No contacts on this phone" / "Add contacts in your phone's Contacts app, or import them from a CSV file." / "Choose another source", "Import a CSV instead" |
 | Error | "Contacts couldn't be read" / "Your phone didn't return the contacts. Try again, or import a CSV file instead." / "Import a CSV instead", "Try again" |
 | Discard dialog | "Discard import?" / "Your selection of 88 contacts will be lost. Nothing has been added to SwipeSort yet." / "Keep importing", "Discard import" |
-| Picker intro | title "Choose contacts"; lead "Pick the people you want to sort in your phone's contact picker. You can review them before anything is imported."; points "Only the contacts you pick" / "SwipeSort gets those contacts, not the rest of your address book."; "Stays with your list" / "SwipeSort keeps only the contacts you import. They leave this phone only when the list is backed up or shared."; "Your address book isn't changed" / "SwipeSort never edits, adds or deletes contacts. Decisions only change SwipeSort's copy."; buttons "Choose contacts", "Choose another source" |
+| Picker intro | title "Choose contacts"; lead "Pick the people you want to sort in your phone's contact picker. You can review them before anything is imported."; points "Only the contacts you pick" / "SwipeSort gets those contacts, not the rest of your address book."; "Stays with your list" / "SwipeSort keeps only the contacts you import. They leave this phone only when the list is backed up or shared." (iOS: "…leave this iPhone only…" and lead "…in your iPhone's contact picker…", A-137); "Your address book isn't changed" / "SwipeSort never edits, adds or deletes contacts. Decisions only change SwipeSort's copy."; buttons "Choose contacts", "Choose another source" |
 | Picker intro note | Android "No permission needed. Next, Android's contact picker opens: select as many contacts as you like."; iOS "No permission needed. Next, the iOS contact picker opens: select contacts, then tap Done." |
 | Review summary | "88 contacts picked"; one "1 contact picked"; "87 of 88 included"; "0 of 88 included"; large text "88 picked"; "312 contacts picked"; button "Add more" |
 | Review hint | "These are the contacts you picked. Uncheck any you don't want to sort." |

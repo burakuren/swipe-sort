@@ -25,7 +25,7 @@ GOAL-03, PLT-03, PLT-04, PLT-16, PLT-21, VIS-13, OUT-01, SCR-15 (changed by D-17
 | From | How |
 | --- | --- |
 | S11 / S21 Google Sheets tile | No Google account connected on this device → `S15-default`; already connected → `S15-connected` |
-| S07 Connected accounts | "Connect Google Sheets" opens `S15-default` outside the import; the picker step is skipped and the flow ends back on S07 once the account is chosen |
+| S07 Connected accounts | "Connect Google Sheets" opens the `S15-default` layout outside the import as a variant (no frame): no stepper, app bar "Google Sheets", note "Next, Google asks you to choose an account.", primary "Connect Google account" (as `S39-google-not-connected`); the picker isn't opened and the flow ends back on S07 once the account is chosen |
 | S39 account row "Switch" | `S15-account-switch` |
 
 | To | Trigger |
@@ -81,7 +81,7 @@ Import modal: **AppBar (modal)** "Import" + **ImportStepper** "Select items, Ste
 | `S15-picker-android` | Android: Google's picker in a browser tab (placeholder); choosing returns to SwipeSort, closing the tab cancels |
 | `S15-reading` | A spreadsheet was chosen: SwipeSort reads its tabs and the first rows |
 | `S15-tabs` | Flat hunt 2026: Kadıköy and Beşiktaş selected (8 rows), Archive 2025 unselected, Notes empty and disabled |
-| `S15-tabs-large-text` | 200% font scale: tab rows grow, names and column lists wrap; Continue stays pinned (longer tab lists scroll under it) |
+| `S15-tabs-large-text` | 200% font scale: the helper line and tab rows wrap; Continue stays pinned (content scrolls under it) |
 | `S15-preview` | Combined preview of the two tabs, Tab column first |
 | `S15-empty-tab` | Moving checklist: every tab is empty (one has only column names) |
 | `S15-too-many-rows` | Newsletter subscribers: tabs 2025 (6,180 rows) and 2026 (8,070) selected = 14,250 rows, over the 10,000 limit (A-59): error Alert, primary "Import the first 10,000 rows" |
@@ -146,7 +146,7 @@ Too many columns (over 50) uses the S14 "Choose columns" pattern (`S14-error-too
 | Note | first time "Next, Google asks you to choose an account, then opens its file picker."; connected "Google's file picker opens next." |
 | Buttons | "Choose spreadsheet", "Choose another source" |
 | Safety line (connected) | "SwipeSort imports a copy. Your spreadsheet isn't changed." |
-| Account row | "deniz.yilmaz@example.com" / "Google account" / "Switch" |
+| Account row | "deniz.yilmaz@example.com" / "Google account" / "Switch" (same label in S39) |
 | Account sheet | "Google account" / "Deniz Yılmaz" "deniz.yilmaz@example.com" / "Use another Google account" / "Disconnect Google Sheets" / "Disconnecting doesn't change your lists or your spreadsheets. To export to a sheet later, you choose it again." |
 | Disconnected snackbar | "Google Sheets disconnected" |
 | Reading | file meta "Google Sheets"; "Reading Flat hunt 2026…"; "Large spreadsheets take a few seconds. Nothing is imported until you continue."; "Continue" (disabled), "Cancel" |
@@ -159,7 +159,7 @@ Too many columns (over 50) uses the S14 "Choose columns" pattern (`S14-error-too
 | Empty tabs | "Packing" / "Column names only, nothing to import"; "Utilities" / "No rows, nothing to import"; note "Nothing to import" / "Moving checklist has no rows yet. Add rows in Google Sheets, then refresh, or choose another spreadsheet." / "Choose another spreadsheet", "Refresh" |
 | Unsupported file | "This file isn't a Google Sheets spreadsheet" / "Office budget 2025.xlsx is an Excel file in Google Drive. Choose a spreadsheet made in Google Sheets, or download the file and import it as a CSV or Excel file." / "Choose another spreadsheet", "Import a CSV or Excel file" |
 | Connection failure | "Google Sheets didn't respond" / "Check your connection and try again. Nothing was imported." / "Try again", "Choose another source" |
-| Access removed | "SwipeSort can't open Flat hunt 2026" / "Access was removed in your Google account. Choose the spreadsheet again to give SwipeSort access." / "Choose spreadsheet again", "Choose another source" |
+| Access removed | "SwipeSort can't open Flat hunt 2026" / "Access was removed in your Google account. Choose the spreadsheet again to give SwipeSort access." / "Choose spreadsheet again" (reopens the account and picker flow, `S15-picker-android`), "Choose another source" |
 | Admin block | "Your organization doesn't allow SwipeSort" / "The admin of your Google Workspace account blocks SwipeSort from opening files. Ask your admin, or download the sheet as a CSV file and import that." / "Import a CSV instead", "Use another Google account" |
 | Offline | banner "You're offline. Changes are saved on this phone. Google Sheets needs a connection." / "Google Sheets needs a connection" / "Connect to the internet and try again, or import from another source. Contacts and files work offline." / "Try again", "Choose another source" |
 | Popup blocked | "Your browser blocked the Google window" / "Allow pop-ups for swipesort.app in the address bar, then try again." / "Try again", "Choose another source" |

@@ -74,14 +74,17 @@ Continue is hidden in this state so there is only one primary button.
 | `S17-default` | 3 items added (p01–p03) |
 | `S17-add-item` | "Add item" opens the form; filled for p04 |
 | `S17-add-another` | After "Add another": the item is saved, the form is cleared, Name has focus, status line confirms |
-| `S17-validation` | "Add item" / "Add another" with an empty Name and a non-numeric Price |
+| `S17-validation` | "Add item" / "Add another" with an empty Name, a non-numeric Price and an image link that doesn't open an image (keystone.example/p/1111, a product page) |
+| `S17-image-link-loading` | An image link was pasted: spinner in the 36 slot, helper "Loading the picture…" |
+| `S17-image-link-offline` | Offline (banner under the app bar): the link is kept, `image-off` placeholder in the slot, neutral helper; no error; the item saves |
 | `S17-edit-item` | Edit IconButton on a row: same form titled "Edit item" with Save changes and Delete item |
 | `S17-deleted` | Delete IconButton (or Delete item in the form): row removed, snackbar with Undo |
 | `S17-large-text` | 200% font scale on the item list |
 | `S17-ios-add-item` | iOS page sheet for the form |
 
-Loading, offline, error: not applicable (everything is local and instant). Web-unavailable: none (the Photo field is
-an image link on every platform).
+Loading, offline and error apply only to the Image field, because an image link needs a connection (A-160):
+loading (`S17-image-link-loading`), offline (`S17-image-link-offline`), error (`S17-validation`). Everything
+else is local and instant. Web-unavailable: none (the Photo field is an image link on every platform).
 
 ## 5. Interactions, gestures and transitions
 
@@ -129,7 +132,7 @@ an image link on every platform).
 | List header | "3 items" ("1 item") ; "Add item" |
 | Row actions | "Edit {title}", "Delete {title}" |
 | Item sheet | "New item" / "Edit item"; field labels from the fields ("Name (required)", "Price (€)", "Store", "Photo", "Link") |
-| Photo (image field) | placeholder "Image link"; helper "Paste a link to an image. Cards show the picture from this link."; link that doesn't load: "This link doesn't open an image. Check it, or leave the field empty." (inline error, item can still be saved without it) |
+| Photo (image field) | placeholder "Image link"; helper (`text-body-sm`) "Paste a link to an image. Cards show the picture from this link."; loading "Loading the picture…"; offline "You're offline. The link is saved, and the picture loads when you're back online."; error "This link doesn't open an image. Check it, or leave the field empty." |
 | Form buttons | "Add another", "Add item"; "Save changes", "Delete item" |
 | Status after Add another | "Added Low-profile mechanical keyboard. 4 items." |
 | Validation | "Enter a name. Every item needs a title." / "Enter a number, like 389." / "Enter a full link, like oakline.example/p/1037." / "Enter a full email address, like name@example.com." / "Enter a date, like Oct 12, 2026." |
@@ -165,9 +168,17 @@ an image link on every platform).
   text wraps.
 - **Missing values**: only Name is required; rows skip empty fields in the meta line; no photo → placeholder.
 - **Image fields** (D-32, A-160): no photo-library access at all for now, so an Image field takes an image
-  link (like CSV image links, A-131). The thumbnail appears once the link loads; a link that doesn't load shows
-  the inline error and the card falls back to its placeholder. Links are stored as text; the image is fetched
-  and cached like other image fields (D-15).
+  link (like CSV image links, A-131). The control: `link` icon leading in every state, URL input, a 36 slot at
+  the end, helper line in `text-body-sm` (the same control as S26's image-link edit).
+  - **Loading**: after a paste or on blur, the slot shows a spinner and the helper reads "Loading the
+    picture…" (`role="status"`). Loaded: the slot shows the thumbnail and the helper returns.
+  - **Offline**: no check is possible, so there is no error. The link is kept, the slot shows `image-off`, the
+    helper says the picture loads when the connection is back, and the item saves. The image downloads when
+    online, like import links (A-167); until then the card shows the `image-off` placeholder.
+  - **Error** (online, the link answers but isn't an image, or doesn't answer): inline error under the field,
+    red border, `image-off` in the slot. It doesn't block saving: "Add item" saves the item without a picture
+    (the link is cleared) unless the person fixes it. Error haptic is not used (it's not a failed action).
+  - Links are stored as text; the image is fetched and cached like other image fields (D-15).
 - **Many items** (hundreds): the list virtualizes; header count updates; Continue always visible.
 - **Limit**: 5,000 items per list created this way (same as imports); at the limit "Add item" is disabled with
   "Up to 5,000 items in one import."

@@ -239,7 +239,7 @@ destructive verb (destructive variant) + "Cancel".
 - **Web (mobile browser)**: same layout as Android; no system bars in the frame; browser back = app back.
 - **Web (desktop)**: phone layout centered in a 412-wide column on a `muted` page (see `.desktop` frame);
   keyboard hints appear only here (`kbd` chips: ← Reject, ↑ Maybe, → Accept, Z Undo).
-- **Web-unavailable features** (contacts import, gallery picker, haptics, push notifications): the control
+- **Web-unavailable features** (contacts import, haptics, push notifications): the control
   stays visible but unavailable: title and icon in `text-muted-foreground`, dashed border on tiles, the
   control itself (switch, checkbox) at `opacity-50`, a `monitor-smartphone` icon, a one-line reason
   ("Contacts import needs the Android or iOS app.") and a link "Get the app". Never dim the explanation

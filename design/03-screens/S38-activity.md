@@ -172,8 +172,8 @@ Sample events ev1–ev6, generated from `sample-data.json › activity` (texts a
 
 - **Many events**: the feed loads 50 at a time (infinite scroll); events older than 90 days are dropped.
 - **Several lists**: the second line always names the list; merging never crosses lists.
-- **Left or removed from a list**: its events stay but rows open S40 not-found ("You're no longer on
-  Wedding guests"). Removed while offline: the removal event stays here as the lasting record of the S40 outcome
+- **Left or removed from a list**: its events stay but rows open S40 not-found ("You were removed from
+  “Wedding guests”"; left: "You left “Wedding guests”"). Removed while offline: the removal event stays here as the lasting record of the S40 outcome
   alert `S40-outcome-removed` (D-09 row 4), which is dismissed on Home.
 - **Sync outcomes** (D-09): outcome messages are shown once (S40 §4.4a) and are not Activity events of their
   own; the events that caused them ("Deniz started Round 2", "Deniz made Selin the Decision Maker", "Mert edited

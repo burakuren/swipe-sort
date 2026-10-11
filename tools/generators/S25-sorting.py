@@ -324,7 +324,7 @@ ended_sheet = f'''<div class="absolute inset-0 z-10 bg-scrim/50"></div>
     <p id="re1-d" class="mt-2 text-body text-muted-foreground">Deniz started Round 2 while you were offline. Your 8 decisions from Round 1 were saved.</p>
     <a href="S27-round-summary.html#S27-ended-early" class="mt-5 flex h-12 w-full items-center justify-center rounded-control bg-primary text-label-lg text-primary-foreground" data-action="see-summary">See summary</a>
   </div>'''
-F('S25-round-ended', 'Round ended by the Owner while sorting offline: late Round 1 decisions saved (D-09 row 2)', phone(sorting(hdr=shared_hdr, prog=progress(43, 100, members), counts=(8, 10, 25), overlay=ended_sheet)))
+F('S25-round-ended', 'Round ended by the Owner while sorting offline: late Round 1 decisions saved (D-09 row 2)', phone(sorting(hdr=shared_hdr.replace('S09-list-overview.html#S09-default', 'S09-list-overview.html#S09-shared-collaborator', 1), prog=progress(43, 100, members), counts=(8, 10, 25), overlay=ended_sheet)))
 F('S25-web-desktop-shared', 'placeholder', '')  # replaced below (kept for ID order)
 frames.pop()
 

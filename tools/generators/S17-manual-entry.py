@@ -92,22 +92,42 @@ def items_screen(ids, overlay='', bar=None, bottom_html=None):
 
 
 # ------------------------------------------------------------------ item form
-def photo_tile(prefix, filled=None, link=''):
-    """Image field = an image link (D-32: no photo picker or camera, A-160). A small preview shows once the link loads."""
+IMG_HELP = 'Paste a link to an image. Cards show the picture from this link.'
+IMG_OFFLINE = "You're offline. The link is saved, and the picture loads when you're back online."
+IMG_ERROR = "This link doesn't open an image. Check it, or leave the field empty."
+
+
+def photo_tile(prefix, filled=None, link='', state='ok'):
+    """Image field = an image link (D-32: no photo picker or camera, A-160). The `link` icon leads in every state;
+    the 36 slot at the end shows the preview (loaded), a spinner (loading) or a placeholder (offline, error)."""
     fid = prefix + 'ph'
-    helper = f'<p id="{fid}-h" class="mt-1.5 text-caption text-muted-foreground">Paste a link to an image. Cards show the picture from this link.</p>'
-    if filled:
-        thumb = f'<img src="{IMG}products/{filled}.svg" alt="" class="size-9 shrink-0 rounded-sm object-cover">'
-        return f'''<div><label class="text-label" for="{fid}">Photo</label><div class="mt-1.5 flex h-12 items-center gap-2 rounded-control border border-input bg-card pl-3.5 pr-1.5"><input id="{fid}" type="url" class="h-full min-w-0 flex-1 bg-transparent text-body" value="{link}" aria-describedby="{fid}-h">{thumb}</div>{helper}</div>'''
-    return f'''<div><label class="text-label" for="{fid}">Photo</label><div class="mt-1.5 flex h-12 items-center gap-2 rounded-control border border-input bg-card pl-3.5 pr-3">{icon("link", "size-5 shrink-0 text-muted-foreground")}<input id="{fid}" type="url" class="h-full min-w-0 flex-1 bg-transparent text-body placeholder:text-muted-foreground" placeholder="Image link" aria-describedby="{fid}-h"></div>{helper}</div>'''
+    if state == 'error':
+        desc = f'<p id="{fid}-e" class="mt-1.5 flex items-start gap-1.5 text-body-sm text-destructive">{icon("circle-alert", "size-4 mt-0.5 shrink-0")}<span>{IMG_ERROR}</span></p>'
+        aria, border = f' aria-invalid="true" aria-describedby="{fid}-e"', 'border-2 border-destructive'
+    else:
+        text = IMG_OFFLINE if state == 'offline' else ('Loading the picture…' if state == 'loading' else IMG_HELP)
+        role = ' role="status"' if state in ('loading', 'offline') else ''
+        desc = f'<p id="{fid}-h" class="mt-1.5 text-body-sm text-muted-foreground"{role}>{text}</p>'
+        aria, border = f' aria-describedby="{fid}-h"', 'border border-input'
+    if filled and state == 'ok':
+        slot = f'<img src="{IMG}products/{filled}.svg" alt="" class="size-9 shrink-0 rounded-sm object-cover">'
+    elif state == 'loading':
+        slot = f'<span class="flex size-9 shrink-0 items-center justify-center rounded-sm bg-muted">{icon("loader-circle", "size-5 animate-spin text-primary")}</span>'
+    elif state in ('offline', 'error'):
+        slot = f'<span class="flex size-9 shrink-0 items-center justify-center rounded-sm bg-muted">{icon("image-off", "size-5 text-muted-foreground")}</span>'
+    else:
+        slot = ''
+    val = f' value="{link}"' if link else ' placeholder="Image link"'
+    pr = 'pr-1.5' if slot else 'pr-3'
+    return f'''<div><label class="text-label" for="{fid}">Photo</label><div class="mt-1.5 flex h-12 items-center gap-2 rounded-control {border} bg-card pl-3.5 {pr}">{icon("link", "size-5 shrink-0 text-muted-foreground")}<input id="{fid}" type="url" class="h-full min-w-0 flex-1 bg-transparent text-body placeholder:text-muted-foreground"{val}{aria}>{slot}</div>{desc}</div>'''
 
 
-def item_form(prefix, name='', price='', store='', link='', photo=None, name_err='', price_err='', focus_name=False, photo_link=''):
+def item_form(prefix, name='', price='', store='', link='', photo=None, name_err='', price_err='', focus_name=False, photo_link='', photo_state='ok'):
     return f'''<div class="mt-3 min-h-0 flex-1 space-y-4 overflow-hidden">
       {label_input(prefix + 'n', 'Name', name, required=True, error=name_err, focused=focus_name and not name_err)}
       {label_input(prefix + 'p', 'Price (€)', price, error=price_err, ty='text')}
       {label_input(prefix + 's', 'Store', store)}
-      {photo_tile(prefix, photo, photo_link)}
+      {photo_tile(prefix, photo, photo_link, photo_state)}
       {label_input(prefix + 'l', 'Link', link, ty='url')}
     </div>'''
 
@@ -153,8 +173,14 @@ added = f'<p class="mt-2 flex items-center gap-2 rounded-control bg-muted px-3 p
 form2 = added + item_form('aa', focus_name=True)
 P.frame('S17-add-another', 'After “Add another”: form cleared for the next item', phone(items_screen(['p01', 'p02', 'p03', 'p04'], overlay=sheet('aa1', 'New item', form2, actions=ADD_ACTIONS, top='top-8'))))
 
-form3 = item_form('va', '', '12o', 'Keystone', name_err='Enter a name. Every item needs a title.', price_err='Enter a number, like 389.')
-P.frame('S17-validation', 'Validation: name missing, price not a number', phone(items_screen(['p01', 'p02', 'p03'], overlay=sheet('va1', 'New item', form3, actions=ADD_ACTIONS, top='top-8'))))
+form3 = item_form('va', '', '12o', 'Keystone', name_err='Enter a name. Every item needs a title.', price_err='Enter a number, like 389.', photo_link='keystone.example/p/1111', photo_state='error')
+P.frame('S17-validation', 'Validation: name missing, price not a number, image link doesn\'t open an image', phone(items_screen(['p01', 'p02', 'p03'], overlay=sheet('va1', 'New item', form3, actions=ADD_ACTIONS, top='top-8'))))
+
+formL = item_form('ld', P4['name'], str(P4['price']), P4['store'], 'keystone.example/p/1111', photo_link='keystone.example/img/1111.jpg', photo_state='loading')
+P.frame('S17-image-link-loading', 'Image link pasted: picture loading', phone(items_screen(['p01', 'p02', 'p03'], overlay=sheet('ld1', 'New item', formL, actions=ADD_ACTIONS, top='top-8'))))
+formO = item_form('of', P4['name'], str(P4['price']), P4['store'], 'keystone.example/p/1111', photo_link='keystone.example/img/1111.jpg', photo_state='offline')
+off_bar = modal_bar('New list', CLOSE) + offline_banner("You're offline. Changes are saved on this phone.")
+P.frame('S17-image-link-offline', 'Offline: the link is kept, the picture loads later (no error)', phone(items_screen(['p01', 'p02', 'p03'], bar=off_bar, overlay=sheet('of1', 'New item', formO, actions=ADD_ACTIONS, top='top-8'))))
 
 P2 = PROD['p02']
 form4 = item_form('ed', P2['name'], str(P2['price']), P2['store'], 'oakline.example/p/1037', photo='p02', photo_link='oakline.example/img/1037.jpg')

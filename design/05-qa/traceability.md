@@ -271,7 +271,7 @@ None.
 | SCR-38 | S38 Activity and notifications | S38 | — |  | Mapped |
 | SCR-39 | S39 Export flow | S39 | — |  | Mapped |
 | SCR-40 | S40 Dialogs (all destructive confirmations), snackbars, offline banner, sync notice, generic error and not-found screens, desktop-browser frame | S40 | — |  | Mapped |
-| OUT-01 | Native system dialogs (permission prompts, share sheet, file and date pickers, keyboard) are not designed; only the screens leading into them. | S12, S14, S15, S31, S40 | 02-architecture/navigation-map.md | S07 | Mapped |
+| OUT-01 | Native system dialogs (permission prompts, share sheet, file and date pickers, keyboard) are not designed; only the screens leading into them. | S12, S14, S15, S31, S40 | 02-architecture/navigation-map.md |  | Mapped |
 | OUT-02 | Status bar, safe areas and OS-level gestures use platform defaults. | S01 | 00-brief/assumptions.md (A-03) |  | Mapped |
 | OUT-03 | No tablet or wide desktop layouts. | S40 | 00-brief/assumptions.md (A-02) |  | Mapped |
 | OUT-04 | No backend, APIs, data storage or sync mechanics. | — | HANDOFF.md |  | Mapped (documents) |

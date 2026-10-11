@@ -116,9 +116,11 @@ AlertDialog, Alert, Skeleton, OfflineBanner, Kbd.
 | `S26-saved` | Phone marked Edited with original and Revert; snackbar "Changes saved" | Save changes |
 | `S26-edit-multi` | c002 phones: Mobile and Home, add/remove, label Select | Editing a multi-value field |
 | `S26-edit-product` | p03: image link (with thumbnail), number with EUR suffix, rating, reviews, link | Product list |
-| `S26-edit-image-link` | tr13: the Photo field edited as its image link (focused, thumbnail), Place, Country, Best time, Budget with EUR suffix. Replaces `S26-edit-date` (D-32: the Trip ideas list has no date field, A-171) | Image field from a link |
+| `S26-edit-image-link` | tr13: the Photo field edited as its image link (focused, thumbnail), Place, Country, Best time, Budget with EUR suffix (the input label drops the "(EUR)" the suffix already shows, as Price does in `S26-edit-product`; read mode keeps "Budget (EUR)"). Replaces `S26-edit-date` (D-32: the Trip ideas list has no date field, A-171) | Image field from a link |
 | `S26-edited` | c045 City "Ankara", Edited, Original "İstanbul", Revert to original | Item with an edit (`shared.edits`) |
 | `S26-edit-replaced` | c045 pushed from S09 Wedding guests: inline choice "Mert changed City after you" / "Your edit “Ankara” was replaced with Mert's “Eskişehir”. Keep your version or use Mert's?" with "Keep mine" / "Use Mert's"; City shows "Eskişehir", "Edited by Mert" | "View" on `S40-outcome-edit-replaced` (D-09 row 1, A-172) |
+| `S26-edit-replaced-kept` | "Keep mine": City back to "Ankara" (Edited, Original İstanbul), alert gone, snackbar "Kept your edit" | "Keep mine" |
+| `S26-edit-replaced-theirs` | "Use Mert's": City stays "Eskişehir" (Edited by Mert), alert gone, snackbar "Using Mert's edit" | "Use Mert's" |
 | `S26-revert-confirm` | Dialog "Revert City to the original?" | Revert to original |
 | `S26-reverted` | City back to İstanbul, snackbar with Undo | Confirm revert |
 | `S26-note-edit` | Editing my note (solo list) with counter | Edit on my note |

@@ -321,7 +321,7 @@ p03_edit = f'''{back_bar('', 'S28-results.html#S28-default', 'Back to results')}
   {edit_bar('#S26-product', '#S26-product')}'''
 F.add('S26-edit-product', 'Product fields: image link, number with unit, link (p03)', phone(p03_edit))
 
-link_edit = f'''{edit_form(image_link_edit('l-photo', 'photos/ph13.svg', TR13_LINK, focus=True) + inp('l-place', 'Place', 'Alfama, Lisbon') + inp('l-country', 'Country', 'Portugal') + inp('l-best', 'Best time', 'Apr to Jun') + inp('l-budget', 'Budget (EUR)', '900', 'text', suffix='EUR', mode='decimal'))}'''
+link_edit = f'''{edit_form(image_link_edit('l-photo', 'photos/ph13.svg', TR13_LINK, focus=True) + inp('l-place', 'Place', 'Alfama, Lisbon') + inp('l-country', 'Country', 'Portugal') + inp('l-best', 'Best time', 'Apr to Jun') + inp('l-budget', 'Budget', '900', 'text', suffix='EUR', mode='decimal'))}'''
 F.add('S26-edit-image-link', 'Image field from a link (tr13): edited as its link, no photo picker (D-32)', phone(over_sorting(
     sheet_detail(link_edit, 'se4', edit_bar('#S26-photo', '#S26-photo'), head_title='Edit Alfama, Lisbon', expand=False, close_href='S25-sorting.html#S25-photo'),
     s25_background(photo_bg_body, 'Trip ideas', 'Round 1', 12, 30, (6, 1, 5), nxt=s25_photo_card('ph12', 'Göreme, Cappadocia', 'Türkiye', 'Apr to May', '€700')))))
@@ -358,17 +358,28 @@ replaced_alert = f'''<div class="mt-6 rounded-control border bg-card p-4" role="
         <p id="er1" class="text-label">Mert changed City after you</p>
         <p class="mt-0.5 text-body-sm text-muted-foreground">Your edit “Ankara” was replaced with Mert's “Eskişehir”. Keep your version or use Mert's?</p>
       </div></div>
-      <div class="mt-3 grid grid-cols-2 gap-2">{btn("Keep mine", "outline", "#S26-edited", "keep-mine")}{btn("Use Mert's", "outline", "#S26-edited", "use-theirs")}</div>
+      <div class="mt-3 grid grid-cols-2 gap-2">{btn("Keep mine", "outline", "#S26-edit-replaced-kept", "keep-mine")}{btn("Use Mert's", "outline", "#S26-edit-replaced-theirs", "use-theirs")}</div>
     </div>'''
 replaced_rows = [frow('Name', 'Alper Turan'), frow('Phone', '+90 500 000 07 64', 'Mobile'), frow('Email', 'alper.turan@example.com'),
                  frow('Side', "Groom's"), frow('Relationship', 'Friend'), frow('City', 'Eskişehir', edited='İstanbul', edited_by='Mert')]
-replaced = f'''{back_bar('', 'S09-list-overview.html#S09-shared', 'Back to Wedding guests', trailing=icon_btn("ellipsis-vertical", "More options", None, "menu"))}
+def replaced_screen(alert_html, rows, snack=''):
+    return f'''{back_bar('', 'S09-list-overview.html#S09-shared', 'Back to Wedding guests', trailing=icon_btn("ellipsis-vertical", "More options", None, "menu"))}
   <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6">
     {item_head('Alper Turan', 'Friend', 'people/c045.svg', 'AT')}
-    {replaced_alert}
-    {fields_group(replaced_rows)}
-  </div>'''
-F.add('S26-edit-replaced', "Opened from the sync-outcome snackbar: my edit was replaced; Keep mine / Use Mert's waits (D-09 row 1)", phone(replaced))
+    {alert_html}
+    {fields_group(rows)}
+  </div>
+  {snack}'''
+
+
+def alper_rows(city, by=None):
+    return [frow('Name', 'Alper Turan'), frow('Phone', '+90 500 000 07 64', 'Mobile'), frow('Email', 'alper.turan@example.com'),
+            frow('Side', "Groom's"), frow('Relationship', 'Friend'), frow('City', city, edited='İstanbul', edited_by=by)]
+
+
+F.add('S26-edit-replaced', "Opened from the sync-outcome snackbar: my edit was replaced; Keep mine / Use Mert's waits (D-09 row 1)", phone(replaced_screen(replaced_alert, replaced_rows)))
+F.add('S26-edit-replaced-kept', '"Keep mine": my value applies again as a new edit', phone(replaced_screen('', alper_rows('Ankara'), snackbar('Kept your edit', bottom='bottom-6'))))
+F.add('S26-edit-replaced-theirs', '"Use Mert\'s": Mert\'s value stays, the choice closes', phone(replaced_screen('', alper_rows('Eskişehir', 'Mert'), snackbar("Using Mert's edit", bottom='bottom-6'))))
 
 # ------------------------------------------------------------------ section: notes
 F.section('Notes', 'One note per member per item. On shared lists notes are visible to all members by default; a private note shows a lock, "Only you" and a dashed outline (DM-18, DM-19). Solo lists have no private option.')

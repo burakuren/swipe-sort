@@ -207,7 +207,7 @@ the real result before anything is applied.
 | New template sheet | "New template"; "Use fields from"; helper "The preview shows this list's items. You can use the template on any list."; "Start from"; built-in names; "Continue" |
 | Empty | "No templates of your own yet" / "Duplicate a built-in template or start a new one to choose your own fields." / "New template" |
 | Loading | a11y "Loading templates" |
-| Pick: app bar, stepper | "Import" or "New list"; "Close import"; "Finish"; "Step 5 of 5" / "Step 4 of 4" / "Step 3 of 3" |
+| Pick: app bar, stepper | "Import" or "New list"; "Close import"; "Finish"; "Step 5 of 5" / "Step 4 of 4" |
 | Pick: name | label "List name"; helper on arrival "Prefilled from the source. Type to rename it."; placeholder when empty "e.g. Desk setup"; error "Enter a name for the list."; over 80 characters "Use 80 characters or fewer." |
 | Pick: summary | "85 items from Contacts. 3 duplicate pairs merged, 1 pair kept as separate items." / "{n} items from Contacts. No duplicates found." / "12 items from candidates-q4.csv. No duplicates found." / "12 items from pasted text." / "3 items you added." / "30 items from trip-ideas.csv. No duplicates found." / "8 items from Flat hunt 2026." |
 | Pick: backup (signed in) | "Back up this list"; on "Backed up to deniz.yilmaz@example.com"; off "It stays on this phone only. You can back it up later."; web off "It stays in this browser only. Browsers can clear lists you haven't opened for a while." (web on: same as mobile) |

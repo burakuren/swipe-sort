@@ -423,32 +423,47 @@ BACKUP_STATES = {
 }
 
 
+_BK_UID = [0]
+
+
 def backup_group(state='on', web=False, big=False):
     """Proposed component: BackupSwitchRow (A-132). Its own "Backup" group under Sources, for a signed-in Owner.
-    Solo lists: the switch works; shared lists: disabled with the reason (A-134)."""
+    The whole row is the switch (min-h-16; like the S14/S15 switch rows): role="switch", the state line and the
+    group footer (disabled reason) are its accessible description. Solo lists: the switch works; shared lists
+    and offline: disabled with the reason (A-134). Prototype: on → turn-off confirmation, off → backing up."""
     ic, desc, on, dis, foot = BACKUP_STATES[state]
     if web:
         desc = desc.replace('On this phone only', 'On this browser only')
         foot = None if state == 'off' else foot
+    _BK_UID[0] += 1
+    uid = f'bk{_BK_UID[0]}'
     spin = ' animate-spin' if state == 'busy' else ''
     live = ' role="status"' if state in ('busy', 'queued', 'paused') else ''
     t = 'text-title-3 font-normal' if big else 'text-body'
     d = 'text-body-lg' if big else 'text-body-sm'
+    # visual switch only (the row carries the role)
     sw = switch(on, 'Back up this list', dis)
-    # Prototype: the switch is a link (on → turn-off confirmation, off → backing up).
-    tgt = {'on': h10('S10-backup-off'), 'off': h09('S09-backing-up')}.get(state)
-    if tgt and not web:
-        sw = sw.replace('<span role="switch"', f'<a href="{tgt}" data-action="toggle-backup" role="switch"', 1)
-        sw = sw[:-len('</span>')] + '</a>'
+    sw = re.sub(r' role="switch" aria-checked="[a-z]+" aria-label="[^"]*"', ' aria-hidden="true"', sw).replace(' aria-disabled="true"', '')
     if big:
         sw = sw.replace('h-8 w-13', 'h-10 w-16').replace('size-6 rounded-full bg-primary-foreground', 'size-8 rounded-full bg-primary-foreground').replace('size-5 rounded-full bg-muted-foreground', 'size-7 rounded-full bg-muted-foreground')
     tcol = ' text-muted-foreground' if dis and state != 'busy' else ''
-    row = (f'<li class="flex min-h-16 items-center gap-4 px-4 py-3">{icon(ic, ("size-6" if big else "size-5") + " shrink-0 text-muted-foreground" + spin)}'
-           f'<span class="min-w-0 flex-1"><span class="block {t}{tcol}">Back up this list</span><span class="block break-words {d} text-muted-foreground"{live}>{desc}</span></span>{sw}</li>')
-    out = '<!-- Proposed component: BackupSwitchRow -->' + group([row], header='Backup', footer=foot)
-    if big:
-        out = out.replace('pb-2 text-label', 'pb-2 text-title-3 font-normal').replace('pt-2 text-body-sm', 'pt-2 text-body-lg')
-    return out
+    described = f'{uid}-d' + (f' {uid}-f' if foot else '')
+    inner = (f'{icon(ic, ("size-6" if big else "size-5") + " shrink-0 text-muted-foreground" + spin)}'
+             f'<span class="min-w-0 flex-1"><span class="block {t}{tcol}">Back up this list</span><span id="{uid}-d" class="block break-words {d} text-muted-foreground"{live}>{desc}</span></span>{sw}')
+    attrs = f'role="switch" aria-checked="{"true" if on else "false"}" aria-label="Back up this list" aria-describedby="{described}"'
+    cls = 'flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left'
+    tgt = None if (dis or web) else {'on': h10('S10-backup-off'), 'off': h09('S09-backing-up')}.get(state)
+    if tgt:
+        row = f'<li><a href="{tgt}" {attrs} class="{cls}" data-action="toggle-backup">{inner}</a></li>'
+    elif dis:
+        row = f'<li><div {attrs} aria-disabled="true" tabindex="0" class="{cls}">{inner}</div></li>'
+    else:
+        row = f'<li><button type="button" {attrs} class="{cls}" data-action="toggle-backup">{inner}</button></li>'
+    hcls = 'text-title-3 font-normal' if big else 'text-label'
+    fcls = 'text-body-lg' if big else 'text-body-sm'
+    f = f'<p id="{uid}-f" class="px-1 pt-2 {fcls} text-muted-foreground">{foot}</p>' if foot else ''
+    return (f'<!-- Proposed component: BackupSwitchRow --><section><h2 class="px-1 pb-2 {hcls} text-muted-foreground">Backup</h2>'
+            f'<ul class="divide-y overflow-hidden rounded-group bg-card dark:border">{row}</ul>{f}</section>')
 
 
 def rows_solo(results=h09('S09-default'), results_desc=None, rounds='1', template='Photo', export='S39-export.html#S39-default',
@@ -532,7 +547,7 @@ def ov_new_list(name='Frontend hiring, Q4', meta=None, n=12, template='Candidate
              + btn('Start sorting', href=sort, action='start-sorting', size='md', icon_name='play', extra='mt-4'), label='nl-h')
     body = (ov_header(name, meta, header_extra) + c
             + rows_solo(template=template, results_desc='No decisions yet', rounds='None yet', new_round=False, sources=sources, backup=backup, backup_web=backup_web))
-    sh = share or ((h10('S10-share-backup'), 'Share list', 'share') if backup in ('off', 'queued') else ('S31-invite.html#S31-default', 'Share list', None))
+    sh = share or ((h10('S10-share-backup'), 'Share list', 'share') if backup in ('off', 'queued') else ((h10('S10-share-backing-up'), 'Share list', 'share') if backup == 'busy' else ('S31-invite.html#S31-default', 'Share list', None)))
     return ov_screen(ov_bar(share=sh, title=bar_title, share_disabled=share_disabled), body, translate=translate, top=top, overlay=overlay, clip=clip)
 
 
@@ -586,8 +601,16 @@ def list_status_card(button, hid='ls-h', compact=False, right='All 3 members'):
     return card(card_head('List status', right, hid) + f'<div class="mt-3">{status_bar(32, 15, 53)}</div>' + leg + button, label=hid)
 
 
-def together_group(rule_href='S35-conflict-rule.html#S35-default', rule_desc='Decision Maker decides, Mert', members_desc='3 members, you\'re the Owner', readonly_rule=False):
-    if readonly_rule:
+def offline_row(title, ic, desc='Needs a connection'):
+    """A navigation row that needs a connection, offline (A-186): title muted, reason at full contrast."""
+    return (f'<li><div class="flex min-h-14 items-center gap-4 px-4 py-3" aria-disabled="true">{icon(ic, "size-5 shrink-0 text-muted-foreground")}'
+            f'<span class="min-w-0 flex-1"><span class="block text-body text-muted-foreground">{title}</span><span class="block text-body-sm text-muted-foreground">{desc}</span></span></div></li>')
+
+
+def together_group(rule_href='S35-conflict-rule.html#S35-default', rule_desc='Decision Maker decides, Mert', members_desc='3 members, you\'re the Owner', readonly_rule=False, offline=False):
+    if offline and not readonly_rule:
+        rule = offline_row('Conflict rule', 'git-compare-arrows', f'{rule_desc}. Changing it needs a connection')
+    elif readonly_rule:
         rule = f'<li class="flex min-h-14 items-center gap-4 px-4 py-3">{icon("git-compare-arrows", "size-5 shrink-0 text-muted-foreground")}<span class="min-w-0 flex-1"><span class="block text-body">Conflict rule</span><span class="block text-body-sm text-muted-foreground">{rule_desc}</span></span></li>'
     else:
         rule = nav_row('Conflict rule', href=rule_href, icon_name='git-compare-arrows', desc=rule_desc, action='conflict-rule')
@@ -613,8 +636,11 @@ ADDED_EVENTS = [
 ]
 
 
-def rows_shared(owner=True, sources=None):
-    extra_round = [nav_row('Start a new round', href='S24-start-round.html#S24-default', icon_name='list-restart', desc='Starts for all 3 members', action='new-round')] if owner else []
+def rows_shared(owner=True, sources=None, offline=False):
+    if offline:
+        extra_round = [offline_row('Start a new round', 'list-restart')] if owner else []
+    else:
+        extra_round = [nav_row('Start a new round', href='S24-start-round.html#S24-default', icon_name='list-restart', desc='Starts for all 3 members', action='new-round')] if owner else []
     rows = [nav_row('Results', href='S28-results.html#S28-shared', icon_name='list-checks', desc='Final decisions and my decisions', action='results')] + extra_round + [
         nav_row('Rounds', href='S30-round-history.html#S30-default', icon_name='history', value='1', aria='Rounds, 1'),
         nav_row('Card template', href='S22-template-library.html#S22-default', icon_name='layout-template', value='Person', aria='Card template, Person'),
@@ -623,19 +649,25 @@ def rows_shared(owner=True, sources=None):
     return group(rows, footer=foot) + sources_group(sources or SRC_WED, add_desc='New items join Round 1 for everyone')
 
 
-def shared_header(who='You, Mert and Selin', role=('Owner', 'crown', 'secondary')):
+def shared_header(who='You, Mert and Selin', role=('Owner', 'crown', 'secondary'), extra=''):
     r = chip(role[0], role[2], role[1])
-    return ov_header('Wedding guests', [members_link(who), mi('users', '100 items'), r])
+    return ov_header('Wedding guests', [members_link(who), mi('users', '100 items'), r], extra)
 
 
-def ov_shared_owner(translate='', bar_title=None, top='', share_disabled=False, list_status_btn=None, status_right='All 3 members', added=False, overlay='', clip='', backup='shared'):
+def saved_notice(n=4):
+    """S40 SyncNotice, offline state (A-115): under the S09 header meta when changes are waiting."""
+    return (f'<p class="mt-3 inline-flex items-center gap-1.5 text-body-sm text-muted-foreground" role="status">{icon("cloud-off", "size-4 shrink-0")}'
+            f'Saved on this phone<span class="sr-only">, {n} changes not synced yet</span></p>')
+
+
+def ov_shared_owner(translate='', bar_title=None, top='', share_disabled=False, list_status_btn=None, status_right='All 3 members', added=False, overlay='', clip='', backup='shared', offline=False):
     lsb = list_status_btn if list_status_btn is not None else btn('Review conflicts', 'outline', href='S36-conflicts.html#S36-default', action='review-conflicts', size='md', icon_name='git-compare-arrows', extra='mt-3')
-    body = (shared_header()
+    body = (shared_header(extra=saved_notice() if offline else '')
             + my_progress(76, 100, 17, 11, 48, btn('Continue sorting', href='S25-sorting.html#S25-shared', action='continue-sorting', size='md', icon_name='play', extra='mt-4'))
             + list_status_card(lsb, right=status_right)
-            + together_group()
+            + together_group(offline=offline)
             + activity_preview(ADDED_EVENTS if added else None)
-            + rows_shared(sources=SRC_WED_NEW if added else SRC_WED)
+            + rows_shared(sources=SRC_WED_NEW if added else SRC_WED, offline=offline)
             + (backup_group(backup) if backup else ''))
     return ov_screen(ov_bar(menu=h10('S10-shared-owner-menu'), share=('S31-invite.html#S31-default', 'Invite', 'invite'), title=bar_title, share_disabled=share_disabled),
                      body, top=top, translate=translate, overlay=overlay, clip=clip)
@@ -843,7 +875,7 @@ many = [('Wedding guests', 'users', 'Shared with 2', (76, 100)), ('Frontend hiri
 many_rows = []
 for n, ic, m, p in many:
     below = '' if p is None else (counts_inline(11, 1, 8) if p == 'c' else (counts_inline(9, 4, 12) if p == 'c2' else bar_below(*p)))
-    many_rows.append(list_row(n, h09('S09-default'), mi(ic, m), below, pad='py-3.5'))
+    many_rows.append(list_row(n, h09('S09-default'), mi(ic, m) + (mi('cloud-off', 'On this phone only') if n == 'Frontend hiring, Q4' else ''), below, pad='py-3.5'))
 P.frame('S08-many-lists', 'Many lists, scrolled: title collapses, FAB shrinks', phone(home(lists_group(many_rows[1:]),
                                                                                             fab_html=fab(collapsed=True), translate='-translate-y-16',
                                                                                             title=f'''<header class="relative z-10 flex h-app-bar shrink-0 items-center gap-1 border-b bg-background px-1"><h1 class="min-w-0 flex-1 truncate px-4 text-title-3">Lists</h1>{search_btn()}</header>''')))
@@ -942,14 +974,14 @@ P.frame('S09-backing-up', 'Switch turned on: backing up', phone(ov_new_list(back
 P.frame('S09-backed-up', 'Backed up: snackbar', phone(ov_new_list(meta=HIRING_META[:2], backup='on', translate='-translate-y-[30%]', bar_title='Frontend hiring, Q4', clip='mb-20',
         overlay=snackbar('“Frontend hiring, Q4” is backed up'))))
 P.frame('S09-backup-queued', 'Switch turned on while offline: backs up later', phone(ov_new_list(backup='queued', translate='-translate-y-[30%]', bar_title='Frontend hiring, Q4',
-        top=offline_banner("You're offline. Changes are saved on this phone."), share_disabled=True)))
+        top=offline_banner("You're offline. Changes are saved on this phone. Backing up and sharing need a connection."), share_disabled=True)))
 P.frame('S09-shared-backup', 'Shared list, Owner: always backed up (switch disabled)', phone(ov_shared_owner(translate='-translate-y-[66%]', bar_title='Wedding guests')))
 P.frame('S09-web-device-only', 'Web, signed in: a list on this browser only', phone(ov_new_list(meta=HIRING_META[:2] + [mi('cloud-off', 'On this browser only')], header_extra=d08_note(), backup_web=True), kind='web'))
 
 P.section('Archived and states', 'Archived lists open read-only with Restore as the main action. Loading shows a skeleton only when the list isn\'t on the device yet (opened from a link). Offline, sorting works; inviting needs a connection.')
 P.frame('S09-archived', 'Archived list: read-only (Apartment viewings)', phone(ov_archived()))
 P.frame('S09-loading', 'Loading', phone(ov_loading()))
-P.frame('S09-offline', 'Offline (shared list)', phone(ov_shared_owner(top=offline_banner("You're offline. Decisions are saved on this phone. Inviting needs a connection."), share_disabled=True, status_right='As of 9:24')))
+P.frame('S09-offline', 'Offline (shared list)', phone(ov_shared_owner(top=offline_banner("You're offline. Decisions are saved on this phone. Inviting needs a connection."), share_disabled=True, status_right='As of 9:24', offline=True)))
 P.frame('S09-unavailable', 'List deleted by the Owner', phone(ov_unavailable()))
 
 P.section('Accessibility', 'Large text: the title wraps, counts stack, buttons grow, rows keep their full labels.')
@@ -962,10 +994,12 @@ lt_rows = group([nav_row(t, href=h, icon_name=i, desc=d, title_cls='text-title-3
     ('Rounds', 'S30-round-history.html#S30-default', 'history', '1 round'), ('Card template', 'S22-template-library.html#S22-default', 'layout-template', 'Photo'),
     ('Export', 'S39-export.html#S39-default', 'file-down', 'CSV, Excel, Google Sheets or a text summary'))])
 P.frame('S09-large-text', 'Large text (200%)', phone(ov_screen(ov_bar(share=('S31-invite.html#S31-default', 'Share list', None)), lt + lt_rows)))
-lt_hiring = (ov_header('Frontend hiring, Q4', HIRING_META, size='text-display').replace('text-body-sm', 'text-body-lg').replace('size-4 shrink-0', 'size-6 shrink-0')
+lt_hiring_rows = group([nav_row(t, href=h, icon_name=ic, desc=d, title_cls='text-title-3 font-normal').replace('text-body-sm', 'text-body-lg') for t, h, ic, d in (
+    ('Card template', 'S22-template-library.html#S22-default', 'layout-template', 'Candidate, compact'), ('Export', 'S39-export.html#S39-default', 'file-down', 'CSV, Excel, Google Sheets or a text summary'))])
+lt_hiring = (lt_hiring_rows
              + sources_group(SRC_HIRING).replace('text-body-sm', 'text-body-lg').replace('text-body truncate', 'text-title-3 font-normal truncate').replace('block text-body text-primary', 'block text-title-3 font-normal text-primary').replace('pb-2 text-label', 'pb-2 text-title-3 font-normal')
              + backup_group('off', big=True))
-P.frame('S09-backup-large-text', 'Large text (200%): on this phone only, header label and Backup switch', phone(ov_screen(ov_bar(share=(h10('S10-share-backup'), 'Share list', 'share')), lt_hiring)))
+P.frame('S09-backup-large-text', 'Large text (200%): scrolled to the Backup switch (on this phone only)', phone(ov_screen(ov_bar(share=(h10('S10-share-backup'), 'Share list', 'share'), title='Frontend hiring, Q4'), lt_hiring, translate='-translate-y-24')))
 
 P.section('iOS and web', 'iOS: back chevron with "Lists", Share and a "…" menu (opens an action sheet), inset grouped rows, edge-swipe back. Web: same as Android; a list that is only in this browser says "On this browser only" and that browsers can clear lists that aren\'t opened for a while (D-08). Desktop: the phone column, centered.')
 ios_body = (ov_header('Trip ideas', TRIP_META) + progress_photos()
@@ -1150,14 +1184,16 @@ def share_backup_sheet(state='default'):
     note = ''
     if state == 'offline':
         note = f'<div class="mt-4 flex items-start gap-2 rounded-control bg-muted px-3 py-2.5 text-body-sm" role="status">{icon("wifi-off", "size-4 mt-0.5 shrink-0")}<span>You\'re offline. Backing up and sharing need a connection. The list stays on this phone until then.</span></div>'
+    next_link = ''
     if state == 'busy':
         main = btn('Backing up…', size='lg', busy=True)
+        next_link = '<a href="S31-invite.html#S31-default" class="absolute inset-0" data-action="next" aria-label="Finish backing up (prototype: click the list; the sheet moves on by itself)"></a>'
     else:
-        main = btn('Back up and share', href='S31-invite.html#S31-default', action='back-up-and-share', size='lg', icon_name='cloud-upload', disabled=state == 'offline')
+        main = btn('Back up and share', href=h10('S10-share-backing-up'), action='back-up-and-share', size='lg', icon_name='cloud-upload', disabled=state == 'offline')
     return ov(sheet('sbk', f'''<div class="pt-3"><span class="flex size-12 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground">{icon("cloud-upload", "size-6")}</span></div>
     <h2 id="sbk-t" class="mt-4 text-title-2">Back up this list to share it</h2>
     <p class="mt-2 text-body text-muted-foreground">Members sort a shared list on their own devices, so it needs to be in your account.</p>
-    {row}{note}
+    <div class="relative">{row}{next_link}</div>{note}
     <div class="mt-6 space-y-3">{main}{btn('Not now', 'ghost', href=h09('S09-new-list'), action='not-now', size='lg')}</div>''', pad='pb-12'))
 
 
@@ -1167,7 +1203,7 @@ P.frame('S10-share-backing-up', 'Back up and share: backing up, then the invite 
 P.frame('S10-share-backup-offline', 'Back up and share: connection lost', phone(BG_HIRING + share_backup_sheet('offline')))
 
 P.section('Offline', 'What works offline (saved on the phone, synced later; D-05): Rename (on shared lists too: the latest rename wins), Duplicate, and Archive, Restore and Delete of solo lists. What needs a connection: what changes a shared list for other members or deletes shared data (Archive, Restore and Delete for everyone, Leave), and on a list that is on this phone only, Share and turning backup off. Those items stay visible, disabled, with the reason.')
-P.frame('S10-offline', 'Offline: shared list menu', phone(inert(ov_shared_owner(top=offline_banner("You're offline. Decisions are saved on this phone. Inviting needs a connection."), share_disabled=True))
+P.frame('S10-offline', 'Offline: shared list menu', phone(inert(ov_shared_owner(top=offline_banner("You're offline. Decisions are saved on this phone. Inviting needs a connection."), share_disabled=True, offline=True))
                                                        + dropdown_items(OFFLINE_MENU, top='top-12')))
 
 P.section('Accessibility, iOS and web', 'Large text: dialog buttons stack full width. iOS: rows in Archived lists use swipe actions (Restore, Delete) in addition to the menu. Web: menus and dialogs behave like Android; on desktop the dialog sits in the phone column.')
