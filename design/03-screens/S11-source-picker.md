@@ -10,8 +10,10 @@ Step 1 of every import: choose where the items come from. The picker is a data-d
 each tile renders one **Source definition** (`domain-model.md › Source`), so a new source is one more tile
 that reuses the same steps (Select items → Map fields → Review duplicates → Finish).
 
-Covers: SRC-01, SRC-02, SRC-03, SRC-04, SRC-18, SRC-19 (entry), PLT-03, PLT-04, PLT-07, PLT-08, PLT-11,
-PLT-14, PLT-16, PLT-21, PLT-23, GOAL-02, GOAL-03, GOAL-05, SUC-09, SCR-11.
+Covers: SRC-01 (changed by D-32: no Photos tile), SRC-02, SRC-03, SRC-04, SRC-18, SRC-19 (entry), SRC-25 and
+SRC-26 (routing to the Google picker step and the contact picker path), PLT-03, PLT-04, PLT-07, PLT-11, PLT-14,
+PLT-16, PLT-21, PLT-23, GOAL-02, GOAL-03, GOAL-05, SUC-09, SCR-11. PLT-08 (web photo upload) is out of scope
+(D-32).
 
 ## 2. Entry points and exits
 
@@ -23,15 +25,15 @@ PLT-14, PLT-16, PLT-21, PLT-23, GOAL-02, GOAL-03, GOAL-05, SUC-09, SCR-11.
 
 | To | Trigger |
 | --- | --- |
-| `S12-permissions.html#S12-contacts` | Contacts tile (`data-action="source-contacts"`) when contacts access has never been asked |
-| `S13-contacts-import.html#S13-default` | Contacts tile when access is already granted (skips S12) |
-| `S12-permissions.html#S12-contacts-denied` | Contacts tile when access is permanently denied (goes straight to recovery) |
+| `S12-permissions.html#S12-contacts` | Contacts tile (`data-action="source-contacts"`), **Android 16 and lower**, when contacts access has never been asked (prototype reference: `S11-default`) |
+| `S13-contacts-import.html#S13-default` | Contacts tile, Android 16 and lower, when access is already granted (skips S12) |
+| `S12-permissions.html#S12-contacts-denied` | Contacts tile, Android 16 and lower, when access is permanently denied (goes straight to recovery) |
+| `S13-contacts-import.html#S13-picker-intro` | Contacts tile, **Android 17 and later** (system contact picker, no permission; D-18) |
+| `S13-contacts-import.html#S13-picker-intro-ios` | Contacts tile, **iOS** (system contact picker, no permission; `S11-ios`) |
 | `S14-file-import.html#S14-default` | CSV or Excel tile (`source-csv`) |
-| `S15-google-sheets.html#S15-default` | Google Sheets tile (`source-google`); when Google Sheets is already connected, straight to `S15-spreadsheets` |
+| `S15-google-sheets.html#S15-default` | Google Sheets tile (`source-google`) the first time; when a Google account is already connected on this device, `S15-connected` (the picker opens from there) |
 | `S16-plain-text.html#S16-default` | Plain text tile (`source-text`) |
 | `S17-manual-entry.html#S17-default` | Manual entry tile (`source-manual`) |
-| `S12-permissions.html#S12-photos` | Photos tile (`source-photos`) when gallery access was never asked; granted → `S18-photos-import.html#S18-default` |
-| `S18-photos-import.html#S18-web` | Web: "Upload photos" tile (file upload, no permission) |
 | `S11-web-unavailable` sheet | Web: Contacts tile |
 | Snackbar (`S11-offline-tapped`) | Offline: Google Sheets tile |
 | `S08-home.html#S08-default` | Close (`x`), new list context. Nothing has been imported yet, so closing never asks |
@@ -44,13 +46,16 @@ Full-screen modal (Android), page sheet (iOS), same column on web. Top to bottom
 1. **AppBar (modal)**: close IconButton (`x`, label "Close import"), title "Import" (`text-title-3`), the same
    on every import step (S11–S21). In the S21 context the title is "Add items" and the heading names the list.
 2. **ImportStepper**: "Choose source", "Step 1 of 5", 5 segments (first filled). The total is provisional
-   at this step: it is 5 for sources with field mapping, 4 for manual entry (no mapping) and 3 for photos
-   (Choose source, Select items, Finish; A-62).
+   at this step: it is 5 for sources with field mapping and 4 for manual entry and plain text (A-62). The
+   3-step photos variant is gone with the Photos source (D-32).
 3. **Heading**: "Where are your items?" (`text-title-2`) + one line (`text-body muted`).
 4. **SourceTile grid**: 2 columns, gap 12, equal row heights (`auto-rows-fr`), tiles `rounded-tile border
    bg-card p-4 min-h-28`, icon 24 `text-primary`, name `text-label-lg`, one-line description
    `text-caption muted`. Order follows the brief: Contacts, CSV or Excel, Google Sheets, Plain text, Manual
-   entry, Photos. Grid order = `Source.order`; an odd count leaves the last cell empty.
+   entry (Photos left with D-32, A-129). Grid order = `Source.order`. **With an odd number of sources the last
+   tile spans both columns** (`col-span-2`, same vertical tile layout, same row height), so the grid never
+   shows a hole (A-150). Today that is Manual entry; with an even count (e.g. `S11-new-source`) every tile
+   takes one cell.
 5. **Data-safety note** pinned to the bottom of the content: `shield-check` 16 + one line.
 6. List context only: section "Already in {list name}" (ListGroup with one row per existing Source: icon,
    label, "88 items, added Sep 28") and a `combine` hint about combining sources (SRC-18).
@@ -64,30 +69,32 @@ remote source list is not planned; if one is added later, render the static tile
 | --- | --- |
 | `name` | Tile title |
 | `icon` (Lucide) | 24 icon |
-| `description` (per platform: iOS photos "From your photo library") | Caption |
+| `description` (can differ per platform) | Caption |
 | `availableOn` | When the current platform is missing: web-unavailable tile variant |
 | `needsConnection` (Google Sheets) | Offline: offline tile variant |
-| `needsPermission` (`contacts`, `photos`) | Routes through S12 when the permission is undecided or denied |
+| `needsPermission` (`contacts` on Android 16 and lower only) | Routes through S12 when the permission is undecided or denied. Android 17 and later and iOS use the system contact picker and need none (D-18) |
+| `selectMode` (contacts: `permissionList` on Android 16 and lower, `systemPicker` on Android 17+ and iOS; Google Sheets: `googlePicker`) | Which select step opens (S13 full list, S13 picker intro, S15 picker step) |
 | `selectStep` | Route opened on tap |
-| `hasFieldMapping` | Stepper total 5 (true) or fewer (false: manual entry 4, photos 3) |
-| `webReplacement` (photos → "Upload photos") | Swaps name, icon (`image-up`), description and route on web |
+| `hasFieldMapping` | Stepper total 5 (true) or fewer (false: manual entry 4) |
+| `webReplacement` | Swaps name, icon, description and route on web. No source uses it today (it was photos → "Upload photos", D-32); kept for future sources |
 
-`S11-new-source` shows a hypothetical "Calendar" source added with nothing but a new definition.
+`S11-new-source` shows a hypothetical "Calendar" source added with nothing but a new definition (six tiles: the
+grid fills two full rows again).
 
 ## 4. States
 
 | Frame | Trigger |
 | --- | --- |
-| `S11-default` | New list, Android, online |
+| `S11-default` | New list, Android, online. Five tiles: Manual entry spans both columns |
 | `S11-existing-list` | Opened from S21 / S09 "Add items" for Wedding guests (l-wedding: 88 from contacts, 12 from mert-family.csv); app bar "Add items", heading "Add items to Wedding guests" |
 | `S11-offline` | No connection: OfflineBanner under the app bar; Google Sheets tile becomes the offline variant (dashed border, `wifi-off` 16, "Needs a connection"); other sources work offline |
 | `S11-offline-tapped` | Offline tile tapped: snackbar, no navigation |
 | `S11-large-text` | Font scale ≥ 150%: one tile per row, icon left, title and description wrap; the grid scrolls |
-| `S11-new-source` | Annotation: a seventh tile from a new Source definition |
-| `S11-web` | Web (mobile browser): Contacts tile is the web-unavailable variant with a visible "Get the app" line under the grid (same as S21-web); Photos becomes "Upload photos" |
+| `S11-new-source` | Annotation: a sixth tile from a new Source definition |
+| `S11-web` | Web (mobile browser): Contacts tile is the web-unavailable variant with a visible "Get the app" line under the grid (same as S21-web) |
 | `S11-web-unavailable` | Web: Contacts tile tapped → bottom sheet with reason, "Get the app" and "Import a CSV instead" |
 | `S11-web-desktop` | Desktop browser: same column centered (PLT-04) |
-| `S11-ios` | iOS page sheet: `x` top-left (first step), centered "Import"; Photos description "From your photo library" |
+| `S11-ios` | iOS page sheet: `x` top-left (first step), centered "Import"; Contacts opens `S13-picker-intro-ios` |
 
 Not applicable: empty (there is always at least one source), loading (static), error (nothing is fetched).
 
@@ -113,8 +120,7 @@ Not applicable: empty (there is always at least one source), loading (static), e
 | Stepper | "Choose source", "Step 1 of 5" |
 | Heading | "Where are your items?"; list context "Add items to Wedding guests" (`Add items to {list name}`) |
 | Sub line | "Choose a source. You can add items from other sources later."; list context "Choose where the new items come from. They join the current round." |
-| Tiles | "Contacts" / "From this phone"; "CSV or Excel" / "A .csv or .xlsx file"; "Google Sheets" / "From Google Drive"; "Plain text" / "Paste a list or a .txt file"; "Manual entry" / "Type items one by one"; "Photos" / "From your gallery" (iOS: "From your photo library") |
-| Web photos tile | "Upload photos" / "Image files from this device" |
+| Tiles | "Contacts" / "From this phone"; "CSV or Excel" / "A .csv or .xlsx file"; "Google Sheets" / "From Google Drive"; "Plain text" / "Paste a list or a .txt file"; "Manual entry" / "Type items one by one" |
 | Web-unavailable tile | "Contacts" / "Needs the Android or iOS app" |
 | Web footer line | "Contacts import needs the Android or iOS app." + link "Get the app" |
 | Offline tile | "Google Sheets" / "Needs a connection" |
@@ -149,18 +155,21 @@ Not applicable: empty (there is always at least one source), loading (static), e
   `isModalInPresentation` once something is selected, and `x` asks "Discard import?" as an action sheet.
 - **Web, mobile** (`S11-web`): contacts import is unavailable (PLT-07): the tile stays visible with the
   dashed unavailable treatment, a `monitor-smartphone` marker and the reason; tapping opens
-  `S11-web-unavailable`. Photos use "Upload photos" (browser file input, `accept="image/*"`, multiple) and
-  go to S18's web upload (PLT-08).
+  `S11-web-unavailable`. There is no photo upload on the web: the Photos source is out of scope (D-32).
 - **Web, desktop** (`S11-web-desktop`): the same column centered; tiles get a hover state (`bg-accent`).
 - "Get the app" opens `https://swipesort.app/get`, which redirects to Google Play or the App Store by user
   agent and shows both store links with QR codes on desktop (lead to unify with S32/S40).
 
 ## 9. Edge cases
 
-- **Contacts permission already granted**: the contacts tile skips S12 and opens S13 directly. Permanently
-  denied: opens `S12-contacts-denied` directly (no pointless explainer).
-- **Google Sheets already connected**: skips S15's explainer and opens `S15-spreadsheets`.
-- **Offline**: only Google Sheets is affected; contacts, files, text, manual entry and photos work offline.
+- **Contacts, Android 16 and lower, permission already granted**: the contacts tile skips S12 and opens S13
+  directly. Permanently denied: opens `S12-contacts-denied` directly (no pointless explainer).
+- **Contacts, Android 17 and later and iOS**: always `S13-picker-intro`; the system picker grants access only to
+  the contacts picked, once, so there is nothing to remember (D-18). If the Android 17 spike keeps
+  `READ_CONTACTS` on 17+ (D-18 fallback), those phones follow the Android 16 path instead.
+- **Google Sheets already connected**: skips S15's explainer and opens `S15-connected`, where "Choose
+  spreadsheet" opens Google's picker.
+- **Offline**: only Google Sheets is affected; contacts, files, text and manual entry work offline.
   Coming back online re-enables the tile without reloading.
 - **Combining sources** (SRC-18): any number of sources per list; in list context the new items join the
   current round (`Item.addedInRoundId`) and duplicates against existing items are reviewed in S20.

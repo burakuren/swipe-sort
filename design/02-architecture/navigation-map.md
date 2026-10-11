@@ -27,8 +27,10 @@ Root stack
 ├── round/new        (full-screen modal)          → S24 Start a round
 ├── import           (full-screen modal stack; one stepper for every source)
 │   ├── index        → S11 Source picker
-│   ├── permission   → S12 Pre-permission (contacts | photos) and denied recovery
-│   ├── contacts     → S13   file → S14   google → S15   text → S16   manual → S17   photos → S18
+│   ├── permission   → S12 Pre-permission (contacts on Android 16 and lower) and denied recovery
+│   ├── contacts     → S13 (picker path on Android 17+ and iOS; full list on Android 16 and lower)
+│   ├── file → S14   google → S15 (Google's Picker)   text → S16   manual → S17
+│   │                (photos → S18 is out of scope, D-32: no route)
 │   ├── fields       → S19 Field mapping
 │   ├── duplicates   → S20 Duplicate review (skipped automatically when none are found)
 │   └── finish       → S22 in "pick" mode: choose card template + name the list → Start sorting
@@ -96,31 +98,31 @@ unsaved progress asks "Discard import?" (S40). Sorting never asks: progress is s
 | --- | --- | --- |
 | S01 | App cold start | S02 (first launch), S08 (returning), S32 (opened via invite link) |
 | S02 | S01 first launch; Settings › Help › "Replay the introduction" | S08 first-run (Get started); S03 ("I have an account") |
-| S03 | S02; S05 (Continue with email); S06 (Sign in row, guest); S32 web (sign in to join) | Back to origin; S04; S05 moving-lists step (when guest lists exist) |
+| S03 | S02; S05 (Continue with email); S06 (Sign in row, guest); S32 web (sign in to join) | Back to origin; S04; S05 moving-lists step (when guest lists exist). Google, Apple (every platform, D-13; Android and web through the browser) and email |
 | S04 | S03 "Forgot password?" | S03 (after reset link sent / Back to sign in) |
-| S05 | S09/S10 Share or Invite while guest; S06 Backup "Back up lists" while guest; S08 not-backed-up indicator | S03 (email); Google/Apple native sheet (out of scope) → moving lists → origin action continues (S31 or backup on) |
+| S05 | S09/S10 Share or Invite while guest; S06 Backup "Back up lists" while guest; S08 not-backed-up indicator | "Choose lists" step (`S05-choose-lists`, keep some on this phone only, A-142); S03 (email); Google/Apple sheet or browser page (out of scope) → moving lists (`S05-moving`, `S05-moving-some-kept`) → origin action continues (S31 or backup on) |
 | S06 | Tab Settings | Sub-pages (theme, haptics, notifications, language, privacy, help, about, backup, card templates → S22); S07; S03 (guest sign in); sign out dialog (S40) |
-| S07 | S06 profile row | Connected accounts; delete account flow → S08 signed-out home |
-| S08 | Tab Lists; S02; after delete/leave list | S09 (list row); S11 (Import a list / New list FAB); sample list → S09 sample; S05 (indicator); S10 archived lists; S25 (Resume chip on a list in progress) |
-| S09 | S08; deep links from notifications | S25 (Continue sorting / Start sorting); S24 (Start new round); S28; S30; S34; S35; S36 (Review conflicts); S39 (Export); S21 (Add items); S22 (Card template); S10 (overflow menu); S31 (Invite / Share) or S05 if guest |
-| S10 | S09 overflow menu; S08 row long-press; S08 › Archived lists | Rename dialog; Duplicate → new S09; Archive → S08 with snackbar; Delete dialog → S08; Leave dialog → S08; Archived lists screen → S09 (read-only) / Restore |
-| S11 | S08 (Import a list / +); S21 (Add from another source) | S12 (contacts, photos without permission); S13–S18; web-unavailable tile → "Get the app" |
-| S12 | S11 contacts or photos tile; S38 / S06 notifications toggle (notifications explainer) | System permission prompt (out of scope) → S13 / S18; denied → recovery state → system settings or another source (S11) |
-| S13 | S12 granted; S11 when permission already granted | S19 |
+| S07 | S06 profile row | Sign-in methods (Google, Apple, email on every platform); delete account flow → S08 (`S08-guest` when lists kept on this phone only remain, else `S08-first-run`) |
+| S08 | Tab Lists; S02; after delete/leave list; S07 after account deletion | S09 (list row); S11 (Import a list / New list FAB); sample list → S09 sample; S05 (indicator; web → `S05-web-backup`, D-08); S10 archived lists; S25 (Resume chip on a list in progress). Sync outcome alerts and snackbars appear here (D-09, S40) |
+| S09 | S08; deep links from notifications | S25 (Continue sorting / Start sorting); S24 (Start new round); S28; S30; S34; S35; S36 (Review conflicts); S39 (Export); S21 (Add items); S22 (Card template); S10 (overflow menu); S31 (Invite / Share), S05 if guest, or `S10-share-backup` when the list is on this phone only (D-33); Backup switch "Back up this list" → turning it off asks first (`S10-backup-off`) |
+| S10 | S09 overflow menu; S08 row long-press; S08 › Archived lists; S09 Backup switch and Share (D-33) | Rename dialog; Duplicate → new S09; Archive → S08 with snackbar; Delete dialog → S08; Leave dialog → S08; Archived lists screen → S09 (read-only) / Restore; Keep on this phone only → `S10-backup-off-done`; Back up and share → S31 |
+| S11 | S08 (Import a list / +); S21 (Add from another source) | Contacts: Android 16 and lower → S12 (or S13 when granted); Android 17+ → `S13-picker-intro`; iOS → `S13-picker-intro-ios`. S14–S17; web-unavailable tile (Contacts) → "Get the app" |
+| S12 | S11 contacts tile on Android 16 and lower; S38 / S06 notifications toggle (notifications explainer) | System permission prompt (out of scope) → S13; denied → recovery state → system settings or another source (S11). iOS contacts frames are fallback only (A-156) |
+| S13 | Android 16 and lower: S12 granted, or S11 when already granted. Android 17+ and iOS: S11 → picker intro → system contact picker (out of scope) → review list (`S13-picked`) | S19 |
 | S14 | S11 CSV / Excel tile | System file picker (out of scope) → preview → S19; errors → retry / choose another file |
-| S15 | S11 Google Sheets tile | Google account chooser (out of scope) → spreadsheet → tab → S19 |
+| S15 | S11 Google Sheets tile | "Choose a spreadsheet" step (`S15-default`, `S15-connected`) → Google's Picker (out of scope, `drive.file` only, D-17) → tabs → S19 |
 | S16 | S11 Plain text tile | S19 (single field "Text": rename and type only), then S20 / S22 pick |
 | S17 | S11 Manual entry tile | S22 pick (manual entry defines fields inline, no S19) |
-| S18 | S12 granted; S11 on web (file upload) | S22 pick (photos have fixed fields; S19 skipped) |
+| S18 | None: out of scope (D-32). File kept for reference; nothing links to it | — |
 | S19 | S13, S14, S15, S16 | S20 (duplicates found) or S22 pick |
 | S20 | S19 | S22 pick (import) or S21 confirm (add items) |
 | S21 | S09 "Add items" | S11 (choose source, list context) → … → S20 → "Add to list" → S09 with snackbar |
-| S22 | Import finish (pick mode); S09 Card template (change mode); S06 › Card templates (manage mode) | S23 (Customize / New template); S25 (Start sorting, pick mode); S09 (template applied) |
+| S22 | Import finish (pick mode, with "Back up this list" when signed in, D-33); S09 Card template (change mode); S06 › Card templates (manage mode) | S23 (Customize / New template); S25 (Start sorting, pick mode); S09 (template applied) |
 | S23 | S22 | S22 (Save template), discard dialog (S40) |
 | S24 | S09 Start new round; S27 "Start a new round" / "Re-sort Maybe" (preselected) | S25 (Start round) |
 | S25 | S22 pick (Start sorting); S09; S24; S08 resume chip; S33 Start sorting | S26 (tap card; sheet); note sheet; S27 (last card decided); S09 (close, progress saved) |
-| S26 | S25 card tap (sheet); S28 row; S36 card | Back to origin; revert field dialog |
-| S27 | S25 last decision | S28 (Review results); S24 (Re-sort Maybe / Start a new round); S39 (Export); S36 (Review conflicts, shared) ; S09 (Done) |
+| S26 | S25 card tap (sheet); S28 row; S36 card; S40 "edit replaced" snackbar View (`S26-edit-replaced`, D-09) | Back to origin; revert field dialog |
+| S27 | S25 last decision | S28 (Review results); S24 (Re-sort Maybe / Start a new round); S39 (Export); S36 (Review conflicts, shared) ; S09 (Done); web without an account, first round: "Back up" nudge → `S05-web-backup` (`S27-web-nudge`, D-08) |
 | S28 | S09; S27 | S29 sheet; S26 row; change decision (row menu); S39 export |
 | S29 | S28 | S28 (Apply / Reset) |
 | S30 | S09 Rounds | S28 filtered to that round |
@@ -132,7 +134,7 @@ unsaved progress asks "Discard import?" (S40). Sorting never asks: progress is s
 | S36 | S09 Review conflicts; S27 shared; S38 conflict notification | S37 (Resolve all); S26; S09 |
 | S37 | S36 "Resolve all"; S09 conflicts row (Decision Maker only) | S37 summary → S36 (remaining) or S09 |
 | S38 | Tab Activity; push / in-app notification | S09, S36, S34 per event; S12 notification explainer; notification preferences (S06 sub-page) |
-| S39 | S09 Export; S27 Export; S28 Export | Format → scope → options → destination (Google) → write confirmation → success/failure; system share sheet for files and plain text |
+| S39 | S09 Export; S27 Export; S28 Export | Format → scope → options → destination (Google; re-pick the original sheet in Google's Picker when it can't be opened, `S39-apartments-repick`) → write confirmation → success/failure; system share sheet for files and plain text |
 | S40 | Global | — |
 
 ## 4. Deep links
@@ -156,17 +158,18 @@ contain a `Sxx-default` frame plus the IDs listed for it here.
 | `S01-default` | Splash |
 | `S02-welcome`, `S02-demo`, `S02-demo-done` | Onboarding steps |
 | `S03-default` | Sign in (Android), `S03-ios`, `S03-web-desktop` |
-| `S05-share` | Sign-in prompt for sharing; `S05-backup`, `S05-moving`, `S05-moved` |
+| `S05-share` | Sign-in prompt for sharing; `S05-backup`, `S05-moving`, `S05-moved`, `S05-choose-lists`, `S05-moved-some-kept` |
 | `S06-default` | Settings root (signed in); `S06-guest` |
 | `S08-first-run` | Empty home with Try a sample list; `S08-default` (lists); `S08-guest` |
 | `S09-default` (solo list); `S09-solo-round-done` (Desk setup after round 1); `S09-shared` (Wedding guests); `S09-shared-decision-maker` (Mert's view, flow 3); `S09-guest-wedding` (wedding list before sharing, not signed in) | List overview |
+| `S09-device-only` | List kept on this phone only (Frontend hiring, Q4, D-33); `S10-backup-off`, `S10-share-backup` (S10) |
 | `S11-default` | Source picker (Android); `S11-web` |
-| `S12-contacts` | Contacts explainer; `S12-photos`, `S12-notifications`, `S12-contacts-denied` |
-| `S13-select-default` | Contacts selection (88 selected) |
+| `S12-contacts` | Contacts explainer (Android 16 and lower); `S12-notifications`, `S12-contacts-denied` |
+| `S13-select-default` | Contacts selection, Android 16 and lower (88 selected); `S13-picker-intro`, `S13-picked` (picker path) |
 | `S14-default` | File import start; `S14-csv-preview` (candidates-q4.csv loaded) |
 | `S19-contacts` | Field mapping for contacts; `S19-csv` (candidates) |
 | `S20-default` | Duplicate review (4 groups, 2 reviewed); `S20-reviewed-all` (3 merged, 1 kept both: 85 items); `S20-none` |
-| `S22-import-pick` | Finish import: template + list name (contacts); `S22-import-pick-csv` (candidates CSV); `S22-import-pick-custom` (custom template selected); `S22-change` (change mode) |
+| `S22-import-pick` | Finish import: template + list name (contacts); `S22-import-pick-csv` (candidates CSV, backup on); `S22-import-pick-device-only` (backup off); `S22-import-pick-custom` (custom template selected); `S22-change` (change mode) |
 | `S23-default` | Template editor; `S23-save` |
 | `S24-maybe` | Start round with Maybe pile preselected; `S24-default` |
 | `S25-default` | Sorting (solo); `S25-shared`, `S25-web-desktop`, `S25-candidate`, `S25-coach-1` |
@@ -176,6 +179,7 @@ contain a `Sxx-default` frame plus the IDs listed for it here.
 | `S32-web-desktop` | Invite link opened in desktop browser; `S32-app` |
 | `S33-default` | Join (app); `S33-web-desktop` |
 | `S36-default` | One-by-one conflicts |
+| `S40-outcome-edit-replaced` | Sync outcome messages (D-09): also `S40-outcome-late-round`, `S40-outcome-removed`, `S40-outcome-already-agreed`, `S40-outcome-dm-role-lost`, `S40-outcome-device-only-elsewhere` |
 | `S37-confirm` | Bulk resolve confirmation; `S37-summary` |
 | `S39-default` | Export: choose format; `S39-google-destination`, `S39-google-confirm`, `S39-success-google`, `S39-shared`, `S39-shared-google-destination`, `S39-shared-google-confirm`, `S39-success-shared` |
 
@@ -212,3 +216,15 @@ meanwhile Deniz sorts on Android, `S25-shared`; earlier Deniz made Mert the Deci
 `S14-csv-preview` [`continue`] → `S19-csv` [`continue`] → `S20-none` [`continue`] → `S22-import-pick-csv`
 [`customize-template`] → `S23-default` [`save-template`] → `S23-save` [`confirm-save`] →
 `S22-import-pick-custom` [`start-sorting`] → `S25-candidate`.
+
+**Flow 6 (design update, D-33): keep a list on this phone only** (`tools/flows/06-keep-on-phone.flow.mjs`;
+prototype index "flow 5")
+`S09-default` [`toggle-backup`] → `S10-backup-off` [`confirm-backup-off`] → `S10-backup-off-done`;
+`S09-device-only` [`share`] → `S10-share-backup` [`back-up-and-share`] → `S31-default`;
+`S05-share` [`choose-lists`] → `S05-choose-lists` [`done`] → `S05-share-chosen` [`continue-google`] →
+`S05-moving-some-kept` [`next`] → `S05-moved-some-kept` [`continue`] → `S31-default`.
+
+**Flow 7 (design update, D-18): contacts through the system picker** (`tools/flows/07-contacts-picker.flow.mjs`;
+prototype index "flow 6")
+`S11-ios` [`source-contacts`] → `S13-picker-intro-ios` [`open-picker`] → (system contact picker, not drawn) →
+`S13-picked-ios`; Android 17+: `S13-picker-intro` [`open-picker`] → `S13-picked` [`continue`] → `S19-contacts`.

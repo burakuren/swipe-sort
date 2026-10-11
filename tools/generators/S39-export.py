@@ -353,7 +353,7 @@ F.add('S39-text-copied', 'Text copied', phone(text_screen(snackbar('Summary copi
 
 # ---------------------------------------------------------------- 4 google new spreadsheet
 F.section('Google Sheets: new spreadsheet (Flows 2 and 3)',
-          'Flow 2 is Deniz exporting Desk setup; Flow 3 is Mert exporting Wedding guests with his own Google account. Neither list came from Google Sheets, so the only destination is a new spreadsheet. Two short steps: where to write (name, columns, account), then an explicit confirmation. Google asks for write permission only after the confirmation, and only for files SwipeSort creates.')
+          'Flow 2 is Deniz exporting Desk setup; Flow 3 is Mert exporting Wedding guests with his own Google account. Neither list came from Google Sheets, so the only destination is a new spreadsheet. Two short steps: where to write (name, columns, account), then an explicit confirmation. Google Sheets uses one narrow permission (drive.file, D-17): SwipeSort can open only files it creates or the person chose. Deniz allowed it when she imported Flat hunt 2026, so her export asks nothing more; Mert signed in with Google but never connected Google Sheets, so Google asks him once, after he confirms.')
 dest = f'''{step_bar('Export to Google Sheets', 'Desk setup', '#S39-default')}
   <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
     <h2 class="px-1 pb-2 text-label text-muted-foreground">New spreadsheet</h2>
@@ -367,7 +367,7 @@ dest = f'''{step_bar('Export to Google Sheets', 'Desk setup', '#S39-default')}
   {bottom(P("Continue", "#S39-google-confirm", "continue"))}'''
 F.add('S39-google-destination', 'Google Sheets: where to write (new spreadsheet)', phone(dest))
 
-perm_new = info_alert('Google asks for permission next', 'Allow SwipeSort to create this spreadsheet. It can open only the files it creates, not your other files.', 'shield-check')
+perm_new = info_alert('Google asks for permission next', 'Allow SwipeSort to create this spreadsheet. It can open only files it creates or you choose, not your other files.', 'shield-check')
 
 
 def confirm_screen(title, lead, facts, alert, primary, back_href, sub='Desk setup', extra=''):
@@ -386,12 +386,12 @@ conf = confirm_screen('Export 20 items to a new spreadsheet?', 'Nothing is writt
                       [('file-plus-2', 'Creates', f'Desk setup decisions, in the Google Drive of {ACCOUNT}'),
                        ('columns-3', 'Writes', '20 rows with your 7 fields, plus Decision and Notes'),
                        ('shield-check', "Doesn't change", 'Desk setup in SwipeSort, or any of your other spreadsheets')],
-                      perm_new, P('Export to Google Sheets', '#S39-success-google', 'confirm-write'), '#S39-google-destination')
+                      None, P('Export to Google Sheets', '#S39-success-google', 'confirm-write'), '#S39-google-destination')
 F.add('S39-google-confirm', 'Google Sheets: explicit confirmation before writing', phone(conf))
 
 exp_g = f'''{step_bar('Export to Google Sheets', 'Desk setup', None, close=True)}
   {state("loader-circle", "Exporting…", "Writing 20 rows to Desk setup decisions. This takes a few seconds.", "primary", spin=True, role="status")}'''
-F.add('S39-google-exporting', 'Google Sheets: exporting (after Google permission)', phone(exp_g))
+F.add('S39-google-exporting', 'Google Sheets: exporting', phone(exp_g))
 
 succ = f'''<header class="flex h-app-bar shrink-0 items-center px-1">{icon_btn("x", "Close export", S28, "close")}</header>
   <div class="flex min-h-0 flex-1 flex-col items-center justify-center px-gutter pb-10 text-center">
@@ -438,38 +438,42 @@ F.add('S39-success-shared', 'Shared list: exported to Google Sheets (Flow 3 end)
 
 # ---------------------------------------------------------------- 5 google original sheet
 F.section('Google Sheets: the original sheet',
-          'Lists imported from Google Sheets (Apartment viewings, from Flat hunt 2026) can also write to the original: a new tab (default, nothing existing moves) or new columns next to the rows. Existing cells are never overwritten.')
+          'Lists imported from Google Sheets (Apartment viewings, from Flat hunt 2026) can also write to the original: a new tab (default, nothing existing moves) or new columns next to the rows. Existing cells are never overwritten. No new Google permission: the sheet was chosen in Google\'s file picker at import (D-17). When SwipeSort can\'t open it with this Google account (imported with another account, access removed), the destination asks to choose it again in the picker.')
 
 
 def radio_opt(title, desc, on, nested=''):
     return f'''<div><button type="button" role="radio" aria-checked="{"true" if on else "false"}" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left" data-action="destination">{radio_dot(on)}<span class="min-w-0 flex-1"><span class="block text-body">{title}</span><span class="block text-body-sm text-muted-foreground">{desc}</span></span></button>{nested}</div>'''
 
 
-def apt_dest(sel='tab'):
+def apt_dest(sel='tab', repick=False):
     tab_field = f'''<div class="px-4 pb-4 pl-14"><label class="text-label" for="s39-tab">Tab name</label><input id="s39-tab" class="mt-1.5 h-12 w-full rounded-control border border-input bg-card px-3.5 text-body" value="Decisions"></div>''' if sel == 'tab' else ''
     opts = [radio_opt('New tab in Flat hunt 2026', "All 8 items on their own tab. Your tabs don't change.", sel == 'tab', tab_field),
             radio_opt('New columns in Flat hunt 2026', 'Decision and Notes next to your rows in Kadıköy and Beşiktaş', sel == 'cols'),
             radio_opt('New spreadsheet', 'A separate copy in your Google Drive', sel == 'new')]
     nxt = '#S39-apartments-confirm-tab' if sel == 'tab' else '#S39-apartments-confirm-columns'
+    # A-158: SwipeSort can't open the original with this Google account (drive.file grant missing): re-pick it
+    top = (f'<div class="pb-5">{info_alert("Choose Flat hunt 2026 again", "SwipeSort can open only the files you choose in Google\'s file picker, and it can\'t open this one with this Google account yet. Choose it once more to write to it. A new spreadsheet works without it.", "file-search")}</div>'
+           if repick else '')
+    primary = P("Choose Flat hunt 2026", nxt, "repick-sheet") if repick else P("Continue", nxt, "continue")
     return f'''{step_bar('Export to Google Sheets', 'Apartment viewings', '#S39-apartments')}
   <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6 pt-2">
-    <h2 class="px-1 pb-2 text-label text-muted-foreground">Write to</h2>
+    {top}<h2 class="px-1 pb-2 text-label text-muted-foreground">Write to</h2>
     <div class="divide-y overflow-hidden rounded-group bg-card" role="radiogroup" aria-label="Write to">{"".join(opts)}</div>
     <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Google account</h2>
     {account_row()}
     <h2 class="px-1 pb-2 pt-6 text-label text-muted-foreground">Columns</h2>
     {col_chips(APT["fields"], ["Decision", "Notes"], "8 rows, one per item. The Tab column says which tab each item came from.")}
   </div>
-  {bottom(P("Continue", nxt, "continue"))}'''
+  {bottom(primary)}'''
 
 
 F.add('S39-apartments-destination', 'Original sheet: where to write (new tab selected)', phone(apt_dest('tab')))
-perm_edit = info_alert('Google asks for permission next', "Allow SwipeSort to edit your spreadsheets. It writes only what's listed here, and only when you confirm an export.", 'shield-check')
+F.add('S39-apartments-repick', 'Original sheet can\'t be opened with this Google account: choose it again in Google\'s picker', phone(apt_dest('tab', repick=True)))
 F.add('S39-apartments-confirm-tab', 'Original sheet: confirm a new tab',
       phone(confirm_screen('Add a tab to Flat hunt 2026?', 'Nothing is written until you confirm.',
                            [('file-plus-2', 'Adds', 'A tab named Decisions with 8 rows: Tab, Address, Rent, Rooms, Size, Viewing, Link, Decision and Notes'),
                             ('shield-check', "Doesn't change", 'The tabs Kadıköy, Beşiktaş, Archive 2025 and Notes')],
-                           perm_edit, P('Export to Flat hunt 2026', '#S39-success-tab', 'confirm-write'), '#S39-apartments-destination', 'Apartment viewings')))
+                           None, P('Export to Flat hunt 2026', '#S39-success-tab', 'confirm-write'), '#S39-apartments-destination', 'Apartment viewings')))
 succ_tab = f'''<header class="flex h-app-bar shrink-0 items-center px-1">{icon_btn("x", "Close export", S09, "close")}</header>
   <div class="flex min-h-0 flex-1 flex-col items-center justify-center px-gutter pb-10 text-center">
     <span class="flex size-14 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground">{icon("circle-check", "size-7")}</span>
@@ -479,7 +483,7 @@ succ_tab = f'''<header class="flex h-app-bar shrink-0 items-center px-1">{icon_b
   </div>
   {bottom(P("Open in Google Sheets", None, "open-sheet", "external-link"), G("Done", S09, "done"))}'''
 F.add('S39-success-tab', 'Original sheet: exported to a new tab', phone(succ_tab))
-F.add('S39-apartments-confirm-columns', 'Original sheet: confirm new columns (permission already given)',
+F.add('S39-apartments-confirm-columns', 'Original sheet: confirm new columns',
       phone(confirm_screen('Add 2 columns to Flat hunt 2026?', 'Nothing is written until you confirm. Existing cells are never overwritten.',
                            [('columns-3', 'Kadıköy', 'Decision in column G and Notes in column H, rows 1 to 5'),
                             ('columns-3', 'Beşiktaş', 'Decision in column G and Notes in column H, rows 1 to 5'),
@@ -491,7 +495,7 @@ F.add('S39-apartments-confirm-columns', 'Original sheet: confirm new columns (pe
 F.section('Failures (EXP-09)',
           'Every failure says what happened and how to fix it, and keeps a way out: export a file instead. Error haptic on Android and iOS. Nothing is half-written silently: partial writes say exactly which tab changed.')
 another = G('Export a file instead', '#S39-default', 'export-file')
-pts = [('file-plus-2', 'Creates new spreadsheets', 'SwipeSort can open only the files it creates. Your other files stay private.'),
+pts = [('file-plus-2', 'Creates new spreadsheets', 'SwipeSort can open only files it creates or you choose. Your other files stay private.'),
        ('user-round', "Doesn't sign you in", "Connecting Google Sheets doesn't sign you in to SwipeSort or change your account."),
        ('unplug', 'Disconnect any time', 'In Settings, under Connected accounts.')]
 pts_html = ''.join(f'<li class="flex gap-4"><span class="mt-0.5 shrink-0 text-muted-foreground">{icon(i, "size-6")}</span><div class="min-w-0"><p class="text-label-lg">{a}</p><p class="mt-0.5 text-body-sm text-muted-foreground">{b}</p></div></li>' for i, a, b in pts)
@@ -548,7 +552,7 @@ F.add('S39-error-partial', 'Write partly failed: one tab protected', phone(parti
 
 # ---------------------------------------------------------------- 7 platforms
 F.section('iOS and web',
-          'iOS: CSV and Excel go straight to the iOS share sheet, which already has Save to Files. Web: CSV and Excel download in the browser; Google permission opens in a popup window.')
+          'iOS: CSV and Excel go straight to the iOS share sheet, which already has Save to Files. Web: CSV and Excel download in the browser; Google sign-in opens in a popup window.')
 F.add('S39-ios', 'iOS: Export as a page sheet', phone(step1(DESK, 'all', ios=True), ios=True))
 ios_bg = static(step1(DESK, 'accept', ios=True))
 share_ph = f'''{scrim()}
@@ -571,13 +575,13 @@ F.add('S39-web-desktop', 'Web, desktop: CSV downloaded, toast bottom-right', f''
 </div>''')
 
 waiting = f'''{step_bar('Export to Google Sheets', 'Desk setup', '#S39-google-confirm', 'Back to confirmation')}
-  {state("app-window", "Continue in the Google window", "Allow SwipeSort to create the spreadsheet. The export continues here when you're done.", "primary", role="status")}
+  {state("app-window", "Continue in the Google window", "Confirm your Google account so SwipeSort can create the spreadsheet. The export continues here when you're done.", "primary", role="status")}
   {bottom(O("Open the Google window again", None, "reopen-popup"), G("Cancel", "#S39-google-confirm", "cancel"))}'''
 popup = f'''<div class="absolute right-10 top-24 z-20 flex h-96 w-96 flex-col overflow-hidden rounded-control border bg-card shadow-dialog" aria-hidden="true">
     <div class="flex h-9 shrink-0 items-center gap-2 border-b bg-secondary px-3 text-caption text-muted-foreground">{icon("lock", "size-3.5")}accounts.google.com</div>
-    <div class="flex-1 space-y-3 p-6"><span class="block h-4 w-24 rounded-full bg-muted"></span><span class="block h-6 w-48 rounded-full bg-muted"></span><span class="block h-12 rounded-control bg-muted"></span><span class="block h-12 rounded-control bg-muted"></span><p class="pt-2 text-caption text-muted-foreground">Google permission (native, out of scope)</p></div>
+    <div class="flex-1 space-y-3 p-6"><span class="block h-4 w-24 rounded-full bg-muted"></span><span class="block h-6 w-48 rounded-full bg-muted"></span><span class="block h-12 rounded-control bg-muted"></span><span class="block h-12 rounded-control bg-muted"></span><p class="pt-2 text-caption text-muted-foreground">Google sign-in (Google's UI, out of scope)</p></div>
   </div>'''
-F.add('S39-web-google-popup', 'Web, desktop: Google permission popup open',
+F.add('S39-web-google-popup', 'Web, desktop: Google sign-in popup open',
       f'''<div class="desktop">
   <div class="desktop-chrome" aria-hidden="true"><span class="flex gap-1.5"><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span><span class="size-3 rounded-full bg-muted-foreground/30"></span></span><span class="desktop-url">swipesort.app/l/l-desk/export</span></div>
   <div class="desktop-column">

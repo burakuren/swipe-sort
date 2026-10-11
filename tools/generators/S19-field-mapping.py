@@ -180,7 +180,7 @@ def mapping_screen(fields, intro_text, step=(3, 5), title_value='Name', continue
 
 
 # ------------------------------------------------------------------ frames
-P.section('Field mapping by source', 'One layout for every source. Each row: detected field name, sample values from real records, type, show on cards, rename. The title field is chosen at the top. Steps without mapping (photos, manual entry) never show this screen.')
+P.section('Field mapping by source', 'One layout for every source. Each row: detected field name, sample values from real records, type, show on cards, rename. The title field is chosen at the top. Manual entry defines its fields inline and never shows this screen.')
 
 P.frame('S19-default', 'Default: Google Sheets (Flat hunt 2026, two tabs)', phone(mapping_screen(
     APT_FIELDS, '8 rows from Flat hunt 2026, tabs Kadıköy and Beşiktaş. Rename fields, set their type and choose what shows on cards.',

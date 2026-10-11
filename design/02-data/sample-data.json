@@ -1,5 +1,5 @@
 {
-  "$description": "SwipeSort shared sample data. Every mockup uses these records. Images are generated SVG illustrations in design/02-data/images (no text, no hotlinks). Dates are ISO 8601; \"today\" in the mockups is 2026-10-10.",
+  "$description": "SwipeSort shared sample data. Every mockup uses these records. Images are generated SVG illustrations in design/02-data/images (no text, no hotlinks). Dates are ISO 8601; \"today\" in the mockups is 2026-10-10. Lists: `storage` (backedUp | deviceOnly, D-33) and the derived `backedUp` describe the signed-in world (Deniz); without an account, the lists in me.guest.deviceLists are on this phone only. `photos` (gallery metadata) is kept only for the retired S18 and the S02 demo images; the \"Trip ideas\" list uses `trips`, which reuse the same landscape images (D-32).",
   "today": "2026-10-10",
   "me": {
     "signedIn": {
@@ -13,7 +13,7 @@
       "name": null,
       "deviceLists": [
         "l-desk",
-        "l-photos",
+        "l-trips",
         "l-candidates"
       ]
     }
@@ -73,6 +73,7 @@
       "conflictRule": "decisionMaker",
       "currentRound": "r-w1",
       "updatedAt": "2026-10-09T21:14:00Z",
+      "storage": "backedUp",
       "backedUp": true,
       "archived": false
     },
@@ -90,24 +91,27 @@
       "shared": false,
       "currentRound": "r-d2",
       "updatedAt": "2026-10-06T12:40:00Z",
-      "backedUp": false,
+      "storage": "backedUp",
+      "backedUp": true,
       "archived": false
     },
     {
-      "id": "l-photos",
-      "name": "March photos clean-up",
+      "id": "l-trips",
+      "name": "Trip ideas",
       "template": "t-photo",
       "itemCount": 30,
       "sources": [
         {
-          "type": "photos",
+          "type": "csv",
+          "fileName": "trip-ideas.csv",
           "count": 30
         }
       ],
       "shared": false,
       "currentRound": "r-p1",
       "updatedAt": "2026-10-08T08:05:00Z",
-      "backedUp": false,
+      "storage": "backedUp",
+      "backedUp": true,
       "archived": false
     },
     {
@@ -125,6 +129,7 @@
       "shared": false,
       "currentRound": null,
       "updatedAt": "2026-10-08T14:02:00Z",
+      "storage": "deviceOnly",
       "backedUp": false,
       "archived": false
     },
@@ -147,6 +152,7 @@
       "shared": false,
       "currentRound": "r-a1",
       "updatedAt": "2026-07-21T19:20:00Z",
+      "storage": "backedUp",
       "backedUp": true,
       "archived": true
     },
@@ -164,6 +170,7 @@
       "shared": false,
       "currentRound": "r-b1",
       "updatedAt": "2026-05-02T16:00:00Z",
+      "storage": "backedUp",
       "backedUp": true,
       "archived": true
     }
@@ -210,11 +217,11 @@
       "builtIn": true,
       "layout": {
         "image": "full",
-        "title": "takenAt",
-        "subtitle": "location",
+        "title": "place",
+        "subtitle": "country",
         "rows": [
-          "fileName",
-          "sizeMB"
+          "bestTime",
+          "budget"
         ],
         "tags": []
       }
@@ -387,11 +394,11 @@
     },
     {
       "id": "r-p1",
-      "listId": "l-photos",
+      "listId": "l-trips",
       "number": 1,
       "name": "Round 1",
       "include": "all",
-      "order": "sortedBy:takenAt",
+      "order": "original",
       "itemCount": 30,
       "startedAt": "2026-10-08T08:00:00Z",
       "completedAt": null,
@@ -543,6 +550,34 @@
       {
         "key": "sizeMB",
         "label": "Size (MB)",
+        "type": "number"
+      }
+    ],
+    "trips": [
+      {
+        "key": "photo",
+        "label": "Photo",
+        "type": "image"
+      },
+      {
+        "key": "place",
+        "label": "Place",
+        "type": "text",
+        "title": true
+      },
+      {
+        "key": "country",
+        "label": "Country",
+        "type": "text"
+      },
+      {
+        "key": "bestTime",
+        "label": "Best time",
+        "type": "text"
+      },
+      {
+        "key": "budget",
+        "label": "Budget (EUR)",
         "type": "number"
       }
     ],
@@ -2864,20 +2899,292 @@
       "photo": "images/photos/ph30.svg"
     }
   ],
-  "photoDecisions": {
+  "trips": [
+    {
+      "id": "tr01",
+      "place": "Kaş, Antalya",
+      "country": "Türkiye",
+      "bestTime": "May to Jun",
+      "budget": 900,
+      "currency": "EUR",
+      "photo": "images/photos/ph01.svg"
+    },
+    {
+      "id": "tr02",
+      "place": "Hvar Town, Hvar",
+      "country": "Croatia",
+      "bestTime": "Jun to Sep",
+      "budget": 1400,
+      "currency": "EUR",
+      "photo": "images/photos/ph02.svg"
+    },
+    {
+      "id": "tr03",
+      "place": "Naxos, Cyclades",
+      "country": "Greece",
+      "bestTime": "Sep to Oct",
+      "budget": 1100,
+      "currency": "EUR",
+      "photo": "images/photos/ph03.svg"
+    },
+    {
+      "id": "tr04",
+      "place": "Vernazza, Cinque Terre",
+      "country": "Italy",
+      "bestTime": "Apr to Jun",
+      "budget": 1600,
+      "currency": "EUR",
+      "photo": "images/photos/ph04.svg"
+    },
+    {
+      "id": "tr05",
+      "place": "Kadıköy, İstanbul",
+      "country": "Türkiye",
+      "bestTime": "Sep to Nov",
+      "budget": 300,
+      "currency": "EUR",
+      "photo": "images/photos/ph05.svg"
+    },
+    {
+      "id": "tr06",
+      "place": "Le Marais, Paris",
+      "country": "France",
+      "bestTime": "Apr to Jun",
+      "budget": 1500,
+      "currency": "EUR",
+      "photo": "images/photos/ph06.svg"
+    },
+    {
+      "id": "tr07",
+      "place": "Gràcia, Barcelona",
+      "country": "Spain",
+      "bestTime": "May to Oct",
+      "budget": 1200,
+      "currency": "EUR",
+      "photo": "images/photos/ph07.svg"
+    },
+    {
+      "id": "tr08",
+      "place": "Old Town, Tallinn",
+      "country": "Estonia",
+      "bestTime": "Jun to Aug",
+      "budget": 800,
+      "currency": "EUR",
+      "photo": "images/photos/ph08.svg"
+    },
+    {
+      "id": "tr09",
+      "place": "Uçhisar, Cappadocia",
+      "country": "Türkiye",
+      "bestTime": "Sep to Oct",
+      "budget": 650,
+      "currency": "EUR",
+      "photo": "images/photos/ph09.svg"
+    },
+    {
+      "id": "tr10",
+      "place": "West Bank, Luxor",
+      "country": "Egypt",
+      "bestTime": "Nov to Feb",
+      "budget": 1300,
+      "currency": "EUR",
+      "photo": "images/photos/ph10.svg"
+    },
+    {
+      "id": "tr11",
+      "place": "Wadi Rum",
+      "country": "Jordan",
+      "bestTime": "Mar to May",
+      "budget": 1700,
+      "currency": "EUR",
+      "photo": "images/photos/ph11.svg"
+    },
+    {
+      "id": "tr12",
+      "place": "Pamukkale, Denizli",
+      "country": "Türkiye",
+      "bestTime": "Apr to Jun",
+      "budget": 400,
+      "currency": "EUR",
+      "photo": "images/photos/ph12.svg"
+    },
+    {
+      "id": "tr13",
+      "place": "Alfama, Lisbon",
+      "country": "Portugal",
+      "bestTime": "Apr to Jun",
+      "budget": 900,
+      "currency": "EUR",
+      "photo": "images/photos/ph13.svg"
+    },
+    {
+      "id": "tr14",
+      "place": "Göreme, Cappadocia",
+      "country": "Türkiye",
+      "bestTime": "Apr to May",
+      "budget": 700,
+      "currency": "EUR",
+      "photo": "images/photos/ph12.svg"
+    },
+    {
+      "id": "tr15",
+      "place": "Trastevere, Rome",
+      "country": "Italy",
+      "bestTime": "Oct to Nov",
+      "budget": 1300,
+      "currency": "EUR",
+      "photo": "images/photos/ph15.svg"
+    },
+    {
+      "id": "tr16",
+      "place": "Jordaan, Amsterdam",
+      "country": "Netherlands",
+      "bestTime": "Apr to May",
+      "budget": 1400,
+      "currency": "EUR",
+      "photo": "images/photos/ph16.svg"
+    },
+    {
+      "id": "tr17",
+      "place": "Lagos, Algarve",
+      "country": "Portugal",
+      "bestTime": "Jun to Sep",
+      "budget": 1000,
+      "currency": "EUR",
+      "photo": "images/photos/ph17.svg"
+    },
+    {
+      "id": "tr18",
+      "place": "Kotor Bay",
+      "country": "Montenegro",
+      "bestTime": "May to Jun",
+      "budget": 850,
+      "currency": "EUR",
+      "photo": "images/photos/ph18.svg"
+    },
+    {
+      "id": "tr19",
+      "place": "Bozcaada",
+      "country": "Türkiye",
+      "bestTime": "Jul to Sep",
+      "budget": 600,
+      "currency": "EUR",
+      "photo": "images/photos/ph19.svg"
+    },
+    {
+      "id": "tr20",
+      "place": "Positano, Amalfi Coast",
+      "country": "Italy",
+      "bestTime": "Sep to Oct",
+      "budget": 1900,
+      "currency": "EUR",
+      "photo": "images/photos/ph20.svg"
+    },
+    {
+      "id": "tr21",
+      "place": "Ryokan stay, Hakone",
+      "country": "Japan",
+      "bestTime": "Oct to Nov",
+      "budget": 2800,
+      "currency": "EUR",
+      "photo": "images/photos/ph21.svg"
+    },
+    {
+      "id": "tr22",
+      "place": "Lake cabin, Bled",
+      "country": "Slovenia",
+      "bestTime": "Dec to Feb",
+      "budget": 700,
+      "currency": "EUR",
+      "photo": "images/photos/ph22.svg"
+    },
+    {
+      "id": "tr23",
+      "place": "Coffee houses, Vienna",
+      "country": "Austria",
+      "bestTime": "Nov to Mar",
+      "budget": 900,
+      "currency": "EUR",
+      "photo": "images/photos/ph23.svg"
+    },
+    {
+      "id": "tr24",
+      "place": "Hygge weekend, Copenhagen",
+      "country": "Denmark",
+      "bestTime": "Nov to Feb",
+      "budget": 1000,
+      "currency": "EUR",
+      "photo": "images/photos/ph24.svg"
+    },
+    {
+      "id": "tr25",
+      "place": "Belgrad Forest, İstanbul",
+      "country": "Türkiye",
+      "bestTime": "Sep to Nov",
+      "budget": 50,
+      "currency": "EUR",
+      "photo": "images/photos/ph25.svg"
+    },
+    {
+      "id": "tr26",
+      "place": "Black Forest, Freiburg",
+      "country": "Germany",
+      "bestTime": "Sep to Oct",
+      "budget": 900,
+      "currency": "EUR",
+      "photo": "images/photos/ph26.svg"
+    },
+    {
+      "id": "tr27",
+      "place": "Yedigöller, Bolu",
+      "country": "Türkiye",
+      "bestTime": "Oct to Nov",
+      "budget": 250,
+      "currency": "EUR",
+      "photo": "images/photos/ph27.svg"
+    },
+    {
+      "id": "tr28",
+      "place": "Plitvice Lakes",
+      "country": "Croatia",
+      "bestTime": "May to Jun",
+      "budget": 750,
+      "currency": "EUR",
+      "photo": "images/photos/ph28.svg"
+    },
+    {
+      "id": "tr29",
+      "place": "Old Town, Kraków",
+      "country": "Poland",
+      "bestTime": "May to Sep",
+      "budget": 600,
+      "currency": "EUR",
+      "photo": "images/photos/ph29.svg"
+    },
+    {
+      "id": "tr30",
+      "place": "Plaka, Athens",
+      "country": "Greece",
+      "bestTime": "Apr to Jun",
+      "budget": 900,
+      "currency": "EUR",
+      "photo": "images/photos/ph30.svg"
+    }
+  ],
+  "tripDecisions": {
     "round1": {
-      "ph01": "accept",
-      "ph02": "reject",
-      "ph03": "accept",
-      "ph04": "reject",
-      "ph05": "accept",
-      "ph06": "reject",
-      "ph07": "maybe",
-      "ph08": "reject",
-      "ph09": "accept",
-      "ph10": "reject",
-      "ph11": "accept",
-      "ph12": "reject"
+      "tr01": "accept",
+      "tr02": "reject",
+      "tr03": "accept",
+      "tr04": "reject",
+      "tr05": "accept",
+      "tr06": "reject",
+      "tr07": "maybe",
+      "tr08": "reject",
+      "tr09": "accept",
+      "tr10": "reject",
+      "tr11": "accept",
+      "tr12": "reject"
     }
   },
   "books": [

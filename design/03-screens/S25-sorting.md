@@ -30,6 +30,9 @@ SCR-25.
 | S22 template library (change mode) | menu "Card template" |
 | S40 end-round dialog | menu "End round" |
 | S36 conflicts | snackbar "View" after a new conflict (shared lists) |
+| S27 `S27-ended-early` | "See summary" in the "Deniz ended Round 1" sheet (`S25-round-ended`) |
+| S26 `S26-edit-replaced` | "View" in the S40 edit-replaced snackbar (D-09 row 1) |
+| S08 Home | the list left this device (`S40-outcome-device-only-elsewhere`) or the member was removed (`S40-not-found-removed` first) |
 
 ## 3. Layout and components
 
@@ -48,7 +51,8 @@ Full-screen modal, no bottom navigation. Top to bottom:
    DropdownMenu, CoachMark.
 
 Card content follows the list's card template (components.md › SwipeCard). Frames show Person (wedding
-list), Product (Desk setup), Photo (March photos clean-up) and the custom "Candidate, compact" template.
+list), Product (Desk setup), Photo (Trip ideas: image link, Place, Country, Best time, Budget; D-32, A-130,
+A-131) and the custom "Candidate, compact" template.
 
 ## 4. States
 
@@ -66,7 +70,8 @@ list), Product (Desk setup), Photo (March photos clean-up) and the custom "Candi
 | `S25-shared-others` | "Show others' decisions" on: a small panel top-right of the card lists each other member with avatar, name and decision badge (icon + word) |
 | `S25-shared-menu` | Shared list menu with the switch |
 | `S25-shared-conflict` | After my decision differs from someone's: snackbar reveals the conflict, "View" opens S36 |
-| `S25-product`, `S25-photo`, `S25-candidate` | Other templates (any kind of list) |
+| `S25-product`, `S25-photo`, `S25-candidate` | Other templates (any kind of list). `S25-photo`: Trip ideas, Round 1 at 12 / 30 (6 / 1 / 5), card tr13 "Alfama, Lisbon", next card tr14 "Göreme, Cappadocia"; the same card as `S40-end-round` |
+| `S25-round-ended` | Shared, Selin was sorting Round 1 offline while Deniz started Round 2; at sync the "Deniz ended Round 1" sheet adds "Your 8 decisions from Round 1 were saved." (D-09 row 2); "See summary" → `S27-ended-early` |
 | `S25-long-text` | Name clamps to 3 lines; missing phone omitted; note preview |
 | `S25-no-photo` | 96 initials avatar instead of an image block |
 | `S25-edited` | Edited field marker (city changed, SAFE-03) |
@@ -135,6 +140,7 @@ All values in `motion.md §2`. Summary:
 | Error | "This list couldn't be opened" / "Your decisions are safe. Close the list and open it again. If it keeps happening, restart SwipeSort." / "Try again" / "Back to list" |
 | Resume | "Pick up where you left off" / "76 of 100 decided. 24 items left in Round 1." / "Continue sorting" |
 | Nothing left | "Every item is decided" / "Round 1 is complete. See the summary or change any decision in Results." / "See summary" |
+| Round ended (shared) | "Deniz ended Round 1" / "See summary"; after sorting offline: body "Deniz started Round 2 while you were offline. Your 8 decisions from Round 1 were saved." (1 decision: "Your 1 decision from Round 1 was saved.") |
 | Large text | "1 more field in details" |
 | Keyboard hints (web desktop) | "← Reject", "↑ Maybe", "→ Accept", "Z Undo", "N Note" |
 | Screen reader after action | "Accepted Mia Andersson. 77 of 100 decided." |
@@ -180,3 +186,16 @@ All values in `motion.md §2`. Summary:
   with a snackbar "Mehmet Yılmaz was removed from the list".
 - **Joined mid-round** (shared): the member starts at the first item of the current round (DM-16).
 - **Round ended by the Owner while sorting** (shared): sheet "Deniz ended Round 1" with "See summary".
+  When the member sorted offline and the news arrives with the sync (D-09 row 2: late Round 1 decisions are
+  accepted into Round 1), the sheet's body reads "Deniz started Round 2 while you were offline. Your 8 decisions
+  from Round 1 were saved." (`S25-round-ended`). This replaces the S40 snackbar `S40-outcome-late-round`, which
+  shows on Home or S09 when the person isn't sorting that list.
+- **Field edit replaced while sorting** (shared, D-09 row 1): the card updates in place to the later value; the
+  S40 snackbar `S40-outcome-edit-replaced` ("Mert changed City on Alper Turan after you, so your edit was
+  replaced." + View) shows above the decision bar (`bottom-32`); View opens S26 `S26-edit-replaced`.
+- **List leaves this device while it is being sorted**: if the list's backup was turned off on another device
+  of the same account (D-33, A-134), sorting closes to Home with the S40 snackbar
+  `S40-outcome-device-only-elsewhere` ("You kept “Trip ideas” on another device only. It's no longer on this
+  one."); decisions made here that hadn't synced yet are dropped with it (D-09 row 7: writes to deleted data
+  are dropped). If the member was removed from a shared list
+  (D-09 row 4), the screen switches to `S40-not-found-removed` with the line about unsaved decisions, then Home.

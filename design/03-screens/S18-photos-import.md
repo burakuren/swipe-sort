@@ -1,4 +1,11 @@
-# S18 Photos import
+# S18 Photos import (retired)
+
+> **Out of scope (D-32) — kept for reference; not part of the current design.** The Photos source was removed
+> until its outcome is designed (`docs/build-decisions.md` D-32; `design/00-brief/assumptions.md` A-129). No
+> screen links here (the S11 and S21 tiles, the S12 photos explainer, denied and limited-access states are gone)
+> and no flow passes through these frames. When photos return, they use the system photo picker and never
+> `READ_MEDIA_IMAGES` (D-27). Contact photos and image fields are unaffected. Everything below describes the
+> design as it stood before D-32; its references to `S12-photos` and the S11 Photos tile no longer resolve.
 
 Frames: `S18-photos-import.html`. Generator: `tools/generators/S18-photos-import.py`. Components: ImportStepper,
 AppBar (modal), SelectableTile (proposed), BottomSheet, Alert, Snackbar (`01-foundations/components.md`).
@@ -9,7 +16,7 @@ Step 2 of the photos import ("Select items"). On Android and iOS the person pick
 SwipeSort's own selection grid; on the web, where the gallery picker is not available, they upload photo files.
 Each photo becomes one item. Photos have fixed fields (Photo, Taken, Location, File name), so field mapping is
 skipped, and duplicate review is skipped (two photos are never merged). The result becomes a list like
-"March photos clean-up" (`l-photos`, sample `photos` ph01–ph30).
+the former sample list "March photos clean-up" (sample `photos` ph01–ph30; replaced by "Trip ideas", A-130).
 
 Covers: SRC-01 (photos source), SRC-02, SRC-07 (select photos), SRC-24 (partial import: upload), PLT-02,
 PLT-03, PLT-04, PLT-08, PLT-11, PLT-13, PLT-14, PLT-15, PLT-16 (large text, described in §7), PLT-21, PLT-23, GOAL-02, GOAL-05, VIS-13, VIS-14,

@@ -7,8 +7,8 @@ Frames: `S19-field-mapping.html`. Generator: `tools/generators/S19-field-mapping
 
 Step 3 of the import, shared by every source that brings its own fields (contacts, CSV, Excel, Google Sheets,
 plain text). The user sees what SwipeSort detected, with sample values from the real records, and decides how
-each field appears: name, type, shown on cards or hidden, and which field is the card title. Sources with fixed
-or inline-defined fields (photos S18, manual entry S17) skip this step.
+each field appears: name, type, shown on cards or hidden, and which field is the card title. Manual entry (S17)
+defines its fields inline and skips this step. (The Photos source, S18, is out of scope, D-32.)
 
 Covers: SRC-08, SRC-09, SRC-10, SRC-11, SRC-12, SRC-13, SRC-22 (too many columns), SRC-03/GOAL-05 (one mapping
 step for every source), SRC-01, GOAL-02, GOAL-03, PLT-01–PLT-04, PLT-13–PLT-16, PLT-21, PLT-23, STK-06, STK-07,

@@ -150,11 +150,10 @@ def iosbar(title='Import', back=BACK_S11, close_href=HOME, close_label='Close im
 
 STEPS5 = ['Choose source', 'Select items', 'Map fields', 'Review duplicates', 'Finish']
 STEPS4 = ['Choose source', 'Select items', 'Review duplicates', 'Finish']  # manual entry
-STEPS3 = ['Choose source', 'Select items', 'Finish']  # photos (A-62)
 
 
 def stepper(n, total=5, big=False):
-    name = {5: STEPS5, 4: STEPS4, 3: STEPS3}[total][n - 1]
+    name = {5: STEPS5, 4: STEPS4}[total][n - 1]
     segs = ''.join(f'<span class="h-1 flex-1 rounded-full {"bg-primary" if i <= n else "bg-muted"}"></span>' for i in range(1, total + 1))
     lt, ct = ('text-title-3', 'text-body-lg') if big else ('text-label', 'text-caption')
     return f'''<div class="shrink-0 px-gutter pb-3 pt-1">
@@ -286,26 +285,33 @@ SOURCES = [
     dict(id='google', name='Google Sheets', icon='sheet', desc='From Google Drive', href='S15-google-sheets.html#S15-default'),
     dict(id='text', name='Plain text', icon='text', desc='Paste a list or a .txt file', href='S16-plain-text.html#S16-default'),
     dict(id='manual', name='Manual entry', icon='square-pen', desc='Type items one by one', href='S17-manual-entry.html#S17-default'),
-    dict(id='photos', name='Photos', icon='images', desc='From your gallery', href='S12-permissions.html#S12-photos'),
 ]
+# Photos left the grid with D-32 (A-129). With an odd number of sources the last tile spans both columns,
+# so the grid never shows a hole (A-150).
+# Contacts routes by platform (D-18, A-153): Android 16 and lower → S12 explainer (prototype reference);
+# Android 17+ → S13-picker-intro; iOS → S13-picker-intro-ios.
+CONTACTS_PICKER = 'S13-contacts-import.html#S13-picker-intro'
+CONTACTS_PICKER_IOS = 'S13-contacts-import.html#S13-picker-intro-ios'
 
 
-def tile(s, state_='ok', big=False):
+def tile(s, state_='ok', big=False, wide=False):
+    span = 'col-span-2 ' if wide else ''
     if state_ in ('web', 'offline'):
         ic2, desc, href = ('monitor-smartphone', 'Needs the Android or iOS app', '#S11-web-unavailable') if state_ == 'web' else ('wifi-off', 'Needs a connection', '#S11-offline-tapped')
-        return f'''<a href="{href}" class="flex min-h-28 flex-col justify-start gap-3 rounded-tile border border-dashed border-input bg-transparent p-4" aria-haspopup="dialog" data-action="source-{s["id"]}"><span class="flex w-full items-start justify-between">{icon(s["icon"], "size-6 text-muted-foreground")}{icon(ic2, "size-4 text-muted-foreground")}</span><span><span class="block text-label-lg text-muted-foreground">{s["name"]}</span><span class="block text-caption text-muted-foreground">{desc}</span></span></a>'''
+        return f'''<a href="{href}" class="{span}flex min-h-28 flex-col justify-start gap-3 rounded-tile border border-dashed border-input bg-transparent p-4" aria-haspopup="dialog" data-action="source-{s["id"]}"><span class="flex w-full items-start justify-between">{icon(s["icon"], "size-6 text-muted-foreground")}{icon(ic2, "size-4 text-muted-foreground")}</span><span><span class="block text-label-lg text-muted-foreground">{s["name"]}</span><span class="block text-caption text-muted-foreground">{desc}</span></span></a>'''
     if big:
         return f'''<a href="{s["href"]}" class="flex min-h-20 items-center gap-4 rounded-tile border bg-card px-4 py-4" data-action="source-{s["id"]}">{icon(s["icon"], "size-7 shrink-0 text-primary")}<span class="min-w-0"><span class="block text-title-1">{s["name"]}</span><span class="block text-title-3 font-normal text-muted-foreground">{s["desc"]}</span></span></a>'''
-    return f'''<a href="{s["href"]}" class="flex min-h-28 flex-col justify-start gap-3 rounded-tile border bg-card p-4" data-action="source-{s["id"]}">{icon(s["icon"], "size-6 text-primary")}<span><span class="block text-label-lg">{s["name"]}</span><span class="block text-caption text-muted-foreground">{s["desc"]}</span></span></a>'''
+    return f'''<a href="{s["href"]}" class="{span}flex min-h-28 flex-col justify-start gap-3 rounded-tile border bg-card p-4" data-action="source-{s["id"]}">{icon(s["icon"], "size-6 text-primary")}<span><span class="block text-label-lg">{s["name"]}</span><span class="block text-caption text-muted-foreground">{s["desc"]}</span></span></a>'''
 
 
 def tiles(states=None, override=None, extra_tiles=''):
     states = states or {}
     override = override or {}
     out = []
-    for s in SOURCES:
+    odd = (len(SOURCES) + (1 if extra_tiles else 0)) % 2 == 1
+    for i, s in enumerate(SOURCES):
         s2 = dict(s, **override.get(s['id'], {}))
-        out.append(tile(s2, states.get(s['id'], 'ok')))
+        out.append(tile(s2, states.get(s['id'], 'ok'), wide=odd and i == len(SOURCES) - 1))
     return f'<div class="mt-6 grid auto-rows-fr grid-cols-2 gap-3">{"".join(out)}{extra_tiles}</div>'
 
 
@@ -326,7 +332,7 @@ def build_s11():
     {n}
   </div>'''
 
-    p.section('Source picker', 'Android reference. Tapping a tile opens that source\'s Select items step; contacts and photos first show the pre-permission explainer (S12) unless access was already granted.')
+    p.section('Source picker', 'Android reference. Tapping a tile opens that source\'s Select items step. Contacts: Android 16 and lower first show the pre-permission explainer (S12) unless access was already granted; Android 17 and later and iOS open the contact picker intro (S13), which needs no permission. Five sources: the last tile spans both columns.')
     p.frame('S11-default', 'Default: new list (Android)', phone(f'{appbar()}{stepper(1)}{body(tiles())}'))
 
     existing = f'''<h3 class="mt-7 px-1 pb-2 text-label text-muted-foreground">Already in Wedding guests</h3>
@@ -353,9 +359,8 @@ def build_s11():
     future = '<a href="#S11-new-source" class="flex min-h-28 flex-col justify-start gap-3 rounded-tile border bg-card p-4" data-action="source-calendar">' + icon('calendar', 'size-6 text-primary') + '<span><span class="block text-label-lg">Calendar</span><span class="block text-caption text-muted-foreground">Events from your calendar</span></span></a>'
     p.frame('S11-new-source', 'Extensibility: a future source (example) is one more tile', phone(f'{appbar()}{stepper(1)}{body(tiles(extra_tiles=future))}'))
 
-    p.section('Web', 'Contacts import is unavailable in browsers: the tile stays visible with its reason and opens a sheet with “Get the app” and a CSV alternative. Photos become “Upload photos” (file upload, S18 web).')
-    web_over = {'photos': dict(name='Upload photos', icon='image-up', desc='Image files from this device', href='S18-photos-import.html#S18-web')}
-    web_grid = tiles({'contacts': 'web'}, web_over)
+    p.section('Web', 'Contacts import is unavailable in browsers: the tile stays visible with its reason and opens a sheet with “Get the app” and a CSV alternative.')
+    web_grid = tiles({'contacts': 'web'})
     get_line = f'<p class="mt-3 px-1 text-body-sm text-muted-foreground">Contacts import needs the Android or iOS app. <a href="{GET_APP}" class="text-primary underline underline-offset-4" data-action="get-app">Get the app</a></p>'
     p.frame('S11-web', 'Web, mobile browser', phone(f'{appbar()}{stepper(1)}{body(web_grid, extra=get_line)}', 'web'))
     sheet_body = f'''<div class="mt-2 flex gap-3">{icon("monitor-smartphone", "size-5 mt-0.5 shrink-0 text-muted-foreground")}<p class="text-body text-muted-foreground">Browsers can't read your phone's contacts. Get SwipeSort for Android or iOS to import them, or export your contacts as a CSV file and import that here.</p></div>'''
@@ -364,8 +369,8 @@ def build_s11():
   {sheet("s11wu", "Contacts import needs the app", sheet_body, sheet_actions, "#S11-web")}''', 'web'))
     p.frame('S11-web-desktop', 'Web, desktop browser: phone layout centered', desktop(f'{appbar()}{stepper(1)}{body(web_grid, extra=get_line)}'))
 
-    p.section('iOS', 'The import opens as a page sheet: Cancel top-left, centered title. Swipe-down dismisses only while nothing is selected yet (later steps ask first).')
-    ios_grid = tiles(override={'photos': dict(desc='From your photo library')})
+    p.section('iOS', 'The import opens as a page sheet: close top-left, centered title. Swipe-down dismisses only while nothing is selected yet (later steps ask first). Contacts opens the contact picker intro (no permission on iOS).')
+    ios_grid = tiles(override={'contacts': dict(href=CONTACTS_PICKER_IOS)})
     p.frame('S11-ios', 'iOS: page sheet', phone(f'{iosbar(back=None)}{stepper(1)}{body(ios_grid)}', 'ios'))
     return p
 
@@ -397,13 +402,8 @@ def explainer(ic, title, lead, inner, tone='primary', big=False):
 
 CONTACT_POINTS = [
     ('list-checks', 'Only the contacts you pick', 'You choose on the next screen. Nothing else is imported.'),
-    ('smartphone', 'Kept on this phone', 'Imported contacts stay on this phone until you share or back up the list.'),
+    ('smartphone', 'Stays with your list', 'SwipeSort keeps only the contacts you import. They leave this phone only when the list is backed up or shared.'),
     ('shield-check', "Your address book isn't changed", 'SwipeSort never edits, adds or deletes contacts. Decisions only change SwipeSort\'s copy.'),
-]
-PHOTO_POINTS = [
-    ('images', 'Only the photos you pick', 'Choose photos or whole albums on the next screen.'),
-    ('smartphone', 'Kept on this phone', 'Photos stay on this phone until you share or back up the list.'),
-    ('shield-check', 'Nothing is deleted', "Rejecting a photo doesn't delete it. Your gallery isn't changed."),
 ]
 NOTIF_EVENTS = [
     ('user-plus', 'Someone joins a list'),
@@ -422,38 +422,24 @@ def notif_events():
 
 def build_s12():
     p = Page('S12', 'S12-permissions.html', 'Pre-permission explainers and recovery',
-             'Shown before every system permission prompt (contacts, photos, notifications) and when access was denied. One layout for every permission: icon, title, what happens to the data, then the system prompt.')
+             'Shown before every system permission prompt and when access was denied: contacts on Android 16 and lower, and notifications. System pickers need no permission, so Android 17 and later and iOS pick contacts without S12 (S13 picker path, D-18). One layout for every permission: icon, title, what happens to the data, then the system prompt.')
     S13 = 'S13-contacts-import.html#S13-select-default'
     S11 = 'S11-source-picker.html#S11-default'
 
     contacts = explainer('contact', 'Allow access to your contacts', 'SwipeSort reads your contacts so you can pick the ones to sort. Here\'s how they\'re handled.', points_list(CONTACT_POINTS))
     contacts_bottom = bottom(btn('Continue', S13, 'continue'), btn('Not now', S11, 'not-now', 'ghost', size='md'), note='Next, Android asks you to allow access.')
 
-    p.section('Contacts', 'Before the Android or iOS contacts prompt. “Continue” triggers the system prompt; when access is granted the import continues at S13. Denied access gets a recovery state with a working alternative.')
-    p.frame('S12-default', 'Contacts explainer (same as S12-contacts)', phone(f'{appbar()}{stepper(2)}{contacts}{contacts_bottom}'))
-    p.frame('S12-contacts', 'Contacts explainer (Android)', phone(f'{appbar()}{stepper(2)}{contacts}{contacts_bottom}'))
+    p.section('Contacts (Android 16 and lower)', 'Before the Android contacts prompt, only on Android 16 and lower (READ_CONTACTS, D-18). “Continue” triggers the system prompt; when access is granted the import continues at S13. Denied access gets a recovery state with a working alternative. Android 17 and later and iOS use the system contact picker instead (S13 picker path) and never see these screens.')
+    p.frame('S12-default', 'Contacts explainer, Android 16 and lower (same as S12-contacts)', phone(f'{appbar()}{stepper(2)}{contacts}{contacts_bottom}'))
+    p.frame('S12-contacts', 'Contacts explainer (Android 16 and lower)', phone(f'{appbar()}{stepper(2)}{contacts}{contacts_bottom}'))
 
     once = explainer('contact', "SwipeSort can't see your contacts", 'You chose Don\'t allow. To pick contacts, allow access. Or use a CSV file: most contacts apps can export one.',
                      f'<div class="mt-7">{safety_note("Access only lets SwipeSort read contacts. It never changes your address book.")}</div>', tone='muted')
-    p.frame('S12-contacts-denied-once', 'Contacts denied once (Android can ask again)', phone(f'''{appbar()}{stepper(2)}{once}{bottom(btn("Allow access", None, "allow-again"), btn("Import a CSV instead", "S14-file-import.html#S14-default", "import-csv-instead", "ghost", size="md"))}'''))
+    p.frame('S12-contacts-denied-once', 'Contacts denied once, Android 16 and lower (Android can ask again)', phone(f'''{appbar()}{stepper(2)}{once}{bottom(btn("Allow access", None, "allow-again"), btn("Import a CSV instead", "S14-file-import.html#S14-default", "import-csv-instead", "ghost", size="md"))}'''))
 
     blocked = explainer('contact', 'Contacts access is off', 'Android won\'t ask again, so access has to be turned on in Settings. When you come back, your contacts are ready to choose.',
                         steps_list(['Tap Open settings', 'Tap Permissions, then Contacts', 'Choose Allow']), tone='muted')
-    p.frame('S12-contacts-denied', 'Contacts denied, don\'t ask again: open settings (Android)', phone(f'''{appbar()}{stepper(2)}{blocked}{bottom(btn("Open settings", None, "open-settings"), btn("Import a CSV instead", "S14-file-import.html#S14-default", "import-csv-instead", "ghost", size="md"))}'''))
-
-    p.section('Photos', 'Before gallery access. Photos skip field mapping and duplicate review, so the stepper has 3 steps (Choose source, Select items, Finish). Limited access (iOS, Android 14+) continues with the allowed photos.')
-    photos = explainer('images', 'Allow access to your photos', 'SwipeSort shows your gallery so you can pick photos to sort. Each photo becomes one card.', points_list(PHOTO_POINTS))
-    p.frame('S12-photos', 'Photos explainer (Android)', phone(f'''{appbar()}{stepper(2, 3)}{photos}{bottom(btn("Continue", "S18-photos-import.html#S18-default", "continue"), btn("Not now", S11, "not-now", "ghost", size="md"), note="Next, Android asks you to allow access to all photos or only some.")}'''))
-
-    pblocked = explainer('images', 'Photo access is off', 'To browse your gallery in SwipeSort, turn access on in Settings. Or pick photos with Android\'s photo picker, which needs no access.',
-                         steps_list(['Tap Open settings', 'Tap Permissions, then Photos and videos', 'Choose Allow all']), tone='muted')
-    p.frame('S12-photos-denied', 'Photos denied: open settings or use the system picker', phone(f'''{appbar()}{stepper(2, 3)}{pblocked}{bottom(btn("Open settings", None, "open-settings"), btn("Pick photos with the photo picker", "S18-photos-import.html#S18-default", "system-picker", "ghost", size="md"))}'''))
-
-    thumbs = ''.join(f'<img src="{IMG}photos/ph{i:02d}.svg" alt="" class="aspect-square w-full rounded-xs object-cover">' for i in range(1, 8))
-    thumbs += '<span class="flex aspect-square w-full items-center justify-center rounded-xs bg-muted text-label tabular-nums text-muted-foreground">+17</span>'
-    limited = explainer('images', 'SwipeSort can see 24 photos', 'You allowed access to selected photos only. Sort these, select more, or allow all photos in Settings.',
-                        f'<div class="mt-6 grid grid-cols-4 gap-1.5" role="img" aria-label="24 photos allowed, 7 shown">{thumbs}</div><a href="#S12-photos-limited-ios" class="mt-4 inline-flex h-12 items-center text-label-lg text-primary underline underline-offset-4" data-action="open-settings">Allow all photos in Settings</a>')
-    p.frame('S12-photos-limited-ios', 'iOS: limited photo access', phone(f'''{iosbar()}{stepper(2, 3)}{limited}{bottom(btn("Continue with 24 photos", "S18-photos-import.html#S18-default", "continue"), btn("Select more photos", None, "select-more", "ghost", size="md"))}''', 'ios'))
+    p.frame('S12-contacts-denied', 'Contacts denied, don\'t ask again: open settings (Android 16 and lower)', phone(f'''{appbar()}{stepper(2)}{blocked}{bottom(btn("Open settings", None, "open-settings"), btn("Import a CSV instead", "S14-file-import.html#S14-default", "import-csv-instead", "ghost", size="md"))}'''))
 
     p.section('Notifications', 'Push pre-permission for collaboration events (Android and iOS only). Shown once, right after a list is first shared or joined, and from Activity or Settings while permission is undecided. Not part of the import stepper.')
     notif = explainer('bell', 'Get notified about shared lists', 'Know when it\'s your turn or when a decision needs you, without opening the app.', notif_events())
@@ -486,19 +472,20 @@ def build_s12():
     wbody = f'''<div class="mt-2 flex gap-3">{icon("monitor-smartphone", "size-5 mt-0.5 shrink-0 text-muted-foreground")}<p class="text-body text-muted-foreground">In the browser, updates appear in Activity while SwipeSort is open. To get notified on your phone, get SwipeSort for Android or iOS.</p></div>'''
     p.frame('S12-notifications-web', 'Web: push unavailable, in-app Activity instead', phone(f'''{web_bg}{sheet("s12nw", "Push notifications need the app", wbody, btn("Get the app", GET_APP, "get-app") + btn("Not now", "#S12-notifications-web", "not-now", "ghost", size="md"))}''', 'web'))
 
-    p.section('iOS', 'iOS asks only once per permission: after a denial the only way back is Settings, so iOS recovery never offers “Allow access”. Contacts (iOS 18) and photos can be limited to a selection.')
-    cios = explainer('contact', 'Allow access to your contacts', 'SwipeSort reads your contacts so you can pick the ones to sort. Here\'s how they\'re handled.', points_list(CONTACT_POINTS))
-    p.frame('S12-contacts-ios', 'iOS: contacts explainer', phone(f'''{iosbar()}{stepper(2)}{cios}{bottom(btn("Continue", S13, "continue"), btn("Not now", S11, "not-now", "ghost", size="md"), note="Next, iOS asks once. Allow full access, or choose contacts to share.")}''', 'ios'))
-    dios = explainer('contact', 'Contacts access is off', 'iOS asks only once, so access has to be turned on in Settings. When you come back, your contacts are ready to choose.',
-                     steps_list(['Tap Open Settings', 'Tap Contacts', 'Choose Full Access']), tone='muted')
-    p.frame('S12-contacts-denied-ios', 'iOS: contacts denied', phone(f'''{iosbar()}{stepper(2)}{dios}{bottom(btn("Open Settings", None, "open-settings"), btn("Import a CSV instead", "S14-file-import.html#S14-default", "import-csv-instead", "ghost", size="md"))}''', 'ios'))
+    p.section('iOS', 'iOS asks only once per permission: after a denial the only way back is Settings. Contacts on iOS need no permission (system contact picker, S13), so only notifications are asked here.')
     nios = explainer('bell', 'Get notified about shared lists', 'Know when it\'s your turn or when a decision needs you, without opening the app.', notif_events())
     nbar_ios = f'''<header class="grid h-14 shrink-0 grid-cols-[1fr_auto_1fr] items-center px-2"><a href="S09-list-overview.html#S09-shared" class="inline-flex h-12 items-center justify-self-start px-2 text-body text-primary" data-action="close">Not now</a><span></span><span></span></header>'''
     p.frame('S12-notifications-ios', 'iOS: notifications explainer', phone(f'''{nbar_ios}{nios}{bottom(btn("Turn on notifications", None, "turn-on"), note="Next, iOS asks once. Change it later in Settings.")}''', 'ios'))
 
     p.section('Accessibility', 'Large text: the explainer scrolls; the bottom actions stay pinned and wrap.')
     big = explainer('contact', 'Allow access to your contacts', 'SwipeSort reads your contacts so you can pick the ones to sort.', points_list(CONTACT_POINTS, big=True), big=True)
-    p.frame('S12-contacts-large-text', 'Large text (200%): contacts explainer', phone(f'''{appbar(big=True)}{stepper(2, big=True)}{big}<div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">{btn("Continue", S13, "continue", extra="min-h-16 text-title-3")}<div class="mt-1">{btn("Not now", S11, "not-now", "ghost", size="md", extra="text-title-3")}</div></div>'''))
+    p.frame('S12-contacts-large-text', 'Large text (200%): contacts explainer (Android 16 and lower)', phone(f'''{appbar(big=True)}{stepper(2, big=True)}{big}<div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">{btn("Continue", S13, "continue", extra="min-h-16 text-title-3")}<div class="mt-1">{btn("Not now", S11, "not-now", "ghost", size="md", extra="text-title-3")}</div></div>'''))
+    p.section('Fallback, not in the current design: iOS full contacts access (D-18)', 'Kept for reference only. iOS picks contacts in the system contact picker, which needs no permission (S13 picker path). These frames apply only if SwipeSort ever asks iOS for full contacts access; nothing links here today. iOS asks only once, so iOS recovery never offers “Allow access”.')
+    cios = explainer('contact', 'Allow access to your contacts', 'SwipeSort reads your contacts so you can pick the ones to sort. Here\'s how they\'re handled.', points_list(CONTACT_POINTS))
+    p.frame('S12-contacts-ios', 'Fallback only (D-18): iOS contacts explainer', phone(f'''{iosbar()}{stepper(2)}{cios}{bottom(btn("Continue", 'S13-contacts-import.html#S13-ios', "continue"), btn("Not now", S11, "not-now", "ghost", size="md"), note="Next, iOS asks once. Allow full access, or choose contacts to share.")}''', 'ios'))
+    dios = explainer('contact', 'Contacts access is off', 'iOS asks only once, so access has to be turned on in Settings. When you come back, your contacts are ready to choose.',
+                     steps_list(['Tap Open Settings', 'Tap Contacts', 'Choose Full Access']), tone='muted')
+    p.frame('S12-contacts-denied-ios', 'Fallback only (D-18): iOS contacts denied', phone(f'''{iosbar()}{stepper(2)}{dios}{bottom(btn("Open Settings", None, "open-settings"), btn("Import a CSV instead", "S14-file-import.html#S14-default", "import-csv-instead", "ghost", size="md"))}''', 'ios'))
     return p
 
 
@@ -634,7 +621,7 @@ def select_all(state_, count, label='Select all', round_=False, big=False):
 # =====================================================================================
 def build_s13():
     p = Page('S13', 'S13-contacts-import.html', 'Contacts import',
-             'Select items for the Contacts source: search and multi-select contacts from the address book (96 contacts on Deniz\'s phone: the 88 sample contacts plus 8 service numbers).')
+             'Select items for the Contacts source, in two ways (D-18). Android 16 and lower: after the permission (S12), search and multi-select the whole address book (96 contacts on Deniz\'s phone: the 88 sample contacts plus 8 service numbers). Android 17 and later and iOS: the system contact picker (no permission, not drawn), then a review list of the picked contacts.')
     S19C = 'S19-field-mapping.html#S19-contacts'
 
     def screen(content, count, sa_state, primary, search='', fid='s13', hint='', ios=False, round_=False, big=False, bar=None, extra_top=''):
@@ -654,24 +641,24 @@ def build_s13():
     all96 = contact_sections(ADDRESS, lambda c: True, limit=7)
     none_ = contact_sections(ADDRESS, lambda c: False)
 
-    p.section('Select contacts', 'Everything starts selected: sorting is where decisions happen, so this step only removes contacts that clearly don\'t belong, like services and shops. Selection survives searching and clearing the search.')
+    p.section('Select contacts (Android 16 and lower)', 'Full address book after the contacts permission (S12). Everything starts selected: sorting is where decisions happen, so this step only removes contacts that clearly don\'t belong, like services and shops. Selection survives searching and clearing the search.')
     hint = f'<p class="flex shrink-0 items-center gap-2 bg-primary-soft px-gutter py-2.5 text-body-sm text-primary-soft-foreground" role="note">{icon("info", "size-4 shrink-0")}<span>All contacts are selected. Uncheck the ones you don\'t want to sort.</span></p>'
-    p.frame('S13-default', 'Default: all 96 selected on arrival', phone(screen(all96, '96 of 96 selected', 'on', cont(96), fid='s13d', hint=hint)))
-    p.frame('S13-select-default', 'After unchecking 8 service numbers: 88 of 96', phone(screen(sel88, '88 of 96 selected', 'mixed', cont(88, action='continue'), fid='s13s')))
+    p.frame('S13-default', 'Android 16 and lower: all 96 selected on arrival', phone(screen(all96, '96 of 96 selected', 'on', cont(96), fid='s13d', hint=hint)))
+    p.frame('S13-select-default', 'Android 16 and lower: after unchecking 8 service numbers, 88 of 96', phone(screen(sel88, '88 of 96 selected', 'mixed', cont(88, action='continue'), fid='s13s')))
 
     q = 'oz'
     res = [c for c in ADDRESS if fold(q) in fold(c['name'])]
     res_html = f'<p class="px-gutter pb-1 pt-3 text-label text-muted-foreground">{len(res)} contacts match “{q}”. Accents are ignored.</p><ul class="divide-y">{"".join(contact_row(c, c["id"] not in UNSELECTED, q) for c in res)}</ul>'
     sel_res = sum(1 for c in res if c['id'] not in UNSELECTED)
-    p.frame('S13-search', 'Search active: matching ignores accents', phone(screen(res_html, f'{sel_res} of {len(res)} selected', 'on' if sel_res == len(res) else 'mixed', cont(88), search=q, fid='s13q').replace('>Select all<', '>Select all results<')))
+    p.frame('S13-search', 'Android 16 and lower: search ignores accents', phone(screen(res_html, f'{sel_res} of {len(res)} selected', 'on' if sel_res == len(res) else 'mixed', cont(88), search=q, fid='s13q').replace('>Select all<', '>Select all results<')))
 
     empty = f'''<div class="flex h-full flex-col items-center px-8 pt-16 text-center">{icon("search-x", "size-8 text-muted-foreground")}<h2 class="mt-4 text-title-3">No contacts match “Selim”</h2><p class="mt-1 max-w-xs text-body text-muted-foreground">Check the spelling, or search by phone number.</p>{btn("Clear search", "#S13-select-default", "clear-search", "secondary", full=False, size="md", extra="mt-6")}</div>'''
-    p.frame('S13-search-empty', 'Search with no results', phone(screen(empty, '0 of 0 selected', 'off', cont(88), search='Selim', fid='s13e').replace('>Select all<', '>Select all results<').replace('<button type="button" role="checkbox" aria-checked="false" class="flex min-h-14', '<button type="button" role="checkbox" aria-checked="false" disabled class="opacity-50 flex min-h-14')))
+    p.frame('S13-search-empty', 'Android 16 and lower: search with no results', phone(screen(empty, '0 of 0 selected', 'off', cont(88), search='Selim', fid='s13e').replace('>Select all<', '>Select all results<').replace('<button type="button" role="checkbox" aria-checked="false" class="flex min-h-14', '<button type="button" role="checkbox" aria-checked="false" disabled class="opacity-50 flex min-h-14')))
 
     none_note = '<p class="pb-1 text-center text-body-sm text-muted-foreground">Select at least one contact to continue.</p>'
-    p.frame('S13-none-selected', 'Nothing selected: Continue disabled', phone(screen(none_, '0 of 96 selected', 'off', bottom(btn('Continue', disabled=True), note='Select at least one contact to continue.', border=True), fid='s13n')))
+    p.frame('S13-none-selected', 'Android 16 and lower: nothing selected, Continue disabled', phone(screen(none_, '0 of 96 selected', 'off', bottom(btn('Continue', disabled=True), note='Select at least one contact to continue.', border=True), fid='s13n')))
 
-    p.section('Loading, empty and errors', 'Contacts are read from the phone, so there is no offline state: the step works the same without a connection.')
+    p.section('Loading, empty and errors (Android 16 and lower)', 'Contacts are read from the phone, so there is no offline state: the step works the same without a connection. The picker path has no loading or read error: the system picker hands over the picked contacts directly.')
     sk_rows = ''.join(f'<li class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="size-6 animate-pulse rounded-sm bg-muted"></span><span class="size-10 animate-pulse rounded-full bg-muted"></span><span class="flex-1 space-y-2"><span class="block h-3.5 w-{w} animate-pulse rounded-full bg-muted"></span><span class="block h-3 w-1/3 animate-pulse rounded-full bg-muted"></span></span></li>' for w in ['2/3', '1/2', '3/5', '2/5', '1/2', '2/3', '3/5', '1/2'])
     loading = f'''{appbar()}{stepper(2)}
   <div class="shrink-0 px-gutter pb-2">{search_field("s13l-q").replace('type="search"', 'type="search" disabled')}</div>
@@ -692,7 +679,7 @@ def build_s13():
                  btn('Keep importing', '#S13-select-default', 'cancel', 'ghost', full=False, size='md', extra='px-4') + btn('Discard import', HOME, 'discard', 'destructive', full=False, size='md', extra='px-4'))
     p.frame('S13-close-confirm', 'Close with a selection: discard dialog (S40 pattern)', phone(screen(sel88, '88 of 96 selected', 'mixed', cont(88), fid='s13c') + dlg))
 
-    p.section('Very large address books', 'Thousands of contacts: sticky letter headers and a fast-scroll index on the right edge (Android and iOS). The list is virtualized; search stays the fastest route.')
+    p.section('Very large address books (Android 16 and lower)', 'Thousands of contacts: sticky letter headers and a fast-scroll index on the right edge (Android and iOS). The list is virtualized; search stays the fastest route.')
     pool = sorted([c for c in DATA['contacts'] if c['name'][0] == 'M'], key=lambda c: sort_key(c['name']))
     m_rows = ''.join(contact_row(c, True, pr='pr-10') for c in pool)
     letters = 'ABCÇDEFGHIİJKLMNOÖPRSŞTUÜVYZ#'
@@ -702,17 +689,86 @@ def build_s13():
     <div class="absolute right-12 top-40 flex size-14 items-center justify-center rounded-full bg-primary text-title-2 text-primary-foreground shadow-overlay" aria-hidden="true">M</div>'''
     p.frame('S13-large', '2,140 contacts: letter index while scrubbing', phone(screen(large, '2,140 of 2,140 selected', 'on', cont('2,140'), fid='s13g')))
 
-    p.section('Accessibility', 'At 200% text, rows grow and names wrap instead of truncating; avatars hide to keep names readable.')
+    p.section('Accessibility (Android 16 and lower)', 'At 200% text, rows grow and names wrap instead of truncating; avatars hide to keep names readable.')
     big_list = contact_sections(ADDRESS, lambda c: c['id'] not in UNSELECTED, limit=6, big=True)
-    p.frame('S13-large-text', 'Large text (200%)', phone(screen(big_list, '88 of 96', 'mixed', cont(88, big=True), fid='s13b', big=True)))
+    p.frame('S13-large-text', 'Large text (200%), Android 16 and lower', phone(screen(big_list, '88 of 96', 'mixed', cont(88, big=True), fid='s13b', big=True)))
 
-    p.section('iOS', 'Page sheet with Cancel; round selection marks (iOS convention). iOS 18 can limit contacts to a selection: the list shows only those, with a way to add more.')
+    # ---------------------------------------------------------------- picker path (D-18)
+    p.section('Contact picker (Android 17 and later, iOS)', 'No permission: a short intro, then the system contact picker (not drawn: Android 17 multi-select picker, iOS contact picker with Done), then a review list of the picked contacts. All picked contacts are included; uncheck any you don\'t want, search, or add more from the picker. Duplicates are handled later (S20). Picker access is temporary, so the picked contacts are copied right away.')
+    S11P = 'S11-source-picker.html#S11-default'
+    PICK_POINTS = [
+        ('list-checks', 'Only the contacts you pick', 'SwipeSort gets those contacts, not the rest of your address book.'),
+        ('smartphone', 'Stays with your list', 'SwipeSort keeps only the contacts you import. They leave this phone only when the list is backed up or shared.'),
+        ('shield-check', "Your address book isn't changed", 'SwipeSort never edits, adds or deletes contacts. Decisions only change SwipeSort\'s copy.'),
+    ]
+    LEAD = 'Pick the people you want to sort in your phone\'s contact picker. You can review them before anything is imported.'
+
+    def intro(ios=False):
+        hdr = iosbar() if ios else appbar()
+        note = ('No permission needed. Next, the iOS contact picker opens: select contacts, then tap Done.' if ios
+                else 'No permission needed. Next, Android\'s contact picker opens: select as many contacts as you like.')
+        target = '#S13-picked-ios' if ios else '#S13-picked'
+        return f'''{hdr}{stepper(2)}{explainer('contact', 'Choose contacts', LEAD, points_list(PICK_POINTS))}{bottom(btn('Choose contacts', target, 'open-picker'), btn('Choose another source', S11P, 'another-source', 'ghost', size='md'), note=note)}'''
+
+    p.frame('S13-picker-intro', 'Picker path (Android 17 and later): intro, no permission', phone(intro()))
+
+    PICKED = [c for c in ADDRESS if c['id'] not in UNSELECTED]
+    assert len(PICKED) == 88
+
+    def summary_row(text, big=False, add_href='#S13-picked'):
+        t = 'text-title-3 font-normal' if big else 'text-body'
+        return f'''<div class="shrink-0 border-b"><div class="flex min-h-14 items-center gap-2 py-1 pl-gutter pr-2"><p class="min-w-0 flex-1 {t} tabular-nums" role="status">{text}</p><a href="{add_href}" class="inline-flex h-12 shrink-0 items-center gap-1.5 rounded-control px-3 {"text-title-3" if big else "text-label-lg"} text-primary" data-action="add-more" aria-label="Add more contacts">{icon("user-plus", "size-5")}Add more</a></div></div>'''
+
+    def picked(content, summary, primary, search='', fid='s13p', hint='', ios=False, round_=False, big=False, add_href='#S13-picked'):
+        hdr = iosbar() if ios else appbar(big=big)
+        return f'''{hdr}{stepper(2, big=big)}
+  <div class="shrink-0 px-gutter pb-2">{search_field(fid + "-q", search, label="Search picked contacts", big=big, round_="rounded-control" if ios else "rounded-full")}</div>
+  {summary_row(summary, big, add_href)}
+  {hint}
+  <div class="relative min-h-0 flex-1 overflow-hidden">{content}</div>
+  {primary}'''
+
+    phint = f'<p class="flex shrink-0 items-center gap-2 bg-primary-soft px-gutter py-2.5 text-body-sm text-primary-soft-foreground" role="note">{icon("info", "size-4 shrink-0")}<span>These are the contacts you picked. Uncheck any you don\'t want to sort.</span></p>'
+    p.frame('S13-picked', 'Picker path: 88 picked, all included (review list)', phone(picked(contact_sections(PICKED, lambda c: True, limit=11), '88 contacts picked', cont(88, action='continue'), fid='s13p', hint=phint)))
+
+    res = [c for c in PICKED if fold(q) in fold(c['name'])]
+    off_id = next(c['id'] for c in res if c['name'].startswith('Dr.'))
+    res_html = f'<p class="px-gutter pb-1 pt-3 text-label text-muted-foreground">{len(res)} contacts match “{q}”. Accents are ignored.</p><ul class="divide-y">{"".join(contact_row(c, c["id"] != off_id, q) for c in res)}</ul>'
+    p.frame('S13-picked-search', 'Picker path: search, one contact unchecked (87 of 88)', phone(picked(res_html, '87 of 88 included', cont(87), search=q, fid='s13ps')))
+
+    p.frame('S13-picked-none', 'Picker path: every contact unchecked, Continue disabled', phone(picked(contact_sections(PICKED, lambda c: False, limit=11), '0 of 88 included', bottom(btn('Continue', disabled=True), note='Select at least one contact to continue.', border=True), fid='s13pn')))
+
+    few = sorted([c for c in DATA['contacts'] if c['id'] in ('c003', 'c005', 'c017')], key=lambda c: sort_key(c['name']))
+    few_note = '<p class="px-gutter pt-4 text-body-sm text-muted-foreground">Missed someone? Add more opens the picker again; contacts you already picked stay.</p>'
+    p.frame('S13-picked-few', 'Picker path: a few picked (3)', phone(picked(contact_sections(few, lambda c: True) + few_note, '3 contacts picked', cont(3).replace('3 contacts', '3 contacts'), fid='s13pf', hint=phint)))
+
+    pool = sorted([c for c in DATA['contacts'] if c['name'][0] == 'M'], key=lambda c: sort_key(c['name']))
+    letters = 'ABCÇDEFGHIİJKLMNOÖPRSŞTUÜVYZ#'
+    idx = ''.join(f'<span class="{"font-semibold text-primary" if L == "M" else ""}">{L}</span>' for L in letters)
+    many = f'''<h3 class="sticky top-0 bg-background px-gutter pb-1 pt-3 text-label text-muted-foreground">M</h3><ul class="divide-y">{"".join(contact_row(c, True, pr="pr-10") for c in pool)}</ul>
+    <div class="absolute inset-y-1 right-1 flex w-6 flex-col items-center justify-between text-caption leading-none text-muted-foreground" aria-hidden="true">{idx}</div>'''
+    p.frame('S13-picked-many', 'Picker path: many picked (312), letter index', phone(picked(many, '312 contacts picked', cont(312), fid='s13pm')))
+
+    nophone = [c for c in PICKED if not c.get('phones')]
+    assert len(nophone) == 5
+    miss_note = f'''<div class="shrink-0 px-gutter pb-1 pt-3">{info_alert("5 contacts have no phone number", "They\'re imported with the details they have, like an email address. Uncheck them if you only sort people you can call.", "phone-off")}</div>
+  <div class="flex shrink-0 items-center justify-between gap-2 py-1 pl-gutter pr-2"><h2 class="text-label text-muted-foreground">Without a phone number</h2><a href="#S13-picked" class="inline-flex h-12 items-center rounded-control px-3 text-label-lg text-primary" data-action="show-all">Show all</a></div>'''
+    miss_rows = f'<ul class="divide-y">{"".join(contact_row(c, True) for c in nophone)}</ul>'
+    p.frame('S13-picked-missing', 'Picker path: contacts without a phone number (filtered from the note)', phone(picked(miss_rows, '88 contacts picked', cont(88), fid='s13pmi', hint=miss_note)))
+
+    big_p = contact_sections(PICKED, lambda c: True, limit=5, big=True)
+    p.frame('S13-picked-large-text', 'Picker path: large text (200%)', phone(picked(big_p, '88 picked', cont(88, big=True), fid='s13pb', big=True)))
+
+    p.frame('S13-picker-intro-ios', 'Picker path (iOS): intro, no permission', phone(intro(ios=True), 'ios'))
+    p.frame('S13-picked-ios', 'Picker path (iOS): review list, round marks', phone(picked(contact_sections(PICKED, lambda c: True, round_=True, limit=11), '88 contacts picked', cont(88), fid='s13pi', hint=phint, ios=True, round_=True, add_href='#S13-picked-ios'), 'ios'))
+
+    p.section('Fallback, not in the current design: iOS full contacts access (D-18)', 'Kept for reference only. iOS uses the system contact picker (picker path above), which needs no permission. These frames apply only if SwipeSort ever asks iOS for full contacts access (S12 fallback frames): the full list, and iOS 18 limited access with a way to share more. Nothing links here today.')
     sel_ios = contact_sections(ADDRESS, lambda c: c['id'] not in UNSELECTED, round_=True)
-    p.frame('S13-ios', 'iOS: full access', phone(screen(sel_ios, '88 of 96 selected', 'mixed', cont(88), fid='s13i', ios=True, round_=True), 'ios'))
+    p.frame('S13-ios', 'Fallback only (D-18): iOS full contacts access', phone(screen(sel_ios, '88 of 96 selected', 'mixed', cont(88), fid='s13i', ios=True, round_=True), 'ios'))
     limited_ids = [c for c in ADDRESS if c['id'] not in UNSELECTED][:40]
     lim_html = contact_sections(limited_ids, lambda c: True, round_=True, limit=10)
     lim_hint = f'<div class="shrink-0 px-gutter pb-3">{info_alert("SwipeSort can see 40 contacts", "You chose which contacts to share with SwipeSort.", "contact", extra=chr(10) + btn("Share more contacts", None, "share-more", "ghost", full=False, size="md", extra="-ml-3 mt-1 h-12 px-3 text-primary-soft-foreground underline underline-offset-4"))}</div>'
-    p.frame('S13-ios-limited', 'iOS: limited contacts access (iOS 18)', phone(screen(lim_html, '40 of 40 selected', 'on', cont(40), fid='s13il', ios=True, round_=True, extra_top=lim_hint), 'ios'))
+    p.frame('S13-ios-limited', 'Fallback only (D-18): iOS 18 limited contacts access', phone(screen(lim_html, '40 of 40 selected', 'on', cont(40), fid='s13il', ios=True, round_=True, extra_top=lim_hint), 'ios'))
     return p
 
 
@@ -919,68 +975,77 @@ def build_s14():
 
 
 # =====================================================================================
-# S15 Google Sheets
+# S15 Google Sheets (D-17: Google's Picker with the drive.file scope; no in-app spreadsheet list or Drive search)
 # =====================================================================================
-SPREADSHEETS = [
-    ('Team offsite October', 'Edited yesterday'),
-    ('Frontend hiring pipeline', 'Edited 3 days ago'),
-    ('Home office budget', 'Shared by Mert Aydın, edited Oct 2'),
-    ('Book club 2026', 'Edited Sep 14'),
-    ('Flat hunt 2026', 'Edited Jul 21'),
-    ('Moving checklist', 'Edited Jul 3'),
-    ('Lisbon trip ideas', 'Edited Jun 12'),
-    ('Running log', 'Edited May 30'),
-]
-
-
-def sheet_row(name, meta_, href='#S15-tabs', q=None, action=None):
-    da = f' data-action="{action}"' if action else ''
-    return f'<li><a href="{href}" class="flex min-h-16 items-center gap-3 px-gutter py-2"{da}><span class="flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-muted-foreground">{icon("sheet")}</span><span class="min-w-0 flex-1"><span class="block truncate text-body">{highlight(name, q)}</span><span class="block truncate text-body-sm text-muted-foreground">{meta_}</span></span>{icon("chevron-right", "size-5 shrink-0 text-muted-foreground")}</a></li>'
-
-
-def account_row(switch=True):
+def account_row(switch=True, sub='Google account'):
     s = '<a href="#S15-account-switch" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" data-action="switch-account">Switch</a>' if switch else ''
-    return f'''<div class="mx-gutter flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2"><img src="{IMG}people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="truncate text-body">deniz.yilmaz@example.com</p><p class="text-body-sm text-muted-foreground">Google account, read-only</p></div>{s}</div>'''
+    return f'''<div class="flex min-h-16 items-center gap-3 rounded-group bg-card py-2 pl-4 pr-2"><img src="{IMG}people/u-deniz.svg" alt="" class="size-10 shrink-0 rounded-full"><div class="min-w-0 flex-1"><p class="truncate text-body">deniz.yilmaz@example.com</p><p class="text-body-sm text-muted-foreground">{sub}</p></div>{s}</div>'''
+
+
+PICKER = '#S15-picker-android'  # Google's picker (system UI, out of scope); prototype stand-in frame
+
+
+def picker_placeholder(where='browser'):
+    """Labeled stand-in for Google's file picker (Google's UI, not designed here)."""
+    if where == 'browser':
+        return f'''<div class="absolute inset-0 z-20 flex flex-col bg-card" aria-hidden="true">
+    <div class="flex h-14 shrink-0 items-center gap-3 border-b bg-secondary px-4 text-caption text-muted-foreground">{icon("x", "size-5")}<span class="flex items-center gap-1.5">{icon("lock", "size-3.5")}docs.google.com</span></div>
+    <div class="flex-1 space-y-3 p-6"><span class="block h-6 w-40 rounded-full bg-muted"></span><span class="block h-12 rounded-control bg-muted"></span><span class="block h-16 rounded-control bg-muted"></span><span class="block h-16 rounded-control bg-muted"></span><span class="block h-16 rounded-control bg-muted"></span><p class="pt-2 text-body-sm text-muted-foreground">Google's file picker in a browser tab (Google's UI, out of scope). Choosing a file returns to SwipeSort; closing the tab cancels.</p></div>
+  </div>'''
+    return f'''<div class="absolute inset-0 z-10 bg-scrim/50" aria-hidden="true"></div>
+  <div class="absolute inset-x-48 bottom-12 top-24 z-20 flex flex-col overflow-hidden rounded-control border bg-card shadow-dialog" aria-hidden="true">
+    <div class="flex h-12 shrink-0 items-center justify-between border-b px-5 text-label text-muted-foreground"><span>Select a file</span>{icon("x", "size-5")}</div>
+    <div class="flex-1 space-y-3 p-6"><span class="block h-10 w-2/3 rounded-control bg-muted"></span><span class="grid grid-cols-4 gap-3"><span class="block h-28 rounded-control bg-muted"></span><span class="block h-28 rounded-control bg-muted"></span><span class="block h-28 rounded-control bg-muted"></span><span class="block h-28 rounded-control bg-muted"></span></span><p class="pt-2 text-body-sm text-muted-foreground">Google's file picker, shown over the page (Google's UI, out of scope). It lists only Google Sheets files.</p></div>
+  </div>'''
 
 
 def build_s15():
-    p = Page('S15', 'S15-google-sheets.html', 'Google Sheets connection and sheet/tab selection',
-             'Select items for the Google Sheets source: connect read-only, pick a spreadsheet, choose one or more tabs, preview, then map fields.')
+    p = Page('S15', 'S15-google-sheets.html', 'Google Sheets: choose a spreadsheet and its tabs',
+             'Select items for the Google Sheets source (D-17): choose one spreadsheet in Google\'s file picker (Google\'s UI, not drawn), choose one or more tabs, preview, then map fields. SwipeSort uses only the drive.file scope: it can open only the files the person chooses, never lists or searches their Google Drive.')
     S11 = 'S11-source-picker.html#S11-default'
     another = btn('Choose another source', S11, 'another-source', 'ghost', size='md')
 
-    pts = [('eye', 'Read-only', 'SwipeSort sees your spreadsheets to list them. It can\'t change them.'),
-           ('file-pen-line', 'Writing only when you export', 'If you export decisions to a sheet later, SwipeSort asks first and shows what it will add.'),
+    pts = [('eye-off', 'Your other files stay private', 'SwipeSort can\'t list or search your Google Drive. It sees only the spreadsheet you choose.'),
+           ('file-pen-line', 'Writing only when you export', 'If you export decisions to this sheet later, SwipeSort asks first and shows what it will add.'),
            ('unplug', 'Disconnect any time', 'In Settings, under Connected accounts.')]
-    connect = explainer('sheet', 'Connect Google Sheets', 'Sign in with Google to choose a spreadsheet. SwipeSort imports a copy of its rows.', points_list(pts))
-    p.section('Connect', 'Google Sheets needs its own read-only permission, even when you signed in to SwipeSort with Google. No SwipeSort account is required. The Google account chooser is native (out of scope).')
-    p.frame('S15-default', 'Default: connect explainer', phone(f'''{appbar()}{stepper(2)}{connect}{bottom(btn("Connect Google account", "#S15-spreadsheets", "connect"), another, note="Next, Google asks you to choose an account.")}'''))
-    conn = f'''{appbar()}{stepper(2)}{state("loader-circle", "Connecting to Google…", "Finish in the Google window. This takes a few seconds.").replace("size-8 text-muted-foreground", "size-8 animate-spin text-primary").replace('<h2', '<h2 role="status"')}{bottom(None, btn("Cancel", "#S15-default", "cancel", "ghost", size="md"))}'''
-    p.frame('S15-connecting', 'Connecting', phone(conn))
+    lead = 'You\'ll choose a spreadsheet in Google\'s file picker. SwipeSort can open only the files you choose.'
+    choose = explainer('sheet', 'Choose a spreadsheet', lead, points_list(pts))
+    first_bottom = bottom(btn('Choose spreadsheet', '#S15-tabs', 'choose-sheet'), another, note='Next, Google asks you to choose an account, then opens its file picker.')
+    p.section('Choose a spreadsheet', 'Google\'s file picker replaces an in-app list of spreadsheets. First time: an explainer, then Google asks for an account and opens the picker. Later: the account is remembered and the picker opens straight away. Cancelling the picker comes back here with nothing changed. No SwipeSort account is needed.')
+    p.frame('S15-default', 'Default: choose a spreadsheet (first time, no Google account yet)', phone(f'''{appbar()}{stepper(2)}{choose}{first_bottom}'''))
 
-    p.section('Choose a spreadsheet', 'Recently edited first, including spreadsheets shared with you. Search filters as you type.')
-    lst = ''.join(sheet_row(n, m, action='pick-sheet' if n == 'Flat hunt 2026' else None) for n, m in SPREADSHEETS)
+    def connected_body():
+        return f'''<div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
+    {account_row()}
+    <span class="mt-8 flex size-14 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground">{icon("sheet", "size-7")}</span>
+    <h2 class="mt-5 text-title-2">Choose a spreadsheet</h2>
+    <p class="mt-2 max-w-prose text-body-lg text-muted-foreground">{lead}</p>
+    <div class="mt-auto pb-2 pt-6">{safety_note("SwipeSort imports a copy. Your spreadsheet isn't changed.")}</div>
+  </div>'''
 
-    def sheets_screen(content, q='', fid='s15', bar=None):
-        return f'''{bar or appbar()}{stepper(2)}
-  {account_row()}
-  <div class="shrink-0 px-gutter pb-1 pt-3">{search_field(fid + "-q", q, "Search spreadsheets", "Search spreadsheets")}</div>
-  <div class="min-h-0 flex-1 overflow-hidden">{content}</div>'''
+    conn_bottom = bottom(btn('Choose spreadsheet', '#S15-tabs', 'choose-sheet'), another, note='Google\'s file picker opens next.')
+    p.frame('S15-connected', 'Google account already connected: picker opens straight away', phone(f'''{appbar()}{stepper(2)}{connected_body()}{conn_bottom}'''))
 
-    p.frame('S15-spreadsheets', 'Connected: spreadsheet list', phone(sheets_screen(f'<h2 class="px-gutter pb-1 pt-3 text-label text-muted-foreground">Recent</h2><ul class="divide-y">{lst}</ul>')))
-    sres = [('Flat hunt 2026', 'Edited Jul 21'), ('Flat hunt 2024', 'Edited Mar 2, 2024')]
-    p.frame('S15-search', 'Searching “flat”', phone(sheets_screen(f'<h2 class="px-gutter pb-1 pt-3 text-label text-muted-foreground">2 spreadsheets match “flat”</h2><ul class="divide-y">{"".join(sheet_row(n, m, q="flat", action="pick-sheet" if n == "Flat hunt 2026" else None) for n, m in sres)}</ul>', 'flat', 's15s')))
-    sk = ''.join(f'<li class="flex min-h-16 items-center gap-3 px-gutter py-2"><span class="size-10 animate-pulse rounded-sm bg-muted"></span><span class="flex-1 space-y-2"><span class="block h-3.5 w-{w} animate-pulse rounded-full bg-muted"></span><span class="block h-3 w-1/3 animate-pulse rounded-full bg-muted"></span></span></li>' for w in ['2/3', '1/2', '3/5', '2/5', '1/2', '2/3'])
-    p.frame('S15-loading', 'Loading spreadsheets', phone(sheets_screen(f'<p class="flex items-center gap-2 px-gutter pb-1 pt-3 text-body-sm text-muted-foreground" role="status">{icon("loader-circle", "size-4 animate-spin text-primary")}Loading spreadsheets…</p><ul aria-hidden="true">{sk}</ul>', fid='s15l')))
-    none_sheets = f'''{appbar()}{stepper(2)}{account_row()}{state("sheet", "No spreadsheets in this account", "Create one in Google Sheets, or switch to the account that has your sheet.")}{bottom(btn("Switch account", "#S15-account-switch", "switch-account"), another)}'''
-    p.frame('S15-no-spreadsheets', 'Connected account has no spreadsheets', phone(none_sheets))
     sw_body = f'''<ul class="mt-2 divide-y">
       <li class="flex min-h-16 items-center gap-3 py-2"><img src="{IMG}people/u-deniz.svg" alt="" class="size-10 rounded-full"><span class="min-w-0 flex-1"><span class="block text-body">Deniz Yılmaz</span><span class="block truncate text-body-sm text-muted-foreground">deniz.yilmaz@example.com</span></span>{icon("check", "size-5 text-primary")}<span class="sr-only">Connected</span></li>
       <li><button class="flex min-h-14 w-full items-center gap-3 py-2 text-left" data-action="another-account"><span class="flex size-10 items-center justify-center rounded-full bg-secondary">{icon("user-plus")}</span><span class="text-body">Use another Google account</span></button></li>
       <li><button class="flex min-h-14 w-full items-center gap-3 py-2 text-left text-destructive" data-action="disconnect"><span class="flex size-10 items-center justify-center">{icon("unplug")}</span><span class="text-body">Disconnect Google Sheets</span></button></li>
     </ul>
-    <p class="mt-2 text-body-sm text-muted-foreground">Disconnecting doesn\'t change your lists or your spreadsheets.</p>'''
-    p.frame('S15-account-switch', 'Already connected: switch account sheet', phone(sheets_screen(f'<ul class="divide-y">{lst}</ul>', fid='s15w') + sheet('s15sw', 'Google account', sw_body, '', '#S15-spreadsheets')))
+    <p class="mt-2 text-body-sm text-muted-foreground">Disconnecting doesn\'t change your lists or your spreadsheets. To export to a sheet later, you choose it again.</p>'''
+    p.frame('S15-account-switch', 'Already connected: switch account sheet', phone(f'''{appbar()}{stepper(2)}{connected_body()}{conn_bottom}''' + sheet('s15sw', 'Google account', sw_body, '', '#S15-connected')))
+
+    p.frame('S15-picker-android', 'Android: Google\'s picker opens in a browser tab (placeholder, out of scope)', phone(f'''{appbar()}{stepper(2)}{connected_body()}{conn_bottom}{picker_placeholder()}'''))
+
+    reading = f'''{appbar()}{stepper(2)}
+  <div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
+    {file_row("Flat hunt 2026", "Google Sheets", "sheet", None)}
+    <div class="mt-8" role="status" aria-live="polite">
+      <div class="flex items-center gap-3 text-body">{icon("loader-circle", "size-5 animate-spin text-primary")}Reading Flat hunt 2026…</div>
+      <p class="mt-2 text-body-sm text-muted-foreground">Large spreadsheets take a few seconds. Nothing is imported until you continue.</p>
+    </div>
+  </div>
+  {bottom(btn("Continue", disabled=True), btn("Cancel", "#S15-connected", "cancel", "ghost", size="md"))}'''
+    p.frame('S15-reading', 'Spreadsheet chosen: reading its tabs', phone(reading))
 
     p.section('Choose tabs and preview', 'One tab, or several with the same columns combined into one list. Combined tabs add a Tab field so items keep their origin. Empty tabs are listed but can\'t be selected.')
     tabs = [('Kadıköy', '4 rows. Address, Rent, Rooms, Size, Viewing, Link', True, False),
@@ -999,7 +1064,7 @@ def build_s15():
 
     tabs_html = f'''{appbar()}{stepper(2)}
   <div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
-    {file_row("Flat hunt 2026", "4 tabs, edited Jul 21", "sheet", "#S15-spreadsheets")}
+    {file_row("Flat hunt 2026", "4 tabs, edited Jul 21", "sheet", PICKER)}
     <h2 class="mt-5 text-title-3">Choose tabs</h2>
     <p class="mt-1 text-body-sm text-muted-foreground">Pick one tab, or several with the same columns to combine them.</p>
     <ul class="mt-3 divide-y overflow-hidden rounded-group bg-card">{tab_rows(tabs)}</ul>
@@ -1019,7 +1084,7 @@ def build_s15():
 
     tabs_big = f'''{appbar(big=True)}{stepper(2, big=True)}
   <div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
-    {file_row("Flat hunt 2026", "4 tabs, edited Jul 21", "sheet", "#S15-spreadsheets", big=True)}
+    {file_row("Flat hunt 2026", "4 tabs, edited Jul 21", "sheet", PICKER, big=True)}
     <h2 class="mt-5 text-title-1">Choose tabs</h2>
     <ul class="mt-3 divide-y overflow-hidden rounded-group bg-card">{tab_rows_big(tabs)}</ul>
   </div>
@@ -1041,30 +1106,41 @@ def build_s15():
     etabs = [('Packing', 'Column names only', False, True), ('Utilities', 'No rows', False, True)]
     empty_tab = f'''{appbar()}{stepper(2)}
   <div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
-    {file_row("Moving checklist", "2 tabs, edited Jul 3", "sheet", "#S15-spreadsheets")}
+    {file_row("Moving checklist", "2 tabs, edited Jul 3", "sheet", PICKER)}
     <h2 class="mt-5 text-title-3">Choose tabs</h2>
     <ul class="mt-3 divide-y overflow-hidden rounded-group bg-card">{tab_rows(etabs)}</ul>
     <div class="mt-4 flex gap-3 rounded-control border bg-card p-4" role="note">{icon("file-question", "size-5 shrink-0 text-muted-foreground")}<div><p class="text-label">Nothing to import</p><p class="mt-0.5 text-body-sm text-muted-foreground">Moving checklist has no rows yet. Add rows in Google Sheets, then refresh, or choose another spreadsheet.</p></div></div>
   </div>
-  {bottom(btn("Choose another spreadsheet", "#S15-spreadsheets", "another-sheet"), btn("Refresh", None, "refresh", "ghost", size="md"))}'''
+  {bottom(btn("Choose another spreadsheet", PICKER, "choose-sheet"), btn("Refresh", None, "refresh", "ghost", size="md"))}'''
     p.frame('S15-empty-tab', 'Empty tabs: nothing to import', phone(empty_tab))
 
-    p.section('Errors and offline', 'Google connection failure (SRC-23), revoked access and no connection. Every state keeps a way to another source.')
+    nl_tabs = [('2025', '6,180 rows. Name, Email, Signed up, Source', True, False),
+               ('2026', '8,070 rows. Name, Email, Signed up, Source', True, False),
+               ('Unsubscribed', '412 rows. Name, Email, Left on', False, False)]
+    too_many = f'''{appbar()}{stepper(2)}
+  <div class="flex min-h-0 flex-1 flex-col overflow-hidden px-gutter pt-1 *:shrink-0">
+    {file_row("Newsletter subscribers", "3 tabs, edited Oct 9", "sheet", PICKER)}
+    <h2 class="mt-5 text-title-3">Choose tabs</h2>
+    <p class="mt-1 text-body-sm text-muted-foreground">Pick one tab, or several with the same columns to combine them.</p>
+    <ul class="mt-3 divide-y overflow-hidden rounded-group bg-card">{tab_rows(nl_tabs)}</ul>
+    <div class="mt-4">{error_alert("14,250 rows selected", "SwipeSort imports up to 10,000 rows at a time. Choose fewer tabs, or import the first 10,000 rows and add the rest to the same list later.")}</div>
+  </div>
+  {bottom(btn("Import the first 10,000 rows", None, "first-10000"), btn("Choose another spreadsheet", PICKER, "choose-sheet", "ghost", size="md"))}'''
+    p.frame('S15-too-many-rows', 'Selected tabs over the row limit (10,000)', phone(too_many))
+
+    p.section('Errors and offline', 'Picked file isn\'t a Google Sheets file, Google connection failure (SRC-23), access removed in the Google account, access blocked by an organization, and no connection. Every state keeps a way to another source.')
+    p.frame('S15-error-unsupported', 'Picked file isn\'t a Google Sheets file', phone(f'''{appbar()}{stepper(2)}{state("file-x", "This file isn\'t a Google Sheets spreadsheet", "Office budget 2025.xlsx is an Excel file in Google Drive. Choose a spreadsheet made in Google Sheets, or download the file and import it as a CSV or Excel file.")}{bottom(btn("Choose another spreadsheet", PICKER, "choose-sheet"), btn("Import a CSV or Excel file", "S14-file-import.html#S14-default", "import-file", "ghost", size="md"))}'''))
     p.frame('S15-error-connection', 'Google connection failure', phone(f'''{appbar()}{stepper(2)}{state("cloud-off", "Google Sheets didn\'t respond", "Check your connection and try again. Nothing was imported.")}{bottom(btn("Try again", None, "retry"), another)}'''))
-    p.frame('S15-error-access', 'Access removed in the Google account', phone(f'''{appbar()}{stepper(2)}{state("unplug", "SwipeSort can\'t see your spreadsheets", "Access to Google Sheets was removed from your Google account. Connect again to choose a sheet.")}{bottom(btn("Connect again", "#S15-default", "reconnect"), another)}'''))
+    p.frame('S15-error-access', 'Access removed in the Google account', phone(f'''{appbar()}{stepper(2)}{state("unplug", "SwipeSort can\'t open Flat hunt 2026", "Access was removed in your Google account. Choose the spreadsheet again to give SwipeSort access.")}{bottom(btn("Choose spreadsheet again", "#S15-default", "choose-sheet"), another)}'''))
+    p.frame('S15-error-admin', 'Blocked by an organization\'s Google Workspace admin', phone(f'''{appbar()}{stepper(2)}{state("building-2", "Your organization doesn\'t allow SwipeSort", "The admin of your Google Workspace account blocks SwipeSort from opening files. Ask your admin, or download the sheet as a CSV file and import that.")}{bottom(btn("Import a CSV instead", "S14-file-import.html#S14-default", "import-csv-instead"), btn("Use another Google account", "#S15-account-switch", "switch-account", "ghost", size="md"))}'''))
     p.frame('S15-offline', 'Offline', phone(f'''{appbar()}{offline_banner()}<div class="h-3 shrink-0"></div>{stepper(2)}{state("wifi-off", "Google Sheets needs a connection", "Connect to the internet and try again, or import from another source. Contacts and files work offline.")}{bottom(btn("Try again", None, "retry"), another)}'''))
 
-    p.section('Web and iOS', 'Desktop and mobile web use a Google popup (OAuth). iOS uses the system web sign-in sheet (out of scope), then the same screens in a page sheet.')
-    waiting = f'''{appbar()}{stepper(2)}{state("app-window", "Continue in the Google window", "Choose your account and allow read-only access. SwipeSort continues here when you\'re done.")}{bottom(btn("Open the Google window again", None, "reopen-popup", "outline", size="md"), None)}'''
-    popup = f'''<div class="absolute right-10 top-24 z-20 flex h-96 w-96 flex-col overflow-hidden rounded-control border bg-card shadow-dialog" aria-hidden="true">
-    <div class="flex h-9 shrink-0 items-center gap-2 border-b bg-secondary px-3 text-caption text-muted-foreground">{icon("lock", "size-3.5")}accounts.google.com</div>
-    <div class="flex-1 space-y-3 p-6"><span class="block h-4 w-24 rounded-full bg-muted"></span><span class="block h-6 w-48 rounded-full bg-muted"></span><span class="block h-12 rounded-control bg-muted"></span><span class="block h-12 rounded-control bg-muted"></span><p class="pt-2 text-caption text-muted-foreground">Google sign-in (native, out of scope)</p></div>
-  </div>'''
-    p.frame('S15-web-desktop', 'Web, desktop: Google sign-in popup open', desktop_with_popup(waiting, popup))
+    p.section('Web and iOS', 'Web: Google\'s JavaScript picker opens over the page after a short Google sign-in window (popup on desktop, redirect on mobile browsers). iOS: the same flow as Android, through the system browser (to be verified when iOS work starts, D-17).')
+    web_col = f'''{appbar()}{stepper(2)}{connected_body()}{conn_bottom}'''
+    p.frame('S15-web-desktop', 'Web, desktop: Google\'s picker over the page (placeholder, out of scope)', desktop_with_popup(web_col, picker_placeholder('web')))
     blocked = f'''{appbar()}{stepper(2)}{state("app-window", "Your browser blocked the Google window", "Allow pop-ups for swipesort.app in the address bar, then try again.")}{bottom(btn("Try again", "#S15-web-desktop", "retry"), another)}'''
-    p.frame('S15-web-popup-blocked', 'Web, desktop: popup blocked', desktop(blocked, 'swipesort.app/new/google'))
-    ios_sheets = sheets_screen(f'<h2 class="px-gutter pb-1 pt-3 text-label text-muted-foreground">Recent</h2><ul class="divide-y">{lst}</ul>', fid='s15i', bar=iosbar())
-    p.frame('S15-ios', 'iOS: spreadsheet list in a page sheet', phone(ios_sheets, 'ios'))
+    p.frame('S15-web-popup-blocked', 'Web, desktop: Google sign-in popup blocked', desktop(blocked, 'swipesort.app/new/google'))
+    p.frame('S15-ios', 'iOS: choose a spreadsheet in a page sheet (same flow, to be verified)', phone(f'''{iosbar()}{stepper(2)}{choose}{first_bottom}''', 'ios'))
     return p
 
 

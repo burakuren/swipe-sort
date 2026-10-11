@@ -8,7 +8,7 @@ invited person sees), S33 (join), S34 (members), S05 (sign-in prompt), S40 (dial
 Share a list by link: choose the role the link grants, then copy it or hand it to the system share sheet.
 The sheet also shows who is already on the list, when the link expires, and lets the person reset it.
 
-Covers: COL-01, COL-02, ACC-03, ACC-04 (routing to S05), DM-10 (Decision Maker invite moves the role),
+Covers: ACC-10, COL-01, COL-02, ACC-03, ACC-04 (routing to S05), DM-10 (Decision Maker invite moves the role),
 DM-16 (intro copy: everyone sorts every item), GOAL-04, PLT-02, PLT-03, PLT-04, PLT-14, PLT-15, PLT-16,
 PLT-21, PLT-23, OUT-01 (system share sheet not designed), VIS-11–VIS-13, SCR-31, DEL-24 (flow 3 start).
 
@@ -17,6 +17,7 @@ PLT-21, PLT-23, OUT-01 (system share sheet not designed), VIS-11–VIS-13, SCR-3
 | From | How |
 | --- | --- |
 | S09 list overview (shared or about to be shared) | "Invite" / "Share" action. A guest is routed to S05 `S05-share` first; after sign-in and moving lists (`S05-moved`), S31 opens (prototype flow 3) |
+| S10 `S10-share-backup` (signed in, list on this phone only) | "Back up and share": the list backs up first (D-33, A-133, A-177); S31 opens with the snackbar "“{name}” is backed up" (4 s, S40 rules). Not drawn as its own frame: same layout as `S31-default` |
 | S34 members | App bar `user-plus` "Invite people", "Invite people" row (→ `S31-default`), "Invite links" row (→ `S31-pending`) |
 | S34 collaborator / Decision Maker view | "Invite people" (→ `S31-collaborator`) |
 

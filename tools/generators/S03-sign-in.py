@@ -1,7 +1,7 @@
 # Usage: python3 tools/generators/S03-sign-in.py  → design/03-screens/S03-sign-in.html
 from groupa_common import *
 
-P = Page('S03', 'Sign up / sign in', 'Auth modal stack. Google and email on every platform; Sign in with Apple first on iOS (HIG). Email has a sign-in form and a create-account form; "Forgot password?" opens S04. Signing in is never required to use SwipeSort alone (ACC-01). Provider marks are stand-ins for the official assets (spec §8).', 'S03-sign-in.md')
+P = Page('S03', 'Sign up / sign in', 'Auth modal stack. Google, Apple and email on every platform (D-13): Apple first on iOS (HIG), Google first on Android and web (A-140). Email has a sign-in form and a create-account form; "Forgot password?" opens S04. Signing in is never required to use SwipeSort alone (ACC-01). Provider marks are stand-ins for the official assets (spec §8).', 'S03-sign-in.md')
 
 CLOSE = 'S02-onboarding.html#S02-welcome'
 TERMS = '<p class="text-center text-body-sm text-muted-foreground">By continuing, you agree to the <a href="https://swipesort.app/terms" class="text-primary underline underline-offset-4">Terms of Service</a> and <a href="https://swipesort.app/privacy" class="text-primary underline underline-offset-4">Privacy Policy</a>.</p>'
@@ -35,14 +35,9 @@ def chooser(kind='android', context=None, state=None, large=False):
         err = '<div class="mt-6">' + alert_error("Google sign-in didn't work", 'Check your connection and try again, or continue with email.') + '</div>'
     bsize = 'lg'
     xtra = ' min-h-16 h-auto py-3 text-title-3' if large else ''
-    buttons = []
-    if kind == 'ios':
-        buttons.append(apple_btn(disabled=off or busy))
-    if busy:
-        buttons.append(google_btn(busy=True))
-    else:
-        buttons.append(google_btn(disabled=off, action='continue-google', href='#S03-google-busy' if kind != 'ios' else '#S03-ios'))
-    buttons.append(email_btn(href='#S03-email' if kind != 'ios' else '#S03-ios-email', disabled=off or busy))
+    buttons = provider_buttons(kind, google_href='#S03-google-busy' if kind != 'ios' else '#S03-ios',
+                               email_href='#S03-email' if kind != 'ios' else '#S03-ios-email', off=off,
+                               busy='google' if busy else None)
     if large:
         buttons = [b.replace('h-14', 'min-h-16 h-auto py-3').replace('text-label-lg', 'text-title-3') for b in buttons]
     note = ("Your lists stay on this phone. Try again when you're online." if off
@@ -124,7 +119,7 @@ def sign_up_form(fid, kind='android', name='Deniz Yılmaz', email='deniz.yilmaz@
 
 
 # ---------------------------------------------------------------- frames
-P.section('Choose a way to sign in', 'Android and web: Google, then email. The context line appears when S03 opens from a share or backup prompt (S05 › Continue with email).')
+P.section('Choose a way to sign in', 'Android and web: Google, then Apple (Apple\'s outline style, a browser sign-in on these platforms, D-13), then email. The context line appears when S03 opens from a share or backup prompt (S05 › Continue with email).')
 P.frame('S03-default', 'Default (Android)', phone(chooser()))
 P.frame('S03-context-share', 'Opened from Share: context line', phone(chooser(context='share')))
 P.frame('S03-context-backup', 'Opened from Back up: context line', phone(chooser(context='backup')))
@@ -148,7 +143,7 @@ P.frame('S03-error-locked', 'Error: too many attempts', phone(sign_in_form('s03l
 P.frame('S03-error-no-connection', 'Error: connection lost while signing in', phone(sign_in_form('s03nc',
     alert='<div class="mt-4">' + alert_error("Couldn't sign in", 'No connection. Check your connection and try again. Your lists stay on this phone.') + '</div>')))
 
-P.section('Google', 'Google opens the system account chooser (out of scope). While it returns, the Google button shows progress and the other options are disabled. Cancelling returns quietly; a failure explains what to do.')
+P.section('Google', 'Google opens the system account chooser (out of scope). While it returns, the Google button shows progress and the other options are disabled. Cancelling returns quietly; a failure explains what to do. Apple on Android and web follows the same pattern (busy, cancelled, failed) after its browser page.')
 P.frame('S03-google-busy', 'Google: signing in', phone(chooser(state='google-busy')))
 P.frame('S03-google-cancelled', 'Google: cancelled in the account chooser', phone(chooser(state='cancelled')))
 P.frame('S03-google-failed', 'Google: failed', phone(chooser(state='google-failed')))
@@ -163,7 +158,7 @@ P.frame('S03-ios', 'iOS: Apple first', phone(chooser('ios'), kind='ios'))
 P.frame('S03-ios-context-share', 'iOS: opened from Share', phone(chooser('ios', context='share'), kind='ios'))
 P.frame('S03-ios-email', 'iOS: sign in with email', phone(sign_in_form('s03ios', kind='ios'), kind='ios'))
 
-P.section('Web', 'Mobile browsers: the Android layout without Apple. Desktop browsers: the phone column, used by an invited member in prototype flow 3 (Mert opens Deniz\'s link and signs in to join).')
+P.section('Web', 'Mobile browsers: the Android layout, Apple included (Apple\'s sign-in page opens in a popup on desktop, a redirect on phones). Desktop browsers: the phone column, used by an invited member in prototype flow 3 (Mert opens Deniz\'s link and signs in to join).')
 P.frame('S03-web', 'Web, mobile browser', phone(chooser(), kind='web'))
 
 inviter = f'''<div class="mt-6 flex items-center gap-3 rounded-group bg-card p-4 dark:border">
@@ -176,8 +171,7 @@ web_desk = f'''<header class="flex h-app-bar shrink-0 items-center gap-2 px-gutt
     <p class="mt-2 text-body-lg text-muted-foreground">No app needed. You can sort right here in your browser.</p>
     {inviter}
     <div class="mt-8 space-y-3">
-      {google_btn(href='S33-join-list.html#S33-web-desktop', action='continue-google')}
-      {email_btn(href='#S03-web-desktop-email')}
+      {"".join(provider_buttons('web', google_href='S33-join-list.html#S33-web-desktop', email_href='#S03-web-desktop-email'))}
     </div>
     <p class="mt-4 text-center text-body-sm text-muted-foreground">Next, you\'ll see the list and your role before joining.</p>
   </div>

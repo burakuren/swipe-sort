@@ -212,3 +212,12 @@ Dialogs: AlertDialog (S40 pattern). Remove uses a RadioGroup inside the dialog (
 - **Long names**: wrap to two lines; the count never wraps (fixed column next to the bar).
 - **Progress after a new round**: bars reset to the new round's totals ("0 / 11 decided").
 - **Members screen on a solo list**: not reachable (S09 solo has no Members row).
+- **Member removed while offline** (D-09 row 4): their queued decisions and notes are rejected; on their device
+  the list leaves the phone and Home shows the inline alert `S40-outcome-removed` ("You were removed from
+  “Wedding guests”" + what wasn't saved); with nothing queued, the snackbar "Deniz removed you from “Wedding
+  guests”." (S40 §4.4a). The Owner's screen shows nothing extra.
+- **Decision Maker changed while the old one resolves offline** (D-09 row 6): their queued resolutions are
+  rejected; they see `S40-outcome-dm-role-lost` on S09 / S36.
+- **Backup on shared lists** (D-33): a shared list is always backed up; the Owner's S09 shows the switch disabled
+  ("Shared lists are always backed up.", `S09-shared-backup`). After the Owner removes every member and turns off
+  every invite link, the list is solo again and the switch works (A-134).

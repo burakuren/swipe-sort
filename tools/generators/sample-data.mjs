@@ -294,6 +294,45 @@ const photos = Array.from({ length: 30 }, (_, i) => {
   };
 });
 
+// ---------------- trips (D-32, A-130) ----------------
+// "Trip ideas" from trip-ideas.csv: Photo (image link), Place (title), Country, Best time, Budget (EUR).
+// Each row reuses the generated landscape image with the same number (phNN), so the scene fits the place:
+// ph01–04 and ph17–20 sea, ph05–08, ph13–16 and ph29–30 city, ph09–12 hills with balloons, ph21–24 indoor,
+// ph25–28 forest. tr13 (ph13, a street scene) is "Alfama, Lisbon", the card on S25-photo and S26; the next card,
+// tr14 "Göreme, Cappadocia", reuses ph12 (balloons over the hills), as drawn in S40-end-round.
+const trips = [
+  ['Kaş, Antalya', 'Türkiye', 'May to Jun', 900],
+  ['Hvar Town, Hvar', 'Croatia', 'Jun to Sep', 1400],
+  ['Naxos, Cyclades', 'Greece', 'Sep to Oct', 1100],
+  ['Vernazza, Cinque Terre', 'Italy', 'Apr to Jun', 1600],
+  ['Kadıköy, İstanbul', 'Türkiye', 'Sep to Nov', 300],
+  ['Le Marais, Paris', 'France', 'Apr to Jun', 1500],
+  ['Gràcia, Barcelona', 'Spain', 'May to Oct', 1200],
+  ['Old Town, Tallinn', 'Estonia', 'Jun to Aug', 800],
+  ['Uçhisar, Cappadocia', 'Türkiye', 'Sep to Oct', 650],
+  ['West Bank, Luxor', 'Egypt', 'Nov to Feb', 1300],
+  ['Wadi Rum', 'Jordan', 'Mar to May', 1700],
+  ['Pamukkale, Denizli', 'Türkiye', 'Apr to Jun', 400],
+  ['Alfama, Lisbon', 'Portugal', 'Apr to Jun', 900],
+  ['Göreme, Cappadocia', 'Türkiye', 'Apr to May', 700, 12],
+  ['Trastevere, Rome', 'Italy', 'Oct to Nov', 1300],
+  ['Jordaan, Amsterdam', 'Netherlands', 'Apr to May', 1400],
+  ['Lagos, Algarve', 'Portugal', 'Jun to Sep', 1000],
+  ['Kotor Bay', 'Montenegro', 'May to Jun', 850],
+  ['Bozcaada', 'Türkiye', 'Jul to Sep', 600],
+  ['Positano, Amalfi Coast', 'Italy', 'Sep to Oct', 1900],
+  ['Ryokan stay, Hakone', 'Japan', 'Oct to Nov', 2800],
+  ['Lake cabin, Bled', 'Slovenia', 'Dec to Feb', 700],
+  ['Coffee houses, Vienna', 'Austria', 'Nov to Mar', 900],
+  ['Hygge weekend, Copenhagen', 'Denmark', 'Nov to Feb', 1000],
+  ['Belgrad Forest, İstanbul', 'Türkiye', 'Sep to Nov', 50],
+  ['Black Forest, Freiburg', 'Germany', 'Sep to Oct', 900],
+  ['Yedigöller, Bolu', 'Türkiye', 'Oct to Nov', 250],
+  ['Plitvice Lakes', 'Croatia', 'May to Jun', 750],
+  ['Old Town, Kraków', 'Poland', 'May to Sep', 600],
+  ['Plaka, Athens', 'Greece', 'Apr to Jun', 900],
+].map(([place, country, bestTime, budget, img], i) => ({ id: `tr${pad(i + 1, 2)}`, place, country, bestTime, budget, currency: 'EUR', photo: `images/photos/ph${pad(img || i + 1, 2)}.svg` }));
+
 // ---------------- small datasets for other sources ----------------
 const books = ['The Remains of the Day', 'Piranesi', 'Kürk Mantolu Madonna', 'Klara and the Sun', 'Tomorrow, and Tomorrow, and Tomorrow', 'Beyaz Kale', 'A Gentleman in Moscow', 'The Overstory', 'İnce Memed', 'Station Eleven', 'Sapiens', 'The Left Hand of Darkness'];
 const apartments = [
@@ -325,7 +364,7 @@ const candidates = [
 const templates = [
   { id: 't-person', name: 'Person', builtIn: true, layout: { image: 'avatar', title: 'name', subtitle: 'relationship', rows: ['phone', 'email', 'city'], tags: ['side'] } },
   { id: 't-product', name: 'Product', builtIn: true, layout: { image: 'cover', title: 'name', subtitle: 'store', rows: ['price', 'rating'], tags: ['category'] } },
-  { id: 't-photo', name: 'Photo', builtIn: true, layout: { image: 'full', title: 'takenAt', subtitle: 'location', rows: ['fileName', 'sizeMB'], tags: [] } },
+  { id: 't-photo', name: 'Photo', builtIn: true, layout: { image: 'full', title: 'place', subtitle: 'country', rows: ['bestTime', 'budget'], tags: [] } },
   { id: 't-task', name: 'Task', builtIn: true, layout: { image: 'none', title: 'title', subtitle: 'due', rows: ['owner', 'estimate'], tags: ['priority'] } },
   { id: 't-candidate', name: 'Candidate', builtIn: true, layout: { image: 'avatar', title: 'name', subtitle: 'role', rows: ['yearsExperience', 'location', 'expectedSalary', 'portfolio'], tags: ['source'] } },
   { id: 't-generic', name: 'Generic', builtIn: true, layout: { image: 'none', title: 'first field', subtitle: 'second field', rows: ['next 4 fields'], tags: [] } },
@@ -339,29 +378,29 @@ const lists = [
     id: 'l-wedding', name: 'Wedding guests', emoji: null, template: 't-person', itemCount: 100,
     sources: [{ type: 'contacts', count: 88 }, { type: 'csv', fileName: 'mert-family.csv', count: 12 }],
     shared: true, owner: 'u-deniz', conflictRule: 'decisionMaker', currentRound: 'r-w1',
-    updatedAt: '2026-10-09T21:14:00Z', backedUp: true, archived: false,
+    updatedAt: '2026-10-09T21:14:00Z', storage: 'backedUp', backedUp: true, archived: false,
   },
   {
     id: 'l-desk', name: 'Desk setup', template: 't-product', itemCount: 20, sources: [{ type: 'manual', count: 20 }],
-    shared: false, currentRound: 'r-d2', updatedAt: '2026-10-06T12:40:00Z', backedUp: false, archived: false,
+    shared: false, currentRound: 'r-d2', updatedAt: '2026-10-06T12:40:00Z', storage: 'backedUp', backedUp: true, archived: false,
   },
   {
-    id: 'l-photos', name: 'March photos clean-up', template: 't-photo', itemCount: 30, sources: [{ type: 'photos', count: 30 }],
-    shared: false, currentRound: 'r-p1', updatedAt: '2026-10-08T08:05:00Z', backedUp: false, archived: false,
+    id: 'l-trips', name: 'Trip ideas', template: 't-photo', itemCount: 30, sources: [{ type: 'csv', fileName: 'trip-ideas.csv', count: 30 }],
+    shared: false, currentRound: 'r-p1', updatedAt: '2026-10-08T08:05:00Z', storage: 'backedUp', backedUp: true, archived: false,
   },
   {
     id: 'l-candidates', name: 'Frontend hiring, Q4', template: 't-candidate-compact', itemCount: 12,
     sources: [{ type: 'csv', fileName: 'candidates-q4.csv', count: 12 }], shared: false, currentRound: null,
-    updatedAt: '2026-10-08T14:02:00Z', backedUp: false, archived: false,
+    updatedAt: '2026-10-08T14:02:00Z', storage: 'deviceOnly', backedUp: false, archived: false,
   },
   {
     id: 'l-apartments', name: 'Apartment viewings', template: 't-generic', itemCount: 8,
     sources: [{ type: 'googleSheets', sheet: 'Flat hunt 2026', tabs: ['Kadıköy', 'Beşiktaş'], count: 8 }], shared: false,
-    currentRound: 'r-a1', updatedAt: '2026-07-21T19:20:00Z', backedUp: true, archived: true,
+    currentRound: 'r-a1', updatedAt: '2026-07-21T19:20:00Z', storage: 'backedUp', backedUp: true, archived: true,
   },
   {
     id: 'l-books', name: 'Book club picks', template: 't-generic', itemCount: 12, sources: [{ type: 'text', count: 12 }],
-    shared: false, currentRound: 'r-b1', updatedAt: '2026-05-02T16:00:00Z', backedUp: true, archived: true,
+    shared: false, currentRound: 'r-b1', updatedAt: '2026-05-02T16:00:00Z', storage: 'backedUp', backedUp: true, archived: true,
   },
 ];
 
@@ -373,7 +412,7 @@ const rounds = [
     result: { accept: 5, reject: 9, maybe: 6 }, durationSec: 352 },
   { id: 'r-d2', listId: 'l-desk', number: 2, name: 'Round 2', include: 'maybe', order: 'shuffled', itemCount: 6, startedAt: '2026-10-06T12:30:00Z', completedAt: '2026-10-06T12:33:00Z',
     result: { accept: 3, reject: 2, maybe: 1 }, durationSec: 141 },
-  { id: 'r-p1', listId: 'l-photos', number: 1, name: 'Round 1', include: 'all', order: 'sortedBy:takenAt', itemCount: 30, startedAt: '2026-10-08T08:00:00Z', completedAt: null,
+  { id: 'r-p1', listId: 'l-trips', number: 1, name: 'Round 1', include: 'all', order: 'original', itemCount: 30, startedAt: '2026-10-08T08:00:00Z', completedAt: null,
     progress: { me: { decided: 12, accept: 5, reject: 6, maybe: 1 } } },
   { id: 'r-a1', listId: 'l-apartments', number: 1, name: 'Round 1', include: 'all', order: 'original', itemCount: 8, completedAt: '2026-07-21T19:20:00Z', result: { accept: 3, reject: 4, maybe: 1 } },
   { id: 'r-b1', listId: 'l-books', number: 1, name: 'Round 1', include: 'all', order: 'shuffled', itemCount: 12, completedAt: '2026-05-02T16:00:00Z', result: { accept: 4, reject: 6, maybe: 2 } },
@@ -390,9 +429,9 @@ const activity = [
 ];
 
 const data = {
-  $description: 'SwipeSort shared sample data. Every mockup uses these records. Images are generated SVG illustrations in design/02-data/images (no text, no hotlinks). Dates are ISO 8601; "today" in the mockups is 2026-10-10.',
+  $description: 'SwipeSort shared sample data. Every mockup uses these records. Images are generated SVG illustrations in design/02-data/images (no text, no hotlinks). Dates are ISO 8601; "today" in the mockups is 2026-10-10. Lists: `storage` (backedUp | deviceOnly, D-33) and the derived `backedUp` describe the signed-in world (Deniz); without an account, the lists in me.guest.deviceLists are on this phone only. `photos` (gallery metadata) is kept only for the retired S18 and the S02 demo images; the "Trip ideas" list uses `trips`, which reuse the same landscape images (D-32).',
   today: '2026-10-10',
-  me: { signedIn: { id: 'u-deniz', name: 'Deniz Yılmaz', email: 'deniz.yilmaz@example.com', google: 'deniz.yilmaz@example.com', avatar: 'images/people/u-deniz.svg' }, guest: { name: null, deviceLists: ['l-desk', 'l-photos', 'l-candidates'] } },
+  me: { signedIn: { id: 'u-deniz', name: 'Deniz Yılmaz', email: 'deniz.yilmaz@example.com', google: 'deniz.yilmaz@example.com', avatar: 'images/people/u-deniz.svg' }, guest: { name: null, deviceLists: ['l-desk', 'l-trips', 'l-candidates'] } },
   members,
   lists,
   templates,
@@ -412,6 +451,7 @@ const data = {
       { key: 'reviews', label: 'Reviews', type: 'number' }, { key: 'store', label: 'Store', type: 'text' }, { key: 'category', label: 'Category', type: 'text' }, { key: 'link', label: 'Link', type: 'link' }, { key: 'photo', label: 'Photo', type: 'image' },
     ],
     photos: [{ key: 'photo', label: 'Photo', type: 'image' }, { key: 'takenAt', label: 'Taken', type: 'date', title: true }, { key: 'location', label: 'Location', type: 'text' }, { key: 'fileName', label: 'File name', type: 'text' }, { key: 'sizeMB', label: 'Size (MB)', type: 'number' }],
+    trips: [{ key: 'photo', label: 'Photo', type: 'image' }, { key: 'place', label: 'Place', type: 'text', title: true }, { key: 'country', label: 'Country', type: 'text' }, { key: 'bestTime', label: 'Best time', type: 'text' }, { key: 'budget', label: 'Budget (EUR)', type: 'number' }],
     candidates: [{ key: 'name', label: 'Name', type: 'text', title: true }, { key: 'role', label: 'Role', type: 'text' }, { key: 'yearsExperience', label: 'Years of experience', type: 'number' }, { key: 'location', label: 'Location', type: 'text' }, { key: 'expectedSalary', label: 'Expected salary', type: 'number' }, { key: 'portfolio', label: 'Portfolio', type: 'link' }, { key: 'email', label: 'Email', type: 'email' }, { key: 'source', label: 'Source', type: 'text' }],
   },
   contacts,
@@ -419,7 +459,8 @@ const data = {
   products,
   productDecisions: { round1: Object.fromEntries(products.map((p, i) => [p.id, productDecisions[i]])), round2: { p04: 'accept', p07: 'accept', p13: 'reject', p15: 'accept', p16: 'reject', p18: 'maybe' } },
   photos,
-  photoDecisions: { round1: { ph01: 'accept', ph02: 'reject', ph03: 'accept', ph04: 'reject', ph05: 'accept', ph06: 'reject', ph07: 'maybe', ph08: 'reject', ph09: 'accept', ph10: 'reject', ph11: 'accept', ph12: 'reject' } },
+  trips,
+  tripDecisions: { round1: { tr01: 'accept', tr02: 'reject', tr03: 'accept', tr04: 'reject', tr05: 'accept', tr06: 'reject', tr07: 'maybe', tr08: 'reject', tr09: 'accept', tr10: 'reject', tr11: 'accept', tr12: 'reject' } },
   books,
   apartments,
   candidates,

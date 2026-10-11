@@ -1,3 +1,10 @@
+> **Amendments after build planning (2026-10-11).** The brief below is kept verbatim. Build decisions in
+> `docs/build-decisions.md` change several of its items; `requirements.md` marks each affected ID ("Changed by
+> D-xx", "Out of scope (D-32)") and `assumptions.md` A-128 onward records the design answers:
+> Sign in with Apple is offered on every platform, not only iOS (D-13); the Photos source and the photo
+> clean-up sample list are out of scope for now (D-32); a signed-in person can keep a single list on the
+> device only (D-33); Google Sheets and phone contacts use system pickers (D-17, D-18).
+
 <role>
 You are the lead product designer and design orchestrator for a new app,
 SwipeSort. You have senior experience in consumer mobile apps, gesture-driven

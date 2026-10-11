@@ -5,15 +5,16 @@ P = Page('S02', 'Onboarding', 'First launch only (replay from Settings › Help)
 
 SKIP = 'S08-home.html#S08-first-run'
 
-# ---------------------------------------------------------------- demo cards (sample data p02, ph09, p05, ph05)
+# ---------------------------------------------------------------- demo cards (sample data p02, ph09, p05, ph05 images)
 DESK = dict(kind='product', img='products/p02.svg', title='Walnut sit-stand desk, 140 × 70 cm', sub='Oakline', price='€649', rating='4.7', reviews='532', tag='Desk',
             label='Walnut sit-stand desk, 140 × 70 cm, Oakline, 649 euros, rated 4.7')
-PHOTO = dict(kind='photo', img='photos/ph09.svg', title='Mar 5, 2026, 17:56', sub='Göreme, Cappadocia', meta='IMG_2049.JPG, 5.1 MB',
-             label='Photo IMG_2049.JPG, taken Mar 5, 2026 in Göreme, Cappadocia')
+# Place cards (Photo card template with an image link, like the "Trip ideas" sample list; D-32, A-130, A-131)
+PHOTO = dict(kind='photo', img='photos/ph09.svg', title='Göreme, Cappadocia', sub='Türkiye, best in spring',
+             label='Göreme, Cappadocia, Türkiye, best in spring')
 LAMP = dict(kind='product', img='products/p05.svg', title='Ceramic desk lamp with dimmer', sub='Lumen & Co', price='€79', rating='4.2', reviews='211', tag='Lamp',
             label='Ceramic desk lamp with dimmer, Lumen & Co, 79 euros, rated 4.2')
-CITY = dict(kind='photo', img='photos/ph05.svg', title='Mar 3, 2026, 13:28', sub='Kadıköy, İstanbul', meta='IMG_2045.JPG, 2 MB',
-            label='Photo IMG_2045.JPG, taken Mar 3, 2026 in Kadıköy, İstanbul')
+CITY = dict(kind='photo', img='photos/ph05.svg', title='Kadıköy, İstanbul', sub='Türkiye, best in autumn',
+            label='Kadıköy, İstanbul, Türkiye, best in autumn')
 
 
 def card_body(c, large=False):
@@ -170,7 +171,7 @@ def welcome(kind='android', web_note=False, replay=False):
   <div class="flex min-h-0 flex-1 flex-col justify-center">{hero()}</div>
   <div class="shrink-0 px-gutter text-center">
     <h1 class="text-balance text-title-1">Sort any list, one card at a time</h1>
-    <p class="mx-auto mt-2 max-w-prose text-body-lg text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, photos, things to buy and ideas, alone or with others.</p>
+    <p class="mx-auto mt-2 max-w-prose text-body-lg text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, places, things to buy and ideas, alone or with others.</p>
   </div>
   <div class="shrink-0 space-y-2 px-gutter pb-4 pt-6">
     {btn("Try the gestures", href="#S02-demo", action="next")}
@@ -182,14 +183,14 @@ def welcome(kind='android', web_note=False, replay=False):
         top = f'<header class="flex h-app-bar shrink-0 items-center justify-end px-1">{text_action("Skip", SKIP, "skip")}</header>'
     note = ''
     if web_note:
-        note = f'<div class="shrink-0 px-gutter pb-2 pt-4">{alert_neutral("Using SwipeSort in your browser", "Everything works here. Get the app to import phone contacts and photos from your gallery.", action=link("Get the app", "https://swipesort.app/get"))}</div>'
+        note = f'<div class="shrink-0 px-gutter pb-2 pt-4">{alert_neutral("Using SwipeSort in your browser", "Everything works here. Get the app to import your phone contacts.", action=link("Get the app", "https://swipesort.app/get"))}</div>'
         top = ''
     return f'''{top}
   {note}
   <div class="flex min-h-0 flex-1 flex-col justify-center">{hero()}</div>
   <div class="shrink-0 px-gutter text-center">
     <h1 class="text-balance text-title-1">Sort any list, one card at a time</h1>
-    <p class="mx-auto mt-2 max-w-prose text-body-lg text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, photos, things to buy and ideas, alone or with others.</p>
+    <p class="mx-auto mt-2 max-w-prose text-body-lg text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, places, things to buy and ideas, alone or with others.</p>
   </div>
   <div class="shrink-0 space-y-2 px-gutter pb-4 pt-6">
     {btn("Get started", href="#S02-demo", action="next")}
@@ -203,7 +204,7 @@ P.frame('S02-default', 'Default entry: replayed from Settings › Help (close in
 P.frame('S02-welcome', 'Welcome (first launch)', phone(welcome()))
 
 # ---------------------------------------------------------------- demo
-P.section('Gesture demo', 'A deck of four neutral sample cards (products and photos from sample data). The user tries all three gestures in any order; the checklist fills as each one is used, and the instruction always names the next untried gesture. Buttons count too. Nothing is saved. After the third gesture the recap opens automatically (700 ms after the commit).')
+P.section('Gesture demo', 'A deck of four neutral sample cards (products and places from sample data). The user tries all three gestures in any order; the checklist fills as each one is used, and the instruction always names the next untried gesture. Buttons count too. Nothing is saved. After the third gesture the recap opens automatically (700 ms after the commit).')
 P.frame('S02-demo', 'Demo, step 1: swipe right to accept', phone(demo(
     'Swipe right to accept', 'Try it on these sample cards. Nothing is saved.', DESK, PHOTO, hint='accept', shortcut=True, links={'accept': '#S02-demo-step-2'})))
 P.frame('S02-demo-drag-accept', 'Dragging right, armed: tint, stamp, Accept button fills', phone(demo(
@@ -267,7 +268,7 @@ lt_welcome = f'''<header class="flex min-h-16 shrink-0 items-center justify-end 
   <div class="flex min-h-0 flex-1 flex-col px-gutter pt-2">
     {mark("size-16")}
     <h1 class="mt-6 text-display">Sort any list, one card at a time</h1>
-    <p class="mt-4 text-title-2 font-normal text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, photos, things to buy and ideas, alone or with others.</p>
+    <p class="mt-4 text-title-2 font-normal text-muted-foreground">Swipe right to accept, left to reject, up for maybe. Works for people, places, things to buy and ideas, alone or with others.</p>
   </div>
   <div class="shrink-0 space-y-2 px-gutter pb-4 pt-4">
     {btn("Get started", href="#S02-demo", extra="min-h-16 h-auto py-3 text-title-3")}

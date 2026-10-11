@@ -6,7 +6,7 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 from groupc2_common import *  # noqa
 
-P = Page('S18', 'Photos import', 'Step 2 of the photos import: select photos from the gallery (Android, iOS) or upload photo files (web). Each photo becomes one item with fixed fields (Photo, Taken, Location, File name), so field mapping is skipped. Spec: <a href="S18-photos-import.md">S18-photos-import.md</a>.')
+P = Page('S18', 'Photos import (retired)', 'Step 2 of the photos import: select photos from the gallery (Android, iOS) or upload photo files (web). Each photo becomes one item with fixed fields (Photo, Taken, Location, File name), so field mapping is skipped. Spec: <a href="S18-photos-import.md">S18-photos-import.md</a>.')
 
 PHOTOS = DATA['photos']
 CLOSE = 'S08-home.html#S08-default'
@@ -270,3 +270,17 @@ offline = f'''{modal_bar(close_href=CLOSE)}
 P.frame('S18-web-offline', 'Web, mobile browser: offline, uploads paused', web_phone(offline))
 
 P.write('S18-photos-import.html')
+
+# D-32 (A-129): the Photos source is out of scope. The file and its frames stay for reference only; nothing links
+# here and no flow passes through it. A page-level notice says so above every frame.
+_out = os.path.join(SCREENS, 'S18-photos-import.html')
+_html = open(_out, encoding='utf-8').read()
+_notice = ('<div role="note" class="mt-4 flex max-w-3xl gap-3 rounded-control border border-destructive/40 bg-card p-4 text-body">'
+           + icon('archive', 'size-5 mt-0.5 shrink-0 text-destructive')
+           + '<div><p class="text-label-lg">Out of scope (D-32) — kept for reference; not part of the current design.</p>'
+           + '<p class="mt-1 text-body-sm text-muted-foreground">The Photos source was removed until its outcome is designed (docs/build-decisions.md D-32, assumptions A-129). '
+           + 'No screen links here and no flow passes through these frames. Contact photos and image fields are unaffected.</p></div></div>')
+_anchor = '<h1>S18 Photos import (retired)</h1>'
+assert _html.count(_anchor) == 1
+_html = _html.replace(_anchor, _anchor + '\n  ' + _notice, 1)
+open(_out, 'w', encoding='utf-8').write(_html)

@@ -77,7 +77,7 @@ Offline: not applicable (paste and local files work offline). Web-unavailable: n
 - **Duplicate lines** (exact match after trimming, case-insensitive): info alert lists up to 3 values
   ("and 4 more" beyond that). "Remove duplicates" keeps the first occurrence, removes later ones, updates the
   count and shows a snackbar "Removed 2 duplicate lines" with "Undo". Duplicates are kept unless removed.
-- **Limit**: 5,000 items per import (same limit as photos, D-S16-2). Above it, the error alert shows and the
+- **Limit**: 5,000 items per import (D-S16-2). Above it, the error alert shows and the
   primary button label states the outcome: "Continue with 5,000 items". Lines after 5,000 are not imported; the
   preview count shows "Preview (5,000)".
 - **Open a .txt file**: opens the system picker filtered to `text/plain`. While reading: loading state. Success:
@@ -164,8 +164,8 @@ Offline: not applicable (paste and local files work offline). Web-unavailable: n
 
 - **D-S16-1** Plain-text imports have 4 steps (Choose source, Select items, Map fields, Finish): duplicate lines
   are handled in place on S16, so the Review duplicates step is dropped. S19-text is "Step 3 of 4".
-- **D-S16-2** Import limit: 5,000 items per import, shared with photos (S18). Extra lines are not imported and the
-  primary button names the outcome.
+- **D-S16-2** Import limit: 5,000 items per import (A-62; it was shared with the Photos source, now out of scope,
+  D-32). Extra lines are not imported and the primary button names the outcome.
 - **D-S16-3** Duplicate lines are kept unless the user removes them (the user's text is never changed silently).
 - **D-S16-4** Opening a file loads its text into the same editable box rather than a separate preview, so both
   paths share one screen.

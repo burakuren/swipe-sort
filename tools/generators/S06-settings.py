@@ -78,8 +78,11 @@ def root_groups(state='signed-in', haptics_web=False, notif_value='On', ios=Fals
         backup = nav_row('Backup', href='#S06-backup-guest', icon_name='cloud-off', desc='Not backed up. Lists are on this phone only.', action='backup')
     elif state == 'offline':
         backup = nav_row('Backup', href='#S06-backup-failed', icon_name='cloud-off', desc='Paused while offline', action='backup')
-    else:
+    elif haptics_web:
+        # web: lists on this phone only stay on Deniz's phone; this browser has none (A-137)
         backup = nav_row('Backup', href='#S06-backup', icon_name='cloud-check', desc='Backed up today at 09:12', action='backup')
+    else:
+        backup = nav_row('Backup', href='#S06-backup', icon_name='cloud-check', desc='Backed up. 1 list on this phone only', action='backup')
     g.append(group([backup, nav_row('Card templates', href='S22-template-library.html#S22-default', icon_name='layout-template', desc='Built-in and your own', action='card-templates')], header='Lists', ios=ios))
     if haptics_web:
         hap = switch_row('Haptics', False, icon_name='vibrate', unavailable=('Haptics need the Android or iOS app.', '#S06-web-get-app'))
@@ -127,6 +130,9 @@ signout = dialog('so', 'Sign out?', f"Your lists are backed up to {ME['email']}.
 P.frame('S06-sign-out', 'Sign out: confirmation', phone(root(scrolled=True, overlay=signout), overlay_full=True))
 unsynced = dialog('su', 'Sign out without backing up?', "12 changes haven't been backed up because you're offline. Signing out now removes them from this phone, and they can't be recovered.",
                   dlg_btn('Cancel', href='#S06-offline', action='cancel') + dlg_btn('Sign out anyway', 'destructive', href='S08-home.html#S08-first-run', action='confirm-sign-out'))
+signout_do = dialog('sod', 'Sign out?', f"Your lists backed up to {ME['email']} leave this phone and come back when you sign in. “Frontend hiring, Q4” stays on this phone, hidden until you sign in again.",
+                    dlg_btn('Cancel', href='#S06-default-end', action='cancel') + dlg_btn('Sign out', 'destructive', href='S08-home.html#S08-first-run', action='confirm-sign-out'))
+P.frame('S06-sign-out-device-only', 'Sign out with a list on this phone only', phone(root(scrolled=True, overlay=signout_do), overlay_full=True))
 P.frame('S06-sign-out-unsynced', 'Sign out with changes not backed up', phone(root('offline', top=offline_banner("You're offline. Changes are saved on this phone."), scrolled=True, overlay=unsynced), overlay_full=True))
 
 # ---------------------------------------------------------------- appearance, language
@@ -173,26 +179,41 @@ notif_web = (alert_neutral('Push notifications need the app',
 P.frame('S06-notifications-web', 'Notifications on web: in-app only', phone(sub('Notifications', notif_web), kind='web'))
 
 # ---------------------------------------------------------------- backup
-P.section('Backup', 'Signed-in lists back up automatically whenever the phone is online. Backup states: backed up, backing up, paused (failed or offline), and not backed up (no account).')
+P.section('Backup', 'Signed-in lists back up automatically whenever the phone is online. Backup states: backed up, backing up, paused (failed or offline), and not backed up (no account). Lists kept on this phone only (D-33) are listed under the account rows, each with Back up.')
 acct_rows = [
     nav_row('Account', href='S07-profile.html#S07-default', icon_name='circle-user-round', desc=ME['email'], trailing=''),
 ]
 
-
-def backup_page(status, rows, action_html):
-    return sub('Backup', status + group(rows) + action_html)
+DO_NAME, DO_COUNT, DO_ICON = DEVICE_ONLY
 
 
-P.frame('S06-backup', 'Backup: backed up', phone(backup_page(
-    status_block('cloud-check', 'ok', 'Backed up', 'Last backup today at 09:12. Lists back up automatically whenever you\'re online.'),
-    acct_rows + [nav_row('Lists', href='S08-home.html#S08-default', icon_name='list-checks', value='4', trailing=''),
-                 nav_row('Changes waiting', href='#S06-backup', icon_name='clock', value='None', trailing='')],
+def device_only_group(state='default'):
+    """Lists on this phone only (signed in), each with Back up (A-132, A-138). state: default | backing-up."""
+    if state == 'backing-up':
+        tr = f'<span class="inline-flex h-12 shrink-0 items-center gap-1.5 px-3 text-body-sm text-muted-foreground" role="status">{icon("loader-circle", "size-4 animate-spin text-primary")}Backing up…</span>'
+    else:
+        tr = f'<a href="#S06-backup-list-backed-up" class="inline-flex h-12 shrink-0 items-center rounded-control px-3 text-label-lg text-primary" aria-label="Back up {esc(DO_NAME)}" data-action="back-up-list">Back up</a>'
+    row = f'<li class="flex min-h-16 items-center gap-4 py-2 pl-4 pr-1">{icon(DO_ICON, "size-5 shrink-0 text-muted-foreground")}<span class="min-w-0 flex-1"><span class="block truncate text-body">{DO_NAME}</span><span class="block text-body-sm tabular-nums text-muted-foreground">{DO_COUNT} items</span></span>{tr}</li>'
+    return group([row], header='On this phone only', footer="Lists on this phone only don't move to a new phone. Back them up first.")
+
+
+def backup_page(status, rows, action_html, device_only='default', overlay=''):
+    extra = device_only_group(device_only) if device_only else ''
+    return sub('Backup', status + group(rows) + action_html + extra) + overlay
+
+
+def lists_row(n='3', href='#S06-backup'):
+    return nav_row('Backed-up lists', href=href, icon_name='list-checks', value=n, trailing='')
+
+
+P.frame('S06-backup', 'Backup: backed up, 1 list on this phone only', phone(backup_page(
+    status_block('cloud-check', 'ok', 'Backed up', 'Last backup today at 09:12. Backed-up lists update automatically whenever you\'re online.'),
+    acct_rows + [lists_row(), nav_row('Changes waiting', href='#S06-backup', icon_name='clock', value='None', trailing='')],
     btn('Back up now', 'secondary', size='md', action='back-up'))))
 
 P.frame('S06-backup-syncing', 'Backup: backing up', phone(backup_page(
     status_block('refresh-cw', 'ok', 'Backing up…', 'Backing up 12 changes. You can keep using SwipeSort.', extra='animate-spin'),
-    acct_rows + [nav_row('Lists', href='S08-home.html#S08-default', icon_name='list-checks', value='4', trailing=''),
-                 nav_row('Changes waiting', href='#S06-backup-syncing', icon_name='clock', value='12', trailing='')],
+    acct_rows + [lists_row(href='#S06-backup-syncing'), nav_row('Changes waiting', href='#S06-backup-syncing', icon_name='clock', value='12', trailing='')],
     btn('Backing up…', 'secondary', size='md', busy=True))))
 
 P.frame('S06-backup-failed', 'Backup: paused (failed)', phone(backup_page(
@@ -200,6 +221,17 @@ P.frame('S06-backup-failed', 'Backup: paused (failed)', phone(backup_page(
     acct_rows + [nav_row('Last backup', href='#S06-backup-failed', icon_name='history', value='Yesterday', trailing=''),
                  nav_row('Changes waiting', href='#S06-backup-failed', icon_name='clock', value='12', trailing='')],
     btn('Try again', 'secondary', size='md', action='retry'))))
+
+P.frame('S06-backup-list-backing-up', 'Back up one list: backing up', phone(backup_page(
+    status_block('cloud-check', 'ok', 'Backed up', 'Last backup today at 09:12. Backed-up lists update automatically whenever you\'re online.'),
+    acct_rows + [lists_row(), nav_row('Changes waiting', href='#S06-backup', icon_name='clock', value='None', trailing='')],
+    btn('Back up now', 'secondary', size='md', action='back-up'), device_only='backing-up')))
+
+P.frame('S06-backup-list-backed-up', 'Back up one list: done, snackbar', phone(backup_page(
+    status_block('cloud-check', 'ok', 'Backed up', 'Last backup today at 09:12. Backed-up lists update automatically whenever you\'re online.'),
+    acct_rows + [lists_row('4'), nav_row('Changes waiting', href='#S06-backup', icon_name='clock', value='None', trailing='')],
+    btn('Back up now', 'secondary', size='md', action='back-up'), device_only=None,
+    overlay=snackbar(f'“{DO_NAME}” is backed up', bottom='bottom-4'))))
 
 device_rows = [f'<li class="flex min-h-14 items-center gap-4 px-4 py-3">{icon(ic, "size-5 shrink-0 text-muted-foreground")}<span class="min-w-0 flex-1"><span class="block truncate text-body">{n}</span><span class="block text-body-sm text-muted-foreground">{c} items</span></span></li>' for n, c, ic in DEVICE_LISTS]
 P.frame('S06-backup-guest', 'Backup: not signed in (not backed up)', phone(sub('Backup',
@@ -215,9 +247,13 @@ def prose(items):
     return '<div class="space-y-5 px-1">' + ''.join(f'<section><h2 class="text-title-3">{h}</h2><p class="mt-1 max-w-prose text-body text-muted-foreground">{t}</p></section>' for h, t in items) + '</div>'
 
 
-privacy = prose([
+usage_group = group([switch_row('Share anonymous usage data', True, icon_name='chart-no-axes-column',
+                                 desc='Events like finishing a round, with no ID that follows you. Never list contents, names or anything you type.')],
+                    footer='Applies on this phone. The privacy policy lists every event.')
+privacy = usage_group + prose([
     ('What SwipeSort keeps', 'The lists you make: items, fields, decisions and notes. If you sign in, also your name, email and photo.'),
-    ('Contacts and photos', 'SwipeSort reads only the contacts or photos you choose to import, and keeps only the fields you map.'),
+    ('Contacts', 'SwipeSort reads only the contacts you choose to import and keeps only the fields you map. On newer phones you choose them in your phone\'s own contact picker, so SwipeSort sees only the ones you pick.'),
+    ('Lists on this phone only', 'A list you keep on this phone only never leaves it. It isn\'t backed up, so it can\'t be recovered if you lose the phone.'),
     ('Shared lists', 'Members of a shared list see its items, everyone\'s decisions and notes. Notes marked private are visible only to you.'),
     ('Your original files', 'Imported files and Google Sheets are never changed unless you confirm an export to them.'),
 ]) + group([
@@ -225,7 +261,8 @@ privacy = prose([
     nav_row('Terms of service', href='#S06-privacy', icon_name='file-text', external=True),
     nav_row('Delete account', href='S07-profile.html#S07-default', icon_name='trash-2', destructive=True, desc='From your profile', action='delete-account'),
 ])
-P.frame('S06-privacy', 'Privacy', phone(sub('Privacy', privacy)))
+P.frame('S06-privacy', 'Privacy: usage data switch', phone(sub('Privacy', privacy)))
+P.frame('S06-privacy-end', 'Privacy scrolled to the end', phone(sub('Privacy', f'<div class="-translate-y-80 space-y-6">{privacy}</div>')))
 
 
 def help_page(overlay=''):
@@ -294,7 +331,7 @@ big = f'''<header class="shrink-0"><div class="h-6"></div><h1 class="px-gutter p
   <div class="min-h-0 flex-1 space-y-6 overflow-hidden px-4 pb-6">
     <ul class="overflow-hidden rounded-group bg-card dark:border"><li><a href="S07-profile.html#S07-default" class="flex min-h-16 items-center gap-4 px-4 py-4">{avatar(ME['avatar'], size='size-14')}<span class="min-w-0 flex-1"><span class="block text-title-2">{ME['name']}</span><span class="block truncate text-body-lg text-muted-foreground">{ME['email']}</span></span>{icon('chevron-right', 'size-6 shrink-0 text-muted-foreground')}</a></li></ul>
     <section><h2 class="px-1 pb-2 text-title-3 text-muted-foreground">Lists</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border">
-      {big_row('Backup', 'cloud-check', 'Backed up today at 09:12', '#S06-backup')}
+      {big_row('Backup', 'cloud-check', 'Backed up. 1 list on this phone only', '#S06-backup')}
       {big_row('Card templates', 'layout-template', None, 'S22-template-library.html#S22-default')}
     </ul></section>
     <section><h2 class="px-1 pb-2 text-title-3 text-muted-foreground">Preferences</h2><ul class="divide-y overflow-hidden rounded-group bg-card dark:border">
@@ -338,6 +375,9 @@ ios_sheet = f'''{scrim('z-30')}
     <a href="#S06-ios" class="flex h-14 items-center justify-center rounded-dialog bg-popover text-title-3 text-primary shadow-dialog" data-action="cancel">Cancel</a>
   </div>'''
 P.frame('S06-ios-sign-out', 'iOS sign out: action sheet', phone(ios_root(ios_sheet), kind='ios', overlay_full=True))
+ios_sheet_do = ios_sheet.replace(f"Your lists are backed up to {ME['email']}. They'll be removed from this iPhone until you sign in again.",
+                                 f"Your lists backed up to {ME['email']} leave this iPhone and come back when you sign in. “Frontend hiring, Q4” stays on this iPhone, hidden until you sign in again.")
+P.frame('S06-ios-sign-out-device-only', 'iOS sign out with a list on this phone only', phone(ios_root(ios_sheet_do), kind='ios', overlay_full=True))
 
 # ---------------------------------------------------------------- web
 P.section('Web', 'Same layout in the browser. Haptics stay visible but unavailable, with the reason and Get the app. Notifications are in-app only. Desktop shows the phone layout centered.')

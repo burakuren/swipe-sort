@@ -107,6 +107,11 @@
     id: p.id, title: p.fileName, a11y: `Photo ${p.fileName}, taken ${fmtDate(p.takenAt)}${p.location ? ' in ' + p.location : ''}.`,
     html: `<img src="${IMG}${p.photo}" alt="" class="min-h-0 w-full flex-1 object-cover" draggable="false"><div class="px-6 pb-5 pt-4"><h2 class="text-title-2">${fmtDate(p.takenAt)}</h2><p class="mt-1 text-body text-muted-foreground">${esc(p.location || 'No location')}</p><p class="mt-1 text-body-sm text-muted-foreground">${p.fileName}, ${p.sizeMB} MB</p></div>`,
   });
+  // Trip ideas (A-130): Photo template, caption rows Best time and Budget.
+  const trip = (t) => ({
+    id: t.id, title: t.place, a11y: `${t.place}, ${t.country}. Best time ${t.bestTime}. Budget €${t.budget}.`,
+    html: `<img src="${IMG}${t.photo}" alt="" class="min-h-0 w-full flex-1 object-cover" draggable="false"><div class="px-6 pb-5 pt-4"><h2 class="text-title-2">${esc(t.place)}</h2><p class="mt-1 text-body text-muted-foreground">${esc(t.country)}</p><p class="mt-1 text-body-sm text-muted-foreground">Best time ${esc(t.bestTime)}, budget €${t.budget}</p></div>`,
+  });
   const candidate = (k) => ({
     id: k.id, title: k.name, a11y: `${k.name}, ${k.location}. ${k.yearsExperience} years of experience.`,
     // Sparse-card rule (S23 §3): no image -> content block centered above pinned tags; ≤3 rows use text-title-2.
@@ -123,7 +128,7 @@
     mert: { name: 'Wedding guests', round: 'Round 1, shared', close: '../03-screens/S09-list-overview.html#S09-shared-decision-maker', items: () => S.shared.items.filter((x) => !x.decisions['u-mert'] && !['c012', 'c034', 'c056'].includes(x.itemId)).map((x) => person(S.contacts.find((c) => c.id === x.itemId))), done: 85, total: 100, counts: { reject: 21, maybe: 14, accept: 50 } },
     desk: { name: 'Desk setup', round: 'Round 1', items: () => S.products.map(product) },
     'desk-maybe': { name: 'Desk setup', round: 'Round 2, Maybe pile', close: '../03-screens/S09-list-overview.html#S09-solo-round-done', items: () => S.products.filter((p) => S.productDecisions.round1[p.id] === 'maybe').map(product) },
-    photos: { name: 'March photos clean-up', round: 'Round 1', items: () => S.photos.map(photo) },
+    trips: { name: 'Trip ideas', round: 'Round 1', items: () => S.trips.map(trip) },
     candidates: { name: 'Frontend hiring, Q4', round: 'Round 1', items: () => S.candidates.map(candidate) },
   };
   const deck = DECKS[q.get('deck')] || DECKS.wedding;

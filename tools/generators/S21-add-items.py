@@ -9,6 +9,7 @@ P = Page('S21', 'Add items to an existing list', 'From S09 “Add items”: the 
 
 CLOSE = 'S09-list-overview.html#S09-shared'
 LIST = 'Wedding guests'
+OFFLINE_TEXT = "You're offline. Items you add are saved on this phone. Google Sheets needs a connection."  # S40 offline banner pattern
 
 
 def bar(ios=False, back=None):
@@ -21,23 +22,28 @@ SOURCES = [
     ('sheet', 'Google Sheets', 'From Google Drive', 'S15-google-sheets.html#S15-default', 'source-google'),
     ('text', 'Plain text', 'Paste a list or a .txt file', 'S16-plain-text.html#S16-empty', 'source-text'),
     ('square-pen', 'Manual entry', 'Type items one by one', 'S17-manual-entry.html#S17-empty', 'source-manual'),
-    ('images', 'Photos', 'From your gallery', 'S18-photos-import.html#S18-default', 'source-photos'),
 ]
+# Photos left with D-32 (A-129). Five tiles: the last one spans both columns, as in S11 (A-150).
+# Contacts: Android 16 and lower (reference) go straight to the full list (permission already granted);
+# Android 17 and later and iOS open the contact picker intro (D-18).
 
 
-def tile(ic, name, desc, href, action):
-    return f'<a href="{href}" class="flex min-h-28 flex-col justify-start gap-3 rounded-tile border bg-card p-4" data-action="{action}">{icon(ic, "size-6 text-primary")}<span><span class="block text-label-lg">{name}</span><span class="block text-caption text-muted-foreground">{desc}</span></span></a>'
+def tile(ic, name, desc, href, action, wide=False):
+    span = 'col-span-2 ' if wide else ''
+    return f'<a href="{href}" class="{span}flex min-h-28 flex-col justify-start gap-3 rounded-tile border bg-card p-4" data-action="{action}">{icon(ic, "size-6 text-primary")}<span><span class="block text-label-lg">{name}</span><span class="block text-caption text-muted-foreground">{desc}</span></span></a>'
 
 
-def tile_off(ic, name, desc, badge_ic, aria):
-    return f'<button class="flex min-h-28 flex-col justify-start gap-3 rounded-tile border border-dashed border-input bg-transparent p-4 text-left" aria-label="{aria}"><span class="flex w-full items-start justify-between">{icon(ic, "size-6 text-muted-foreground")}{icon(badge_ic, "size-4 text-muted-foreground")}</span><span><span class="block text-label-lg text-muted-foreground">{name}</span><span class="block text-caption text-muted-foreground">{desc}</span></span></button>'
+def tile_off(ic, name, desc, badge_ic, aria, wide=False):
+    span = 'col-span-2 ' if wide else ''
+    return f'<button class="{span}flex min-h-28 flex-col justify-start gap-3 rounded-tile border border-dashed border-input bg-transparent p-4 text-left" aria-label="{aria}"><span class="flex w-full items-start justify-between">{icon(ic, "size-6 text-muted-foreground")}{icon(badge_ic, "size-4 text-muted-foreground")}</span><span><span class="block text-label-lg text-muted-foreground">{name}</span><span class="block text-caption text-muted-foreground">{desc}</span></span></button>'
 
 
 def picker(overrides=None, banner='', note_extra=''):
     overrides = overrides or {}
     tiles = ''
-    for s in SOURCES:
-        tiles += overrides.get(s[1], tile(*s))
+    for i, s in enumerate(SOURCES):
+        wide = len(SOURCES) % 2 == 1 and i == len(SOURCES) - 1
+        tiles += overrides.get(s[1], tile(*s, wide=wide))
     return f'''{banner}
   <div class="min-h-0 flex-1 overflow-hidden">
     <div class="space-y-5 pb-6 pt-1">
@@ -173,21 +179,27 @@ def summary_list(large=False):
 
 members = f'<span class="flex shrink-0 -space-x-2">{avatar(photo="images/people/u-mert.svg", size="size-8")}<span class="flex size-8 items-center justify-center rounded-full bg-muted text-caption text-muted-foreground ring-2 ring-primary-soft">SY</span></span>'
 shared_notice = f'''<div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground" role="note">{members}<div class="min-w-0 flex-1"><p class="text-label">Mert and Selin will see 12 new items to sort</p><p class="mt-0.5 text-body-sm">They get a notification. Their progress counts the new items.</p></div></div>'''
+# D-05: adding items to a shared list offline is queued, not blocked (A-159)
+shared_notice_offline = f'''<div class="flex gap-3 rounded-control bg-primary-soft p-4 text-primary-soft-foreground" role="note">{members}<div class="min-w-0 flex-1"><p class="text-label">Mert and Selin see the 12 new items when you\'re back online</p><p class="mt-0.5 text-body-sm">Until then they\'re saved on this phone. Members get a notification once the items sync.</p></div></div>'''
 
 
-def confirm(busy=False, ios=False):
-    btn_html = bottom('Adding 12 items…', busy=True) if busy else bottom('Add to list', '#S21-success', 'add-to-list')
+def confirm(busy=False, ios=False, offline=False):
+    if busy:
+        btn_html = bottom('Adding 12 items…', busy=True)
+    else:
+        btn_html = bottom('Add to list', '#S21-offline-success' if offline else '#S21-success', 'add-to-list')
+    banner = f'{offline_banner(OFFLINE_TEXT)}<div class="h-3 shrink-0"></div>' if offline else ''
     prog = ''
     if busy:
         prog = '<div class="px-gutter"><div class="h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="7" aria-valuemin="0" aria-valuemax="12" aria-label="Adding items, 7 of 12"><div class="h-full w-[58%] rounded-full bg-primary"></div></div><p class="mt-2 text-body-sm tabular-nums text-muted-foreground" role="status">7 of 12 added. You can leave; adding continues.</p></div>'
     return f'''{bar(ios=ios, back=('Review duplicates', 'S20-duplicate-review.html#S20-existing') if ios else None)}
-  {stepper("Add to list", 5, 5)}
+  {banner}{stepper("Add to list", 5, 5)}
   <div class="min-h-0 flex-1 overflow-hidden">
     <div class="space-y-4 pb-6 pt-1">
     <h2 class="px-gutter text-title-2">Add 12 items to {LIST}</h2>
     {prog}
     <div class="px-gutter"><ul class="divide-y overflow-hidden rounded-group bg-card">{summary_list()}</ul></div>
-    <div class="px-gutter">{shared_notice}</div>
+    <div class="px-gutter">{shared_notice_offline if offline else shared_notice}</div>
     </div>
   </div>
   {btn_html}'''
@@ -220,7 +232,7 @@ P.frame('S21-success', 'Back on S09: snackbar “Added 12 items” with Undo', p
 P.frame('S21-success-activity', 'S09 scrolled: the addition in Recent activity', phone(s09_screen('S09-shared-scrolled', 's21b').replace(ACT_UL, ACT_UL + added_event, 1)))
 
 # ------------------------------------------------------------------ errors and states
-P.section('Errors, offline and platforms', 'Partial add, offline (local sources work; Google Sheets needs a connection), web (contacts and gallery need the app; photos upload instead) and iOS.')
+P.section('Errors, offline and platforms', 'Partial add, offline (local sources work; Google Sheets needs a connection; on a shared list the added items are saved on this phone and reach members when the connection is back, D-05), web (contacts need the app) and iOS.')
 
 skipped = [
     ('Row 9', 'Has 9 values but the file has 7 columns.'),
@@ -240,20 +252,22 @@ P.frame('S21-partial', 'Partial: 10 of 12 added', phone(partial))
 
 off_tile = tile_off('sheet', 'Google Sheets', 'Needs a connection', 'wifi-off', 'Google Sheets, needs a connection')
 P.frame('S21-offline', 'Offline: local sources work, Google Sheets doesn\'t', phone(f'''{bar()}
-  {offline_banner("You\'re offline. Google Sheets needs a connection; other sources work. Items you add sync to Mert and Selin later.")}<div class="h-3 shrink-0"></div>
+  {offline_banner(OFFLINE_TEXT)}<div class="h-3 shrink-0"></div>
   {stepper("Choose source", 1, 5)}
   {picker({"Google Sheets": off_tile})}'''))
 
+P.frame('S21-offline-confirm', 'Offline, shared list: Add to list still works (queued)', phone(confirm(offline=True)))
+P.frame('S21-offline-success', 'Offline, shared list: added and saved on this phone', phone(s09_screen('S09-offline', 's21o') + snackbar("Added 12 items. Members see them when you're back online.", 'Undo', bottom='bottom-2')))
+
 web_contacts = tile_off('contact', 'Contacts', 'Needs the Android or iOS app', 'monitor-smartphone', 'Contacts, needs the Android or iOS app')
-web_photos = tile('image-up', 'Upload photos', 'Image files from this device', 'S18-photos-import.html#S18-web', 'source-photos')
 web_note = ' Contacts import needs the Android or iOS app. <a href="https://swipesort.app/get" class="text-primary underline underline-offset-4">Get the app</a>'
-P.frame('S21-web', 'Web: contacts unavailable, photos upload', web_phone(f'''{bar()}
+P.frame('S21-web', 'Web: contacts unavailable', web_phone(f'''{bar()}
   {stepper("Choose source", 1, 5)}
-  {picker({"Contacts": web_contacts, "Photos": web_photos}, note_extra=web_note)}'''))
+  {picker({"Contacts": web_contacts}, note_extra=web_note)}'''))
 
 P.frame('S21-ios', 'iOS: choose a source', phone(f'''{bar(ios=True)}
   {stepper("Choose source", 1, 5)}
-  {picker({"Photos": tile('images', 'Photos', 'From your photo library', 'S18-photos-import.html#S18-ios-limited', 'source-photos')})}''', ios=True))
+  {picker({"Contacts": tile('contact', 'Contacts', 'From this phone', 'S13-contacts-import.html#S13-picker-intro-ios', 'source-contacts')})}''', ios=True))
 P.frame('S21-ios-confirm', 'iOS: confirm', phone(confirm(ios=True), ios=True))
 
 big = f'''<header class="flex min-h-16 shrink-0 items-center gap-1 px-1">

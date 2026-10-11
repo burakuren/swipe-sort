@@ -107,7 +107,7 @@ list's card template.
 | --- | --- |
 | Person | Image area top (photo, cover-cropped, 46% of height); without a photo, a 96 initials avatar on `bg-muted` above the title (no empty image block); title `text-card-title` (max 3 lines); subtitle `text-body-lg muted`; up to 4 field rows (label 64 wide `muted`, value; multi-value shows first + "+2"); tags as secondary chips pinned to the bottom |
 | Product | Image area top (50%), title, subtitle (store), price `text-title-1 tabular-nums`, rating with `star` icon and review count, tags |
-| Photo | Image fills the card; caption panel at the bottom on `bg-card` with date (title) and location (subtitle); no overlays on the photo |
+| Photo | Image fills the card; caption panel at the bottom on `bg-card` with the title and subtitle fields (e.g. place and country in "Trip ideas", A-130/A-131); no overlays on the image. For sources with an image link per row (CSV, Google Sheets) |
 | Candidate / Task / Generic | No image (or avatar); title, subtitle, rows, tags; rows can go up to 6 |
 
 Sparse cards (image area None): title, subtitle and rows form one block vertically centered above the pinned tags (`my-auto`); templates with up to 3 rows use `text-title-2` values with `space-y-5`, 4–6 rows `text-title-3` with `space-y-3`; title-only cards use `text-display`. The template's row count decides, never the item's values.
@@ -206,7 +206,7 @@ only. Hidden inside list stacks, sorting and modals.
 
 Under the modal app bar on import steps: current step name (`text-label`), "Step 3 of 5" (`text-caption
 muted`), segmented bar (one segment per step, `bg-primary` done/current, `bg-muted` next). Steps: Choose
-source, Select items, Map fields, Review duplicates, Finish. Sources without mapping (photos, manual)
+source, Select items, Map fields, Review duplicates, Finish. Sources without mapping (manual entry)
 drop that step; "Review duplicates" is removed when none are found.
 
 ## BottomSheet (Custom on @gorhom/bottom-sheet)
@@ -241,7 +241,9 @@ Alert variants: `info` (primary-soft fill), `error` (card + destructive border +
 border, used for web-unavailable with `monitor-smartphone` and "Get the app"). OfflineBanner: slim
 `bg-muted` strip under the app bar, `wifi-off` + "You're offline. Decisions are saved on this phone."
 SyncNotice: inline text with `refresh-cw` (spinning) "Syncing 12 decisions…" → `cloud-check` "Synced".
-BackupIndicator (guest): `cloud-off` + "Lists are on this phone only" + "Back up" link → S05.
+BackupIndicator (guest): `cloud-off` + "Lists are on this phone only" + "Back up" link → S05 (web copy per D-08, S08 spec).
+Per-list label (signed in, list kept on this phone only, D-33/A-137): `cloud-off` 16 + "On this phone only"
+(`text-body-sm muted`) in the row meta (S08) and header meta (S09); web "On this browser only".
 
 ## EmptyState · ErrorState · Skeleton · Spinner
 
@@ -293,7 +295,7 @@ show it in every variant; build it once in `components/ui/` and reuse it. All us
 | Component | Built from | Anatomy and rules | Reference frames |
 | --- | --- | --- | --- |
 | **FullHeightSheet** | BottomSheet | Full-height sheet on `bg-background`, sticky footer for the primary action | `S31-default` |
-| **PermissionExplainer** | Custom | 56 icon circle, title, lead, then 3 promise points / steps / event list / thumbnails, bottom actions | `S12-contacts`, `S12-notifications`, `S15-default` |
+| **PermissionExplainer** | Custom | 56 icon circle, title, lead, then 3 promise points / steps / event list / thumbnails, bottom actions. Also the no-permission intro before a system picker (D-17, D-18) | `S12-contacts`, `S12-notifications`, `S13-picker-intro`, `S15-default` |
 | **SourceTile (offline variant)** | SourceTile | Dashed tile, `wifi-off`, "Needs a connection" | `S11-offline` |
 | **FileRow / FileCard** | Row | File icon, name, meta (size, rows), "Change" | `S14-csv-preview`, `S39-file-ready` |
 | **FilePreviewTable** | Custom | Horizontally scrolling table in a group, row numbers, "—" for empty cells, focusable scroll region; record view at ≥150% text | `S14-csv-preview`, `S14-csv-preview-large-text` |
@@ -301,10 +303,11 @@ show it in every variant; build it once in `components/ui/` and reuse it. All us
 | **FieldMappingRow** | Row | Field name + rename, sample values, type chip (Select), several-values chip, "Show on cards" switch | `S19-contacts`, `S19-type-sheet`, `S19-multi-value` |
 | **DuplicateGroup** | Custom | Reason line, two columns, Same/Similar markers (icon + word), Merge / Keep both / Skip radiogroup, outcome line; compact variant for long lists | `S20-default`, `S20-merge`, `S20-large` |
 | **ColumnMatchRow** | Row + Select | File column and samples left, list field select right, "New" badge | `S21-mapping` |
-| **SelectableTile** | Checkbox | Photo tile as `role=checkbox` with a check badge | `S18-default` |
-| **UploadFileRow + DropZone** | Custom | Upload progress per file, retry; drop zone on desktop only | `S18-web`, `S18-web-uploading` |
+| **SelectableTile** | Checkbox | Image tile as `role=checkbox` with a check badge. Only used by the retired Photos source (S18, out of scope, D-32); kept for a future image source | `S18-default` |
+| **UploadFileRow + DropZone** | Custom | Upload progress per file, retry; drop zone on desktop only. Only used by the retired S18 (D-32); kept for future file sources | `S18-web`, `S18-web-uploading` |
 | **PasswordRules** | Custom | Live rule list with `circle` / `circle-check` / `circle-alert` | `S03-sign-up`, `S04-new-password` |
-| **ListMoveRow** | Row | List icon tile, name, count, neutral status icon + label | `S05-moving`, `S05-move-partial` |
+| **ListMoveRow** | Row | List icon tile, name, count, neutral status icon + label (Moved, Moving…, Waiting, Not moved, and "On this phone only" with `cloud-off` muted for a list kept out of the move, A-143) | `S05-moving`, `S05-move-partial`, `S05-moving-some-kept` |
+| **SelectableRow, locked** | Checkbox row | Checked and disabled with a reason line and `lock` icon ("Needed to share") | `S05-choose-lists` |
 | **GestureChecklist** | Badge | Reject / Maybe / Accept chips; dashed when untried, soft + check when tried | `S02-demo` |
 | **SignInCard** | Group | Icon, text, primary button; shown when not signed in | `S06-guest` |
 | **SettingsStatusBlock** | Group | Backup state icon + label + detail + action | `S06-backup`, `S06-backup-failed` |

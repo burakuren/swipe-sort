@@ -12,13 +12,17 @@ BRAND = '../01-foundations/brand/'
 
 ME = dict(name='Deniz Yılmaz', first='Deniz', email='deniz.yilmaz@example.com', avatar=IMG + 'people/u-deniz.svg')
 MERT = dict(name='Mert Aydın', first='Mert', email='mert.aydin@example.com', avatar=IMG + 'people/u-mert.svg')
-# Lists on this phone before signing in (sample-data me.guest.deviceLists + the wedding list, flow 3)
+# Lists on this phone before signing in (sample-data me.guest.deviceLists + the wedding list, flow 3).
+# The sample list ("Desk setup (sample)") is never one of them: it stays on the device (D-10, A-139).
+# "Trip ideas" replaces "March photos clean-up" (D-32, A-130).
 DEVICE_LISTS = [
     ('Wedding guests', 100, 'users'),
     ('Desk setup', 20, 'armchair'),
-    ('March photos clean-up', 30, 'image'),
+    ('Trip ideas', 30, 'file-spreadsheet'),
     ('Frontend hiring, Q4', 12, 'file-spreadsheet'),
 ]
+# In the signed-in sample world this list is on this phone only (D-33, A-139).
+DEVICE_ONLY = ('Frontend hiring, Q4', 12, 'file-spreadsheet')
 
 
 def esc(s):
@@ -259,8 +263,36 @@ def google_btn(href='#', action='continue-google', label='Continue with Google',
     return btn(label, 'outline', href=href, action=action, lead=GOOGLE_G, disabled=disabled, size=size)
 
 
-def apple_btn(href='#', action='continue-apple', label='Continue with Apple', disabled=False, size='lg'):
+# Apple button styles (A-140): 'system' is the iOS AppleAuthenticationButton (black on light, white on dark);
+# 'outline' is Android and web: Apple's "white with outline" style in light mode and its "white" style in dark
+# mode (Apple doesn't allow the black button on dark backgrounds), at the same size and weight as Google.
+APPLE_OUTLINE = 'dark:border-transparent dark:bg-foreground dark:text-background'
+
+
+def apple_btn(href='#', action='continue-apple', label='Continue with Apple', disabled=False, size='lg', style='system', busy=False):
+    if busy:
+        return btn('Signing in…', 'outline', busy=True, size=size, extra=APPLE_OUTLINE if style == 'outline' else '')
+    if style == 'outline':
+        return btn(label, 'outline', href=href, action=action, lead=APPLE_MARK, disabled=disabled, size=size, extra=APPLE_OUTLINE)
     return btn(label, 'foreground', href=href, action=action, lead=APPLE_MARK, disabled=disabled, size=size)
+
+
+def provider_buttons(kind='android', google_href='#', apple_href='#', email_href='#', off=False, busy=None,
+                     google_action='continue-google', email_disabled=None):
+    """Sign-in button stack in platform order (A-140): iOS Apple, Google, email; Android and web Google, Apple,
+    email. busy: None | 'google' | 'apple' (the tapped button shows progress, the others are disabled)."""
+    ios = kind == 'ios'
+    dis = off or bool(busy)
+    if busy == 'google':
+        g = google_btn(busy=True)
+    else:
+        g = google_btn(href=google_href, action=google_action, disabled=dis)
+    if busy == 'apple':
+        a = apple_btn(busy=True, style='system' if ios else 'outline')
+    else:
+        a = apple_btn(href=apple_href, disabled=dis, style='system' if ios else 'outline')
+    e = email_btn(href=email_href, disabled=dis if email_disabled is None else email_disabled)
+    return [a, g, e] if ios else [g, a, e]
 
 
 def email_btn(href='#', action='continue-email', label='Continue with email', disabled=False, size='lg'):

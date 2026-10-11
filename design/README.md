@@ -32,7 +32,7 @@ run `npm run build:css` (see `/CLAUDE.md` for all scripts).
 | `01-foundations/brand/` | Logo mark, wordmark, app icon, Android adaptive icon layers |
 | `02-architecture/navigation-map.md` | Every screen, how screens connect, tabs/stacks/modals, deep links, the four flows |
 | `02-architecture/domain-model.md` | Lists, items, fields, sources, templates, rounds, decisions, notes, members, statuses, permissions |
-| `02-data/sample-data.json` | Shared sample data (100 contacts, 20 products, 30 photos, shared-list decisions) + generated images |
+| `02-data/sample-data.json` | Shared sample data (100 contacts, 20 products, 30 trip places, shared-list decisions) + generated images |
 | `03-screens/Sxx-name.html` / `.md` | 40 screens: all frames side by side, and a 9-part spec each |
 | `04-explorations/` | The three sorting-screen directions explored (A chosen; B and C kept) |
 | `04-prototype/` | Clickable prototype and the live swipe demo |
@@ -44,7 +44,7 @@ run `npm run build:css` (see `/CLAUDE.md` for all scripts).
 | --- | --- |
 | A. Onboarding and account | S01 Splash, S02 Onboarding, S03 Sign in, S04 Forgot password, S05 Sign-in prompt, S06 Settings, S07 Profile |
 | B. Lists | S08 Home, S09 List overview, S10 List management |
-| C. Import | S11 Source picker, S12 Permissions, S13 Contacts, S14 File, S15 Google Sheets, S16 Plain text, S17 Manual entry, S18 Photos, S19 Field mapping, S20 Duplicates, S21 Add items |
+| C. Import | S11 Source picker, S12 Permissions, S13 Contacts, S14 File, S15 Google Sheets, S16 Plain text, S17 Manual entry, S18 Photos (out of scope, D-32), S19 Field mapping, S20 Duplicates, S21 Add items |
 | D. Templates | S22 Template library, S23 Template editor |
 | E. Sorting | S24 Start a round, S25 Sorting, S26 Item detail, S27 Round summary |
 | F. Results | S28 Results, S29 Filter and sort, S30 Round history |

@@ -27,7 +27,7 @@ SUC success criteria.
 - **PLT-05** On desktop web, arrow keys sort: Right = Accept, Left = Reject, Up = Maybe, Z = Undo.
 - **PLT-06** Keyboard hints are shown only on web.
 - **PLT-07** Phone contacts import is unavailable on web: disabled state, short explanation, link to get the Android or iOS app.
-- **PLT-08** The photo gallery picker is unavailable on web; web uses photo file upload instead.
+- **PLT-08** The photo gallery picker is unavailable on web; web uses photo file upload instead. _Out of scope (D-32): no Photos source on any platform._
 - **PLT-09** Haptics are unavailable on web (design states how the haptics setting appears on web).
 - **PLT-10** Push notifications are unavailable on web; web uses in-app notifications.
 - **PLT-11** Every web-unavailable feature appears as a disabled state with a short explanation and a link to get the Android or iOS app.
@@ -108,24 +108,26 @@ SUC success criteria.
 ## Accounts
 
 - **ACC-01** No account is needed to use the app alone.
-- **ACC-02** Guest lists are stored on the device; a subtle indicator shows they are not backed up.
-- **ACC-03** Signing in is required to share a list or back up lists.
+- **ACC-02** Guest lists are stored on the device; a subtle indicator shows they are not backed up. _Changed by D-08: on the web the indicator also says browsers can clear lists not opened for a while. Changed by D-33: signed-in lists kept on this phone only carry a per-list label (A-137)._
+- **ACC-03** Signing in is required to share a list or back up lists. _Changed by D-33: a signed-in Owner can also keep a single list out of the backup; sharing a list kept on this phone only backs it up first (A-133)._
 - **ACC-04** When a guest tries to share or back up, a sign-in prompt explains why.
-- **ACC-05** After sign-in, the guest's existing lists move to the account.
+- **ACC-05** After sign-in, the guest's existing lists move to the account. _Changed by D-33 and D-10: lists move by default, but the person can keep some on this phone only; the sample list never moves (A-135, A-139)._
 - **ACC-06** Sign in with Google on all platforms.
 - **ACC-07** Sign in with email on all platforms (sign up and sign in).
-- **ACC-08** Sign in with Apple on iOS.
+- **ACC-08** Sign in with Apple on iOS. _Changed by D-13: Sign in with Apple on every platform (iOS native; Android and web through the browser)._
 - **ACC-09** Forgot password flow.
+- **ACC-10** A signed-in person can keep a single list on this device only, with backup turned off for that list; sharing needs backup. _Added by D-33 (A-132–A-139)._
+- **ACC-11** Lists kept in a web browser without an account say honestly that the browser can clear them, and a gentle sign-in nudge follows the first round on the web. _Added by D-08._
 
 ## Data sources and import
 
-- **SRC-01** Sources at launch: phone contacts, CSV, Excel (.xlsx), plain text (paste or .txt, one item per line), manual entry, Google Sheets, photos (each photo becomes a card).
-- **SRC-02** Web availability follows PLT-07/PLT-08 for contacts and photos.
+- **SRC-01** Sources at launch: phone contacts, CSV, Excel (.xlsx), plain text (paste or .txt, one item per line), manual entry, Google Sheets, photos (each photo becomes a card). _Changed by D-32: photos are out of scope for now; images remain as contact photos and image fields._
+- **SRC-02** Web availability follows PLT-07/PLT-08 for contacts and photos. _Changed by D-32: only contacts are app-only; photos are out of scope._
 - **SRC-03** The source picker is a modular pattern (grid of source tiles) where a new source is one more tile reusing the same import steps.
 - **SRC-04** Import step 1: choose a source.
-- **SRC-05** A pre-permission screen explains why access is needed and how data is used before any system permission prompt (contacts, photos).
+- **SRC-05** A pre-permission screen explains why access is needed and how data is used before any system permission prompt (contacts, photos). _Changed by D-18 and D-32: needed only where a system permission is asked (contacts on Android 16 and lower, notifications); system pickers need none; photos out of scope._
 - **SRC-06** Permission-denied recovery state.
-- **SRC-07** Import step 2: select items — search and multi-select contacts, pick a file or a sheet tab, select photos.
+- **SRC-07** Import step 2: select items — search and multi-select contacts, pick a file or a sheet tab, select photos. _Changed by D-17, D-18 and D-32: contacts are picked in the system contact picker where the OS has one (Android 17+, iOS) and reviewed in-app; spreadsheets are picked in Google's Picker; photos out of scope._
 - **SRC-08** Import step 3: map fields — detected fields with sample values.
 - **SRC-09** Field mapping: rename fields.
 - **SRC-10** Field mapping: hide fields.
@@ -135,7 +137,7 @@ SUC success criteria.
 - **SRC-14** Import step 4: review duplicates (common when combining sources).
 - **SRC-15** Duplicate actions: merge, keep both or skip.
 - **SRC-16** Import step 5: choose a card template.
-- **SRC-17** Import step 6: name the list and start sorting.
+- **SRC-17** Import step 6: name the list and start sorting. _Changed by D-33: signed-in people also choose "Back up this list" here, on by default (A-168)._
 - **SRC-18** A list can combine several sources.
 - **SRC-19** Items can be added to an existing list later.
 - **SRC-20** Import error: unreadable file.
@@ -143,10 +145,12 @@ SUC success criteria.
 - **SRC-22** Import error: too many columns.
 - **SRC-23** Import error: Google connection failure.
 - **SRC-24** Import error: partial import.
+- **SRC-25** Google Sheets uses only the `drive.file` scope: the person picks a spreadsheet in Google's Picker; no list of all spreadsheets and no Drive search. _Added by D-17._
+- **SRC-26** Contacts on Android 17+ and iOS come from the system contact picker, then an in-app review list (search, deselect); Android 16 and lower keep the permission and full in-app list. _Added by D-18._
 
 ## Card templates
 
-- **TPL-01** Library of ready-made templates: Person, Product, Photo, Task, Candidate, Generic.
+- **TPL-01** Library of ready-made templates: Person, Product, Photo, Task, Candidate, Generic. _Kept under D-32: Photo stays, for sources with image links (A-131)._
 - **TPL-02** Template editor: choose which fields appear.
 - **TPL-03** Template editor: arrange the layout (title, subtitle, image area, field rows, tags).
 - **TPL-04** Fonts and colors are not customizable in this version.
@@ -193,7 +197,8 @@ SUC success criteria.
 - **SAFE-03** Edited fields are visibly marked.
 - **SAFE-04** Edited fields can be reverted to the original value.
 - **SAFE-05** Export option: a new file with added "Decision" and "Notes" columns.
-- **SAFE-06** Google Sheets export option: new columns in the original sheet or a new tab, only after explicit confirmation.
+- **SAFE-06** Google Sheets export option: new columns in the original sheet or a new tab, only after explicit confirmation. _Changed by D-17: writing to the picked sheet needs no extra Google permission (`drive.file`)._
+- **SAFE-07** When a change made offline can't be applied as made (overwritten by a later edit, removed from the list, resolutions dropped or rejected, decisions saved to an earlier round), the person is told once, in plain words, with what to do next. _Added by D-09 (A-179–A-182)._
 
 ## Results
 
@@ -206,7 +211,7 @@ SUC success criteria.
 
 ## Collaboration
 
-- **COL-01** Invite any number of people via link or the system share sheet.
+- **COL-01** Invite any number of people via link or the system share sheet. _Changed by D-33: a list kept on this phone only is backed up before the invite (A-133, A-177)._
 - **COL-02** Set the invitee's role while inviting.
 - **COL-03** Invite link opens in the app if installed on Android or iOS.
 - **COL-04** Otherwise the link opens in the web app, where the person can sign in, join and sort right away without installing.
@@ -247,17 +252,18 @@ SUC success criteria.
 ## Settings
 
 - **SET-01** Profile.
-- **SET-02** Connected accounts (Google).
-- **SET-03** Backup status.
+- **SET-02** Connected accounts (Google). _Changed by D-13: Google, Apple and email/password on every platform (A-141)._
+- **SET-03** Backup status. _Changed by D-33: also lists the lists kept on this phone only, each with Back up (A-147)._
 - **SET-04** Theme: system, light, dark.
 - **SET-05** Haptics.
 - **SET-06** Notification preferences.
 - **SET-07** Language (English only for now).
-- **SET-08** Privacy information.
+- **SET-08** Privacy information. _Changed by D-28 and D-32: includes the "Share anonymous usage data" switch (SET-13); photos removed (A-145, A-146)._
 - **SET-09** Help and feedback.
 - **SET-10** About.
-- **SET-11** Sign out.
-- **SET-12** Account deletion (required by both app stores).
+- **SET-11** Sign out. _Changed by D-33: lists kept on this phone only stay, hidden until the same account signs in again; the dialog names them (A-136, A-147)._
+- **SET-12** Account deletion (required by both app stores). _Changed by D-33: lists kept on this phone only are not in the account, so they stay on the phone without an account (A-138, A-148)._
+- **SET-13** Privacy: a "Share anonymous usage data" switch, on by default, with one line of explanation. _Added by D-28._
 
 ## Branding
 
@@ -274,22 +280,22 @@ where relevant, and screen-specific states named in the features (**SCR-00**).
 
 - **SCR-01** S01 Splash
 - **SCR-02** S02 Onboarding with an interactive gesture demo
-- **SCR-03** S03 Sign up / sign in (Google, email; Apple on iOS)
+- **SCR-03** S03 Sign up / sign in (Google, email; Apple on iOS) _Changed by D-13: Apple on every platform._
 - **SCR-04** S04 Forgot password
-- **SCR-05** S05 Sign-in prompt from guest mode (sharing or backup) and moving lists to the account
+- **SCR-05** S05 Sign-in prompt from guest mode (sharing or backup) and moving lists to the account _Changed by D-33 and D-10: "Choose lists" lets some lists stay on this phone only; the sample never moves (A-142–A-144)._
 - **SCR-06** S06 Settings and all its sub-pages
 - **SCR-07** S07 Profile, connected accounts and account deletion
 - **SCR-08** S08 Home (first-run empty state with a sample-list option, not-backed-up indicator)
 - **SCR-09** S09 List overview (solo and shared variants)
 - **SCR-10** S10 List management: rename, duplicate, archive, delete, leave; archived lists
 - **SCR-11** S11 Source picker (including web-unavailable tiles)
-- **SCR-12** S12 Pre-permission explainers (contacts, photos, notifications) and permission-denied recovery
-- **SCR-13** S13 Contacts import
+- **SCR-12** S12 Pre-permission explainers (contacts, photos, notifications) and permission-denied recovery _Changed by D-18 and D-32: contacts explainer and denied states on Android 16 and lower only; photos removed._
+- **SCR-13** S13 Contacts import _Changed by D-18: system picker path on Android 17+ and iOS._
 - **SCR-14** S14 File import (CSV and Excel)
-- **SCR-15** S15 Google Sheets connection and sheet/tab selection
+- **SCR-15** S15 Google Sheets connection and sheet/tab selection _Changed by D-17: Google's Picker replaces the in-app spreadsheet list and search._
 - **SCR-16** S16 Plain-text import
 - **SCR-17** S17 Manual entry
-- **SCR-18** S18 Photos import (gallery on mobile, file upload on web)
+- **SCR-18** S18 Photos import (gallery on mobile, file upload on web) _Out of scope (D-32): file kept for reference only._
 - **SCR-19** S19 Field mapping
 - **SCR-20** S20 Duplicate review
 - **SCR-21** S21 Add items to an existing list
@@ -319,7 +325,7 @@ where relevant, and screen-specific states named in the features (**SCR-00**).
 - **OUT-02** Status bar, safe areas and OS-level gestures use platform defaults.
 - **OUT-03** No tablet or wide desktop layouts.
 - **OUT-04** No backend, APIs, data storage or sync mechanics.
-- **OUT-05** No analytics, crash reporting or push infrastructure.
+- **OUT-05** No analytics, crash reporting or push infrastructure. _Changed by D-28: the user-facing analytics switch (SET-13) is designed; infrastructure stays out of scope._
 - **OUT-06** No monetization, paywalls or subscriptions.
 - **OUT-07** No translations.
 - **OUT-08** No marketing website.
@@ -330,7 +336,7 @@ where relevant, and screen-specific states named in the features (**SCR-00**).
 - **SMP-02** About 100 contacts: name, phone, email, photo for some, family side, relationship.
 - **SMP-03** Contact edge cases: very long names, missing phone numbers, duplicates, several phone numbers.
 - **SMP-04** About 20 products: photo, price, rating, store.
-- **SMP-05** About 30 photos: date and location.
+- **SMP-05** About 30 photos: date and location. _Changed by D-32: the 30 generated landscape images now illustrate the "Trip ideas" list from a CSV with image links (A-130); S18 keeps the original photo data._
 - **SMP-06** Shared-list data: three members with different decisions, several conflicts, shared and private notes, items at every status.
 - **SMP-07** Images are local placeholders or generated illustrations; never hotlinked.
 

@@ -26,7 +26,6 @@ delete), GOAL-05, PLT-01–PLT-04, PLT-13–PLT-16, PLT-21, PLT-23, VIS-11–VIS
 | S22 template library, pick mode | "Continue" on Add items (`S22-template-library.html#S22-import-pick`, `data-action="continue"`) |
 | S11 | System back from Set up fields |
 | S08 home | Close (`x`). With fields changed or items added, the S40 "Discard import?" dialog asks first (`S40-global-patterns.html#S40-discard-import`) |
-| System photo picker / camera | "Add photo" in the form (out of scope) |
 
 ## 3. Layout and components
 
@@ -57,8 +56,9 @@ types (icon + name), Button "Add field".
 5. Bottom: Button lg "Continue".
 
 **Item form** (sheet, `S17-add-item`): tall BottomSheet "New item": one input per field in field order (Name
-required; Number fields use the numeric keyboard; Link uses the URL keyboard; Image shows an 80 dashed tile "Add
-photo", then the thumbnail + "Change photo"). Actions side by side: Button `secondary` "Add another" and Button
+required; Number fields use the numeric keyboard; Link uses the URL keyboard; Image fields take an **image link**: a URL
+input with a leading `link` icon and the placeholder "Image link", a helper line, and a 36 thumbnail at the
+right end of the input once the link loads. There is no photo picker or camera (D-32, A-160).) Actions side by side: Button `secondary` "Add another" and Button
 `default` "Add item".
 
 **Empty state** (`S17-empty`): EmptyState with `list-plus`, title, sentence and primary "Add item". The bottom
@@ -80,8 +80,8 @@ Continue is hidden in this state so there is only one primary button.
 | `S17-large-text` | 200% font scale on the item list |
 | `S17-ios-add-item` | iOS page sheet for the form |
 
-Loading, offline, error: not applicable (everything is local and instant). Web-unavailable: none (on web the
-Photo field opens the browser file picker).
+Loading, offline, error: not applicable (everything is local and instant). Web-unavailable: none (the Photo field is
+an image link on every platform).
 
 ## 5. Interactions, gestures and transitions
 
@@ -129,7 +129,7 @@ Photo field opens the browser file picker).
 | List header | "3 items" ("1 item") ; "Add item" |
 | Row actions | "Edit {title}", "Delete {title}" |
 | Item sheet | "New item" / "Edit item"; field labels from the fields ("Name (required)", "Price (€)", "Store", "Photo", "Link") |
-| Photo | "Add photo", "Change photo", image alt "Photo of the item" |
+| Photo (image field) | placeholder "Image link"; helper "Paste a link to an image. Cards show the picture from this link."; link that doesn't load: "This link doesn't open an image. Check it, or leave the field empty." (inline error, item can still be saved without it) |
 | Form buttons | "Add another", "Add item"; "Save changes", "Delete item" |
 | Status after Add another | "Added Low-profile mechanical keyboard. 4 items." |
 | Validation | "Enter a name. Every item needs a title." / "Enter a number, like 389." / "Enter a full link, like oakline.example/p/1037." / "Enter a full email address, like name@example.com." / "Enter a date, like Oct 12, 2026." |
@@ -157,14 +157,17 @@ Photo field opens the browser file picker).
   right. The item form is a page sheet with "Cancel" and "Add" in its own bar (Add = save and close); "Add another"
   is a full-width secondary button under the form. Field type uses a pull-down menu (as S19-ios-type-menu).
   Destructive confirmations use an action sheet with the same copy.
-- **Web** (mobile and desktop): same as Android; the Photo field opens the browser file picker (no camera
-  option on desktop); Enter on the last field = Add another, Ctrl/Cmd+Enter = Add item. No separate frame needed.
+- **Web** (mobile and desktop): same as Android, including the image-link Photo field; Enter on the last field = Add another, Ctrl/Cmd+Enter = Add item. No separate frame needed.
 
 ## 9. Edge cases
 
 - **Long titles** (Walnut sit-stand desk, 140 × 70 cm): rows truncate to 1 line; the form input scrolls; large
   text wraps.
 - **Missing values**: only Name is required; rows skip empty fields in the meta line; no photo → placeholder.
+- **Image fields** (D-32, A-160): no photo-library access at all for now, so an Image field takes an image
+  link (like CSV image links, A-131). The thumbnail appears once the link loads; a link that doesn't load shows
+  the inline error and the card falls back to its placeholder. Links are stored as text; the image is fetched
+  and cached like other image fields (D-15).
 - **Many items** (hundreds): the list virtualizes; header count updates; Continue always visible.
 - **Limit**: 5,000 items per list created this way (same as imports); at the limit "Add item" is disabled with
   "Up to 5,000 items in one import."

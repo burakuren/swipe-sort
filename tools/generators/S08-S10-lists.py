@@ -208,8 +208,9 @@ def bar_below(d, t, cap='text-caption'):
     return f'{pbar(d, t)}<span class="shrink-0 {cap} tabular-nums text-muted-foreground">{d} / {t}</span>'
 
 
-def rows_lists(mode='signed', resume_wed=None, new_conflicts=False, drop=(), resume_action=False, big=False):
-    """The 4 active sample lists, ordered by latest activity."""
+def rows_lists(mode='signed', resume_wed=None, new_conflicts=False, drop=(), resume_action=False, big=False, device_label='On this phone only'):
+    """The 4 active sample lists, ordered by latest activity. Signed in, "Frontend hiring, Q4" is on this phone
+    only (A-139), so its row carries the muted per-list label (A-137); device_label=None leaves it out."""
     nc = 'text-title-1' if big else 'text-title-3'
     mc = 'text-title-3 font-normal' if big else 'text-body-sm'
     cap = 'text-body-lg' if big else 'text-caption'
@@ -229,10 +230,13 @@ def rows_lists(mode='signed', resume_wed=None, new_conflicts=False, drop=(), res
             rs = resume('S25-sorting.html#S25-default', 'Wedding guests', 'resume' if resume_action else None)
         rows.append(list_row('Wedding guests', href, meta, bar_below(76, 100, cap), rs, unread=new_conflicts, name_cls=nc, meta_cls=mc, clamp=cl, stack=big))
     if 'hiring' not in drop:
-        rows.append(list_row('Frontend hiring, Q4', h09('S09-new-list'), mi('circle-dashed', 'Not sorted yet, 12 items'), name_cls=nc, meta_cls=mc, clamp=cl, stack=big))
-    if 'photos' not in drop:
-        rows.append(list_row('March photos clean-up', h09('S09-default'), mi('circle-dot', 'Round 1 in progress'), bar_below(12, 30, cap),
-                             resume('S25-sorting.html#S25-photo', 'March photos clean-up'), name_cls=nc, meta_cls=mc, clamp=cl, stack=big))
+        hmeta = mi('circle-dashed', 'Not sorted yet, 12 items')
+        if mode == 'signed' and device_label:
+            hmeta += mi('cloud-off', device_label)
+        rows.append(list_row('Frontend hiring, Q4', h09('S09-new-list'), hmeta, name_cls=nc, meta_cls=mc, clamp=cl, stack=big))
+    if 'photos' not in drop and 'trip' not in drop:
+        rows.append(list_row('Trip ideas', h09('S09-default'), mi('circle-dot', 'Round 1 in progress'), bar_below(12, 30, cap),
+                             resume('S25-sorting.html#S25-photo', 'Trip ideas'), name_cls=nc, meta_cls=mc, clamp=cl, stack=big))
     if 'desk' not in drop:
         rows.append(list_row('Desk setup', h09('S09-solo-round-done'), mi('circle-check', 'Round 2 complete'), counts_inline(11, 1, 8, cap), name_cls=nc, meta_cls=mc, clamp=cl, stack=big))
     return rows
@@ -248,7 +252,12 @@ def archived_entry(count=2, ios=False):
 
 
 def backup_indicator(web=False, action='back-up'):
-    text = 'Lists are in this browser only' if web else 'Lists are on this phone only'
+    """Not signed in (A-81). Web (D-08): browsers can clear lists that aren't opened for a while, so the line
+    says so and how to keep them; two short lines, the action stays "Back up"."""
+    if web:
+        return (f'<a href="S05-sign-in-prompt.html#S05-web-backup" class="mx-4 flex min-h-touch items-start gap-2 rounded-control px-1 py-1 text-body-sm text-muted-foreground" data-action="{action}">'
+                f'{icon("cloud-off", "size-4 mt-0.5 shrink-0")}<span class="flex-1">Browsers can clear lists you haven\'t opened for a while.</span><span class="inline-flex min-h-10 shrink-0 items-start text-label text-primary">Back up</span></a>')
+    text = 'Lists are on this phone only'
     return (f'<a href="S05-sign-in-prompt.html#S05-backup" class="mx-4 flex min-h-touch items-center gap-2 rounded-control px-1 text-body-sm text-muted-foreground" data-action="{action}">'
             f'{icon("cloud-off", "size-4 shrink-0")}<span class="flex-1">{text}</span><span class="text-label text-primary">Back up</span></a>')
 
@@ -300,7 +309,7 @@ def first_run(kind='android'):
     actions = (btn('Import a list', href=S11, action='import-list', size='md', icon_name='download')
                + btn('Try a sample list', 'ghost', href=h09('S09-sample'), action='try-sample', size='md'))
     es = empty_state('layers', 'No lists yet', 'Import a list or try a sample to see how sorting works.', actions)
-    foot = f'''<p class="mt-8 max-w-xs text-center text-body-sm text-muted-foreground">Import from phone contacts, CSV, Excel, Google Sheets, plain text or photos, or type items yourself.</p>
+    foot = f'''<p class="mt-8 max-w-xs text-center text-body-sm text-muted-foreground">Import from phone contacts, CSV, Excel, Google Sheets or plain text, or type items yourself.</p>
       <p class="mt-2 text-body-sm text-muted-foreground">Have an account? {link("Sign in", "S03-sign-in.html#S03-default", action="sign-in")}</p>'''
     inner = f'<div class="flex min-h-0 flex-1 flex-col items-center justify-center px-gutter pb-8">{es}{foot}</div>'
     if kind == 'ios':
@@ -376,7 +385,8 @@ def ov_screen(bar, body, top='', overlay='', pad='pb-8', translate='', clip=''):
   {overlay}'''
 
 
-SRC_PHOTOS = [('image', 'Photos', '30 items, imported Oct 8')]
+SRC_TRIP = [('file-spreadsheet', 'trip-ideas.csv', '30 items, imported Oct 8')]
+SRC_PHOTOS = SRC_TRIP  # D-32: the photo clean-up sample became Trip ideas (A-130); old name kept for callers
 SRC_DESK = [('keyboard', 'Manual entry', '20 items, typed in Oct 4')]
 SRC_HIRING = [('file-spreadsheet', 'candidates-q4.csv', '12 items, imported Oct 8')]
 SRC_SAMPLE = [('flask-conical', 'Sample items', '20 items, added with the sample')]
@@ -400,9 +410,50 @@ def sources_group(sources, add=True, add_desc='From any source', href=None):
     return '<!-- Proposed component: SourceRow -->' + group(rows, header='Sources')
 
 
+ACCOUNT = 'deniz.yilmaz@example.com'
+BACKUP_STATES = {
+    # state: (lead icon, description, switch on, switch disabled, footer)
+    'on': ('cloud-check', f'Backed up to {ACCOUNT}', True, False, None),
+    'off': ('cloud-off', 'On this phone only', False, False, 'Lists on this phone only don\'t move to a new phone. Back them up first.'),
+    'busy': ('loader-circle', 'Backing up…', True, True, None),
+    'queued': ('cloud-upload', 'Backs up when you\'re online', True, False, None),
+    'paused': ('cloud-alert', 'Backup paused. It continues when you\'re online.', True, False, None),
+    'shared': ('cloud-check', f'Backed up to {ACCOUNT}', True, True, 'Shared lists are always backed up.'),
+    'offline-on': ('cloud-check', f'Backed up to {ACCOUNT}', True, True, 'Turning backup off needs a connection.'),
+}
+
+
+def backup_group(state='on', web=False, big=False):
+    """Proposed component: BackupSwitchRow (A-132). Its own "Backup" group under Sources, for a signed-in Owner.
+    Solo lists: the switch works; shared lists: disabled with the reason (A-134)."""
+    ic, desc, on, dis, foot = BACKUP_STATES[state]
+    if web:
+        desc = desc.replace('On this phone only', 'On this browser only')
+        foot = None if state == 'off' else foot
+    spin = ' animate-spin' if state == 'busy' else ''
+    live = ' role="status"' if state in ('busy', 'queued', 'paused') else ''
+    t = 'text-title-3 font-normal' if big else 'text-body'
+    d = 'text-body-lg' if big else 'text-body-sm'
+    sw = switch(on, 'Back up this list', dis)
+    # Prototype: the switch is a link (on → turn-off confirmation, off → backing up).
+    tgt = {'on': h10('S10-backup-off'), 'off': h09('S09-backing-up')}.get(state)
+    if tgt and not web:
+        sw = sw.replace('<span role="switch"', f'<a href="{tgt}" data-action="toggle-backup" role="switch"', 1)
+        sw = sw[:-len('</span>')] + '</a>'
+    if big:
+        sw = sw.replace('h-8 w-13', 'h-10 w-16').replace('size-6 rounded-full bg-primary-foreground', 'size-8 rounded-full bg-primary-foreground').replace('size-5 rounded-full bg-muted-foreground', 'size-7 rounded-full bg-muted-foreground')
+    tcol = ' text-muted-foreground' if dis and state != 'busy' else ''
+    row = (f'<li class="flex min-h-16 items-center gap-4 px-4 py-3">{icon(ic, ("size-6" if big else "size-5") + " shrink-0 text-muted-foreground" + spin)}'
+           f'<span class="min-w-0 flex-1"><span class="block {t}{tcol}">Back up this list</span><span class="block break-words {d} text-muted-foreground"{live}>{desc}</span></span>{sw}</li>')
+    out = '<!-- Proposed component: BackupSwitchRow -->' + group([row], header='Backup', footer=foot)
+    if big:
+        out = out.replace('pb-2 text-label', 'pb-2 text-title-3 font-normal').replace('pt-2 text-body-sm', 'pt-2 text-body-lg')
+    return out
+
+
 def rows_solo(results=h09('S09-default'), results_desc=None, rounds='1', template='Photo', export='S39-export.html#S39-default',
               new_round=True, start_round_desc='Choose items and card order', add=True, export_action=None, results_href='S28-results.html#S28-default',
-              template_row=True, extra=None, sources=None):
+              template_row=True, extra=None, sources=None, backup=None, backup_web=False):
     rows = [nav_row('Results', href=results_href, icon_name='list-checks', desc=results_desc, action='results')]
     if new_round:
         rows.append(nav_row('Start a new round', href='S24-start-round.html#S24-default', icon_name='list-restart', desc=start_round_desc, action='new-round'))
@@ -413,7 +464,8 @@ def rows_solo(results=h09('S09-default'), results_desc=None, rounds='1', templat
     if extra:
         rows += extra
     src = sources_group(sources or [], add=add) if (sources or add) else ''
-    return group(rows) + src
+    bk = backup_group(backup, backup_web) if backup else ''
+    return group(rows) + src + bk
 
 
 def progress_photos(btn_html=None):
@@ -438,11 +490,15 @@ def guest_backup_line(web=False):
             f'<span class="ml-1 text-label text-primary">Back up</span></a>')
 
 
-def ov_solo_default(clip=''):
-    body = (ov_header('March photos clean-up', [mi('image', '30 items'), mi('user', 'Solo list')])
+TRIP_META = [mi('file-spreadsheet', '30 items from trip-ideas.csv'), mi('user', 'Solo list')]
+
+
+def ov_solo_default(clip='', backup='on', translate='', bar_title=None, top='', overlay='', name='Trip ideas', menu=h10('S10-default'), meta=None, share_disabled=False):
+    """Trip ideas (A-130): solo, signed in, backed up; Round 1 at 12 / 30."""
+    body = (ov_header(name, meta or TRIP_META)
             + progress_photos()
-            + rows_solo(template='Photo', results_desc='12 decided so far', sources=SRC_PHOTOS))
-    return ov_screen(ov_bar(share=('S31-invite.html#S31-default', 'Share list', 'share')), body, clip=clip)
+            + rows_solo(template='Photo', results_desc='12 decided so far', sources=SRC_TRIP, backup=backup))
+    return ov_screen(ov_bar(menu=menu, share=('S31-invite.html#S31-default', 'Share list', 'share'), title=bar_title, share_disabled=share_disabled), body, clip=clip, translate=translate, top=top, overlay=overlay)
 
 
 def ov_round_done(bar_menu=h10('S10-default')):
@@ -453,24 +509,37 @@ def ov_round_done(bar_menu=h10('S10-default')):
              + btn('Re-sort Maybe (6)', href='S24-start-round.html#S24-maybe', action='resort-maybe', size='md', icon_name='circle-help', extra='mt-4'),
              label='rd-h')
     body = (ov_header('Desk setup', [mi('package', '20 items'), mi('user', 'Solo list')]) + c
-            + rows_solo(template='Product', results_desc='5 accepted, 9 rejected, 6 maybe', export_action='export', sources=SRC_DESK))
+            + rows_solo(template='Product', results_desc='5 accepted, 9 rejected, 6 maybe', export_action='export', sources=SRC_DESK, backup='on'))
     return ov_screen(ov_bar(menu=bar_menu, share=('S31-invite.html#S31-default', 'Share list', None)), body)
 
 
-def ov_new_list(name='Frontend hiring, Q4', meta=None, n=12, template='Candidate, compact', sort='S25-sorting.html#S25-candidate', sources=SRC_HIRING):
-    meta = meta or [mi('file-spreadsheet', '12 items from candidates-q4.csv'), mi('user', 'Solo list')]
+HIRING_META = [mi('file-spreadsheet', '12 items from candidates-q4.csv'), mi('user', 'Solo list'), mi('cloud-off', 'On this phone only')]
+D08_LINE = 'Browsers can clear lists you haven\'t opened for a while. Back it up to keep it.'
+
+
+def d08_note(extra='mt-3'):
+    """D-08 / A-137: the browser-storage line under the S09 header meta on the web."""
+    return note_line(D08_LINE, 'info', extra)
+
+
+def ov_new_list(name='Frontend hiring, Q4', meta=None, n=12, template='Candidate, compact', sort='S25-sorting.html#S25-candidate', sources=SRC_HIRING,
+                backup='off', translate='', bar_title=None, top='', overlay='', clip='', share=None, header_extra='', backup_web=False, share_disabled=False):
+    """Never sorted. Frontend hiring, Q4 is on this phone only in the signed-in sample world (A-139): header label,
+    Backup switch off, and Share opens the "Back up this list to share it" sheet (A-133)."""
+    meta = meta or HIRING_META
     c = card(card_head('Not sorted yet', f'{n} items', 'nl-h', 'circle-dashed')
              + '<p class="mt-2 text-body text-muted-foreground">Every item is ready. Start sorting to make your first decisions; you can stop at any time and continue later.</p>'
              + btn('Start sorting', href=sort, action='start-sorting', size='md', icon_name='play', extra='mt-4'), label='nl-h')
-    body = (ov_header(name, meta) + c
-            + rows_solo(template=template, results_desc='No decisions yet', rounds='None yet', new_round=False, sources=sources))
-    return ov_screen(ov_bar(share=('S31-invite.html#S31-default', 'Share list', None)), body)
+    body = (ov_header(name, meta, header_extra) + c
+            + rows_solo(template=template, results_desc='No decisions yet', rounds='None yet', new_round=False, sources=sources, backup=backup, backup_web=backup_web))
+    sh = share or ((h10('S10-share-backup'), 'Share list', 'share') if backup in ('off', 'queued') else ('S31-invite.html#S31-default', 'Share list', None))
+    return ov_screen(ov_bar(share=sh, title=bar_title, share_disabled=share_disabled), body, translate=translate, top=top, overlay=overlay, clip=clip)
 
 
 def ov_empty():
-    es = card(empty_state('list-plus', 'No items yet', 'Add items from contacts, a file, Google Sheets, text or photos, or type them yourself. Then start sorting.',
+    es = card(empty_state('list-plus', 'No items yet', 'Add items from contacts, a file, Google Sheets or text, or type them yourself. Then start sorting.',
                           btn('Add items', href='S21-add-items.html#S21-default', action='add-items', size='md', icon_name='plus'), extra='py-6', title_cls='text-title-3'))
-    rows = group([nav_row('Card template', href='S22-template-library.html#S22-default', icon_name='layout-template', value='Generic', aria='Card template, Generic')])
+    rows = group([nav_row('Card template', href='S22-template-library.html#S22-default', icon_name='layout-template', value='Generic', aria='Card template, Generic')]) + backup_group('on')
     body = ov_header('Gift ideas for Mum', [mi('layers', '0 items'), mi('user', 'Solo list')]) + es + rows
     return ov_screen(ov_bar(share=('S31-invite.html#S31-default', 'Share list', None)), body)
 
@@ -489,7 +558,7 @@ def ov_guest_wedding(web=False, share_action='share'):
     c = card(card_head('Round 1', 'Started Sep 28', 'gw-h') + decided(76, 100) + decision_chips(17, 11, 48)
              + note_line('Only you sort this list, so your decisions are final.')
              + btn('Continue sorting', href='S25-sorting.html#S25-default', action='continue-sorting', size='md', icon_name='play', extra='mt-4'), label='gw-h')
-    body = (ov_header('Wedding guests', [mi('users', '100 items'), mi('user', 'Solo list'), guest_backup_line(web)]) + c
+    body = (ov_header('Wedding guests', [mi('users', '100 items'), mi('user', 'Solo list'), guest_backup_line(web)], d08_note() if web else '') + c
             + share_card('S05-sign-in-prompt.html#S05-share', action=share_action)
             + rows_solo(template='Person', results_desc='76 decided so far', sources=SRC_WED))
     return ov_screen(ov_bar(share=('S05-sign-in-prompt.html#S05-share', 'Share list', None)), body)
@@ -559,14 +628,15 @@ def shared_header(who='You, Mert and Selin', role=('Owner', 'crown', 'secondary'
     return ov_header('Wedding guests', [members_link(who), mi('users', '100 items'), r])
 
 
-def ov_shared_owner(translate='', bar_title=None, top='', share_disabled=False, list_status_btn=None, status_right='All 3 members', added=False, overlay='', clip=''):
+def ov_shared_owner(translate='', bar_title=None, top='', share_disabled=False, list_status_btn=None, status_right='All 3 members', added=False, overlay='', clip='', backup='shared'):
     lsb = list_status_btn if list_status_btn is not None else btn('Review conflicts', 'outline', href='S36-conflicts.html#S36-default', action='review-conflicts', size='md', icon_name='git-compare-arrows', extra='mt-3')
     body = (shared_header()
             + my_progress(76, 100, 17, 11, 48, btn('Continue sorting', href='S25-sorting.html#S25-shared', action='continue-sorting', size='md', icon_name='play', extra='mt-4'))
             + list_status_card(lsb, right=status_right)
             + together_group()
             + activity_preview(ADDED_EVENTS if added else None)
-            + rows_shared(sources=SRC_WED_NEW if added else SRC_WED))
+            + rows_shared(sources=SRC_WED_NEW if added else SRC_WED)
+            + (backup_group(backup) if backup else ''))
     return ov_screen(ov_bar(menu=h10('S10-shared-owner-menu'), share=('S31-invite.html#S31-default', 'Invite', 'invite'), title=bar_title, share_disabled=share_disabled),
                      body, top=top, translate=translate, overlay=overlay, clip=clip)
 
@@ -752,7 +822,7 @@ P.frame('S08-sample', 'Sample list added', phone(home(lists_group([sample_row])
                                                          + '<p class="px-1 text-body-sm text-muted-foreground">The sample is for practice. Delete it from its menu whenever you like. Import your own list with New list.</p>',
                                                          nav_badge=0, fab_html=fab())))
 
-P.section('Lists', 'Lists are ordered by latest activity. Each ListRow shows the name, a status line and progress: a bar with "decided / total" for a round in progress, decision counts for a finished round. Rounds in progress have a Resume button that opens sorting directly. Shared lists show open conflicts. The extended FAB starts a new list (Android); Archived lists sit at the end.')
+P.section('Lists', 'Lists are ordered by latest activity. Each ListRow shows the name, a status line and progress: a bar with "decided / total" for a round in progress, decision counts for a finished round. Rounds in progress have a Resume button that opens sorting directly. Shared lists show open conflicts. Signed in, a list kept on this phone only carries a muted "On this phone only" label in its status line (A-137); backed-up lists show nothing. The extended FAB starts a new list (Android); Archived lists sit at the end.')
 P.frame('S08-default', 'Default: signed in as Deniz', phone(home_default(fab_action='new-list')))
 P.frame('S08-guest', 'Not signed in: lists on this phone only', phone(home_guest(resume_action=True)))
 P.frame('S08-new-conflicts', 'Shared list with new conflicts', phone(home_default(new_conflicts=True)))
@@ -766,10 +836,10 @@ long_rows = [
 P.frame('S08-long-names', 'Very long list names (2 lines, then ellipsis)', phone(home(lists_group(long_rows) + archived_entry())))
 
 many = [('Wedding guests', 'users', 'Shared with 2', (76, 100)), ('Frontend hiring, Q4', 'circle-dashed', 'Not sorted yet, 12 items', None),
-        ('March photos clean-up', 'circle-dot', 'Round 1 in progress', (12, 30)), ('Desk setup', 'circle-check', 'Round 2 complete', 'c'),
+        ('Trip ideas', 'circle-dot', 'Round 1 in progress', (12, 30)), ('Desk setup', 'circle-check', 'Round 2 complete', 'c'),
         ('Restaurants to try in İzmir', 'circle-dot', 'Round 1 in progress', (9, 27)), ('Podcast episode ideas', 'circle-check', 'Round 1 complete', 'c2'),
         ('Kitchen renovation quotes', 'users', 'Shared with 1', (4, 6)), ('Baby name shortlist', 'users', 'Shared with 1', (40, 120)),
-        ('Summer reading', 'circle-dashed', 'Not sorted yet, 18 items', None), ('Old phone screenshots', 'circle-dot', 'Round 2 in progress', (61, 212))]
+        ('Summer reading', 'circle-dashed', 'Not sorted yet, 18 items', None), ('Board games to buy', 'circle-dot', 'Round 2 in progress', (61, 212))]
 many_rows = []
 for n, ic, m, p in many:
     below = '' if p is None else (counts_inline(11, 1, 8) if p == 'c' else (counts_inline(9, 4, 12) if p == 'c2' else bar_below(*p)))
@@ -779,12 +849,17 @@ P.frame('S08-many-lists', 'Many lists, scrolled: title collapses, FAB shrinks', 
                                                                                             title=f'''<header class="relative z-10 flex h-app-bar shrink-0 items-center gap-1 border-b bg-background px-1"><h1 class="min-w-0 flex-1 truncate px-4 text-title-3">Lists</h1>{search_btn()}</header>''')))
 
 P.section('Search', 'The search button opens a search field over the large title. Results filter live by any word in the list name (case- and accent-insensitive, so "izmir" finds "İzmir"), active lists first, archived lists in their own group.')
-srch_active = list_row(hl('March photos clean-up', 'cl'), h09('S09-default'), mi('circle-dot', 'Round 1 in progress'), bar_below(12, 30))
-srch_arch = list_row(hl('Book club picks', 'cl'), h09('S09-archived'), chip('Archived', 'secondary', 'archive') + mi('circle-check', 'Round 1 complete'))
-P.frame('S08-search', 'Search: results', phone(f'''{search_bar("cl")}
+srch_active = list_row(hl('Trip ideas', 'tr'), h09('S09-default'), mi('circle-dot', 'Round 1 in progress'), bar_below(12, 30))
+P.frame('S08-search', 'Search: results', phone(f'''{search_bar("tr")}
   <div class="min-h-0 flex-1 overflow-hidden px-4 pb-8 pt-2"><div class="space-y-5">
-    <p class="px-1 text-body-sm text-muted-foreground" role="status">2 lists match</p>
+    <p class="px-1 text-body-sm text-muted-foreground" role="status">1 list matches</p>
     <section aria-label="Lists">{lists_group([srch_active], label="Matching lists")}</section>
+  </div></div>
+  {bottom_nav("lists", badge=2)}'''))
+srch_arch = list_row(hl('Book club picks', 'b'), h09('S09-archived'), chip('Archived', 'secondary', 'archive') + mi('circle-check', 'Round 1 complete'))
+P.frame('S08-search-archived', 'Search: an archived match', phone(f'''{search_bar("b")}
+  <div class="min-h-0 flex-1 overflow-hidden px-4 pb-8 pt-2"><div class="space-y-5">
+    <p class="px-1 text-body-sm text-muted-foreground" role="status">1 list matches</p>
     <section aria-labelledby="sa-h"><h2 id="sa-h" class="px-1 pb-2 text-label text-muted-foreground">Archived</h2>{lists_group([srch_arch], label="Matching archived lists")}</section>
   </div></div>
   {bottom_nav("lists", badge=2)}'''))
@@ -814,7 +889,7 @@ P.frame('S08-large-text', 'Large text (200%)', phone(f'''<header class="shrink-0
   {fab(collapsed=True)}
   {bottom_nav("lists", badge=2).replace("text-caption", "text-label-lg")}'''))
 
-P.section('iOS and web', 'iOS: large title with a search field below it, "+" in the navigation bar instead of a FAB, inset grouped rows, standard tab bar. Web: same layout as Android; lists made without an account are "in this browser only". Desktop shows the phone column centered.')
+P.section('iOS and web', 'iOS: large title with a search field below it, "+" in the navigation bar instead of a FAB, inset grouped rows, standard tab bar. Web: same layout as Android; without an account the indicator says browsers can clear lists that aren\'t opened for a while (D-08). Desktop shows the phone column centered; a list kept on Deniz\'s phone only (Frontend hiring, Q4) is not in the browser.')
 ios_rows = rows_lists('signed')
 ios_plus = f'<a href="{S11}" class="flex size-12 items-center justify-center text-primary" aria-label="New list">{icon("plus", "size-6")}</a>'
 ios_search = f'<div class="px-4 pb-3"><label class="flex h-11 items-center gap-2 rounded-control bg-secondary px-3 text-body text-muted-foreground">{icon("search", "size-5 shrink-0")}<input type="search" placeholder="Search" aria-label="Search lists" class="h-11 min-w-0 flex-1 bg-transparent text-foreground placeholder:text-muted-foreground"></label></div>'
@@ -825,7 +900,7 @@ P.frame('S08-ios', 'iOS: large title, + in the bar, tab bar', phone(f'''{ios_nav
 P.frame('S08-ios-first-run', 'iOS: first run', phone(first_run('ios'), kind='ios'))
 P.frame('S08-web', 'Web, mobile browser: not signed in', phone(home_guest(web=True), kind='web'))
 desk_new = f'<a href="{S11}" class="mr-2 inline-flex h-12 items-center gap-2 rounded-control bg-primary px-4 text-label-lg text-primary-foreground">{icon("plus")}New list</a>'
-P.frame('S08-web-desktop', 'Web, desktop browser: New list in the bar', desktop(home(lists_group(rows_lists('signed')) + archived_entry(), fab_html='', title=f'<header class="shrink-0"><div class="flex h-app-bar items-center justify-end gap-1 px-1">{search_btn()}{desk_new}</div><h1 class="px-gutter pb-2 text-title-1">Lists</h1></header>'), 'swipesort.app/lists'))
+P.frame('S08-web-desktop', 'Web, desktop browser: New list in the bar', desktop(home(lists_group(rows_lists('signed', drop=('hiring',))) + archived_entry(), fab_html='', title=f'<header class="shrink-0"><div class="flex h-app-bar items-center justify-end gap-1 px-1">{search_btn()}{desk_new}</div><h1 class="px-gutter pb-2 text-title-1">Lists</h1></header>'), 'swipesort.app/lists'))
 P.write(F08)
 
 
@@ -835,9 +910,9 @@ P.write(F08)
 P = Page('S09', 'List overview', 'One list: where sorting stands, the next action, and everything you can do with the list. Solo lists show my progress (my decisions are final). Shared lists add list progress (Agreed, Pending, Conflict), the conflict rule, members and activity, and change by role.', 'S09-list-overview.md')
 
 P.section('Solo lists', 'Solo rule (DM-01): only you sort the list, so your decision is the final decision. The progress card holds the one main action: Continue sorting, Start sorting, or Re-sort Maybe after a finished round.')
-P.frame('S09-default', 'Default: solo list in progress (March photos clean-up)', phone(ov_solo_default()))
+P.frame('S09-default', 'Default: solo list in progress (Trip ideas)', phone(ov_solo_default()))
 P.frame('S09-solo-round-done', 'Solo, Round 1 complete (Desk setup)', phone(ov_round_done()))
-P.frame('S09-new-list', 'New list, never sorted (Frontend hiring, Q4)', phone(ov_new_list()))
+P.frame('S09-new-list', 'New list, never sorted, on this phone only (Frontend hiring, Q4)', phone(ov_new_list()))
 P.frame('S09-empty', 'List with 0 items', phone(ov_empty()))
 P.frame('S09-sample', 'Sample list (from first run)', phone(ov_sample()))
 P.frame('S09-guest-wedding', 'Not signed in: Wedding guests before sharing', phone(ov_guest_wedding()))
@@ -861,6 +936,16 @@ P.frame('S09-shared-collaborator', 'Shared, Collaborator view (Selin)', phone(ov
 P.frame('S09-shared-collaborator-scrolled', 'Shared, Collaborator view scrolled', phone(ov_shared_collab(translate='-translate-y-[47%]', bar_title='Wedding guests')))
 P.frame('S09-shared-waiting', 'Shared, I decided everything; others still sorting', phone(ov_shared_waiting()))
 
+P.section('Backup (signed in)', 'A signed-in Owner of a solo list chooses per list whether it is backed up (A-132): the Backup group under Sources holds one switch. On: the list is in the account. Off: it stays on this phone only; Home and the header say so with a muted label (A-137). Turning it on needs no confirmation; turning it off asks first (S10). Shared lists are always backed up, so the Owner sees the switch disabled with the reason. Not shown without an account, on the sample, to members who don\'t own the list, or on archived lists.')
+P.frame('S09-device-only', 'On this phone only: the Backup switch is off (Frontend hiring, Q4, scrolled)', phone(ov_new_list(translate='-translate-y-[30%]', bar_title='Frontend hiring, Q4')))
+P.frame('S09-backing-up', 'Switch turned on: backing up', phone(ov_new_list(backup='busy', translate='-translate-y-[30%]', bar_title='Frontend hiring, Q4')))
+P.frame('S09-backed-up', 'Backed up: snackbar', phone(ov_new_list(meta=HIRING_META[:2], backup='on', translate='-translate-y-[30%]', bar_title='Frontend hiring, Q4', clip='mb-20',
+        overlay=snackbar('“Frontend hiring, Q4” is backed up'))))
+P.frame('S09-backup-queued', 'Switch turned on while offline: backs up later', phone(ov_new_list(backup='queued', translate='-translate-y-[30%]', bar_title='Frontend hiring, Q4',
+        top=offline_banner("You're offline. Changes are saved on this phone."), share_disabled=True)))
+P.frame('S09-shared-backup', 'Shared list, Owner: always backed up (switch disabled)', phone(ov_shared_owner(translate='-translate-y-[66%]', bar_title='Wedding guests')))
+P.frame('S09-web-device-only', 'Web, signed in: a list on this browser only', phone(ov_new_list(meta=HIRING_META[:2] + [mi('cloud-off', 'On this browser only')], header_extra=d08_note(), backup_web=True), kind='web'))
+
 P.section('Archived and states', 'Archived lists open read-only with Restore as the main action. Loading shows a skeleton only when the list isn\'t on the device yet (opened from a link). Offline, sorting works; inviting needs a connection.')
 P.frame('S09-archived', 'Archived list: read-only (Apartment viewings)', phone(ov_archived()))
 P.frame('S09-loading', 'Loading', phone(ov_loading()))
@@ -868,7 +953,7 @@ P.frame('S09-offline', 'Offline (shared list)', phone(ov_shared_owner(top=offlin
 P.frame('S09-unavailable', 'List deleted by the Owner', phone(ov_unavailable()))
 
 P.section('Accessibility', 'Large text: the title wraps, counts stack, buttons grow, rows keep their full labels.')
-lt = (ov_header('March photos clean-up', [mi('image', '30 items'), mi('user', 'Solo list')], size='text-display').replace('text-body-sm', 'text-body-lg')
+lt = (ov_header('Trip ideas', TRIP_META, size='text-display').replace('text-body-sm', 'text-body-lg')
       + card(card_head('Round 1', '', 'lt-h').replace('text-label', 'text-title-3') + decided(12, 30, size='text-title-2')
              + f'<ul class="mt-3 space-y-2 text-body-lg">' + ''.join(f'<li class="flex items-center gap-2 text-{k}-soft-foreground">{icon(ic, "size-6")}<span class="tabular-nums">{n}</span> {lab}</li>' for (k, ic, lab), n in zip(DECISIONS, (6, 1, 5))) + '</ul>'
              + btn('Continue sorting', href='S25-sorting.html#S25-photo', size='lg', icon_name='play', extra='mt-4 min-h-16 h-auto py-3 text-title-3'), label='lt-h'))
@@ -877,10 +962,14 @@ lt_rows = group([nav_row(t, href=h, icon_name=i, desc=d, title_cls='text-title-3
     ('Rounds', 'S30-round-history.html#S30-default', 'history', '1 round'), ('Card template', 'S22-template-library.html#S22-default', 'layout-template', 'Photo'),
     ('Export', 'S39-export.html#S39-default', 'file-down', 'CSV, Excel, Google Sheets or a text summary'))])
 P.frame('S09-large-text', 'Large text (200%)', phone(ov_screen(ov_bar(share=('S31-invite.html#S31-default', 'Share list', None)), lt + lt_rows)))
+lt_hiring = (ov_header('Frontend hiring, Q4', HIRING_META, size='text-display').replace('text-body-sm', 'text-body-lg').replace('size-4 shrink-0', 'size-6 shrink-0')
+             + sources_group(SRC_HIRING).replace('text-body-sm', 'text-body-lg').replace('text-body truncate', 'text-title-3 font-normal truncate').replace('block text-body text-primary', 'block text-title-3 font-normal text-primary').replace('pb-2 text-label', 'pb-2 text-title-3 font-normal')
+             + backup_group('off', big=True))
+P.frame('S09-backup-large-text', 'Large text (200%): on this phone only, header label and Backup switch', phone(ov_screen(ov_bar(share=(h10('S10-share-backup'), 'Share list', 'share')), lt_hiring)))
 
-P.section('iOS and web', 'iOS: back chevron with "Lists", Share and a "…" menu (opens an action sheet), inset grouped rows, edge-swipe back. Web: same as Android; without an account lists are "On this browser only". Desktop: the phone column, centered.')
-ios_body = (ov_header('March photos clean-up', [mi('image', '30 items'), mi('user', 'Solo list')]) + progress_photos()
-            + rows_solo(template='Photo', results_desc='12 decided so far', sources=SRC_PHOTOS).replace('rounded-group', 'rounded-control'))
+P.section('iOS and web', 'iOS: back chevron with "Lists", Share and a "…" menu (opens an action sheet), inset grouped rows, edge-swipe back. Web: same as Android; a list that is only in this browser says "On this browser only" and that browsers can clear lists that aren\'t opened for a while (D-08). Desktop: the phone column, centered.')
+ios_body = (ov_header('Trip ideas', TRIP_META) + progress_photos()
+            + rows_solo(template='Photo', results_desc='12 decided so far', sources=SRC_TRIP, backup='on').replace('rounded-group', 'rounded-control'))
 P.frame('S09-ios', 'iOS: solo list', phone(ov_screen(ov_ios_bar(share=('S31-invite.html#S31-default', 'Share list')), ios_body), kind='ios'))
 ios_shared = (shared_header()
               + my_progress(76, 100, 17, 11, 48, btn('Continue sorting', href='S25-sorting.html#S25-shared', size='md', icon_name='play', extra='mt-4'), hid='mpi-h')
@@ -943,21 +1032,21 @@ row_sheet = ov(sheet('rs', f'''<div class="flex items-center gap-3 pb-2 pt-1"><d
                       ("Delete list", "trash-2", h10("S10-delete"), "destructive")])}''', pad='pb-12'))
 P.frame('S10-row-sheet', 'Long press on a Home row (not signed in)', phone(inert(home_guest()) + row_sheet))
 P.frame('S10-ios-action-sheet', 'iOS: action sheet', phone(inert(ov_screen(ov_ios_bar(share=('S31-invite.html#S31-default', 'Share list')), ios_body)) + ios_action_sheet(
-    'March photos clean-up', None, [('Rename', h10('S10-ios-rename'), 'n'), ('Duplicate', h10('S10-duplicate'), 'n'), ('Archive', h10('S10-archived-snackbar'), 'n'), ('Delete list', 'S40-global-patterns.html#S40-ios-delete-list', 'destructive')],
+    'Trip ideas', None, [('Rename', h10('S10-ios-rename'), 'n'), ('Duplicate', h10('S10-duplicate'), 'n'), ('Archive', h10('S10-archived-snackbar'), 'n'), ('Delete list', 'S40-global-patterns.html#S40-ios-delete-list', 'destructive')],
     h09('S09-ios')), kind='ios'))
 
 P.section('Rename', 'A dialog with the name selected. Names are 1 to 80 characters; Save stays disabled while the name is empty or too long, and the error says how to fix it. Duplicate names are allowed (lists have IDs).')
 rn_actions = lambda ok=True: dbtn('Cancel', href=h09('S09-default')) + dbtn('Save', 'primary', href=h10('S10-renamed'), action='save', disabled=not ok)
-P.frame('S10-rename', 'Rename dialog', phone(BG_PHOTOS + dlg('rn', 'Rename list', rn_actions(), extra=name_input('rn-i', 'March photos clean-up', 21))))
+P.frame('S10-rename', 'Rename dialog', phone(BG_PHOTOS + dlg('rn', 'Rename list', rn_actions(), extra=name_input('rn-i', 'Trip ideas', 10))))
 P.frame('S10-rename-empty', 'Rename: empty name', phone(BG_PHOTOS + dlg('rne', 'Rename list', rn_actions(False), extra=name_input('rne-i', '', 0, 'error', 'Enter a name for the list.'))))
-too_long = 'March photos clean-up: Moda, Kapadokya and the Black Sea trip, keep only the best ones'
+too_long = 'Trip ideas: Lisbon, Cappadocia, the Black Sea coast and every other place we talked about'
 P.frame('S10-rename-too-long', 'Rename: too long', phone(BG_PHOTOS + dlg('rnl', 'Rename list', rn_actions(False), extra=name_input('rnl-i', too_long, len(too_long), 'error', 'Use 80 characters or fewer.'))))
-renamed = inert(ov_solo_default(clip='mb-20').replace('March photos clean-up', 'March 2026 photos'))
+renamed = inert(ov_solo_default(clip='mb-20').replace('Trip ideas', 'Trip ideas 2027'))
 P.frame('S10-renamed', 'Renamed: snackbar', phone(renamed + snackbar('List renamed')))
 ios_alert = ov(f'''{scrim('z-30')}
   <div class="absolute inset-x-10 top-1/2 z-40 -translate-y-1/2 overflow-hidden rounded-dialog bg-popover text-center shadow-dialog" role="alertdialog" aria-modal="true" aria-labelledby="ira-t">
     <div class="px-4 pb-4 pt-5"><h2 id="ira-t" class="text-body font-semibold">Rename list</h2><p class="mt-1 text-body-sm text-muted-foreground">1 to 80 characters</p>
-      <input type="text" value="March photos clean-up" aria-label="List name" class="mt-3 h-11 w-full rounded-xs border border-input bg-card px-2 text-body-sm"></div>
+      <input type="text" value="Trip ideas" aria-label="List name" class="mt-3 h-11 w-full rounded-xs border border-input bg-card px-2 text-body-sm"></div>
     <div class="grid grid-cols-2 border-t"><a href="{h09('S09-ios')}" class="flex h-12 items-center justify-center border-r text-body text-primary">Cancel</a><a href="{h10('S10-renamed')}" class="flex h-12 items-center justify-center text-body font-semibold text-primary">Save</a></div>
   </div>''')
 P.frame('S10-ios-rename', 'iOS: rename alert', phone(inert(ov_screen(ov_ios_bar(share=('S31-invite.html#S31-default', 'Share list')), ios_body)) + ios_alert, kind='ios'))
@@ -966,15 +1055,15 @@ P.section('Duplicate', 'Duplicate makes a new list from the same items. Choose a
 dup_opts = radio_opts('What to copy', [('Items only', 'A fresh start: no decisions, notes or rounds. Edits to fields are kept.', True),
                                         ('Items with decisions and notes', 'Keeps your decisions from the latest round, your notes and your edits.', False)])
 dup_actions = dbtn('Cancel', href=h09('S09-default')) + dbtn('Duplicate', 'primary', href=h10('S10-duplicated'), action='confirm-duplicate')
-P.frame('S10-duplicate', 'Duplicate: options', phone(BG_PHOTOS + dlg('dp', 'Duplicate “March photos clean-up”', dup_actions,
-                                                                     extra=name_input('dp-i', 'March photos clean-up (copy)', 28, label='Name of the copy') + dup_opts)))
+P.frame('S10-duplicate', 'Duplicate: options', phone(BG_PHOTOS + dlg('dp', 'Duplicate “Trip ideas”', dup_actions,
+                                                                     extra=name_input('dp-i', 'Trip ideas (copy)', 17, label='Name of the copy') + dup_opts)))
 dup_shared_opts = radio_opts('What to copy', [('Items only', 'A fresh start: no decisions, notes or rounds.', False),
                                                ('Items with my decisions and notes', 'Your 76 decisions from Round 1 and your notes. Other members\' decisions and notes aren\'t copied.', True)])
 dup_shared_note = f'<p class="mt-3 flex items-start gap-2 rounded-control bg-muted p-3 text-body-sm">{icon("user", "size-4 mt-0.5 shrink-0")}<span>The copy is a new solo list that only you can see. Mert and Selin aren\'t added.</span></p>'
 P.frame('S10-duplicate-shared', 'Duplicate a shared list: becomes a solo list', phone(BG_SHARED + dlg('dps', 'Duplicate “Wedding guests”', dbtn('Cancel', href=h09('S09-shared')) + dbtn('Duplicate', 'primary', href=h10('S10-duplicated')),
                                                                                        extra=name_input('dps-i', 'Wedding guests (copy)', 21, label='Name of the copy') + dup_shared_note + dup_shared_opts)))
-copy_view = ov_new_list('March photos clean-up (copy)', [mi('image', '30 items'), mi('user', 'Solo list')], 30, 'Photo', 'S25-sorting.html#S25-photo', [('copy', 'Copied from March photos clean-up', '30 items, today')])
-P.frame('S10-duplicated', 'Duplicated: snackbar with Open', phone(inert(ov_solo_default(clip='mb-20')) + snackbar('Duplicated as “March photos clean-up (copy)”', 'Open', action_href=h10('S10-duplicate-opened'), data_action='open-copy')))
+copy_view = ov_new_list('Trip ideas (copy)', [mi('layers', '30 items'), mi('user', 'Solo list')], 30, 'Photo', 'S25-sorting.html#S25-photo', [('copy', 'Copied from Trip ideas', '30 items, today')], backup='on')
+P.frame('S10-duplicated', 'Duplicated: snackbar with Open', phone(inert(ov_solo_default(clip='mb-20')) + snackbar('Duplicated as “Trip ideas (copy)”', 'Open', action_href=h10('S10-duplicate-opened'), data_action='open-copy')))
 P.frame('S10-duplicate-opened', 'The copy, opened from the snackbar', phone(copy_view))
 
 P.section('Archive', 'Archive hides a list from Lists without deleting anything. A solo list archives at once with Undo. Archiving a shared list affects every member, so the Owner confirms; members keep read-only access.')
@@ -984,9 +1073,9 @@ P.frame('S10-archive-shared', 'Archive a shared list: confirm', phone(BG_SHARED 
                                                                                       body='Mert and Selin can still open it, but nobody can sort, add items or change decisions until you restore it. Nothing is deleted.')))
 
 P.section('Delete', 'Delete is Owner only and always confirms. The dialog names the list, says exactly what goes and what stays safe (sources are never touched). After deleting, Home shows "List deleted" with Undo for 6 seconds; the deletion is committed when the snackbar closes. Deleting a shared list deletes it for every member, with stronger copy and a specific button.')
-P.frame('S10-delete', 'Delete a solo list', phone(BG_PHOTOS + dlg('dl', 'Delete “March photos clean-up”?',
+P.frame('S10-delete', 'Delete a solo list', phone(BG_PHOTOS + dlg('dl', 'Delete “Trip ideas”?',
                                                                   dbtn('Cancel', href=h09('S09-default')) + dbtn('Delete list', 'destructive', href=h10('S10-deleted-snackbar'), action='confirm-delete'),
-                                                                  body='30 items, Round 1 and your decisions will be deleted from your account and this phone. The photos in your gallery aren\'t changed.')))
+                                                                  body='30 items, Round 1 and your decisions will be deleted from your account and this phone. trip-ideas.csv isn\'t changed.')))
 ds_warn = f'<p class="mt-3 text-body-sm text-muted-foreground">To stop taking part without deleting it for others, <a href="S34-members.html#S34-default" class="text-primary underline underline-offset-4">make someone else the Owner</a> and leave.</p>'
 ds_icon = f'<span class="mb-4 flex size-12 items-center justify-center rounded-full bg-secondary text-destructive">{icon("triangle-alert", "size-6")}</span>'
 P.frame('S10-delete-shared', 'Delete a shared list: deletes for all members', phone(BG_SHARED + dlg('dls', 'Delete “Wedding guests” for everyone?',
@@ -1025,14 +1114,66 @@ arch_sk = '<li class="space-y-2.5 px-4 py-4"><span class="block h-5 w-1/2 animat
 P.frame('S10-archived-loading', 'Archived lists: loading', phone(f'''{appbar('Archived lists', href=h08('S08-default'), label='Back to lists')}
   <div class="min-h-0 flex-1 px-4 pt-1"><div role="status" aria-busy="true" aria-label="Loading archived lists"><ul class="divide-y overflow-hidden rounded-group bg-card dark:border" aria-hidden="true">{arch_sk * 2}</ul></div></div>'''))
 
-P.section('Offline', 'What works offline: Rename, Duplicate, Archive and Restore of solo lists, and Delete of a solo list (all saved on the phone and synced later). What needs a connection: anything that changes a shared list for other members (Archive, Delete, Leave). Those items stay visible, disabled, with the reason.')
+P.section('Backup per list (signed in)', 'Turning backup off deletes the copy in the account, so it asks first and needs a connection (A-134); a snackbar with Undo confirms it. Sharing needs backup: Share on a list that is on this phone only opens a sheet that backs it up first, then invites (A-133). The overflow menu doesn\'t repeat the switch: the state lives in one place, S09\'s Backup group (and S06 › Backup).')
+TRIP_SCROLL = dict(translate='-translate-y-[36%]', bar_title='Trip ideas')
+bo_body = 'The copy in your account is deleted and the list leaves your other devices. If you lose this phone or move to a new one, the list can\'t be recovered.'
+P.frame('S10-backup-off', 'Turn backup off: confirm (deletes the account copy)', phone(inert(ov_solo_default(**TRIP_SCROLL)) + dlg('bo', 'Keep “Trip ideas” on this phone only?',
+        dbtn('Cancel', href=h09('S09-default'), action='cancel') + dbtn('Keep on this phone only', 'destructive', href=h10('S10-backup-off-done'), action='confirm-backup-off'), body=bo_body)))
+
+
+def ios_alert_stacked(aid, title, msg, buttons):
+    """iOS alert, buttons stacked (labels too long to sit side by side). buttons: (label, href, style, action)."""
+    rows = ''.join(f'<a href="{href}" class="flex min-h-12 items-center justify-center border-t px-4 text-body {"text-destructive" if st == "destructive" else "font-semibold text-primary"}" data-action="{act}">{lab}</a>' for lab, href, st, act in buttons)
+    return ov(f'''{scrim('z-30')}
+  <div class="absolute inset-x-12 top-1/2 z-40 -translate-y-1/2 overflow-hidden rounded-dialog bg-popover text-center shadow-dialog" role="alertdialog" aria-modal="true" aria-labelledby="{aid}-t" aria-describedby="{aid}-d">
+    <div class="px-4 pb-4 pt-5"><h2 id="{aid}-t" class="text-body font-semibold">{title}</h2><p id="{aid}-d" class="mt-1 text-body-sm text-muted-foreground">{msg}</p></div>
+    {rows}
+  </div>''')
+
+
+ios_trip = ov_screen(ov_ios_bar(share=('S31-invite.html#S31-default', 'Share list')), ios_body, translate='-translate-y-[36%]')
+P.frame('S10-ios-backup-off', 'iOS: turn backup off (alert, read first)', phone(inert(ios_trip) + ios_alert_stacked('iba', 'Keep “Trip ideas” on this phone only?', bo_body.replace('this phone or', 'this iPhone or'),
+        [('Keep on this phone only', h10('S10-backup-off-done'), 'destructive', 'confirm-backup-off'), ('Cancel', h09('S09-ios'), 'cancel', 'cancel')]), kind='ios'))
+P.frame('S10-backup-off-offline', 'Offline: turning backup off needs a connection', phone(ov_solo_default(backup='offline-on', top=offline_banner("You're offline. Changes are saved on this phone."), share_disabled=True, **TRIP_SCROLL)))
+P.frame('S10-backup-off-done', 'Backup turned off: snackbar with Undo', phone(ov_solo_default(backup='off', meta=TRIP_META + [mi('cloud-off', 'On this phone only')], clip='mb-20',
+        overlay=snackbar('“Trip ideas” is on this phone only', 'Undo', action_href=h09('S09-default'), data_action='undo'), **TRIP_SCROLL)))
+
+
+def share_backup_sheet(state='default'):
+    """A-133: sharing needs backup. One ListMoveRow (S05) shows the list and its backup progress."""
+    st = {'default': ('cloud-off', 'On this phone only', 'text-muted-foreground', ''),
+          'busy': ('loader-circle', 'Backing up…', 'text-primary', ' animate-spin'),
+          'offline': ('cloud-off', 'On this phone only', 'text-muted-foreground', '')}[state]
+    status = f'<span class="inline-flex shrink-0 items-center gap-1.5 text-body-sm {st[2]}"{" role=\"status\"" if state == "busy" else ""}>{icon(st[0], "size-4" + st[3])}{st[1]}</span>'
+    row = (f'<!-- ListMoveRow (S05) --><ul class="mt-4 divide-y border-y" aria-label="List to back up"><li class="flex min-h-14 items-center gap-3 py-2"><span class="flex size-10 shrink-0 items-center justify-center rounded-control bg-secondary text-muted-foreground">{icon("file-spreadsheet")}</span>'
+           f'<div class="min-w-0 flex-1"><p class="truncate text-body">Frontend hiring, Q4</p><p class="text-body-sm tabular-nums text-muted-foreground">12 items</p></div>{status}</li></ul>')
+    note = ''
+    if state == 'offline':
+        note = f'<div class="mt-4 flex items-start gap-2 rounded-control bg-muted px-3 py-2.5 text-body-sm" role="status">{icon("wifi-off", "size-4 mt-0.5 shrink-0")}<span>You\'re offline. Backing up and sharing need a connection. The list stays on this phone until then.</span></div>'
+    if state == 'busy':
+        main = btn('Backing up…', size='lg', busy=True)
+    else:
+        main = btn('Back up and share', href='S31-invite.html#S31-default', action='back-up-and-share', size='lg', icon_name='cloud-upload', disabled=state == 'offline')
+    return ov(sheet('sbk', f'''<div class="pt-3"><span class="flex size-12 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground">{icon("cloud-upload", "size-6")}</span></div>
+    <h2 id="sbk-t" class="mt-4 text-title-2">Back up this list to share it</h2>
+    <p class="mt-2 text-body text-muted-foreground">Members sort a shared list on their own devices, so it needs to be in your account.</p>
+    {row}{note}
+    <div class="mt-6 space-y-3">{main}{btn('Not now', 'ghost', href=h09('S09-new-list'), action='not-now', size='lg')}</div>''', pad='pb-12'))
+
+
+BG_HIRING = inert(ov_new_list())
+P.frame('S10-share-backup', 'Share a list that is on this phone only: back it up first', phone(BG_HIRING + share_backup_sheet()))
+P.frame('S10-share-backing-up', 'Back up and share: backing up, then the invite opens', phone(BG_HIRING + share_backup_sheet('busy')))
+P.frame('S10-share-backup-offline', 'Back up and share: connection lost', phone(BG_HIRING + share_backup_sheet('offline')))
+
+P.section('Offline', 'What works offline (saved on the phone, synced later; D-05): Rename (on shared lists too: the latest rename wins), Duplicate, and Archive, Restore and Delete of solo lists. What needs a connection: what changes a shared list for other members or deletes shared data (Archive, Restore and Delete for everyone, Leave), and on a list that is on this phone only, Share and turning backup off. Those items stay visible, disabled, with the reason.')
 P.frame('S10-offline', 'Offline: shared list menu', phone(inert(ov_shared_owner(top=offline_banner("You're offline. Decisions are saved on this phone. Inviting needs a connection."), share_disabled=True))
                                                        + dropdown_items(OFFLINE_MENU, top='top-12')))
 
 P.section('Accessibility, iOS and web', 'Large text: dialog buttons stack full width. iOS: rows in Archived lists use swipe actions (Restore, Delete) in addition to the menu. Web: menus and dialogs behave like Android; on desktop the dialog sits in the phone column.')
-P.frame('S10-delete-large-text', 'Large text (200%): delete dialog', phone(BG_PHOTOS + dlg('dlt', 'Delete “March photos clean-up”?',
+P.frame('S10-delete-large-text', 'Large text (200%): delete dialog', phone(BG_PHOTOS + dlg('dlt', 'Delete “Trip ideas”?',
                                                                                       dbtn('Delete list', 'destructive', href=h10('S10-deleted-snackbar'), full=True).replace('text-label-lg', 'text-title-3') + dbtn('Cancel', href=h09('S09-default'), full=True).replace('text-label-lg', 'text-title-3'),
-                                                                                      body='30 items, Round 1 and your decisions will be deleted from your account and this phone. The photos in your gallery aren\'t changed.', stacked=True, big=True)))
+                                                                                      body='30 items, Round 1 and your decisions will be deleted from your account and this phone. trip-ideas.csv isn\'t changed.', stacked=True, big=True)))
 ios_arch_rows = f'''<!-- Proposed component: SwipeActions (iOS row) --><li class="relative overflow-hidden"><div class="absolute inset-y-0 right-0 flex" aria-hidden="false">
       <a href="{h10('S10-restored')}" class="flex w-20 flex-col items-center justify-center gap-1 bg-primary text-caption text-primary-foreground">{icon('archive-restore')}Restore</a>
       <a href="{h10('S10-delete-forever')}" class="flex w-20 flex-col items-center justify-center gap-1 bg-destructive text-caption text-destructive-foreground">{icon('trash-2')}Delete</a></div>
@@ -1043,8 +1184,8 @@ P.frame('S10-ios-archived', 'iOS: archived lists with swipe actions', phone(f'''
     <p class="px-1 pb-4 text-body-sm text-muted-foreground">Archived lists are read-only. Restore a list to sort or change it.</p>
     <ul class="divide-y overflow-hidden rounded-control bg-card dark:border" aria-label="Archived lists">{ios_arch_rows}</ul>
   </div>''', kind='ios'))
-P.frame('S10-web-desktop', 'Web, desktop browser: delete dialog', desktop(inert(ov_solo_default()) + dlg('dlw', 'Delete “March photos clean-up”?',
+P.frame('S10-web-desktop', 'Web, desktop browser: delete dialog', desktop(inert(ov_solo_default()) + dlg('dlw', 'Delete “Trip ideas”?',
                                                                                                          dbtn('Cancel', href=h09('S09-default')) + dbtn('Delete list', 'destructive', href=h10('S10-deleted-snackbar')),
-                                                                                                         body='30 items, Round 1 and your decisions will be deleted from your account and every device. The photos you uploaded stay on your computer.'),
+                                                                                                         body='30 items, Round 1 and your decisions will be deleted from your account and every device. trip-ideas.csv isn\'t changed.'),
                                                                      'swipesort.app/l/3fP9aD'))
 P.write(F10)

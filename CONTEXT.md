@@ -13,7 +13,7 @@ A collection of items to sort.
 _Avoid_: Deck, collection, project, guest list
 
 **Item**:
-A single record in a list (a contact, a spreadsheet row, a photo).
+A single record in a list (a contact, a spreadsheet row, a line of text).
 _Avoid_: Card (the card is how an item is shown), entry, row, guest, invitee
 
 **Field**:
@@ -122,13 +122,21 @@ _Avoid_: Anonymous user, local user, signed-out user
 A list stored in the user's account rather than only on the device.
 _Avoid_: Saved, in the cloud, uploaded
 
+**Device-only list**:
+A list kept on one device and not backed up: every list of a guest user, the sample list, and any list a
+signed-in user keeps out of their account by turning off "Back up this list" (D-33). Sharing needs backup,
+so a device-only list is always solo. In UI copy this shows as "On this phone only" ("On this browser only"
+on the web).
+_Avoid_: Local list, offline list, private list (private is for notes)
+
 **Synced**:
 The state of a member's changes once they have reached the account (as opposed to "Saved on this phone"
 while offline). A list is backed up; changes are synced.
 _Avoid_: Uploaded, pushed
 
 **Moving lists**:
-Bringing a guest user's device lists into their account at sign-in.
+Bringing a guest user's device lists into their account at sign-in (all of them by default; the person can
+keep some on this phone only; the sample list never moves).
 _Avoid_: Migration, import, upload
 
 ## Flagged ambiguities

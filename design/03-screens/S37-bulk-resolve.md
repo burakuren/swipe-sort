@@ -152,4 +152,7 @@ c049 Yiğit Oral, c059 Sophie Laurent, c071 Freya Nielsen). **3 stay open** beca
   Maker. You can no longer resolve conflicts."
 - **Undo after members already changed their own decisions**: the undo restores the conflict state using
   the current member decisions; items that now agree become Agreed instead of Conflict.
-- **Offline**: blocked (see §5); queued bulk actions are deliberately not supported.
+- **Offline**: blocked (see §5); queued bulk actions are deliberately not supported (D-05: Bulk resolve stays
+  online). One-by-one resolutions made offline instead can come back as sync outcomes: dropped because members
+  agreed first (`S40-outcome-already-agreed`) or rejected because the role moved (`S40-outcome-dm-role-lost`);
+  S40 §4.4a.

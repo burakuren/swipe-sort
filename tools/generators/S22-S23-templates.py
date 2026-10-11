@@ -24,7 +24,8 @@ CANDS = {c['id']: c for c in DATA['candidates']}
 CLABEL = {f['key']: f['label'] for f in DATA['fields']['candidates']}
 TPL = {t['id']: t['layout'] for t in DATA['templates']}
 PROD = {p['id']: p for p in DATA['products']}
-PHOTOS = {p['id']: p for p in DATA['photos']}
+TRIPS = {t['id']: t for t in DATA['trips']}  # "Trip ideas" (D-32, A-130); the photos dataset is only for the retired S18
+ACCOUNT = DATA['me']['signedIn']['email']
 
 
 def cand(k):
@@ -52,7 +53,8 @@ PERSON = TPL['t-person']
 TABLE = TPL['t-wedding-table']
 GENERIC_BOOK = dict(image='none', title='book', subtitle=None, rows=[], tags=[])
 PRODUCT = TPL['t-product']
-PHOTO = dict(image='full', title='takenAt', subtitle='location', rows=['fileName', 'sizeMB'], tags=[])
+PHOTO = TPL['t-photo']  # title Place, subtitle Country, rows Best time and Budget (A-131)
+TRIP_LABEL = {'bestTime': 'Best time', 'budget': 'Budget'}
 
 TAG = '<span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">{}</span>'
 
@@ -75,12 +77,14 @@ def card_body(layout, vals, labels, photo=None, hidden=(), kind=None, no_title=F
     rows = [(labels.get(k, k), vals[k]) for k in layout['rows'] if k not in hidden and vals.get(k)]
     tags = [vals[k] for k in layout['tags'] if k not in hidden and vals.get(k)]
     if image == 'full':
-        meta = ', '.join(v for _, v in rows)
-        sub_h = f'<p class="mt-1 text-body text-muted-foreground">{sub}</p>' if sub else ''
-        meta_h = f'<p class="mt-1 text-body-sm text-muted-foreground">{meta}</p>' if meta else ''
+        # Photo (A-131, A-166): caption panel under the image, title + subtitle, then the rows as label/value pairs
+        # (same markup as S25-photo and S40's Trip ideas card).
+        sub_h = f'<p class="mt-0.5 text-body text-muted-foreground">{sub}</p>' if sub else ''
+        rows_h = ''.join(f'<div class="flex gap-3"><dt class="w-24 shrink-0 text-muted-foreground">{l}</dt><dd class="min-w-0 truncate tabular-nums">{v}</dd></div>' for l, v in rows)
+        dl_h = f'<dl class="mt-3 flex flex-col gap-1.5 text-body-sm">{rows_h}</dl>' if rows else ''
         return f'''<img src="{IMG}{photo}" alt="" class="min-h-0 w-full flex-1 object-cover">
-      <div class="px-6 pb-5 pt-4">
-        <h2 class="text-title-2">{t}</h2>{sub_h}{meta_h}
+      <div class="shrink-0 px-6 pb-5 pt-4">
+        <h2 class="text-title-2">{t}</h2>{sub_h}{dl_h}
       </div>'''
     # Sparse rule (image area None): the title/subtitle/rows block is vertically centred above the tags;
     # templates with up to 3 rows use larger values (title-2, 20 apart); a title-only card uses text-display.
@@ -311,7 +315,7 @@ P = Page('S22', 'Template library', 'One screen, three modes: <b>manage</b> (Set
 DESC = {
     'Person': 'Photo, name and contact details',
     'Product': 'Image, price and rating',
-    'Photo': 'The photo fills the card',
+    'Photo': 'The image fills the card',
     'Task': 'Title, due date and owner',
     'Candidate': 'Role, experience and salary',
     'Generic': 'The first fields of any list',
@@ -444,11 +448,32 @@ LENA_COMPACT = card_body(COMPACT, LENA, CLABEL)
 LENA_COMPACT_L = card_label(COMPACT, LENA, CLABEL)
 
 
+BACKUP_DESC = {
+    'on': ('cloud-check', f'Backed up to {ACCOUNT}'),
+    'off': ('cloud-off', 'It stays on this phone only. You can back it up later.'),
+    'web-on': ('cloud-check', f'Backed up to {ACCOUNT}'),
+    'web-off': ('cloud-off', "It stays in this browser only. Browsers can clear lists you haven't opened for a while."),
+}
+
+
+def backup_row(state):
+    """Import finish, signed in only (D-33, A-132, A-168): BackupSwitchRow, on by default. Same row as S09's Backup group."""
+    ic, desc = BACKUP_DESC[state]
+    on = state in ('on', 'web-on')
+    return (f'<!-- Proposed component: BackupSwitchRow (same as S09) --><div class="mt-3 flex min-h-16 items-center gap-4 rounded-group bg-card px-4 py-3 dark:border">'
+            f'{icon(ic, "size-5 shrink-0 text-muted-foreground")}'
+            f'<span class="min-w-0 flex-1"><span class="block text-body">Back up this list</span><span class="block break-words text-body-sm text-muted-foreground" aria-live="polite">{desc}</span></span>'
+            f'{switch(on, "Back up this list").replace('<button role="switch"', '<button role="switch" data-action="toggle-backup"', 1)}</div>')
+
+
 def pick(fid, name, summary, body, label, tiles, step=(5, 5), title='Import', customize='S23-template-editor.html#S23-default',
          start='S25-sorting.html#S25-coach-1', start_label='Start sorting', name_kw=None, overlay='', bottom_html=None,
-         sum_icon='list-checks', ios=False, back=None, start_action='start-sorting', scroll='', stage_h='h-72', stage_scale='scale-[.46]'):
+         sum_icon='list-checks', ios=False, back=None, start_action='start-sorting', scroll='', stage_h='h-72', stage_scale='scale-[.46]',
+         backup=None):
     kw = dict(value=name)
     kw.update(name_kw or {})
+    if backup and stage_h == 'h-72':  # the switch row takes ~88 dp: a smaller preview keeps the template row in view
+        stage_h, stage_scale = 'h-56', 'scale-[.36]'
     bar = modal_bar(title, close_label='Close import', ios=ios, back=back)
     return bg(f'''{bar}
   {stepper("Finish", *step)}
@@ -456,6 +481,7 @@ def pick(fid, name, summary, body, label, tiles, step=(5, 5), title='Import', cu
     <div class="px-gutter pt-1 {scroll}">
       {label_input(fid + "-name", "List name", **kw)}
       <p class="mt-3 flex items-start gap-2 text-body-sm text-muted-foreground">{icon(sum_icon, "size-4 mt-0.5 shrink-0")}<span>{summary}</span></p>
+      {backup_row(backup) if backup else ''}
     </div>
     <div class="mt-4 flex items-center justify-between gap-2 pl-gutter pr-2"><h2 class="text-title-3">Card template</h2><a href="{customize}" class="inline-flex h-12 items-center gap-2 rounded-control px-3 text-label-lg text-primary" data-action="customize-template">{icon("pencil")}Customize</a></div>
     {stage(body, label, h=stage_h, scale=stage_scale)}
@@ -464,19 +490,23 @@ def pick(fid, name, summary, body, label, tiles, step=(5, 5), title='Import', cu
   {bottom_html if bottom_html is not None else bottom(start_label, start, start_action)}''', overlay) + overlay
 
 
-P.section('Pick mode: the import finish step', 'The last import step (A-22): name the list, choose a card template and start sorting. The recommended template is preselected from the source and its fields; the preview is the first imported item on the real card. "Customize" opens the editor on a copy. When the duplicate step was skipped, the summary says "No duplicates found" (A-23).')
+P.section('Pick mode: the import finish step', 'The last import step (A-22): name the list, choose a card template and start sorting. The recommended template is preselected from the source and its fields; the preview is the first imported item on the real card. "Customize" opens the editor on a copy. When the duplicate step was skipped, the summary says "No duplicates found" (A-23). Signed in, a "Back up this list" switch (on by default) sits under the summary, so a private list never has to reach the server (D-33, A-132); without an account it is not shown (flow 1).')
 P.frame('S22-import-pick', 'Pick mode: contacts, Person recommended (Step 5 of 5)', phone(pick(
     'ip1', 'Wedding guests', SUM_CONTACTS, AYSE, AYSE_L, tiles_for('Person'))))
 P.frame('S22-import-pick-prefilled', 'Arriving: name prefilled from the source and selected', phone(pick(
     'ip2', 'Contacts', SUM_CONTACTS, AYSE, AYSE_L, tiles_for('Person'),
     name_kw=dict(focused=True, helper='Prefilled from the source. Type to rename it.'))))
-P.frame('S22-import-pick-csv', 'Pick mode: CSV, Candidate recommended (Role is hidden, so no subtitle)', phone(pick(
-    'ip3', 'Frontend hiring, Q4', '12 items from candidates-q4.csv. No duplicates found.', LENA_CAND, LENA_CAND_L,
-    tiles_for('Candidate'), sum_icon='copy-check', start='S25-sorting.html#S25-candidate')))
+SUM_CSV = '12 items from candidates-q4.csv. No duplicates found.'
+P.frame('S22-import-pick-csv', 'Pick mode: CSV, signed in: Candidate recommended, "Back up this list" on (default)', phone(pick(
+    'ip3', 'Frontend hiring, Q4', SUM_CSV, LENA_CAND, LENA_CAND_L,
+    tiles_for('Candidate'), sum_icon='copy-check', start='S25-sorting.html#S25-candidate', backup='on')))
+P.frame('S22-import-pick-device-only', 'Signed in: "Back up this list" turned off, the list stays on this phone only', phone(pick(
+    'ip12', 'Frontend hiring, Q4', SUM_CSV, LENA_CAND, LENA_CAND_L,
+    tiles_for('Candidate'), sum_icon='copy-check', start='S25-sorting.html#S25-candidate', backup='off')))
 P.frame('S22-import-pick-custom', 'Pick mode: back from Save, scrolled to the just-saved template (flow 4)', phone(pick(
-    'ip4', 'Frontend hiring, Q4', '12 items from candidates-q4.csv. No duplicates found.', LENA_COMPACT, LENA_COMPACT_L,
+    'ip4', 'Frontend hiring, Q4', SUM_CSV, LENA_COMPACT, LENA_COMPACT_L,
     tiles_for('Candidate', selected='Candidate, compact', first_custom='Candidate, compact'), sum_icon='copy-check',
-    start='S25-sorting.html#S25-candidate', customize='S23-template-editor.html#S23-edit-saved', scroll='-mt-20',
+    start='S25-sorting.html#S25-candidate', customize='S23-template-editor.html#S23-edit-saved', scroll='-mt-24', backup='off',
     overlay=snackbar('Template saved', bottom='bottom-28'))))
 
 BOOK = dict(book='The Remains of the Day')
@@ -490,14 +520,16 @@ P01_BODY = card_body(PRODUCT, P01V, {}, photo='products/p01.svg', kind='product'
 P.frame('S22-import-pick-manual', 'Manual entry: Step 4 of 4, Product recommended', phone(pick(
     'ip6', 'Desk setup', '3 items you added.', P01_BODY, 'Ergo Mesh task chair, Nordhaus. Price €389.',
     tiles_for('Product'), step=(4, 4), title='New list', sum_icon='list-checks', start='S25-sorting.html#S25-product')))
-PH = PHOTOS['ph01']
-PHV = dict(takenAt='Mar 1, 2026, 09:00', location=PH['location'], fileName=PH['fileName'], sizeMB=f"{PH['sizeMB']} MB")
-PH_BODY = card_body(PHOTO, PHV, {'fileName': 'File name', 'sizeMB': 'Size'}, photo='photos/ph01.svg')
-P.frame('S22-import-pick-photos', 'Photos: Step 3 of 3, Photo recommended', phone(pick(
-    'ip7', 'March photos clean-up', '30 items from Photos.', PH_BODY, 'Photo IMG_2041.JPG, taken Mar 1, 2026 in Moda, İstanbul.',
-    tiles_for('Photo'), step=(3, 3), sum_icon='images', start='S25-sorting.html#S25-photo')))
+TR01 = TRIPS['tr01']
+TR01V = dict(place=TR01['place'], country=TR01['country'], bestTime=TR01['bestTime'], budget=f"€{TR01['budget']:,}")
+TR_BODY = card_body(PHOTO, TR01V, TRIP_LABEL, photo=TR01['photo'].replace('images/', ''))
+TR_L = card_label(PHOTO, TR01V, TRIP_LABEL)
+SUM_TRIPS = '30 items from trip-ideas.csv. No duplicates found.'
+P.frame('S22-import-pick-trips', 'CSV with an image link per row (Trip ideas): Photo recommended', phone(pick(
+    'ip7', 'Trip ideas', SUM_TRIPS, TR_BODY, TR_L,
+    tiles_for('Photo'), sum_icon='copy-check', start='S25-sorting.html#S25-photo', backup='on')))
 
-P.section('Pick mode: states', 'Name validation, importing, a partial copy failure. Data was already read in the earlier steps, so this step works offline.')
+P.section('Pick mode: states', 'Name validation, importing, image links that did not download. Data was already read in the earlier steps, so this step works offline; images from links download when a connection returns.')
 P.frame('S22-import-pick-error', 'List name cleared: error on Start sorting', phone(pick(
     'ip8', '', SUM_CONTACTS, AYSE, AYSE_L, tiles_for('Person'),
     name_kw=dict(error='Enter a name for the list.', placeholder='e.g. Desk setup'))))
@@ -505,12 +537,12 @@ P.frame('S22-import-pick-importing', 'Start sorting pressed: importing', phone(p
     'ip9', 'Wedding guests', SUM_CONTACTS, AYSE, AYSE_L, tiles_for('Person'),
     bottom_html=bottom('Importing 85 items…', busy=True))))
 partial = f'''<div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3">
-    {alert("error", "2 photos couldn\'t be copied", "IMG_2077.JPG and IMG_2088.JPG are no longer on this phone. The other 28 are ready.", ic="circle-alert")}
-    <a href="S25-sorting.html#S25-photo" class="{PRIMARY} mt-3" data-action="start-sorting">Start sorting with 28 items</a>
+    {alert("neutral", "2 images couldn\'t be downloaded", "The image links in rows 14 and 27 don\'t open an image. Those 2 cards show without one. You can change a link in item details.", ic="image-off", role="status")}
+    <a href="S25-sorting.html#S25-photo" class="{PRIMARY} mt-3" data-action="start-sorting">Start sorting</a>
   </div>'''
-P.frame('S22-import-pick-partial', 'Partial import: 28 of 30 photos copied', phone(pick(
-    'ip10', 'March photos clean-up', '28 of 30 photos copied.', PH_BODY, 'Photo IMG_2041.JPG, taken Mar 1, 2026 in Moda, İstanbul.',
-    tiles_for('Photo'), step=(3, 3), sum_icon='images', bottom_html=partial, scroll='-mt-28')))
+P.frame('S22-import-pick-partial', 'Images partly downloaded: 2 image links didn\'t open, all 30 items are in the list', phone(pick(
+    'ip10', 'Trip ideas', '30 items from trip-ideas.csv. 28 of 30 images downloaded.', TR_BODY, TR_L,
+    tiles_for('Photo'), sum_icon='copy-check', bottom_html=partial, scroll='-mt-20', backup='on')))
 
 # ------------------------------------------------------------------ change mode
 P03 = PROD['p03']
@@ -556,11 +588,12 @@ P.frame('S22-change-applied', 'Applied immediately: snackbar with Undo', phone(c
     edit_label='Edit template', edit_href='S23-template-editor.html#S23-edit-saved',
     overlay=snackbar('Card template changed to Guest with table side', 'Undo', bottom='bottom-3'))))
 off_bar = back_bar('Card template', 'S09-list-overview.html#S09-shared', 'Back to Wedding guests', caption='Wedding guests')
-P.frame('S22-change-offline', 'Offline on a shared list: applied here, syncs later', phone(change(
-    'Wedding guests', 'S09-list-overview.html#S09-shared', AYSE_TABLE, AYSE_TABLE_L, cur_tiles,
+offline_notice = alert('info', 'Shared list', 'The new template applies on this phone now. All 3 members see it once it\'s synced.', ic='users')
+P.frame('S22-change-offline', 'Offline on a shared list: queued, not blocked (D-05). Applied on this phone, members see it after sync', phone(change(
+    'Wedding guests', 'S09-list-overview.html#S09-shared', AYSE_TABLE, AYSE_TABLE_L, cur_tiles, notice=offline_notice,
     bar=off_bar + offline_banner("You're offline. Changes are saved on this phone.") + '<div class="h-3 shrink-0"></div>',
     edit_label='Edit template', edit_href='S23-template-editor.html#S23-edit-saved',
-    overlay=snackbar('Card template changed. Members see it when you\'re back online.', 'Undo', bottom='bottom-3'))))
+    overlay=snackbar('Card template changed. Saved on this phone until it syncs.', 'Undo', bottom='bottom-3'))))
 
 # ------------------------------------------------------------------ iOS, web, large text
 P.section('iOS, web and large text', 'iOS: back chevron with the previous title, page sheets and an action sheet for template actions. Web: same layout as Android; on desktop the actions open as a menu next to the row. Large text: the preview becomes a button that opens it at full size and the carousel becomes a list.')
@@ -585,13 +618,25 @@ web_menu = menu([('pencil', 'Edit', 'S23-template-editor.html#S23-edit-saved', F
                  ('copy', 'Duplicate', '#S22-duplicated', False), '-', ('trash-2', 'Delete template', '#S22-delete', True)], top='bottom-32')
 web_manage = manage(overlay=web_menu).replace('aria-label="More options for Candidate, compact" data-action="template-options"', 'aria-label="More options for Candidate, compact" aria-expanded="true" data-action="template-options"')
 P.frame('S22-web-desktop', 'Web, desktop browser: actions open as a menu', desktop(web_manage, 'swipesort.app/settings/templates'))
+P.frame('S22-import-pick-web-device-only', 'Web, signed in: backup off keeps the list in this browser only (D-08 line)', web_phone(pick(
+    'ip13', 'Frontend hiring, Q4', SUM_CSV, LENA_CAND, LENA_CAND_L,
+    tiles_for('Candidate'), sum_icon='copy-check', start='S25-sorting.html#S25-candidate', backup='web-off')))
 
 
-def big_pick():
+def big_backup(state):
+    ic, desc = BACKUP_DESC[state]
+    sw = switch(state in ('on', 'web-on'), 'Back up this list').replace('h-8 w-13', 'h-10 w-16').replace('size-6 rounded-full bg-primary-foreground', 'size-8 rounded-full bg-primary-foreground').replace('size-5 rounded-full bg-muted-foreground', 'size-7 rounded-full bg-muted-foreground')
+    return (f'<div class="mt-4 rounded-group bg-card px-4 py-3 dark:border"><div class="flex items-center gap-4">{icon(ic, "size-6 shrink-0 text-muted-foreground")}'
+            f'<span class="min-w-0 flex-1 text-title-3 font-normal">Back up this list</span>{sw}</div>'
+            f'<p class="mt-1 break-words text-body-lg text-muted-foreground" aria-live="polite">{desc}</p></div>')
+
+
+def big_pick(name='Wedding guests', summary='85 items from Contacts. 3 duplicate pairs merged, 1 pair kept as separate items.', rec='Person',
+             opts=None, backup=None, start='S25-sorting.html#S25-coach-1'):
     radios = ''
-    opts = [('Person', 'Recommended'), ('Guest with table side', 'Custom'), ('Candidate, compact', 'Custom'), ('Product', ''), ('Photo', ''), ('Task', '')]
+    opts = opts or [('Person', 'Recommended'), ('Guest with table side', 'Custom'), ('Candidate, compact', 'Custom'), ('Product', ''), ('Photo', ''), ('Task', '')]
     for n, cap in opts:
-        sel = n == 'Person'
+        sel = n == rec
         c = f'<span class="block text-body-lg text-muted-foreground">{cap}</span>' if cap else ''
         radios += f'<button role="radio" aria-checked="{"true" if sel else "false"}" class="flex min-h-16 w-full items-center gap-4 px-4 py-3 text-left">{radio_dot(sel)}<span class="min-w-0 flex-1"><span class="block text-title-3 font-normal">{n}</span>{c}</span></button>'
     return f'''<header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
@@ -602,8 +647,8 @@ def big_pick():
     <div class="mt-2 flex gap-1" role="progressbar" aria-valuenow="5" aria-valuemin="1" aria-valuemax="5" aria-label="Step 5 of 5, Finish">{'<span class="h-1.5 flex-1 rounded-full bg-primary"></span>' * 5}</div></div>
   <div class="min-h-0 flex-1 overflow-y-auto px-gutter">
     <label for="lt1" class="text-title-3">List name</label>
-    <input id="lt1" class="mt-2 h-16 w-full rounded-control border border-input bg-card px-4 text-title-3 font-normal" value="Wedding guests">
-    <p class="mt-3 text-body-lg text-muted-foreground">85 items from Contacts. 3 duplicate pairs merged, 1 pair kept as separate items.</p>
+    <input id="lt1" class="mt-2 h-16 w-full rounded-control border border-input bg-card px-4 text-title-3 font-normal" value="{name}">
+    <p class="mt-3 text-body-lg text-muted-foreground">{summary}</p>{big_backup(backup) if backup else ''}
     <h2 class="mt-6 text-title-2">Card template</h2>
     <div class="mt-3 flex flex-col gap-2">
       <button class="flex min-h-16 items-center justify-center gap-3 rounded-control border border-input bg-card px-4 text-title-3 font-normal" aria-haspopup="dialog" data-action="preview-full">{icon("eye", "size-6")}See card preview</button>
@@ -611,10 +656,13 @@ def big_pick():
     </div>
     <div class="mt-4 {GROUP}" role="radiogroup" aria-label="Card template">{radios}</div>
   </div>
-  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3"><a href="S25-sorting.html#S25-coach-1" class="flex min-h-16 w-full items-center justify-center rounded-control bg-primary px-6 text-title-3 text-primary-foreground" data-action="start-sorting">Start sorting</a></div>'''
+  <div class="shrink-0 border-t bg-background px-gutter pb-4 pt-3"><a href="{start}" class="flex min-h-16 w-full items-center justify-center rounded-control bg-primary px-6 text-title-3 text-primary-foreground" data-action="start-sorting">Start sorting</a></div>'''
 
 
 P.frame('S22-large-text', 'Large text (200%): preview behind a button, templates as a list', phone(big_pick()))
+P.frame('S22-import-pick-device-only-large-text', 'Large text (200%), signed in: the backup switch row wraps under its label', phone(big_pick(
+    'Frontend hiring, Q4', SUM_CSV, 'Candidate', [('Candidate', 'Recommended'), ('Candidate, compact', 'Custom'), ('Guest with table side', 'Custom'), ('Person', ''), ('Product', '')],
+    backup='off', start='S25-sorting.html#S25-candidate')))
 P.write('S22-template-library.html')
 
 # ================================================================== S23

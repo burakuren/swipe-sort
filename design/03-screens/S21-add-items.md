@@ -1,6 +1,6 @@
 # S21 Add items to an existing list
 
-Frames: `S21-add-items.html`. Generator: `tools/generators/S21-add-items.py`. Reuses S11 tiles, S13–S18 select
+Frames: `S21-add-items.html`. Generator: `tools/generators/S21-add-items.py`. Reuses S11 tiles, the S13–S17 select
 steps and S20 (`S20-existing`).
 
 ## 1. Purpose and requirements
@@ -11,7 +11,7 @@ in the list, and the new items join the current round so every member sorts them
 number of sources.
 
 Covers: SRC-18, SRC-19, SRC-03, SRC-04, SRC-07, SRC-08, SRC-14, SRC-15, SRC-24
-(partial), PLT-07, PLT-08, PLT-11 (web), DM-02, DM-16 (new items join the current round), COL-16, GOAL-03,
+(partial), PLT-07, PLT-11 (web), DM-02, DM-16 (new items join the current round), COL-16, GOAL-03,
 GOAL-04, GOAL-05, VIS-12, VIS-13, PLT-01–PLT-04, PLT-13–PLT-16, PLT-21, PLT-23, STK-07, TERM-01, SCR-21.
 
 ## 2. Entry points and exits
@@ -23,7 +23,7 @@ GOAL-04, GOAL-05, VIS-12, VIS-13, PLT-01–PLT-04, PLT-13–PLT-16, PLT-21, PLT-
 
 | To | How |
 | --- | --- |
-| Select step per source | CSV or Excel → `S21-file`; Contacts → S13 (`S13-select-default`, permission already granted for this list); Google Sheets → S15; Plain text → S16; Manual entry → S17 Add items (fields come from the list, Set up fields is skipped); Photos → S18 (`S18-web` on web) |
+| Select step per source | CSV or Excel → `S21-file`; Contacts → S13: Android 16 and lower `S13-select-default` (permission already granted for this list), Android 17 and later `S13-picker-intro`, iOS `S13-picker-intro-ios` (system picker every time, D-18); Google Sheets → S15 (`S15-connected` when a Google account is connected, else `S15-default`); Plain text → S16; Manual entry → S17 Add items (fields come from the list, Set up fields is skipped) |
 | Map fields | `S21-mapping` (all column sources) |
 | Review duplicates | `S20-duplicate-review.html#S20-existing` |
 | Confirm | `S21-confirm` → Add to list → `S21-adding` → S09 with snackbar (`S21-success`) |
@@ -37,8 +37,9 @@ steps Choose source, Select items, Map fields, Review duplicates, Add to list (5
 removed, e.g. manual entry: Choose source, Add items, Add to list).
 
 1. **Choose source** (`S21-default`): `text-title-2` "Add items to Wedding guests", explanation; "In this list
-   now" group (one row per current source with its item count); "Add from" SourceTile grid (same tiles and
-   order as S11; a new source is one more tile); footnote about combining sources.
+   now" group (one row per current source with its item count); "Add from" SourceTile grid (same tiles,
+   order and odd-count rule as S11: with five sources Manual entry spans both columns; a new source is one
+   more tile); footnote about combining sources.
 2. **Select items** (`S21-file`): file row (icon, name, rows and columns, "Change"), first rows preview group.
 3. **Map fields** (`S21-mapping`, Proposed component **ColumnMatchRow**): header "Column in the file" / "Field in
    the list"; each row: column name + sample values (left 40%), Select of the target field (right) with the
@@ -71,8 +72,10 @@ removed, e.g. manual entry: Choose source, Add items, Add to list).
 | `S21-success` | Done: back on S09-shared, snackbar "Added 12 items" with Undo |
 | `S21-success-activity` | S09-shared scrolled: "You added 12 items from mert-family.csv", "Just now" at the top of Recent activity |
 | `S21-partial` | 2 rows couldn't be read: "Added 10 of 12 items" |
-| `S21-offline` | No connection: Google Sheets tile unavailable; local sources work |
-| `S21-web` | Web: Contacts tile unavailable with "Get the app"; Photos becomes upload |
+| `S21-offline` | No connection: Google Sheets tile unavailable; local sources work; banner says added items are saved on this phone |
+| `S21-offline-confirm` | Offline, shared list: confirm step with the offline banner; the shared notice says members see the items when the connection is back; "Add to list" works (queued, D-05) |
+| `S21-offline-success` | Offline, shared list: back on S09 (`S09-offline`), snackbar "Added 12 items. Members see them when you're back online." with Undo |
+| `S21-web` | Web: Contacts tile unavailable with "Get the app" |
 | `S21-ios`, `S21-ios-confirm` | iOS bar and back chevron |
 | `S21-large-text` | 200% font scale on the confirm step |
 
@@ -97,8 +100,13 @@ removed, e.g. manual entry: Choose source, Add items, Add to list).
 - **Undo** (snackbar, 6 s): removes the added items and the new field, restores merged items' previous values;
   available until the snackbar closes or someone decides one of the new items.
 - **Partial**: rows that can't be read are listed with their row number and reason; the rest are added.
-- **Offline**: local sources (contacts, files, text, manual, photos) work; Google Sheets is unavailable with
-  "Needs a connection". On a shared list, items added offline sync later; the banner says so.
+- **Offline** (D-05, A-159): local sources (contacts, files, text, manual entry) work; Google Sheets needs a
+  connection to start (tile "Needs a connection"). Adding items is **queued, not blocked**, on solo and
+  shared lists alike: "Add to list" writes the items on this phone at once; on a shared list they reach the
+  account and the other members when the connection is back (the S40 sync notice shows "Saved on this phone",
+  then "Syncing…", then "Synced"). Members' notifications and the S38 activity event are sent when the items
+  sync. Undo works offline (it removes the queued items before they sync). If the list stopped being shared
+  with this member in the meantime, the S40 "removed from a list while offline" outcome applies (D-09).
 - Motion: standard import transitions (M3 shared axis X between steps, 300 ms); progress bar 250 ms;
   snackbar per motion.md. Reduced motion: fades.
 
@@ -109,7 +117,7 @@ removed, e.g. manual entry: Choose source, Add items, Add to list).
 | App bar | "Add items"; close "Close adding items" |
 | Stepper | "Choose source", "Select items", "Map fields", "Review duplicates", "Add to list"; "Step 1 of 5" |
 | Choose source | "Add items to Wedding guests"; "New items join Round 1, so every member sorts them. Decisions already made stay as they are."; "In this list now"; "Contacts" / "88 items"; "Add from"; "A list can combine items from any of these sources." |
-| Tiles | "Contacts" / "From this phone"; "CSV or Excel" / "A .csv or .xlsx file"; "Google Sheets" / "From Google Drive"; "Plain text" / "Paste a list or a .txt file"; "Manual entry" / "Type items one by one"; "Photos" / "From your gallery" (iOS: "From your photo library", as S11-ios) |
+| Tiles | "Contacts" / "From this phone"; "CSV or Excel" / "A .csv or .xlsx file"; "Google Sheets" / "From Google Drive"; "Plain text" / "Paste a list or a .txt file"; "Manual entry" / "Type items one by one" |
 | File | "mert-family.csv"; "15 rows, 7 columns"; "Change"; "First rows"; "Showing 4 of 15 rows. Every row is added; you can review matches in the next steps." |
 | Map fields | "Match the 7 columns in mert-family.csv to fields in Wedding guests."; "Column in the file"; "Field in the list"; badge "New"; target "New field"; "Items already in the list leave it empty."; "Photo has no column in this file. New items show initials instead."; select a11y "Address goes to: New field. Change" |
 | Target sheet | "Address goes to"; "Column in mert-family.csv"; "New field: Address" / "Added to every item; existing items leave it empty"; "Don't import" / "The column is left out"; "Name" / "Title. Already filled by Name"; "Already filled by {column}"; "No column yet"; swap note "Phone was already filled by Mobile. Mobile is now Don't import." |
@@ -119,8 +127,8 @@ removed, e.g. manual entry: Choose source, Add items, Add to list).
 | Buttons | "Continue"; "Add to list"; busy "Adding 12 items…"; "7 of 12 added. You can leave; adding continues." |
 | Success | Snackbar "Added 12 items" + "Undo"; undo result "Removed 12 items"; activity on S09 "You added 12 items from mert-family.csv" / "Just now"; source entry wherever sources are listed: "mert-family.csv" / "Added just now" / "12 items" |
 | Partial | "Added 10 of 12 items"; "2 rows in mert-family.csv couldn't be added. The other 10 are in Wedding guests and join Round 1."; "Not added"; "Row 9" / "Has 9 values but the file has 7 columns."; "Row 14" / "Has characters that can't be read. Save the file as UTF-8."; "Fix these rows in the file and add it again. Rows already in the list show up as duplicates, so nothing is added twice."; "Done"; "Add the file again" |
-| Offline | Banner under the app bar (as in S11-offline) "You're offline. Google Sheets needs a connection; other sources work. Items you add sync to Mert and Selin later."; tile "Google Sheets" / "Needs a connection" |
-| Web | Tile "Contacts" / "Needs the Android or iOS app"; "Upload photos" / "Image files from this device" (same tile as S11-web); "Contacts import needs the Android or iOS app." + "Get the app" |
+| Offline | Banner under the app bar (S40 pattern) "You're offline. Items you add are saved on this phone. Google Sheets needs a connection."; tile "Google Sheets" / "Needs a connection"; shared notice "Mert and Selin see the 12 new items when you're back online" / "Until then they're saved on this phone. Members get a notification once the items sync."; snackbar "Added 12 items. Members see them when you're back online." + "Undo" (solo list: "Added 12 items" + "Undo", no member line) |
+| Web | Tile "Contacts" / "Needs the Android or iOS app"; "Contacts import needs the Android or iOS app." + "Get the app" |
 | Discard dialog (`S40-global-patterns.html#S40-discard-add-items`) | "Discard adding items?" / "Your choices for mert-family.csv will be lost. Nothing has been added to Wedding guests yet." / "Keep adding", "Discard" |
 | Activity (S38) | "Deniz added 12 items to Wedding guests" |
 | Solo list confirm | the shared notice is omitted; "New items join Round 1" reads "You'll sort them in Round 1." |
@@ -142,7 +150,9 @@ removed, e.g. manual entry: Choose source, Add items, Add to list).
   "Back" with edge-swipe back and close at the right. Target selects are pull-down menus; the discard
   confirmation is an action sheet.
 - **Web** (`S21-web`): Contacts tile visible but unavailable (dashed, `monitor-smartphone`, reason, "Get the
-  app"); Photos uploads files (S18-web). Desktop: centered column, same steps; selects are popovers.
+  app"). Desktop: centered column, same steps; selects are popovers. Offline on the web, added items are saved
+  in this browser ("…saved in this browser.", S40).
+- **iOS** contacts: the tile opens `S13-picker-intro-ios` (system contact picker, D-18).
 
 ## 9. Edge cases
 

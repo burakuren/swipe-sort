@@ -222,12 +222,19 @@ All gesture values are the S25 values (motion.md §2): thresholds `max(0.30 × W
 - **Many members (6+)**: the decisions list shows the first 4 rows and "+2 more members" (opens S26).
 - **Many conflicts (200+)**: progress uses thousands separators; list view is virtualized; only 3 cards render.
 - **Decision Maker role moved while resolving**: sheet "Deniz made Selin the Decision Maker. You can no
-  longer resolve conflicts." → the screen switches to the member view; resolutions already made stay.
+  longer resolve conflicts." → the screen switches to the member view; resolutions already made stay. If the
+  resolutions were made offline and the role moved before they synced, they are rejected (D-09 row 6): the screen
+  switches to the member view with the inline alert `S40-outcome-dm-role-lost` at the top ("You're no longer the
+  Decision Maker" / "…your 5 resolutions weren't applied. Those conflicts are still open.").
+- **Members agreed before an offline resolution synced** (D-09 row 5, A-99): the agreement wins and the
+  resolution is dropped; the snackbar `S40-outcome-already-agreed` ("Members agreed on 2 conflicts before your
+  resolutions synced. Their agreement is final." + View → `S36-list`) shows above the decision bar (`bottom-32`).
 - **Rule changed while resolving**: sheet (see copy), deck reloads.
 - **Item removed from the list** while shown: snackbar "Mehmet Yılmaz was removed from the list", deck
   advances.
 - **Private notes**: only the author's own private note is ever shown; others' private notes are not
   downloaded.
-- **Offline for long**: unsynced count grows; resolutions sync in order; conflicts may change (`S36-synced`).
+- **Offline for long**: unsynced count grows; resolutions sync in order; conflicts may change (`S36-synced`);
+  outcomes the server reports on arrival use the S40 sync outcome messages (§4.4a).
 - **Round ended by the Owner**: open conflicts stay in that round's results (S30) and remain resolvable;
   the header shows "Round 1, ended".

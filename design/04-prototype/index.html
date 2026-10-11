@@ -10,7 +10,7 @@
 <body class="mock-page">
 <header class="mock-doc">
   <div class="flex items-center gap-3"><img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-10 dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-10 dark:block"><h1>SwipeSort prototype</h1></div>
-  <p>The four main flows, end to end. Each step opens one frame of the design. Inside a frame, use the buttons and links to move on, or come back here and pick the next step. Two steps are live: the swipe demo sorts real sample cards with touch, mouse or the keyboard (← Reject, ↑ Maybe, → Accept, Z Undo) and then continues to the round summary. To see a step in dark mode, set <code>data-theme="dark"</code> on the page, or add <code>&amp;theme=dark</code> to the swipe demo address. Everything else: <a href="../README.md">README</a>, <a href="../HANDOFF.md">handoff guide</a>, <a href="swipe-demo.html">swipe demo</a>.</p>
+  <p>The four main flows end to end, plus two flows added by the design update after build planning (keep a list on this phone only; contacts through the system picker). Each step opens one frame of the design. Inside a frame, use the buttons and links to move on, or come back here and pick the next step. Two steps are live: the swipe demo sorts real sample cards with touch, mouse or the keyboard (← Reject, ↑ Maybe, → Accept, Z Undo) and then continues to the round summary. To see a step in dark mode, set <code>data-theme="dark"</code> on the page, or add <code>&amp;theme=dark</code> to the swipe demo address. Everything else: <a href="../README.md">README</a>, <a href="../HANDOFF.md">handoff guide</a>, <a href="swipe-demo.html">swipe demo</a>.</p>
 </header>
 <main class="flex flex-col gap-section">
 
@@ -252,21 +252,117 @@
           <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">7</span>
           <span class="min-w-0 flex-1"><span class="block text-body">Name the list and pick a template</span><span class="block text-caption text-muted-foreground">S22-import-pick-csv</span></span>
           <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
-        <li><a href="../03-screens/S23-template-editor.html#S23-default" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S23-default">
+        <li><a href="../03-screens/S22-template-library.html#S22-import-pick-device-only" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S22-import-pick-device-only">
           <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">8</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Keep candidate CVs on this phone only (D-33)</span><span class="block text-caption text-muted-foreground">S22-import-pick-device-only</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S23-template-editor.html#S23-default" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S23-default">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">9</span>
           <span class="min-w-0 flex-1"><span class="block text-body">Customize the card</span><span class="block text-caption text-muted-foreground">S23-default</span></span>
           <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
         <li><a href="../03-screens/S23-template-editor.html#S23-save" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S23-save">
-          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">9</span>
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">10</span>
           <span class="min-w-0 flex-1"><span class="block text-body">Save the template</span><span class="block text-caption text-muted-foreground">S23-save</span></span>
           <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
         <li><a href="../03-screens/S22-template-library.html#S22-import-pick-custom" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S22-import-pick-custom">
-          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">10</span>
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">11</span>
           <span class="min-w-0 flex-1"><span class="block text-body">Custom template selected</span><span class="block text-caption text-muted-foreground">S22-import-pick-custom</span></span>
           <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
         <li><a href="../03-screens/S25-sorting.html#S25-candidate" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S25-candidate">
-          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">11</span>
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">12</span>
           <span class="min-w-0 flex-1"><span class="block text-body">Sorting with the custom template</span><span class="block text-caption text-muted-foreground">S25-candidate</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+    </ol>
+  </section>
+  <section id="flow-5" class="w-full max-w-2xl" aria-labelledby="flow-5-title">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div class="max-w-prose"><h2 id="flow-5-title" class="text-title-2">Keep a list on this phone only (design update, D-33)</h2><p class="mt-1 text-body text-muted-foreground">A signed-in Owner turns backup off for one solo list, sees it labeled "On this phone only", and later shares a list kept on this phone: sharing backs it up first. At sign-in, "Choose lists" keeps one list on the phone.</p></div>
+      <a href="../03-screens/S09-list-overview.html#S09-default" class="inline-flex h-12 items-center gap-2 rounded-control bg-primary px-5 text-label-lg text-primary-foreground" data-action="start-flow-5"><i class="i-lucide-play size-5" aria-hidden="true"></i>Start</a>
+    </div>
+    <ol class="mt-4 divide-y overflow-hidden rounded-group bg-card">
+        <li><a href="../03-screens/S09-list-overview.html#S09-default" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S09-default">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">1</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Trip ideas, backed up</span><span class="block text-caption text-muted-foreground">S09-default</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S10-list-management.html#S10-backup-off" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S10-backup-off">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">2</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Keep it on this phone only?</span><span class="block text-caption text-muted-foreground">S10-backup-off</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S10-list-management.html#S10-backup-off-done" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S10-backup-off-done">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">3</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">On this phone only, with Undo</span><span class="block text-caption text-muted-foreground">S10-backup-off-done</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S08-home.html#S08-default" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S08-default">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">4</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Home: Frontend hiring, Q4 is on this phone only</span><span class="block text-caption text-muted-foreground">S08-default</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S09-list-overview.html#S09-device-only" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S09-device-only">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">5</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">The list kept on this phone</span><span class="block text-caption text-muted-foreground">S09-device-only</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S10-list-management.html#S10-share-backup" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S10-share-backup">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">6</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Back up this list to share it</span><span class="block text-caption text-muted-foreground">S10-share-backup</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S10-list-management.html#S10-share-backing-up" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S10-share-backing-up">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">7</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Backing up</span><span class="block text-caption text-muted-foreground">S10-share-backing-up</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S31-invite.html#S31-default" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S31-default">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">8</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Invite</span><span class="block text-caption text-muted-foreground">S31-default</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S05-sign-in-prompt.html#S05-share" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S05-share">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">9</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Without an account: sign in to share</span><span class="block text-caption text-muted-foreground">S05-share</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S05-sign-in-prompt.html#S05-choose-lists" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S05-choose-lists">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">10</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Choose lists to move</span><span class="block text-caption text-muted-foreground">S05-choose-lists</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S05-sign-in-prompt.html#S05-share-chosen" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S05-share-chosen">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">11</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">One list stays on this phone</span><span class="block text-caption text-muted-foreground">S05-share-chosen</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S05-sign-in-prompt.html#S05-moving-some-kept" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S05-moving-some-kept">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">12</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Moving 3 lists</span><span class="block text-caption text-muted-foreground">S05-moving-some-kept</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S05-sign-in-prompt.html#S05-moved-some-kept" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S05-moved-some-kept">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">13</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">3 moved, 1 stays on this phone</span><span class="block text-caption text-muted-foreground">S05-moved-some-kept</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+    </ol>
+  </section>
+  <section id="flow-6" class="w-full max-w-2xl" aria-labelledby="flow-6-title">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div class="max-w-prose"><h2 id="flow-6-title" class="text-title-2">Import contacts through the system picker (design update, D-18)</h2><p class="mt-1 text-body text-muted-foreground">On iOS and Android 17 and later, people pick contacts in the system contact picker (not drawn) without a permission prompt, then review them in SwipeSort. Android 16 and lower keep flow 1's permission path.</p></div>
+      <a href="../03-screens/S11-source-picker.html#S11-ios" class="inline-flex h-12 items-center gap-2 rounded-control bg-primary px-5 text-label-lg text-primary-foreground" data-action="start-flow-6"><i class="i-lucide-play size-5" aria-hidden="true"></i>Start</a>
+    </div>
+    <ol class="mt-4 divide-y overflow-hidden rounded-group bg-card">
+        <li><a href="../03-screens/S11-source-picker.html#S11-ios" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S11-ios">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">1</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Choose a source (iOS)</span><span class="block text-caption text-muted-foreground">S11-ios</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S13-contacts-import.html#S13-picker-intro-ios" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S13-picker-intro-ios">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">2</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Choose contacts: no permission needed</span><span class="block text-caption text-muted-foreground">S13-picker-intro-ios</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S13-contacts-import.html#S13-picked-ios" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S13-picked-ios">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">3</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Review the picked contacts</span><span class="block text-caption text-muted-foreground">S13-picked-ios</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S13-contacts-import.html#S13-picker-intro" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S13-picker-intro">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">4</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Android 17 and later: intro</span><span class="block text-caption text-muted-foreground">S13-picker-intro</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S13-contacts-import.html#S13-picked" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S13-picked">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">5</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Review, search, uncheck</span><span class="block text-caption text-muted-foreground">S13-picked</span></span>
+          <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
+        <li><a href="../03-screens/S19-field-mapping.html#S19-contacts" class="flex min-h-14 items-center gap-4 px-4 py-3" data-step="S19-contacts">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-caption tabular-nums" aria-hidden="true">6</span>
+          <span class="min-w-0 flex-1"><span class="block text-body">Map fields</span><span class="block text-caption text-muted-foreground">S19-contacts</span></span>
           <i class="i-lucide-chevron-right size-5 text-muted-foreground" aria-hidden="true"></i></a></li>
     </ol>
   </section>

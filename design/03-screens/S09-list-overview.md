@@ -4,7 +4,7 @@ Frames: `S09-list-overview.html`. Generator: `tools/generators/S08-S10-lists.py`
 Components: AppBar (small; scrolled with title), ListGroup and rows, Progress, SegmentedProgress (decision
 split and list status), DecisionBadge-style count chips, StatusBadge vocabulary, Badge (Owner, Decision
 Maker, Collaborator, Archived), AvatarStack, Button, Alert (info, neutral), OfflineBanner, EmptyState,
-Skeleton, Snackbar (S10 frames).
+Skeleton, Snackbar (S10 frames), Switch (BackupSwitchRow, Proposed).
 
 ## 1. Purpose and requirements
 
@@ -12,15 +12,17 @@ One list at a glance: where sorting stands, the single next step, and every plac
 where the decision model becomes visible: on a **solo list** my decision is the final decision (DM-01) and
 the screen says so; on a **shared list** it separates **my progress** (DM-13) from **list progress**
 (Agreed, Pending, Conflict; DM-14), names the conflict rule and who resolves conflicts, and adapts to the
-member's role (Owner, Decision Maker, Collaborator).
+member's role (Owner, Decision Maker, Collaborator). For a signed-in Owner of a solo list it is also where
+the list's backup is switched on or off (D-33).
 
-Covers: SCR-09, DM-01, DM-02, DM-03, DM-04, DM-05, DM-06, DM-09, DM-10 (entry to S34), DM-11, DM-12, DM-13,
+Covers: ACC-10, ACC-11, SCR-09, DM-01, DM-02, DM-03, DM-04, DM-05, DM-06, DM-09, DM-10 (entry to S34), DM-11, DM-12, DM-13,
 DM-14, DM-15, DM-16, DM-20, SRT-13, SRT-16 (next actions after a round), RND-01 and RND-03 (entries to S24
 and S30), RES-01 (entry to S28), TPL-13 (change the card template), SRC-18 (Sources group: a list combines several sources), SRC-19 (Add items), SAFE-01 (source details: the original is never changed), EXP-01–EXP-07
 (entry to S39), COL-01 (Invite), COL-07 (members), COL-12 (Leave), COL-13 (conflict rule), COL-14 (Review
 conflicts), COL-15 (Resolve all), COL-17–COL-22 (activity preview), ACC-02, ACC-03, ACC-04, GOAL-02,
 GOAL-03, GOAL-04, VIS-08, VIS-09, VIS-14, TERM-01, PLT-01–PLT-04, PLT-13–PLT-16, PLT-21, PLT-23, STK-06,
-STK-07, DEL-23 (flow 2 start), DEL-24 (flow 3 start).
+STK-07, DEL-23 (flow 2 start), DEL-24 (flow 3 start). D-33 (per-list backup: A-132, A-133, A-134, A-137, A-139),
+D-08 (web storage line, A-137).
 
 ## 2. Entry points and exits
 
@@ -48,7 +50,9 @@ STK-07, DEL-23 (flow 2 start), DEL-24 (flow 3 start).
 | S21 `S21-default` | "Add items" (last row of the Sources group) | `add-items` |
 | `S09-source-details` | a source row | `source` |
 | S39 `S39-default` / `S39-shared` | "Export" | `export` (on `S09-solo-round-done`, shared) |
-| S31 `S31-default` | Invite / Share list (signed in) | `share` (solo), `invite` (shared) |
+| S31 `S31-default` | Invite / Share list (signed in, backed-up list) | `share` (solo), `invite` (shared) |
+| S10 `S10-share-backup` | Share list on a list that is on this phone only (`S09-new-list`, `S09-device-only`) | `share` |
+| S10 `S10-backup-off` (iOS `S10-ios-backup-off`) | "Back up this list" switch turned off | — |
 | S05 `S05-share` | "Share list" when not signed in (`S09-guest-wedding`) | `share` |
 | S05 `S05-backup` | "Back up" next to "On this phone only" | `back-up` |
 | S34 `S34-default` | members avatars and names; Members row | `members` |
@@ -73,6 +77,10 @@ sections 24 apart).
    list", and for shared lists the **MembersLink** (Proposed: AvatarStack 28 + "You, Mert and Selin",
    underlined, opens S34) and a role Badge: Owner (`crown`), Decision Maker (`gavel`, primary-soft),
    Collaborator (`user`). Not signed in: `cloud-off` "On this phone only" + "Back up" (web "On this browser only").
+   Signed in, list on this phone only (A-137): `cloud-off` "On this phone only" as plain muted text (no link: the
+   person chose it; the switch is in the Backup group). Web: "On this browser only", and on the web (signed in or
+   not) a note line under the meta: `info` "Browsers can clear lists you haven't opened for a while. Back it up to
+   keep it." (D-08). Backed-up lists show nothing.
 3. **Progress card** (`rounded-group bg-card p-4`, the only place with a filled primary button):
    - Solo in progress: "Round 1" + "Started Oct 8"; "12 / 30 decided" (`text-title-3 tabular-nums`) + bar;
      **DecisionCountChips** (Proposed; DecisionBadge style with counts: "6 rejected", "1 maybe",
@@ -109,8 +117,8 @@ sections 24 apart).
 9. **Sources group** (SRC-18; header "Sources", below the actions): one **SourceRow** (Proposed; a
    ListGroup navigation row) per source in import order: source-type icon 20 (`contact` contacts,
    `file-spreadsheet` CSV/Excel, `sheet` Google Sheets, `file-text` plain text, `keyboard` manual entry,
-   `image` photos, `copy` duplicated list), title = the source label (file name, sheet name, "Contacts",
-   "Photos", "Manual entry"), description = item count + date ("88 items, imported Sep 28"; later sources
+   `copy` duplicated list; the Photos source is out of scope, D-32), title = the source label (file name, sheet
+   name, "Contacts", "Manual entry"), description = item count + date ("88 items, imported Sep 28"; later sources
    "12 items, added today"; Google Sheets adds the tabs). A source added in this session shows a "New"
    badge (primary-soft) and "added just now". The last row is **Add items** (`plus`, label in
    `text-primary`, description "From any source" / shared "New items join Round 1 for everyone"). Archived
@@ -126,14 +134,32 @@ sections 24 apart).
     Restore it to sort, add items or change decisions." and primary "Restore list". Only Results
     (read-only), Rounds and Export remain in the actions group.
 14. **Sample banner**: Alert info (`flask-conical`) "This is a sample list" + one sentence.
+15. **Backup group** (D-33, A-132; header "Backup", the last group, under Sources): one **BackupSwitchRow**
+   (Proposed; a ListGroup row with a Switch, min-h-16): state icon 20 muted, title "Back up this list", the state
+   as description, Switch (52×32, accessible name "Back up this list"). Shown only to a **signed-in Owner**; not
+   without an account (every list is on this phone, A-81), not on the sample (A-139), not to members who don't own
+   the list, not on archived lists (restore first). States:
+
+   | State | Icon | Description | Switch | Footer |
+   | --- | --- | --- | --- | --- |
+   | Backed up | `cloud-check` | "Backed up to deniz.yilmaz@example.com" | on | — |
+   | On this phone only | `cloud-off` | "On this phone only" (web "On this browser only") | off | "Lists on this phone only don't move to a new phone. Back them up first." (mobile only; A-138) |
+   | Backing up | `loader-circle` (spins) | "Backing up…" (`role=status`) | on, disabled until done | — |
+   | Turned on offline | `cloud-upload` | "Backs up when you're online" | on | — |
+   | Paused (connection lost) | `cloud-alert` | "Backup paused. It continues when you're online." | on | — |
+   | Shared list | `cloud-check` | "Backed up to deniz.yilmaz@example.com" | on, disabled | "Shared lists are always backed up." |
+   | Offline, backed up | `cloud-check` | "Backed up to deniz.yilmaz@example.com" | on, disabled | "Turning backup off needs a connection." |
+
+   Disabled states keep the description and footer at full contrast; the title turns `muted-foreground` and the
+   switch `opacity-50` (design-principles §11).
 
 ## 4. States
 
 | Frame | Trigger |
 | --- | --- |
-| `S09-default` | Solo list in progress, signed in: March photos clean-up (`l-photos`, round `r-p1`, 12 / 30: 6 / 1 / 5) |
+| `S09-default` | Solo list in progress, signed in, backed up: Trip ideas (`l-trips`, round `r-p1`, 12 / 30: 6 / 1 / 5; 30 items from trip-ideas.csv, Photo template; A-130) |
 | `S09-solo-round-done` | Solo list after Round 1: Desk setup (`l-desk`, `r-d1`: 9 rejected, 6 maybe, 5 accepted); start of flow 2 |
-| `S09-new-list` | List never sorted: Frontend hiring, Q4 (`l-candidates`, 12 items, template `t-candidate-compact`) |
+| `S09-new-list` | List never sorted: Frontend hiring, Q4 (`l-candidates`, 12 items, template `t-candidate-compact`); signed in, on this phone only (A-139): header label "On this phone only"; Share opens `S10-share-backup` |
 | `S09-empty` | List with 0 items (every item removed, or a manual list saved empty); illustrative "Gift ideas for Mum" |
 | `S09-sample` | The first-run sample list (copy of products `p01`–`p20`) |
 | `S09-guest-wedding` | Not signed in; Wedding guests is still solo (76 / 100: 17 / 11 / 48); start of flow 3 (Share → S05) |
@@ -149,9 +175,20 @@ sections 24 apart).
 | `S09-loading` | List not on the device yet (opened from a link or notification on a new device) |
 | `S09-offline` | Offline on a shared list: banner, Invite disabled, list status timestamped "As of 9:24" |
 | `S09-unavailable` | The Owner deleted the list (or I was removed): what happened + Back to lists |
+| `S09-device-only` | Frontend hiring, Q4 scrolled to the end: Backup group, switch off, "On this phone only" + footer (A-132) |
+| `S09-backing-up` | Switch turned on: "Backing up…", switch disabled until done |
+| `S09-backed-up` | Done: "Backed up to deniz.yilmaz@example.com"; the header label is gone; snackbar "“Frontend hiring, Q4” is backed up" (4 s) |
+| `S09-backup-queued` | Switch turned on while offline: "Backs up when you're online"; Share disabled ("needs a connection") |
+| `S09-shared-backup` | Shared list, Owner, scrolled to the end: switch on and disabled, footer "Shared lists are always backed up." (A-134) |
+| `S09-backup-large-text` | 200%: header label wraps onto its own line; the row grows, the email wraps, the switch scales (64×40) |
+| `S09-web-device-only` | Web, signed in: the same state for a list kept in this browser only: "On this browser only" + the D-08 note line (illustrative: Frontend hiring, Q4 as if made in the browser) |
+
+Turning backup **off** (confirmation, offline, Undo snackbar) and the "Back up this list to share it" sheet are S10
+frames: `S10-backup-off`, `S10-ios-backup-off`, `S10-backup-off-offline`, `S10-backup-off-done`, `S10-share-backup`,
+`S10-share-backing-up`, `S10-share-backup-offline`.
 | `S09-large-text` | Font scale 200% |
 | `S09-ios`, `S09-ios-shared` | iOS |
-| `S09-web`, `S09-web-desktop` | Web mobile (not signed in, "On this browser only"); desktop (shared, Owner) |
+| `S09-web`, `S09-web-desktop` | Web mobile (not signed in, "On this browser only" + the D-08 note line); desktop (shared, Owner) |
 
 The overflow menu and every list-management dialog are S10 frames.
 
@@ -167,7 +204,16 @@ The overflow menu and every list-management dialog are S10 frames.
 - **Share / Invite**: signed in → S31 sheet; not signed in → S05 sheet (`S05-share`), and after sign-in the
   original action continues to S31. Offline → the button is disabled; its name explains "needs a
   connection" and the banner says it.
-- **Back up** (not signed in) → S05 `S05-backup`.
+- **Back up** (not signed in) → S05 `S05-backup` (web `S05-web-backup`).
+- **Back up this list switch** (signed-in Owner, solo): on → no confirmation (nothing is lost, A-132): the row
+  shows "Backing up…" (the list moves with the moving-lists mechanism, D-10), then "Backed up to …" and the
+  snackbar "“{name}” is backed up" (4 s); the header label disappears (200 ms fade). Offline it queues ("Backs up
+  when you're online") and starts by itself. Off → S10 `S10-backup-off` (confirm, needs a connection); after
+  confirming, the row shows "On this phone only", the header gains the label and the snackbar "“{name}” is on this
+  phone only" + Undo (6 s) appears (`S10-backup-off-done`); Undo backs it up again. Switch thumb 150 ms; reduced
+  motion: instant.
+- **Share on a list that is on this phone only** → S10 `S10-share-backup` ("Back up this list to share it",
+  A-133); "Back up and share" backs it up, then S31 opens.
 - **Overflow** → DropdownMenu (Android, web) / action sheet (iOS) from S10.
 - **Live updates** (shared): my progress, list status and activity update as members sort; the status bar
   segments animate their widths (250 ms standard; reduced motion: instant).
@@ -186,11 +232,13 @@ The overflow menu and every list-management dialog are S10 frames.
 | Element | String |
 | --- | --- |
 | App bar | back "Back to lists"; "Share list" (solo) / "Invite" (shared); "List options"; offline "Invite, needs a connection" |
-| Meta | "30 items"; "12 items from candidates-q4.csv"; "Solo list"; "On this phone only" + "Back up" (web "On this browser only"); "You, Mert and Selin" / "Deniz, Mert and you" / "Deniz, Selin and you"; badges "Owner", "Decision Maker", "Collaborator", "Archived" |
+| Meta | "30 items from trip-ideas.csv"; "12 items from candidates-q4.csv"; "Solo list"; not signed in "On this phone only" + "Back up" (web "On this browser only"); signed in, list on this phone only "On this phone only" (web "On this browser only"), no link; "You, Mert and Selin" / "Deniz, Mert and you" / "Deniz, Selin and you"; badges "Owner", "Decision Maker", "Collaborator", "Archived" |
+| Web storage note (D-08) | "Browsers can clear lists you haven't opened for a while. Back it up to keep it." |
+| Backup group | header "Backup"; "Back up this list"; "Backed up to deniz.yilmaz@example.com"; "On this phone only" (web "On this browser only"); "Backing up…"; "Backs up when you're online"; "Backup paused. It continues when you're online."; footers "Lists on this phone only don't move to a new phone. Back them up first.", "Shared lists are always backed up.", "Turning backup off needs a connection."; snackbars "“Frontend hiring, Q4” is backed up", "“Trip ideas” is on this phone only" + "Undo" (S40 §6.2) |
 | Solo progress | "Round 1"; "Started Oct 8"; "12 / 30 decided"; "6 rejected", "1 maybe", "5 accepted"; "Only you sort this list, so your decisions are final."; "Continue sorting" |
 | Round complete | "Round 1 complete"; "Oct 4"; "20 / 20 decided"; "Re-sort Maybe (6)" |
 | Never sorted | "Not sorted yet"; "12 items"; "Every item is ready. Start sorting to make your first decisions; you can stop at any time and continue later."; "Start sorting" |
-| Empty list | "No items yet" / "Add items from contacts, a file, Google Sheets, text or photos, or type them yourself. Then start sorting." / "Add items" |
+| Empty list | "No items yet" / "Add items from contacts, a file, Google Sheets or text, or type them yourself. Then start sorting." / "Add items" |
 | Sample | "Desk setup (sample)"; "This is a sample list" / "20 sample items to practice on. Sort, change decisions, try Results. Delete it from the menu when you're done; nothing else changes."; "Swipe right to accept, left to reject, up for maybe. Or use the buttons." |
 | Share card | "Decide together" / "Share this list so others can sort it on their own devices. You'll see where you agree." / "Share list" |
 | Shared progress | "My progress"; "Round 1, shared"; "76 / 100 decided" |
@@ -201,8 +249,8 @@ The overflow menu and every list-management dialog are S10 frames.
 | Activity | "Recent activity"; "See all"; "15 new conflicts" "Oct 3"; "Selin joined the list" "Oct 2"; "You started Round 1 with 88 items" "Sep 28" (the 12 items from mert-family.csv joined Round 1 later) |
 | Actions | "Results" + "12 decided so far" / "5 accepted, 9 rejected, 6 maybe" / "No decisions yet" / "Final decisions and my decisions" / archived "Read-only"; "Start a new round" + "Choose items and card order" / "Starts for all 3 members"; "Rounds" + count or "None yet"; "Card template" + name; "Add items" + "From any source" / "New items join Round 1 for everyone"; "Export" + "CSV, Excel, Google Sheets or a text summary" / "Includes each member's decision" |
 | Members footer | "Deniz, the Owner, starts new rounds for everyone." |
-| Sources | header "Sources"; "Contacts" / "88 items, imported Sep 28"; "mert-family.csv" / "12 items, added today" (just added: "12 items, added just now" + badge "New"); "Manual entry" / "20 items, typed in Oct 4"; "Photos" / "30 items, imported Oct 8"; "candidates-q4.csv" / "12 items, imported Oct 8"; "Flat hunt 2026" / "Google Sheets, Kadıköy and Beşiktaş tabs, 8 items, imported Jul 2"; "Sample items" / "20 items, added with the sample"; "Copied from March photos clean-up" / "30 items, today"; row accessible name "{label}, {description}" (+ ", new"); "Add items" + "From any source" / "New items join Round 1 for everyone" |
-| Source details | "mert-family.csv"; "CSV file" (others: "Phone contacts", "Excel file", "Google Sheets", "Plain text", "Manual entry", "Photos"); "Items" "12"; "Added" "Today by you"; "Fields" "Name, Phone, Email, Side, Relationship"; "Your original is never changed" / "Edits, notes and decisions stay in SwipeSort. Export when you want a file with them."; "Close" |
+| Sources | header "Sources"; "Contacts" / "88 items, imported Sep 28"; "mert-family.csv" / "12 items, added today" (just added: "12 items, added just now" + badge "New"); "Manual entry" / "20 items, typed in Oct 4"; "trip-ideas.csv" / "30 items, imported Oct 8"; "candidates-q4.csv" / "12 items, imported Oct 8"; "Flat hunt 2026" / "Google Sheets, Kadıköy and Beşiktaş tabs, 8 items, imported Jul 2"; "Sample items" / "20 items, added with the sample"; "Copied from Trip ideas" / "30 items, today"; row accessible name "{label}, {description}" (+ ", new"); "Add items" + "From any source" / "New items join Round 1 for everyone" |
+| Source details | "mert-family.csv"; "CSV file" (others: "Phone contacts", "Excel file", "Google Sheets", "Plain text", "Manual entry"); "Items" "12"; "Added" "Today by you"; "Fields" "Name, Phone, Email, Side, Relationship"; "Your original is never changed" / "Edits, notes and decisions stay in SwipeSort. Export when you want a file with them."; "Close" |
 | Added (from S21) | snackbar "Added 12 items" + "Undo"; activity "You added 12 items from mert-family.csv" "Just now" |
 | Leave | "Leave list" |
 | Waiting | "You decided every item"; "100 / 100 decided"; "The list status settles as the others finish. Conflicts can be resolved now."; member rows "Mert" "85 / 100", "Selin" "43 / 100"; "See results" |
@@ -229,14 +277,24 @@ The overflow menu and every list-management dialog are S10 frames.
 - Reduced motion: no number ticks or bar width animation; transitions become fades.
 - Screen-reader announcement when live data changes while focused: "List status updated: 16 conflicts."
   (polite, at most every 10 s).
+- Backup switch: `role="switch"` named "Back up this list"; its description (state) and the group footer are
+  part of its accessible description ("Back up this list, switch, off. On this phone only. Lists on this phone
+  only don't move to a new phone."). "Backing up…" and "Backs up when you're online" are polite live regions.
+  Disabled (shared, offline) is announced with its reason ("dimmed. Shared lists are always backed up.").
+  Large text (`S09-backup-large-text`): the row grows, the description wraps (the email may break), the switch
+  scales to 64×40 and stays at the trailing edge.
 
 ## 8. iOS and web differences
 
 - **iOS** (`S09-ios`, `S09-ios-shared`): back chevron with "Lists" and edge-swipe back; trailing Share
   (`share` glyph; "Invite" on shared lists) and a "…" (`circle-ellipsis`) button that opens the iOS action
-  sheet (`S10-ios-action-sheet`) or a UIMenu; inset grouped rows (`rounded-control`). Everything else is
-  identical.
-- **Web, mobile** (`S09-web`): same as Android; without an account the list is "On this browser only".
+  sheet (`S10-ios-action-sheet`) or a UIMenu; inset grouped rows (`rounded-control`). The Backup row uses the
+  native UISwitch with the same strings; "On this phone only" stays "phone" on iOS (A-137). Turning backup off
+  opens an alert, not an action sheet, because the consequence must be read first (`S10-ios-backup-off`, A-113).
+  Everything else is identical.
+- **Web, mobile** (`S09-web`): same as Android; without an account the list is "On this browser only", with the
+  D-08 note line under the meta. Signed in, a list kept in this browser only shows the same label and line and
+  the Backup row reads "On this browser only" (`S09-web-device-only`); the footer about new phones is left out.
 - **Web, desktop** (`S09-web-desktop`): phone column centered; hover states on rows; the overflow menu is a
   popover. Keyboard: Enter on the primary button starts sorting; arrow-key sorting hints appear only in S25.
 
@@ -256,9 +314,25 @@ The overflow menu and every list-management dialog are S10 frames.
 - **Member joined mid-round** (DM-16): their progress starts at 0 / 100 for the current round.
 - **Items added mid-round** (shared): total increases for everyone ("76 / 112 decided"); a snackbar on
   return "12 items added to Round 1".
-- **Offline**: sorting, Results, Card template, Add items from local sources and Export to files work;
-  Invite, Google Sheets import/export and joining need a connection. List status shows when it was last
-  updated.
+- **Offline** (D-05): sorting, Results, Export to files, and on any list Card template and Add items from local
+  sources work; on a shared list these changes are queued and sync later (the server checks them on arrival).
+  Rename is queued too (S10). Invite / Share, Google Sheets import and export, joining, Start a new round on a
+  shared list, the Conflict rule and member changes need a connection (they change what others may do or need the
+  server's state); their controls are disabled with "needs a connection". List status shows when it was last
+  updated. On a list on this phone only, everything works offline except Share and turning backup off (A-139).
+- **List on this phone only** (signed in, A-132–A-139): it exists on this phone only, so the person's other devices
+  and the web app never list it; it shows no sync notice (A-115); Duplicate keeps its storage mode; Delete says
+  "…deleted from this phone." (S10). Turning backup on while another backup or a move is running waits its turn
+  ("Backs up when you're online" changes to "Backing up…").
+- **Another device turned backup off** for a list that is open here: the screen is replaced by S08 with the S40
+  snackbar `S40-outcome-device-only-elsewhere` ("You kept “Trip ideas” on another device only. It's no longer on
+  this one."); unsynced changes made here are discarded with the list.
+- **Sync outcomes on shared lists** (D-09, S40 §4.4a): if I was removed while offline, the open list is replaced by
+  `S40-not-found-removed` with the line about decisions that weren't saved, and Home shows
+  `S40-outcome-removed`; if I lost the Decision Maker role while offline, the callout is replaced by the inline
+  alert `S40-outcome-dm-role-lost` and the page switches to the Collaborator view; resolutions dropped because
+  members agreed show `S40-outcome-already-agreed`; Round 1 decisions synced after Round 2 started show
+  `S40-outcome-late-round`; an edit replaced by a later one shows `S40-outcome-edit-replaced`.
 - **Many sources** (5+): every row shows; the group never collapses. Two sources with the same file name
   are told apart by their dates.
 - **Source dates**: relative within a week ("added today", "added 3 days ago"), then "Sep 28", then

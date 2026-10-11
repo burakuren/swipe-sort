@@ -170,9 +170,21 @@ def inp(fid, label, value, typ='text', focus=False, error=None, suffix=None, hel
 
 
 def photo_edit(photo, initials, label='Photo'):
+    """Contact photo in edit mode (D-32, A-170): no photo picker or camera. A photo from the source can be removed
+    (Revert to original brings it back); a contact without one shows its initials and no action."""
     av = avatar((photo, initials), 'size-16')
-    rm = f'<button type="button" class="inline-flex h-12 items-center rounded-control px-3 text-label-lg">Remove</button>' if photo else ''
-    return f'''<div><p class="text-label">{label}</p><div class="mt-1.5 flex items-center gap-3">{av}<button type="button" class="inline-flex h-12 items-center gap-2 rounded-control border border-input bg-card px-4 text-label-lg">{icon("image")}{"Change photo" if photo else "Add photo"}</button>{rm}</div></div>'''
+    if photo:
+        return f'''<div><p class="text-label">{label}</p><div class="mt-1.5 flex items-center gap-3">{av}<button type="button" class="inline-flex h-12 items-center gap-2 rounded-control border border-input bg-card px-4 text-label-lg" data-action="remove-image">{icon("trash-2")}Remove</button></div><p class="mt-1.5 text-body-sm text-muted-foreground">From Contacts. Removing it here doesn't change your contacts.</p></div>'''
+    return f'''<div><p class="text-label">{label}</p><div class="mt-1.5 flex items-center gap-3">{av}<p class="text-body-sm text-muted-foreground">No photo in Contacts.</p></div></div>'''
+
+
+def image_link_edit(fid, img, link, label='Photo', focus=False, original=None, contain=False):
+    """Image field from an image link (CSV, Google Sheets, manual entry; A-131, A-160, A-170): edited as the link,
+    with a 36 thumbnail once it loads. Same control as S17's item form."""
+    border = 'border border-primary ring-2 ring-ring/30' if focus else 'border border-input'
+    fit = 'bg-muted object-contain p-0.5' if contain else 'object-cover'
+    orig = f'<p class="mt-1.5 flex items-start gap-1.5 text-body-sm text-muted-foreground">{icon("pencil-line", "size-4 mt-0.5 shrink-0")}<span class="min-w-0 break-all">Original: {original}</span></p>' if original else ''
+    return f'''<div><label class="text-label" for="{fid}">{label}</label><div class="mt-1.5 flex h-12 items-center gap-2 rounded-control bg-card pl-3.5 pr-1.5 {border}"><input id="{fid}" type="url" class="h-full min-w-0 flex-1 bg-transparent text-body" value="{link}" aria-describedby="{fid}-h"><img src="{IMG}{img}" alt="" class="size-9 shrink-0 rounded-sm {fit}"></div>{orig}<p id="{fid}-h" class="mt-1.5 text-body-sm text-muted-foreground">Paste a link to an image. Cards show the picture from this link.</p></div>'''
 
 
 def edit_form(fields_html, title_note=''):
@@ -222,16 +234,18 @@ expanded = f'''<header class="flex h-app-bar shrink-0 items-center gap-1 px-1">
   {decide_bar()}'''
 F.add('S26-expanded', 'Expanded to full screen (dragged up)', phone(expanded))
 
-photo_bg_body = f'''<img src="{IMG}photos/ph13.svg" alt="" class="min-h-0 w-full flex-1 object-cover">
-      <div class="px-6 pb-5 pt-4"><p class="text-title-2">Mar 7, 2026, 10:24</p><p class="mt-1 text-body text-muted-foreground">Alfama, Lisbon</p></div>'''
-photo_content = f'''{item_head('Mar 7, 2026, 10:24', 'Alfama, Lisbon', image='photos/ph13.svg', image_h='h-60', alt='Photo IMG_2053.JPG: a street in Alfama, Lisbon')}
+# Trip ideas (D-32, A-130): tr13 Alfama, Lisbon on the Photo template; image from the CSV's image link.
+TR13_LINK = 'https://images.example/trips/alfama-lisbon.jpg'
+SRC_TRIPS = "From trip-ideas.csv. Edits stay in SwipeSort; the file isn't changed."
+photo_bg_body = s25_photo_card('ph13', 'Alfama, Lisbon', 'Portugal', 'Apr to Jun', '€900')
+photo_content = f'''{item_head('Alfama, Lisbon', 'Portugal', image='photos/ph13.svg', image_h='h-60', alt='Image for Alfama, Lisbon')}
     {my_decision(None)}
-    {fields_group([frow('Taken', 'Mar 7, 2026, 10:24', edit_href='#S26-edit-date'), frow('Location', 'Alfama, Lisbon', edit_href='#S26-edit-date'), frow('File name', 'IMG_2053.JPG', edit_href='#S26-edit-date'), frow('Size', '3.3 MB', '4032 × 3024', editable=False)], edit_href='#S26-edit-date')}
+    {fields_group([frow('Place', 'Alfama, Lisbon', edit_href='#S26-edit-image-link'), frow('Country', 'Portugal', edit_href='#S26-edit-image-link'), frow('Best time', 'Apr to Jun', edit_href='#S26-edit-image-link'), frow('Budget (EUR)', '900', edit_href='#S26-edit-image-link')], edit_href='#S26-edit-image-link')}
     {notes_section()}
-    {source_line("From Photos on this phone. Edits stay in SwipeSort; your photos aren't changed.")}'''
-F.add('S26-photo', 'Photo item (ph13, March photos clean-up): general purpose', phone(over_sorting(
+    {source_line(SRC_TRIPS)}'''
+F.add('S26-photo', 'Photo template item (tr13, Trip ideas): image from a link, place details', phone(over_sorting(
     sheet_detail(photo_content, 'sd2', decide_bar(), close_href='S25-sorting.html#S25-photo'),
-    s25_background(photo_bg_body, 'March photos clean-up', 'Round 1', 12, 30, (6, 1, 5)))))
+    s25_background(photo_bg_body, 'Trip ideas', 'Round 1', 12, 30, (6, 1, 5), nxt=s25_photo_card('ph12', 'Göreme, Cappadocia', 'Türkiye', 'Apr to May', '€700')))))
 
 c014_bg = s25_person('Maximiliane Alexandra Charlotte von Hohenberg-Lichtenstein', 'Friend', 'people/c014.svg', [('Email', 'maximiliane.hohenberg-lichtenstein@example.net'), ('City', 'Berlin')], ["Bride's"])
 c014_fields = [
@@ -251,7 +265,7 @@ F.add('S26-long-text', 'Long name and email wrap in full; missing phone shows "A
     s25_background(c014_bg, done=13, counts=(2, 3, 8)))))
 
 # ------------------------------------------------------------------ section: editing
-F.section('Editing fields', 'Edit (or tap any field) switches the fields into inputs in place. Each field type gets its own keyboard and control. Save changes writes to the working copy; changed fields are marked Edited and keep their original value.')
+F.section('Editing fields', 'Edit (or tap any field) switches the fields into inputs in place. Each field type gets its own keyboard and control. Save changes writes to the working copy; changed fields are marked Edited and keep their original value. Image fields have no photo library or camera (D-32): a contact photo can only be removed, an image from a link is edited as its link.')
 
 c007_edit = f'''{edit_form(photo_edit(None, 'GD') + inp('e-name', 'Name', 'Gökhan Doğan') + inp('e-phone', 'Phone', '+90 500 000 97 41', 'tel', focus=True, helper=f'{icon("pencil-line", "size-4 mt-0.5 shrink-0")}<span>Original: +90 500 000 97 4</span>') + inp('e-email', 'Email', 'gokhan.dogan@example.com', 'email') + inp('e-side', 'Side', "Groom's") + inp('e-rel', 'Relationship', 'Friend') + inp('e-city', 'City', 'Bursa'))}'''
 F.add('S26-edit', 'Editing fields in place (Gökhan Doğan c007: fixing a phone typo)', phone(over_sorting(
@@ -298,23 +312,22 @@ F.add('S26-edit-multi', 'Multi-value field: two phone numbers (Mehmet Yılmaz c0
 p03_edit = f'''{back_bar('', 'S28-results.html#S28-default', 'Back to results')}
   <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6">
     <h1 class="text-title-2">Edit fields</h1>
-    {edit_form(f"""<div><p class="text-label">Photo</p><div class="mt-1.5 flex items-center gap-3"><img src="{IMG}products/p03.svg" alt="" class="size-16 rounded-control bg-muted object-contain p-1"><button type="button" class="inline-flex h-12 items-center gap-2 rounded-control border border-input bg-card px-4 text-label-lg">{icon("image")}Change image</button><button type="button" class="inline-flex h-12 items-center rounded-control px-3 text-label-lg">Remove</button></div></div>""" +
+    {edit_form(image_link_edit('p-photo', 'products/p03.svg', 'https://pixelhaus.example/img/4k-27.jpg', contain=True) +
               inp('p-name', 'Name', '27-inch 4K USB-C monitor') +
               inp('p-price', 'Price', '399', 'text', focus=True, suffix='EUR', mode='decimal', helper=f'{icon("pencil-line", "size-4 mt-0.5 shrink-0")}<span>Original: 429</span>') +
               '<div class="grid grid-cols-2 gap-3">' + inp('p-rating', 'Rating', '4.5', 'text', mode='decimal') + inp('p-reviews', 'Reviews', '2,870', 'text', mode='numeric') + '</div>' +
               inp('p-link', 'Link', 'https://pixelhaus.example/p/1074', 'url', trailing=icon_btn('external-link', 'Open link', None, None, '', 'size-5')))}
   </div>
   {edit_bar('#S26-product', '#S26-product')}'''
-F.add('S26-edit-product', 'Product fields: image, number with unit, link (p03)', phone(p03_edit))
+F.add('S26-edit-product', 'Product fields: image link, number with unit, link (p03)', phone(p03_edit))
 
-date_edit = f'''{item_head('Mar 7, 2026, 10:24', 'Alfama, Lisbon', image='photos/ph13.svg', image_h='h-36', alt='Photo IMG_2053.JPG')}
-    {edit_form(inp('d-taken', 'Taken', 'Mar 7, 2026, 10:24', 'text', focus=True, trailing=icon_btn('calendar', 'Choose date and time', None, None, '', 'size-5'), helper='Opens the date and time picker of your phone.') + inp('d-loc', 'Location', 'Alfama, Lisbon') + inp('d-file', 'File name', 'IMG_2053.JPG'))}'''
-F.add('S26-edit-date', 'Date field: opens the system date picker (ph13)', phone(over_sorting(
-    sheet_detail(date_edit, 'se4', edit_bar('#S26-photo', '#S26-photo'), head_title='Edit fields', expand=False, close_href='S25-sorting.html#S25-photo'),
-    s25_background(photo_bg_body, 'March photos clean-up', 'Round 1', 12, 30, (6, 1, 5)))))
+link_edit = f'''{edit_form(image_link_edit('l-photo', 'photos/ph13.svg', TR13_LINK, focus=True) + inp('l-place', 'Place', 'Alfama, Lisbon') + inp('l-country', 'Country', 'Portugal') + inp('l-best', 'Best time', 'Apr to Jun') + inp('l-budget', 'Budget (EUR)', '900', 'text', suffix='EUR', mode='decimal'))}'''
+F.add('S26-edit-image-link', 'Image field from a link (tr13): edited as its link, no photo picker (D-32)', phone(over_sorting(
+    sheet_detail(link_edit, 'se4', edit_bar('#S26-photo', '#S26-photo'), head_title='Edit Alfama, Lisbon', expand=False, close_href='S25-sorting.html#S25-photo'),
+    s25_background(photo_bg_body, 'Trip ideas', 'Round 1', 12, 30, (6, 1, 5), nxt=s25_photo_card('ph12', 'Göreme, Cappadocia', 'Türkiye', 'Apr to May', '€700')))))
 
 # ------------------------------------------------------------------ section: edited and revert
-F.section('Edited fields and revert', 'Edited fields carry a pencil-line Edited badge, the original value and Revert to original (SAFE-03, SAFE-04). Revert asks first and offers Undo afterwards.')
+F.section('Edited fields and revert', 'Edited fields carry a pencil-line Edited badge, the original value and Revert to original (SAFE-03, SAFE-04). Revert asks first and offers Undo afterwards. When a later edit by another member replaced mine at sync, the item opened from the S40 snackbar asks Keep mine / Use Mert\'s (D-09 row 1, A-70).')
 c045_bg = s25_person('Alper Turan', 'Friend', 'people/c045.svg', [('Phone', '+90 500 000 07 64'), ('Email', 'alper.turan@example.com'), ('City', 'Ankara', True)], ["Groom's"])
 
 
@@ -337,6 +350,25 @@ F.add('S26-revert-confirm', 'Revert confirmation', phone(over_sorting(
 F.add('S26-reverted', 'Reverted, with Undo', phone(over_sorting(
     sheet_detail(c045(False), 'sr3', decide_bar(), close_href='S25-sorting.html#S25-edited'), s25_background(c045_bg, done=44, counts=(8, 6, 30)),
     extra=snackbar('City reverted to İstanbul', 'Undo', bottom='bottom-24'))))
+
+# D-09 row 1 (A-70, A-172): opened from the S40 snackbar "Mert changed City on Alper Turan after you…" (View),
+# the inline "Keep mine / Use Mert's" choice waits above the fields until answered (not only in edit mode).
+replaced_alert = f'''<div class="mt-6 rounded-control border bg-card p-4" role="region" aria-labelledby="er1">
+      <div class="flex gap-3">{icon("pencil-line", "size-5 shrink-0 text-muted-foreground")}<div class="min-w-0 flex-1">
+        <p id="er1" class="text-label">Mert changed City after you</p>
+        <p class="mt-0.5 text-body-sm text-muted-foreground">Your edit “Ankara” was replaced with Mert's “Eskişehir”. Keep your version or use Mert's?</p>
+      </div></div>
+      <div class="mt-3 grid grid-cols-2 gap-2">{btn("Keep mine", "outline", "#S26-edited", "keep-mine")}{btn("Use Mert's", "outline", "#S26-edited", "use-theirs")}</div>
+    </div>'''
+replaced_rows = [frow('Name', 'Alper Turan'), frow('Phone', '+90 500 000 07 64', 'Mobile'), frow('Email', 'alper.turan@example.com'),
+                 frow('Side', "Groom's"), frow('Relationship', 'Friend'), frow('City', 'Eskişehir', edited='İstanbul', edited_by='Mert')]
+replaced = f'''{back_bar('', 'S09-list-overview.html#S09-shared', 'Back to Wedding guests', trailing=icon_btn("ellipsis-vertical", "More options", None, "menu"))}
+  <div class="min-h-0 flex-1 overflow-hidden px-gutter pb-6">
+    {item_head('Alper Turan', 'Friend', 'people/c045.svg', 'AT')}
+    {replaced_alert}
+    {fields_group(replaced_rows)}
+  </div>'''
+F.add('S26-edit-replaced', "Opened from the sync-outcome snackbar: my edit was replaced; Keep mine / Use Mert's waits (D-09 row 1)", phone(replaced))
 
 # ------------------------------------------------------------------ section: notes
 F.section('Notes', 'One note per member per item. On shared lists notes are visible to all members by default; a private note shows a lock, "Only you" and a dashed outline (DM-18, DM-19). Solo lists have no private option.')
@@ -413,7 +445,7 @@ F.add('S26-shared-hidden', "Shared list while sorting: others' decisions hidden,
     s25_background(c079_bg, sub='Round 1, shared', done=76, counts=(17, 11, 48)))))
 
 # ------------------------------------------------------------------ section: from results (change decision)
-F.section('Opened from Results: change decision', 'Pushed from an S28 row. My decision becomes a segmented Reject, Maybe, Accept control (RES-06); a change shows a snackbar with Undo. Products and photos use the same screen.')
+F.section('Opened from Results: change decision', 'Pushed from an S28 row. My decision becomes a segmented Reject, Maybe, Accept control (RES-06); a change shows a snackbar with Undo. Products and places use the same screen.')
 
 
 def p03(selected='accept', snack=''):

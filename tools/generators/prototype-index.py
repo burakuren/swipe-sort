@@ -1,5 +1,5 @@
 # Usage: python3 tools/generators/prototype-index.py  → design/04-prototype/index.html
-# Clickable prototype launcher: the four main flows as step lists. Every step opens the screen file in
+# Clickable prototype launcher: the four main flows and two design-update flows as step lists. Every step opens the screen file in
 # prototype mode (file.html#frame-id shows that frame only); inside a frame, tap the highlighted actions.
 import os, glob
 
@@ -41,8 +41,20 @@ FLOWS = [
      'A hiring shortlist from candidates-q4.csv: map the columns, skip the empty duplicate step, customize the Candidate template and start sorting with it.',
      [('S08-default', 'Home'), ('S11-default', 'Choose a source'), ('S14-default', 'Choose a file'), ('S14-csv-preview', 'Preview the CSV'),
       ('S19-csv', 'Map fields'), ('S20-none', 'No duplicates found'), ('S22-import-pick-csv', 'Name the list and pick a template'),
+      ('S22-import-pick-device-only', 'Keep candidate CVs on this phone only (D-33)'),
       ('S23-default', 'Customize the card'), ('S23-save', 'Save the template'), ('S22-import-pick-custom', 'Custom template selected'),
       ('S25-candidate', 'Sorting with the custom template')]),
+    ('flow-5', 'Keep a list on this phone only (design update, D-33)',
+     'A signed-in Owner turns backup off for one solo list, sees it labeled "On this phone only", and later shares a list kept on this phone: sharing backs it up first. At sign-in, "Choose lists" keeps one list on the phone.',
+     [('S09-default', 'Trip ideas, backed up'), ('S10-backup-off', 'Keep it on this phone only?'), ('S10-backup-off-done', 'On this phone only, with Undo'),
+      ('S08-default', 'Home: Frontend hiring, Q4 is on this phone only'), ('S09-device-only', 'The list kept on this phone'),
+      ('S10-share-backup', 'Back up this list to share it'), ('S10-share-backing-up', 'Backing up'), ('S31-default', 'Invite'),
+      ('S05-share', 'Without an account: sign in to share'), ('S05-choose-lists', 'Choose lists to move'), ('S05-share-chosen', 'One list stays on this phone'),
+      ('S05-moving-some-kept', 'Moving 3 lists'), ('S05-moved-some-kept', '3 moved, 1 stays on this phone')]),
+    ('flow-6', 'Import contacts through the system picker (design update, D-18)',
+     'On iOS and Android 17 and later, people pick contacts in the system contact picker (not drawn) without a permission prompt, then review them in SwipeSort. Android 16 and lower keep flow 1\'s permission path.',
+     [('S11-ios', 'Choose a source (iOS)'), ('S13-picker-intro-ios', 'Choose contacts: no permission needed'), ('S13-picked-ios', 'Review the picked contacts'),
+      ('S13-picker-intro', 'Android 17 and later: intro'), ('S13-picked', 'Review, search, uncheck'), ('S19-contacts', 'Map fields')]),
 ]
 
 def flow_html(fid, title, desc, steps):
@@ -78,7 +90,7 @@ html = f'''<!doctype html>
 <body class="mock-page">
 <header class="mock-doc">
   <div class="flex items-center gap-3"><img src="../01-foundations/brand/logo-mark.svg" alt="" class="size-10 dark:hidden"><img src="../01-foundations/brand/logo-mark-dark.svg" alt="" class="hidden size-10 dark:block"><h1>SwipeSort prototype</h1></div>
-  <p>The four main flows, end to end. Each step opens one frame of the design. Inside a frame, use the buttons and links to move on, or come back here and pick the next step. Two steps are live: the swipe demo sorts real sample cards with touch, mouse or the keyboard (← Reject, ↑ Maybe, → Accept, Z Undo) and then continues to the round summary. To see a step in dark mode, set <code>data-theme="dark"</code> on the page, or add <code>&amp;theme=dark</code> to the swipe demo address. Everything else: <a href="../README.md">README</a>, <a href="../HANDOFF.md">handoff guide</a>, <a href="swipe-demo.html">swipe demo</a>.</p>
+  <p>The four main flows end to end, plus two flows added by the design update after build planning (keep a list on this phone only; contacts through the system picker). Each step opens one frame of the design. Inside a frame, use the buttons and links to move on, or come back here and pick the next step. Two steps are live: the swipe demo sorts real sample cards with touch, mouse or the keyboard (← Reject, ↑ Maybe, → Accept, Z Undo) and then continues to the round summary. To see a step in dark mode, set <code>data-theme="dark"</code> on the page, or add <code>&amp;theme=dark</code> to the swipe demo address. Everything else: <a href="../README.md">README</a>, <a href="../HANDOFF.md">handoff guide</a>, <a href="swipe-demo.html">swipe demo</a>.</p>
 </header>
 <main class="flex flex-col gap-section">
 {''.join(flow_html(*f) for f in FLOWS)}

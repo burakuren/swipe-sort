@@ -10,13 +10,15 @@ Skeleton, Snackbar (S10 frames). iOS: large-title navigation bar, UISearchContro
 The Lists tab and the app's home. It answers "where was I?" in one look: every list with its progress,
 a one-tap way back into sorting, and a way to start a new list. On first run it invites the next action
 (import, or try a sample list that is not about weddings). Without an account it quietly says that lists
-live on this phone only and offers to back them up.
+live on this phone only and offers to back them up. Signed in, a list kept on this phone only carries a muted
+label on its row (D-33).
 
-Covers: SCR-08, ACC-01, ACC-02, ACC-03, ACC-04 (entry to S05), DM-13 (my progress per list), DM-14 (conflict
+Covers: ACC-10, ACC-11, SCR-08, ACC-01, ACC-02, ACC-03, ACC-04 (entry to S05), DM-13 (my progress per list), DM-14 (conflict
 count on shared rows), DM-20, SRT-13 (resume exactly where you stopped), COL-19 (new conflicts badge), SRC-04
 (entry to the source picker), GOAL-02, GOAL-03, SUC-04, SUC-06, TERM-01, TERM-02, VIS-01, VIS-06, VIS-09,
 VIS-11, VIS-12, VIS-14, PLT-01, PLT-02, PLT-03, PLT-04, PLT-13, PLT-14, PLT-15, PLT-16, PLT-21, PLT-23,
-STK-06, STK-07, DEL-22 (flow 1 start), DEL-25 (flow 4 start).
+STK-06, STK-07, DEL-22 (flow 1 start), DEL-25 (flow 4 start). D-08 (web indicator, A-81 web copy replaced), D-33
+(per-list label, A-137, A-139).
 
 ## 2. Entry points and exits
 
@@ -35,7 +37,7 @@ STK-06, STK-07, DEL-22 (flow 1 start), DEL-25 (flow 4 start).
 | S03 `S03-default` | "Sign in" link on first run (returning user, new phone) | `sign-in` |
 | S09 (`S09-shared`, `S09-default`, `S09-solo-round-done`, `S09-new-list`, `S09-guest-wedding`) | tap a ListRow | — |
 | S25 (`S25-shared`, `S25-photo`, `S25-default`) | "Resume" on a row with a round in progress | `resume` (on `S08-guest`) |
-| S05 `S05-backup` | BackupIndicator "Back up" (not signed in) | `back-up` |
+| S05 `S05-backup` (web `S05-web-backup`) | BackupIndicator "Back up" (not signed in) | `back-up` |
 | S10 `S10-row-sheet` | long press on a row | — |
 | S10 `S10-archived` | "Archived lists" row | `archived` |
 | `S08-search` | search button | `search` |
@@ -50,7 +52,9 @@ Top-level tab: bottom navigation visible (Lists active; Activity shows the unrea
 2. **BackupIndicator** (not signed in, at least one list that is not the sample): one line under the title,
    `cloud-off` 16 + "Lists are on this phone only" (`text-body-sm muted`) and "Back up" (`text-label
    text-primary`). The whole line is one 48-high link to S05. It is the only not-backed-up signal on Home
-   (rows don't repeat it) so it stays subtle. Web: "Lists are in this browser only".
+   (rows don't repeat it) so it stays subtle. Web (D-08): `cloud-off` + "Browsers can clear lists you haven't
+   opened for a while." (two short lines, the icon aligned to the first) + "Back up" → `S05-web-backup`, which
+   says that signing in keeps them. Replaces "Lists are in this browser only" (A-81).
 3. **SyncNotice / OfflineBanner / sync error** (signed in): appear in the same slot under the title.
 4. **ListGroup** of **ListRows** (`rounded-group bg-card`, inset dividers), ordered by latest activity
    (the list's `updatedAt`, which includes other members' activity). Each row is one link to S09:
@@ -58,7 +62,9 @@ Top-level tab: bottom navigation visible (Lists active; Activity shows the unrea
    - status line `text-body-sm muted`, separate labeled pieces with icons (never middle dots):
      shared → `users` "Shared with 2" + Conflict chip "15 conflicts" (`bg-conflict`, `git-compare-arrows`);
      round in progress → `circle-dot` "Round 1 in progress"; finished → `circle-check` "Round 2 complete";
-     never sorted → `circle-dashed` "Not sorted yet, 12 items";
+     never sorted → `circle-dashed` "Not sorted yet, 12 items"; signed in and kept on this phone only →
+     also `cloud-off` "On this phone only" (A-137; same muted style as the other pieces, last in the line;
+     backed-up lists show nothing; never shown without an account, where the indicator line covers every list);
    - progress: in progress → bar (`h-1.5 bg-primary` on `bg-muted`) + "76 / 100" (`text-caption
      tabular-nums`); finished → decision counts in Reject, Maybe, Accept order, each icon + count + word
      in its soft-foreground color ("11 rejected", "1 maybe", "8 accepted"); not sorted → nothing.
@@ -89,12 +95,13 @@ with archived matches (Badge "Archived"). Bottom navigation stays.
 | --- | --- |
 | `S08-first-run` | No lists on the device, not signed in (also after sign out or account deletion) |
 | `S08-sample` | "Try a sample list" was used and the person came back to Home; the sample is the only list |
-| `S08-default` | Signed in (Deniz), 4 active lists from sample data (`l-wedding`, `l-candidates`, `l-photos`, `l-desk`), 2 archived |
+| `S08-default` | Signed in (Deniz), 4 active lists from sample data (`l-wedding`, `l-candidates`, `l-trips` Trip ideas, `l-desk`), 2 archived; Frontend hiring, Q4 carries "On this phone only" (A-139) |
 | `S08-guest` | Not signed in with 4 lists on the device (Group A decision): backup indicator, no Activity badge, Wedding guests is a solo list |
 | `S08-new-conflicts` | New conflicts arrived on a shared list since I last opened it: unread dot, chip "3 new conflicts", Activity badge +1 |
 | `S08-long-names` | Names wrap to 2 lines then ellipsis; Turkish name; long status lines wrap |
 | `S08-many-lists` | More lists than fit; scrolled: small title bar with hairline, FAB collapsed to icon |
-| `S08-search` | Search open, query "cl": 1 active match, 1 archived match |
+| `S08-search` | Search open, query "tr": 1 active match (Trip ideas) |
+| `S08-search-archived` | Query "b": no active match, 1 archived match (Book club picks) in the "Archived" group |
 | `S08-search-empty` | No list name matches |
 | `S08-loading` | Cold start of a large account before local data is ready (normally Home renders instantly from the device) |
 | `S08-offline` | No connection (signed in): banner; every list stays usable |
@@ -103,7 +110,7 @@ with archived matches (Badge "Archived"). Bottom navigation stays.
 | `S08-error` | Local database couldn't be read |
 | `S08-large-text` | Font scale 200% |
 | `S08-ios`, `S08-ios-first-run` | iOS |
-| `S08-web`, `S08-web-desktop` | Web mobile (not signed in), desktop (signed in) |
+| `S08-web`, `S08-web-desktop` | Web mobile (not signed in; D-08 indicator), desktop (signed in; Frontend hiring, Q4 is on Deniz's phone only, so the browser doesn't list it) |
 
 Related frames in S10: `S10-row-sheet` (long press), `S10-archived-snackbar`, `S10-deleted-snackbar`,
 `S10-left-snackbar`.
@@ -122,10 +129,10 @@ Related frames in S10: `S10-row-sheet` (long press), `S10-archived-snackbar`, `S
 - **Try a sample list**: creates "Desk setup (sample)" (a local copy of the 20 sample items (products p01–p20), Product
   template, not sorted) and opens `S09-sample`. If a sample already exists it opens that one instead of
   creating a second.
-- **Back up**: opens the S05 sheet over Home; after moving lists, the indicator disappears.
+- **Back up**: opens the S05 sheet over Home (web: `S05-web-backup`); after moving lists, the indicator disappears.
 - **Search**: the field gets focus and the keyboard opens; results filter on every keystroke (no submit).
   Matching: any word in the list name starts with the query, case- and accent-insensitive ("izmir" finds
-  "İzmir", "cl" finds "clean-up" and "club"). Active matches first by latest activity, then archived.
+  "İzmir", "b" finds "Book club picks"). Active matches first by latest activity, then archived.
   Clear (x) empties the field and keeps focus; back closes search and restores the scroll position.
 - **Pull to refresh** (signed in only): syncs now; shows the sync notice. Not available for lists on this
   phone only.
@@ -143,8 +150,9 @@ Related frames in S10: `S10-row-sheet` (long press), `S10-archived-snackbar`, `S
 | --- | --- |
 | Title | "Lists" |
 | Search button | "Search lists" (accessible name) |
-| Backup indicator | "Lists are on this phone only" / web "Lists are in this browser only"; action "Back up" |
-| First run | "No lists yet" / "Import a list or try a sample to see how sorting works." / "Import a list" / "Try a sample list" / "Import from phone contacts, CSV, Excel, Google Sheets, plain text or photos, or type items yourself." / "Have an account?" "Sign in" |
+| Backup indicator | "Lists are on this phone only" / web "Browsers can clear lists you haven't opened for a while." (D-08); action "Back up" |
+| Per-list label (signed in) | "On this phone only" (A-137; web never shows it: a list kept in a browser shows "On this browser only" in that browser's S09) |
+| First run | "No lists yet" / "Import a list or try a sample to see how sorting works." / "Import a list" / "Try a sample list" / "Import from phone contacts, CSV, Excel, Google Sheets or plain text, or type items yourself." / "Have an account?" "Sign in" |
 | Sample row | "Desk setup (sample)"; "Not sorted yet, 20 items"; badge "Sample" |
 | Sample footer | "The sample is for practice. Delete it from its menu whenever you like. Import your own list with New list." |
 | Row status | "Shared with 2" (1: "Shared with 1"); "Round 1 in progress"; "Round 2 complete"; "Not sorted yet, 12 items" |
@@ -163,13 +171,16 @@ Related frames in S10: `S10-row-sheet` (long press), `S10-archived-snackbar`, `S
 | Unread dot | screen reader "New activity." before the list name |
 | iOS | "+" accessible name "New list"; search placeholder "Search" |
 | Snackbars arriving from S10 | "List archived" + "Undo"; "List deleted" + "Undo"; "You left “Wedding guests”"; "List restored" |
+| Sync outcomes shown on Home (S40 §4.4a) | "Deniz started Round 2 of “Wedding guests”. Your 8 decisions from Round 1 were saved." + "Open" (`S40-outcome-late-round`); inline alert "You were removed from “Wedding guests”" (`S40-outcome-removed`); "You kept “Trip ideas” on another device only. It's no longer on this one." (`S40-outcome-device-only-elsewhere`) |
 
 ## 7. Accessibility
 
 - Focus order: Search, (Backup indicator), rows top to bottom (row link, then its Resume button),
   Archived lists, New list, bottom navigation.
 - Each row link's accessible name reads in order: name, status, progress ("Wedding guests. Shared with 2.
-  15 conflicts. 76 of 100 decided."). The progress bar is a `progressbar` with "76 of 100 decided";
+  15 conflicts. 76 of 100 decided."; a list on this phone only: "Frontend hiring, Q4. Not sorted yet, 12 items.
+  On this phone only."). The web indicator is one link named by its text ("Browsers can clear lists you haven't
+  opened for a while. Back up"). The progress bar is a `progressbar` with "76 of 100 decided";
   decision counts are text with their word, never icon only.
 - Resume is a separate button named "Resume sorting Wedding guests" (label in name).
 - Long-press actions are also exposed as custom accessibility actions on the row (TalkBack actions menu,
@@ -194,7 +205,10 @@ Related frames in S10: `S10-row-sheet` (long press), `S10-archived-snackbar`, `S
   menu (UIContextMenu) with the same actions as `S10-row-sheet`; swipe left on a row shows Archive (and
   Delete for the Owner) as swipe actions.
 - **Web, mobile** (`S08-web`): same as Android without system bars. Lists made without an account live in
-  this browser: "Lists are in this browser only" (clearing site data removes them). Long press = context
+  this browser, and browsers can clear them (Safari after 7 days without a visit, others under storage
+  pressure; D-08): the indicator says so in two short lines and "Back up" opens `S05-web-backup`. The app asks
+  the browser for persistent storage when the first list is created (no UI). A wiped browser database opens
+  Home empty (`S08-first-run`), with no error. Long press = context
   menu via a right click or a long touch; an overflow button appears on hover/focus on desktop.
 - **Web, desktop** (`S08-web-desktop`): the phone column centered; no FAB (a floating button reads oddly with a
   pointer and would sit on the last row): a filled "New list" button (48 high, `plus`) sits in the bar next to
@@ -208,13 +222,19 @@ Related frames in S10: `S10-row-sheet` (long press), `S10-archived-snackbar`, `S
 - **Shared list with no conflicts**: chip hidden. **Rule "Majority decides"** waiting conflicts still count as conflicts.
 - **A round finished by me but not by others** (shared): row shows "Round 1, waiting for 2 members" with my
   progress full and no Resume.
-- **Sample list**: never counted for the backup indicator; signing in moves it like any list (it can be
-  deleted at any time). Only one sample at a time.
+- **Sample list**: never counted for the backup indicator; it stays on this phone at sign-in and is never
+  moved or backed up (A-139); it has no per-list label (its "Sample" badge says enough). It can be deleted at any
+  time. Only one sample at a time.
+- **Lists on this phone only** (signed in, D-33): labeled on their row; they live on one device, so Deniz's other
+  phone and the web app don't list them (`S08-web-desktop`). Signed out, they are hidden (A-136). When backup is
+  turned off on another device, the list leaves this Home with `S40-outcome-device-only-elsewhere`.
 - **Not signed in and offline**: no banner (nothing needs the network); sharing and backup explain it in S05.
 - **Signed in, list not yet downloaded** (new phone): rows appear as they sync, with a skeleton for the
   missing ones; opening one shows `S09-loading`.
 - **Removed from a shared list or list deleted by its Owner while on Home**: the row disappears with a
-  snackbar "Deniz deleted “Wedding guests”"; opening a stale link shows `S09-unavailable`.
+  snackbar "Deniz deleted “Wedding guests”" (removed: "Deniz removed you from “Wedding guests”."); opening a stale
+  link shows `S09-unavailable`. Removed while offline with decisions that couldn't be saved: the inline alert
+  `S40-outcome-removed` under the title instead (stays until dismissed; D-09 row 4).
 - **Archived lists**: never shown in the main group; included in search under "Archived".
 - **Zero lists but signed in** (e.g. after leaving the only shared list): the empty state keeps "Import a
   list" but drops "Try a sample list" and the sign-in line (see `S10-left-snackbar`): "Import a list to

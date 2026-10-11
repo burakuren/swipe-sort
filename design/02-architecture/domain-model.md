@@ -26,11 +26,15 @@ User ──< Membership >── List ──< Item ──< FieldValue
 | name | string | From Google/Apple or entered at email sign-up |
 | email | string | |
 | avatar | image? | Initials fallback |
-| authProviders | ('google' \| 'apple' \| 'email')[] | Shown in S07 connected accounts |
+| authProviders | ('google' \| 'apple' \| 'email')[] | Shown in S07 sign-in methods; Apple on every platform (D-13, A-141) |
 | isGuest | boolean | Guest = no account; lists exist only on this device |
 
 Guest mode: the app works fully for solo lists. Share and backup require an account (S05). On sign-in,
-all device lists move to the account (`List.backedUp` becomes true).
+device lists move to the account (`List.storage` becomes `backedUp`): all of them by default, except those
+the person chooses to keep on this phone only (A-135) and the sample list, which never moves (D-10, A-139).
+
+Device preferences (not synced): theme, haptics, `shareUsageData` (boolean, default true; S06 › Privacy,
+D-28, A-145; per device because analytics events carry no account id).
 
 ## List
 
@@ -45,7 +49,10 @@ all device lists move to the account (`List.backedUp` becomes true).
 | ownerId | User id | |
 | conflictRule | 'everyone' \| 'majority' \| 'decisionMaker' | Shared only. Default when a list is first shared: `decisionMaker`, with the Owner as Decision Maker (see assumptions) |
 | currentRoundId | Round id? | |
-| backedUp | boolean | false for guest lists → "Not backed up" indicator |
+| storage | 'backedUp' \| 'deviceOnly' | Storage mode (D-33, A-132). `deviceOnly`: every guest list, the sample list, and a signed-in Owner's solo list with "Back up this list" off → "On this phone only" ("On this browser only" on web). A shared list is always `backedUp`. Turning backup off deletes the account copy (online only, A-134); turning it on reuses moving lists (D-10). Duplicate keeps the original's mode |
+| backedUp | boolean (derived) | `storage === 'backedUp'`; kept for the sample data and older specs |
+| deviceOwnerId | User id? | For `deviceOnly` lists of a signed-in user: whose account keeps it. Hidden while that account is signed out; shown again when it signs in on this device; cleared (becomes a guest list) when the account is deleted (A-136, A-138) |
+| isSample | boolean | The sample list (A-79): always `deviceOnly`, never moves, can't be shared |
 | archived | boolean | Archived lists are read-only until restored |
 | updatedAt | datetime | |
 | showOthersDecisions | boolean (per member) | Sorting preference on shared lists; default false |
@@ -65,14 +72,16 @@ all device lists move to the account (`List.backedUp` becomes true).
 
 | Field | Type | Notes |
 | --- | --- | --- |
-| type | 'contacts' \| 'csv' \| 'xlsx' \| 'text' \| 'manual' \| 'googleSheets' \| 'photos' | Extensible: a new type adds one tile in S11 and implements the same steps |
+| type | 'contacts' \| 'csv' \| 'xlsx' \| 'text' \| 'manual' \| 'googleSheets' | Extensible: a new type adds one tile in S11 and implements the same steps. `photos` is out of scope for now (D-32, A-129) |
 | label | string | e.g. "mert-family.csv", "Flat hunt 2026 › Kadıköy" |
 | itemCount | number | |
 | importedAt | datetime | |
-| googleSheet? | { spreadsheetId, tabName } | Needed for writing back on export |
+| googleSheet? | { spreadsheetId, tabName, pickedBy } | Needed for writing back on export. `pickedBy` = the Google account that chose the file in Google's Picker; with another account, or after access was removed, S39 asks to choose the sheet again (`drive.file` only, D-17, A-151, A-158) |
 
 Source definition (for adding new sources): `{ id, name, icon, availableOn: ('android'|'ios'|'web')[],
-needsPermission?: 'contacts'|'photos', selectStep: component, hasFieldMapping: boolean }`. All sources
+needsPermission?: 'contacts' (Android 16 and lower only; D-18), selectMode: 'permissionList' | 'systemPicker' |
+'googlePicker' (A-150; contacts use `systemPicker` on Android 17+ and iOS, picked contacts are copied into the
+import draft at once because picker access is temporary), selectStep: component, hasFieldMapping: boolean }`. All sources
 share steps: Select → Map fields (optional) → Review duplicates (automatic) → Finish.
 
 ## Item
@@ -245,6 +254,20 @@ Each event: `{ id, listId, type, actorId?, targetId?, count?, createdAt, read }`
 ## Sync and offline (UI only)
 
 - Every change is saved locally first. A list shows "Saved on this phone" while offline and "Synced"
-  once uploaded (S40 sync notice). Guest lists are always local.
-- Offline: sorting, notes, edits, undo work. Not available offline: import from Google Sheets, invite,
+  once uploaded (S40 sync notice). Device-only lists (guest lists, the sample, lists kept on this phone
+  only) are always local and never show sync states.
+- Offline: sorting, notes, edits, undo work. On shared lists, renaming, adding items and changing the card
+  template are queued too (D-05). Not available offline (the D-05 online-only test): import from Google
+  Sheets, invite and join, roles and membership, starting a round on a shared list, changing the conflict
+  rule, bulk resolve, leaving, archiving or deleting a shared list, turning a list's backup off (A-134),
   export to Google Sheets, sign-in; these show the offline state with "Try again when you're online".
+- Queued changes that the server applies differently from what the person did (an overwritten field edit,
+  late Round 1 decisions, removal from a list, resolutions dropped or rejected) come back as one-time
+  messages (D-09; S40 catalog §3.4a, A-179–A-182). `WriteOutcome` (per user, synced, deleted once shown):
+  `kind` = `editReplaced` (snackbar, `S40-outcome-edit-replaced`) · `lateRoundDecisions` (snackbar,
+  `S40-outcome-late-round`) · `removedRejected` (inline alert on Home, `S40-outcome-removed`) ·
+  `resolutionsAlreadyAgreed` (snackbar, `S40-outcome-already-agreed`) · `roleLostRejected` (inline alert,
+  `S40-outcome-dm-role-lost`), with list, item, actor and count. The D-33 cross-device notice
+  (`deviceOnlyElsewhere`, `S40-outcome-device-only-elsewhere`) uses the same channel.
+- Per list, a transient `backupState` (`backingUp` | `queued` | `paused`) drives the S09 Backup row and the S06
+  › Backup rows. Per browser, a flag records that the S27 web sign-in nudge was shown (A-184).

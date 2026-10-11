@@ -16,7 +16,7 @@ user picks it as the destination and confirms exactly what will be written.
 Covers: EXP-01 (CSV), EXP-02 (Excel), EXP-03 (Google Sheets), EXP-04 (plain-text summary), EXP-05 (all items
 or only Accept, Reject, Maybe or Conflict items), EXP-06 (decisions and notes), EXP-07 (each member's
 decision on shared lists), EXP-08 (success), EXP-09 (failures), EXP-10 (Google write confirmation),
-SAFE-01, SAFE-05, SAFE-06, DM-01 (solo: my decision is final), DM-04, DM-08, DM-09 (final decision column on
+SAFE-01, SAFE-05, SAFE-06 (changed by D-17: no extra Google permission for the picked sheet), SRC-25, DM-01 (solo: my decision is final), DM-04, DM-08, DM-09 (final decision column on
 shared lists), RES-05 (final vs. member decisions in the export), A-33 (latest decision per item),
 TERM-01, PLT-03/PLT-04 (iOS, web), SCR-39.
 
@@ -39,7 +39,8 @@ S39 is a full-screen modal stack (`list/[listId]/export`). It opens over its ori
 | `#S39-google-not-connected` | "Google Sheets" row when no Google account is connected on this device | `format-google` |
 | `#S39-text-summary` | "Text summary" row | `format-text` |
 | `#S39-google-confirm` | "Continue" on the destination step | `continue` |
-| `#S39-success-google` | "Export to Google Sheets" on the confirmation (after Google's permission, when needed) | `confirm-write` |
+| `#S39-success-google` | "Export to Google Sheets" on the confirmation (after Google's consent, only when this Google account hasn't allowed SwipeSort yet) | `confirm-write` |
+| Google's file picker (Google's UI, out of scope) → `#S39-apartments-confirm-tab` | "Choose Flat hunt 2026" on `S39-apartments-repick` | `repick-sheet` |
 | System share sheet / save dialog (native, out of scope) | "Share file", "Save to device", "Share summary" | `share-file`, `save-file`, `share-summary` |
 | Google Sheets app or browser | "Open in Google Sheets" | `open-sheet` |
 | Origin (S28, S27, S37 or S09) | Close `x`, "Done", Android back on step 1 | `close`, `done` |
@@ -97,7 +98,8 @@ bottom bar with primary "Share summary" and outline "Copy text".
 (`text-title-2`), lead "Nothing is written until you confirm.", a fact group (rows: icon 20 muted, label
 `text-label`, value `text-body muted`): Creates / Adds / Writes, per-tab column letters, "Doesn't change",
 "Not exported" (shared), "Checked first" (new columns). Info Alert (`primary-soft`, `shield-check`) "Google
-asks for permission next" only when the needed write scope isn't granted yet. Bottom: primary "Export to
+asks for permission next" only when this Google account hasn't given SwipeSort `drive.file` yet (Mert in Flow 3;
+never for a sheet chosen in the picker). Bottom: primary "Export to
 Google Sheets" / "Export to {spreadsheet}", ghost "Back". Full screen rather than a dialog: the content is
 too long for a dialog and needs to stay readable at 200%.
 
@@ -145,18 +147,19 @@ the list (31 characters max), header row bold and frozen. Google Sheets values a
 | `S39-text-summary` | Preview of the summary; Share summary, Copy text | Text summary row |
 | `S39-text-copied` | Snackbar "Summary copied" | Copy text |
 | `S39-google-destination` | Desk setup: new spreadsheet "Desk setup decisions", account, columns | Google Sheets row (connected) |
-| `S39-google-confirm` | "Export 20 items to a new spreadsheet?" with facts and the permission lead-in | Continue |
-| `S39-google-exporting` | "Exporting…" "Writing 20 rows to Desk setup decisions." | Confirmed, permission granted |
+| `S39-google-confirm` | "Export 20 items to a new spreadsheet?" with facts; no permission lead-in (Deniz gave `drive.file` when she imported Flat hunt 2026) | Continue |
+| `S39-google-exporting` | "Exporting…" "Writing 20 rows to Desk setup decisions." | Confirmed |
 | `S39-success-google` | "Exported to Google Sheets", Open in Google Sheets, Done | Write finished |
 | `S39-shared-google-destination` | Wedding guests (Contacts + mert-family.csv, so New spreadsheet only, with the same explanation line as Desk setup): name "Wedding guests decisions", Mert's account, columns preview with Final decision, Decision (Deniz Yılmaz / Mert Aydın / Selin Yılmaz) and Notes | Google Sheets row on a shared list (Flow 3) |
-| `S39-shared-google-confirm` | "Export 100 items to a new spreadsheet?": Creates in mert.aydin@example.com's Drive; Writes 100 rows with member columns and shared notes, private notes not exported; Who sees it; Doesn't change; permission lead-in (`drive.file`) | Continue on the shared destination |
+| `S39-shared-google-confirm` | "Export 100 items to a new spreadsheet?": Creates in mert.aydin@example.com's Drive; Writes 100 rows with member columns and shared notes, private notes not exported; Who sees it; Doesn't change; permission lead-in (`drive.file`, Mert's first Google Sheets use) | Continue on the shared destination |
 | `S39-success-shared` | "Exported to Google Sheets", Wedding guests decisions in mert.aydin@example.com, Open in Google Sheets, Done → S09-shared | Shared write finished (Flow 3 end) |
 | `S39-apartments-destination` | Write to: New tab (default, tab name "Decisions"), New columns, New spreadsheet | Google Sheets row on a list imported from Google Sheets |
-| `S39-apartments-confirm-tab` | "Add a tab to Flat hunt 2026?" + permission lead-in (edit scope) | Continue with New tab |
+| `S39-apartments-repick` | Same destination with an info Alert "Choose Flat hunt 2026 again"; primary "Choose Flat hunt 2026" opens Google's picker (A-158) | SwipeSort can't open the original with this Google account (imported with another account or on a device whose grant was removed, access removed in the Google account, Google Sheets disconnected) |
+| `S39-apartments-confirm-tab` | "Add a tab to Flat hunt 2026?"; no permission lead-in (the sheet was chosen in Google's picker) | Continue with New tab |
 | `S39-success-tab` | "Exported to Google Sheets", new tab Decisions | Tab written |
 | `S39-apartments-confirm-columns` | "Add 2 columns to Flat hunt 2026?" columns G and H per tab, rows 1 to 5; what doesn't change; row check | Continue with New columns |
 | `S39-google-not-connected` | Connect explainer (creates new spreadsheets; doesn't sign you in) | Google Sheets row, no Google account connected on this device |
-| `S39-error-permission` | "SwipeSort can't write to Google Sheets" | Google consent declined or closed |
+| `S39-error-permission` | "SwipeSort can't write to Google Sheets" | Google consent (`drive.file`) declined or closed, new spreadsheet only |
 | `S39-error-network` | "Couldn't export to Google Sheets", nothing written | Timeout / 5xx / connection lost before the first write |
 | `S39-error-sheet-missing` | "Flat hunt 2026 can't be found" | 404 or 403 on the original spreadsheet (deleted, trashed, unshared) |
 | `S39-error-sheet-changed` | "Rows in Kadıköy have changed" | Row check fails before writing new columns (rows added, moved, deleted or tab renamed) |
@@ -165,10 +168,10 @@ the list (31 characters max), header row bold and frozen. Google Sheets values a
 | `S39-ios-share` | CSV goes straight to the iOS share sheet; drawn only as a labeled system-UI placeholder (out of scope) | iOS, CSV/Excel tapped |
 | `S39-ios-text` | iOS text summary with "Back" | iOS |
 | `S39-web-desktop` | Desktop: formats say "Downloads…"; toast bottom-right (`w-80`, 6 s, pauses on hover/focus, A-117) after download | Desktop browser |
-| `S39-web-google-popup` | Waiting for the Google permission popup | Desktop browser, Google write permission needed |
+| `S39-web-google-popup` | Waiting for the Google sign-in popup | Desktop browser: the web app needs a fresh Google token (and, the first time, consent) |
 
 Not separate frames (spec only): Excel uses the CSV frames with `.xlsx`; the solo Google not-yet-granted
-lead-in on the shared confirmation; the token-expired case (silent refresh; failure shows
+lead-in (as on the shared confirmation); a different file chosen in the re-pick (snackbar); the token-expired case (silent refresh; failure shows
 `S39-google-not-connected` with "Connect again"); the web mobile Google redirect.
 
 ## 5. Interactions and transitions
@@ -194,15 +197,24 @@ lead-in on the shared confirmation; the token-expired case (silent refresh; fail
   1. Not connected on this device → `S39-google-not-connected`; "Connect Google account" opens the Google
      account chooser (native) asking only for `drive.file`; then the destination step.
   2. Destination: Continue is enabled when the name (or tab name) is not empty. Name max 100 characters.
-  3. Confirmation: nothing is written before **Export to Google Sheets**. If the needed scope isn't
-     granted, Google's consent opens next (incremental authorization, `include_granted_scopes=true`):
-     `drive.file` for a new spreadsheet (SwipeSort can only open files it created), `spreadsheets` for a
-     new tab or new columns in an imported sheet (the import granted read-only access, S15). The lead-in
-     Alert says which. Granted scopes are remembered; the Alert then disappears
-     (`S39-apartments-confirm-columns`).
+     For a list from Google Sheets, SwipeSort checks on opening the step that it can still open the original
+     (a metadata read). If it can't (`drive.file` has no grant for that file with this account: imported with
+     another Google account, Google Sheets disconnected, access removed in the Google account),
+     `S39-apartments-repick` asks to choose the sheet again: "Choose Flat hunt 2026" opens Google's picker
+     (preselecting the file where the picker supports it), and choosing the same file continues to the
+     confirmation. Choosing another file shows the snackbar "That's not Flat hunt 2026. Choose it, or export
+     to a new spreadsheet." and stays. New spreadsheet never needs the re-pick. Drive answers "not found" both
+     for a missing grant and for a deleted or unshared file, so the re-pick is offered first; a file that is
+     really gone can't be chosen, and New spreadsheet remains.
+  3. Confirmation: nothing is written before **Export to Google Sheets**. Every Google step uses the one
+     `drive.file` scope (D-17): it covers new spreadsheets SwipeSort creates and the sheet chosen in Google's
+     picker at import, so writing a new tab or new columns to that sheet needs **no new permission**. Google's
+     consent opens after the confirmation only when this Google account hasn't given SwipeSort `drive.file`
+     yet (Mert, who signed in with Google but never connected Google Sheets); the lead-in Alert says so. Once
+     granted, the Alert never shows again.
   - When the user signed in to SwipeSort with Google (Mert, Flow 3) but never connected Google Sheets, the
     destination preselects that sign-in account ("Signed in with Google") and the
-    connect explainer is skipped: the only grant needed is `drive.file`, asked at the confirmation with
+    connect explainer is skipped: the only grant needed is `drive.file`, asked once at the confirmation with
     the account preselected (`login_hint`). Users without a Google sign-in or connection get
     `S39-google-not-connected`.
   4. Exporting: writes in one `batchUpdate` per spreadsheet (new spreadsheet: create + values; new tab:
@@ -251,19 +263,20 @@ lead-in on the shared confirmation; the token-expired case (silent refresh; fail
 | Confirm, shared | "Export 100 items to a new spreadsheet?" / "Nothing is written until you confirm."; "Creates" / "Wedding guests decisions, in the Google Drive of mert.aydin@example.com"; "Writes" / "100 rows: your 6 fields, Final decision, a column per member and shared notes. Private notes aren't exported."; "Who sees it" / "Only people you share it with in Google Drive"; "Doesn't change" / "Wedding guests in SwipeSort"; permission lead-in (new spreadsheet) |
 | Confirm, new tab | "Add a tab to Flat hunt 2026?"; "Adds" / "A tab named Decisions with 8 rows: Tab, Address, Rent, Rooms, Size, Viewing, Link, Decision and Notes"; "Doesn't change" / "The tabs Kadıköy, Beşiktaş, Archive 2025 and Notes" |
 | Confirm, new columns | "Add 2 columns to Flat hunt 2026?" / "Nothing is written until you confirm. Existing cells are never overwritten."; "Kadıköy" / "Decision in column G and Notes in column H, rows 1 to 5"; "Beşiktaş" / same; "Doesn't change" / "Columns A to F, the tabs Archive 2025 and Notes, and formatting"; "Checked first" / "Each row still has the same address as when you imported it" |
-| Permission lead-in | "Google asks for permission next" / new spreadsheet: "Allow SwipeSort to create this spreadsheet. It can open only the files it creates, not your other files."; original sheet: "Allow SwipeSort to edit your spreadsheets. It writes only what's listed here, and only when you confirm an export." |
+| Permission lead-in | "Google asks for permission next" / "Allow SwipeSort to create this spreadsheet. It can open only files it creates or you choose, not your other files." (new spreadsheet, first Google Sheets use only; the original sheet never shows it) |
+| Re-pick | Alert "Choose Flat hunt 2026 again" / "SwipeSort can open only the files you choose in Google's file picker, and it can't open this one with this Google account yet. Choose it once more to write to it. A new spreadsheet works without it."; primary "Choose Flat hunt 2026"; wrong file snackbar "That's not Flat hunt 2026. Choose it, or export to a new spreadsheet." |
 | Confirm buttons | "Export to Google Sheets"; source: "Export to Flat hunt 2026"; "Back" (label "Back to destination") |
 | Exporting | "Exporting…" / "Writing 20 rows to Desk setup decisions. This takes a few seconds." |
 | Success | "Exported to Google Sheets" / "Desk setup decisions now has 20 rows with Decision and Notes columns."; tab: "Flat hunt 2026 has a new tab, Decisions, with 8 rows. Your other tabs didn't change."; columns: "Kadıköy and Beşiktaş have new Decision and Notes columns."; file card "Desk setup decisions" / "deniz.yilmaz@example.com", "Flat hunt 2026" / "Tab Decisions"; shared: "Wedding guests decisions now has 100 rows with the final decision, each member's decision and notes.", file card "Wedding guests decisions" / "mert.aydin@example.com"; "Open in Google Sheets"; "Done" |
-| Not connected | "Connect Google Sheets" / "Choose the Google account where SwipeSort creates the spreadsheet."; "Creates new spreadsheets" / "SwipeSort can open only the files it creates. Your other files stay private."; "Doesn't sign you in" / "Connecting Google Sheets doesn't sign you in to SwipeSort or change your account."; "Disconnect any time" / "In Settings, under Connected accounts."; note "Next, Google asks you to choose an account and allow access."; "Connect Google account"; "Export a file instead" |
-| Permission denied | "SwipeSort can't write to Google Sheets" / "Google didn't give SwipeSort permission to create the spreadsheet. Try again and choose Allow, or export a file instead." (original sheet: "…permission to edit Flat hunt 2026…"); "Try again"; "Export a file instead" |
+| Not connected | "Connect Google Sheets" / "Choose the Google account where SwipeSort creates the spreadsheet."; "Creates new spreadsheets" / "SwipeSort can open only files it creates or you choose. Your other files stay private."; "Doesn't sign you in" / "Connecting Google Sheets doesn't sign you in to SwipeSort or change your account."; "Disconnect any time" / "In Settings, under Connected accounts."; note "Next, Google asks you to choose an account and allow access."; "Connect Google account"; "Export a file instead" |
+| Permission denied | "SwipeSort can't write to Google Sheets" / "Google didn't give SwipeSort permission to create the spreadsheet. Try again and choose Allow, or export a file instead." (new spreadsheet only: the original sheet needs no new permission); "Try again"; "Export a file instead" |
 | Network | "Couldn't export to Google Sheets" / "Google Sheets didn't respond. Check your connection and try again. Nothing was written."; "Try again"; "Export a file instead" |
 | Sheet missing | "Flat hunt 2026 can't be found" / "It was deleted, or you no longer have access. Export to a new spreadsheet instead, or ask its owner to share it again."; "Export to a new spreadsheet"; "Export a file instead" |
 | Rows changed | "Rows in Kadıköy have changed" / "Rows were added, moved or deleted since you imported them, so SwipeSort can't match items to rows. Add a new tab instead. Nothing in Flat hunt 2026 was changed."; tab renamed: "The tab Kadıköy was renamed or deleted…"; "Add a new tab instead"; "Back" |
 | Partial | "Exported 4 of 8 items" / "Beşiktaş is protected in Google Sheets. Ask the owner of Flat hunt 2026 to let you edit it, then try again. Kadıköy keeps its new columns."; rows "Kadıköy" / "Decision and Notes added to 4 rows", "Beşiktaş" / "Protected tab. Nothing was added."; "Try Beşiktaş again"; "Open in Google Sheets"; "Done" |
 | Token expired | "Connect Google Sheets again" / "Your Google connection expired. Connect again to finish the export." / "Connect again" |
 | Too large | "Google Sheets can't hold this many cells. Export a CSV or Excel file instead." |
-| Web popup | "Continue in the Google window" / "Allow SwipeSort to create the spreadsheet. The export continues here when you're done."; "Open the Google window again"; "Cancel"; blocked: "Your browser blocked the Google window" / "Allow pop-ups for swipesort.app in the address bar, then try again." |
+| Web popup | "Continue in the Google window" / "Confirm your Google account so SwipeSort can create the spreadsheet. The export continues here when you're done."; "Open the Google window again"; "Cancel"; blocked: "Your browser blocked the Google window" / "Allow pop-ups for swipesort.app in the address bar, then try again." |
 | Screen reader | Exporting: "Exporting 8 items"; success: "Exported 8 items to desk-setup-accepted.csv"; Google: "Exported to Google Sheets" |
 
 ## 7. Accessibility
@@ -294,12 +307,13 @@ lead-in on the shared confirmation; the token-expired case (silent refresh; fail
 - **iOS** (`S39-ios`, `S39-ios-share`, `S39-ios-text`): page sheet with grabber, `x` at the left and a
   centered title; pushed steps use "Back". CSV/Excel skip the file-ready sheet and open the share sheet
   directly (it already has Save to Files; Android's share sheet has no reliable save target, hence the
-  extra sheet there). Google consent uses `ASWebAuthenticationSession` (system alert out of scope). Swipe
+  extra sheet there). Google sign-in and the re-pick picker use `ASWebAuthenticationSession` (system alert out
+  of scope; the picker flow on iOS is to be verified, D-17). Swipe
   down to dismiss is allowed on step 1 only (nothing is lost) and disabled while writing.
 - **Android** (reference): file-ready sheet with Share file and Save to device; Google Identity Services
-  consent sheet; predictive back.
+  consent sheet; the re-pick opens Google's picker in the system browser (as S15); predictive back.
 - **Web, desktop** (`S39-web-desktop`, `S39-web-google-popup`): CSV/Excel download directly (no sheet);
-  a toast at the bottom right of the window confirms (A-117). Google consent opens in a popup on the button click; the column shows a waiting
+  a toast at the bottom right of the window confirms (A-117). The Google sign-in (token, and consent the first time) opens in a popup on the button click; the column shows a waiting
   state; a blocked popup shows the S15 blocked pattern with S39 copy. Text summary: "Copy text" is primary
   when the Web Share API is missing. Keyboard: Enter on a focused row exports, Esc closes.
 - **Web, mobile**: like desktop, but Google consent uses the redirect flow (new tab →
@@ -318,8 +332,11 @@ lead-in on the shared confirmation; the token-expired case (silent refresh; fail
 - **Empty scope**: chips with 0 stay selectable so the entry preset can be explained; formats become
   unavailable until a non-empty scope is chosen. An empty list (0 items) shows the step with every chip
   at 0 and the message "This list has no items yet. Add items, then export."
-- **Lists from Google Sheets where the user lost access** to the original: the original-sheet options are
-  disabled with "You no longer have access to Flat hunt 2026"; New spreadsheet stays available.
+- **Lists from Google Sheets that SwipeSort can't open** with the current Google account (imported on another
+  device with another account, Google Sheets disconnected, access removed in the Google account):
+  `S39-apartments-repick` (A-158). The person chooses the sheet again in Google's picker; nothing else changes.
+  If the sheet was deleted or unshared, it can't be chosen; New spreadsheet stays available, and a sheet that
+  disappears between the check and the write shows `S39-error-sheet-missing`.
 - **Multi-source lists** (Wedding guests: contacts + mert-family.csv; Desk setup: manual): only a single
   Google Sheets source can be written back; lists combining sources other than one Google spreadsheet get
   New spreadsheet only.
@@ -342,4 +359,6 @@ lead-in on the shared confirmation; the token-expired case (silent refresh; fail
   during a Google write, the network error states that nothing was written (single batch) or shows the
   partial state when one tab already succeeded.
 - **Guest mode**: everything works; Google Sheets connection doesn't create a SwipeSort account (S15).
+- **Scopes** (D-17, A-157): only `drive.file`, for import and every export destination. There is no separate
+  read and write scope and no permission prompt at export for a sheet chosen in the picker.
 - **Account switched in Google**: the confirmation always names the account that will receive the data.

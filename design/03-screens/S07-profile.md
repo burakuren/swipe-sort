@@ -3,7 +3,8 @@
 Frames: `S07-profile.html` (generator: `tools/generators/S07-profile.py`). Components: `01-foundations/components.html`
 (ListGroup and rows, Input, AlertDialog, BottomSheet, Snackbar, Alert, OfflineBanner). Sample user: Deniz Yılmaz
 (`u-deniz`, deniz.yilmaz@example.com, `images/people/u-deniz.svg`), Owner of `l-wedding` "Wedding guests" (members
-`u-mert` Decision Maker, `u-selin` Collaborator) and of the solo lists `l-desk`, `l-photos`, `l-candidates`.
+`u-mert` Decision Maker, `u-selin` Collaborator) and of the solo lists `l-desk`, "Trip ideas" (replaces `l-photos`,
+A-130) and `l-candidates` "Frontend hiring, Q4", which is on this phone only (D-33, A-139).
 
 ## 1. Purpose and requirements
 
@@ -11,7 +12,7 @@ Lets a signed-in user see and change what other members see (name, photo), manag
 delete their account with a clear, honest account of what is deleted and what stays (required by Google Play and
 the App Store).
 
-Covers: SET-01, SET-02, SET-12, ACC-06, ACC-07, ACC-08, GOAL-03, COL-11 (transfer ownership during deletion; the
+Covers: ACC-10, SET-01, SET-02, SET-12, ACC-06, ACC-07, ACC-08 (Changed by D-13: Apple on every platform), GOAL-03, COL-11 (transfer ownership during deletion; the
 hand-over keeps the shared list running), PLT-02, PLT-03, PLT-13–PLT-16, PLT-21, PLT-23, VIS-11–VIS-13,
 TERM-01, TERM-02, SCR-07.
 
@@ -28,11 +29,12 @@ TERM-01, TERM-02, SCR-07.
 | Edit name dialog, photo sheet | Pencil button; "Change photo" / "Add photo" |
 | System camera / photo picker / browser file picker | Photo sheet (out of scope, OUT-01) |
 | Google account chooser (native) | "Connect" on the Google row |
+| Apple sign-in (out of scope) | "Connect" on the Apple row: native sheet on iOS; Apple's sign-in page in a Custom Tab (Android) or popup/redirect (web), D-13; returns to `S07-apple-connected` |
 | `S07-add-password`, `S07-change-password` | "Add" / "Change" on the Email and password row |
 | S04 Forgot password (`S04-default`) | "Forgot your current password?" |
 | S39 Export (`S39-default`) | "Export a list" on the delete page |
 | `S07-delete` → `S07-reauth` (when needed) → `S07-delete-confirm` → `S07-delete-dialog` → `S07-deleting` → `S07-deleted` | Delete flow |
-| S08 Home first run (`S08-first-run`) | "Done" after deletion (signed out, no lists) |
+| S08 Home (`S08-guest`) | "Done" after deletion: signed out; lists that were on this phone only remain as lists without an account (`S08-first-run` when there are none) |
 
 Pushed in the Settings tab stack (bottom navigation hidden on S07 and its sub-pages, as in every pushed stack
 screen). Change password, Add a password, Delete account and Confirm deletion are pushed screens; Edit name and the
@@ -47,8 +49,10 @@ final confirmation are dialogs; photo, new Owner and re-authentication are botto
 2. **ListGroup "Personal info"**: Name row (label above value, trailing pencil IconButton 48) and Email row
    (read-only, no trailing control). Footer: "Members of shared lists see your name and photo."
 3. **ListGroup "Sign-in methods"** (connected accounts): one row per method with a provider mark, the method name,
-   the account address or status, and a trailing text button: Google ("Disconnect" / "Connect"), Apple on iOS
-   ("Disconnect"), Email and password ("Change" / "Add"). Footer: "Sign in with any of these. Keep at least one."
+   the account address or status, and a trailing text button: Google ("Disconnect" / "Connect"), Apple
+   ("Disconnect" / "Connect", every platform, D-13), Email and password ("Change" / "Add"). Order follows S03
+   (A-140): iOS Apple, Google, Email and password; Android and web Google, Apple, Email and password. Footer:
+   "Sign in with any of these. Keep at least one."
 4. **ListGroup (single row)**: destructive row "Delete account" with `trash-2` and a description, chevron.
 
 Provider marks: the Google row uses the official multicolor Google "G" mark (24) and the Apple row the Apple logo;
@@ -59,13 +63,15 @@ brand colors. The coding agent uses the official assets (see S03 spec §8).
 - **Shared list you own** (one block per owned shared list): list icon, name, "100 items, 3 members"; RadioGroup
   "Transfer ownership" (default, with a Select-style trigger showing the new Owner, default = the Decision Maker,
   else the member with the most decisions) / "Delete for everyone". Each option has a one-line consequence.
-- **ListGroup "Deleted for good"**: profile and sign-in methods; "5 lists only you use" (2 of them archived) + their names; decisions and
-  notes (including on lists shared with you).
-- **ListGroup "Not changed"**: imported files and Google Sheets; exported files.
+- **ListGroup "Deleted for good"**: profile and sign-in methods; "4 lists only you use" (2 of them archived) +
+  their names (backed-up lists only); decisions and notes (including on lists shared with you).
+- **ListGroup "Not changed"**: first, one row per list on this phone only (`cloud-off`, name, "On this phone
+  only. It stays on this phone, without an account.", A-138); imported files and Google Sheets; exported
+  files.
 - Export hint + link "Export a list".
 - Bottom action stack (sticky, `border-t`): primary "Continue", ghost "Keep my account".
 
-**Confirm deletion (`S07-delete-confirm`)**: summary card (moves, deletes), Input "To confirm, type delete" with
+**Confirm deletion (`S07-delete-confirm`)**: summary card (moves, deletes, stays on this phone), Input "To confirm, type delete" with
 helper "Lowercase is fine.", destructive lg "Delete account" (disabled until the input equals "delete", trimmed,
 case-insensitive) + ghost "Keep my account".
 
@@ -89,6 +95,8 @@ S03) + sticky bottom "Save password".
 | `S07-disconnect-confirm` | "Disconnect" on Google while another method exists |
 | `S07-google-disconnected` | Confirmed: row switches to Connect, snackbar "Google disconnected" |
 | `S07-google-only` | Google is the only method: Email and password row shows "No password yet" + "Add" |
+| `S07-apple-connected` | Back from Apple's sign-in after "Connect" on the Apple row: row shows the Apple email (often a Hide My Email relay), snackbar "Apple connected" |
+| `S07-disconnect-apple` | "Disconnect" on Apple while another method exists |
 | `S07-disconnect-blocked` | "Disconnect" on the only method: dialog asks to add a password first |
 | `S07-add-password` | "Add" / "Add a password": email shown read-only, new password with rules |
 | `S07-change-password` | "Change": current + new password; Save disabled until rules pass |
@@ -104,10 +112,10 @@ S03) + sticky bottom "Save password".
 | `S07-delete-confirm-empty` | Nothing typed yet: Delete account disabled |
 | `S07-delete-dialog` | "Delete account" pressed: final AlertDialog |
 | `S07-deleting` | Confirmed: full-screen progress, back disabled |
-| `S07-deleted` | Server confirmed: local data wiped, signed out |
+| `S07-deleted` | Server confirmed: backed-up data wiped from this phone, signed out; "Frontend hiring, Q4" (on this phone only) stays |
 | `S07-delete-failed` | Request failed or timed out: nothing deleted, "Try again" |
 | `S07-offline` | No connection: offline banner; photo, name, method and delete actions disabled with reason |
-| `S07-ios` | iOS: Apple + Google + password methods, grouped inset lists, back chevron "Settings" |
+| `S07-ios` | iOS: Apple (connected) + Google + password, Apple first, grouped inset lists, back chevron "Settings" |
 | `S07-ios-delete-alert` | iOS final confirmation as a native alert |
 | `S07-web-change-photo` | Web: sheet offers "Upload photo" (file input) and Remove photo |
 | `S07-large-text` | 200% text: rows stack, trailing actions move below the row text |
@@ -123,6 +131,11 @@ S03) + sticky bottom "Save password".
 - **Connect Google**: opens the native Google account chooser. If the Google account is already used by another
   SwipeSort account: snackbar error "This Google account is already linked to another SwipeSort account." If the
   user cancels the chooser: nothing changes, no message.
+- **Connect Apple** (every platform, D-13): iOS shows the native Sign in with Apple sheet; Android opens Apple's
+  sign-in page in a Custom Tab and returns by deep link; web uses a popup on desktop and a redirect on phones.
+  Success: the row shows the Apple email and "Disconnect", snackbar "Apple connected". If that Apple ID belongs
+  to another SwipeSort account: snackbar error "This Apple ID is already linked to another SwipeSort account."
+  Cancelled: nothing changes, no message.
 - **Disconnect** (Google or Apple): allowed only while at least one other method remains; otherwise
   `S07-disconnect-blocked` → "Add a password" opens `S07-add-password`, and after saving returns to Profile where
   Disconnect now works.
@@ -134,8 +147,11 @@ S03) + sticky bottom "Save password".
   Deleted → Done. Back from step 2 returns to step 1 keeping the transfer choice. System back is ignored on
   Deleting. The new Owner is notified ("Deniz made you the Owner of Wedding guests", S38 role changed event) and
   the list keeps its rounds, decisions of other members, conflict rule and Decision Maker.
-- **After deletion**: local database and caches are wiped, the session is cleared, notifications are unregistered;
-  S08 opens in its first-run state.
+- **After deletion**: the account's data on this phone and caches are wiped, the session is cleared,
+  notifications are unregistered. Lists on this phone only are not in the account, so they are not deleted:
+  they stay and behave like lists made without an account (A-138); other devices of the account do the same
+  with their own device-only lists at their next start. S08 opens with those lists (`S08-guest`), or in its
+  first-run state when there are none. The sample list stays too (A-139).
 - Snackbars: 4 s, with action 6 s (motion.md §3). Sheets: 300 ms enter, drag down or back to close.
 
 ## 6. Copy
@@ -148,27 +164,27 @@ S03) + sticky bottom "Save password".
 | Photo snackbars | "Photo removed" + "Undo"; "Photo didn't upload. Check your connection and try again." + "Try again" |
 | Personal info | Header "Personal info"; "Name"; "Email"; edit button label "Edit name"; footer "Members of shared lists see your name and photo." |
 | Edit name dialog | "Edit name"; "Use the name your partner, family or team will recognize."; field "Name"; helper "Members of shared lists see this name."; error "Enter a name. Members see it on shared lists."; "Cancel"; "Save" |
-| Sign-in methods | Header "Sign-in methods"; "Google"; "Apple"; "Email and password"; "Not connected"; "Password set"; "No password yet"; actions "Connect", "Disconnect", "Change", "Add"; accessible names "Connect Google", "Disconnect Google", "Disconnect Apple", "Change password", "Add a password"; footer "Sign in with any of these. Keep at least one." |
-| Disconnect dialog | "Disconnect Google?"; "You'll sign in with deniz.yilmaz@example.com and your password instead. Your lists aren't affected."; "Cancel"; "Disconnect" (Apple: "Disconnect Apple?" with the same body) |
-| Disconnected | "Google disconnected" |
-| Blocked dialog | "Add a password first"; "Google is your only way to sign in. Add a password so you can still sign in after disconnecting Google."; "Cancel"; "Add a password" |
-| Connect error | "This Google account is already linked to another SwipeSort account." |
+| Sign-in methods | Header "Sign-in methods"; "Google"; "Apple"; "Email and password"; "Not connected"; "Password set"; "No password yet"; actions "Connect", "Disconnect", "Change", "Add"; accessible names "Connect Google", "Disconnect Google", "Connect Apple", "Disconnect Apple", "Change password", "Add a password"; footer "Sign in with any of these. Keep at least one." |
+| Disconnect dialog | "Disconnect Google?"; "You'll sign in with deniz.yilmaz@example.com and your password instead. Your lists aren't affected."; "Cancel"; "Disconnect". Apple: "Disconnect Apple?"; "You'll sign in with Google or with deniz.yilmaz@example.com and your password instead. Your lists aren't affected." (names the methods that remain) |
+| Connected / disconnected | "Apple connected"; "Google disconnected"; "Apple disconnected" |
+| Blocked dialog | "Add a password first"; "Google is your only way to sign in. Add a password or connect Apple first, so you can still sign in after disconnecting Google."; "Cancel"; "Add a password" (Apple-only account: "Apple is your only way to sign in. Add a password or connect Google first, so you can still sign in after disconnecting Apple.") |
+| Connect error | "This Google account is already linked to another SwipeSort account."; "This Apple ID is already linked to another SwipeSort account." |
 | Add a password | Title "Add a password"; "Add a password to sign in with your email address as well as with Google."; "Email"; "New password"; rules "At least 8 characters", "A number or a symbol"; "Save password" |
 | Change password | Title "Change password"; "Current password"; "Forgot your current password?"; "New password"; rules as above; "After you change it, other phones and browsers signed in to your account are signed out."; "Save password"; "Saving…"; error "That password isn't right. Try again or reset it." |
 | Password toggle | "Show password"; "Hide password" |
 | Password changed | "Password changed. Other devices were signed out." |
-| Delete row | "Delete account"; "Delete your account, your lists and your notes"; offline: "Connect to the internet to delete your account." |
+| Delete row | "Delete account"; "Delete your account, your backed-up lists and your notes"; offline: "Connect to the internet to delete your account." |
 | Delete step 1 | Title "Delete account"; "Deleting your account can't be undone. Here's what happens."; "Shared list you own"; "{List name}"; "100 items, 3 members"; "Transfer ownership"; "Mert and Selin keep the list. Your decisions and notes on it are removed."; new Owner trigger label "New Owner: Mert Aydın. Change"; "Delete for everyone"; "Mert and Selin lose access to the list." |
-| Deleted for good | Header "Deleted for good"; "Your profile and sign-in methods"; "5 lists only you use"; "Desk setup, March photos clean-up, Frontend hiring, Q4, and 2 archived: Apartment viewings, Book club picks"; "Your decisions and notes"; "Including those on lists other people share with you" |
-| Not changed | Header "Not changed"; "Files and Google Sheets you imported from"; "SwipeSort never changed them"; "Files you exported" |
+| Deleted for good | Header "Deleted for good"; "Your profile and sign-in methods"; "4 lists only you use"; "Desk setup, Trip ideas, and 2 archived: Apartment viewings, Book club picks"; "Your decisions and notes"; "Including those on lists other people share with you" |
+| Not changed | Header "Not changed"; "Frontend hiring, Q4" / "On this phone only. It stays on this phone, without an account."; "Files and Google Sheets you imported from"; "SwipeSort never changed them"; "Files you exported" |
 | Export hint | "Want a copy first? Export a list before you delete your account."; link "Export a list" |
 | Step 1 actions | "Continue"; "Keep my account" |
 | New Owner sheet | "New Owner of Wedding guests"; "The new Owner can start rounds, manage members and change the conflict rule."; "Mert Aydın", "Decision Maker, 85 / 100 decided"; "Selin Yılmaz", "Collaborator, 43 / 100 decided"; "Choose Mert Aydın" |
 | Re-authentication | "Confirm it's you"; "For your security, sign in again before you delete your account." (Change password / disconnect: "…before you change your password." / "…before you disconnect Google."); "Continue with Google"; "or"; "Password"; placeholder "Your SwipeSort password"; "Confirm"; error "That password isn't right. Try again or reset it." |
-| Confirm deletion | Title "Confirm deletion"; "This is the last step. After this, your account can't be restored."; "“Wedding guests” moves to Mert Aydın"; "Desk setup, March photos clean-up, Frontend hiring, Q4 and 2 archived lists (Apartment viewings, Book club picks) are deleted"; "Your profile, decisions and notes are deleted"; field "To confirm, type delete"; helper "Lowercase is fine."; "Delete account"; "Keep my account" (with Delete for everyone: "Wedding guests is deleted for all 3 members") |
-| Final dialog | "Delete your account?"; "This can't be undone. “Wedding guests” moves to Mert Aydın. Your other 5 lists (2 of them archived), your decisions and your notes are deleted."; "Cancel"; "Delete account" |
+| Confirm deletion | Title "Confirm deletion"; "This is the last step. After this, your account can't be restored."; "“Wedding guests” moves to Mert Aydın"; "Desk setup, Trip ideas and 2 archived lists (Apartment viewings, Book club picks) are deleted"; "Your profile, decisions and notes are deleted"; "“Frontend hiring, Q4” stays on this phone, without an account" (iOS "this iPhone"); field "To confirm, type delete"; helper "Lowercase is fine."; "Delete account"; "Keep my account" (with Delete for everyone: "Wedding guests is deleted for all 3 members") |
+| Final dialog | "Delete your account?"; "This can't be undone. “Wedding guests” moves to Mert Aydın. 4 lists (2 of them archived), your decisions and your notes are deleted. “Frontend hiring, Q4” stays on this phone." (iOS "this iPhone"; without lists on this phone only the last sentence is left out); "Cancel"; "Delete account" |
 | Deleting | "Deleting your account…"; "Keep SwipeSort open. This takes a few seconds." |
-| Deleted | "Your account is deleted"; "Mert Aydın now owns Wedding guests. You can keep using SwipeSort without an account."; "Done" (without a transfer: "Your lists and notes are gone from SwipeSort. You can keep using SwipeSort without an account.") |
+| Deleted | "Your account is deleted"; "Mert Aydın now owns Wedding guests. “Frontend hiring, Q4” is still on this phone. You can keep using SwipeSort without an account."; "Done" (without lists on this phone only the middle sentence is left out; without a transfer: "Your lists and notes are gone from SwipeSort. You can keep using SwipeSort without an account.") |
 | Delete failed | "Couldn't delete your account"; "Nothing was deleted. Check your connection and try again."; "Try again"; "Keep my account" |
 | Offline | "You're offline. Profile changes need a connection." |
 | Large text | Same strings |
@@ -196,9 +212,11 @@ S03) + sticky bottom "Save password".
 
 ## 8. iOS and web differences
 
+- **Apple on every platform** (D-13; it was iOS-only in the brief): the Apple row exists on iOS, Android and web.
+  iOS connects with the native sheet; Android and web with Apple's sign-in page in the browser (out of scope to
+  draw). Apple accounts may show a Hide My Email relay address.
 - **iOS** (`S07-ios`, `S07-ios-delete-alert`): back chevron with "Settings" and edge-swipe back; grouped inset lists
-  (12 radius) without group footers to keep the compact rhythm; Sign in with Apple appears as a sign-in method
-  (Connect / Disconnect; Apple accounts may show a private relay address). Photo sheet becomes an action sheet with
+  (12 radius) without group footers to keep the compact rhythm; Apple is the first sign-in method. Photo sheet becomes an action sheet with
   the same items. Final confirmation is a native alert with the same copy; "Delete account" is the destructive
   action, "Cancel" the bold default. **Account deletion must revoke the Sign in with Apple token** (Apple REST
   `auth/revoke`) as App Store guideline 5.1.1(v) requires; the server does this during `S07-deleting`.
@@ -206,13 +224,19 @@ S03) + sticky bottom "Save password".
   also requires a web route to request deletion: the same flow is reachable on the web at
   `swipesort.app/account/delete` after sign-in.
 - **Web** (`S07-web-change-photo`): photo uses a file input ("Upload photo", JPG or PNG up to 10 MB); no camera or
-  gallery items. Apple is not offered on web (it stays listed if already connected on an iPhone, with Disconnect).
+  gallery items. Apple connects and disconnects like on Android (popup on desktop, redirect on phones).
   Desktop uses the centered phone column (S40) with no other changes. Everything else is identical.
 
 ## 9. Edge cases
 
-- **Only one sign-in method**: Disconnect is blocked (`S07-disconnect-blocked`); there is never a state with zero
-  methods.
+- **Only one sign-in method** (Google, Apple or a password): Disconnect is blocked (`S07-disconnect-blocked`; the
+  Apple-only account gets the same dialog with Apple named); there is never a state with zero methods (A-53).
+  Because Apple now works on every platform, an Apple-only account can sign in on Android and the web too
+  (D-13).
+- **Lists on this phone only at deletion** (A-138): they are listed under "Not changed" and stay on the phone
+  without an account. Lists kept on this phone only on another of the person's devices stay on that device the
+  same way; this phone can't name them, so when the account is signed in on other devices the "Not changed"
+  group gets the footer "Lists kept on your other devices only stay on those devices." (not drawn).
 - **Several shared lists owned**: step 1 shows one block per list, each with its own transfer/delete choice;
   Continue is enabled once every list has a choice (transfer is preselected, so it always is).
 - **Shared list where the user is the only remaining member** (others left): treated as a solo list and listed under

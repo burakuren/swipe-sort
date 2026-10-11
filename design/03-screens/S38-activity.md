@@ -173,7 +173,12 @@ Sample events ev1–ev6, generated from `sample-data.json › activity` (texts a
 - **Many events**: the feed loads 50 at a time (infinite scroll); events older than 90 days are dropped.
 - **Several lists**: the second line always names the list; merging never crosses lists.
 - **Left or removed from a list**: its events stay but rows open S40 not-found ("You're no longer on
-  Wedding guests").
+  Wedding guests"). Removed while offline: the removal event stays here as the lasting record of the S40 outcome
+  alert `S40-outcome-removed` (D-09 row 4), which is dismissed on Home.
+- **Sync outcomes** (D-09): outcome messages are shown once (S40 §4.4a) and are not Activity events of their
+  own; the events that caused them ("Deniz started Round 2", "Deniz made Selin the Decision Maker", "Mert edited
+  City on Alper Turan") are, as usual.
+- **Lists on this phone only** (D-33): solo by definition, so they produce no Activity events.
 - **Long list names / names**: wrap to two lines; the time column keeps its width.
 - **Actor without a photo**: initials avatar (Selin "SY").
 - **Signed out (no account)**: Activity shows the empty state; sharing requires an account (S05).

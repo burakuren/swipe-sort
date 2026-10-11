@@ -3,7 +3,7 @@
 Frames: `S26-item-detail.html` (generator: `tools/generators/S26-item-detail.py`). Opened over
 `S25-sorting.html` as a bottom sheet and pushed from `S28-results.html` / `S36-conflicts.html`.
 Data: `contacts` c077, c014, c007, c045, c002, c006, c012, c079; `products` p03 (Desk setup);
-`photos` ph13; `apartments` a07; `shared.items`, `shared.notes`, `shared.edits`, `productDecisions`.
+`trips` tr13, tr14 (Trip ideas); `apartments` a07; `shared.items`, `shared.notes`, `shared.edits`, `productDecisions`.
 
 ## 1. Purpose and requirements
 
@@ -22,6 +22,7 @@ GOAL-03, PLT-01–PLT-06, PLT-13–PLT-17, PLT-21, PLT-23, STK-06, STK-07, VIS-0
 | S25 sorting | Bottom sheet over the stack (`S26-default`) | Tap the card, menu "Open item details", card action "Open details", Enter on desktop web |
 | S28 results | Pushed screen (`S26-product`, `S26-shared-conflict`) | Tap a row |
 | S36 conflicts | Pushed screen | "Details" on the conflict card |
+| S40 sync outcome | Pushed screen (`S26-edit-replaced`) | "View" on the snackbar `S40-outcome-edit-replaced` (D-09 row 1): my edit was replaced by a later one |
 
 | To | How |
 | --- | --- |
@@ -53,7 +54,7 @@ Same content in both presentations; only the container and the bottom bar differ
 **Content, top to bottom** (every text edge on the 20 dp gutter; section headers are not inset)
 1. **Header**: person and generic templates show Avatar 64 (photo or initials) + title (`text-title-2`, wraps
    fully, never truncates) + subtitle field (`text-body muted`). Product and photo templates show the image
-   first (`rounded-group`, 176–240 high; photos `object-cover`, products `object-contain` on `bg-muted` so
+   first (`rounded-group`, 176–240 high; Photo template `object-cover`, products `object-contain` on `bg-muted` so
    the product is never cropped), then title and subtitle. Expanded person items show
    the photo as a 224-high image.
 2. **My decision**: from S25, a row "My decision" + DecisionBadge ("Not decided yet" with `circle-dashed`).
@@ -91,9 +92,10 @@ above; the pinned bar becomes "Cancel" (outline) + "Save changes" (primary). Fie
 | phone | Input `type=tel`; multi-value: rows of label Select (Mobile, Home, Work, Other) + Input + remove IconButton, "Add another phone" | phone pad |
 | email | Input `type=email`, validated on Save | email keyboard |
 | number | Input `inputmode=decimal`, unit suffix (EUR, MB) | numeric |
-| date | Input showing the formatted value + `calendar` IconButton | system date/time picker (out of scope) |
+| date | Input showing the formatted value + `calendar` IconButton | system date/time picker (out of scope). No frame since D-32 (no date field in the sample lists in use, A-171); same layout as the link Input with its trailing button |
 | link | Input `type=url` + `external-link` IconButton "Open link" | URL keyboard |
-| image | Thumbnail + "Change photo/image" (outline) + "Remove" | Android/iOS: system picker (camera, library, files); web: file upload |
+| image (contact photo) | Avatar 64 + "Remove" (outline, `trash-2`) + line "From Contacts. Removing it here doesn't change your contacts."; no photo: initials + "No photo in Contacts." No add or replace (D-32: no photo library or camera, A-170) | none |
+| image (from a link: CSV, Google Sheets, manual entry) | The image link as an Input `type=url` with a 36 thumbnail at its end once the link loads, helper "Paste a link to an image. Cards show the picture from this link." (same control as S17, A-160); clearing it removes the image | URL keyboard |
 
 An edited field shows "Original: …" under its input while editing.
 
@@ -107,15 +109,16 @@ AlertDialog, Alert, Skeleton, OfflineBanner, Kbd.
 | --- | --- | --- |
 | `S26-default` | Mia Andersson (c077) over S25: not decided, 6 fields, no notes, decide bar | Tap the card |
 | `S26-expanded` | Full screen with the photo | Drag up / expand |
-| `S26-photo` | ph13 (March photos clean-up): photo, Taken, Location, File name, Size (read-only, computed) | Photo list |
+| `S26-photo` | tr13 "Alfama, Lisbon" (Trip ideas, Photo template) over `S25-photo`: image, Place, Country, Best time, Budget (EUR); source line names trip-ideas.csv | Photo template list |
 | `S26-long-text` | c014: name and email wrap in full; Phone "Add phone"; my note first with Edit / Delete | Long values, missing value |
 | `S26-edit` | Edit mode on c007, phone focused, "Original: +90 500 000 97 4" | Edit or tap a field |
 | `S26-edit-error` | Invalid email "gokhan.dogan@example" | Save with an invalid value |
 | `S26-saved` | Phone marked Edited with original and Revert; snackbar "Changes saved" | Save changes |
 | `S26-edit-multi` | c002 phones: Mobile and Home, add/remove, label Select | Editing a multi-value field |
-| `S26-edit-product` | p03: image, number with EUR suffix, rating, reviews, link | Product list |
-| `S26-edit-date` | ph13 Taken with the date picker button | Date field |
+| `S26-edit-product` | p03: image link (with thumbnail), number with EUR suffix, rating, reviews, link | Product list |
+| `S26-edit-image-link` | tr13: the Photo field edited as its image link (focused, thumbnail), Place, Country, Best time, Budget with EUR suffix. Replaces `S26-edit-date` (D-32: the Trip ideas list has no date field, A-171) | Image field from a link |
 | `S26-edited` | c045 City "Ankara", Edited, Original "İstanbul", Revert to original | Item with an edit (`shared.edits`) |
+| `S26-edit-replaced` | c045 pushed from S09 Wedding guests: inline choice "Mert changed City after you" / "Your edit “Ankara” was replaced with Mert's “Eskişehir”. Keep your version or use Mert's?" with "Keep mine" / "Use Mert's"; City shows "Eskişehir", "Edited by Mert" | "View" on `S40-outcome-edit-replaced` (D-09 row 1, A-172) |
 | `S26-revert-confirm` | Dialog "Revert City to the original?" | Revert to original |
 | `S26-reverted` | City back to İstanbul, snackbar with Undo | Confirm revert |
 | `S26-note-edit` | Editing my note (solo list) with counter | Edit on my note |
@@ -184,10 +187,11 @@ AlertDialog, Alert, Skeleton, OfflineBanner, Kbd.
 | Fields | "Fields"; "Edit"; empty field "Add phone", "Add email" ("Add {field name in lowercase}"); read-only "—" |
 | Edited | Badge "Edited" / "Edited by Mert"; "Original: İstanbul"; "Revert to original" |
 | Revert dialog | Title "Revert City to the original?"; body "City goes back to “İstanbul”, the value from Contacts. Your edit “Ankara” is removed."; buttons "Cancel", "Revert" (destructive variant: the edit is discarded; same as S40 `S40-revert-field`); snackbar "City reverted to İstanbul" + "Undo" |
-| Source lines | "From Contacts on this phone. Edits stay in SwipeSort; your contacts aren't changed."; "From Photos on this phone. Edits stay in SwipeSort; your photos aren't changed."; "From mert-family.csv. Edits stay in SwipeSort; the file isn't changed."; "From Google Sheets: Flat hunt 2026, tab Beşiktaş."; "Added by hand on Oct 4." |
-| Edit mode | Helper "Changes stay in SwipeSort. The source isn't changed."; "Photo"; "Change photo", "Add photo", "Change image", "Remove"; "Add another phone"; "The first number shows on the card."; phone labels "Mobile", "Home", "Work", "Other"; "Remove this number"; "Choose date and time"; "Opens the date and time picker of your phone."; "Open link"; buttons "Cancel", "Save changes" |
+| Source lines | "From Contacts on this phone. Edits stay in SwipeSort; your contacts aren't changed."; "From trip-ideas.csv. Edits stay in SwipeSort; the file isn't changed."; "From mert-family.csv. Edits stay in SwipeSort; the file isn't changed."; "From Google Sheets: Flat hunt 2026, tab Beşiktaş."; "Added by hand on Oct 4." |
+| Edit mode | Helper "Changes stay in SwipeSort. The source isn't changed."; "Photo"; "Remove"; "From Contacts. Removing it here doesn't change your contacts."; "No photo in Contacts."; image link helper "Paste a link to an image. Cards show the picture from this link."; link that doesn't load "This link doesn't open an image. Check it, or leave the field empty." (A-160); "Add another phone"; "The first number shows on the card."; phone labels "Mobile", "Home", "Work", "Other"; "Remove this number"; "Choose date and time"; "Opens the date and time picker of your phone."; "Open link"; buttons "Cancel", "Save changes" |
 | Validation | Email: "Enter a full email address, like name@example.com."; phone: "Enter a phone number with digits only, spaces allowed."; number: "Enter a number, like 429 or 4.5."; link: "Enter a full link, like https://example.com."; date: "Choose a date." |
 | Discard dialog (S40 `S40-discard-edits`) | Title "Discard changes to {title}?" ("Discard changes to Gökhan Doğan?"); body "Your edits won't be saved. The item keeps its current values."; buttons "Keep editing", "Discard changes" (destructive) |
+| Edit replaced (D-09 row 1) | Alert title "Mert changed City after you"; body "Your edit “Ankara” was replaced with Mert's “Eskişehir”. Keep your version or use Mert's?"; buttons "Keep mine", "Use Mert's"; snackbars "Kept your edit" / "Using Mert's edit"; while editing (A-70): "Mert changed City while you were editing. Keep your version or use Mert's?" |
 | Snackbars | "Changes saved"; "Saved on this phone. It will sync when you're back online."; "Note saved"; "Note deleted" + "Undo"; "Changed to Maybe" + "Undo"; "Copied" |
 | Notes | "Notes"; "No notes yet."; shared "No notes yet. Notes are visible to all members unless you make them private."; "Add note"; "My note" (solo); "You"; "Only you"; "Edit", "Delete"; composer label "Your note"; counter "37 / 1,000"; "Only visible to me"; "Mert and Selin won't see this note."; "Cancel", "Save note" |
 | Delete note dialog | Title "Delete your note?"; body "“Flying in from Berlin. Ask about dates first.” will be deleted from this item."; buttons "Cancel", "Delete note" |
@@ -225,12 +229,12 @@ AlertDialog, Alert, Skeleton, OfflineBanner, Kbd.
   large detents; navigation bar "Edit" (leading) and "Done" (trailing, bold) instead of the header icons;
   edit mode switches the bar to "Cancel" / "Save" and moves to the large detent; no pinned Cancel / Save
   bar. Pushed detail uses the native stack with a back chevron "Results" and edge-swipe back. Destructive
-  confirmations (Delete note, Revert) use the native alert with the same copy. Image editing opens the
-  native action sheet (Take photo, Choose from library, Choose file).
+  confirmations (Delete note, Revert) use the native alert with the same copy. Image fields work as on
+  Android: Remove for contact photos, the image link for other image fields; no camera or library (D-32).
 - **Web, mobile**: Android layout without system bars; browser back closes the sheet / pops the screen.
 - **Web, desktop** (`S26-web-desktop`): Enter on the focused card opens the sheet; Esc closes; E enters edit
   mode; ← ↑ → decide (ignored while typing); Tab order as in §7; keyboard hints under the decide bar (web
-  only). Image fields use file upload ("Upload image") instead of the system picker (PLT-08).
+  only). Image fields are the same as on mobile (image link or Remove); no file upload (D-32, A-170).
 - Haptics are not used on this screen (deciding from the sheet uses the S25 commit haptic on Android/iOS).
 
 ## 9. Edge cases
@@ -238,14 +242,26 @@ AlertDialog, Alert, Skeleton, OfflineBanner, Kbd.
 - **Long text**: titles and values wrap fully (no truncation in detail); long emails and links break at any
   character when needed; notes wrap; the card keeps its own clamping (S25).
 - **Missing values**: editable "Add {field}" rows; read-only "—"; missing image → initials avatar (person) or
-  `image-off` placeholder (product, photo). Rows are never hidden in detail (they are on the card).
+  `image-off` placeholder (product, Photo template). Rows are never hidden in detail (they are on the card).
 - **Multi-value**: all values listed with labels; the card shows the first + count.
 - **Edited by someone else** (shared): "Edited by Mert"; anyone can revert (domain-model permissions); the
   revert dialog names who made the edit: "Mert's edit “Babaanne (Nermin Aydın)” is removed."
 - **Concurrent edits** (shared): last save wins; if the field changed since edit mode opened, Save shows
   "Mert changed City while you were editing. Keep your version or use Mert's?" with "Keep mine" / "Use
   Mert's" (inline Alert above the form).
-- **Computed fields** (photo size, dimensions) are read-only and have no "Edit".
+- **Edit replaced while I wasn't looking at the item** (D-09 row 1, A-172): when a later edit by another member
+  overwrites mine at sync, I learn it from the S40 snackbar `S40-outcome-edit-replaced` ("Mert changed City on
+  Alper Turan after you, so your edit was replaced." + View) on whatever screen I'm on. View opens this item
+  (`S26-edit-replaced`), where the same "Keep mine / Use Mert's" choice waits above the fields until answered:
+  "Keep mine" applies my value again as a new edit (it syncs like any edit), "Use Mert's" keeps the current
+  value; either closes the alert with the snackbar "Kept your edit" or "Using Mert's edit". Leaving without
+  answering keeps Mert's value and shows the choice again the next time the item opens, until answered. Several
+  replaced fields on one item: one alert per field, in field order. If the item is open when the outcome
+  arrives, the alert appears in place without a snackbar.
+- **Computed fields** (for example image dimensions) are read-only and have no "Edit".
+- **Image fields** (D-32, A-170): no photo library, camera or file upload. Contact photos can only be removed
+  (Revert to original brings them back); image-link fields are edited as their link; a link that doesn't open
+  an image shows the S17 inline error and the item can still be saved (the card falls back to its placeholder).
 - **Others' private notes** are never shown or counted (e.g. Mert's private note on c021).
 - **Very long notes**: 1,000 characters max; the counter turns `destructive` at the limit and the extra text
   is not accepted.

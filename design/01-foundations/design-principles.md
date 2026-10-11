@@ -7,7 +7,7 @@ Where it is silent, follow `00-brief/brief.md`; where the brief is silent, recor
 ## 1. What we are designing
 
 SwipeSort turns any list into a deck of cards. People look at one item at a time and decide: swipe right to
-**Accept**, left to **Reject**, up for **Maybe**. Typical lists: guests, job candidates, products, photos,
+**Accept**, left to **Reject**, up for **Maybe**. Typical lists: guests, job candidates, products, trips,
 apartments, tasks, ideas. People often decide together (a couple, a family, a small team).
 
 The product's emotional job: make a long, tiring narrowing-down task feel light and safe. Users must feel
@@ -244,8 +244,8 @@ destructive verb (destructive variant) + "Cancel".
   control itself (switch, checkbox) at `opacity-50`, a `monitor-smartphone` icon, a one-line reason
   ("Contacts import needs the Android or iOS app.") and a link "Get the app". Never dim the explanation
   text with opacity: it must stay readable (AA contrast). Tapping the tile opens a sheet with the reason and
-  "Get the app". Photos on web use
-  "Upload photos" instead of the gallery. Push becomes in-app notifications only.
+  "Get the app". Push becomes in-app notifications only. (The Photos source and its web "Upload photos"
+  tile are out of scope for now, D-32.)
 
 ## 14. Mockup conventions (for every screen file)
 

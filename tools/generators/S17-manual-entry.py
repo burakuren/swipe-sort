@@ -92,18 +92,22 @@ def items_screen(ids, overlay='', bar=None, bottom_html=None):
 
 
 # ------------------------------------------------------------------ item form
-def photo_tile(filled=None):
+def photo_tile(prefix, filled=None, link=''):
+    """Image field = an image link (D-32: no photo picker or camera, A-160). A small preview shows once the link loads."""
+    fid = prefix + 'ph'
+    helper = f'<p id="{fid}-h" class="mt-1.5 text-caption text-muted-foreground">Paste a link to an image. Cards show the picture from this link.</p>'
     if filled:
-        return f'''<div><p class="text-label">Photo</p><div class="mt-1.5 flex items-center gap-3"><img src="{IMG}products/{filled}.svg" alt="Photo of the item" class="size-20 shrink-0 rounded-control object-cover">{btn('Change photo', 'ghost', extra='px-3')}</div></div>'''
-    return f'''<div><p class="text-label">Photo</p><button class="mt-1.5 flex size-20 flex-col items-center justify-center gap-1 rounded-control border-2 border-dashed border-input bg-card text-caption text-muted-foreground" aria-label="Add photo">{icon("image-plus", "size-6")}Add photo</button></div>'''
+        thumb = f'<img src="{IMG}products/{filled}.svg" alt="" class="size-9 shrink-0 rounded-sm object-cover">'
+        return f'''<div><label class="text-label" for="{fid}">Photo</label><div class="mt-1.5 flex h-12 items-center gap-2 rounded-control border border-input bg-card pl-3.5 pr-1.5"><input id="{fid}" type="url" class="h-full min-w-0 flex-1 bg-transparent text-body" value="{link}" aria-describedby="{fid}-h">{thumb}</div>{helper}</div>'''
+    return f'''<div><label class="text-label" for="{fid}">Photo</label><div class="mt-1.5 flex h-12 items-center gap-2 rounded-control border border-input bg-card pl-3.5 pr-3">{icon("link", "size-5 shrink-0 text-muted-foreground")}<input id="{fid}" type="url" class="h-full min-w-0 flex-1 bg-transparent text-body placeholder:text-muted-foreground" placeholder="Image link" aria-describedby="{fid}-h"></div>{helper}</div>'''
 
 
-def item_form(prefix, name='', price='', store='', link='', photo=None, name_err='', price_err='', focus_name=False):
+def item_form(prefix, name='', price='', store='', link='', photo=None, name_err='', price_err='', focus_name=False, photo_link=''):
     return f'''<div class="mt-3 min-h-0 flex-1 space-y-4 overflow-hidden">
       {label_input(prefix + 'n', 'Name', name, required=True, error=name_err, focused=focus_name and not name_err)}
       {label_input(prefix + 'p', 'Price (€)', price, error=price_err, ty='text')}
       {label_input(prefix + 's', 'Store', store)}
-      {photo_tile(photo)}
+      {photo_tile(prefix, photo, photo_link)}
       {label_input(prefix + 'l', 'Link', link, ty='url')}
     </div>'''
 
@@ -142,7 +146,7 @@ empty = f'''{modal_bar('New list', CLOSE)}
 P.frame('S17-empty', 'Empty: no items yet', phone(empty))
 P.frame('S17-default', 'Default: 3 items added', phone(items_screen(['p01', 'p02', 'p03'])))
 
-form = item_form('ai', P4['name'], str(P4['price']), P4['store'], 'keystone.example/p/1111', photo='p04')
+form = item_form('ai', P4['name'], str(P4['price']), P4['store'], 'keystone.example/p/1111', photo='p04', photo_link='keystone.example/img/1111.jpg')
 P.frame('S17-add-item', 'New item sheet, filled', phone(items_screen(['p01', 'p02', 'p03'], overlay=sheet('ai1', 'New item', form, actions=ADD_ACTIONS, top='top-8'))))
 
 added = f'<p class="mt-2 flex items-center gap-2 rounded-control bg-muted px-3 py-2 text-body-sm" role="status">{icon("check", "size-4 shrink-0")}Added Low-profile mechanical keyboard. 4 items.</p>'
@@ -153,7 +157,7 @@ form3 = item_form('va', '', '12o', 'Keystone', name_err='Enter a name. Every ite
 P.frame('S17-validation', 'Validation: name missing, price not a number', phone(items_screen(['p01', 'p02', 'p03'], overlay=sheet('va1', 'New item', form3, actions=ADD_ACTIONS, top='top-8'))))
 
 P2 = PROD['p02']
-form4 = item_form('ed', P2['name'], str(P2['price']), P2['store'], 'oakline.example/p/1037', photo='p02')
+form4 = item_form('ed', P2['name'], str(P2['price']), P2['store'], 'oakline.example/p/1037', photo='p02', photo_link='oakline.example/img/1037.jpg')
 EDIT_ACTIONS = f'<a href="#S17-default" class="{PRIMARY}" data-action="save">Save changes</a><a href="#S17-deleted" class="mt-1 flex h-12 w-full items-center justify-center gap-2 rounded-control text-label-lg text-destructive" data-action="delete">{icon("trash-2")}Delete item</a>'
 P.frame('S17-edit-item', 'Edit an item', phone(items_screen(['p01', 'p02', 'p03'], overlay=sheet('ed1', 'Edit item', form4, actions=EDIT_ACTIONS, top='top-8'))))
 
@@ -177,9 +181,9 @@ large = f'''<header class="flex min-h-16 shrink-0 items-center gap-1 px-1">
 P.frame('S17-large-text', 'Large text (200%)', phone(large))
 
 # ------------------------------------------------------------------ platforms
-P.section('iOS', 'iOS: the item form is a page sheet with Cancel and Add in its own bar (Add = save and close); “Add another” sits under the form. The bar shows a back chevron to Set up fields. Web is the same as Android; the Photo field opens the browser\'s file picker.')
+P.section('iOS', 'iOS: the item form is a page sheet with Cancel and Add in its own bar (Add = save and close); “Add another” sits under the form. The bar shows a back chevron to Set up fields. Web is the same as Android. The Photo field takes an image link on every platform (no photo picker or camera, D-32).')
 ios_bar = modal_bar('New list', CLOSE, ios=True, back=('Set up fields', '#S17-fields'))
-ios_form = item_form('io', P4['name'], str(P4['price']), P4['store'], 'keystone.example/p/1111', photo='p04').replace('mt-3 min-h-0 flex-1', 'mt-4 min-h-0 flex-1') + f'<div class="shrink-0 pb-8 pt-3"><button class="{SECONDARY} w-full" data-action="add-another">Add another</button></div>'
+ios_form = item_form('io', P4['name'], str(P4['price']), P4['store'], 'keystone.example/p/1111', photo='p04', photo_link='keystone.example/img/1111.jpg').replace('mt-3 min-h-0 flex-1', 'mt-4 min-h-0 flex-1') + f'<div class="shrink-0 pb-8 pt-3"><button class="{SECONDARY} w-full" data-action="add-another">Add another</button></div>'
 P.frame('S17-ios-add-item', 'iOS: new item as a page sheet', phone(items_screen(['p01', 'p02', 'p03'], bar=ios_bar, overlay=ios_sheet('io1', 'New item', ios_form, left='Cancel', right='Add')), ios=True, overlay_full=True))
 
 P.write('S17-manual-entry.html')

@@ -8,10 +8,10 @@ Frames: `S27-round-summary.html` (generator: `tools/generators/S27-round-summary
 Close a round with a calm moment of completion: show what I decided, what happened to the list (shared),
 and offer the next step: review results, re-sort Maybe, start a new round, export.
 
-Covers: SRT-16, SRT-09 (final counts), DM-01, DM-02, DM-13, DM-14, DM-15, DM-20, RND-01 (re-sort Maybe
+Covers: ACC-11, SRT-16, SRT-09 (final counts), DM-01, DM-02, DM-13, DM-14, DM-15, DM-20, RND-01 (re-sort Maybe
 entry), RES-01 (entry), EXP-01–EXP-04 (entry), COL-07 (others' progress), COL-14 (entry to conflicts), ACC-02
 (not-backed-up indicator), GOAL-01, GOAL-02, PLT-01–PLT-04, PLT-13–PLT-17, PLT-21, PLT-23, VIS-03, VIS-09,
-VIS-12, SUC-07, SCR-27.
+VIS-12, SUC-07, SCR-27. D-08 (web sign-in nudge after the first round).
 
 ## 2. Entry points and exits
 
@@ -31,6 +31,8 @@ VIS-12, SUC-07, SCR-27.
 | `S36-conflicts.html#S36-default` | The conflicts row ("15 conflicts", Mert resolves them); a Decision Maker finishing sees "Review 15 conflicts" as the primary | `review-conflicts` |
 | `S25-sorting.html#S25-default` | "Continue Round 1" (ended early) | `continue-round` |
 | `S05-sign-in-prompt.html#S05-backup` | "Back up" (guest lists) | `back-up` |
+| `S05-sign-in-prompt.html#S05-web-backup` | "Back up" in the web nudge or the web backup line | `back-up` |
+| (stays on S27) | Dismiss (`x`) on the web nudge | `dismiss-nudge` |
 | `S09-list-overview.html#S09-default` (solo) / `#S09-shared` / `#S09-solo-round-done` | "Done", close `x`, Android back, iOS "Done" | `done`, `close` |
 
 Prototype flows: Flow 1 ends at `S27-first-round` (85 imported contacts); Flow 2 `S27-desk-round-2` [`review-results`] → `S28-default`.
@@ -66,8 +68,14 @@ part is centered (design-principles §6); actions are left-aligned rows.
    "Ends Round 1 for everyone" while others sort), Export. Shared Decision Maker / Collaborator (spec only, no
    frame): Review results, Export, and the line "Deniz, the Owner, starts new rounds."
 6. **Bottom bar** (pinned, `border-t`): optional backup line for guest lists (`cloud-off` "Saved on this
-   phone only" + "Back up"), the primary Button ("Review results", or "Review 15 conflicts" with
+   phone only" + "Back up"; web "Saved in this browser only"), the primary Button ("Review results", or "Review 15 conflicts" with
    `git-compare-arrows` for the Decision Maker when conflicts exist), ghost "Done".
+
+7. **BackupNudge** (Proposed; web only, D-08): after the first round a person without an account finishes on the
+   web, a card under the counts (`rounded-group bg-card p-4`): `cloud-upload` in a 40 primary-soft circle, title
+   "Back up your lists" (`text-label`), one sentence (`text-body-sm muted`), an outline "Back up" button
+   (→ `S05-web-backup`) and a Dismiss icon button (`x`, 48). It replaces the bottom backup line on that summary
+   (one message, not two). Not a dialog and not on mobile: on the phone, lists don't disappear on their own.
 
 Components: AppBar, DecisionBadge, StatusBadge, Progress (split and status variants), ListGroup + rows,
 MemberRow, Alert, BackupIndicator, Button, OfflineBanner, Skeleton, Kbd.
@@ -88,6 +96,7 @@ MemberRow, Alert, BackupIndicator, Button, OfflineBanner, Skeleton, Kbd.
 | `S27-large-text` | 200%: counts as labeled rows, left-aligned title | Font scale ≥ 150% |
 | `S27-ios` | "Done" in the navigation bar, no ghost Done | iOS |
 | `S27-web-desktop` | Deniz's shared summary in the desktop column, keyboard hints (Enter Review results, Esc Done) | Desktop browser |
+| `S27-web-nudge` | Web, not signed in: Wedding guests, Round 1 complete (85 / 85: 20 / 12 / 53) with the one-time "Back up your lists" nudge; no bottom backup line | First round finished on the web without an account (D-08) |
 
 There is no error state: the summary is computed from local data. If the list status cannot be fetched, the
 offline variant is shown.
@@ -127,7 +136,8 @@ offline variant is shown.
 | Rows | "Re-sort Maybe (14)" / "Sort the 14 Maybe items again in a new round" (1: "Sort the 1 Maybe item again in a new round"); disabled "Re-sort Maybe" / "Nothing in Maybe this round"; "Start a new round" / "Choose items and card order"; shared Owner "Ends Round 1 for everyone"; "Export" / "CSV, Excel, Google Sheets or a text summary"; "Review results" / "Final decisions and my decisions"; Owner conflicts row "15 conflicts" / "Mert resolves them as Decision Maker" (Everyone must agree: "Members change their decisions until they match"; Majority: "The majority decides when everyone has sorted") |
 | Shared note | "Deniz, the Owner, starts new rounds." |
 | Buttons | "Review results"; "Review 15 conflicts" (no conflicts: "Review results"); "Done" |
-| Backup line (guest) | "Saved on this phone only" + "Back up" |
+| Backup line (guest) | "Saved on this phone only" + "Back up" (web "Saved in this browser only") |
+| Web nudge (D-08) | "Back up your lists" / "Browsers can clear lists you haven't opened for a while. Signing in backs up Wedding guests and your 85 decisions." / "Back up"; Dismiss (accessible name) |
 | Offline banner | "You're offline. Decisions are saved on this phone." (S40 wording) |
 | Loading | Screen reader "Loading list status" |
 | Keyboard hints | "Enter Review conflicts" / "Enter Review results", "Esc Done" |
@@ -149,6 +159,9 @@ offline variant is shown.
   primary pinned.
 - Reduced motion: no count-up, no rise; 150 ms fade.
 - Touch targets ≥ 48 (rows 64, buttons 48).
+- Web nudge: a `section` labelled by its title, after the counts in reading order; not announced on entry (the
+  summary announcement stays the only one); Dismiss is a 48 icon button named "Dismiss"; after dismissing, focus
+  moves to the next section header ("Next").
 
 ## 8. iOS and web differences
 
@@ -156,7 +169,9 @@ offline variant is shown.
   primary button uses the iOS capsule shape; swipe-down to dismiss is off (the summary is the end of the
   modal flow; Done is explicit). Success haptic via Taptic Engine.
 - **Android**: system back = Done.
-- **Web, mobile**: Android layout without system bars; no haptics.
+- **Web, mobile**: Android layout without system bars; no haptics. Without an account, the first round finished
+  in this browser shows the backup nudge (`S27-web-nudge`, D-08); later summaries show the quiet line "Saved in
+  this browser only" + "Back up".
 - **Web, desktop** (`S27-web-desktop`): centered column with keyboard hints (Enter, Esc); shows Deniz
   finishing her round in the browser.
 - Export on web: Google Sheets and file download work; "share a plain-text summary" copies to the clipboard
@@ -182,3 +197,9 @@ offline variant is shown.
   (only the Owner can reopen).
 - **Offline**: my counts are local and exact; list status shows the last known values with "As of …".
 - **Guest lists**: the backup line appears on every summary until the user signs in (ACC-02).
+- **Web nudge frequency**: once per browser, after the first round finished there (any list); dismissing it or
+  signing in ends it; it never returns as a dialog. A first round finished on the phone never shows it.
+- **Signed-in list on this phone only**: no backup line and no nudge (the person chose it, A-137); sync notices
+  never appear for it (A-139).
+- **Round 2 started by the Owner while my Round 1 was offline** (shared): my late Round 1 decisions are saved in
+  Round 1; S27 isn't shown for them; the S40 snackbar `S40-outcome-late-round` says so (D-09 row 2).

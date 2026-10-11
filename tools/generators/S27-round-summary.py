@@ -234,6 +234,23 @@ ios = summary_screen(default_body, btn('Review results', 'primary', 'S28-results
 ios = ios.replace(btn("Done", "ghost", 'S09-list-overview.html#S09-default', "done"), '')
 F.add('S27-ios', 'iOS', phone(ios, ios=True))
 
+# D-08: after the first round on the web, a person without an account gets one gentle nudge (not a dialog)
+nudge = f'''<div class="px-gutter pt-6"><!-- Proposed component: BackupNudge (S27 web) -->
+      <section class="rounded-group bg-card p-4 dark:border" aria-labelledby="nudge-t">
+        <div class="flex items-start gap-3">
+          <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground">{icon("cloud-upload")}</span>
+          <div class="min-w-0 flex-1"><h2 id="nudge-t" class="text-label">Back up your lists</h2><p class="mt-0.5 text-body-sm text-muted-foreground">Browsers can clear lists you haven't opened for a while. Signing in backs up Wedding guests and your 85 decisions.</p></div>
+          {icon_btn("x", "Dismiss", None, "dismiss-nudge", "-mr-2 -mt-2", "size-5")}
+        </div>
+        <div class="mt-3 flex gap-2 pl-13">{btn("Back up", "outline", "S05-sign-in-prompt.html#S05-web-backup", "back-up", ic="cloud-upload", full=False)}</div>
+      </section>
+    </div>'''
+nudge_body = f'''{hero('Round 1 complete', 'Wedding guests', '85 / 85 decided in 31 min')}
+    {counts(20, 12, 53)}
+    {nudge}
+    {actions(solo_rows(12))}'''
+F.add('S27-web-nudge', 'Web, not signed in: first round done, a one-time nudge to back up (D-08)', web_phone(summary_screen(nudge_body, REVIEW())))
+
 desk_owner = summary_screen(owner_body, OWNER_PRIMARY, 'S09-list-overview.html#S09-shared')
 F.add('S27-web-desktop', 'Web, desktop: Deniz finished sorting in the browser', desktop(desk_owner, 'swipesort.app/l/7Hq2xK/summary', hints([('Enter', 'Review results'), ('Esc', 'Done')])))
 

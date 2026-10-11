@@ -6,7 +6,7 @@ Frames: `S02-onboarding.html`. Generator: `tools/generators/S02-onboarding.py`. 
 ## 1. Purpose and requirements
 
 Teach the one idea of the product in under 30 seconds: one card at a time, three gestures. The person
-learns by doing on neutral sample cards (a desk, a lamp, two photos), then lands in an empty Lists tab
+learns by doing on neutral sample cards (a desk, a lamp, two places), then lands in an empty Lists tab
 without being asked for an account.
 
 Covers: SCR-02, SRT-02, SRT-03, SRT-04 (snap back below the threshold), SRT-05, SRT-15 (first teaching
@@ -50,8 +50,11 @@ those are taught by the S25 coach marks).
 the three sample decisions (thumbnail 40, title, "Swiped left" with arrow icon, DecisionBadge), bottom stack
 like welcome.
 
-Demo deck (sample data): `p02` Walnut sit-stand desk, `ph09` Göreme photo, `p05` Ceramic desk lamp,
-`ph05` Kadıköy photo. Product and Photo card templates, so no domain words appear.
+Demo deck (sample data): `p02` Walnut sit-stand desk, Göreme, Cappadocia (image `ph09`), `p05` Ceramic desk
+lamp, Kadıköy, İstanbul (image `ph05`). Product and Photo card templates, so no domain words appear. The two
+place cards use the Photo template the way the "Trip ideas" sample does (image link, place as title, "Turkey,
+best in spring" / "best in autumn" as the second line); they no longer show gallery file names and dates
+(D-32, A-131).
 
 ## 4. States
 
@@ -102,7 +105,7 @@ Demo deck (sample data): `p02` Walnut sit-stand desk, `ph09` Göreme photo, `p05
 | --- | --- |
 | Skip | "Skip" |
 | Welcome headline | "Sort any list, one card at a time" |
-| Welcome body | "Swipe right to accept, left to reject, up for maybe. Works for people, photos, things to buy and ideas, alone or with others." |
+| Welcome body | "Swipe right to accept, left to reject, up for maybe. Works for people, places, things to buy and ideas, alone or with others." (D-32: "photos" became "places") |
 | Welcome buttons | "Get started", "I have an account" |
 | Reassurance | "No account needed. Lists stay on this phone." |
 | Hero stamp | "Accept" |
@@ -119,7 +122,7 @@ Demo deck (sample data): `p02` Walnut sit-stand desk, `ph09` Göreme photo, `p05
 | Recap rows | "Göreme, Cappadocia" / "Swiped left" / "Rejected"; "Ceramic desk lamp" / "Swiped up" / "Maybe"; "Walnut sit-stand desk" / "Swiped right" / "Accepted" |
 | Recap buttons | "Get started", "I have an account" |
 | Large-text demo | "Or use the buttons below."; "0 of 3 gestures tried"; card rows "Price", "Rating" ("4.7 (532 reviews)"), tag "Desk" pinned at the bottom (A-125: content centered) |
-| Web note | "Using SwipeSort in your browser" / "Everything works here. Get the app to import phone contacts and photos from your gallery." / "Get the app" |
+| Web note | "Using SwipeSort in your browser" / "Everything works here. Get the app to import your phone contacts." (D-32: no photo source) / "Get the app" |
 | Desktop instruction | "Press → or drag right to accept" (steps 2–3: "Press ← or drag left to reject", "Press ↑ or drag up for maybe") |
 | Keyboard hints | "← Reject", "↑ Maybe", "→ Accept" |
 | Screen reader instruction | "Try the three decisions on these sample cards. Use the card's actions or the buttons below." |
@@ -146,7 +149,7 @@ Demo deck (sample data): `p02` Walnut sit-stand desk, `ph09` Göreme photo, `p05
   "Skip"; edge swipe goes back one step. Same deck, haptics via Taptic Engine. The welcome does not show
   Sign in with Apple; "I have an account" opens S03 iOS (Apple first there).
 - **Web, mobile** (`S02-web`): no system bars; a neutral note at the top explains what the app adds
-  (contacts, gallery) with "Get the app"; no haptics.
+  (phone contacts) with "Get the app"; no haptics.
 - **Web, desktop** (`S02-web-desktop`): phone column; the instruction mentions the arrow key; kbd hints
   under the buttons (web only, PLT-06); mouse drag works like touch.
 

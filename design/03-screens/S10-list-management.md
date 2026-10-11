@@ -3,20 +3,21 @@
 Frames: `S10-list-management.html`. Generator: `tools/generators/S08-S10-lists.py`.
 Components: DropdownMenu, BottomSheet (actions), iOS action sheet and alert, Dialog (rename, duplicate),
 AlertDialog (archive shared, delete, leave, owner leave, delete forever), Input with counter, RadioGroup,
-Snackbar, ListGroup + archived rows, EmptyState, Skeleton, OfflineBanner. Backgrounds are inert copies of
-S09 and S08.
+Snackbar, ListGroup + archived rows, EmptyState, Skeleton, OfflineBanner, BottomSheet with ListMoveRow (S05)
+(share needs backup). Backgrounds are inert copies of S09 and S08.
 
 ## 1. Purpose and requirements
 
 Manage a list as an object: rename, duplicate, archive, delete, leave; and the Archived lists screen to
-open, restore or delete archived lists. Every destructive step names the list, states what goes and what
+open, restore or delete archived lists. For a signed-in Owner it also holds the two dialogs of per-list backup
+(D-33): turning backup off for one list, and backing a list up so it can be shared. Every destructive step names the list, states what goes and what
 stays safe, and uses the same action word from button to message. Permissions follow the role
 (domain-model › Permissions): the Owner manages the list; members can duplicate and leave.
 
-Covers: SCR-10, COL-11 (transfer ownership before leaving), COL-12 (leave a list), ACC-02 (lists on this
+Covers: ACC-10, SCR-10, COL-11 (transfer ownership before leaving), COL-12 (leave a list), ACC-02 (lists on this
 phone), GOAL-03, GOAL-04, SAFE-01 (sources never changed), VIS-11, VIS-12, VIS-13, VIS-14, TERM-01,
 DM-17 (the parallel rule for leaving: decisions are kept), PLT-02, PLT-03, PLT-04, PLT-13, PLT-14, PLT-15,
-PLT-16, PLT-21, PLT-23, STK-06, STK-07.
+PLT-16, PLT-21, PLT-23, STK-06, STK-07. D-33 (A-133, A-134), D-05 (offline rules, A-88 as updated).
 
 ## 2. Entry points and exits
 
@@ -30,6 +31,8 @@ PLT-16, PLT-21, PLT-23, STK-06, STK-07.
 | S08 "Archived lists" row | push | `S10-archived` |
 | S09 "Leave list" row (members) | dialog | `S10-leave` |
 | S09 archived "Restore list" | restore | `S10-restored` |
+| S09 Backup switch turned off (Trip ideas, backed up) | dialog | `S10-backup-off`; iOS `S10-ios-backup-off`; offline `S10-backup-off-offline` |
+| S09 Share on a list on this phone only (`S09-new-list`), S08 row sheet "Share list" on such a list | sheet | `S10-share-backup` |
 
 | Action | Leads to |
 | --- | --- |
@@ -45,10 +48,15 @@ PLT-16, PLT-21, PLT-23, STK-06, STK-07.
 | Archived row | S09 `S09-archived` (read-only) |
 | Archived row › Restore | `S10-restored` ("View" → S08) |
 | Archived row › Delete forever | `S10-delete-forever` → `S10-archived-empty` when it was the last one |
+| Turn backup off → Keep on this phone only | S09 with the switch off and "“Trip ideas” is on this phone only" + Undo (`S10-backup-off-done`) |
+| Turn backup off → Cancel | S09, switch back on (unchanged) |
+| Back up this list to share it → Back up and share | `S10-share-backing-up` → S31 `S31-default` (the list is backed up; S31 shows "“Frontend hiring, Q4” is backed up") |
+| Back up this list to share it → Not now | S09 `S09-new-list`, unchanged (during backup: the backup finishes in the background, S31 doesn't open) |
 
 `data-action` values: `rename`, `duplicate`, `archive`, `delete`, `leave` (menu items); `save`,
 `confirm-duplicate`, `confirm-archive`, `confirm-delete`, `confirm-leave`, `choose-owner`, `undo`, `view`,
-`restore`, `delete-forever`, `options-apartments`, `options-books`, `share`, `back`.
+`restore`, `delete-forever`, `options-apartments`, `options-books`, `share`, `back`, `confirm-backup-off`,
+`cancel`, `back-up-and-share`, `not-now`.
 
 ## 3. Layout and components
 
@@ -85,6 +93,19 @@ PLT-16, PLT-21, PLT-23, STK-06, STK-07.
   (primary "Choose new Owner"), delete forever (destructive "Delete forever").
 - **Snackbar** (inverse, 12 above the bottom navigation; the ExtendedFab moves up above it). Snackbars over S09
   sit in a clear strip: the content above stops 80 above the bottom while the snackbar shows.
+- **Turn backup off** (AlertDialog, destructive, A-112: it deletes the copy in the account): title "Keep
+  “{name}” on this phone only?", body (consequence, then what can't be undone), Cancel (ghost, initial focus) +
+  "Keep on this phone only" (destructive). The buttons fit one row at 412; they stack at large text (S40 rule).
+  iOS: an **alert** with stacked buttons (destructive "Keep on this phone only", bold "Cancel"), because the
+  person must read the consequence first (A-113), not an action sheet.
+- **Back up this list to share it** (BottomSheet, A-133): `cloud-upload` in a 48 primary-soft circle, title
+  `text-title-2`, one sentence, one **ListMoveRow** (S05 component: type icon tile, list name, item count, status
+  "On this phone only" → "Backing up…"), then primary "Back up and share" (`cloud-upload`) and ghost "Not now".
+  Busy: the primary shows the spinner and "Backing up…" (disabled), the row's status spins. Connection lost: a
+  muted note (`wifi-off`) above the buttons and the primary disabled.
+- **No menu item for backup**: the overflow menu, row sheet and iOS action sheet don't repeat the switch. Backup
+  is a state with a visible switch in S09 (and a list in S06 › Backup); a menu item would hide the current state
+  and add a second path with the same name.
 - **Overlays**: dialog, sheet and action-sheet scrims cover the whole device including the system bars; bottom
   sheets extend under the navigation bar (content padded above it). On desktop web the scrim covers the whole
   viewport and the dialog stays centered (max width 384).
@@ -97,15 +118,15 @@ PLT-16, PLT-21, PLT-23, STK-06, STK-07.
 
 | Frame | Trigger |
 | --- | --- |
-| `S10-default` | Overflow on a solo list (March photos clean-up, `l-photos`), Owner |
+| `S10-default` | Overflow on a solo list (Trip ideas, `l-trips`), Owner |
 | `S10-shared-owner-menu` | Overflow on Wedding guests (`l-wedding`) as Owner (Deniz) |
 | `S10-collaborator-menu` | Overflow as Collaborator (Selin) or Decision Maker (Mert) |
 | `S10-row-sheet` | Long press on a Home row (not signed in; `S08-guest`) |
 | `S10-ios-action-sheet` | iOS "…" on S09 |
 | `S10-rename` | Rename tapped: name selected |
 | `S10-rename-empty` | Name cleared: error, Save disabled |
-| `S10-rename-too-long` | 86 characters: error, counter red, Save disabled |
-| `S10-renamed` | Saved: S09 with the new name ("March 2026 photos") and snackbar |
+| `S10-rename-too-long` | 89 characters ("Trip ideas: Lisbon, Cappadocia, the Black Sea coast and every other place we talked about"): error, counter red, Save disabled |
+| `S10-renamed` | Saved: S09 with the new name ("Trip ideas 2027") and snackbar |
 | `S10-ios-rename` | iOS alert with a text field |
 | `S10-duplicate` | Duplicate a solo list: name + Items only (default) / Items with decisions and notes |
 | `S10-duplicate-shared` | Duplicate a shared list: becomes a solo list; "Items with my decisions and notes" |
@@ -130,6 +151,13 @@ PLT-16, PLT-21, PLT-23, STK-06, STK-07.
 | `S10-delete-large-text` | 200% font: stacked full-width buttons |
 | `S10-ios-archived` | iOS Archived lists: swipe actions Restore / Delete on a row |
 | `S10-web-desktop` | Desktop browser: delete dialog inside the phone column |
+| `S10-backup-off` | Backup switch turned off on Trip ideas (backed up, solo, Owner): confirmation (A-134) |
+| `S10-ios-backup-off` | iOS: the same as an alert, buttons stacked |
+| `S10-backup-off-offline` | Offline: the switch is disabled with "Turning backup off needs a connection."; Share disabled too |
+| `S10-backup-off-done` | Confirmed: switch off, "On this phone only" + footer; snackbar "“Trip ideas” is on this phone only" + Undo (6 s) |
+| `S10-share-backup` | Share on Frontend hiring, Q4 (on this phone only): "Back up this list to share it" (A-133) |
+| `S10-share-backing-up` | "Back up and share" tapped: Backing up…, then S31 opens |
+| `S10-share-backup-offline` | The connection dropped while the sheet was open: sharing needs a connection, primary disabled |
 
 ## 5. Interactions, gestures and transitions
 
@@ -156,8 +184,8 @@ PLT-16, PLT-21, PLT-23, STK-06, STK-07.
 - **Delete**: Owner only. After confirming, Home shows "List deleted" + Undo. The deletion is held for the
   snackbar's duration and committed when it closes (or when the app goes to the background), so Undo
   restores everything exactly. Shared: members lose access when it is committed; their open S09 shows
-  `S09-unavailable`, and Activity gets "Deniz deleted Wedding guests". Source files, contacts, photos and
-  Google Sheets are never touched (SAFE-01).
+  `S09-unavailable`, and Activity gets "Deniz deleted Wedding guests". Source files, contacts and Google
+  Sheets are never touched (SAFE-01).
 - **Leave**: the member's decisions stay and keep counting toward Agreed, Pending and Conflict (the same
   default as "Keep their decisions" in S34), so other members' results don't change unexpectedly. Items they
   haven't decided stop waiting for them (Pending items may become Agreed or Conflict). Their shared notes
@@ -170,6 +198,18 @@ PLT-16, PLT-21, PLT-23, STK-06, STK-07.
 - **Archived lists**: tap opens S09-archived; options open the sheet; Restore removes the row (200 ms) and
   shows "List restored" + "View" (opens Lists). Delete forever confirms, then shows "List deleted" + Undo
   like any delete.
+- **Turn backup off**: the switch flips back to on while the dialog is open (nothing changed yet). Confirm: the
+  button shows "Keeping on this phone…" while the account copy is deleted (online only, D-05 T3); then the
+  dialog closes, the row reads "On this phone only", the S09 header gains the label and the snackbar "“{name}” is
+  on this phone only" + Undo shows (6 s; 10 s with a screen reader). Undo backs the list up again (no
+  confirmation, A-132). Other devices of the account remove the list at their next sync and say so once
+  (`S40-outcome-device-only-elsewhere`). If the request fails, the dialog stays with the inline line "Couldn't
+  keep “Trip ideas” on this phone only. Check your connection and try again." (S40 §5).
+- **Back up and share**: the list backs up with the moving-lists mechanism (D-10; one list, so one row); when the
+  checkpoint confirms it, the sheet closes and S31 opens with the snackbar "“Frontend hiring, Q4” is backed up"
+  (the action keeps its name, design-principles §10). "Not now" during the backup closes the sheet; the backup
+  finishes and the S09 switch shows it, but S31 doesn't open. If the connection drops, the sheet switches to its
+  offline state ("Backup paused" on the S09 row if closed) and continues by itself when back online.
 - **iOS**: action sheet slides up (system); rename is a system alert with a text field; Archived lists rows
   support swipe left → Restore (primary) and Delete (destructive, then the confirmation).
 
@@ -180,14 +220,14 @@ PLT-16, PLT-21, PLT-23, STK-06, STK-07.
 | Menu | "Rename", "Duplicate", "Archive", "Leave list", "Delete list"; archived: "Open", "Restore", "Duplicate", "Delete forever"; disabled reason "Needs a connection" |
 | Row sheet | "{list name}"; "76 / 100 decided, Round 1"; "Resume sorting", "Share list", "Rename", "Duplicate", "Archive", "Delete list" |
 | iOS action sheet | title "{list name}"; "Rename", "Duplicate", "Archive", "Delete list", "Cancel" |
-| Rename | "Rename list"; label "List name"; counter "21 / 80"; "Cancel", "Save"; errors "Enter a name for the list." / "Use 80 characters or fewer."; success "List renamed"; iOS subtitle "1 to 80 characters" |
-| Duplicate | "Duplicate “March photos clean-up”"; label "Name of the copy"; default "March photos clean-up (copy)"; group "What to copy"; "Items only" / "A fresh start: no decisions, notes or rounds. Edits to fields are kept."; "Items with decisions and notes" / "Keeps your decisions from the latest round, your notes and your edits."; "Cancel", "Duplicate"; progress "Duplicating…"; success "Duplicated as “March photos clean-up (copy)”" + "Open" |
+| Rename | "Rename list"; label "List name"; counter "10 / 80"; "Cancel", "Save"; errors "Enter a name for the list." / "Use 80 characters or fewer."; success "List renamed"; iOS subtitle "1 to 80 characters" |
+| Duplicate | "Duplicate “Trip ideas”"; label "Name of the copy"; default "Trip ideas (copy)" (counter "17 / 80"); group "What to copy"; "Items only" / "A fresh start: no decisions, notes or rounds. Edits to fields are kept."; "Items with decisions and notes" / "Keeps your decisions from the latest round, your notes and your edits."; "Cancel", "Duplicate"; progress "Duplicating…"; success "Duplicated as “Trip ideas (copy)”" + "Open" |
 | Duplicate shared | "Duplicate “Wedding guests”"; "The copy is a new solo list that only you can see. Mert and Selin aren't added."; "Items only" / "A fresh start: no decisions, notes or rounds."; "Items with my decisions and notes" / "Your 76 decisions from Round 1 and your notes. Other members' decisions and notes aren't copied." |
 | Archive | menu "Archive"; success "List archived" + "Undo"; undone "List restored" |
 | Archive shared | "Archive “Wedding guests” for everyone?" / "Mert and Selin can still open it, but nobody can sort, add items or change decisions until you restore it. Nothing is deleted." / "Cancel", "Archive list" |
-| Delete solo (signed in) | "Delete “March photos clean-up”?" / "30 items, Round 1 and your decisions will be deleted from your account and this phone. The photos in your gallery aren't changed." / "Cancel", "Delete list" |
-| Delete solo, other sources | contacts: "Your contacts aren't changed."; files: "The file you imported from isn't changed."; Google Sheets: "Your Google Sheet isn't changed."; not signed in: "…will be deleted from this phone." |
-| Delete web | "…deleted from your account and every device. The photos you uploaded stay on your computer." |
+| Delete solo (signed in) | "Delete “Trip ideas”?" / "30 items, Round 1 and your decisions will be deleted from your account and this phone. trip-ideas.csv isn't changed." / "Cancel", "Delete list" |
+| Delete solo, other sources | contacts: "Your contacts aren't changed."; files: "{file name} isn't changed." (S40 §6.1); Google Sheets: "Your Google Sheet isn't changed."; not signed in, or a list on this phone only: "…will be deleted from this phone." |
+| Delete web | "…deleted from your account and every device. trip-ideas.csv isn't changed." |
 | Delete shared | "Delete “Wedding guests” for everyone?" / "Mert and Selin lose access. All 100 items, every member's decisions and notes, and Round 1 are deleted for all 3 members. Your contacts and mert-family.csv aren't changed." / "To stop taking part without deleting it for others, make someone else the Owner and leave." / "Cancel", "Delete for everyone" |
 | Deleted | "List deleted" + "Undo" |
 | Leave (Collaborator) | "Leave “Wedding guests”?" / "You won't see this list anymore. Your 43 decisions stay and still count toward the list status. Items you haven't decided stop waiting for you, and your private notes are deleted. To come back, ask Deniz for a new invite." / "Cancel", "Leave list" |
@@ -201,6 +241,10 @@ PLT-16, PLT-21, PLT-23, STK-06, STK-07.
 | Offline | banner "You're offline. Decisions are saved on this phone. Inviting needs a connection."; disabled items "Needs a connection" |
 | Activity events (others see) | "Deniz renamed the list to “…”"; "Deniz archived Wedding guests"; "Deniz restored Wedding guests"; "Deniz deleted Wedding guests"; "Selin left" |
 | Loading | screen reader "Loading archived lists" |
+| Turn backup off | "Keep “Trip ideas” on this phone only?" / "The copy in your account is deleted and the list leaves your other devices. If you lose this phone or move to a new one, the list can't be recovered." / "Cancel", "Keep on this phone only"; progress "Keeping on this phone…"; failure "Couldn't keep “Trip ideas” on this phone only. Check your connection and try again."; web: "Keep “Trip ideas” in this browser only?" / "The copy in your account is deleted and the list leaves your other devices. If this browser's data is cleared, the list can't be recovered." / "Keep in this browser only" |
+| Backup turned off | "“Trip ideas” is on this phone only" + "Undo" (web "…is in this browser only"); undone: "“Trip ideas” is backed up" |
+| Offline (backup) | footer "Turning backup off needs a connection." |
+| Share needs backup | "Back up this list to share it" / "Members sort a shared list on their own devices, so it needs to be in your account." / row "Frontend hiring, Q4", "12 items", "On this phone only" → "Backing up…" / "Back up and share", "Not now"; busy "Backing up…"; offline "You're offline. Backing up and sharing need a connection. The list stays on this phone until then."; success (on S31) "“Frontend hiring, Q4” is backed up" |
 
 ## 7. Accessibility
 
@@ -221,6 +265,9 @@ PLT-16, PLT-21, PLT-23, STK-06, STK-07.
 - Color is never the only signal: destructive items have their verb, and the delete-for-everyone dialog has
   a warning icon plus explicit text.
 - Reduced motion: menu and dialog appear with a 150 ms fade, row collapse is instant.
+- Turn backup off: `alertdialog`, initial focus on Cancel, so Enter never deletes the account copy. Back up and
+  share: `dialog` labelled by its title; the ListMoveRow status is a polite live region ("Backing up…"); when the
+  backup is done, focus moves to S31's first control.
 
 ## 8. iOS and web differences
 
@@ -231,14 +278,23 @@ PLT-16, PLT-21, PLT-23, STK-06, STK-07.
   to Archive and a context menu on long press.
 - **Web**: same as Android (menus as popovers, dialogs centered in the phone column on desktop,
   `S10-web-desktop`). Keyboard: Enter confirms only when focus is on the confirm button; Escape cancels.
-  Without an account, "this phone" becomes "this browser".
+  Without an account, "this phone" becomes "this browser"; the same for a signed-in list kept in this browser only
+  (the turn-off dialog, the snackbar and the S09 row say "in this browser only"). iOS keeps "phone" in the D-33
+  strings (A-137).
 
 ## 9. Edge cases
 
-- **Offline**: Rename, Duplicate, Archive, Restore and Delete of solo lists work and sync later. Anything that
-  changes a shared list for other members (Archive, Delete, Leave) needs a connection and is disabled with
-  "Needs a connection" (`S10-offline`). Renaming a shared list offline applies when back online; if
-  another rename happened meanwhile, the latest wins.
+- **Offline** (D-05, A-88 as updated): Rename (solo and shared), Duplicate, and Archive, Restore and Delete of
+  solo lists work and sync later. Renaming a shared list offline is queued: it applies when back online, and if
+  another rename happened meanwhile, the latest to arrive wins (D-09 row 1). What changes a shared list for other
+  members or deletes shared data needs a connection and is disabled with "Needs a connection" (`S10-offline`):
+  Archive and Delete for everyone, Leave, and Restore of a shared archived list (it reopens the list for
+  everyone). On a list on this phone only, Share and turning backup off need a connection
+  (`S10-backup-off-offline`); turning backup on is queued.
+- **List on this phone only** (signed in): Delete says "…will be deleted from this phone."; Duplicate makes a copy
+  that is also on this phone only (A-139); the row sheet's "Share list" opens `S10-share-backup`.
+- **Turn backup off while a member's invite is pending**: the list counts as shared until every invite link is
+  turned off, so the switch stays disabled ("Shared lists are always backed up.", A-134).
 - **Not signed in**: everything works locally; copy says "this phone" and nothing mentions an account.
 - **Duplicate name**: allowed (lists have IDs); the default copy name increments "(copy 2)".
 - **Very long names**: dialog titles wrap (no truncation); the copy's default name is cut to 80 characters
@@ -250,5 +306,6 @@ PLT-16, PLT-21, PLT-23, STK-06, STK-07.
   removes pending invites; the Owner sees "Selin left".
 - **Owner is the only member**: Leave list is hidden (nothing to transfer), only Delete list.
 - **Archived shared list**: members can open it read-only and leave it; only the Owner can restore it.
-- **Restore while offline (signed in)**: allowed; the list is editable at once and syncs later.
+- **Restore while offline (signed in)**: allowed for solo lists; the list is editable at once and syncs later. A
+  shared archived list needs a connection to restore (it changes what members can do, D-05 T2).
 - **Sample list**: Archive is hidden for the sample (Delete is enough); Rename and Duplicate are available.

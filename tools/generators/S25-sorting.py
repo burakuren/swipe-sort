@@ -68,12 +68,15 @@ def product_body():
         <div class="mt-auto flex gap-2 pt-3"><span class="inline-flex h-7 items-center rounded-full bg-secondary px-2.5 text-caption text-secondary-foreground">Monitor</span></div>
       </div>'''
 
-def photo_body():
-    return f'''<img src="{IMG}photos/ph13.svg" alt="Photo IMG_2053.JPG" class="min-h-0 w-full flex-1 object-cover">
-      <div class="px-6 pb-5 pt-4">
-        <h2 class="text-title-2">Mar 7, 2026, 10:24</h2>
-        <p class="mt-1 text-body text-muted-foreground">Alfama, Lisbon</p>
-        <p class="mt-1 text-body-sm text-muted-foreground">IMG_2053.JPG, 3.3 MB</p>
+def photo_body(img='ph13', place='Alfama, Lisbon', country='Portugal', best='Apr to Jun', budget='€900'):
+    """Photo template on "Trip ideas" (D-32, A-130, A-131): image link, Place (title), Country, then Best time and
+    Budget (EUR) as label/value rows. Same markup as the S22 preview and S40's Trip ideas card. Data: trips tr13/tr14."""
+    rows = ''.join(f'<div class="flex gap-3"><dt class="w-24 shrink-0 text-muted-foreground">{k}</dt><dd class="min-w-0 truncate tabular-nums">{v}</dd></div>' for k, v in (('Best time', best), ('Budget', budget)))
+    return f'''<img src="{IMG}photos/{img}.svg" alt="" class="min-h-0 w-full flex-1 object-cover">
+      <div class="shrink-0 px-6 pb-5 pt-4">
+        <h2 class="text-title-2">{place}</h2>
+        <p class="mt-0.5 text-body text-muted-foreground">{country}</p>
+        <dl class="mt-3 flex flex-col gap-1.5 text-body-sm">{rows}</dl>
       </div>'''
 
 def candidate_body():
@@ -314,13 +317,22 @@ shared_menu = menu.replace('<a href="S22-template-library.html#S22-change"', f''
 F('S25-shared-menu', "Shared list menu with the others' decisions switch", phone(sorting(hdr=shared_hdr, prog=progress(76, 100, members), overlay=shared_menu)))
 F('S25-shared-conflict', 'After deciding: new conflict revealed', phone(sorting(body=annak, label='Anna-Katharina Rosenthal-Brückner', hdr=shared_hdr, prog=progress(77, 100, members), counts=(18, 11, 48), nxt_body=person_body(PEOPLE['c081']), undo_label='Undo last decision (Reject on Mia Andersson)',
     overlay=snackbar('Mert chose Maybe on Mia Andersson. This is now a conflict.', 'View', icon_name='git-compare-arrows'))))
+ended_sheet = f'''<div class="absolute inset-0 z-10 bg-scrim/50"></div>
+  <div class="absolute inset-x-0 bottom-0 z-20 rounded-t-sheet bg-popover px-gutter pb-6 pt-2 shadow-sheet" role="dialog" aria-modal="true" aria-labelledby="re1" aria-describedby="re1-d">
+    <div class="flex justify-center py-1.5"><span class="h-1 w-8 rounded-full bg-muted-foreground/40"></span></div>
+    <h2 id="re1" class="pt-3 text-title-3">Deniz ended Round 1</h2>
+    <p id="re1-d" class="mt-2 text-body text-muted-foreground">Deniz started Round 2 while you were offline. Your 8 decisions from Round 1 were saved.</p>
+    <a href="S27-round-summary.html#S27-ended-early" class="mt-5 flex h-12 w-full items-center justify-center rounded-control bg-primary text-label-lg text-primary-foreground" data-action="see-summary">See summary</a>
+  </div>'''
+F('S25-round-ended', 'Round ended by the Owner while sorting offline: late Round 1 decisions saved (D-09 row 2)', phone(sorting(hdr=shared_hdr, prog=progress(43, 100, members), counts=(8, 10, 25), overlay=ended_sheet)))
 F('S25-web-desktop-shared', 'placeholder', '')  # replaced below (kept for ID order)
 frames.pop()
 
 # ----- Templates (any kind of list) -----
-frames.append(section('Any kind of list', 'The card follows the list\'s card template. No domain words in the interface: the same screen sorts products, photos and candidates.'))
+frames.append(section('Any kind of list', 'The card follows the list\'s card template. No domain words in the interface: the same screen sorts products, places and candidates.'))
 F('S25-product', 'Product template (Desk setup)', phone(sorting(body=product_body(), label='27-inch 4K USB-C monitor, Pixelhaus, 429 euros, rated 4.5', hdr=header('Desk setup', 'Round 1'), prog=progress(2, 20), counts=(0, 0, 2))))
-F('S25-photo', 'Photo template (March photos clean-up)', phone(sorting(body=photo_body(), label='Photo IMG_2053.JPG, taken Mar 7, 2026 in Alfama, Lisbon', hdr=header('March photos clean-up', 'Round 1'), prog=progress(12, 30), counts=(6, 1, 5))))
+F('S25-photo', 'Photo template (Trip ideas)', phone(sorting(body=photo_body(), label='Alfama, Lisbon, Portugal. Best time Apr to Jun. Budget €900.', hdr=header('Trip ideas', 'Round 1'), prog=progress(12, 30), counts=(6, 1, 5),
+    nxt_body=photo_body('ph12', 'Göreme, Cappadocia', 'Türkiye', 'Apr to May', '€700'), undo_label='Undo last decision (Reject on Pamukkale, Denizli)')))
 F('S25-candidate', 'Custom template "Candidate, compact"', phone(sorting(body=candidate_body(), label='Lena Hoffmann, Berlin. 6 years of experience. Expected salary 78,000 euros.', hdr=header('Frontend hiring, Q4', 'Round 1'), prog=progress(0, 12), counts=(0, 0, 0), undo=False)))
 
 # ----- Content edge cases -----

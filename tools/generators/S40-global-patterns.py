@@ -183,19 +183,22 @@ def radio(on):
 HOME_ROWS = [
     # name, meta icon, meta, extra chip, progress (pct, label), resume, href
     ('Wedding guests', 'users', 'Shared with 2', 'conflicts', (76, '76 / 100'), True, 'S09-list-overview.html#S09-shared'),
-    ('Frontend hiring, Q4', 'circle-dashed', 'Not sorted yet, 12 items', None, None, False, 'S09-list-overview.html#S09-new-list'),
-    ('March photos clean-up', 'circle-dot', 'Round 1 in progress', None, (40, '12 / 30'), True, 'S09-list-overview.html#S09-default'),
+    ('Frontend hiring, Q4', 'circle-dashed', 'Not sorted yet, 12 items', 'device', None, False, 'S09-list-overview.html#S09-new-list'),
+    ('Trip ideas', 'circle-dot', 'Round 1 in progress', None, (40, '12 / 30'), True, 'S09-list-overview.html#S09-default'),
     ('Desk setup', 'circle-check', 'Round 2 complete', 'counts', None, False, 'S09-list-overview.html#S09-solo-round-done'),
 ]
 
 
-def home_rows(live=False, exclude=(), focus=False):
-    """The S08 Lists content (same rows as S08-default), as inert spans or real links."""
+def home_rows(live=False, exclude=(), focus=False, rows=None, archived=True):
+    """The S08 Lists content (same rows as S08-default), as inert spans or real links. A list kept on this phone
+    only carries the muted per-list label (A-137); other devices never show it (exclude it there)."""
     lis = []
-    for name, ic, meta, extra, prog, resume, href in HOME_ROWS:
+    for name, ic, meta, extra, prog, resume, href in (rows or HOME_ROWS):
         if name in exclude:
             continue
         x = chip('15 conflicts', 'git-compare-arrows', 'bg-conflict text-conflict-foreground') if extra == 'conflicts' else ''
+        if extra == 'device':
+            x = f'<span class="inline-flex items-center gap-1.5">{icon("cloud-off", "size-4")}On this phone only</span>'
         under = ''
         if prog:
             under = f'<span class="mt-2 flex items-center gap-3">{bar(prog[0])}<span class="shrink-0 text-caption tabular-nums text-muted-foreground">{prog[1]}</span></span>'
@@ -216,6 +219,8 @@ def home_rows(live=False, exclude=(), focus=False):
         lis.append(f'<li class="flex items-center">{main}{res}</li>')
     al = ' aria-label="Lists"' if live else ''
     lists = f'<ul class="divide-y overflow-hidden rounded-group bg-card dark:border"{al}>{"".join(lis)}</ul>'
+    if not archived:
+        return f'<div class="space-y-4">{lists}</div>'
     arch_inner = f'{icon("archive", "size-5", "shrink-0 text-muted-foreground")}<span class="shrink-0 text-body">Archived lists</span><span class="min-w-0 flex-1 text-right text-body text-muted-foreground">2</span>{icon("chevron-right", "size-5", "shrink-0 text-muted-foreground")}'
     if live:
         arch = f'<ul class="overflow-hidden rounded-group bg-card dark:border"><li><a href="S10-list-management.html#S10-archived" class="flex min-h-14 items-center gap-4 px-4 py-3" aria-label="Archived lists, 2">{arch_inner}</a></li></ul>'
@@ -224,28 +229,29 @@ def home_rows(live=False, exclude=(), focus=False):
     return f'<div class="space-y-4">{lists}{arch}</div>'
 
 
-def bg_s08(offline=False, ios=False, nav_on=True, fab='bottom-24', exclude=()):
+def bg_s08(offline=False, ios=False, nav_on=True, fab='bottom-24', exclude=(), rows=None, archived=True, top=''):
     off = offline_banner("You're offline. Changes are saved on this phone.") if offline else ''
     fab_html = '' if (ios or not fab) else f'<span class="absolute {fab} right-4 inline-flex h-14 items-center gap-3 rounded-tile bg-primary pl-5 pr-6 text-label-lg text-primary-foreground shadow-overlay">{icon("plus", "size-6")}New list</span>'
     head = large_title('Lists', ('search',) if not ios else ('search', 'plus'))
-    return bg(head, off, f'<div class="relative min-h-0 flex-1 overflow-hidden px-4 pt-2">{home_rows(exclude=exclude)}</div>', fab_html, nav('lists', ios=ios) if nav_on else '', cls='relative flex min-h-0 flex-1 flex-col')
+    return bg(head, off, top, f'<div class="relative min-h-0 flex-1 overflow-hidden px-4 pt-2">{home_rows(exclude=exclude, rows=rows, archived=archived)}</div>', fab_html, nav('lists', ios=ios) if nav_on else '', cls='relative flex min-h-0 flex-1 flex-col')
 
 
 def s09_header(name, meta_html, sync_html=''):
     return f'<div class="px-1"><p class="text-title-1">{name}</p><div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-body-sm text-muted-foreground">{meta_html}</div>{sync_html}</div>'
 
 
-def members_meta(role='Owner'):
+def members_meta(role='Owner', who=None):
     stack = (f'<span class="flex shrink-0 -space-x-2">{avatar("deniz", "size-7 ring-2 ring-background")}{avatar("mert", "size-7 ring-2 ring-background")}'
              f'<span class="flex size-7 items-center justify-center rounded-full bg-muted text-caption text-muted-foreground ring-2 ring-background">SY</span></span>')
-    who = 'You, Mert and Selin' if role == 'Owner' else 'Deniz, Mert and you'
-    ric = 'crown' if role == 'Owner' else 'user'
+    mert = role == 'Decision Maker' or who == 'mert'
+    who = 'You, Mert and Selin' if role == 'Owner' else ('Deniz, Selin and you' if mert else 'Deniz, Mert and you')
+    ric = {'Owner': 'crown', 'Decision Maker': 'gavel'}.get(role, 'user')
     return (f'<span class="inline-flex items-center gap-2">{stack}<span class="text-foreground underline underline-offset-4">{who}</span></span>'
             f'<span class="inline-flex items-center gap-1.5">{icon("list", "size-4")}100 items</span>{chip(role, ric)}')
 
 
-def bg_s09_shared(role='Owner', banner='', sync_html='', alert_html='', ios=False, as_html=False):
-    mine = (76, 17, 11, 48) if role == 'Owner' else (43, 9, 6, 28)
+def bg_s09_shared(role='Owner', banner='', sync_html='', alert_html='', ios=False, as_html=False, who=None):
+    mine = (76, 17, 11, 48) if role == 'Owner' else ((85, 21, 14, 50) if (role == 'Decision Maker' or who == 'mert') else (43, 9, 6, 28))
     status = ''.join(
         f'<li class="flex items-center gap-3 py-2.5"><span class="inline-flex h-7 w-28 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-caption {cls}">{icon(ic, "size-4")}{lab}</span><span class="min-w-0 flex-1 text-body-sm text-muted-foreground">{desc}</span><span class="text-label tabular-nums">{n}</span></li>'
         for lab, ic, cls, desc, n in [
@@ -254,7 +260,7 @@ def bg_s09_shared(role='Owner', banner='', sync_html='', alert_html='', ios=Fals
             ('Pending', 'clock', 'bg-muted text-muted-foreground', 'Not everyone has decided', 53)])
     trailing = ('user-plus', 'ellipsis-vertical') if role == 'Owner' else ('ellipsis-vertical',)
     body = f'''<div class="min-h-0 flex-1 overflow-hidden px-4 pt-1"><div class="space-y-6">
-      {s09_header('Wedding guests', members_meta(role), sync_html)}
+      {s09_header('Wedding guests', members_meta(role, who), sync_html)}
       {alert_html}
       <div class="rounded-group bg-card p-4 dark:border"><div class="flex items-center justify-between gap-3"><span class="text-label">My progress</span><span class="text-caption text-muted-foreground">Round 1, shared</span></div><p class="mt-3 text-title-3 tabular-nums">{mine[0]} / 100 decided</p><span class="mt-2 flex">{bar(mine[0])}</span><span class="mt-3 block">{counts(*mine[1:])}</span>{fake_btn("Continue sorting", "primary", "play", "mt-4")}</div>
       <div class="rounded-group bg-card p-4 dark:border"><div class="flex items-center justify-between gap-3"><span class="text-label">List status</span><span class="text-caption text-muted-foreground">All members</span></div><ul class="mt-1 divide-y">{status}</ul></div>
@@ -265,16 +271,16 @@ def bg_s09_shared(role='Owner', banner='', sync_html='', alert_html='', ios=Fals
     return bg(head, banner, body)
 
 
-def bg_s09_solo(name='March photos clean-up', items=30, decided=12, cnt=(6, 1, 5), src='Photos', src_icon='image', ios=False,
-               round_label='Round 1', button=('Continue sorting', 'play'), rows=None, template='Photo', round_items=None):
+def bg_s09_solo(name='Trip ideas', items=30, decided=12, cnt=(6, 1, 5), src='trip-ideas.csv', src_icon='file-spreadsheet', ios=False,
+               round_label='Round 1', button=('Continue sorting', 'play'), rows=None, template='Photo', round_items=None, extra='', shift=''):
     round_items = round_items or items
     pct = round(decided * 100 / round_items)
     rows = rows or [row('list-checks', 'Results', f'{decided} decided'), row('history', 'Rounds', 'Round 1 in progress'),
                     row('layout-template', 'Card template', template), row('file-down', 'Export', 'CSV, Excel, Google Sheets or a text summary')]
-    body = f'''<div class="min-h-0 flex-1 overflow-hidden px-4 pt-1"><div class="space-y-6">
+    body = f'''<div class="min-h-0 flex-1 overflow-hidden px-4 pt-1"><div class="space-y-6 {shift}">
       {s09_header(name, f'<span class="inline-flex items-center gap-1.5">{icon("lock", "size-4")}Only you</span><span class="inline-flex items-center gap-1.5">{icon(src_icon, "size-4")}{items} items from {src}</span>')}
       <div class="rounded-group bg-card p-4 dark:border"><div class="flex items-center justify-between gap-3"><span class="text-label">Progress</span><span class="text-caption text-muted-foreground">{round_label}</span></div><p class="mt-3 text-title-3 tabular-nums">{decided} / {round_items} decided</p><span class="mt-2 flex">{bar(pct)}</span><span class="mt-3 block">{counts(*cnt)}</span>{fake_btn(button[0], "primary", button[1], "mt-4")}</div>
-      {group(rows)}
+      {group(rows)}{extra}
     </div></div>'''
     head = ios_nav('Lists', '', trailing_icons=('ellipsis',)) if ios else top_bar('arrow-left', None, None, ('ellipsis-vertical',))
     return bg(head, body)
@@ -283,7 +289,7 @@ def bg_s09_solo(name='March photos clean-up', items=30, decided=12, cnt=(6, 1, 5
 def bg_s09_solo_large():
     c = lambda cls, i, n, w: f'<span class="inline-flex h-12 items-center gap-2 rounded-full px-4 text-title-3 font-medium {cls}">{icon(i, "size-6")}<span class="tabular-nums">{n}</span> {w}</span>'
     body = f'''<div class="min-h-0 flex-1 overflow-hidden px-4 pt-1"><div class="space-y-6">
-      <div class="px-1"><p class="text-display">March photos clean-up</p><p class="mt-2 flex items-center gap-2 text-title-2 font-normal text-muted-foreground">{icon("lock", "size-7")}Only you</p></div>
+      <div class="px-1"><p class="text-display">Trip ideas</p><p class="mt-2 flex items-center gap-2 text-title-2 font-normal text-muted-foreground">{icon("lock", "size-7")}Only you</p></div>
       <div class="rounded-group bg-card p-4 dark:border"><p class="text-title-2 font-medium">Progress</p><p class="mt-3 text-display tabular-nums">12 / 30 decided</p><span class="mt-3 flex">{bar(40)}</span>
         <span class="mt-4 flex flex-wrap gap-2">{c("bg-reject-soft text-reject-soft-foreground", "x", 6, "rejected")}{c("bg-maybe-soft text-maybe-soft-foreground", "circle-help", 1, "maybe")}{c("bg-accept-soft text-accept-soft-foreground", "check", 5, "accepted")}</span></div>
     </div></div>'''
@@ -325,9 +331,12 @@ def card_inner(c):
             f'<span class="mt-4 flex flex-col gap-2 text-body">{dl}</span><span class="mt-auto pt-3">{chip(tag)}</span></span>')
 
 
-def photo_inner(img, date, place):
+def photo_inner(img, place, country, best='Apr to Jun', budget='€900'):
+    """Trip ideas on the Photo template (A-130, A-131): the image link, Place as title, Country, then Best time
+    and Budget (EUR)."""
+    rows_ = ''.join(f'<span class="flex gap-3"><span class="w-24 shrink-0 text-muted-foreground">{k}</span><span class="min-w-0 truncate tabular-nums">{v}</span></span>' for k, v in (('Best time', best), ('Budget', budget)))
     return (f'<img src="{IMG}photos/{img}.svg" alt="" class="min-h-0 w-full flex-1 object-cover">'
-            f'<span class="block shrink-0 px-6 pb-5 pt-4"><span class="block text-title-2">{date}</span><span class="mt-1 block text-body text-muted-foreground">{place}</span></span>')
+            f'<span class="block shrink-0 px-6 pb-5 pt-4"><span class="block text-title-2">{place}</span><span class="mt-0.5 block text-body text-muted-foreground">{country}</span><span class="mt-3 flex flex-col gap-1.5 text-body-sm">{rows_}</span></span>')
 
 
 def dbutton(kind, ic, label, n):
@@ -353,8 +362,8 @@ def s25_body(shared=False, decided=76, cnt=(17, 11, 48), status_html='', kbd=Fal
     return f'''{head}{banner}
   <div class="shrink-0 px-gutter pb-1"><div class="flex items-center justify-between gap-3"><span class="text-label tabular-nums">{decided} / {total} decided</span>{status_html}</div><span class="mt-2 flex">{bar(round(decided * 100 / total))}</span></div>
   <div class="relative mt-2 min-h-0 flex-1">
-    <div class="absolute inset-x-gutter bottom-5 top-0 flex origin-top translate-y-10 scale-95 flex-col overflow-hidden rounded-hero border bg-card shadow-raised">{photo_inner('ph14', 'Mar 7, 2026, 10:31', 'Alfama, Lisbon') if photo else card_inner(CARD_NEXT)}</div>
-    <div class="absolute inset-x-gutter bottom-5 top-0 flex flex-col overflow-hidden rounded-hero bg-card shadow-hero">{photo_inner('ph13', 'Mar 7, 2026, 10:24', 'Alfama, Lisbon') if photo else card_inner(CARD_TOP)}</div>
+    <div class="absolute inset-x-gutter bottom-5 top-0 flex origin-top translate-y-10 scale-95 flex-col overflow-hidden rounded-hero border bg-card shadow-raised">{photo_inner('ph12', 'Göreme, Cappadocia', 'Türkiye', 'Apr to May', '€700') if photo else card_inner(CARD_NEXT)}</div>
+    <div class="absolute inset-x-gutter bottom-5 top-0 flex flex-col overflow-hidden rounded-hero bg-card shadow-hero">{photo_inner('ph13', 'Alfama, Lisbon', 'Portugal', 'Apr to Jun', '€900') if photo else card_inner(CARD_TOP)}</div>
   </div>
   <div class="flex shrink-0 items-start justify-between px-5 pb-4 pt-2">{small_round("undo-2", "Undo")}{dbutton("reject", "x", "Reject", cnt[0])}{dbutton("maybe", "circle-help", "Maybe", cnt[1])}{dbutton("accept", "check", "Accept", cnt[2])}{small_round("sticky-note", "Note")}</div>{hints}'''
 
@@ -369,7 +378,7 @@ def bg_s24(shared=False):
         opts = [('All items', 'Every item in the list, decided or not', '100', False), ('Maybe pile', 'Final decision is Maybe', '6', True),
                 ('Accepted items', 'Final decision is Accept', '22', False), ('Custom selection', 'Filter by a field or pick items by hand', '', False)]
     else:
-        name, notice, summary = 'March photos clean-up', '12 of 30 decided. Starting Round 2 ends Round 1.', 'Round 2 will have 5 items'
+        name, notice, summary = 'Trip ideas', '12 of 30 decided. Starting Round 2 ends Round 1.', 'Round 2 will have 5 items'
         opts = [('All items', 'Every item in the list, decided or not', '30', False), ('Maybe pile', 'Items marked Maybe in Round 1', '1', False),
                 ('Accepted items', 'Narrow down what you accepted', '5', True), ('Custom selection', 'Filter by a field or pick items by hand', '', False)]
     lis = ''.join(f'<li class="flex min-h-16 items-center gap-4 px-4 py-3">{radio(on)}<span class="min-w-0 flex-1"><span class="block text-body">{t}</span><span class="block text-body-sm text-muted-foreground">{d}</span></span>{chip(n) if n else ""}</li>' for t, d, n, on in opts)
@@ -528,7 +537,7 @@ def bg_s07_confirm():
     li = lambda ic, t: f'<li class="flex gap-3">{icon(ic, "size-5", "mt-0.5 shrink-0 text-muted-foreground")}<span>{t}</span></li>'
     body = f'''<div class="min-h-0 flex-1 overflow-hidden px-gutter pt-2"><div class="space-y-5">
       <p class="text-title-2">Confirm deletion</p><p class="text-body text-muted-foreground">This is the last step. After this, your account can't be restored.</p>
-      <ul class="space-y-3 rounded-group bg-card p-4 text-body dark:border">{li("arrow-right-left", "“Wedding guests” moves to Mert Aydın")}{li("trash-2", "“Desk setup”, “March photos clean-up”, “Frontend hiring, Q4” and 2 archived lists are deleted")}{li("trash-2", "Your profile, decisions and notes are deleted")}</ul>
+      <ul class="space-y-3 rounded-group bg-card p-4 text-body dark:border">{li("arrow-right-left", "“Wedding guests” moves to Mert Aydın")}{li("trash-2", "“Desk setup”, “Trip ideas” and 2 archived lists are deleted")}{li("smartphone", "“Frontend hiring, Q4” is on this phone only. It stays on this phone, without an account.")}{li("trash-2", "Your profile, decisions and notes are deleted")}</ul>
       <div><span class="text-label">To confirm, type delete</span><span class="mt-1.5 flex h-12 items-center rounded-control border border-input bg-card px-3.5 text-body">delete</span><p class="mt-1.5 text-body-sm text-muted-foreground">Lowercase is fine.</p></div>
     </div></div>
     <div class="flex shrink-0 flex-col gap-2 px-gutter pb-4 pt-3">{fake_btn("Delete account", "destructive", extra="h-14")}{fake_btn("Keep my account", "ghost")}</div>'''
@@ -676,8 +685,8 @@ P.section('Dialogs: destructive and consequential confirmations',
 
 P.add('S40-default', 'Delete list (solo): the reference dialog', frame_android(
     bg_s09_solo(),
-    dialog('Delete “March photos clean-up”?',
-           '30 items, Round 1 and your decisions will be deleted from your account and this phone. The photos in your gallery aren\'t changed.',
+    dialog('Delete “Trip ideas”?',
+           '30 items, Round 1 and your decisions will be deleted from your account and this phone. trip-ideas.csv isn\'t changed.',
            'Cancel', 'Delete list', cancel_href='S09-list-overview.html#S09-default', confirm_href='S10-list-management.html#S10-deleted-snackbar', act='confirm-delete')),
     'Delete list (solo)')
 
@@ -739,7 +748,7 @@ P.add('S40-transfer-ownership', 'Transfer ownership', frame_android(
     'Transfer ownership')
 
 P.add('S40-end-round', 'End round (solo), from the sorting menu', frame_android(
-    bg_s25(name='March photos clean-up', total=30, decided=12, cnt=(6, 1, 5), photo=True),
+    bg_s25(name='Trip ideas', total=30, decided=12, cnt=(6, 1, 5), photo=True),
     dialog('End Round 1?',
            "18 items aren't decided yet. Your 12 decisions are kept, and you can continue Round 1 from the summary until you start a new round.",
            'Cancel', 'End Round 1', variant='primary', cancel_href='S25-sorting.html#S25-photo', confirm_href='S27-round-summary.html#S27-ended-early', act='confirm-end-round')),
@@ -876,7 +885,8 @@ P.add('S40-disconnect-google', 'Disconnect Google', frame_android(
 P.add('S40-sign-out', 'Sign out (everything backed up)', frame_android(
     bg_s06(),
     dialog('Sign out?',
-           "Your lists are backed up to deniz.yilmaz@example.com. They'll be removed from this phone until you sign in again.",
+           ["Lists backed up to deniz.yilmaz@example.com are removed from this phone until you sign in again.",
+            "“Frontend hiring, Q4” stays on this phone, hidden until you sign in again."],
            'Cancel', 'Sign out', cancel_href='S06-settings.html#S06-default', confirm_href='S08-home.html#S08-first-run', act='confirm-sign-out')),
     'Sign out')
 
@@ -890,14 +900,15 @@ P.add('S40-sign-out-unsynced', 'Sign out with changes not backed up', frame_andr
 P.add('S40-delete-account', 'Delete account: the final confirmation', frame_android(
     bg_s07_confirm(),
     dialog('Delete your account?',
-           "This can't be undone. “Wedding guests” moves to Mert Aydın. Your other 5 lists (2 of them archived), your decisions and your notes are deleted.",
+           ["This can't be undone. “Wedding guests” moves to Mert Aydın. Your other 4 lists (2 of them archived), your decisions and your notes are deleted.",
+            "“Frontend hiring, Q4” is on this phone only. It stays on this phone, without an account."],
            'Cancel', 'Delete account', cancel_href='S07-profile.html#S07-delete-confirm', confirm_href='S07-profile.html#S07-deleting', act='confirm-delete-account')),
     'Delete account')
 
 P.add('S40-dialog-large-text', 'Large text (200%): everything scales, actions stack', frame_android(
     bg_s09_solo_large(),
-    dialog('Delete “March photos clean-up”?',
-           '30 items, Round 1 and your decisions will be deleted from your account and this phone. The photos in your gallery aren\'t changed.',
+    dialog('Delete “Trip ideas”?',
+           '30 items, Round 1 and your decisions will be deleted from your account and this phone. trip-ideas.csv isn\'t changed.',
            'Cancel', 'Delete list', stacked=True, large=True, cancel_href='S09-list-overview.html#S09-default', confirm_href='S10-list-management.html#S10-deleted-snackbar', act='confirm-delete')),
     'Large text')
 
@@ -907,7 +918,7 @@ P.section('iOS dialogs',
 
 P.add('S40-ios-delete-list', 'iOS: delete list (action sheet)', frame_ios(
     bg_s09_solo(ios=True),
-    ios_sheet('Delete “March photos clean-up”?', '30 items, Round 1 and your decisions will be deleted from your account and this iPhone. The photos in your library aren\'t changed.',
+    ios_sheet('Delete “Trip ideas”?', '30 items, Round 1 and your decisions will be deleted from your account and this iPhone. trip-ideas.csv isn\'t changed.',
               [('Delete list', True, 'S10-list-management.html#S10-deleted-snackbar', 'confirm-delete')], cancel_href='S09-list-overview.html#S09-ios')),
     'Delete list')
 
@@ -920,7 +931,7 @@ P.add('S40-ios-remove-member', 'iOS: remove member (action sheet)', frame_ios(
 
 P.add('S40-ios-sign-out', 'iOS: sign out (action sheet)', frame_ios(
     bg_s06(ios=True),
-    ios_sheet(None, "Your lists are backed up to deniz.yilmaz@example.com. They'll be removed from this iPhone until you sign in again.",
+    ios_sheet(None, "Lists backed up to deniz.yilmaz@example.com are removed from this iPhone until you sign in again. “Frontend hiring, Q4” stays on this iPhone, hidden until you sign in again.",
               [('Sign out', True, 'S08-home.html#S08-ios-first-run', 'confirm-sign-out')])),
     'Sign out')
 
@@ -950,7 +961,7 @@ P.add('S40-snackbar', 'Snackbar, plain, above the bottom navigation', frame_andr
     bg_s06(), snackbar('Feedback sent. Thanks for helping improve SwipeSort.')), 'Plain')
 
 P.add('S40-snackbar-undo', 'Snackbar with Undo (commits when it closes)', frame_android(
-    bg_s08(fab='bottom-40', exclude=('March photos clean-up',)), snackbar('List deleted', 'Undo', 'S08-home.html#S08-default')), 'With Undo')
+    bg_s08(fab='bottom-40', exclude=('Trip ideas',)), snackbar('List deleted', 'Undo', 'S08-home.html#S08-default')), 'With Undo')
 
 P.add('S40-snackbar-error', 'Snackbar, error with Try again', frame_android(
     bg_s08(fab='bottom-48'), snackbar("Couldn't archive “Wedding guests”. Check your connection and try again.", 'Try again', None, kind='alert', ic='circle-alert')), 'Error')
@@ -993,6 +1004,84 @@ P.add('S40-offline-sorting', 'Offline while sorting: banner + compact count', fr
     bg_s25(shared=True, banner=offline_banner("You're offline. Decisions are saved on this phone."),
            status_html=f'<span class="inline-flex items-center gap-1.5 text-caption text-muted-foreground">{icon("cloud-off", "size-4")}4 not synced</span>')),
     'Offline, sorting')
+
+# ================================================================ SECTION: backup per list (D-33)
+P.section('Backup per list',
+          'A signed-in Owner can keep a solo list on this phone only (A-132). Turning backup off deletes the copy in the account, so it is confirmed with a destructive dialog and needs a connection (A-134); on iOS it is an alert, because the person must read the consequence first. Turning it back on is never confirmed. Other devices of the same account remove the list at their next sync and say so once.')
+
+
+def switch_html(on=True, disabled=False):
+    op = ' opacity-50' if disabled else ''
+    if on:
+        return f'<span class="flex h-8 w-13 shrink-0 items-center rounded-full bg-primary p-1{op}"><span class="ml-auto size-6 rounded-full bg-primary-foreground"></span></span>'
+    return f'<span class="flex h-8 w-13 shrink-0 items-center rounded-full border-2 border-input bg-muted p-1{op}"><span class="size-5 rounded-full bg-muted-foreground"></span></span>'
+
+
+def backup_group_bg(on=True):
+    desc = 'Backed up to deniz.yilmaz@example.com' if on else 'On this phone only'
+    ic = 'cloud-check' if on else 'cloud-off'
+    return group([f'<li class="flex min-h-16 items-center gap-4 px-4 py-3">{icon(ic, "size-5", "shrink-0 text-muted-foreground")}<span class="min-w-0 flex-1"><span class="block text-body">Back up this list</span><span class="block text-body-sm text-muted-foreground">{desc}</span></span>{switch_html(on)}</li>'], 'Backup')
+
+
+BACKUP_OFF_BODY = "The copy in your account is deleted and the list leaves your other devices. If you lose this phone or move to a new one, the list can't be recovered."
+P.add('S40-backup-off', 'Turn backup off for one list (A-134)', frame_android(
+    bg_s09_solo(extra=backup_group_bg(True), shift='-translate-y-40'),
+    dialog('Keep “Trip ideas” on this phone only?', BACKUP_OFF_BODY,
+           'Cancel', 'Keep on this phone only', cancel_href='S09-list-overview.html#S09-default', confirm_href='S10-list-management.html#S10-backup-off-done', act='confirm-backup-off')),
+    'Turn backup off')
+
+P.add('S40-ios-backup-off', 'iOS: turn backup off (alert, stacked)', frame_ios(
+    bg_s09_solo(ios=True, extra=backup_group_bg(True), shift='-translate-y-40'),
+    ios_alert('Keep “Trip ideas” on this phone only?', BACKUP_OFF_BODY.replace('this phone or', 'this iPhone or'),
+              [('Keep on this phone only', 'destructive', 'S10-list-management.html#S10-backup-off-done', 'confirm-backup-off'), ('Cancel', 'cancel', None, 'cancel')], vertical=True)),
+    'iOS: turn backup off')
+
+P.add('S40-outcome-device-only-elsewhere', 'Another device kept a list on that device only', frame_android(
+    bg_s08(fab='bottom-48', exclude=('Trip ideas', 'Frontend hiring, Q4')),
+    snackbar("You kept “Trip ideas” on another device only. It's no longer on this one.", None, None, ic='cloud-off')),
+    'Kept on another device')
+
+# ================================================================ SECTION: sync outcomes (D-09)
+P.section('Sync outcomes',
+          'When the server applies a queued change differently than this phone expected (D-09), the person hears about it once. Nothing was lost, or it can be put back: a snackbar that says what happened and leads to where it can be changed. The person\'s own work was not applied: an inline alert on the screen where it would have been (Home when the list itself is gone), which stays until dismissed. Never a dialog: there is nothing to confirm.')
+
+
+def outcome_alert(ic, title, body, extra=''):
+    return (f'<div class="flex items-start gap-3 rounded-control border bg-card py-3 pl-4 pr-1 {extra}" role="status">{icon(ic, "size-5", "mt-0.5 shrink-0 text-muted-foreground")}'
+            f'<div class="min-w-0 flex-1 pb-1"><p class="text-label">{title}</p><p class="mt-0.5 text-body-sm text-muted-foreground">{body}</p></div>'
+            f'<button type="button" class="-my-2 flex size-12 shrink-0 items-center justify-center rounded-full" aria-label="Dismiss" data-action="dismiss">{icon("x", "size-5")}</button></div>')
+
+
+P.add('S40-outcome-edit-replaced', 'A later edit by another member replaced mine (D-09 row 1)', frame_android(
+    bg_s09_shared(),
+    snackbar("Mert changed City on Alper Turan after you, so your edit was replaced.", 'View', 'S26-item-detail.html#S26-edit-replaced', ic='pencil-line', pos='bottom-4')),
+    'Edit replaced')
+
+SELIN_HOME = [('Wedding guests', 'users', 'Shared with 2', None, (0, '0 / 6'), True, 'S09-list-overview.html#S09-shared-collaborator')]
+P.add('S40-outcome-late-round', 'Round 1 decisions synced after Round 2 started (D-09 row 2)', frame_android(
+    bg_s08(fab='bottom-48', rows=SELIN_HOME, archived=False),
+    snackbar('Deniz started Round 2 of “Wedding guests”. Your 8 decisions from Round 1 were saved.', 'Open', 'S09-list-overview.html#S09-shared-collaborator', ic='list-restart')),
+    'Late Round 1 decisions')
+
+removed_home = f'''<div class="shrink-0"><div class="flex h-app-bar items-center justify-end gap-1 px-1">{ib("search")}</div><h1 class="px-gutter pb-2 text-title-1">Lists</h1></div>
+  <div class="shrink-0 px-4 pt-2">{outcome_alert("user-x", "You were removed from “Wedding guests”", "Deniz removed you while you were offline, so the 6 decisions you made since 9:24 weren't saved. To join again, ask Deniz for a new invite.")}</div>
+  <div class="flex min-h-0 flex-1 flex-col items-center justify-center px-8 pb-10 text-center" aria-hidden="true" inert>
+    {icon("layers", "size-8", "text-muted-foreground")}<p class="mt-4 text-title-2">No lists yet</p>
+    <p class="mt-2 max-w-xs text-body text-muted-foreground">Import a list to start sorting, or join one when someone shares it with you.</p>
+    <span class="mt-6 w-full max-w-xs">{fake_btn("Import a list", "primary", "download")}</span>
+  </div>
+  <div aria-hidden="true" inert>{nav('lists', badge=0)}</div>'''
+P.add('S40-outcome-removed', 'Removed from a list while offline: lands on Home (D-09 row 4)', frame_android(removed_home), 'Removed while offline')
+
+P.add('S40-outcome-already-agreed', 'Resolutions dropped: members agreed first (D-09 row 5)', frame_android(
+    bg_s09_shared(role='Decision Maker'),
+    snackbar('Members agreed on 2 conflicts before your resolutions synced. Their agreement is final.', 'View', 'S36-conflicts.html#S36-list', ic='check-check', pos='bottom-4')),
+    'Already agreed')
+
+role_alert = outcome_alert('gavel', "You're no longer the Decision Maker", "Deniz made Selin the Decision Maker while you were offline, so your 5 resolutions weren't applied. Those conflicts are still open.")
+P.add('S40-outcome-dm-role-lost', 'Resolutions rejected: the Decision Maker role moved (D-09 row 6)', frame_android(
+    bg_s09_shared(role='Collaborator', who='mert', alert_html=role_alert, as_html=True)),
+    'Role moved')
 
 # ================================================================ SECTION: errors and not found
 P.section('Error and not-found screens',
@@ -1072,7 +1161,7 @@ SEARCH_BTN = f'<a href="S08-home.html#S08-search" class="flex size-12 shrink-0 i
 def home_live(focus=True):
     """Web desktop Home (A-124: no FAB, New list in the app bar), same rows as S08."""
     return f'''<header class="shrink-0"><div class="flex h-app-bar items-center justify-end gap-1 px-1">{SEARCH_BTN}{NEW_LIST_BTN}</div><h1 class="px-gutter pb-2 text-title-1">Lists</h1></header>
-  <div class="min-h-0 flex-1 overflow-hidden px-4 pt-2">{home_rows(live=True, focus=focus)}</div>
+  <div class="min-h-0 flex-1 overflow-hidden px-4 pt-2">{home_rows(live=True, focus=focus, exclude=('Frontend hiring, Q4',))}</div>
   {live_nav()}'''
 
 
@@ -1110,14 +1199,14 @@ P.add('S40-web-toast', 'Web: in-app notification toast (no push on web)', f'''<d
   </div>
 </div>''', 'In-app toast')
 
-desk_dialog = dialog('Delete “March photos clean-up”?',
-                     '30 items, Round 1 and your decisions will be deleted from your account and every device. The photos you uploaded stay on your computer.',
+desk_dialog = dialog('Delete “Trip ideas”?',
+                     '30 items, Round 1 and your decisions will be deleted from your account and every device. trip-ideas.csv isn\'t changed.',
                      'Cancel', 'Delete list', cancel_href='S09-list-overview.html#S09-default', confirm_href='S10-list-management.html#S10-deleted-snackbar', act='confirm-delete', focus_cancel=True)
 P.add('S40-web-dialog', 'Web, desktop: dialog, focus starts on Cancel', f'''<div class="desktop">
   {chrome("swipesort.app/l/3fP9aD")}
   <div class="relative flex min-h-0 flex-1 flex-col">
   <div class="desktop-column">
-  {bg_s09_solo().replace(" from Photos", " uploaded")}
+  {bg_s09_solo()}
   </div>
   {desk_dialog}
   </div>
@@ -1133,7 +1222,7 @@ P.add('S40-desktop-wide', 'Very wide window (2,012 px): column stays 412', f'''<
 </div>''', 'Very wide window')
 
 short_home = f'''<header class="shrink-0"><div class="flex h-app-bar items-center gap-1 pl-gutter pr-1"><h1 class="min-w-0 flex-1 text-title-3">Lists</h1>{SEARCH_BTN}{NEW_LIST_BTN}</div></header>
-  <div class="relative h-96 shrink-0 overflow-hidden px-4 pt-1">{home_rows(live=True)}</div>
+  <div class="relative h-96 shrink-0 overflow-hidden px-4 pt-1">{home_rows(live=True, exclude=('Frontend hiring, Q4',))}</div>
   {live_nav()}'''
 P.add('S40-desktop-short', 'Short window (568 px high): bars stay pinned', f'''<div class="desktop h-auto">
   {chrome("swipesort.app")}

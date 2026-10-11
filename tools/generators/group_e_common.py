@@ -317,6 +317,14 @@ def s25_row(label, value, edited=False):
     return f'<div class="flex gap-3"><dt class="w-16 shrink-0 text-muted-foreground">{label}</dt><dd class="min-w-0 truncate tabular-nums">{value}{ed}</dd></div>'
 
 
+def s25_photo_card(img, place, country, best, budget):
+    """Photo template card body on "Trip ideas" (D-32, A-130, A-131): same markup as S25-photo and S40's card."""
+    rows = ''.join(f'<div class="flex gap-3"><dt class="w-24 shrink-0 text-muted-foreground">{k}</dt><dd class="min-w-0 truncate tabular-nums">{v}</dd></div>' for k, v in (('Best time', best), ('Budget', budget)))
+    return f'''<img src="{IMG}photos/{img}.svg" alt="" class="min-h-0 w-full flex-1 object-cover">
+      <div class="shrink-0 px-6 pb-5 pt-4"><p class="text-title-2">{place}</p><p class="mt-0.5 text-body text-muted-foreground">{country}</p>
+        <dl class="mt-3 flex flex-col gap-1.5 text-body-sm">{rows}</dl></div>'''
+
+
 def s25_person(name, sub, photo, rows, tags, initials='', note=None):
     img = f'<img src="{IMG}{photo}" alt="" class="h-[46%] w-full object-cover">' if photo else f'<div class="px-6 pt-7"><span class="flex size-24 items-center justify-center rounded-full bg-muted text-title-1 text-muted-foreground">{initials}</span></div>'
     rws = ''.join(s25_row(*r) for r in rows)

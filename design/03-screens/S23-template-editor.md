@@ -88,7 +88,12 @@ Pushed screen (inside the import modal stack in pick mode, in the Settings or li
   the title. The size depends on the template's row count, not on the item, so it never jumps between cards when
   values are missing. Cards with an image are unchanged (the image takes the top 46%).
 - Built-in Product renders its price and rating rows as the price line (`text-title-1` price, star rating with
-  review count), as in `S25-product`. Built-in Photo shows file name and size as the line under the location.
+  review count), as in `S25-product`. Built-in Photo (Full image) puts a caption panel under the image: title
+  (`text-title-2`), subtitle (`text-body muted`), then its rows as compact label/value pairs (`text-body-sm`,
+  96-wide muted label column), as in `S25-photo` ("Alfama, Lisbon" / "Portugal" / Best time "Apr to Jun" /
+  Budget "€900"). A number field whose name ends in a currency code in parentheses ("Budget (EUR)") shows on
+  cards under its name without the code and with the currency symbol ("Budget €900"); item details and edit
+  mode keep the full name (A-166).
 
 ## 4. States
 

@@ -72,7 +72,7 @@ mockups map 1:1 to NativeWind (same token names), which is the point.
    3. Invite a partner → sign-in prompt → partner opens the link on the web → both sort → conflicts →
       Decision Maker bulk resolves → export (S05, S03, S31–S37, S39).
    4. Create a list from CSV with a custom template (S14, S19, S22, S23).
-5. **Everything else**: settings and profile (S06, S07), list management (S10), remaining sources (S15–S18,
+5. **Everything else**: settings and profile (S06, S07), list management (S10), remaining sources (S15–S17,
    S21), round history (S30), activity and notifications (S38), global patterns (S40).
 
 ## 5. Precedence when sources disagree
@@ -100,22 +100,30 @@ code). If you need to see a state that isn't drawn, the spec's §4 and §9 descr
   overrides with the original value kept (revertible). Google Sheets write-back only after the explicit
   confirmation in S39.
 - **Guest mode**: the app works fully without an account for solo lists; sign-in is requested only for
-  sharing and backup (S05), and existing device lists move to the account.
-- **Web**: contacts import, photo gallery, haptics and push are unavailable — show them disabled with the
+  sharing and backup (S05), and existing device lists move to the account (all by default; the person can
+  keep some on this phone only, and the sample never moves: A-135, A-139).
+- **Per-list backup (D-33)**: a signed-in Owner can keep a solo list on this phone only ("Back up this
+  list" switch in S09 and at the import finish in S22; A-132–A-138). Model it as `List.storage`
+  (`backedUp` | `deviceOnly`, domain-model › List), on the same local-only tables as guest lists (D-10).
+- **System pickers (D-17, D-18)**: Google Sheets opens Google's Picker (`drive.file` only, S15); contacts use
+  the system contact picker on Android 17+ and iOS, the permission path only on Android 16 and lower (S13,
+  S12).
+- **Web**: contacts import, haptics and push are unavailable — show them disabled with the
   reason and "Get the app" exactly as designed; keyboard hints only on web desktop.
-- **Local first**: every decision, note and edit saves locally first; sync is invisible except for the
-  offline banner and sync notice (S40).
+- **Offline first, server authoritative (D-05)**: every decision, note and edit saves locally first; sync
+  is invisible except for the offline banner, the sync notice and the sync outcome messages (S40, D-09).
 - **Touch targets** ≥ 48 dp; text scales to 200% (see large-text frames).
 
 ## 7. Platform specifics
 
 Android is the reference (Material 3 behavior: predictive back, bottom sheets, snackbars). iOS variant
-frames (`*-ios`) show where iOS differs: navigation bars, back swipe, page sheets, action sheets, Sign in
-with Apple. Web uses the same phone layout; desktop browsers center it (`S40-desktop-frame`).
+frames (`*-ios`) show where iOS differs: navigation bars, back swipe, page sheets, action sheets, native
+Sign in with Apple (offered on every platform since D-13; Android and web use the browser flow). Web uses the same phone layout; desktop browsers center it (`S40-desktop-frame`).
 
 ## 8. Quality evidence
 
 `05-qa/review-report.md` lists every QA finding over four rounds with its resolution; `05-qa/coverage.md`
 lists every screen with its frames and variants; `05-qa/traceability.md` maps all 301 requirement IDs to
 screens and documents; `05-qa/a11y-report.md` (axe, WCAG 2.2 AA) and `05-qa/lint-report.md` are generated;
-`/tools/flows` holds the Playwright tests for the four main flows and the swipe demo (`npm run flows`).
+`/tools/flows` holds the Playwright tests for the four main flows, the swipe demo and the two design-update
+flows (keep a list on this phone only, contacts through the system picker) (`npm run flows`).
