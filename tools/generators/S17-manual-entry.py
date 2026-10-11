@@ -102,7 +102,7 @@ def photo_tile(prefix, filled=None, link='', state='ok'):
     the 36 slot at the end shows the preview (loaded), a spinner (loading) or a placeholder (offline, error)."""
     fid = prefix + 'ph'
     if state == 'error':
-        desc = f'<p id="{fid}-e" class="mt-1.5 flex items-start gap-1.5 text-body-sm text-destructive">{icon("circle-alert", "size-4 mt-0.5 shrink-0")}<span>{IMG_ERROR}</span></p>'
+        desc = f'<p id="{fid}-e" class="mt-1.5 flex items-start gap-1.5 text-caption text-destructive">{icon("circle-alert", "size-4 shrink-0")}<span>{IMG_ERROR}</span></p>'
         aria, border = f' aria-invalid="true" aria-describedby="{fid}-e"', 'border-2 border-destructive'
     else:
         text = IMG_OFFLINE if state == 'offline' else ('Loading the picture…' if state == 'loading' else IMG_HELP)

@@ -524,24 +524,32 @@ def bg_s06(offline=False, paused=False, ios=False):
     return bg(large_title('Settings', ()), off, f'<div class="min-h-0 flex-1 overflow-hidden px-4 pt-2"><div class="space-y-6">{"".join(groups)}</div></div>', nav('settings', ios=ios))
 
 
+# The S09 drawn behind the D-33 and D-09 frames is the S08-S10 generator's own markup (helpers above its first
+# `P = Page(`), so there is one design of S09.
+_B = {}
+_lsrc = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'S08-S10-lists.py')).read()
+exec(_lsrc[:_lsrc.index("\nP = Page('S08'")], _B)
+
+
+def _s07(upto):
+    """Run the S07 generator's source up to `upto` (helpers and frames above it; nothing is written) and return
+    its names, so the S07 drawn behind S40 dialogs is S07's own markup (one design of S07)."""
+    ns = {}
+    src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'S07-profile.py')).read()
+    exec(src[:src.index(upto)], ns)
+    return ns
+
+
 def bg_s07():
-    body = f'''<div class="min-h-0 flex-1 overflow-hidden px-4 pt-2"><div class="space-y-6">
-      <div class="flex flex-col items-center gap-2 py-2">{avatar("deniz", "size-24")}<p class="text-title-2">Deniz Yılmaz</p><p class="text-body text-muted-foreground">deniz.yilmaz@example.com</p></div>
-      {group([row(None, 'Google', 'deniz.yilmaz@example.com', value='Connected', lead_html='<span class="flex size-6 items-center justify-center rounded-full border text-caption">G</span>'), row('key-round', 'Email and password', 'Password set Sep 27')], 'Sign-in methods')}
-      {group([row('trash-2', 'Delete account', 'Delete your account, your lists and your notes', None, True)])}
-    </div></div>'''
-    return bg(top_bar('arrow-left', 'Profile'), body)
+    """Profile behind Disconnect Google: photo block, Personal info, Google + Apple + Email and password, Delete account."""
+    ns = _s07("# ================================================================ Profile")
+    return _B['inert'](ns['profile']())
 
 
 def bg_s07_confirm():
-    li = lambda ic, t: f'<li class="flex gap-3">{icon(ic, "size-5", "mt-0.5 shrink-0 text-muted-foreground")}<span>{t}</span></li>'
-    body = f'''<div class="min-h-0 flex-1 overflow-hidden px-gutter pt-2"><div class="space-y-5">
-      <p class="text-title-2">Confirm deletion</p><p class="text-body text-muted-foreground">This is the last step. After this, your account can't be restored.</p>
-      <ul class="space-y-3 rounded-group bg-card p-4 text-body dark:border">{li("arrow-right-left", "“Wedding guests” moves to Mert Aydın")}{li("trash-2", "“Desk setup”, “Trip ideas” and 2 archived lists are deleted")}{li("smartphone", "“Frontend hiring, Q4” is on this phone only. It stays on this phone, without an account.")}{li("trash-2", "Your profile, decisions and notes are deleted")}</ul>
-      <div><span class="text-label">To confirm, type delete</span><span class="mt-1.5 flex h-12 items-center rounded-control border border-input bg-card px-3.5 text-body">delete</span><p class="mt-1.5 text-body-sm text-muted-foreground">Lowercase is fine.</p></div>
-    </div></div>
-    <div class="flex shrink-0 flex-col gap-2 px-gutter pb-4 pt-3">{fake_btn("Delete account", "destructive", extra="h-14")}{fake_btn("Keep my account", "ghost")}</div>'''
-    return bg(top_bar('arrow-left', 'Delete account'), body)
+    """Step 2 of account deletion (`S07-delete-dialog` without its dialog)."""
+    ns = _s07("P.frame('S07-delete-confirm'")
+    return _B['inert'](ns['page_sub']('Confirm deletion', ns['confirm_body'](), ns['confirm_footer'], back='#S07-delete', label='Back'))
 
 
 def bg_s10_archived():
@@ -619,7 +627,7 @@ def ios_sheet(title, message, actions_, cancel='Cancel', cancel_href=None):
         acts += f'{tag_open} class="flex min-h-14 w-full items-center justify-center border-t px-4 text-center text-title-3 font-normal {col}" data-action="{act}">{lab}{tag_close}'
     ch = f'<a href="{cancel_href}"' if cancel_href else '<button type="button"'
     cc = '</a>' if cancel_href else '</button>'
-    lab = f' aria-labelledby="{t}"' if title else f' aria-describedby="{m}"'
+    lab = f' aria-labelledby="{t}"' if title else f' aria-labelledby="{m}"'
     return f'''{scrim()}
   <div class="absolute inset-x-2 bottom-2 z-40 space-y-2" role="alertdialog" aria-modal="true"{lab}>
     <div class="overflow-hidden rounded-dialog bg-popover shadow-dialog">{head}{acts}</div>
@@ -984,7 +992,7 @@ P.add('S40-snackbar-large-text', 'Snackbar at 200% text: action below the text',
 P.section('Offline banner and sync notice',
           'The offline banner sits directly under the app bar, full width, and stays as long as the device is offline. The sync notice is a quiet line in the list header (or the progress row while sorting) and is the only place sync is visible.')
 
-saved_line = f'<p class="mt-3 inline-flex items-center gap-1.5 text-body-sm text-muted-foreground" role="status">{icon("cloud-off", "size-4", "shrink-0")}Saved on this phone</p>'
+saved_line = f'<p class="mt-3 inline-flex items-center gap-1.5 text-body-sm text-muted-foreground" role="status">{icon("clock-arrow-up", "size-4", "shrink-0")}Saved on this phone</p>'
 P.add('S40-offline', 'Offline banner + “Saved on this phone”', frame_android(
     bg_s09_shared(banner=offline_banner("You're offline. Decisions are saved on this phone. Inviting needs a connection."), sync_html=saved_line, as_html=True)),
     'Offline')
@@ -1003,15 +1011,11 @@ P.add('S40-sync-failed', 'Sync notice: failed, with Try again', frame_android(
 
 P.add('S40-offline-sorting', 'Offline while sorting: banner + compact count', frame_android(
     bg_s25(shared=True, banner=offline_banner("You're offline. Decisions are saved on this phone."),
-           status_html=f'<span class="inline-flex items-center gap-1.5 text-caption text-muted-foreground">{icon("cloud-off", "size-4")}4 not synced</span>')),
+           status_html=f'<span class="inline-flex items-center gap-1.5 text-caption text-muted-foreground">{icon("clock-arrow-up", "size-4")}4 not synced</span>')),
     'Offline, sorting')
 
 # ================================================================ real S09 markup (backgrounds)
-# The S09 drawn behind the D-33 and D-09 frames is the S08-S10 generator's own markup (helpers above its first
-# `P = Page(`), so there is one design of S09.
-_B = {}
-_lsrc = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'S08-S10-lists.py')).read()
-exec(_lsrc[:_lsrc.index("\nP = Page('S08'")], _B)
+# (the S08-S10 helpers `_B` are loaded above, before the backgrounds)
 TRIP_SCROLL = dict(translate='-translate-y-[36%]', bar_title='Trip ideas')
 
 
@@ -1072,10 +1076,10 @@ P.add('S40-outcome-edit-replaced', 'A later edit by another member replaced mine
     snackbar("Mert changed City on Alper Turan after you, so your edit was replaced.", 'View', 'S26-item-detail.html#S26-edit-replaced', ic='pencil-line', pos='bottom-4')),
     'Edit replaced')
 
-SELIN_HOME = [('Wedding guests', 'users', 'Shared with 2', None, (0, '0 / 6'), True, 'S09-list-overview.html#S09-shared-collaborator')]
+SELIN_HOME = [('Wedding guests', 'users', 'Shared with 2', None, (0, '0 / 6'), True, 'S09-list-overview.html#S09-shared-collaborator-round-2')]
 P.add('S40-outcome-late-round', 'Round 1 decisions synced after Round 2 started (D-09 row 2)', frame_android(
     bg_s08(fab='bottom-48', rows=SELIN_HOME, archived=False),
-    snackbar('Deniz started Round 2 of “Wedding guests”. Your 8 decisions from Round 1 were saved.', 'Open', 'S09-list-overview.html#S09-shared-collaborator', ic='list-restart')),
+    snackbar('Deniz started Round 2 of “Wedding guests”. Your 8 decisions from Round 1 were saved.', 'Open', 'S09-list-overview.html#S09-shared-collaborator-round-2', ic='list-restart')),
     'Late Round 1 decisions')
 
 removed_home = f'''<div class="shrink-0"><div class="flex h-app-bar items-center justify-end gap-1 px-1">{ib("search")}</div><h1 class="px-gutter pb-2 text-title-1">Lists</h1></div>
@@ -1089,7 +1093,7 @@ removed_home = f'''<div class="shrink-0"><div class="flex h-app-bar items-center
 P.add('S40-outcome-removed', 'Removed from a list while offline: lands on Home (D-09 row 4)', frame_android(removed_home), 'Removed while offline')
 
 P.add('S40-outcome-already-agreed', 'Resolutions dropped: members agreed first (D-09 row 5)', frame_android(
-    _B['inert'](_B['ov_shared_dm']()),
+    _B['inert'](_B['ov_shared_dm'](conflicts=13, have=10, counts=(34, 13, 53))),
     snackbar('Members agreed on 2 conflicts before your resolutions synced. Their agreement is final.', 'View', 'S36-conflicts.html#S36-list', ic='check-check', pos='bottom-4')),
     'Already agreed')
 

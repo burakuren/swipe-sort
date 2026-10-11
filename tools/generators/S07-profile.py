@@ -149,7 +149,7 @@ P.frame('S07-edit-name-error', 'Edit name: empty name', phone(profile(overlay=di
 
 PHOTO_SHEET_BODY = f'''<p class="mt-1 text-body text-muted-foreground">Your photo comes from your Google account. To change it, change it in Google; SwipeSort uses the new one the next time you sign in.</p>
     <ul class="mt-3 divide-y">
-      <li><a href="#S07-no-photo" class="flex min-h-14 items-center gap-4 py-3 text-destructive" data-action="remove-photo">{icon("image-off", "size-5")}<span class="text-body">Remove photo</span></a></li>
+      <li><a href="#S07-no-photo" class="flex min-h-14 items-center gap-4 py-3 text-primary" data-action="remove-photo">{icon("image-off", "size-5")}<span class="text-body">Remove photo</span></a></li>
     </ul>'''
 photo_sheet = sheet('s07ph', PHOTO_SHEET_BODY, title='Profile photo', close_href='#S07-default')
 P.frame('S07-change-photo', 'Photo options sheet (tap the photo)', phone(profile(overlay=photo_sheet)))

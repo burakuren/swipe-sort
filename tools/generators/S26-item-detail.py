@@ -180,11 +180,11 @@ def photo_edit(photo, initials, label='Photo'):
 
 def image_link_edit(fid, img, link, label='Photo', focus=False, original=None, contain=False):
     """Image field from an image link (CSV, Google Sheets, manual entry; A-131, A-160, A-170): edited as the link,
-    with a 36 thumbnail once it loads. Same control as S17's item form."""
+    with a leading `link` icon (every state, A-160) and a 36 thumbnail once it loads. Same control as S17's item form."""
     border = 'border border-primary ring-2 ring-ring/30' if focus else 'border border-input'
     fit = 'bg-muted object-contain p-0.5' if contain else 'object-cover'
     orig = f'<p class="mt-1.5 flex items-start gap-1.5 text-body-sm text-muted-foreground">{icon("pencil-line", "size-4 mt-0.5 shrink-0")}<span class="min-w-0 break-all">Original: {original}</span></p>' if original else ''
-    return f'''<div><label class="text-label" for="{fid}">{label}</label><div class="mt-1.5 flex h-12 items-center gap-2 rounded-control bg-card pl-3.5 pr-1.5 {border}"><input id="{fid}" type="url" class="h-full min-w-0 flex-1 bg-transparent text-body" value="{link}" aria-describedby="{fid}-h"><img src="{IMG}{img}" alt="" class="size-9 shrink-0 rounded-sm {fit}"></div>{orig}<p id="{fid}-h" class="mt-1.5 text-body-sm text-muted-foreground">Paste a link to an image. Cards show the picture from this link.</p></div>'''
+    return f'''<div><label class="text-label" for="{fid}">{label}</label><div class="mt-1.5 flex h-12 items-center gap-2 rounded-control bg-card pl-3.5 pr-1.5 {border}">{icon("link", "size-5 shrink-0 text-muted-foreground")}<input id="{fid}" type="url" class="h-full min-w-0 flex-1 bg-transparent text-body" value="{link}" aria-describedby="{fid}-h"><img src="{IMG}{img}" alt="" class="size-9 shrink-0 rounded-sm {fit}"></div>{orig}<p id="{fid}-h" class="mt-1.5 text-body-sm text-muted-foreground">Paste a link to an image. Cards show the picture from this link.</p></div>'''
 
 
 def edit_form(fields_html, title_note=''):
@@ -496,7 +496,7 @@ offline = f'''{back_bar('', 'S28-results.html#S28-shared', 'Back to results')}
     {decision_picker('accept')}
     {fields_group(c007_saved_fields)}
   </div>
-  {snackbar("Saved on this phone. It will sync when you're back online.", ic='cloud-off')}'''
+  {snackbar("Saved on this phone. It will sync when you're back online.", ic='clock-arrow-up')}'''
 F.add('S26-offline-saved', 'Saving offline: kept on this phone, syncs later', phone(offline))
 
 nf = f'''{back_bar('', 'S28-results.html#S28-shared', 'Back to results')}

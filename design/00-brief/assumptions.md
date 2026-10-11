@@ -397,8 +397,9 @@ Applies the design update register in `docs/build-decisions.md` §7. For this up
 - **A-148** D-33 / D-19: account deletion with lists on this phone only (A-138).
   - "Deleted for good" counts only backed-up lists ("4 lists only you use").
   - Each device-only list is a row under "Not changed".
-  - The confirm summary, the final dialog and the deleted screen say "“Frontend hiring, Q4” is on this phone
-    only. It stays on this phone, without an account." (same copy as S40, A-187).
+  - The final dialog uses the S40 copy (A-187): "“Frontend hiring, Q4” is on this phone only. It stays on this
+    phone, without an account." The confirm summary lists it under "Not changed", and the deleted screen says it
+    "stays on this phone".
   - After deletion, "Done" opens Home with those lists as lists without an account (`S08-guest`), or
     `S08-first-run` when there are none.
   - If the account is signed in on other devices, "Not changed" adds the footer "Lists kept on your other
@@ -751,7 +752,6 @@ Applies the design update register in `docs/build-decisions.md` §7. For this up
 ### Lead decisions from QA
 
 - **A-188** D-32 (no photo-library or camera access, extended to the profile): S07 no longer offers "Take
-  photo", "Choose from gallery" or web "Upload photo". The profile photo comes from the Google or Apple account
-  that signed in, otherwise initials; S07 offers "Remove photo", then "Use Google photo" to bring it back ("Connect Google to use its photo." when no account photo exists); frame IDs `S07-change-photo`, `S07-photo-uploading`, `S07-no-photo`, `S07-web-change-photo` are kept and relabeled. Supersedes the photo
+  photo", "Choose from gallery" or web "Upload photo". The profile photo comes from the Google account when one is connected (Apple shares no photo), otherwise initials; S07 offers "Remove photo", then "Use Google photo" to bring it back ("Connect Google to use its photo." when no account photo exists); frame IDs `S07-change-photo`, `S07-photo-uploading`, `S07-no-photo`, `S07-web-change-photo` are kept and relabeled. Supersedes the photo
   actions in A-53's profile. Reason: D-32 says "no photo-library access at all for now", and a camera or
   gallery path would add a permission and a Data safety entry for a cosmetic feature.

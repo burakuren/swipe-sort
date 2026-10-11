@@ -110,8 +110,9 @@ aligned (`S40-snackbar-large-text`).
   Pushes content down (never overlays it).
 - **SyncNotice**: one quiet line, `text-body-sm text-muted-foreground` + 16 icon. Placement: under the list
   header meta on S09; trailing slot of the progress row on S25 / S36 (`text-caption`); under the “Lists”
-  title on S08 (all lists). States: Saved on this phone (`cloud-off`), Syncing (`refresh-cw`, spinning),
-  Synced (`cloud-check`), Failed (inline Alert: card + `border-destructive/40` + `circle-alert` + Try again).
+  title on S08 (all lists). States: Saved on this phone (`clock-arrow-up`: changes waiting to go up; not
+  `cloud-off`, which is the A-137 label "On this phone only" for a list that is never backed up), Syncing
+  (`refresh-cw`, spinning), Synced (`cloud-check`), Failed (inline Alert: card + `border-destructive/40` + `circle-alert` + Try again).
 - Guest (signed-out) lists never show a sync notice; they show the BackupIndicator (S08, S06) instead.
 
 ### 3.4a Sync outcome messages (D-09)
@@ -253,10 +254,10 @@ errors).
 | Frame | D-09 row | Form | Where it appears | Shows |
 | --- | --- | --- | --- | --- |
 | `S40-outcome-edit-replaced` | 1: my field edit was overwritten by a later one | Snackbar + View (6 s) | Any screen except the item itself (there S26 shows the inline “Keep mine / Use Mert's” choice at once, A-70) | Deniz on S09 Wedding guests; View → S26 on Alper Turan, where the inline choice waits until answered |
-| `S40-outcome-late-round` | 2: Round 1 decisions synced after Round 2 started | Snackbar + Open (6 s) | Home or S09 of that list (in S25 the existing “Deniz ended Round 1” sheet carries the line instead) | Selin on Home; Open → S09 (illustrative: links to `S09-shared-collaborator`, the closest Wedding guests frame; the real screen shows Round 2) |
+| `S40-outcome-late-round` | 2: Round 1 decisions synced after Round 2 started | Snackbar + Open (6 s) | Home or S09 of that list (in S25 the existing “Deniz ended Round 1” sheet carries the line instead) | Selin on Home; Open → S09 in Round 2 (`S09-shared-collaborator-round-2`: My progress 0 / 6, Round 1 decisions saved) |
 | `S40-outcome-removed` | 4: removed while offline, queued work rejected | Inline outcome alert on Home | Home (the list and its data left this phone; S38 keeps the event). If the list was open: `S40-not-found-removed-unsynced` first, then Home | Selin, 6 decisions since 9:24 not saved |
 | — (no frame) | 4, nothing queued | Snackbar (4 s) | Home | “Deniz removed you from “Wedding guests”.” |
-| `S40-outcome-already-agreed` | 5: resolutions dropped, members had agreed | Snackbar + View (6 s) | S36 (above the bar, `bottom-32`) or S09 | Mert on S09; View → S36 list view (Resolved group) |
+| `S40-outcome-already-agreed` | 5: resolutions dropped, members had agreed | Snackbar + View (6 s) | S36 (above the bar, `bottom-32`) or S09 | Mert on S09, drawn after the sync: the 2 conflicts are now Agreed (List status 34 agreed, 13 conflicts, 53 pending; callout "13 conflicts need your decision", "10 have your decision. 3 stay open…"); View → S36 list view (Resolved group) |
 | `S40-outcome-dm-role-lost` | 6: role moved, resolutions rejected | Inline outcome alert | S09 of the list (replaces the Decision Maker callout) and S36 (which switches to the read-only `S36-non-dm` view) | Mert, now Collaborator; 5 resolutions not applied |
 
 Rows 3, 7, 8 and 9 show nothing (D-09); row 10 (validation or permission failure) uses the error snackbar
@@ -472,6 +473,8 @@ Pattern: "You're offline." + what is saved + (optional) what needs a connection.
   back = dismiss; on close, focus returns to the opener. Embedded RadioGroup has `aria-label` ("Selin's
   decisions") and arrow-key navigation.
 - Action sheets and alerts on iOS use the native components (VoiceOver reads title, message, then buttons).
+  In the mockups an untitled action sheet takes its accessible name from its message (`aria-labelledby` on
+  the message), as `S06-ios-sign-out` does.
 - Snackbars: `role="status"` (polite); errors `role="alert"`. Never under 10 s with a screen reader. The
   action is reachable by focus (TalkBack: actions menu). Undo results are announced ("List restored").
 - Offline banner: `role="status"`, announced once when it appears. Sync notice: announced when syncing starts

@@ -3,12 +3,13 @@
 Session: 2026-10-11. Input: the design update register in `docs/build-decisions.md` §7 ("Design update
 task"), D-02 to D-33. Output: `/design` matches the decisions again before any app code is written.
 
-**Result:** 10 register rows applied, D-02 skipped (no final name yet). 65 frames added, 10 removed, about 250
-changed. 40 screens, 876 frames, 1,752 screenshots (light and dark). Every decision of the update is an
-assumption entry: A-128 to A-187 in `design/00-brief/assumptions.md` (A-161–A-164 and A-174 unused).
+**Result:** 10 register rows applied, D-02 skipped (no final name yet). 71 frames added, 10 removed, about 300
+changed. 40 screens, 882 frames, 1,764 screenshots (light and dark). Every decision of the update is an
+assumption entry: A-128 to A-188 in `design/00-brief/assumptions.md` (A-161–A-164 and A-174 unused).
 
 Commits: `734b7b5` (lead decisions A-128–A-139), `b854621` (all rows applied), `6a9b6f5` (screenshots and QA
-evidence), then the QA fix commits listed under "QA results".
+evidence), `ba6fcbd` (QA round 1 fixes), `4c9c8b3` (evidence), then the QA round 2 commit that also marks the
+register in `docs/build-decisions.md` §7.
 
 How the work was split (no two groups edited the same file): lead (decisions, requirements, glossary,
 architecture docs, foundations, prototype, flows, QA tooling); group A accounts (S01–S07); group B1 import
@@ -125,7 +126,8 @@ finishing a round, with no ID that follows you. Never list contents, names or an
   only built-in that leads with a full image; rows are the example list's fields, not gallery metadata.
 - **No photo library access anywhere** (D-32 consequence): manual entry's Image field takes an image link
   (A-160); in item detail, contact photos can only be removed or reverted and image fields are edited as links
-  (A-170). `S26-edit-date` became `S26-edit-image-link` (A-171).
+  (A-170). `S26-edit-date` became `S26-edit-image-link` (A-171). The S07 profile photo has no camera or gallery
+  either: it comes from the Google account, otherwise initials (A-188).
 - Onboarding demo photo cards became place cards (A-149).
 - Requirements PLT-08, SCR-18 "Out of scope (D-32)"; SRC-01, SRC-02, SRC-05, SRC-07, SMP-05, SCR-12 changed.
 
@@ -186,8 +188,9 @@ SET-03, SET-11, SET-12, SCR-05 marked changed; new flow test 6.
 
 ## Docs, tooling and prototype
 
-- `requirements.md`: no ID deleted; 30 IDs annotated "Changed by D-xx", "Out of scope (D-32)", "Added by D-xx";
-  new ACC-10, ACC-11, SRC-25, SRC-26, SAFE-07, SET-13 (307 requirements, 0 gaps).
+- `requirements.md`: no ID deleted; 25 IDs annotated "Changed by D-xx" or "Out of scope (D-32)" (plus a "Kept
+  under D-32" note on TPL-01); 6 new IDs marked "Added by D-xx": ACC-10, ACC-11, SRC-25, SRC-26, SAFE-07, SET-13
+  (307 requirements, 0 gaps).
 - `brief.md`: amendment note at the top; the brief text stays verbatim.
 - `navigation-map.md`: structure, screen connections, cross-file targets and flows 6–7; `domain-model.md`,
   `components.md`, `design-principles.md`, `HANDOFF.md`, `README.md`, `CONTEXT.md` updated.
@@ -201,7 +204,50 @@ SET-03, SET-11, SET-12, SCR-05 marked changed; new flow test 6.
 
 ## QA results
 
-QA_RESULTS_PLACEHOLDER
+Three independent reviewers who did no design work checked every new and changed frame in light and
+dark against the D-xx texts, `design-principles.md`, the copy rules, `CONTEXT.md` terms and platform
+variants (round 1: S02–S07, S08–S10/S25–S27/S40, S11–S22/S39). A fresh reviewer then verified the fixes and
+looked for regressions (round 2). Findings and fixes: `05-qa` evidence is regenerated; the reviewers' tables
+are summarized here.
+
+**Final tooling run** (`npm run build:css`, `shots --scale=1`, `a11y`, `flows` light and dark, `lint`):
+
+| Check | Result |
+| --- | --- |
+| Screenshots | 1,764 (882 frames × light and dark), scale 1 as committed (A-127) |
+| Accessibility (axe, WCAG 2.2 AA) | 47 files × 2 themes, **0 violations** (`05-qa/a11y-report.md`) |
+| Flow tests | **7 / 7 pass** in light and dark: flows 1–4, swipe demo, new flow 6 (keep on this phone), new flow 7 (contacts picker) |
+| Lint | **0 errors**; 289 touch-target warnings, identical to the pre-update baseline (the update briefly added 10 for the S09 switch; fixed by making the whole row the switch) |
+| Traceability | 307 requirements, **0 gaps** (`05-qa/traceability.md`) |
+| Coverage | 40 screens, 882 frames, every screen with a spec; S18 "Out of scope (D-32)" (`05-qa/coverage.md`) |
+
+**Round 1: 13 blocking, 44 minor findings.** Blocking, all fixed (`ba6fcbd`):
+
+1. Sign-out and account-deletion copy differed between S06/S07 and S40: aligned to S40 (A-147, A-148, A-187).
+2. `S06-sign-out` background said a list was on this phone only while the dialog didn't name it: background fixed.
+3. S40 "Disconnect blocked" not updated for Apple: S40 matches S07, Apple-only variant and "Disconnect Apple?" added.
+4. S07 profile photo still offered camera and gallery against D-32: removed, photo comes from Google or initials (A-188).
+5. `S02-web` / `S03-web` said "this phone": browser wording with the D-08 line.
+6. S09 backup switch was a 52 × 32 target without a description: the whole row is the switch, described by its state and reason.
+7. `S40-outcome-dm-role-lost` background contradicted the alert: rebuilt.
+8. S40 outcome backgrounds didn't match the current S09: now built from the S09 generator.
+9. iOS wording rule stated differently in S40/S10 specs: stated as A-137 everywhere.
+10. "and 1 more" opened Activity, where outcomes don't appear: outcomes merge by kind, alerts stack, snackbars queue.
+11. S17 image links had no offline or loading rule: `S17-image-link-loading`, `S17-image-link-offline`, error drawn (A-160).
+12. After adding items offline nothing showed they were waiting: "Saved on this phone" sync notice in S09 and S21.
+13. (Round 2) `coverage.md` stale after the fixes: regenerated.
+
+**Round 2:** all 13 blocking findings verified resolved with evidence; 142 changed frames diffed, 42 opened in
+both themes; no regression against a decision. 13 new minor findings: 11 fixed (iOS action-sheet names,
+prototype text in an aria-label, error text size, "Remove photo" color, late-round link with the new frame
+`S09-shared-collaborator-round-2`, S26 link icon, S40 backgrounds, web switch description, sync-notice icon
+`clock-arrow-up` so `cloud-off` only means "On this phone only", S29 example, A-148/A-188 wording).
+Accepted as is: the guest sample data lists Wedding guests separately from `me.guest.deviceLists` (that is how
+A-46 defines the guest phone), and the S40 already-agreed background shows only the agreed change.
+
+Definition-of-done checks (round 2, all of `design/`): Photos as a source appears only in the retired, marked
+S18; Apple is nowhere iOS-only; no S15 "Recent" list or Drive search; "always backed up" appears only as
+"Shared lists are always backed up." or in superseded A-81; every A-number referenced exists.
 
 ## Feedback on decisions
 
@@ -241,6 +287,8 @@ Applied as decided; arguments for the founder:
   control has no frame (A-171).
 - Prototype: "Done" in Choose lists on iOS, web and the backup origin returns to the plain prompt (only the
   Android share origin has a "chosen" variant).
+- `docs/adr/0005-least-privilege-permissions.md` still says photos use the system Photo Picker; D-32 (later)
+  removes photo-library access. Not edited (this session may not touch ADRs); worth a one-line ADR note.
 - S18 still generates from the `photos` sample data; if that data is ever removed, freeze S18's HTML.
 - Process: one commit in this session, `6ccd216`, came from inside the session but not from the lead: it
   commits the prompt file deletion that was already in your working tree. A subagent also ran a forbidden

@@ -47,7 +47,9 @@ final confirmation are dialogs; photo, new Owner and re-authentication are botto
    `muted`) + ghost text button: "Remove photo" (`image-off`) while the Google photo shows; "Use Google photo"
    (`refresh-cw`) after it was removed; no button and the line "Connect Google to use its photo." when the account
    has no photo source. SwipeSort never opens the camera or the photo library and has no upload (D-32, A-188).
-   Tapping the photo opens a small sheet that says where it comes from, with "Remove photo".
+   Tapping the photo opens a small sheet that says where it comes from, with "Remove photo". "Remove photo" is
+   `text-primary` in both places, never destructive red: the Google account keeps the photo and Undo brings it
+   back (S40 §3.1: destructive is for deleting what the person made).
 2. **ListGroup "Personal info"**: Name row (label above value, trailing pencil IconButton 48) and Email row
    (read-only, no trailing control). Footer: "Members of shared lists see your name and photo."
 3. **ListGroup "Sign-in methods"** (connected accounts): one row per method with a provider mark, the method name,

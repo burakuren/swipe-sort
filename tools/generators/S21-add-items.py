@@ -258,7 +258,7 @@ P.frame('S21-offline', 'Offline: local sources work, Google Sheets doesn\'t', ph
 
 P.frame('S21-offline-confirm', 'Offline, shared list: Add to list still works (queued)', phone(confirm(offline=True)))
 # S40 SyncNotice under the S09 header meta: the 12 queued items stay visible after the snackbar (A-159)
-SYNC_NOTICE = f'<p class="mt-3 inline-flex items-center gap-1.5 text-body-sm text-muted-foreground" role="status">{icon("cloud-off", "size-4 shrink-0")}Saved on this phone<span class="sr-only">, 12 new items not synced yet</span></p>'
+SYNC_NOTICE = f'<p class="mt-3 inline-flex items-center gap-1.5 text-body-sm text-muted-foreground" role="status">{icon("clock-arrow-up", "size-4 shrink-0")}Saved on this phone<span class="sr-only">, 12 new items not synced yet</span></p>'
 
 
 def with_sync_notice(html):

@@ -123,7 +123,7 @@ over 5,000 items the primary button shows a 16 spinner + "Counting…" for up to
 | Sort trigger | "Sort by"; values as below |
 | Sort by page | Title "Sort by"; caption "Empty values always go last."; rows "Recently decided" / "Decision time", "Original order" / "As imported", "{Field}" / "Text", "Number", "Date", "Phone", "Email", "Link"; directions "A to Z", "Z to A", "Low to high", "High to low", "Oldest first", "Newest first"; back label "Back to filters" |
 | Filters | "Filters"; "Items must match every filter. Counts update as you choose." |
-| Field groups | "{Field}" (e.g. "Side", "Relationship", "City", "Store", "Category", "Price", "Rating", "Taken"); "Show all 14" |
+| Field groups | "{Field}" (e.g. "Side", "Relationship", "City", "Store", "Category", "Price", "Rating", "Country"); "Show all 14" |
 | Pseudo-fields | "List status": "Agreed", "Pending", "Conflict", "Resolved"; "Decided by a member" + "Filter by what another member chose." + member name ("Mert Aydın") + "Accepted", "Rejected", "Maybe", "Not decided"; "My decision": "Accepted", "Rejected", "Maybe", "Not decided" |
 | Notes and edits | "Notes and edits"; "Has a note"; "Edited" |
 | Number range | "From", "To"; unit suffix from the field ("EUR"); helper "Prices in Accept go from €24 to €649." ("{Field} in {segment} goes from {min} to {max}.") |

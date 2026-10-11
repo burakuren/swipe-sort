@@ -61,7 +61,7 @@ where none is needed).
 | Architecture (navigation map, domain model) | Done |
 | Sample data and generated images | Done |
 | Explorations (S25 directions A, B, C) | Done |
-| Prototype (index.html with 4 flows, live swipe-demo.html) | Done |
+| Prototype (index.html with 4 flows + 2 design-update flows, live swipe-demo.html) | Done |
 | QA (screenshots, a11y report, lint report, traceability, review report, flow tests) | Done |
 """
 open(os.path.join(ROOT, 'design', '05-qa', 'coverage.md'), 'w').write(out)

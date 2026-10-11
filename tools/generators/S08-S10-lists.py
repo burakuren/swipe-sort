@@ -424,6 +424,7 @@ BACKUP_STATES = {
 
 
 _BK_UID = [0]
+WEB_D08_ID = 'd08-web'  # the D-08 line drawn under the header of the web frame (S09-web-device-only)
 
 
 def backup_group(state='on', web=False, big=False):
@@ -447,7 +448,7 @@ def backup_group(state='on', web=False, big=False):
     if big:
         sw = sw.replace('h-8 w-13', 'h-10 w-16').replace('size-6 rounded-full bg-primary-foreground', 'size-8 rounded-full bg-primary-foreground').replace('size-5 rounded-full bg-muted-foreground', 'size-7 rounded-full bg-muted-foreground')
     tcol = ' text-muted-foreground' if dis and state != 'busy' else ''
-    described = f'{uid}-d' + (f' {uid}-f' if foot else '')
+    described = f'{uid}-d' + (f' {uid}-f' if foot else '') + (f' {WEB_D08_ID}' if web and state == 'off' else '')
     inner = (f'{icon(ic, ("size-6" if big else "size-5") + " shrink-0 text-muted-foreground" + spin)}'
              f'<span class="min-w-0 flex-1"><span class="block {t}{tcol}">Back up this list</span><span id="{uid}-d" class="block break-words {d} text-muted-foreground"{live}>{desc}</span></span>{sw}')
     attrs = f'role="switch" aria-checked="{"true" if on else "false"}" aria-label="Back up this list" aria-describedby="{described}"'
@@ -532,9 +533,11 @@ HIRING_META = [mi('file-spreadsheet', '12 items from candidates-q4.csv'), mi('us
 D08_LINE = 'Browsers can clear lists you haven\'t opened for a while. Back it up to keep it.'
 
 
-def d08_note(extra='mt-3'):
-    """D-08 / A-137: the browser-storage line under the S09 header meta on the web."""
-    return note_line(D08_LINE, 'info', extra)
+def d08_note(extra='mt-3', nid=None):
+    """D-08 / A-137: the browser-storage line under the S09 header meta on the web. With `nid`, the web Backup
+    switch (off) uses it as part of its accessible description, as the mobile switch uses its footer."""
+    n = note_line(D08_LINE, 'info', extra)
+    return n.replace('<p ', f'<p id="{nid}" ', 1) if nid else n
 
 
 def ov_new_list(name='Frontend hiring, Q4', meta=None, n=12, template='Candidate, compact', sort='S25-sorting.html#S25-candidate', sources=SRC_HIRING,
@@ -580,9 +583,9 @@ def ov_guest_wedding(web=False, share_action='share'):
 
 
 # ---------------------------------------------------------------- shared
-def my_progress(d, t, rej, may, acc, button, role_note=None, hid='mp-h'):
+def my_progress(d, t, rej, may, acc, button, role_note=None, hid='mp-h', round_label='Round 1, shared'):
     n = note_line(role_note) if role_note else ''
-    return card(card_head('My progress', 'Round 1, shared', hid) + decided(d, t) + decision_chips(rej, may, acc) + n + button, label=hid)
+    return card(card_head('My progress', round_label, hid) + decided(d, t) + decision_chips(rej, may, acc) + n + button, label=hid)
 
 
 def status_legend(rows_extra=True):
@@ -593,12 +596,14 @@ def status_legend(rows_extra=True):
     return f'<!-- Proposed component: ListStatusLegend --><ul class="mt-2 divide-y">{out}</ul>'
 
 
-def list_status_card(button, hid='ls-h', compact=False, right='All 3 members'):
+def list_status_card(button, hid='ls-h', compact=False, right='All 3 members', counts=(32, 15, 53)):
     sw = lambda c: f'<span class="size-2.5 shrink-0 rounded-xs {c}" aria-hidden="true"></span>'
-    leg = (f'<p class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-body-sm"><span class="inline-flex items-center gap-1.5">{sw("bg-foreground")}{icon("check-check", "size-4")}<span class="tabular-nums">32</span> agreed</span>'
-           f'<span class="inline-flex items-center gap-1.5">{sw("bg-foreground/50")}{icon("git-compare-arrows", "size-4")}<span class="tabular-nums">15</span> conflicts</span><span class="inline-flex items-center gap-1.5 text-muted-foreground">{sw("border border-input bg-muted")}{icon("clock", "size-4")}<span class="tabular-nums">53</span> pending</span></p>'
+    a, c, pn = counts
+    cw = 'conflict' if c == 1 else 'conflicts'
+    leg = (f'<p class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-body-sm"><span class="inline-flex items-center gap-1.5">{sw("bg-foreground")}{icon("check-check", "size-4")}<span class="tabular-nums">{a}</span> agreed</span>'
+           f'<span class="inline-flex items-center gap-1.5">{sw("bg-foreground/50")}{icon("git-compare-arrows", "size-4")}<span class="tabular-nums">{c}</span> {cw}</span><span class="inline-flex items-center gap-1.5 text-muted-foreground">{sw("border border-input bg-muted")}{icon("clock", "size-4")}<span class="tabular-nums">{pn}</span> pending</span></p>'
            if compact else status_legend())
-    return card(card_head('List status', right, hid) + f'<div class="mt-3">{status_bar(32, 15, 53)}</div>' + leg + button, label=hid)
+    return card(card_head('List status', right, hid) + f'<div class="mt-3">{status_bar(a, c, pn, total=a + c + pn)}</div>' + leg + button, label=hid)
 
 
 def offline_row(title, ic, desc='Needs a connection'):
@@ -636,17 +641,17 @@ ADDED_EVENTS = [
 ]
 
 
-def rows_shared(owner=True, sources=None, offline=False):
+def rows_shared(owner=True, sources=None, offline=False, round_no=1):
     if offline:
         extra_round = [offline_row('Start a new round', 'list-restart')] if owner else []
     else:
         extra_round = [nav_row('Start a new round', href='S24-start-round.html#S24-default', icon_name='list-restart', desc='Starts for all 3 members', action='new-round')] if owner else []
     rows = [nav_row('Results', href='S28-results.html#S28-shared', icon_name='list-checks', desc='Final decisions and my decisions', action='results')] + extra_round + [
-        nav_row('Rounds', href='S30-round-history.html#S30-default', icon_name='history', value='1', aria='Rounds, 1'),
+        nav_row('Rounds', href='S30-round-history.html#S30-default', icon_name='history', value=str(round_no), aria=f'Rounds, {round_no}'),
         nav_row('Card template', href='S22-template-library.html#S22-default', icon_name='layout-template', value='Person', aria='Card template, Person'),
         nav_row('Export', href='S39-export.html#S39-shared', icon_name='file-down', desc='Includes each member\'s decision', action='export')]
     foot = None if owner else 'Deniz, the Owner, starts new rounds for everyone.'
-    return group(rows, footer=foot) + sources_group(sources or SRC_WED, add_desc='New items join Round 1 for everyone')
+    return group(rows, footer=foot) + sources_group(sources or SRC_WED, add_desc=f'New items join Round {round_no} for everyone')
 
 
 def shared_header(who='You, Mert and Selin', role=('Owner', 'crown', 'secondary'), extra=''):
@@ -656,7 +661,7 @@ def shared_header(who='You, Mert and Selin', role=('Owner', 'crown', 'secondary'
 
 def saved_notice(n=4):
     """S40 SyncNotice, offline state (A-115): under the S09 header meta when changes are waiting."""
-    return (f'<p class="mt-3 inline-flex items-center gap-1.5 text-body-sm text-muted-foreground" role="status">{icon("cloud-off", "size-4 shrink-0")}'
+    return (f'<p class="mt-3 inline-flex items-center gap-1.5 text-body-sm text-muted-foreground" role="status">{icon("clock-arrow-up", "size-4 shrink-0")}'
             f'Saved on this phone<span class="sr-only">, {n} changes not synced yet</span></p>')
 
 
@@ -673,17 +678,17 @@ def ov_shared_owner(translate='', bar_title=None, top='', share_disabled=False, 
                      body, top=top, translate=translate, overlay=overlay, clip=clip)
 
 
-def ov_shared_dm():
+def ov_shared_dm(conflicts=15, have=12, counts=(32, 15, 53)):
     callout = '<!-- Proposed component: DecisionMakerCallout -->' + card(f'''<div class="flex gap-3"><span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground">{icon("gavel")}</span>
-      <div class="min-w-0 flex-1"><h2 id="dm-h" class="text-title-3">15 conflicts need your decision</h2>
+      <div class="min-w-0 flex-1"><h2 id="dm-h" class="text-title-3">{conflicts} conflicts need your decision</h2>
       <p class="mt-1 text-body-sm text-muted-foreground">You're the Decision Maker, so your choice becomes the final decision.</p></div></div>
       {btn("Resolve conflicts", href="S36-conflicts.html#S36-default", action="review-conflicts", size="md", icon_name="git-compare-arrows", extra="mt-4")}
       <a href="S37-bulk-resolve.html#S37-confirm" class="mt-2 flex min-h-touch items-center justify-center rounded-control text-label-lg" data-action="resolve-all">Resolve all with my decisions</a>
-      <p class="text-center text-body-sm text-muted-foreground">12 have your decision. 3 stay open until you decide them.</p>''', label='dm-h')
+      <p class="text-center text-body-sm text-muted-foreground">{have} have your decision. {conflicts - have} stay open until you decide them.</p>''', label='dm-h')
     body = (ov_header('Wedding guests', [members_link('Deniz, Selin and you'), mi('users', '100 items'), chip('Decision Maker', 'primary', 'gavel')])
             + callout
             + my_progress(85, 100, 21, 14, 50, btn('Continue sorting', 'outline', href='S25-sorting.html#S25-shared', size='md', icon_name='play', extra='mt-4'), hid='mpd-h')
-            + list_status_card('', hid='lsd-h', compact=True)
+            + list_status_card('', hid='lsd-h', compact=True, counts=counts)
             + together_group(readonly_rule=True, rule_desc='Decision Maker decides. You resolve conflicts.', members_desc='3 members')
             + rows_shared(owner=False))
     return ov_screen(ov_bar(menu=h10('S10-collaborator-menu'), share=('S31-invite.html#S31-collaborator', 'Invite', None)), body)
@@ -697,6 +702,18 @@ def ov_shared_collab(translate='', bar_title=None):
             + rows_shared(owner=False)
             + group([button_row('Leave list', icon_name='log-out', destructive=True, href=h10('S10-leave'), action='leave')]))
     return ov_screen(ov_bar(menu=h10('S10-collaborator-menu'), share=('S31-invite.html#S31-collaborator', 'Invite', None), title=bar_title), body, translate=translate)
+
+
+def ov_shared_collab_round2():
+    """Selin after Deniz started Round 2 (the 6 Maybe items, S24): where S40-outcome-late-round's Open lands."""
+    body = (ov_header('Wedding guests', [members_link('Deniz, Mert and you'), mi('users', '100 items'), chip('Collaborator', 'secondary', 'user')])
+            + my_progress(0, 6, 0, 0, 0, btn('Start sorting', href='S25-sorting.html#S25-shared', action='start-sorting', size='md', icon_name='play', extra='mt-4'), hid='mpr-h',
+                          round_label='Round 2, shared', role_note='Round 2 has the 6 Maybe items. Your 43 decisions from Round 1 are saved.')
+            + list_status_card('', hid='lsr-h', compact=True, right='Round 2', counts=(0, 0, 6))
+            + together_group(readonly_rule=True, rule_desc='Decision Maker decides. Mert resolves conflicts; Deniz sets the rule.', members_desc='3 members')
+            + rows_shared(owner=False, round_no=2)
+            + group([button_row('Leave list', icon_name='log-out', destructive=True, href=h10('S10-leave'), action='leave')]))
+    return ov_screen(ov_bar(menu=h10('S10-collaborator-menu'), share=('S31-invite.html#S31-collaborator', 'Invite', None)), body)
 
 
 def ov_shared_waiting():
@@ -965,6 +982,7 @@ src_sheet = ov(sheet('sd', f'''<div class="flex items-center gap-3 pb-1 pt-1"><s
 P.frame('S09-source-details', 'Source details sheet', phone(inert(ov_shared_owner(translate='-translate-y-[64%]', bar_title='Wedding guests')) + src_sheet))
 P.frame('S09-shared-decision-maker', 'Shared, Decision Maker view (Mert)', phone(ov_shared_dm()))
 P.frame('S09-shared-collaborator', 'Shared, Collaborator view (Selin)', phone(ov_shared_collab()))
+P.frame('S09-shared-collaborator-round-2', 'Shared, Collaborator view in Round 2 (Selin, after Deniz started it)', phone(ov_shared_collab_round2()))
 P.frame('S09-shared-collaborator-scrolled', 'Shared, Collaborator view scrolled', phone(ov_shared_collab(translate='-translate-y-[47%]', bar_title='Wedding guests')))
 P.frame('S09-shared-waiting', 'Shared, I decided everything; others still sorting', phone(ov_shared_waiting()))
 
@@ -976,7 +994,7 @@ P.frame('S09-backed-up', 'Backed up: snackbar', phone(ov_new_list(meta=HIRING_ME
 P.frame('S09-backup-queued', 'Switch turned on while offline: backs up later', phone(ov_new_list(backup='queued', translate='-translate-y-[30%]', bar_title='Frontend hiring, Q4',
         top=offline_banner("You're offline. Changes are saved on this phone. Backing up and sharing need a connection."), share_disabled=True)))
 P.frame('S09-shared-backup', 'Shared list, Owner: always backed up (switch disabled)', phone(ov_shared_owner(translate='-translate-y-[66%]', bar_title='Wedding guests')))
-P.frame('S09-web-device-only', 'Web, signed in: a list on this browser only', phone(ov_new_list(meta=HIRING_META[:2] + [mi('cloud-off', 'On this browser only')], header_extra=d08_note(), backup_web=True), kind='web'))
+P.frame('S09-web-device-only', 'Web, signed in: a list on this browser only', phone(ov_new_list(meta=HIRING_META[:2] + [mi('cloud-off', 'On this browser only')], header_extra=d08_note(nid=WEB_D08_ID), backup_web=True), kind='web'))
 
 P.section('Archived and states', 'Archived lists open read-only with Restore as the main action. Loading shows a skeleton only when the list isn\'t on the device yet (opened from a link). Offline, sorting works; inviting needs a connection.')
 P.frame('S09-archived', 'Archived list: read-only (Apartment viewings)', phone(ov_archived()))
@@ -1187,7 +1205,7 @@ def share_backup_sheet(state='default'):
     next_link = ''
     if state == 'busy':
         main = btn('Backing up…', size='lg', busy=True)
-        next_link = '<a href="S31-invite.html#S31-default" class="absolute inset-0" data-action="next" aria-label="Finish backing up (prototype: click the list; the sheet moves on by itself)"></a>'
+        next_link = '<!-- Prototype: click the list row to finish backing up; in the app the sheet moves on by itself. --><a href="S31-invite.html#S31-default" class="absolute inset-0" data-action="next" aria-label="Frontend hiring, Q4, backing up"></a>'
     else:
         main = btn('Back up and share', href=h10('S10-share-backing-up'), action='back-up-and-share', size='lg', icon_name='cloud-upload', disabled=state == 'offline')
     return ov(sheet('sbk', f'''<div class="pt-3"><span class="flex size-12 items-center justify-center rounded-full bg-primary-soft text-primary-soft-foreground">{icon("cloud-upload", "size-6")}</span></div>

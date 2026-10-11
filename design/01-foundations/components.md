@@ -240,7 +240,8 @@ items. iOS uses an action sheet / UIMenu with the same items.
 Alert variants: `info` (primary-soft fill), `error` (card + destructive border + icon), `neutral` (card +
 border, used for web-unavailable with `monitor-smartphone` and "Get the app"). OfflineBanner: slim
 `bg-muted` strip under the app bar, `wifi-off` + "You're offline. Decisions are saved on this phone."
-SyncNotice: inline text with `refresh-cw` (spinning) "Syncing 12 decisions…" → `cloud-check` "Synced".
+SyncNotice: inline text: `clock-arrow-up` "Saved on this phone" (changes waiting, offline) → `refresh-cw` (spinning)
+"Syncing 12 decisions…" → `cloud-check` "Synced". `cloud-off` is reserved for "On this phone only" (D-33).
 BackupIndicator (guest): `cloud-off` + "Lists are on this phone only" + "Back up" link → S05 (web copy per D-08, S08 spec).
 Per-list label (signed in, list kept on this phone only, D-33/A-137): `cloud-off` 16 + "On this phone only"
 (`text-body-sm muted`) in the row meta (S08) and header meta (S09); web "On this browser only".

@@ -816,7 +816,7 @@ def build_s36():
     <div class="mt-6 w-full max-w-xs space-y-2">{btn("Try again", "secondary", action="try-again")}{btn("Back to list", "ghost", "S09-list-overview.html#S09-shared-decision-maker", "back")}</div>
   </div>'''
     F('S36-error', 'Error', phone(err))
-    unsynced = f'<span class="inline-flex items-center gap-1.5 text-caption text-muted-foreground">{icon("cloud-off", "size-4")}2 not synced</span>'
+    unsynced = f'<span class="inline-flex items-center gap-1.5 text-caption text-muted-foreground">{icon("clock-arrow-up", "size-4")}2 not synced</span>'
     F('S36-offline', 'Offline: resolutions saved on the phone', phone(s36_screen('c020', 'c029', 3, top=offline_banner("You're offline. Resolutions are saved on this phone."),
         prog=s36_progress(3, 15, extra=unsynced, disabled=True), hint=hint020, undo_label='Undo last resolution (Reject on Cem Tekin)')))
     sync_sheet = f'''<div class="absolute inset-0 z-40 bg-scrim/50"></div>

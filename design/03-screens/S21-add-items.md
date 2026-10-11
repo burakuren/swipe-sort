@@ -54,7 +54,7 @@ removed, e.g. manual entry: Choose source, Add items, Add to list).
    + Undo; S09's Recent activity gets "You added 12 items from mert-family.csv"; the new source ("mert-family.csv, 12
    items, added just now") appears in S09's Sources group; the item count in the S09 header reads 100 items.
    Offline (`S21-offline-success`): the embedded `S09-offline` also shows the S40 SyncNotice "Saved on this
-   phone" (`cloud-off` 16) under the header meta, so the 12 queued items stay visible after the snackbar; it
+   phone" (`clock-arrow-up` 16, S40 §3.4) under the header meta, so the 12 queued items stay visible after the snackbar; it
    changes to "Syncing…" and "Synced" when the connection returns.
 7. **Partial** (`S21-partial`): result screen with error icon, title, list of rows not added with reasons,
    primary "Done", ghost "Add the file again".

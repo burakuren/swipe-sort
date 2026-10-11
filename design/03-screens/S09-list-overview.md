@@ -36,12 +36,13 @@ D-08 (web storage line, A-137).
 | S10 | Duplicate opens the copy (`S10-duplicated`); Restore |
 | S33 join | "Open list" |
 | Notifications / deep link `/l/<listId>` | opens directly |
+| S40 sync outcome | "Open" on `S40-outcome-late-round` → `S09-shared-collaborator-round-2` |
 
 | To | Element | `data-action` |
 | --- | --- | --- |
 | S08 `S08-default` | back arrow / system back / edge swipe | `back` |
 | S25 `S25-photo`, `S25-shared`, `S25-default` | "Continue sorting" | `continue-sorting` |
-| S25 `S25-candidate`, `S25-product` | "Start sorting" (never sorted) | `start-sorting` |
+| S25 `S25-candidate`, `S25-product`; `S25-shared` from `S09-shared-collaborator-round-2` | "Start sorting" (never sorted, or a new round not started yet) | `start-sorting` |
 | S24 `S24-maybe` | "Re-sort Maybe (6)" on `S09-solo-round-done` | `resort-maybe` |
 | S24 `S24-default` | "Start a new round" (Owner only on shared lists) | `new-round` |
 | S28 `S28-default` / `S28-shared` | "Results" | `results` |
@@ -173,10 +174,11 @@ sections 24 apart).
 | `S09-shared-decision-maker` | Shared, Decision Maker (Mert, 85 / 100: 21 rejected, 14 maybe, 50 accepted): resolve call to action. Flow 3: Mert lands here after closing sorting on the web; "Resolve conflicts" carries `data-action="review-conflicts"` |
 | `S09-shared-collaborator` | Shared, Collaborator (Selin, 43 / 100: 8 / 10 / 25): no Start a new round, rule read-only |
 | `S09-shared-collaborator-scrolled` | Same, scrolled to the footer and Leave list |
+| `S09-shared-collaborator-round-2` | Selin after Deniz started Round 2 (the 6 Maybe items, S24): My progress "Round 2, shared" 0 / 6 with "Round 2 has the 6 Maybe items. Your 43 decisions from Round 1 are saved." and Start sorting; List status "Round 2" 0 agreed, 0 conflicts, 6 pending (no conflicts button); Rounds 2; "New items join Round 2 for everyone". Lands here from `S40-outcome-late-round` Open (D-09 row 2) |
 | `S09-shared-waiting` | I decided every item (100 / 100: 18 rejected, 15 maybe, 67 accepted, A-123) while others are still sorting; member progress; "See results" |
 | `S09-archived` | Archived list opened from Archived lists: read-only (Apartment viewings, `l-apartments`) |
 | `S09-loading` | List not on the device yet (opened from a link or notification on a new device) |
-| `S09-offline` | Offline on a shared list with changes waiting: banner, the S40 sync notice "Saved on this phone" under the header meta (`cloud-off`; screen reader "Saved on this phone, 4 changes not synced yet"; A-115), Invite disabled, list status timestamped "As of 9:24"; below the fold Conflict rule and Start a new round are disabled with "Needs a connection" (A-186) |
+| `S09-offline` | Offline on a shared list with changes waiting: banner, the S40 sync notice "Saved on this phone" under the header meta (`clock-arrow-up`, S40 §3.4; screen reader "Saved on this phone, 4 changes not synced yet"; A-115), Invite disabled, list status timestamped "As of 9:24"; below the fold Conflict rule and Start a new round are disabled with "Needs a connection" (A-186) |
 | `S09-unavailable` | The Owner deleted the list (or I was removed): what happened + Back to lists |
 | `S09-device-only` | Frontend hiring, Q4 scrolled to the end: Backup group, switch off, "On this phone only" + footer (A-132) |
 | `S09-backing-up` | Switch turned on: "Backing up…", switch disabled until done; Share opens the share sheet's busy state (`S10-share-backing-up`) |
@@ -245,6 +247,7 @@ frames: `S10-backup-off`, `S10-ios-backup-off`, `S10-backup-off-offline`, `S10-b
 | Sample | "Desk setup (sample)"; "This is a sample list" / "20 sample items to practice on. Sort, change decisions, try Results. Delete it from the menu when you're done; nothing else changes."; "Swipe right to accept, left to reject, up for maybe. Or use the buttons." |
 | Share card | "Decide together" / "Share this list so others can sort it on their own devices. You'll see where you agree." / "Share list" |
 | Shared progress | "My progress"; "Round 1, shared"; "76 / 100 decided" |
+| Shared, Round 2 | "Round 2, shared"; "0 / 6 decided"; "Round 2 has the 6 Maybe items. Your 43 decisions from Round 1 are saved."; "Start sorting"; List status "Round 2", "0 agreed", "0 conflicts", "6 pending"; "New items join Round 2 for everyone" |
 | List status | "List status"; "All 3 members" (offline "As of 9:24"); "Agreed" "Everyone chose the same"; "Conflict" "Members chose differently"; "Pending" "Not everyone has decided"; compact "32 agreed", "15 conflicts", "53 pending"; "Review conflicts" / "View conflicts" |
 | Decision Maker | "15 conflicts need your decision" / "You're the Decision Maker, so your choice becomes the final decision." / "Resolve conflicts" / "Resolve all with my decisions" / "12 have your decision. 3 stay open until you decide them." |
 | Deciding together | header "Deciding together"; "Conflict rule" + "Decision Maker decides, Mert" (Owner); members: "Decision Maker decides. Mert resolves conflicts; Deniz sets the rule." / DM: "Decision Maker decides. You resolve conflicts."; "Members" + "3 members, you're the Owner" / "3 members" |
@@ -298,7 +301,8 @@ frames: `S10-backup-off`, `S10-ios-backup-off`, `S10-backup-off-offline`, `S10-b
   Everything else is identical.
 - **Web, mobile** (`S09-web`): same as Android; without an account the list is "On this browser only", with the
   D-08 note line under the meta. Signed in, a list kept in this browser only shows the same label and line and
-  the Backup row reads "On this browser only" (`S09-web-device-only`); the footer about new phones is left out.
+  the Backup row reads "On this browser only" (`S09-web-device-only`); the footer about new phones is left out,
+  and the D-08 line takes its place in the switch's accessible description (`aria-describedby` = state + D-08 line).
 - **Web, desktop** (`S09-web-desktop`): phone column centered; hover states on rows; the overflow menu is a
   popover. Keyboard: Enter on the primary button starts sorting; arrow-key sorting hints appear only in S25.
 
@@ -336,7 +340,7 @@ frames: `S10-backup-off`, `S10-ios-backup-off`, `S10-backup-off-offline`, `S10-b
   `S40-outcome-removed`; if I lost the Decision Maker role while offline, the callout is replaced by the inline
   alert `S40-outcome-dm-role-lost` and the page switches to the Collaborator view; resolutions dropped because
   members agreed show `S40-outcome-already-agreed`; Round 1 decisions synced after Round 2 started show
-  `S40-outcome-late-round`; an edit replaced by a later one shows `S40-outcome-edit-replaced`.
+  `S40-outcome-late-round` (its Open lands on `S09-shared-collaborator-round-2`); an edit replaced by a later one shows `S40-outcome-edit-replaced`.
 - **Many sources** (5+): every row shows; the group never collapses. Two sources with the same file name
   are told apart by their dates.
 - **Source dates**: relative within a week ("added today", "added 3 days ago"), then "Sep 28", then

@@ -95,7 +95,7 @@ above; the pinned bar becomes "Cancel" (outline) + "Save changes" (primary). Fie
 | date | Input showing the formatted value + `calendar` IconButton | system date/time picker (out of scope). No frame since D-32 (no date field in the sample lists in use, A-171); same layout as the link Input with its trailing button |
 | link | Input `type=url` + `external-link` IconButton "Open link" | URL keyboard |
 | image (contact photo) | Avatar 64 + "Remove" (outline, `trash-2`) + line "From Contacts. Removing it here doesn't change your contacts."; no photo: initials + "No photo in Contacts." No add or replace (D-32: no photo library or camera, A-170) | none |
-| image (from a link: CSV, Google Sheets, manual entry) | The image link as an Input `type=url` with a 36 thumbnail at its end once the link loads, helper "Paste a link to an image. Cards show the picture from this link." (same control as S17, A-160); clearing it removes the image | URL keyboard |
+| image (from a link: CSV, Google Sheets, manual entry) | The image link as an Input `type=url` with a leading `link` icon (every state) and a 36 thumbnail at its end once the link loads, helper "Paste a link to an image. Cards show the picture from this link." (same control as S17, A-160); clearing it removes the image | URL keyboard |
 
 An edited field shows "Original: …" under its input while editing.
 
@@ -169,7 +169,7 @@ AlertDialog, Alert, Skeleton, OfflineBanner, Kbd.
 - **Others' decisions hidden** (SRT-12): while sorting a shared list with "Show others' decisions" off, the
   sheet hides them until I decide that item. Opened from Results or Conflicts they are always shown.
 - **Offline**: every action works; edits, notes and decisions are saved locally and marked for sync; the
-  snackbar says so once per session; a `cloud-off` "Not synced" Badge is not shown per field (the S25/S09
+  snackbar says so once per session; a "Not synced" Badge is not shown per field (the S25/S09
   sync notice covers it).
 - **Links** open in the in-app browser; phone numbers and emails are not actionable here (out of the
   sorting task; long-press copies the value with snackbar "Copied").
