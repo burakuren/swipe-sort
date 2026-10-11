@@ -8,8 +8,8 @@ changed. 40 screens, 882 frames, 1,764 screenshots (light and dark). Every decis
 assumption entry: A-128 to A-188 in `design/00-brief/assumptions.md` (A-161–A-164 and A-174 unused).
 
 Commits: `734b7b5` (lead decisions A-128–A-139), `b854621` (all rows applied), `6a9b6f5` (screenshots and QA
-evidence), `ba6fcbd` (QA round 1 fixes), `4c9c8b3` (evidence), then the QA round 2 commit that also marks the
-register in `docs/build-decisions.md` §7.
+evidence), `ba6fcbd` (QA round 1 fixes), `4c9c8b3` (evidence), `e1bb89b` (QA round 2 fixes and this report),
+then the commit that adds a status to each register row in `docs/build-decisions.md` §7.
 
 How the work was split (no two groups edited the same file): lead (decisions, requirements, glossary,
 architecture docs, foundations, prototype, flows, QA tooling); group A accounts (S01–S07); group B1 import

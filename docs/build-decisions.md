@@ -1032,16 +1032,16 @@ The founder decided (2026-10-10) that all design changes found in this session a
 a dedicated design-update session (a well-prompted agent with the design skills and context) before any coding
 starts. `/design` is not edited in this session.
 
-| From | Change |
-| --- | --- |
-| D-02 | New product name and domain: brand assets, every "SwipeSort" string, domain in A-54, A-56, navigation-map §4, S07/S32/S39 copy (once the name is chosen) |
-| D-05 | S21 and S22 change mode: on shared lists, offline changes are queued, not blocked; state this in specs and A-88 |
-| D-08 | S08 web guest indicator: say browsers can clear lists not opened for a while and that signing in keeps them (replaces A-81 web copy); S27 web: gentle sign-in nudge after a guest's first round; S05 may mention the risk |
-| D-09 | S40: sync outcome messages for an overwritten field edit (beyond A-70's inline choice), late Round 1 decisions saved after a new round, removed from a list while offline, resolutions dropped because members already agreed, resolutions rejected because the Decision Maker role moved |
-| D-10 | A-79 / S05: the sample list stays on the device at sign-in and is not moved to the account |
-| D-13 | Sign in with Apple on all platforms: S03 (Android, web), S05 (Android, web), S07 sign-in methods; update requirements/brief note (Apple was iOS-only) |
-| D-17 | S15: replace "Recent" spreadsheet list and Drive search with a Google Picker step (keep tab selection); rewrite A-60 / A-91 scopes to `drive.file` only; S39 Google copy about permissions |
-| D-18 | S13: picker path for Android 17+ and iOS (system picker → review list); S12 contacts explainer only on Android ≤16; update A-57 / A-58 |
-| D-28 | S06 Privacy: "Share anonymous usage data" switch (on by default) with a one-line explanation |
-| D-32 | Photos source out of scope: remove or mark "later" the S11 Photos tile (and web "Upload photos"), S12 photos explainer and denied states, S18 entirely, photo clean-up sample list where it is the subject; decide whether the built-in Photo template stays; check prototype flows, coverage and traceability for photo references |
-| D-33 | Per-list "keep on this device only" for signed-in users: design the switch, labels, share/sign-in/sign-out/deletion behavior and confirmations (questions 1–7 in D-33); update A-35, A-46, A-52, A-81, S05, S06, S09, S10 |
+| From | Change | Status |
+| --- | --- | --- |
+| D-02 | New product name and domain: brand assets, every "SwipeSort" string, domain in A-54, A-56, navigation-map §4, S07/S32/S39 copy (once the name is chosen) | Skipped: no final product name is chosen yet (D-02 open); see `design/00-brief/assumptions.md` A-128 and `docs/design-update-report.md` |
+| D-05 | S21 and S22 change mode: on shared lists, offline changes are queued, not blocked; state this in specs and A-88 | Done in b854621 (QA fixes ba6fcbd, e1bb89b); see `docs/design-update-report.md` |
+| D-08 | S08 web guest indicator: say browsers can clear lists not opened for a while and that signing in keeps them (replaces A-81 web copy); S27 web: gentle sign-in nudge after a guest's first round; S05 may mention the risk | Done in b854621 (QA fixes ba6fcbd, e1bb89b); see `docs/design-update-report.md` |
+| D-09 | S40: sync outcome messages for an overwritten field edit (beyond A-70's inline choice), late Round 1 decisions saved after a new round, removed from a list while offline, resolutions dropped because members already agreed, resolutions rejected because the Decision Maker role moved | Done in b854621 (QA fixes ba6fcbd, e1bb89b); see `docs/design-update-report.md` |
+| D-10 | A-79 / S05: the sample list stays on the device at sign-in and is not moved to the account | Done in b854621 (QA fixes ba6fcbd, e1bb89b); see `docs/design-update-report.md` |
+| D-13 | Sign in with Apple on all platforms: S03 (Android, web), S05 (Android, web), S07 sign-in methods; update requirements/brief note (Apple was iOS-only) | Done in b854621 (QA fixes ba6fcbd, e1bb89b); see `docs/design-update-report.md` |
+| D-17 | S15: replace "Recent" spreadsheet list and Drive search with a Google Picker step (keep tab selection); rewrite A-60 / A-91 scopes to `drive.file` only; S39 Google copy about permissions | Done in b854621 (QA fixes ba6fcbd, e1bb89b); see `docs/design-update-report.md` |
+| D-18 | S13: picker path for Android 17+ and iOS (system picker → review list); S12 contacts explainer only on Android ≤16; update A-57 / A-58 | Done in b854621 (QA fixes ba6fcbd, e1bb89b); see `docs/design-update-report.md` |
+| D-28 | S06 Privacy: "Share anonymous usage data" switch (on by default) with a one-line explanation | Done in b854621 (QA fixes ba6fcbd, e1bb89b); see `docs/design-update-report.md` |
+| D-32 | Photos source out of scope: remove or mark "later" the S11 Photos tile (and web "Upload photos"), S12 photos explainer and denied states, S18 entirely, photo clean-up sample list where it is the subject; decide whether the built-in Photo template stays; check prototype flows, coverage and traceability for photo references | Done in b854621 (QA fixes ba6fcbd, e1bb89b); see `docs/design-update-report.md` |
+| D-33 | Per-list "keep on this device only" for signed-in users: design the switch, labels, share/sign-in/sign-out/deletion behavior and confirmations (questions 1–7 in D-33); update A-35, A-46, A-52, A-81, S05, S06, S09, S10 | Done in b854621 (QA fixes ba6fcbd, e1bb89b); see `docs/design-update-report.md` |
