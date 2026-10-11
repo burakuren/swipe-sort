@@ -46,6 +46,7 @@ list that has no decision and no open item below.
 | D-29 | PowerSync hosting | PowerSync Cloud Free during development and closed testing; self-hosted Open Edition at public launch (Cloud Pro only if self-hosting proves bad). | Decided | — |
 | D-30 | Hosting option per service | Supabase Free in development → Pro at public launch; Sentry free cloud; Aptabase free cloud in development → self-hosted at launch; EAS Update free → self-hosted near 1k MAU; Resend free → Amazon SES if volume grows; Cloudflare web hosting. | Decided | — |
 | D-31 | Expected costs | ≈ $0/month before launch; ≈ $35–45/month at Android launch (Supabase Pro + one small server); ≈ $90–150/month around 10k monthly users (rough). | Decided | — |
+| D-32 | Photos source out of scope | The Photos source (each photo becomes a card) is removed from the current scope until its outcome makes sense; images still exist as contact photos and image fields. Changes a Fixed item. | Decided | — |
 
 ## 2. Facts and constraints
 
@@ -769,8 +770,8 @@ and service pricing) and `docs/research/expo-stack.md` (Expo SDK, libraries, syn
   | Requirement | Plan |
   | --- | --- |
   | Privacy policy | Plain-language page on our domain (`/privacy`, Cloudflare), linked in the Play listing and in the app (S06 privacy information). Covers data collected (below), sub-processors (Supabase, PowerSync, Sentry, Resend, Expo push, Google, Apple), retention including backups (D-19), deletion, contact. Drafted by us; the founder owns it legally. |
-  | Data safety form | Device-only data (guest lists) is not "collected". Declared for backed-up or shared lists and accounts: Contacts, Photos, Name, Email address, User IDs, Other user-generated content (lists, decisions, notes), Crash logs and Diagnostics (Sentry), Device or other IDs (push tokens); analytics data if D-28 adds it. Purpose: app functionality. Encrypted in transit; deletion available; not shared (service providers don't count). |
-  | Permissions | `READ_CONTACTS` with `maxSdkVersion="36"` (D-18; a declaration only if kept on Android 17+); photos through the system Photo Picker, no `READ_MEDIA_IMAGES`; `POST_NOTIFICATIONS` at runtime; permissions added by libraries but unused are removed with `android.blockedPermissions`. |
+  | Data safety form | Device-only data (guest lists) is not "collected". Declared for backed-up or shared lists and accounts: Contacts (including contact photos), Photos only if the Photos source returns (D-32), Name, Email address, User IDs, Other user-generated content (lists, decisions, notes), Crash logs and Diagnostics (Sentry), Device or other IDs (push tokens); analytics data if D-28 adds it. Purpose: app functionality. Encrypted in transit; deletion available; not shared (service providers don't count). |
+  | Permissions | `READ_CONTACTS` with `maxSdkVersion="36"` (D-18; a declaration only if kept on Android 17+); no photo-library access while the Photos source is out of scope (D-32; when it returns: system Photo Picker, never `READ_MEDIA_IMAGES`); `POST_NOTIFICATIONS` at runtime; permissions added by libraries but unused are removed with `android.blockedPermissions`. |
   | Prominent disclosure | The S12 contacts and photos explainers are the in-app disclosure with affirmative consent before access; they stay on every permission path. |
   | Account deletion | In the app (S07) and a web page on our domain, URL entered in Play Console (D-19). |
   | Target API | 36 (required for new apps and updates since 2026-08-31); moving to 37 triggers the D-18 contacts declaration question. |
@@ -873,6 +874,33 @@ and service pricing) and `docs/research/expo-stack.md` (Expo SDK, libraries, syn
   size, Sentry error volume; review the bills monthly after launch.
 - **Design changes needed:** none.
 
+### D-32 Photos source out of scope (for now)
+
+- **Decision:** the **Photos** source (S18: each photo becomes a card) is out of the current scope. It returns
+  when its outcome is designed: today a photo sort ends in nothing useful, because exports leave image fields out
+  (A-94) and the original source is never changed (so rejected photos are not deleted from the gallery).
+  Images still exist inside other lists: **contact photos** and **image fields**, stored as files and synced to
+  Supabase Storage (D-15).
+- **Status:** Decided (2026-10-11)
+- **Conflict with a Fixed item:** the handoff lists photos among the launch sources, and the brief's sample
+  data includes a photo clean-up list. The founder removed it because the feature has no meaningful result yet.
+  The source picker is data-driven (A-55), so it can return as one more tile.
+- **Alternatives considered:** keep photos and design an outcome (export a contact sheet, album, or a
+  "delete rejected photos" action, which would break "the source is never changed automatically").
+- **Reasons:** a sort whose result can't be used doesn't serve the founder or users; less scope, less storage
+  cost and one fewer permission path.
+- **Consequences and follow-up:**
+  - No photo-library access at all for now (no Photo Picker path); Data safety declares photos only as part of
+    contacts (contact photos).
+  - Supabase Storage remains for contact photos and image fields, so the **Storage backup gap stays** (smaller):
+    Postgres backups do not include Storage files (open item).
+  - Release planning: photos is a later feature, with its outcome to be designed first.
+- **Design changes needed:** remove or mark as "later" the Photos tile (S11, including the web "Upload photos"
+  tile), the photos pre-permission explainer and denied states (S12), S18 entirely, the photo clean-up sample
+  list from first-run and samples where it is the subject; decide whether the built-in **Photo** card template
+  stays (useful for CSVs with image links) or goes; check prototype flows and coverage/traceability for photo
+  references.
+
 ## 4. Risks
 
 | Risk | Likelihood / impact | Handling |
@@ -882,6 +910,7 @@ and service pricing) and `docs/research/expo-stack.md` (Expo SDK, libraries, syn
 | Apple OAuth secret expires (6 months) and Apple sign-in breaks on web/Android. | Medium / medium | D-13: scripted rotation + calendar reminder; monitor auth errors in crash reporting. |
 | List-status logic drifts between the device (TypeScript) and the server (SQL). | Medium / high | D-14: shared JSON test vectors run against both implementations in CI. |
 | A secret gets committed and later exposed when the repo goes public. | Low / high | D-26: gitleaks in CI from the first commit, full-history scan before going public; rotate any leaked key. |
+| Storage files (contact photos, image fields) are not covered by Supabase's database backups. | Low / medium | Open item: bucket sync to the founder's server or R2 with versioning before public launch. |
 | Self-hosted PowerSync goes down: devices keep working offline but stop syncing. | Low / medium | D-29: uptime monitoring and alerting, restart policy, documented redeploy; Cloud Pro as fallback (same protocol). |
 | PowerSync vendor risk (pricing change, company failure). | Low / high | Self-hostable Open Edition (FSL), Apache-2.0 client SDKs, same protocol; Postgres stays the source of truth. |
 | Google Play restricts `READ_CONTACTS` for apps targeting API 37+: allowed only when the Android 17 Contact Picker can't support core features, with a Play Console declaration (mandatory from 2027-01-27 for API 37 targets). Contacts import is the #1 feature. | Medium / high | D-18: picker on Android 17+ and iOS, permission only on Android ≤16; spike evidence backs a declaration if the picker can't bulk-select. |
@@ -902,6 +931,7 @@ and service pricing) and `docs/research/expo-stack.md` (Expo SDK, libraries, syn
 | KVKK legal check (D-27) | Turkish rules on transferring personal data abroad (amended 2024) apply to contacts stored in an EU Supabase region | A legal opinion before public launch |
 | Open-source licence and trademark (D-26) | Only needed if the repo goes public | Choose MIT vs AGPL (AGPL stops a closed hosted clone); protect the final name |
 | Commit author email (D-26) | Personal Gmail is in commit history | Founder decides whether to switch to GitHub's noreply address before going public |
+| Backup of Supabase Storage files (contact photos, image fields) | Supabase's database backups do not include Storage objects ("the database only includes metadata"), so a deleted or corrupted file can't be restored | Choose: scheduled sync of the bucket to the founder's server or Cloudflare R2 with versioning (agent's lean), object versioning, or accept (the device keeps a copy until sign-out). Before public launch. |
 | Per-list "keep on this device only" while signed in (founder's question, 2026-10-11) | A product feature, not in the design (A-81: signed-in lists are always backed up) | Decide in the feature/release session; the architecture keeps it cheap (local-only tables exist, D-10) |
 
 Not open, but with revisit triggers: Universal Sign In upgrade (D-12), split design tooling into its own
@@ -932,6 +962,7 @@ near 1k MAU (D-30).
 - **Apple (D-04, D-13):** iOS device testing, TestFlight, Sign in with Apple and iOS push start only after
   enrollment (allow about 2 weeks) plus TestFlight review of the first external build; Apple's OAuth secret then
   needs rotation every 6 months.
+- **Photos source (D-32):** out of the current scope; returns as a later feature once its outcome is designed.
 - **Expo SDK (D-25):** SDK 58 stable expected late Oct 2026; Expo Router's navigation core changes in 58.
 - **EAS Update (D-30):** the free plan stops serving updates beyond 1,000 MAU; move to the self-hosted updates
   server before that.
@@ -985,3 +1016,4 @@ starts. `/design` is not edited in this session.
 | D-17 | S15: replace "Recent" spreadsheet list and Drive search with a Google Picker step (keep tab selection); rewrite A-60 / A-91 scopes to `drive.file` only; S39 Google copy about permissions |
 | D-18 | S13: picker path for Android 17+ and iOS (system picker → review list); S12 contacts explainer only on Android ≤16; update A-57 / A-58 |
 | D-28 | S06 Privacy: "Share anonymous usage data" switch (on by default) with a one-line explanation |
+| D-32 | Photos source out of scope: remove or mark "later" the S11 Photos tile (and web "Upload photos"), S12 photos explainer and denied states, S18 entirely, photo clean-up sample list where it is the subject; decide whether the built-in Photo template stays; check prototype flows, coverage and traceability for photo references |
