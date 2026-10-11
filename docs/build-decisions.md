@@ -47,6 +47,7 @@ list that has no decision and no open item below.
 | D-30 | Hosting option per service | Supabase Free in development → Pro at public launch; Sentry free cloud; Aptabase free cloud in development → self-hosted at launch; EAS Update free → self-hosted near 1k MAU; Resend free → Amazon SES if volume grows; Cloudflare web hosting. | Decided | — |
 | D-31 | Expected costs | ≈ $0/month before launch; ≈ $35–45/month at Android launch (Supabase Pro + one small server); ≈ $90–150/month around 10k monthly users (rough). | Decided | — |
 | D-32 | Photos source out of scope | The Photos source (each photo becomes a card) is removed from the current scope until its outcome makes sense; images still exist as contact photos and image fields. Changes a Fixed item. | Decided | — |
+| D-33 | Per-list "keep on this device only" | Signed-in users can turn off backup for a single list; to be designed in the design-update session. Changes a Fixed item. | Decided (design pending) | — |
 
 ## 2. Facts and constraints
 
@@ -901,6 +902,33 @@ and service pricing) and `docs/research/expo-stack.md` (Expo SDK, libraries, syn
   stays (useful for CSVs with image links) or goes; check prototype flows and coverage/traceability for photo
   references.
 
+### D-33 Per-list "keep on this device only" (turn off backup for one list)
+
+- **Decision:** a signed-in user can keep a single list on the device only, with backup turned off for that
+  list. Included in the design-update session; the design decides the details below.
+- **Status:** Decided (2026-10-11); design pending
+- **Conflict with a Fixed item:** the handoff and brief say local lists move into the account on sign-in, and
+  A-81 says signed-in lists are always backed up. The founder wants users to be able to keep private lists
+  off the server.
+- **Alternatives considered:** every signed-in list is backed up (as designed).
+- **Reasons:** privacy for sensitive lists (for example contact data a user doesn't want on any server); the
+  architecture makes it cheap: device-only lists use the same local-only tables as guest lists (D-10), and
+  "Back up this list" reuses the moving-lists mechanism.
+- **Questions the design session must answer:**
+  1. Where the switch lives (S09 list overview, S10 list menu, S06 backup page) and its label.
+  2. Sharing needs backup: what happens when the user shares a device-only list (prompt to back it up first).
+  3. Turning backup off for a backed-up list deletes the account copy: confirmation copy; not allowed for
+     shared lists (or only for the Owner after removing everyone?).
+  4. Sign-in: do all guest lists still move automatically, or can the user keep some on the device?
+  5. Sign-out: backed-up lists leave the phone (A-52); do device-only lists stay, and whose are they after
+     another account signs in on the same phone?
+  6. Labels: the "On this phone only" indicator per list for signed-in users (A-35, A-81), and on web the
+     browser-storage warning (D-08).
+  7. Account deletion and moving to a new phone: device-only lists are not recoverable; how this is explained.
+- **Consequences and follow-up:** no new technology; data layer keeps a per-list storage mode (device-only /
+  backed up); Data safety unaffected (device-only data is not collected).
+- **Design changes needed:** see the questions above and the register (§7).
+
 ## 4. Risks
 
 | Risk | Likelihood / impact | Handling |
@@ -932,7 +960,6 @@ and service pricing) and `docs/research/expo-stack.md` (Expo SDK, libraries, syn
 | Open-source licence and trademark (D-26) | Only needed if the repo goes public | Choose MIT vs AGPL (AGPL stops a closed hosted clone); protect the final name |
 | Commit author email (D-26) | Personal Gmail is in commit history | Founder decides whether to switch to GitHub's noreply address before going public |
 | Backup of Supabase Storage files (contact photos, image fields) | Supabase's database backups do not include Storage objects ("the database only includes metadata"), so a deleted or corrupted file can't be restored | Choose: scheduled sync of the bucket to the founder's server or Cloudflare R2 with versioning (agent's lean), object versioning, or accept (the device keeps a copy until sign-out). Before public launch. |
-| Per-list "keep on this device only" while signed in (founder's question, 2026-10-11) | A product feature, not in the design (A-81: signed-in lists are always backed up) | Decide in the feature/release session; the architecture keeps it cheap (local-only tables exist, D-10) |
 
 Not open, but with revisit triggers: Universal Sign In upgrade (D-12), split design tooling into its own
 package (D-20), i18next selector mode (D-23), PowerSync Cloud Pro fallback (D-29), self-hosted EAS Update
@@ -1017,3 +1044,4 @@ starts. `/design` is not edited in this session.
 | D-18 | S13: picker path for Android 17+ and iOS (system picker → review list); S12 contacts explainer only on Android ≤16; update A-57 / A-58 |
 | D-28 | S06 Privacy: "Share anonymous usage data" switch (on by default) with a one-line explanation |
 | D-32 | Photos source out of scope: remove or mark "later" the S11 Photos tile (and web "Upload photos"), S12 photos explainer and denied states, S18 entirely, photo clean-up sample list where it is the subject; decide whether the built-in Photo template stays; check prototype flows, coverage and traceability for photo references |
+| D-33 | Per-list "keep on this device only" for signed-in users: design the switch, labels, share/sign-in/sign-out/deletion behavior and confirmations (questions 1–7 in D-33); update A-35, A-46, A-52, A-81, S05, S06, S09, S10 |
