@@ -302,7 +302,7 @@ None.
 | DEL-14 | `03-screens/Sxx-name.html` with all frames side by side; `Sxx-name.md` spec following the 9-part template. | — | 03-screens/ (40 HTML + 40 specs) |  | Mapped (documents) |
 | DEL-15 | `04-explorations/` — sorting directions not chosen. | — | 04-explorations/ |  | Mapped (documents) |
 | DEL-16 | `04-prototype/index.html` clickable prototype; `swipe-demo.html` working swipe (touch, mouse, keyboard) implementing the motion spec. | — | 04-prototype/index.html<br>04-prototype/swipe-demo.html |  | Mapped (documents) |
-| DEL-17 | `05-qa/` — screenshots (light and dark of every frame), `a11y-report.md`, `coverage.md`, `traceability.md`, `review-report.md`. | — | 05-qa/screenshots/<br>05-qa/a11y-report.md<br>05-qa/coverage.md<br>05-qa/traceability.md<br>05-qa/review-report.md |  | Mapped (documents) |
+| DEL-17 | `05-qa/` — screenshots (light and dark of every frame), `a11y-report.md`, `coverage.md`, `traceability.md`, `review-report.md`. | — | tools/shots.mjs<br>05-qa/a11y-report.md<br>05-qa/coverage.md<br>05-qa/traceability.md<br>05-qa/review-report.md |  | Mapped (documents) |
 | DEL-18 | Screen HTML: plain HTML + compiled Tailwind, offline fonts/icons, no JS frameworks, small vanilla scripts only. | — | 05-qa/lint-report.md |  | Mapped (documents) |
 | DEL-19 | Screen HTML uses only tokens and mapped utilities; no hard-coded colors, sizes or fonts. | — | 05-qa/lint-report.md |  | Mapped (documents) |
 | DEL-20 | Each frame has a visible label (e.g. "S25 · Conflict state · dark"). | — | 05-qa/lint-report.md |  | Mapped (documents) |
