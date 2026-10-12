@@ -246,8 +246,9 @@ and service pricing) and `docs/research/expo-stack.md` (Expo SDK, libraries, syn
 ### D-07 Sync engine and local database
 
 - **Decision:** PowerSync is the single sync stack, with Postgres as the source database.
-  - Mobile: `@powersync/react-native` + `@powersync/op-sqlite` (SQLite via JSI; SQLCipher encryption
-    available).
+  - Mobile: `@powersync/react-native` + `@op-engineering/op-sqlite` (SQLite via JSI; SQLCipher encryption
+    available). _Updated 2026-10-12: PowerSync React Native SDK v2 (July 2026) has the op-sqlite adapter
+    built in; the separate `@powersync/op-sqlite` package is no longer used._
   - Web: `@powersync/web` (SQLite compiled to WebAssembly, in a Web Worker, stored in IndexedDB or OPFS).
   - Query layer: SQL with Drizzle (`@powersync/drizzle-driver`) on both.
   - Writes: device → our API → Postgres (business rules stay ours); reads: Postgres → PowerSync Service →
@@ -720,7 +721,7 @@ and service pricing) and `docs/research/expo-stack.md` (Expo SDK, libraries, syn
   | Expo SDK | SDK 58 if stable at kickoff (stable expected late Oct 2026), otherwise 57 then upgrade; dev builds only |
   | Environments | development: local Supabase (CLI, Docker) + local PowerSync (Docker); preview: free Supabase project + PowerSync Cloud Free; production: Supabase Pro + PowerSync (hosting per cost decision). One EAS build profile and EAS environment per environment. |
   | Builds | EAS free plan (15 Android builds/month, low-priority queue); `expo run:android` daily; `eas build --local` when the queue is slow |
-  | Distribution | Founder's phone: EAS internal distribution; store: AAB → Play internal → closed → production |
+  | Distribution | Founder's phone: EAS internal distribution (locally built APKs through `eas upload`, which returns an install link; release plan §2 M1); store: AAB → Play internal → closed → production |
   | Submit | EAS Submit to Play, internal track first (verify whether the first upload must be manual; Expo docs conflict) |
   | OTA updates | EAS Update, one channel per environment, runtime version policy `fingerprint`; free up to 1,000 MAU; the design's "App update required" (A-116) enforced by a minimum client version checked in `apply_ops` |
   | Versioning | Semver marketing version; Android `versionCode` / iOS build number managed remotely by EAS (`appVersionSource: remote`, auto-increment) |
@@ -1010,10 +1011,10 @@ The first build session (after the design-update session) must:
    tokens, React Native Reusables, Lucide, Reanimated + Gesture Handler, Inter (design HANDOFF §2).
 4. **Repository (D-20):** merge the design tooling into the root `package.json` as `design:*` scripts; update
    CLAUDE.md (new phase: build; script names).
-5. **Data layer:** PowerSync schema with local-only and synced variants (D-10), Drizzle driver, deterministic
+5. **Data layer** (_M1 builds the local-only variant only; synced variants in M2, release plan §2 M1_): PowerSync schema with local-only and synced variants (D-10), Drizzle driver, deterministic
    decision ids and UUIDv7 (D-09), database excluded from Android Auto Backup / iCloud (D-19); reactive queries
    only (D-22).
-6. **Local backend for development:** Supabase CLI (Docker) with migrations in `supabase/`, the `api` schema and
+6. **Local backend for development** (_M2, not M1: release plan §2 M1_): Supabase CLI (Docker) with migrations in `supabase/`, the `api` schema and
    default EXECUTE grants revoked (D-14), local PowerSync (Docker); PowerSync Cloud Free + a free Supabase project
    for preview.
 7. **i18n (D-23):** i18next with TypeScript catalogs, namespaces, no-raw-text lint rule, plural polyfill.
