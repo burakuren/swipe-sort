@@ -1,6 +1,6 @@
 # Release sequence: offline Android first, web with collaboration, iOS last
 
-SwipeSort ships in six milestones (`docs/release-plan.md`): M1 offline guest-mode contacts sorting on
+SwipeSort ships in six milestones (release plan, kept private: `private/docs/release-plan.md`): M1 offline guest-mode contacts sorting on
 Android, M2 accounts and backup, M3 shared lists plus the web app, M4 the remaining sources and launch
 completeness, M5 public launch on Google Play, M6 iOS. The founder's own guest list is the first real use, so
 the number-one feature (contacts import and sorting) ships alone and offline first; the backend follows before

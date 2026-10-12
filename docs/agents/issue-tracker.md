@@ -14,6 +14,19 @@ Issues and specs for this repo live as GitHub issues. Use the `gh` CLI for all o
 
 Repo: `burakuren/swipe-sort`. This clone has no git remote, so pass `--repo burakuren/swipe-sort` to every `gh issue`/`gh pr` command and use `burakuren/swipe-sort` for `<owner>/<repo>` / `{owner}/{repo}` in `gh api` paths.
 
+## Public repo: Issues are the work tracker, Discussions the inbox
+
+The repo is public (ADR-0008, D-26). Issues hold the maintainer's work only; outside bug reports, ideas and
+questions arrive in GitHub Discussions, and `.github/workflows/outside-input.yml` closes issues opened by
+non-collaborators with a pointer there.
+
+- **Triage a discussion**: `gh api graphql` to read Discussions; when one is actionable, create an issue that
+  links back to it (`From discussion: <url>`) and reply in the discussion with the issue link.
+- **Tester feedback** (emails to the feedback address) becomes an issue the same way.
+- **Scrub every issue, comment and PR body** before posting: keep the problem, steps, app version and device
+  model; replace people's names, emails, phone numbers and list contents with neutral placeholders
+  ("a contact", "item 12"). Raw reports stay in the feedback mailbox or the discussion they came from.
+
 ## Pull requests as a triage surface
 
 **PRs as a request surface: no.** _(Set to `yes` if this repo treats external PRs as feature requests; `/triage` reads this flag.)_

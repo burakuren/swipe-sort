@@ -32,6 +32,16 @@ _Avoid_: Source data, raw data
 SwipeSort's own copy of a list's items, where edits and notes live; the original stays untouched.
 _Avoid_: Draft, local copy
 
+**Duplicate**:
+Two or more items in one import, or an incoming item and an existing one, that seem to be the same thing;
+reviewed together as a duplicate group (merge, keep both or skip).
+_Avoid_: Match, clash, copy
+
+**Already in list**:
+An incoming item that came from the same source record as an item already in the list; it is left out of the
+import, not treated as a duplicate.
+_Avoid_: Duplicate (that needs review; this does not), existing item
+
 **Card template**:
 Which fields appear on a card and how they are laid out.
 _Avoid_: Layout, theme, card style
@@ -144,6 +154,8 @@ _Avoid_: Migration, import, upload
 - "Guest" means two different things: a person in sample data (an item on a wedding list) and a person
   without an account (guest user). Only the second is a domain term, and neither appears in UI copy.
 - "Card" is how an item is displayed; it is not a separate thing from the item.
+- "Duplicate" is both a noun for items that seem the same (a domain term) and the S10 action that makes a
+  copy of a list (UI label only). In specs and code the action is "copy a list".
 
 ### Delivery
 
@@ -171,3 +183,15 @@ Console object.
 **Public launch**:
 The first release to the production channel on Google Play.
 _Avoid_: Launch (alone), go-live, release (a release is any versioned build)
+
+**Real-data install**:
+The one install on the founder's phone that holds their real lists; only releases go onto it.
+_Avoid_: Real install, main install, direct install (that is a release channel value)
+
+**Preview build**:
+A release-mode build installed beside the real-data install for device checks, filled only with seed data.
+_Avoid_: Test build, staging build
+
+**Dev build**:
+A development build installed beside the other two, for daily work.
+_Avoid_: Debug build, Expo Go

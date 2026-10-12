@@ -16,7 +16,7 @@ list that has no decision and no open item below.
 | ID | Topic | Decision | Status | ADR |
 | --- | --- | --- | --- | --- |
 | D-01 | Timing | No hard deadline; quality and long-term fit beat speed. Contacts import + sorting is the #1 feature. | Decided | — |
-| D-02 | Product name and domain | "SwipeSort" is a working name. Find a unique name (shortlist ready: `docs/research/naming.md`); fallback: tie to the founder's name, package `com.burakuren.<slug>`, a subdomain of `burakuren.com`. Final before backend setup and before the first Play upload. | Open (process decided) | — |
+| D-02 | Product name and domain | "SwipeSort" is a working name. Find a unique name (shortlist ready, kept private: `private/docs/research/naming.md`); fallback: tie to the founder's name, package `com.burakuren.<slug>`, a subdomain of `burakuren.com`. Final before backend setup and before the first Play upload. | Open (process decided) | — |
 | D-03 | Test devices and Expo account | Founder's Redmi Note 12 Pro (Android 13) is the primary device; emulators for automated tests and other Android versions; founder's personal Expo account. | Decided | — |
 | D-04 | Apple developer account | Individual enrollment, about 2 weeks before iOS work starts; nothing to do now. | Decided | — |
 | D-05 | Architecture style | Offline-first, server-authoritative (not strict local-first); five rules incl. the online-only test. | Decided | [ADR-0001](adr/0001-offline-first-server-authoritative.md) |
@@ -39,8 +39,8 @@ list that has no decision and no open item below.
 | D-22 | State management | Persisted data only through PowerSync reactive queries (Drizzle); screen state in React; Zustand only for small cross-screen UI state; online-only commands as plain async calls with local pending state. | Decided | — |
 | D-23 | Translation setup | i18next + react-i18next; English catalogs as TypeScript (`as const`) for typed keys and variables; one namespace per feature, semantic key per usage; no raw JSX text (lint); FormatJS plural polyfill; `Intl` for dates, numbers, Turkish collation. | Decided | — |
 | D-24 | Quality bar | Static checks, Jest unit, RNTL component, pgTAP DB tests, Maestro mobile E2E, Playwright web E2E, manual Redmi pass; a11y and performance budgets; seven release blockers. | Decided | — |
-| D-25 | Build and release pipeline | GitHub Actions for checks and Android builds (`eas build --local` on GitHub runners) + EAS for credentials, Submit and Update; tagged releases create a GitHub Release with the Play-signed universal APK; local `npm run verify`; SDK 58 if stable; dev/preview/production environments; fingerprint runtime versions; remote versioning; Play App Signing with backed-up EAS upload key. | Decided | — |
-| D-26 | Open-source readiness | Repo on GitHub (private first, maybe public after first release): no secrets in git (gitleaks in CI), licensed code kept out, history scanned before going public. | Decided | — |
+| D-25 | Build and release pipeline | GitHub Actions for checks and Android builds (`eas build --local` on GitHub runners) + EAS for credentials, Submit and Update; tagged releases create a GitHub Release with the Play-signed universal APK; local `npm run verify`; Expo SDK 57; dev/preview/production environments; fingerprint runtime versions; remote versioning; Play App Signing with backed-up EAS upload key. | Decided | — |
+| D-26 | Open source | Public repo from day one (ADR-0008): code AGPL-3.0-or-later, docs/design CC BY 4.0, brand reserved; CLA; Discussions for outside input, Issues as the work tracker; gated PRs after M1; no secrets or real personal data in git; founder-only context in a private companion repo. | Decided | — |
 | D-27 | Play Store compliance | Privacy policy on our domain; Data safety declares backed-up/shared data only; contacts per D-18, photos via Photo Picker, unused permissions blocked; S12 explainers as prominent disclosure; account deletion in app + web; target API 36; EU data region (KVKK check open). Personal account (2026-09-22) → closed test ≥12 testers × 14 days. | Decided | — |
 | D-28 | Analytics | Aptabase (anonymous, EU, no persistent identifiers) with a strict event list and no content; user switch in Settings › Privacy. | Decided | — |
 | D-29 | PowerSync hosting | PowerSync Cloud Free during development and closed testing; self-hosted Open Edition at public launch (Cloud Pro only if self-hosting proves bad). | Decided | — |
@@ -145,9 +145,8 @@ and service pricing) and `docs/research/expo-stack.md` (Expo SDK, libraries, syn
 - **Consequences and follow-up:**
   - App display name comes from one config value plus one translation string, so a rename is a one-line
     change. Development builds may use a temporary package name (reinstall when it changes).
-  - Naming shortlist (2026-10-10, 162 names checked): `docs/research/naming.md`. Top picks: [name candidate]
-    (.app free, .com parked), [name candidate] (.app/.com/.io all free), [name candidate], [name candidate], [name candidate]. Before choosing:
-    trademark search (USPTO, EUIPO, TÜRKPATENT, classes 9 and 42) and a Turkish say-and-spell test.
+  - Naming shortlist (2026-10-10, 162 names checked) is kept private until the trademark checks pass
+    (`private/docs/research/naming.md`, ADR-0008). Before choosing: trademark search (USPTO, EUIPO, TÜRKPATENT, classes 9 and 42) and a Turkish say-and-spell test.
   - Once chosen: register the domain with auto-renew, verify it in Google Search Console, update the design
     (below).
 - **Design changes needed (once a name is chosen):** brand assets in `design/01-foundations/brand/`
@@ -176,7 +175,7 @@ and service pricing) and `docs/research/expo-stack.md` (Expo SDK, libraries, syn
 
 ### D-04 Apple developer account
 
-- **Decision:** Enroll in the Apple Developer Program as an individual (seller name "the founder's legal name") about two
+- **Decision:** Enroll in the Apple Developer Program as an individual (seller name: the founder's legal name, matching ID) about two
   weeks before iOS work starts. Nothing to do now.
 - **Status:** Decided
 - **Alternatives considered:** enroll now (pays for months of no use; only useful for TestFlight before the
@@ -714,11 +713,11 @@ and service pricing) and `docs/research/expo-stack.md` (Expo SDK, libraries, syn
 
   | Area | Choice |
   | --- | --- |
-  | CI | GitHub Actions on every push: static, unit, component, pgTAP (Supabase CLI in Docker), Playwright web; Maestro on an Android emulator for release candidates. Local `npm run verify` runs the same checks before pushing. |
+  | CI | GitHub Actions on every push: static, unit, component, pgTAP (Supabase CLI in Docker), Playwright web; Maestro on an Android emulator on every PR to `main` (standard runners are free on the public repo, ADR-0008). Local `npm run verify` runs the same checks before pushing. Secrets (`EXPO_TOKEN`, Sentry, Cloudflare) only in jobs on `main` and tags, never in `pull_request_target`; fork PR workflows need approval; third-party actions pinned to commit SHAs. |
   | CD (Android) | GitHub Actions runs `eas build --local` on GitHub runners (no EAS build quota used; EAS supplies credentials and config); EAS Submit to Play; EAS Update for OTA |
-  | CD (iOS, later) | EAS servers while the repo is private (macOS runners bill at 10× on private repos); GitHub macOS runners once the repo is public (standard runners are free for public repos) |
+  | CD (iOS, M6) | GitHub macOS runners (free on the public repo, ADR-0008) |
   | Release on tag `vX.Y.Z` | (1) all checks → `eas build --local` → AAB; (2) EAS Submit → Play internal track; (3) wait for Play processing, download the **Play-signed universal APK** through the Play Developer API (`generatedapks`); (4) create a **GitHub Release** with notes generated from conventional commits and the APK attached |
-  | Expo SDK | SDK 58 if stable at kickoff (stable expected late Oct 2026), otherwise 57 then upgrade; dev builds only |
+  | Expo SDK | SDK 57 (2026-10-12: no forced move to 58). Upgrade only on a trigger: Play's target API 37 requirement (~Aug 2027), Apple's minimum Xcode/SDK for M6, a needed fix, or 57 leaving support. Routes are written in the SDK 58 style so the upgrade stays cheap. Dev builds only |
   | Environments | development: local Supabase (CLI, Docker) + local PowerSync (Docker); preview: free Supabase project + PowerSync Cloud Free; production: Supabase Pro + PowerSync (hosting per cost decision). One EAS build profile and EAS environment per environment. |
   | Builds | EAS free plan (15 Android builds/month, low-priority queue); `expo run:android` daily; `eas build --local` when the queue is slow |
   | Distribution | Founder's phone: EAS internal distribution (locally built APKs through `eas upload`, which returns an install link; release plan §2 M1); store: AAB → Play internal → closed → production |
@@ -748,21 +747,41 @@ and service pricing) and `docs/research/expo-stack.md` (Expo SDK, libraries, syn
     [GitHub Actions pricing update, Dec 2025](https://github.blog/changelog/2025-12-16-coming-soon-simpler-pricing-and-a-better-experience-for-github-actions/).
 - **Design changes needed:** none.
 
-### D-26 Open-source readiness
+### D-26 Open source
 
-- **Decision:** the repo goes on GitHub, private at first; the founder may make it public after the first
-  release. From day 1: (1) no secrets in git (server-only keys in EAS environment variables, GitHub secrets
-  or Supabase secrets; gitleaks in CI from the first commit, and a full-history scan before going public);
-  publishable values (Supabase anon key, Google OAuth client IDs, Sentry DSN) may be committed;
-  (2) the paid Universal Sign In package and its registry token stay out of git; builds without the token
-  fall back to the free library or a dev stub; (3) server code (RLS, `apply_ops`) being visible is fine
-  because security rests on tested RLS (D-24), not obscurity.
+- **Decision (2026-10-12, replaces "private first", ADR-0008):** the repo is public on GitHub from day one.
+  - **Licence:** code AGPL-3.0-or-later (`LICENSE`); docs, design mockups and sample data CC BY 4.0
+    (`LICENSE-docs`); name, logo and brand reserved. Contributors sign a CLA (`CLA.md`, CLA Assistant), so
+    the code can ship on app stores and be relicensed.
+  - **Outside input:** GitHub Discussions (bug reports, ideas, Q&A). Issues are the maintainer's work tracker;
+    issues from non-collaborators are closed with a pointer to Discussions (`.github/workflows/outside-input.yml`).
+  - **Pull requests:** closed until M1 ends. Then a PR must link a `help wanted` issue, its author signs the
+    CLA, fork CI runs only after approval and without secrets, Claude reviews, and a merge needs the
+    maintainer's `maintainer-approved` label.
+  - **What is published:** what contributors need (code, design, `GLOSSARY.md`, ADRs, this file, technical
+    research, `docs/agents/`, `skills-lock.json`). Founder-only context (release plan, name shortlist,
+    founder agent rules, notes with personal detail) lives in a private companion repo cloned into the
+    gitignored `private/` and loaded by a gitignored `CLAUDE.local.md`.
+  - **No secrets** in git: server-only keys in EAS environment variables, GitHub secrets or Supabase secrets;
+    gitleaks in CI from the first commit; publishable values (Supabase anon key, Google OAuth client IDs,
+    Sentry DSN) may be committed. The paid Universal Sign In package and its token stay out of git; builds
+    without it fall back to the free library or a dev stub. Server code being visible is fine: security rests
+    on tested RLS (D-24), not obscurity.
+  - **No real personal data** in git: sample people are fictional; device artifacts only from the preview
+    build; tester feedback reaches Issues scrubbed (`docs/agents/issue-tracker.md`).
+  - **Authorship:** commits use the GitHub noreply address and keep the `Co-Authored-By: Claude` trailer;
+    the README says how the project is built.
+  - **GitHub settings:** secret scanning with push protection, private vulnerability reporting (`SECURITY.md`),
+    CodeQL default setup, Dependabot, branch protection on `main` (required checks, no force-push, linear
+    history), Discussions on.
 - **Status:** Decided
-- **Alternatives considered:** deciding later (secrets committed while private would be exposed by history).
-- **Reasons:** git history is permanent; the hygiene is cheap from the start.
-- **Consequences and follow-up:** founder's own choice: commit author email is the personal Gmail today;
-  switching to GitHub's noreply address before going public is the founder's decision (the agent does not
-  change git config). License (for example MIT vs AGPL) and trademark are open items.
+- **Alternatives considered:** private until the first release (CI minutes run out under unattended agent
+  work; the history rewrite only gets harder); MIT or Apache-2.0 (allows a closed clone before the name is
+  protected); no licence (source-visible, not open source).
+- **Reasons:** founder decision (2026-10-12); free CI and macOS runners; the self-hosting stance (D-29, D-30)
+  fits AGPL.
+- **Consequences and follow-up:** one history rewrite before the first push (noreply email, screenshots,
+  files moved to `private/`, personal wording); a trademark once the name is chosen (D-02).
 - **Design changes needed:** none.
 
 ### D-27 Play Store compliance
@@ -938,7 +957,7 @@ and service pricing) and `docs/research/expo-stack.md` (Expo SDK, libraries, syn
 | Browser clears a web guest's lists (Safari 7-day cap, eviction). | Medium / medium | D-08: persistent-storage request, honest indicator, sign-in nudge; mobile and signed-in users unaffected. |
 | Apple OAuth secret expires (6 months) and Apple sign-in breaks on web/Android. | Medium / medium | D-13: scripted rotation + calendar reminder; monitor auth errors in crash reporting. |
 | List-status logic drifts between the device (TypeScript) and the server (SQL). | Medium / high | D-14: shared JSON test vectors run against both implementations in CI. |
-| A secret gets committed and later exposed when the repo goes public. | Low / high | D-26: gitleaks in CI from the first commit, full-history scan before going public; rotate any leaked key. |
+| A secret or real personal data gets committed to the public repo. | Low / high | D-26: gitleaks in CI from the first commit and GitHub push protection; fictional sample data; rotate any leaked key. |
 | Storage files (contact photos, image fields) are not covered by Supabase's database backups. | Low / medium | Open item: bucket sync to the founder's server or R2 with versioning before public launch. |
 | Self-hosted PowerSync goes down: devices keep working offline but stop syncing. | Low / medium | D-29: uptime monitoring and alerting, restart policy, documented redeploy; Cloud Pro as fallback (same protocol). |
 | PowerSync vendor risk (pricing change, company failure). | Low / high | Self-hostable Open Edition (FSL), Apache-2.0 client SDKs, same protocol; Postgres stays the source of truth. |
@@ -950,16 +969,15 @@ and service pricing) and `docs/research/expo-stack.md` (Expo SDK, libraries, syn
 | Recruiting 12 closed-test testers for 14 consecutive days delays the Play release. | Medium / medium | D-27: recruit early; release planning input. |
 | KVKK cross-border transfer rules affect storing contacts in an EU region. | Low–medium / high | Legal check before public launch (open item). |
 | Name and domain not chosen when the backend or the first Play upload is due. | Low / low | D-02 fallback: `com.burakuren.<slug>` and a `burakuren.com` subdomain. |
-| Expo SDK 58 slips or regresses at kickoff. | Low / medium | D-25: start on SDK 57 and upgrade. |
+| SDK 57 falls behind a store requirement. | Low / medium | D-25 upgrade triggers (target API 37, Apple minimum Xcode); routes already in the SDK 58 style. |
 
 ## 5. Open items
 
 | Item | Why open | Needed to decide |
 | --- | --- | --- |
-| Product name and domain (D-02) | Founder has not picked from the shortlist | Pick from `docs/research/naming.md` (top: [name candidate], [name candidate]); trademark search (USPTO, EUIPO, TÜRKPATENT, classes 9 and 42) and a Turkish say-and-spell test; register the domain. Deadline: before backend setup and before the first Play upload, otherwise the `burakuren` fallback applies. |
+| Product name and domain (D-02) | Founder has not picked from the shortlist | Pick from the private shortlist (`private/docs/research/naming.md`); trademark search (USPTO, EUIPO, TÜRKPATENT, classes 9 and 42) and a Turkish say-and-spell test; register the domain. Deadline: before backend setup and before the first Play upload, otherwise the `burakuren` fallback applies. |
 | KVKK legal check (D-27) | Turkish rules on transferring personal data abroad (amended 2024) apply to contacts stored in an EU Supabase region | A legal opinion before public launch |
-| Open-source licence and trademark (D-26) | Only needed if the repo goes public | Choose MIT vs AGPL (AGPL stops a closed hosted clone); protect the final name |
-| Commit author email (D-26) | Personal Gmail is in commit history | Founder decides whether to switch to GitHub's noreply address before going public |
+| Trademark for the final name (D-26) | Brand is reserved, not licensed (ADR-0008) | Register once the name is chosen (D-02) |
 | Backup of Supabase Storage files (contact photos, image fields) | Supabase's database backups do not include Storage objects ("the database only includes metadata"), so a deleted or corrupted file can't be restored | Choose: scheduled sync of the bucket to the founder's server or Cloudflare R2 with versioning (agent's lean), object versioning, or accept (the device keeps a copy until sign-out). Before public launch. |
 
 Not open, but with revisit triggers: Universal Sign In upgrade (D-12), split design tooling into its own
@@ -991,7 +1009,7 @@ near 1k MAU (D-30).
   enrollment (allow about 2 weeks) plus TestFlight review of the first external build; Apple's OAuth secret then
   needs rotation every 6 months.
 - **Photos source (D-32):** out of the current scope; returns as a later feature once its outcome is designed.
-- **Expo SDK (D-25):** SDK 58 stable expected late Oct 2026; Expo Router's navigation core changes in 58.
+- **Expo SDK (D-25):** M1 builds on SDK 57; SDK 58 (Expo Router navigation core rework) only when a D-25 upgrade trigger hits.
 - **EAS Update (D-30):** the free plan stops serving updates beyond 1,000 MAU; move to the self-hosted updates
   server before that.
 
@@ -1006,7 +1024,7 @@ The first build session (after the design-update session) must:
      the fallback ladder if it fails.
    - **Contacts (D-18):** Android 17 emulator with 300+ contacts: Contact Picker bulk selection, returned fields,
      Expo support (native module needed?), `maxSdkVersion="36"` behavior.
-3. **Project setup:** Expo SDK 58 if stable, else 57 (D-25); TypeScript strict; dev builds only (no Expo Go);
+3. **Project setup:** Expo SDK 57 (D-25); TypeScript strict; dev builds only (no Expo Go);
    Expo Router routes from the navigation map (D-21); NativeWind 4 + Tailwind 3 with `design/01-foundations`
    tokens, React Native Reusables, Lucide, Reanimated + Gesture Handler, Inter (design HANDOFF §2).
 4. **Repository (D-20):** merge the design tooling into the root `package.json` as `design:*` scripts; update
