@@ -1,7 +1,7 @@
 # Dependencies
 node_modules/
 
-# Playwright caches and reports (design/05-qa/screenshots stays tracked)
+# Playwright caches and reports
 test-results/
 playwright-report/
 blob-report/
@@ -26,3 +26,38 @@ desktop.ini
 *.swp
 .idea/
 .vscode/
+
+# Private companion repo and maintainer-only agent context (ADR-0008)
+private/
+CLAUDE.local.md
+
+# Agent skills: restored from skills-lock.json, not committed
+.agents/
+.claude/skills/
+
+# Generated design evidence (npm run shots / npm run flows)
+design/05-qa/screenshots/
+design/05-qa/flows/**/*.png
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# App build outputs (Expo / React Native)
+.expo/
+dist/
+web-build/
+android/
+ios/
+*.apk
+*.aab
+*.ipa
+*.keystore
+*.jks
+credentials.json
+
+# Device artifacts and exports: never committed (real data risk, ADR-0008)
+artifacts/
+*.csv
+!design/02-data/**/*.csv
+!tools/**/fixtures/**/*.csv

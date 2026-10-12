@@ -89,7 +89,7 @@ const DOCS = {
   'DEL-12': ['02-architecture/domain-model.md'], 'DEL-13': ['02-data/sample-data.json'],
   'DEL-14': ['03-screens/ (40 HTML + 40 specs)'], 'DEL-15': ['04-explorations/'],
   'DEL-16': ['04-prototype/index.html', '04-prototype/swipe-demo.html'],
-  'DEL-17': ['05-qa/screenshots/', '05-qa/a11y-report.md', '05-qa/coverage.md', '05-qa/traceability.md', '05-qa/review-report.md'],
+  'DEL-17': ['tools/shots.mjs', '05-qa/a11y-report.md', '05-qa/coverage.md', '05-qa/traceability.md', '05-qa/review-report.md'],
   'DEL-18': ['05-qa/lint-report.md'], 'DEL-19': ['05-qa/lint-report.md'], 'DEL-20': ['05-qa/lint-report.md'],
   'DEL-21': ['02-data/sample-data.json'],
   'DEL-22': ['tools/flows/01-first-launch.flow.mjs'], 'DEL-23': ['tools/flows/02-resort-maybe.flow.mjs'],

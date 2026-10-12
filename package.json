@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "description": "SwipeSort — design phase (static HTML mockups in /design)",
+  "license": "AGPL-3.0-or-later",
   "scripts": {
     "build:tokens": "node tools/build-tokens.mjs",
     "build:data": "node tools/build-data.mjs",

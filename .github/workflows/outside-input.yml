@@ -1,0 +1,79 @@
+# Routes outside input to the right place (CONTRIBUTING.md, ADR-0008):
+# - issues from non-collaborators are closed with a pointer to Discussions;
+# - pull requests from non-collaborators are closed with the contribution policy (until milestone M1 ends;
+#   after M1 this job changes to enforce the help-wanted issue link instead of closing every PR).
+#
+# Security: pull_request_target runs in the base repo's context with a write token, so this workflow never
+# checks out or runs pull request code, uses no third-party actions (only the preinstalled gh CLI), and
+# passes every event value through env: instead of interpolating ${{ }} into shell.
+name: Outside input
+
+on:
+  issues:
+    types: [opened]
+  pull_request_target:
+    types: [opened]
+
+permissions: {}
+
+jobs:
+  close-outside-issue:
+    if: >-
+      github.event_name == 'issues' &&
+      !contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.issue.author_association)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: write
+    steps:
+      - name: Comment and close
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.issue.number }}
+          AUTHOR: ${{ github.event.issue.user.login }}
+        run: |
+          body="Thanks for taking the time, @${AUTHOR}!
+
+          Issues in this repo are the maintainer's work tracker, so this one is closed automatically. Please post it in GitHub Discussions instead, where it will be read:
+
+          - Bug reports: https://github.com/${GH_REPO}/discussions/categories/bug-reports
+          - Ideas: https://github.com/${GH_REPO}/discussions/categories/ideas
+          - Questions: https://github.com/${GH_REPO}/discussions/categories/q-a
+
+          Security problems: please report them privately at https://github.com/${GH_REPO}/security/advisories/new and not in public.
+
+          See CONTRIBUTING.md for details: https://github.com/${GH_REPO}/blob/main/CONTRIBUTING.md"
+          gh issue close "$NUMBER" --reason "not planned" --comment "$body"
+
+  close-outside-pr:
+    if: >-
+      github.event_name == 'pull_request_target' &&
+      github.event.pull_request.user.login != 'dependabot[bot]' &&
+      !contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.pull_request.author_association)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Comment and close
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.pull_request.number }}
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+        run: |
+          body="Thank you for the pull request, @${AUTHOR}!
+
+          SwipeSort does not accept outside pull requests until its first milestone (M1) ends, so this one is closed automatically. Nothing is wrong with your change; the project just cannot review outside code yet.
+
+          After M1, a pull request must:
+
+          1. link an issue labelled \`help wanted\` (\`Closes #<number>\`),
+          2. come with a signed Contributor Licence Agreement (the CLA Assistant bot asks on your first pull request),
+          3. pass CI, which runs on fork pull requests only after approval.
+
+          Until then, ideas and bug reports are very welcome in Discussions: https://github.com/${GH_REPO}/discussions
+
+          Full policy: https://github.com/${GH_REPO}/blob/main/CONTRIBUTING.md"
+          gh pr close "$NUMBER" --comment "$body"

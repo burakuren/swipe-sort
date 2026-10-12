@@ -1,0 +1,15 @@
+# Issues are the maintainer's work tracker. Outside input goes to Discussions (see CONTRIBUTING.md).
+blank_issues_enabled: false
+contact_links:
+  - name: Bug report
+    url: https://github.com/burakuren/swipe-sort/discussions/new?category=bug-reports
+    about: Report a bug in Discussions › Bug reports. Please leave out real personal data.
+  - name: Idea or feature request
+    url: https://github.com/burakuren/swipe-sort/discussions/new?category=ideas
+    about: Suggest a feature or change in Discussions › Ideas.
+  - name: Question
+    url: https://github.com/burakuren/swipe-sort/discussions/new?category=q-a
+    about: Ask a question in Discussions › Q&A.
+  - name: Security vulnerability
+    url: https://github.com/burakuren/swipe-sort/security/advisories/new
+    about: Report a vulnerability privately. Never in a public issue or discussion.

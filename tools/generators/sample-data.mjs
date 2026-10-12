@@ -111,11 +111,25 @@ const people = [
 ];
 // duplicates appended later: 4 entries -> total 100
 const ascii = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ı/g, 'i').replace(/İ/g, 'I').replace(/ş/g, 's').replace(/ğ/g, 'g').replace(/ç/g, 'c').replace(/ö/g, 'o').replace(/ü/g, 'u');
-const mailDomains = ['gmail.com', 'gmail.com', 'gmail.com', 'outlook.com', 'icloud.com', 'hotmail.com', 'yandex.com'];
-const trPhone = () => `+90 5${int(30, 59)} ${int(100, 999)} ${pad(int(0, 99), 2)} ${pad(int(0, 99), 2)}`;
+// All people, emails and phone numbers are fictional: reserved example domains (RFC 2606) and numbers whose
+// subscriber part starts with zeros (TR mobile always +90 500 000 xx xx). Same 7 slots as before, so the seeded
+// sequence (and every other value) is unchanged.
+const mailDomains = ['example.com', 'example.com', 'example.com', 'example.com', 'example.net', 'example.com', 'example.com'];
+// Keep country/area code, zero the leading subscriber digits so only the last 4 remain (TR mobile → 500).
+const fictional = (num) => {
+  const [cc, ...g] = num.slice(1).split(' ');
+  let area = null, sub = g;
+  if (cc === '90' || g.length >= 3) [area, ...sub] = g;
+  if (cc === '90' && area.startsWith('5')) area = '500';
+  const zero = cc === '90' ? 3 : 4;
+  let n = 0;
+  sub = sub.map((x) => [...x].map((ch) => (n++ < zero ? '0' : ch)).join(''));
+  return `+${cc} ${[area, ...sub].filter(Boolean).join(' ')}`;
+};
+const trPhone = () => fictional(`+90 5${int(30, 59)} ${int(100, 999)} ${pad(int(0, 99), 2)} ${pad(int(0, 99), 2)}`);
 const intlPhone = (city) => {
   const m = { Berlin: '+49 30', Munich: '+49 89', Hamburg: '+49 40', London: '+44 20', Lyon: '+33 4', Paris: '+33 1', Dublin: '+353 1', Madrid: '+34 91', Amsterdam: '+31 20', Stockholm: '+46 8', Milan: '+39 02', Tokyo: '+81 3', Copenhagen: '+45', Warsaw: '+48 22', Beirut: '+961 1', Lisbon: '+351 21', Vienna: '+43 1' };
-  return `${m[city] ?? '+44 20'} ${int(1000, 9999)} ${int(1000, 9999)}`;
+  return fictional(`${m[city] ?? '+44 20'} ${int(1000, 9999)} ${int(1000, 9999)}`);
 };
 const isTr = (city) => ['İstanbul', 'Ankara', 'İzmir', 'Bursa', 'Konya'].includes(city);
 
@@ -130,7 +144,7 @@ const contacts = people.map(([name, side, relationship, city], i) => {
   if (!noPhone.has(i)) {
     phones.push({ label: 'Mobile', number: isTr(city) ? trPhone() : intlPhone(city) });
     if (multiPhone.has(i)) {
-      phones.push({ label: pick(['Home', 'Work']), number: isTr(city) ? `+90 ${pick(['212', '216', '312', '232'])} ${int(200, 699)} ${pad(int(0, 99), 2)} ${pad(int(0, 99), 2)}` : intlPhone(city) });
+      phones.push({ label: pick(['Home', 'Work']), number: isTr(city) ? fictional(`+90 ${pick(['212', '216', '312', '232'])} ${int(200, 699)} ${pad(int(0, 99), 2)} ${pad(int(0, 99), 2)}`) : intlPhone(city) });
       if (i % 3 === 0) phones.push({ label: 'Work', number: isTr(city) ? trPhone() : intlPhone(city) });
     }
   }
@@ -429,7 +443,7 @@ const activity = [
 ];
 
 const data = {
-  $description: 'SwipeSort shared sample data. Every mockup uses these records. Images are generated SVG illustrations in design/02-data/images (no text, no hotlinks). Dates are ISO 8601; "today" in the mockups is 2026-10-10. Lists: `storage` (backedUp | deviceOnly, D-33) and the derived `backedUp` describe the signed-in world (Deniz); without an account, the lists in me.guest.deviceLists are on this phone only. `photos` (gallery metadata) is kept only for the retired S18 and the S02 demo images; the "Trip ideas" list uses `trips`, which reuse the same landscape images (D-32).',
+  $description: 'SwipeSort shared sample data. Every mockup uses these records. All people, emails and phone numbers in sample data are fictional (example.com/.org/.net addresses; numbers with zeroed subscriber digits, e.g. +90 500 000 xx xx). Images are generated SVG illustrations in design/02-data/images (no text, no hotlinks). Dates are ISO 8601; "today" in the mockups is 2026-10-10. Lists: `storage` (backedUp | deviceOnly, D-33) and the derived `backedUp` describe the signed-in world (Deniz); without an account, the lists in me.guest.deviceLists are on this phone only. `photos` (gallery metadata) is kept only for the retired S18 and the S02 demo images; the "Trip ideas" list uses `trips`, which reuse the same landscape images (D-32).',
   today: '2026-10-10',
   me: { signedIn: { id: 'u-deniz', name: 'Deniz Yılmaz', email: 'deniz.yilmaz@example.com', google: 'deniz.yilmaz@example.com', avatar: 'images/people/u-deniz.svg' }, guest: { name: null, deviceLists: ['l-desk', 'l-trips', 'l-candidates'] } },
   members,
