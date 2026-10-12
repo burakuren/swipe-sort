@@ -144,3 +144,30 @@ _Avoid_: Migration, import, upload
 - "Guest" means two different things: a person in sample data (an item on a wedding list) and a person
   without an account (guest user). Only the second is a domain term, and neither appears in UI copy.
 - "Card" is how an item is displayed; it is not a separate thing from the item.
+
+### Delivery
+
+Terms for planning and shipping the app (release planning, 2026-10-12). Not shown in the UI.
+
+**Milestone**:
+A planned increment of scope (M1, M2…) with a goal, requirement IDs, screens and a definition of done; it
+ends when the founder accepts it on a real phone.
+_Avoid_: Phase, sprint, version
+
+**Release**:
+One versioned build (git tag `vX.Y.Z`) sent to a release channel. A milestone usually produces several
+releases.
+_Avoid_: Drop, ship, version (except "marketing version")
+
+**Release channel**:
+Where a release goes: none (dev build or direct-install APK on the founder's phone), internal testing,
+closed testing, open testing or production; on the web, preview or production web.
+_Avoid_: Environment (that is the backend a build talks to: development, preview, production)
+
+**Track**:
+Google Play's name for its internal, closed, open and production channels; used only when meaning the Play
+Console object.
+
+**Public launch**:
+The first release to the production channel on Google Play.
+_Avoid_: Launch (alone), go-live, release (a release is any versioned build)
