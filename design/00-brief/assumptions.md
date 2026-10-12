@@ -306,7 +306,7 @@ Applies the design update register in `docs/build-decisions.md` §7. For this up
   exception; backed-up lists show nothing (A-81). On the web the label reads "On this browser only" and S09
   adds the D-08 line "Browsers can clear lists you haven't opened for a while. Back it up to keep it." People
   without an account keep the single Home indicator line (A-81, copy updated for D-08). The label "On this
-  phone only" and the action "Keep on this phone only" are fixed terms (CONTEXT.md) and read the same on iOS;
+  phone only" and the action "Keep on this phone only" are fixed terms (GLOSSARY.md) and read the same on iOS;
   running sentences on iOS follow S40 §3.2 ("If you lose this iPhone…", "stays on this iPhone"). Supersedes A-35 and the "always backed up" sentence of A-81.
 - **A-138** D-33 Q7 (account deletion, new phone): lists on this phone only are not in the account, so
   deleting the account does not delete them: S07's deletion summary says "“Frontend hiring, Q4” is on this

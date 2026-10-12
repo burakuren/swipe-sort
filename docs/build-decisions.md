@@ -2,7 +2,7 @@
 
 How SwipeSort will be built: technical and operational decisions from the build-planning grilling session
 (started 2026-10-10). Inputs: `docs/swipesort-build-handoff.md` ("Fixed" items are settled; "Working
-proposals" were challenged here), `/design`, `CONTEXT.md` (glossary), `docs/adr/` (architecture decision
+proposals" were challenged here), `/design`, `GLOSSARY.md` (glossary), `docs/adr/` (architecture decision
 records).
 
 Out of scope: which version ships which features and milestone order (handoff 2.1, 2.2). Topics that affect
@@ -595,7 +595,7 @@ and service pricing) and `docs/research/expo-stack.md` (Expo SDK, libraries, syn
   `design:a11y`, `design:flows`, `design:lint`, `design:qa`; `tools/` stays. Layout:
 
   ```
-  /            package.json (app + design:* scripts), app.config.ts, CLAUDE.md, CONTEXT.md
+  /            package.json (app + design:* scripts), app.config.ts, CLAUDE.md, GLOSSARY.md
   app/         expo-router routes
   src/         features, data layer (PowerSync, Drizzle), domain logic, components
   supabase/    migrations, api functions, edge functions, tests
@@ -999,7 +999,7 @@ near 1k MAU (D-30).
 
 The first build session (after the design-update session) must:
 
-1. **Read:** CLAUDE.md, CONTEXT.md, this file, `docs/adr/`, `design/HANDOFF.md`, the navigation map and domain
+1. **Read:** CLAUDE.md, GLOSSARY.md, this file, `docs/adr/`, `design/HANDOFF.md`, the navigation map and domain
    model.
 2. **Spikes first:**
    - **Web + PowerSync (D-07):** Expo web + PowerSync web SDK + worker assets deployed to Cloudflare (D-16); apply

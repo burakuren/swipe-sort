@@ -50,3 +50,17 @@ Re-run `build:css` after adding new Tailwind classes, before `shots`/`a11y`.
 - Never push, never touch git remotes.
 - Never ask the user for input during the design run; make a reasoned decision, note it in the relevant doc, continue.
 - Subagents shoot and check only their own screens (filter by screen ID) to avoid clobbering each other.
+
+## Agent skills
+
+### Issue tracker
+
+GitHub Issues on `burakuren/swipe-sort` via `gh --repo` (no git remote). See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default five roles, label string = role name. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: `GLOSSARY.md` + `docs/adr/` at the root. See `docs/agents/domain.md`.

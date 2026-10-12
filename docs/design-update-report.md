@@ -183,7 +183,7 @@ questions:
 
 Other updates: A-35, A-46, A-52, A-54, A-79, A-81 marked superseded or updated; `List.storage`
 (`backedUp` | `deviceOnly`), `deviceOwnerId`, `isSample` and `backupState` in `domain-model.md`; the
-glossary term **Device-only list** in `CONTEXT.md`; new requirement **ACC-10**; ACC-03, ACC-05, COL-01, SRC-17,
+glossary term **Device-only list** in `GLOSSARY.md`; new requirement **ACC-10**; ACC-03, ACC-05, COL-01, SRC-17,
 SET-03, SET-11, SET-12, SCR-05 marked changed; new flow test 6.
 
 ## Docs, tooling and prototype
@@ -193,7 +193,7 @@ SET-03, SET-11, SET-12, SCR-05 marked changed; new flow test 6.
   (307 requirements, 0 gaps).
 - `brief.md`: amendment note at the top; the brief text stays verbatim.
 - `navigation-map.md`: structure, screen connections, cross-file targets and flows 6–7; `domain-model.md`,
-  `components.md`, `design-principles.md`, `HANDOFF.md`, `README.md`, `CONTEXT.md` updated.
+  `components.md`, `design-principles.md`, `HANDOFF.md`, `README.md`, `GLOSSARY.md` updated.
 - `tools/qa/traceability.mjs`: retired screens count only as secondary evidence; out-of-scope requirements
   cite A-129. `tools/qa/coverage.py`: S18 status "Out of scope (D-32)".
 - Prototype: `04-prototype/index.html` gains flow 5 (keep a list on this phone only) and flow 6 (contacts
@@ -205,7 +205,7 @@ SET-03, SET-11, SET-12, SCR-05 marked changed; new flow test 6.
 ## QA results
 
 Three independent reviewers who did no design work checked every new and changed frame in light and
-dark against the D-xx texts, `design-principles.md`, the copy rules, `CONTEXT.md` terms and platform
+dark against the D-xx texts, `design-principles.md`, the copy rules, `GLOSSARY.md` terms and platform
 variants (round 1: S02–S07, S08–S10/S25–S27/S40, S11–S22/S39). A fresh reviewer then verified the fixes and
 looked for regressions (round 2). Findings and fixes: `05-qa` evidence is regenerated; the reviewers' tables
 are summarized here.
